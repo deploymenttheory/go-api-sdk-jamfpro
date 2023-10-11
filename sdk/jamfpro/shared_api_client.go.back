@@ -1,0 +1,29 @@
+// api_client.go
+// The jamfpro package offers a client for interacting with the Jamf Pro API.
+// This client extends the foundational capabilities of the http_client package,
+// adding methods specifically tailored for Jamf Pro's API endpoints.
+// By embedding the http_client's Client, it leverages core HTTP methods,
+// authentication mechanisms, and other utilities, while also enabling
+// Jamf Pro-specific functionalities.
+
+package jamfpro
+
+import (
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+)
+
+type Client struct {
+	HTTP *http_client.Client
+}
+
+// NewClient initializes a new Jamf Pro client using the foundational http_client package.
+func NewClient(instanceName string, config http_client.Config) *Client {
+	return &Client{
+		HTTP: http_client.NewClient(instanceName, config, nil),
+	}
+}
+
+// SetClientOAuthCredentials assigns the OAuth credentials to the Jamf Pro client.
+func (c *Client) SetClientOAuthCredentials(creds http_client.OAuthCredentials) {
+	c.HTTP.SetOAuthCredentials(creds)
+}

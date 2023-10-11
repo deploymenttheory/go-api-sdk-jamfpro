@@ -1,0 +1,55 @@
+// ssoFailover.go
+// Jamf Pro Api
+// API requires the structs to support JSON.
+
+package jamfpro
+
+const uriSSOFailover = "/api/v1/sso/failover"
+const uriSSOFailoverGenerate = "/api/v1/sso/failover/generate"
+
+type FailoverResponse struct {
+	FailoverURL    string `json:"failoverUrl"`
+	GenerationTime int64  `json:"generationTime"`
+}
+
+type ErrorResponse struct {
+	HTTPStatus int            `json:"httpStatus"`
+	Errors     []ErrorMessage `json:"errors"`
+}
+
+type ErrorMessage struct {
+	Code        string `json:"code"`
+	Field       string `json:"field"`
+	Description string `json:"description"`
+	ID          string `json:"id"`
+}
+
+type FailoverGenerateResponse struct {
+	FailoverURL    string `json:"failoverUrl"`
+	GenerationTime int64  `json:"generationTime"`
+}
+
+// Get JAMF Pro api Failover settings
+func (c *Client) GetSSOFailoverSettings() (*FailoverResponse, error) {
+	var out *FailoverResponse
+	headers := map[string]string{"accept": "application/json"}
+
+	// Make the request using the client's DoRequest method
+	err := c.DoRequest("GET", uriSSOFailover, headers, nil, &out)
+	return out, err
+}
+
+// Regenerate new JAMF Pro api Failover URL
+func (c *Client) RegenerateFailoverURL() (*FailoverGenerateResponse, error) {
+	// Check and refresh auth token if needed
+	if err := c.refreshAuthToken(); err != nil {
+		return nil, err
+	}
+
+	var out *FailoverGenerateResponse
+	headers := map[string]string{"accept": "application/json"}
+
+	// Make the request using the client's DoRequest method with POST method
+	err := c.DoRequest("POST", uriSSOFailoverGenerate, headers, nil, &out)
+	return out, err
+}

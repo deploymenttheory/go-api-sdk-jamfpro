@@ -1,0 +1,55 @@
+## Used mainly for jamf pro local api testing.
+## Requires a jamf pro root.war from jamf nation of your test target jamf pro version
+## https://hub.docker.com/r/jamf/jamfpro/tags/
+version: "0.3"
+
+services: 
+    jamfpro:
+        container_name: go-api-sdk-jamfpro
+        image: "jamf/jamfpro:latest"
+        ports:
+            - 8080:8080
+        environment:
+            # Database Configuration
+            - DATABASE_USERNAME=root
+            - DATABASE_PASSWORD=jamfsw03
+            - DATABASE_HOST=host.docker.internal
+            - DATABASE_NAME=jamfsoftware
+            - DATABASE_PORT=3306
+            - JDBC_PARAMETERS=
+
+            # Logging Configuration
+            - STDOUT_LOGGING=true
+            - JAVA_OPTS=-Djava.awt.headless=true
+            - CATALINA_OPTS=
+
+            # JMX Configuration
+            - JMXREMOTE=false
+            #- JMXREMOTE_PORT=
+            #- JMXREMOTE_RMI_PORT=
+            #- JMXREMOTE_SSL=
+            #- JMXREMOTE_AUTHENTICATE=
+            #- RMI_SERVER_HOSTNAME=
+            #- JMXREMOTE_PASSWORD_FILE=
+
+            # Kubernetes Clustering Configuration
+            #- PRIMARY_NODE_NAME=
+            #- POD_NAME=
+            #- POD_IP=
+
+            # Memcached Configuration
+            - MEMCACHED_HOST=512
+
+        volumes:
+            # Mount Jamf Pro ROOT.war obtained from jamf nation.
+            - ./LocalTesting/ROOT.war:/data/ROOT.war
+            - ./LocalTesting/jamfpro/webapps:/usr/local/tomcat/webapps
+            # Mount DataBase.xml if needed
+            - ./LocalTesting/jamfpro/DataBase.xml:/config/DataBase.xml
+
+    headless:
+        container_name: headless-shell
+        image: chromedp/headless-shell:latest
+        shm_size: 2gb
+        ports:
+            - 9222:9222

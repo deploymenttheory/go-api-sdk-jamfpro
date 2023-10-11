@@ -1,0 +1,167 @@
+// http_request.go
+/*
+http_request.go provides functions to manage HTTP requests:
+*/
+package http_client
+
+import (
+	"bytes"
+	"context"
+	"fmt"
+	"net/http"
+	"time"
+)
+
+// DoRequest sends an HTTP request to a given endpoint and method, handling potential retries and errors.
+func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*http.Response, error) {
+
+	// Acquire a token for concurrency management with a timeout
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second) // Set your desired timeout
+	defer cancel()
+
+	if err := c.ConcurrencyMgr.Acquire(ctx); err != nil {
+		return nil, err
+	}
+	defer c.ConcurrencyMgr.Release()
+
+	// Check the HTTP method and decide whether to use retries or send directly
+	directMethods := map[string]bool{
+		http.MethodPost: true, // create
+		http.MethodPut:  true, // update
+	}
+
+	resp, err := c.constructRequest(method, endpoint, body)
+	if err != nil {
+		c.logger.Error("Failed to execute request", "method", method, "endpoint", endpoint, "error", err)
+		return nil, err
+	}
+
+	apiType := determineAPIType(endpoint, c.logger, c.config.DebugMode)
+	if err = UnmarshalResponse(apiType, method, resp, out, c.logger, c.config.DebugMode); err != nil {
+		c.logger.Error("Failed to unmarshal response", "error", err)
+		return nil, err
+	}
+
+	if directMethods[method] || (resp.StatusCode >= 200 && resp.StatusCode < 300) {
+		if c.config.DebugMode {
+			c.logger.Debug("Request completed successfully", "method", method, "endpoint", endpoint, "status", resp.Status)
+		}
+		return resp, nil
+	}
+
+	if c.config.DebugMode {
+		c.logger.Debug("Request needs to be retried", "method", method, "endpoint", endpoint, "status", resp.Status)
+	}
+
+	// If the method isn't in directMethods ( therefore is GET, DELETE ), use the retry mechanism
+	return c.doRequestWithRetry(method, endpoint, body, out)
+}
+
+// doRequestWithRetry sends an HTTP request, retrying upon encountering specific error conditions, like rate limits or transient errors.
+func (c *Client) doRequestWithRetry(method, endpoint string, body, out interface{}) (*http.Response, error) {
+	var resp *http.Response
+	var err error
+	var waitDuration time.Duration
+
+	for i := 0; i < c.config.MaxRetryAttempts; i++ {
+		resp, err = c.constructRequest(method, endpoint, body)
+		if err == nil {
+			return resp, err
+		}
+
+		// Check for non-retryable errors first
+		if isNonRetryableError(resp) {
+			c.logger.Warn("Encountered a non-retryable error", "status", resp.StatusCode)
+			return resp, err
+		}
+
+		if isRateLimitError(resp) {
+			c.logger.Warn("Encountered a rate limit error", "retry_attempt", i+1, "max_retries", c.config.MaxRetryAttempts)
+			waitDuration = parseRateLimitHeaders(resp)
+		} else if isTransientError(resp) {
+			c.logger.Warn("Encountered a transient error", "retry_attempt", i+1, "max_retries", c.config.MaxRetryAttempts)
+			if c.config.CustomBackoff != nil {
+				waitDuration = c.config.CustomBackoff(i)
+			} else {
+				waitDuration = calculateBackoff(i)
+			}
+		} else {
+			return resp, err
+		}
+
+		// Log the wait duration before the next retry.
+		c.logger.Info("Waiting before retry", "wait_duration", waitDuration)
+
+		time.Sleep(waitDuration)
+	}
+
+	// If we've exhausted all retries and still have an error, wrap the error with additional context and log.
+	if err != nil {
+		err = fmt.Errorf("exhausted all %d retry attempts: %w", c.config.MaxRetryAttempts, err)
+		c.logger.Error("Exhausted all retry attempts", "endpoint", endpoint, "method", method, "error", err)
+	}
+
+	return resp, err
+}
+
+// constructRequest sends an HTTP request to the specified endpoint with the provided method and data.
+func (c *Client) constructRequest(method, endpoint string, body interface{}) (*http.Response, error) {
+	// Ensure the token is valid before any other operations
+	if !c.EnsureTokenIsValid() {
+		if c.config.DebugMode {
+			c.logger.Debug("Token is invalid. Refreshing...")
+		}
+		err := c.RefreshToken()
+		if err != nil {
+			c.logger.Error("Failed to refresh token", "error", err)
+			return nil, err
+		}
+	}
+
+	// Determine API type and content type based on the endpoint and method
+	apiType := determineAPIType(endpoint, c.logger, c.config.DebugMode)
+	contentType := DetermineContentType(apiType, method)
+
+	// Marshal the request body based on the API type and method
+	requestData, err := c.marshallRequest(body, apiType, method)
+	if err != nil {
+		return nil, err
+	}
+
+	// Ensure the BaseURL has the correct protocol (http:// or https://)
+	baseURLWithProtocol := EnsureHTTPScheme(c.BaseURL)
+	url := fmt.Sprintf("%s%s", baseURLWithProtocol, endpoint)
+
+	if c.config.DebugMode {
+		c.logger.Debug("Preparing request", "method", method, "url", url)
+	}
+
+	// Create a new HTTP request with the provided method, constructed URL, and marshaled request data
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(requestData))
+	if err != nil {
+		c.logger.Error("Failed to create request", "error", err)
+		return nil, err
+	}
+
+	// After ensuring token validity, set the necessary headers
+	req.Header.Add("Authorization", "Bearer "+c.Token)
+	req.Header.Add("Content-Type", string(contentType))
+	req.Header.Add("Accept", string(contentType))
+	req.Header.Set("User-Agent", GetUserAgent())
+
+	// Execute the constructed HTTP request using the client's HTTP client
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		// Log an error message if there's an issue executing the HTTP request
+		c.logger.Error("Failed to execute request", "method", method, "url", url, "error", err)
+		return nil, err
+	}
+
+	// checks for the presence of a deprecation header in the HTTP response and logs if found.
+	CheckDeprecationHeader(resp, c.logger)
+
+	if c.config.DebugMode {
+		c.logger.Debug("Request executed successfully", "method", method, "url", url, "status", resp.Status)
+	}
+	return resp, nil
+}
