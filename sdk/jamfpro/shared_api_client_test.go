@@ -12,7 +12,7 @@ func TestOAuthCredentialsSetting(t *testing.T) {
 	// Mock config for testing
 	config := Config{
 		InstanceName:          "testInstance",
-		DebugMode:             false,
+		DebugMode:             true,
 		Logger:                http_client.NewDefaultLogger(),
 		MaxConcurrentRequests: 5,
 		TokenLifespan:         30 * time.Minute,
