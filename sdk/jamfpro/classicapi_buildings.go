@@ -124,7 +124,7 @@ func (c *Client) CreateBuilding(building *Building) (*Building, error) {
 
 // UpdateBuildingByID updates an existing building
 func (c *Client) UpdateBuildingByID(building *Building) (*Building, error) {
-	endpoint := fmt.Sprintf("%s/id/%s", uriAPIBuildings, building.ID)
+	endpoint := fmt.Sprintf("%s/id/%d", uriAPIBuildings, building.ID)
 
 	var updatedBuilding Building
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, building, &updatedBuilding)

@@ -55,3 +55,9 @@ func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 		}
 	}
 }
+
+// GetOAuthCredentials retrieves the current OAuth credentials (Client ID and Client Secret)
+// set for the client instance. Used for test cases.
+func (c *Client) GetOAuthCredentials() OAuthCredentials {
+	return c.oAuthCredentials
+}
