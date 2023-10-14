@@ -10,6 +10,7 @@ package jamfpro
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
@@ -49,11 +50,18 @@ func NewClient(config Config) (*Client, error) {
 		HTTP: httpCli,
 	}
 
+	// Set auth credential configuration
 	creds := http_client.OAuthCredentials{
 		ClientID:     config.ClientID,
 		ClientSecret: config.ClientSecret,
 	}
 	client.SetClientOAuthCredentials(creds)
+
+	// validate credentials oauth credentials exist
+	if client.HTTP.GetOAuthCredentials().ClientID == "" || client.HTTP.GetOAuthCredentials().ClientSecret == "" {
+		return nil, fmt.Errorf("OAuth credentials (ClientID and ClientSecret) must be provided")
+	}
+
 	return client, nil
 }
 
