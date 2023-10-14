@@ -1,4 +1,4 @@
-// api_client.go
+// shared_api_client.go
 // The jamfpro package offers a client for interacting with the Jamf Pro API.
 // This client extends the foundational capabilities of the http_client package,
 // adding methods specifically tailored for Jamf Pro's API endpoints.
@@ -10,6 +10,7 @@ package jamfpro
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
@@ -31,7 +32,7 @@ type Config struct {
 	ClientSecret          string
 }
 
-func NewClient(config Config) *Client {
+func NewClient(config Config) (*Client, error) {
 	httpConfig := http_client.Config{
 		DebugMode:             config.DebugMode,
 		Logger:                config.Logger,
@@ -40,16 +41,28 @@ func NewClient(config Config) *Client {
 		BufferPeriod:          config.BufferPeriod,
 	}
 
-	client := &Client{
-		HTTP: http_client.NewClient(config.InstanceName, httpConfig, nil),
+	httpCli, err := http_client.NewClient(config.InstanceName, httpConfig, nil)
+	if err != nil {
+		return nil, err // Return the error if HTTP client initialization fails
 	}
 
+	client := &Client{
+		HTTP: httpCli,
+	}
+
+	// Set auth credential configuration
 	creds := http_client.OAuthCredentials{
 		ClientID:     config.ClientID,
 		ClientSecret: config.ClientSecret,
 	}
 	client.SetClientOAuthCredentials(creds)
-	return client
+
+	// validate credentials oauth credentials exist
+	if client.HTTP.GetOAuthCredentials().ClientID == "" || client.HTTP.GetOAuthCredentials().ClientSecret == "" {
+		return nil, fmt.Errorf("OAuth credentials (ClientID and ClientSecret) must be provided")
+	}
+
+	return client, nil
 }
 
 func (c *Client) SetClientOAuthCredentials(creds http_client.OAuthCredentials) {

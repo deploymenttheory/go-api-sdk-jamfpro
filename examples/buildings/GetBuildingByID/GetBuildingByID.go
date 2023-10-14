@@ -37,8 +37,11 @@ func main() {
 		ClientSecret:          authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
-	client := jamfpro.NewClient(config)
+	// Create a new jamfpro client instanceclient,
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
 
 	// Define the variable for the building ID
 	buildingID := 11 // Change this value as needed

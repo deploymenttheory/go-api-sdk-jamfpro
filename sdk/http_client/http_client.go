@@ -9,6 +9,7 @@ package http_client
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"sync"
@@ -83,7 +84,12 @@ If no logger is provided, a default logger will be used.
 Any additional options provided will be applied to the client during initialization.
 Detect authentication method based on supplied credential type
 */
-func NewClient(instanceName string, config Config, logger Logger, options ...ClientOption) *Client {
+func NewClient(instanceName string, config Config, logger Logger, options ...ClientOption) (*Client, error) {
+	// Config Check
+	if instanceName == "" {
+		return nil, fmt.Errorf("instanceName cannot be empty")
+	}
+	// Default settings if not supplied
 	if config.TokenLifespan == 0 {
 		config.TokenLifespan = 30 * time.Minute
 	}
@@ -125,5 +131,5 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 		)
 	}
 
-	return client
+	return client, nil
 }

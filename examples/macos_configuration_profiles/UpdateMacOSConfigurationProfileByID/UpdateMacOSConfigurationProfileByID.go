@@ -37,8 +37,11 @@ func main() {
 		ClientSecret:          authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
-	client := jamfpro.NewClient(config)
+	// Create a new jamfpro client instanceclient,
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
 
 	payloads := `&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
 &lt;plist version="1"&gt;&lt;dict&gt;&lt;key&gt;PayloadUUID&lt;/key&gt;&lt;string&gt;3665BB04-2B24-4CF6-A3FB-BF1B2221CBA5&lt;/string&gt;&lt;key&gt;PayloadType&lt;/key&gt;&lt;string&gt;Configuration&lt;/string&gt;&lt;key&gt;PayloadOrganization&lt;/key&gt;&lt;string&gt;Jamf&lt;/string&gt;&lt;key&gt;PayloadIdentifier&lt;/key&gt;&lt;string&gt;3665BB04-2B24-4CF6-A3FB-BF1B2221CBA5&lt;/string&gt;&lt;key&gt;PayloadDisplayName&lt;/key&gt;&lt;string&gt;WiFi Test&lt;/string&gt;&lt;key&gt;PayloadDescription&lt;/key&gt;&lt;string/&gt;&lt;key&gt;PayloadVersion&lt;/key&gt;&lt;integer&gt;1&lt;/integer&gt;&lt;key&gt;PayloadEnabled&lt;/key&gt;&lt;true/&gt;&lt;key&gt;PayloadRemovalDisallowed&lt;/key&gt;&lt;true/&gt;&lt;key&gt;PayloadScope&lt;/key&gt;&lt;string&gt;System&lt;/string&gt;&lt;key&gt;PayloadContent&lt;/key&gt;&lt;array&gt;&lt;dict&gt;&lt;key&gt;PayloadUUID&lt;/key&gt;&lt;string&gt;646F7DC3-54EF-42AF-92BA-6626DA39E28F&lt;/string&gt;&lt;key&gt;PayloadType&lt;/key&gt;&lt;string&gt;com.apple.wifi.managed&lt;/string&gt;&lt;key&gt;PayloadOrganization&lt;/key&gt;&lt;string&gt;Jamf&lt;/string&gt;&lt;key&gt;PayloadIdentifier&lt;/key&gt;&lt;string&gt;646F7DC3-54EF-42AF-92BA-6626DA39E28F&lt;/string&gt;&lt;key&gt;PayloadDisplayName&lt;/key&gt;&lt;string&gt;WiFi&lt;/string&gt;&lt;key&gt;PayloadDescription&lt;/key&gt;&lt;string/&gt;&lt;key&gt;PayloadVersion&lt;/key&gt;&lt;integer&gt;1&lt;/integer&gt;&lt;key&gt;PayloadEnabled&lt;/key&gt;&lt;true/&gt;&lt;key&gt;HIDDEN_NETWORK&lt;/key&gt;&lt;false/&gt;&lt;key&gt;Password&lt;/key&gt;&lt;string&gt;jamf&lt;/string&gt;&lt;key&gt;EncryptionType&lt;/key&gt;&lt;string&gt;WPA&lt;/string&gt;&lt;key&gt;AutoJoin&lt;/key&gt;&lt;true/&gt;&lt;key&gt;CaptiveBypass&lt;/key&gt;&lt;false/&gt;&lt;key&gt;ProxyType&lt;/key&gt;&lt;string&gt;None&lt;/string&gt;&lt;key&gt;SetupModes&lt;/key&gt;&lt;array/&gt;&lt;key&gt;SSID_STR&lt;/key&gt;&lt;string&gt;jamf&lt;/string&gt;&lt;key&gt;Interface&lt;/key&gt;&lt;string&gt;BuiltInWireless&lt;/string&gt;&lt;/dict&gt;&lt;/array&gt;&lt;/dict&gt;&lt;/plist&gt;`

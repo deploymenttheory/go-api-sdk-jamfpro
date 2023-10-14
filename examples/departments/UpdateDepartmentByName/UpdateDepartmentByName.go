@@ -38,8 +38,11 @@ func main() {
 		ClientSecret:          authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
-	client := jamfpro.NewClient(config)
+	// Create a new jamfpro client instanceclient,
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
 
 	// Define the department's current name and the new name you want to update to
 	currentDepartmentName := "UpdatedDepartmentNameBySDK"

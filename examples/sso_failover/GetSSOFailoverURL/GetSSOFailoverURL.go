@@ -38,7 +38,10 @@ func main() {
 	}
 
 	// Create a new jamfpro client instance
-	client := jamfpro.NewClient(config)
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
 
 	// Fetch SSO failover settings
 	failoverSettings, err := client.GetSSOFailoverSettings()

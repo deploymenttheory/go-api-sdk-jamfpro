@@ -38,8 +38,11 @@ func main() {
 		ClientSecret:          authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
-	client := jamfpro.NewClient(config)
+	// Create a new jamfpro client instanceclient,
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
 
 	// Define the variable for the building name
 	buildingName := "bld-terraform_test-0.0.1-test" // Change this value as needed
