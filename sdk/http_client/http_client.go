@@ -9,6 +9,7 @@ package http_client
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"sync"
@@ -83,7 +84,11 @@ If no logger is provided, a default logger will be used.
 Any additional options provided will be applied to the client during initialization.
 Detect authentication method based on supplied credential type
 */
-func NewClient(instanceName string, config Config, logger Logger, options ...ClientOption) *Client {
+func NewClient(instanceName string, config Config, logger Logger, options ...ClientOption) (*Client, error) {
+	if instanceName == "" {
+		return nil, fmt.Errorf("instanceName cannot be empty")
+	}
+	// Default settings if not supplied
 	if config.TokenLifespan == 0 {
 		config.TokenLifespan = 30 * time.Minute
 	}
@@ -106,6 +111,18 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 		ConcurrencyMgr: NewConcurrencyManager(config.MaxConcurrentRequests, logger, config.DebugMode),
 	}
 
+	if client.authMethod == "oauth" {
+		if client.oAuthCredentials.ClientID == "" || client.oAuthCredentials.ClientSecret == "" {
+			return nil, fmt.Errorf("OAuth credentials (ClientID and ClientSecret) must be provided")
+		}
+	} else if client.authMethod == "bearer" {
+		if client.bearerTokenAuthCredentials.Username == "" || client.bearerTokenAuthCredentials.Password == "" {
+			return nil, fmt.Errorf("bearer token authentication credentials (Username and Password) must be provided")
+		}
+	} else {
+		return nil, fmt.Errorf("invalid or unspecified authentication method")
+	}
+
 	// Apply any additional client options provided during initialization
 	for _, opt := range options {
 		opt(client)
@@ -125,5 +142,5 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 		)
 	}
 
-	return client
+	return client, nil
 }

@@ -1,4 +1,4 @@
-// api_client.go
+// shared_api_client.go
 // The jamfpro package offers a client for interacting with the Jamf Pro API.
 // This client extends the foundational capabilities of the http_client package,
 // adding methods specifically tailored for Jamf Pro's API endpoints.
@@ -10,7 +10,6 @@ package jamfpro
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"time"
 
@@ -41,9 +40,9 @@ func NewClient(config Config) (*Client, error) {
 		BufferPeriod:          config.BufferPeriod,
 	}
 
-	httpCli := http_client.NewClient(config.InstanceName, httpConfig, nil)
-	if httpCli == nil {
-		return nil, fmt.Errorf("failed to initialize the HTTP client")
+	httpCli, err := http_client.NewClient(config.InstanceName, httpConfig, nil)
+	if err != nil {
+		return nil, err // Return the error if HTTP client initialization fails
 	}
 
 	client := &Client{
