@@ -22,7 +22,11 @@ func TestOAuthCredentialsSetting(t *testing.T) {
 	}
 
 	logger.Info("Initializing client with mock configuration...")
-	client := NewClient(config)
+	// Create a new jamfpro client instanceclient,
+	client, err := NewClient(config)
+	if err != nil {
+		logger.Fatal("Failed to create Jamf Pro client: %v", err)
+	}
 
 	// Mock new OAuth credentials
 	newCreds := http_client.OAuthCredentials{

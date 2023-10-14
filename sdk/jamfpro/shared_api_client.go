@@ -10,6 +10,7 @@ package jamfpro
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
@@ -31,7 +32,7 @@ type Config struct {
 	ClientSecret          string
 }
 
-func NewClient(config Config) *Client {
+func NewClient(config Config) (*Client, error) {
 	httpConfig := http_client.Config{
 		DebugMode:             config.DebugMode,
 		Logger:                config.Logger,
@@ -40,8 +41,13 @@ func NewClient(config Config) *Client {
 		BufferPeriod:          config.BufferPeriod,
 	}
 
+	httpCli := http_client.NewClient(config.InstanceName, httpConfig, nil)
+	if httpCli == nil {
+		return nil, fmt.Errorf("failed to initialize the HTTP client")
+	}
+
 	client := &Client{
-		HTTP: http_client.NewClient(config.InstanceName, httpConfig, nil),
+		HTTP: httpCli,
 	}
 
 	creds := http_client.OAuthCredentials{
@@ -49,7 +55,7 @@ func NewClient(config Config) *Client {
 		ClientSecret: config.ClientSecret,
 	}
 	client.SetClientOAuthCredentials(creds)
-	return client
+	return client, nil
 }
 
 func (c *Client) SetClientOAuthCredentials(creds http_client.OAuthCredentials) {
