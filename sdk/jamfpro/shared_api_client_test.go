@@ -11,14 +11,14 @@ import (
 func TestOAuthCredentialsSetting(t *testing.T) {
 	// Mock config for testing
 	config := Config{
-		InstanceName:          "testInstance",
-		DebugMode:             false,
-		Logger:                http_client.NewDefaultLogger(),
-		MaxConcurrentRequests: 5,
-		TokenLifespan:         30 * time.Minute,
-		BufferPeriod:          5 * time.Minute,
-		ClientID:              "mockClientID",
-		ClientSecret:          "mockClientSecret",
+		InstanceName:             "testInstance",
+		DebugMode:                false,
+		Logger:                   http_client.NewDefaultLogger(),
+		MaxConcurrentRequests:    5,
+		TokenLifespan:            30 * time.Minute,
+		TokenRefreshBufferPeriod: 5 * time.Minute,
+		ClientID:                 "mockClientID",
+		ClientSecret:             "mockClientSecret",
 	}
 
 	logger.Info("Initializing client with mock configuration...")
