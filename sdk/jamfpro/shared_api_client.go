@@ -17,6 +17,13 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 )
 
+const (
+	concurrentRequests           = 10 // Number of simultaneous requests.
+	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
+	defaultTokenLifespan         = 30 * time.Minute
+	defaultBufferPeriod          = 5 * time.Minute
+)
+
 type Client struct {
 	HTTP *http_client.Client
 }
@@ -33,6 +40,18 @@ type Config struct {
 }
 
 func NewClient(config Config) (*Client, error) {
+
+	// If not provided, use the default values from constants
+	if config.MaxConcurrentRequests == 0 {
+		config.MaxConcurrentRequests = maxConcurrentRequestsAllowed
+	}
+	if config.TokenLifespan == 0 {
+		config.TokenLifespan = defaultTokenLifespan
+	}
+	if config.TokenRefreshBufferPeriod == 0 {
+		config.TokenRefreshBufferPeriod = defaultBufferPeriod
+	}
+
 	httpConfig := http_client.Config{
 		DebugMode:                config.DebugMode,
 		Logger:                   config.Logger,
