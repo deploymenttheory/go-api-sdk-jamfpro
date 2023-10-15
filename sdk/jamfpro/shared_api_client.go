@@ -22,23 +22,23 @@ type Client struct {
 }
 
 type Config struct {
-	InstanceName          string
-	DebugMode             bool
-	Logger                http_client.Logger
-	MaxConcurrentRequests int
-	TokenLifespan         time.Duration
-	BufferPeriod          time.Duration
-	ClientID              string
-	ClientSecret          string
+	InstanceName             string
+	DebugMode                bool
+	Logger                   http_client.Logger
+	MaxConcurrentRequests    int
+	TokenLifespan            time.Duration
+	TokenRefreshBufferPeriod time.Duration
+	ClientID                 string
+	ClientSecret             string
 }
 
 func NewClient(config Config) (*Client, error) {
 	httpConfig := http_client.Config{
-		DebugMode:             config.DebugMode,
-		Logger:                config.Logger,
-		MaxConcurrentRequests: config.MaxConcurrentRequests,
-		TokenLifespan:         config.TokenLifespan,
-		BufferPeriod:          config.BufferPeriod,
+		DebugMode:                config.DebugMode,
+		Logger:                   config.Logger,
+		MaxConcurrentRequests:    config.MaxConcurrentRequests,
+		TokenLifespan:            config.TokenLifespan,
+		TokenRefreshBufferPeriod: config.TokenRefreshBufferPeriod,
 	}
 
 	httpCli, err := http_client.NewClient(config.InstanceName, httpConfig, nil)

@@ -34,7 +34,7 @@ func (c *Client) ValidAuthTokenCheck() bool {
 	}
 
 	// If token exists and is close to expiry or already expired
-	if time.Until(c.Expiry) < c.config.BufferPeriod {
+	if time.Until(c.Expiry) < c.config.TokenRefreshBufferPeriod {
 		if c.config.DebugMode {
 			c.logger.Debug("Token is not valid or is close to expiry", "Expiry", c.Expiry)
 		}

@@ -42,7 +42,7 @@ type Config struct {
 	Logger                    Logger
 	MaxConcurrentRequests     int
 	TokenLifespan             time.Duration
-	BufferPeriod              time.Duration
+	TokenRefreshBufferPeriod  time.Duration
 	TotalRetryDuration        time.Duration
 }
 
@@ -93,8 +93,8 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 	if config.TokenLifespan == 0 {
 		config.TokenLifespan = 30 * time.Minute
 	}
-	if config.BufferPeriod == 0 {
-		config.BufferPeriod = 5 * time.Minute
+	if config.TokenRefreshBufferPeriod == 0 {
+		config.TokenRefreshBufferPeriod = 5 * time.Minute
 	}
 	if config.TotalRetryDuration == 0 {
 		config.TotalRetryDuration = 60 * time.Second
@@ -123,7 +123,7 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 			"InstanceName", client.InstanceName,
 			"Timeout", client.httpClient.Timeout,
 			"TokenLifespan", client.config.TokenLifespan,
-			"BufferPeriod", client.config.BufferPeriod,
+			"TokenRefreshBufferPeriod", client.config.TokenRefreshBufferPeriod,
 			"TotalRetryDuration", client.config.TotalRetryDuration,
 			"MaxRetryAttempts", client.config.MaxRetryAttempts,
 			"MaxConcurrentRequests", client.config.MaxConcurrentRequests,
