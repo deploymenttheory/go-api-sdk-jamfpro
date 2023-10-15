@@ -69,7 +69,7 @@ config := http_client.Config{
 	Logger:                http_client.NewDefaultLogger(),
 	MaxConcurrentRequests: maxConcurrentRequestsAllowed,
 	TokenLifespan:         defaultTokenLifespan,
-	BufferPeriod:          defaultBufferPeriod,
+	TokenRefreshBufferPeriod: defaultBufferPeriod,
 }
 ```
 

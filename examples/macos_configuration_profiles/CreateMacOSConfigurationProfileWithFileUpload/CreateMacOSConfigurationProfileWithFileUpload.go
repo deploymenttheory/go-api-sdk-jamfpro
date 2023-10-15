@@ -42,14 +42,14 @@ func main() {
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
-		InstanceName:          authConfig.InstanceName,
-		DebugMode:             true,
-		Logger:                jamfpro.NewDefaultLogger(),
-		MaxConcurrentRequests: maxConcurrentRequestsAllowed,
-		TokenLifespan:         defaultTokenLifespan,
-		BufferPeriod:          defaultBufferPeriod,
-		ClientID:              authConfig.ClientID,
-		ClientSecret:          authConfig.ClientSecret,
+		InstanceName:             authConfig.InstanceName,
+		DebugMode:                true,
+		Logger:                   jamfpro.NewDefaultLogger(),
+		MaxConcurrentRequests:    maxConcurrentRequestsAllowed,
+		TokenLifespan:            defaultTokenLifespan,
+		TokenRefreshBufferPeriod: defaultBufferPeriod,
+		ClientID:                 authConfig.ClientID,
+		ClientSecret:             authConfig.ClientSecret,
 	}
 
 	// Create a new jamfpro client instanceclient,
