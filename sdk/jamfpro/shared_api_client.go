@@ -17,28 +17,47 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 )
 
+const (
+	concurrentRequests           = 10 // Number of simultaneous requests.
+	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
+	defaultTokenLifespan         = 30 * time.Minute
+	defaultBufferPeriod          = 5 * time.Minute
+)
+
 type Client struct {
 	HTTP *http_client.Client
 }
 
 type Config struct {
-	InstanceName          string
-	DebugMode             bool
-	Logger                http_client.Logger
-	MaxConcurrentRequests int
-	TokenLifespan         time.Duration
-	BufferPeriod          time.Duration
-	ClientID              string
-	ClientSecret          string
+	InstanceName             string
+	DebugMode                bool
+	Logger                   http_client.Logger
+	MaxConcurrentRequests    int
+	TokenLifespan            time.Duration
+	TokenRefreshBufferPeriod time.Duration
+	ClientID                 string
+	ClientSecret             string
 }
 
 func NewClient(config Config) (*Client, error) {
+
+	// If not provided, use the default values from constants
+	if config.MaxConcurrentRequests == 0 {
+		config.MaxConcurrentRequests = maxConcurrentRequestsAllowed
+	}
+	if config.TokenLifespan == 0 {
+		config.TokenLifespan = defaultTokenLifespan
+	}
+	if config.TokenRefreshBufferPeriod == 0 {
+		config.TokenRefreshBufferPeriod = defaultBufferPeriod
+	}
+	// Initialise http client
 	httpConfig := http_client.Config{
-		DebugMode:             config.DebugMode,
-		Logger:                config.Logger,
-		MaxConcurrentRequests: config.MaxConcurrentRequests,
-		TokenLifespan:         config.TokenLifespan,
-		BufferPeriod:          config.BufferPeriod,
+		DebugMode:                config.DebugMode,
+		Logger:                   config.Logger,
+		MaxConcurrentRequests:    config.MaxConcurrentRequests,
+		TokenLifespan:            config.TokenLifespan,
+		TokenRefreshBufferPeriod: config.TokenRefreshBufferPeriod,
 	}
 
 	httpCli, err := http_client.NewClient(config.InstanceName, httpConfig, nil)
@@ -61,7 +80,7 @@ func NewClient(config Config) (*Client, error) {
 	if client.HTTP.GetOAuthCredentials().ClientID == "" || client.HTTP.GetOAuthCredentials().ClientSecret == "" {
 		return nil, fmt.Errorf("OAuth credentials (ClientID and ClientSecret) must be provided")
 	}
-
+	// return complete initialised client with auth credentials added.
 	return client, nil
 }
 

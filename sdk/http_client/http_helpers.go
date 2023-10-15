@@ -34,7 +34,7 @@ func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 	// Check for OAuth credentials
 	if clientID, ok := creds["clientID"]; ok {
 		if clientSecret, ok := creds["clientSecret"]; ok {
-			c.oAuthCredentials = OAuthCredentials{
+			c.OAuthCredentials = OAuthCredentials{
 				ClientID:     clientID,
 				ClientSecret: clientSecret,
 			}
@@ -46,7 +46,7 @@ func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 	// Check for Bearer Token credentials
 	if username, ok := creds["username"]; ok {
 		if password, ok := creds["password"]; ok {
-			c.bearerTokenAuthCredentials = BearerTokenAuthCredentials{
+			c.BearerTokenAuthCredentials = BearerTokenAuthCredentials{
 				Username: username,
 				Password: password,
 			}
@@ -59,11 +59,11 @@ func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 // GetOAuthCredentials retrieves the current OAuth credentials (Client ID and Client Secret)
 // set for the client instance. Used for test cases.
 func (c *Client) GetOAuthCredentials() OAuthCredentials {
-	return c.oAuthCredentials
+	return c.OAuthCredentials
 }
 
 // GetBearerAuthCredentials retrieves the current bearer auth credentials (Username and Password)
 // set for the client instance. Used for test cases.
 func (c *Client) GetBearerAuthCredentials() BearerTokenAuthCredentials {
-	return c.bearerTokenAuthCredentials
+	return c.BearerTokenAuthCredentials
 }

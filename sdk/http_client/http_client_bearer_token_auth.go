@@ -20,7 +20,7 @@ type BearerTokenAuthCredentials struct {
 // for the client instance. These credentials are used for obtaining and refreshing
 // bearer tokens for authentication.
 func (c *Client) SetBearerTokenAuthCredentials(credentials BearerTokenAuthCredentials) {
-	c.bearerTokenAuthCredentials = credentials
+	c.BearerTokenAuthCredentials = credentials
 }
 
 // ObtainToken fetches and sets an authentication token using the stored basic authentication credentials.
@@ -28,7 +28,7 @@ func (c *Client) ObtainToken() error {
 	authenticationEndpoint := c.constructAPIAuthEndpoint(BearerTokenEndpoint)
 
 	if c.config.DebugMode {
-		c.logger.Debug("Attempting to obtain token for user", "Username", c.bearerTokenAuthCredentials.Username)
+		c.logger.Debug("Attempting to obtain token for user", "Username", c.BearerTokenAuthCredentials.Username)
 	}
 
 	req, err := http.NewRequest("POST", authenticationEndpoint, nil)
@@ -36,7 +36,7 @@ func (c *Client) ObtainToken() error {
 		c.logger.Error("Failed to create new request for token", "Error", err)
 		return err
 	}
-	req.SetBasicAuth(c.bearerTokenAuthCredentials.Username, c.bearerTokenAuthCredentials.Password)
+	req.SetBasicAuth(c.BearerTokenAuthCredentials.Username, c.BearerTokenAuthCredentials.Password)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {

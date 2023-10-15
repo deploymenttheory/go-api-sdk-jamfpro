@@ -27,7 +27,10 @@ func main() {
 	}
 
 	// Create a new client instance using the loaded InstanceName
-	client := http_client.NewClient(authConfig.InstanceName, config, nil)
+	client, err := http_client.NewClient(authConfig.InstanceName, config, nil)
+	if err != nil {
+		log.Fatalf("Failed to create new client: %v", err)
+	}
 
 	// Set OAuth credentials for the client
 	oAuthCreds := http_client.OAuthCredentials{

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 )
@@ -19,7 +20,10 @@ func main() {
 	}
 
 	// Create a new client instance using the provided BaseURL
-	client := http_client.NewClient(baseURL, config, nil)
+	client, err := http_client.NewClient(baseURL, config, nil)
+	if err != nil {
+		log.Fatalf("Failed to create new client: %v", err)
+	}
 
 	// Set BearerTokenAuthCredentials
 	client.SetBearerTokenAuthCredentials(http_client.BearerTokenAuthCredentials{
@@ -28,7 +32,7 @@ func main() {
 	})
 
 	// Call the ObtainToken function to get a bearer token
-	err := client.ObtainToken()
+	err = client.ObtainToken()
 	if err != nil {
 		fmt.Println("Error obtaining token:", err)
 		return

@@ -2,16 +2,8 @@ package main
 
 import (
 	"log"
-	"time"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
-)
-
-const (
-	concurrentRequests           = 10 // Number of simultaneous requests.
-	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
 )
 
 func main() {
@@ -26,14 +18,11 @@ func main() {
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
-		InstanceName:          authConfig.InstanceName,
-		DebugMode:             true,
-		Logger:                jamfpro.NewDefaultLogger(),
-		MaxConcurrentRequests: maxConcurrentRequestsAllowed,
-		TokenLifespan:         defaultTokenLifespan,
-		BufferPeriod:          defaultBufferPeriod,
-		ClientID:              authConfig.ClientID,
-		ClientSecret:          authConfig.ClientSecret,
+		InstanceName: authConfig.InstanceName,
+		DebugMode:    true,
+		Logger:       jamfpro.NewDefaultLogger(),
+		ClientID:     authConfig.ClientID,
+		ClientSecret: authConfig.ClientSecret,
 	}
 
 	// Create a new jamfpro client instanceclient,

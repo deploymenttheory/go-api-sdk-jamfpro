@@ -17,13 +17,13 @@ func (c *Client) ValidAuthTokenCheck() bool {
 
 	// If token doesn't exist
 	if c.Token == "" {
-		if c.bearerTokenAuthCredentials.Username != "" && c.bearerTokenAuthCredentials.Password != "" {
+		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err := c.ObtainToken()
 			if err != nil {
 				return false
 			}
-		} else if c.oAuthCredentials.ClientID != "" && c.oAuthCredentials.ClientSecret != "" {
-			err := c.ObtainOAuthToken(c.oAuthCredentials)
+		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
+			err := c.ObtainOAuthToken(c.OAuthCredentials)
 			if err != nil {
 				return false
 			}
@@ -34,15 +34,15 @@ func (c *Client) ValidAuthTokenCheck() bool {
 	}
 
 	// If token exists and is close to expiry or already expired
-	if time.Until(c.Expiry) < c.config.BufferPeriod {
+	if time.Until(c.Expiry) < c.config.TokenRefreshBufferPeriod {
 		if c.config.DebugMode {
 			c.logger.Debug("Token is not valid or is close to expiry", "Expiry", c.Expiry)
 		}
 
 		var err error
-		if c.bearerTokenAuthCredentials.Username != "" && c.bearerTokenAuthCredentials.Password != "" {
+		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err = c.RefreshToken()
-		} else if c.oAuthCredentials.ClientID != "" && c.oAuthCredentials.ClientSecret != "" {
+		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
 			err = c.RefreshOAuthToken()
 		} else {
 			c.logger.Error("Unknown auth method", "AuthMethod", c.authMethod)
