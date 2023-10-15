@@ -17,13 +17,13 @@ func (c *Client) ValidAuthTokenCheck() bool {
 
 	// If token doesn't exist
 	if c.Token == "" {
-		if c.bearerTokenAuthCredentials.Username != "" && c.bearerTokenAuthCredentials.Password != "" {
+		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err := c.ObtainToken()
 			if err != nil {
 				return false
 			}
-		} else if c.oAuthCredentials.ClientID != "" && c.oAuthCredentials.ClientSecret != "" {
-			err := c.ObtainOAuthToken(c.oAuthCredentials)
+		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
+			err := c.ObtainOAuthToken(c.OAuthCredentials)
 			if err != nil {
 				return false
 			}
@@ -40,9 +40,9 @@ func (c *Client) ValidAuthTokenCheck() bool {
 		}
 
 		var err error
-		if c.bearerTokenAuthCredentials.Username != "" && c.bearerTokenAuthCredentials.Password != "" {
+		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err = c.RefreshToken()
-		} else if c.oAuthCredentials.ClientID != "" && c.oAuthCredentials.ClientSecret != "" {
+		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
 			err = c.RefreshOAuthToken()
 		} else {
 			c.logger.Error("Unknown auth method", "AuthMethod", c.authMethod)

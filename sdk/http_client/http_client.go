@@ -23,8 +23,8 @@ type Client struct {
 	InstanceName               string
 	authMethod                 string // Specifies the authentication method: "bearer" or "oauth"
 	Token                      string
-	oAuthCredentials           OAuthCredentials           // ClientID / Client Secret
-	bearerTokenAuthCredentials BearerTokenAuthCredentials // Username and Password for Basic Authentication
+	OAuthCredentials           OAuthCredentials           // ClientID / Client Secret
+	BearerTokenAuthCredentials BearerTokenAuthCredentials // Username and Password for Basic Authentication
 	Expiry                     time.Time
 	httpClient                 *http.Client
 	tokenLock                  sync.Mutex

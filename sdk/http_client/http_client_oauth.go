@@ -43,7 +43,7 @@ type OAuthCredentials struct {
 // for the client instance. These credentials are used for obtaining and refreshing
 // OAuth tokens for authentication.
 func (c *Client) SetOAuthCredentials(credentials OAuthCredentials) {
-	c.oAuthCredentials = credentials
+	c.OAuthCredentials = credentials
 }
 
 // ObtainOAuthToken fetches an OAuth access token using the provided OAuthCredentials (Client ID and Client Secret).
