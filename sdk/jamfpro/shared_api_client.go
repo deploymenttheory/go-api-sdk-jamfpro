@@ -51,7 +51,7 @@ func NewClient(config Config) (*Client, error) {
 	if config.TokenRefreshBufferPeriod == 0 {
 		config.TokenRefreshBufferPeriod = defaultBufferPeriod
 	}
-
+	// Initialise http client
 	httpConfig := http_client.Config{
 		DebugMode:                config.DebugMode,
 		Logger:                   config.Logger,
@@ -80,7 +80,7 @@ func NewClient(config Config) (*Client, error) {
 	if client.HTTP.GetOAuthCredentials().ClientID == "" || client.HTTP.GetOAuthCredentials().ClientSecret == "" {
 		return nil, fmt.Errorf("OAuth credentials (ClientID and ClientSecret) must be provided")
 	}
-
+	// return complete initialised client with auth credentials added.
 	return client, nil
 }
 
