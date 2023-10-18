@@ -18,10 +18,9 @@ import (
 )
 
 const (
-	concurrentRequests           = 10 // Number of simultaneous requests.
-	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
+	maxConcurrentRequestsAllowed = 5                // Maximum allowed concurrent requests.
+	defaultTokenLifespan         = 30 * time.Minute // Set default token lifespan
+	defaultTokenBufferPeriod     = 5 * time.Minute  // Set default token buffer period before attempting a token refresh
 )
 
 type Client struct {
@@ -49,7 +48,7 @@ func NewClient(config Config) (*Client, error) {
 		config.TokenLifespan = defaultTokenLifespan
 	}
 	if config.TokenRefreshBufferPeriod == 0 {
-		config.TokenRefreshBufferPeriod = defaultBufferPeriod
+		config.TokenRefreshBufferPeriod = defaultTokenBufferPeriod
 	}
 	// Initialise http client
 	httpConfig := http_client.Config{
