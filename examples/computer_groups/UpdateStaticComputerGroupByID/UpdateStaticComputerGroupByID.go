@@ -33,42 +33,39 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the computers for the static group
-	computers := []jamfpro.ComputerGroupComputerItem{
+	// The ID of the static computer group you wish to update
+	groupID := 49 // Replace with your actual group ID
+
+	// Define the updated computers for the static group
+	updatedComputers := []jamfpro.ComputerGroupComputerItem{
 		{
 			ID:            2,
 			Name:          "MacBook Pro",
 			MacAddress:    "",
 			AltMacAddress: "",
-			SerialNumber:  "D2FHXH22QB",
+			SerialNumber:  "D2FCXH22FH",
 		},
-		{
-			ID:            6,
-			Name:          "MacBook Pro",
-			MacAddress:    "",
-			AltMacAddress: "",
-			SerialNumber:  "LT6M4DTF88",
-		},
+		// ... add more updated computers if needed
 	}
 
-	// Create a new static computer group
-	newStaticGroup := &jamfpro.ComputerGroupRequest{
-		Name:      "SDK Static Group Test",
+	// Create the updated static computer group data
+	updatedStaticGroup := &jamfpro.ComputerGroupRequest{
+		Name:      "Updated Static Group Name",
 		IsSmart:   false,
 		Site:      jamfpro.Site{ID: -1, Name: "None"},
-		Computers: computers,
+		Computers: updatedComputers,
 	}
 
-	// Call CreateComputerGroup function
-	createdGroup, err := client.CreateComputerGroup(newStaticGroup)
+	// Call UpdateComputerGroupByID function
+	updatedGroup, err := client.UpdateComputerGroupByID(groupID, updatedStaticGroup)
 	if err != nil {
-		log.Fatalf("Error creating Computer Group: %v", err)
+		log.Fatalf("Error updating Computer Group by ID: %v", err)
 	}
 
-	// Pretty print the created group in XML
-	groupXML, err := xml.MarshalIndent(createdGroup, "", "    ") // Indent with 4 spaces
+	// Pretty print the updated group in XML
+	groupXML, err := xml.MarshalIndent(updatedGroup, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling Computer Group data: %v", err)
 	}
-	fmt.Println("Created Computer Group:\n", string(groupXML))
+	fmt.Println("Updated Computer Group:\n", string(groupXML))
 }
