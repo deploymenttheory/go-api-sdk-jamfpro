@@ -23,28 +23,22 @@ type ComputerGroupListItem struct {
 }
 
 type ComputerGroup struct {
-	ID           int                          `xml:"id"`
-	Name         string                       `xml:"name"`
-	IsSmart      bool                         `xml:"is_smart"`
-	Site         Site                         `xml:"site"`
-	Criteria     []ComputerGroupCriterion     `xml:"criteria>criterion"`
-	CriteriaSize int                          `xml:"criteria>size"`
-	Computers    []ComputerGroupComputerEntry `xml:"computers>computer"`
-	ComputerSize int                          `xml:"computers>size"`
+	ID           int                         `xml:"id"`
+	Name         string                      `xml:"name"`
+	IsSmart      bool                        `xml:"is_smart"`
+	Site         Site                        `xml:"site"`
+	Criteria     []ComputerGroupCriterion    `xml:"criteria>criterion"`
+	CriteriaSize int                         `xml:"criteria>size"`
+	Computers    []ComputerGroupComputerItem `xml:"computers>computer"`
+	ComputerSize int                         `xml:"computers>size"`
 }
 
 type ComputerGroupRequest struct {
-	Name      string                       `xml:"name"`
-	IsSmart   bool                         `xml:"is_smart"`
-	Site      Site                         `xml:"site"`
-	Criteria  []ComputerGroupCriterion     `xml:"criteria>criterion"`
-	Computers []ComputerGroupComputerEntry `xml:"computers>computer,omitempty"`
-}
-
-type ComputerGroupComputerEntry struct {
-	ID           int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name         string `json:"name,omitempty" xml:"name,omitempty"`
-	SerialNumber string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
+	Name      string                      `xml:"name"`
+	IsSmart   bool                        `xml:"is_smart"`
+	Site      Site                        `xml:"site"`
+	Criteria  []ComputerGroupCriterion    `xml:"criteria>criterion"`
+	Computers []ComputerGroupComputerItem `xml:"computers>computer,omitempty"`
 }
 
 type ComputerGroupCriterion struct {
@@ -55,6 +49,14 @@ type ComputerGroupCriterion struct {
 	SearchValue  string           `xml:"value"`
 	OpeningParen bool             `xml:"opening_paren"`
 	ClosingParen bool             `xml:"closing_paren"`
+}
+
+type ComputerGroupComputerItem struct {
+	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name          string `json:"name,omitempty" xml:"name,omitempty"`
+	SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
+	MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
+	AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
 }
 
 type DeviceGroupAndOr string

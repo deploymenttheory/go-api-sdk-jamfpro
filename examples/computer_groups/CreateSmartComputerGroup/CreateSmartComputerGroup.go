@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Sample data for creating a new computer group (replace with actual data as needed)
-	newGroup := &jamfpro.ComputerGroupRequest{
+	newSmartGroup := &jamfpro.ComputerGroupRequest{
 		Name:    "NewGroupNameBySDKWithnoSiteset",
 		IsSmart: true,
 		Site:    jamfpro.Site{ID: -1, Name: "None"}, // not required in req as can be handled in func and set to none.
@@ -50,7 +50,7 @@ func main() {
 	}
 
 	// Call CreateComputerGroup function
-	createdGroup, err := client.CreateComputerGroup(newGroup)
+	createdGroup, err := client.CreateComputerGroup(newSmartGroup)
 	if err != nil {
 		log.Fatalf("Error creating Computer Group: %v", err)
 	}
