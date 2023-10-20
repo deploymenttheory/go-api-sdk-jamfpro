@@ -24,7 +24,7 @@ To effectively use the `go-api-sdk-jamfpro` SDK, you'll need to set up and confi
 
 ### 1. Setting Constants
 
-At the start of your main program, define some constants that will be used to configure the client:
+At the start of your main program, you can optionally define define some constants that will be used to configure the client for http client. If you don't set any then defaults from `shared_api_client.go` will be used.
 
 ```go
 const (
@@ -67,13 +67,10 @@ With the OAuth credentials loaded, you can now configure the HTTP client:
 config := http_client.Config{
 	DebugMode:             true,
 	Logger:                http_client.NewDefaultLogger(),
-	MaxConcurrentRequests: maxConcurrentRequestsAllowed,
-	TokenLifespan:         defaultTokenLifespan,
-	TokenRefreshBufferPeriod: defaultBufferPeriod,
 }
 ```
 
-Here, the DebugMode is set to true, which means the client will print debug information. The Logger uses the SDK's default logger. The other fields are set using the constants we defined earlier.
+Here, the DebugMode is set to true, which means the client will print debug information. The Logger uses the SDK's default logger.
 
 4. Initializing the Jamf Pro Client
 Once the HTTP client is configured, initialize the Jamf Pro client:
