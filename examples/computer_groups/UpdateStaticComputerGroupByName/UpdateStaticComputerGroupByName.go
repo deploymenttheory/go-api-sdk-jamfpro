@@ -43,7 +43,7 @@ func main() {
 			Name:          "MacBook Pro",
 			MacAddress:    "",
 			AltMacAddress: "",
-			SerialNumber:  "D2FCXH22FH",
+			SerialNumber:  "D2FCXH22QW",
 		},
 		// ... add more updated computers if needed
 	}
