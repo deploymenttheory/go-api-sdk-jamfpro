@@ -11,12 +11,12 @@ import (
 
 const uriComputerGroups = "/JSSResource/computergroups"
 
-type ComputerGroupsResponse struct {
-	Size    int                         `xml:"size"`
-	Results []ComputerGroupListResponse `xml:"computer_group"`
+type ComputerGroupsListResponse struct {
+	Size    int                     `xml:"size"`
+	Results []ComputerGroupListItem `xml:"computer_group"`
 }
 
-type ComputerGroupListResponse struct {
+type ComputerGroupListItem struct {
 	ID      int    `xml:"id,omitempty"`
 	Name    string `xml:"name,omitempty"`
 	IsSmart bool   `xml:"is_smart,omitempty"`
@@ -65,10 +65,10 @@ const (
 )
 
 // GetComputerGroups gets a list of all computer groups
-func (c *Client) GetComputerGroups() (*ComputerGroupsResponse, error) {
+func (c *Client) GetComputerGroups() (*ComputerGroupsListResponse, error) {
 	endpoint := uriComputerGroups
 
-	var computerGroups ComputerGroupsResponse
+	var computerGroups ComputerGroupsListResponse
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computerGroups)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all Computer Groups: %v", err)
