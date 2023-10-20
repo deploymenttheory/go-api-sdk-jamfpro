@@ -27,30 +27,40 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instanceclient
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Sample data for creating a new computer group (replace with actual data as needed)
-	newGroup := &jamfpro.ComputerGroupRequest{
-		Name:    "NewGroupNameBySDKWithnoSiteset",
-		IsSmart: true,
-		Site:    jamfpro.Site{ID: -1, Name: "None"}, // not required in req as can be handled in func and set to none.
-		Criteria: []jamfpro.ComputerGroupCriterion{
-			{
-				Name:        "Last Inventory Update",
-				Priority:    0,
-				AndOr:       jamfpro.And,
-				SearchType:  "more than x days ago",
-				SearchValue: "7",
-			},
+	// Define the computers for the static group
+	computers := []jamfpro.ComputerGroupComputerItem{
+		{
+			ID:            2,
+			Name:          "MacBook Pro",
+			MacAddress:    "",
+			AltMacAddress: "",
+			SerialNumber:  "D2FHXH22QB",
+		},
+		{
+			ID:            6,
+			Name:          "MacBook Pro",
+			MacAddress:    "",
+			AltMacAddress: "",
+			SerialNumber:  "LT6M4DTF88",
 		},
 	}
 
+	// Create a new static computer group
+	newStaticGroup := &jamfpro.ComputerGroupRequest{
+		Name:      "SDK Static Group Test",
+		IsSmart:   false,
+		Site:      jamfpro.Site{ID: -1, Name: "None"},
+		Computers: computers,
+	}
+
 	// Call CreateComputerGroup function
-	createdGroup, err := client.CreateComputerGroup(newGroup)
+	createdGroup, err := client.CreateComputerGroup(newStaticGroup)
 	if err != nil {
 		log.Fatalf("Error creating Computer Group: %v", err)
 	}
