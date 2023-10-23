@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Provide the name of the computer extension attribute you want to fetch
-	attributeName := "Battery Cycle Count" // You can change this name as required
+	attributeName := "M365_Updates_Pending" // You can change this name as required
 
 	// Call GetComputerExtensionAttributeByName function
 	attribute, err := client.GetComputerExtensionAttributeByName(attributeName)

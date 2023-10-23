@@ -37,9 +37,9 @@ func main() {
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
 		Name:             "Battery Cycle Count",
 		Description:      "Number of charge cycles logged on the current battery",
-		DataType:         "String",
-		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Text Field"},
-		InventoryDisplay: "General",
+		DataType:         "String",                                                        // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
+		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Text Field"}, //  Text Field / Pop Up Menu / Script
+		InventoryDisplay: "General",                                                       // General / Hardware / Operating System / User and Location / Purchasing / Extension Attribute
 		ReconDisplay:     "Extension Attributes",
 	}
 

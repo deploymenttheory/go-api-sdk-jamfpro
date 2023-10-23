@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Provide the ID of the computer extension attribute you want to fetch
-	attributeID := 14 // You can change this ID as required
+	attributeID := 11 // You can change this ID as required
 
 	// Call GetComputerExtensionAttributeByID function
 	attribute, err := client.GetComputerExtensionAttributeByID(attributeID)

@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Define the ID for the file extension you want to fetch
-	fileExtensionID := 1 // Replace with the desired ID
+	fileExtensionID := 142 // Replace with the desired ID
 
 	// Call GetAllowedFileExtensionByID function
 	allowedExtension, err := client.GetAllowedFileExtensionByID(fileExtensionID)
