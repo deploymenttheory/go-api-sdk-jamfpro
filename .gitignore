@@ -22,3 +22,6 @@ go.work
 
 # Testing with local auth
 *auth.json
+
+# macOS File System
+.DS_Store
