@@ -27,25 +27,25 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the ID for the file extension you want to fetch
-	fileExtensionID := 142 // Replace with the desired ID
+	// Provide the ID of the computer extension attribute you want to fetch
+	attributeID := 11 // You can change this ID as required
 
-	// Call GetAllowedFileExtensionByID function
-	allowedExtension, err := client.GetAllowedFileExtensionByID(fileExtensionID)
+	// Call GetComputerExtensionAttributeByID function
+	attribute, err := client.GetComputerExtensionAttributeByID(attributeID)
 	if err != nil {
-		log.Fatalf("Error fetching allowed file extension by ID: %v", err)
+		log.Fatalf("Error fetching Computer Extension Attribute by ID: %v", err)
 	}
 
-	// Pretty print the fetched file extension in XML
-	allowedExtensionXML, err := xml.MarshalIndent(allowedExtension, "", "    ") // Indent with 4 spaces
+	// Pretty print the attribute in XML
+	attributeXML, err := xml.MarshalIndent(attribute, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling allowed file extension data: %v", err)
+		log.Fatalf("Error marshaling Computer Extension Attribute data: %v", err)
 	}
-	fmt.Println("Fetched Allowed File Extension by ID:\n", string(allowedExtensionXML))
+	fmt.Println("Fetched Computer Extension Attribute by ID:\n", string(attributeXML))
 }
