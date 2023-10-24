@@ -1,4 +1,3 @@
-// http_request.go
 package http_client
 
 import (
@@ -18,8 +17,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		return nil, fmt.Errorf("failed to validate or refresh token. Stopping")
 	}
 
-	// Acquire a token for concurrency management with a timeout and measure its acquisition time
-	tokenAcquisitionStart := time.Now()
+	// Acquire a token for concurrency management with a timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -28,11 +26,6 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		return nil, err
 	}
 	defer c.ConcurrencyMgr.Release(requestID)
-
-	tokenAcquisitionDuration := time.Since(tokenAcquisitionStart)
-	c.PerfMetrics.lock.Lock()
-	c.PerfMetrics.TokenWaitTime += tokenAcquisitionDuration
-	c.PerfMetrics.lock.Unlock()
 
 	// Add the request ID to the context
 	ctx = context.WithValue(ctx, requestIDKey{}, requestID)
@@ -47,11 +40,6 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 
 	// Construct URL using the constructAPIResourceEndpoint function
 	url := c.constructAPIResourceEndpoint(endpoint)
-
-	// Initialize total request counter
-	c.PerfMetrics.lock.Lock()
-	c.PerfMetrics.TotalRequests++
-	c.PerfMetrics.lock.Unlock()
 
 	// Perform Request
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(requestData))
@@ -86,22 +74,12 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 			// This context is used to propagate cancellations and timeouts for the request.
 			// For example, if a request's context gets canceled or times out, the request will be terminated early.
 			req = req.WithContext(ctx)
-
-			// Start response time measurement
-			responseTimeStart := time.Now()
-
 			// Execute Request with context
 			resp, err := c.httpClient.Do(req)
 			if err != nil {
 				c.logger.Error("Failed to send request", "method", method, "endpoint", endpoint, "error", err)
 				return nil, err
 			}
-
-			// After each request, compute and update response time
-			responseDuration := time.Since(responseTimeStart)
-			c.PerfMetrics.lock.Lock()
-			c.PerfMetrics.TotalResponseTime += responseDuration
-			c.PerfMetrics.lock.Unlock()
 
 			// determine which set of decoding and content-type rules to use
 			handler := GetAPIHandler(resp.Request.URL.Path, c.config.DebugMode)
@@ -145,8 +123,6 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 			}
 		}
 	} else {
-		// Start response time measurement
-		responseTimeStart := time.Now()
 		// For non-retryable HTTP Methods (POST / PUT - Create / Update)
 		req = req.WithContext(ctx)
 		resp, err := c.httpClient.Do(req)
@@ -155,12 +131,6 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 			c.logger.Error("Failed to send request", "method", method, "endpoint", endpoint, "error", err)
 			return nil, err
 		}
-
-		// After the request, compute and update response time
-		responseDuration := time.Since(responseTimeStart)
-		c.PerfMetrics.lock.Lock()
-		c.PerfMetrics.TotalResponseTime += responseDuration
-		c.PerfMetrics.lock.Unlock()
 
 		// Determine the appropriate API handler based on the given URL endpoint
 		handler := GetAPIHandler(resp.Request.URL.Path, c.config.DebugMode)

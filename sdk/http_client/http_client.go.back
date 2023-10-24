@@ -31,7 +31,7 @@ type Client struct {
 	config                     Config
 	logger                     Logger
 	ConcurrencyMgr             *ConcurrencyManager
-	PerfMetrics                ClientPerformanceMetrics
+	metrics                    ClientMetrics
 }
 
 // Config holds configuration options for the HTTP Client.
@@ -45,17 +45,6 @@ type Config struct {
 	TokenLifespan             time.Duration
 	TokenRefreshBufferPeriod  time.Duration
 	TotalRetryDuration        time.Duration
-}
-
-// ClientPerformanceMetrics captures various metrics related to the client's
-// interactions with the API, providing insights into its performance and behavior.
-type ClientPerformanceMetrics struct {
-	TotalRequests        int64
-	TotalRetries         int64
-	TotalRateLimitErrors int64
-	TotalResponseTime    time.Duration
-	TokenWaitTime        time.Duration
-	lock                 sync.Mutex
 }
 
 // StructuredError represents a structured error response from the API.
@@ -122,16 +111,12 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 		config:         config,
 		logger:         logger,
 		ConcurrencyMgr: NewConcurrencyManager(config.MaxConcurrentRequests, logger, config.DebugMode),
-		PerfMetrics:    ClientPerformanceMetrics{},
 	}
 
 	// Apply any additional client options provided during initialization
 	for _, opt := range options {
 		opt(client)
 	}
-
-	// Start the periodic metric evaluation for adjusting concurrency.
-	go client.StartMetricEvaluation()
 
 	if client.config.DebugMode {
 		client.logger.Debug(
