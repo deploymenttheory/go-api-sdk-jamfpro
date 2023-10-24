@@ -58,6 +58,15 @@ type ClientPerformanceMetrics struct {
 	lock                 sync.Mutex
 }
 
+// ClientAuthConfig represents the structure to read authentication details from a JSON configuration file.
+type ClientAuthConfig struct {
+	InstanceName string `json:"instanceName,omitempty"`
+	Username     string `json:"username,omitempty"`
+	Password     string `json:"password,omitempty"`
+	ClientID     string `json:"clientID,omitempty"`
+	ClientSecret string `json:"clientSecret,omitempty"`
+}
+
 // StructuredError represents a structured error response from the API.
 type StructuredError struct {
 	Error struct {

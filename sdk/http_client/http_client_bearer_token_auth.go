@@ -25,7 +25,7 @@ func (c *Client) SetBearerTokenAuthCredentials(credentials BearerTokenAuthCreden
 
 // ObtainToken fetches and sets an authentication token using the stored basic authentication credentials.
 func (c *Client) ObtainToken() error {
-	authenticationEndpoint := c.constructAPIAuthEndpoint(BearerTokenEndpoint)
+	authenticationEndpoint := c.ConstructAPIAuthEndpoint(BearerTokenEndpoint)
 
 	if c.config.DebugMode {
 		c.logger.Debug("Attempting to obtain token for user", "Username", c.BearerTokenAuthCredentials.Username)
@@ -73,7 +73,7 @@ func (c *Client) RefreshToken() error {
 	c.tokenLock.Lock()
 	defer c.tokenLock.Unlock()
 
-	tokenRefreshEndpoint := c.constructAPIAuthEndpoint(TokenRefreshEndpoint)
+	tokenRefreshEndpoint := c.ConstructAPIAuthEndpoint(TokenRefreshEndpoint)
 
 	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil)
 	if err != nil {

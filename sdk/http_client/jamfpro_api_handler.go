@@ -96,13 +96,13 @@ func (h *UnknownApiHandler) SetDebugMode(debug bool) {
 	h.debugMode = debug
 }
 
-// constructAPIResourceEndpoint returns the full URL for a Jamf API resource endpoint path.
-func (c *Client) constructAPIResourceEndpoint(endpointPath string) string {
+// ConstructAPIResourceEndpoint returns the full URL for a Jamf API resource endpoint path.
+func (c *Client) ConstructAPIResourceEndpoint(endpointPath string) string {
 	return fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
 }
 
-// constructAPIAuthEndpoint returns the full URL for a Jamf API auth endpoint path.
-func (c *Client) constructAPIAuthEndpoint(endpointPath string) string {
+// ConstructAPIAuthEndpoint returns the full URL for a Jamf API auth endpoint path.
+func (c *Client) ConstructAPIAuthEndpoint(endpointPath string) string {
 	return fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
 }
 

@@ -45,8 +45,8 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		return nil, err
 	}
 
-	// Construct URL using the constructAPIResourceEndpoint function
-	url := c.constructAPIResourceEndpoint(endpoint)
+	// Construct URL using the ConstructAPIResourceEndpoint function
+	url := c.ConstructAPIResourceEndpoint(endpoint)
 
 	// Initialize total request counter
 	c.PerfMetrics.lock.Lock()
@@ -68,8 +68,10 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 
 	// Define if request is retryable
 	retryableHTTPMethods := map[string]bool{
-		http.MethodGet:    true, // get
-		http.MethodDelete: true, // delete
+		http.MethodGet:    true, // GET
+		http.MethodDelete: true, // DELETE
+		http.MethodPut:    true, // PUT
+		http.MethodPatch:  true, // PATCH
 	}
 
 	if retryableHTTPMethods[method] {
@@ -147,7 +149,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	} else {
 		// Start response time measurement
 		responseTimeStart := time.Now()
-		// For non-retryable HTTP Methods (POST / PUT - Create / Update)
+		// For non-retryable HTTP Methods (POST - Create)
 		req = req.WithContext(ctx)
 		resp, err := c.httpClient.Do(req)
 

@@ -15,15 +15,6 @@ import (
 	"time"
 )
 
-// ClientAuthConfig represents the structure to read authentication details from a JSON configuration file.
-type ClientAuthConfig struct {
-	InstanceName string `json:"instanceName,omitempty"`
-	Username     string `json:"username,omitempty"`
-	Password     string `json:"password,omitempty"`
-	ClientID     string `json:"clientID,omitempty"`
-	ClientSecret string `json:"clientSecret,omitempty"`
-}
-
 // OAuthResponse represents the response structure when obtaining an OAuth access token.
 type OAuthResponse struct {
 	AccessToken  string `json:"access_token"`
@@ -49,7 +40,7 @@ func (c *Client) SetOAuthCredentials(credentials OAuthCredentials) {
 // ObtainOAuthToken fetches an OAuth access token using the provided OAuthCredentials (Client ID and Client Secret).
 // It updates the client's Token and Expiry fields with the obtained values.
 func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
-	authenticationEndpoint := c.constructAPIAuthEndpoint(OAuthTokenEndpoint)
+	authenticationEndpoint := c.ConstructAPIAuthEndpoint(OAuthTokenEndpoint)
 	data := url.Values{}
 	data.Set("client_id", credentials.ClientID)
 	data.Set("client_secret", credentials.ClientSecret)
@@ -100,7 +91,7 @@ func (c *Client) RefreshOAuthToken() error {
 	c.tokenLock.Lock()
 	defer c.tokenLock.Unlock()
 
-	tokenRefreshEndpoint := c.constructAPIAuthEndpoint(TokenRefreshEndpoint)
+	tokenRefreshEndpoint := c.ConstructAPIAuthEndpoint(TokenRefreshEndpoint)
 
 	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil)
 	if err != nil {
@@ -144,7 +135,7 @@ func (c *Client) RefreshOAuthToken() error {
 // InvalidateOAuthToken invalidates the current OAuth access token.
 // After invalidation, the token cannot be used for further API requests.
 func (c *Client) InvalidateOAuthToken() error {
-	invalidateTokenEndpoint := c.constructAPIAuthEndpoint(TokenInvalidateEndpoint)
+	invalidateTokenEndpoint := c.ConstructAPIAuthEndpoint(TokenInvalidateEndpoint)
 	req, err := http.NewRequest("POST", invalidateTokenEndpoint, nil)
 	if err != nil {
 		return err
