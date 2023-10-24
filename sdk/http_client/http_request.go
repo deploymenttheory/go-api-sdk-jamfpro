@@ -45,8 +45,8 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		return nil, err
 	}
 
-	// Construct URL using the constructAPIResourceEndpoint function
-	url := c.constructAPIResourceEndpoint(endpoint)
+	// Construct URL using the ConstructAPIResourceEndpoint function
+	url := c.ConstructAPIResourceEndpoint(endpoint)
 
 	// Initialize total request counter
 	c.PerfMetrics.lock.Lock()

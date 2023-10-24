@@ -38,8 +38,8 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		return nil, err
 	}
 
-	// Construct URL using the constructAPIResourceEndpoint function
-	url := c.constructAPIResourceEndpoint(endpoint)
+	// Construct URL using the ConstructAPIResourceEndpoint function
+	url := c.ConstructAPIResourceEndpoint(endpoint)
 
 	// Perform Request
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(requestData))
