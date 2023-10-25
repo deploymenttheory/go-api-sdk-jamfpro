@@ -21,7 +21,7 @@ func main() {
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
 		InstanceName: authConfig.InstanceName,
-		DebugMode:    true,
+		DebugMode:    false,
 		Logger:       jamfpro.NewDefaultLogger(),
 		ClientID:     authConfig.ClientID,
 		ClientSecret: authConfig.ClientSecret,
@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Provide the ID of the computer extension attribute you want to fetch
-	attributeID := 11 // You can change this ID as required
+	attributeID := 1000 // You can change this ID as required
 
 	// Call GetComputerExtensionAttributeByID function
 	attribute, err := client.GetComputerExtensionAttributeByID(attributeID)

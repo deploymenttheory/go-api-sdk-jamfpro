@@ -7,7 +7,7 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const AttributeIDToDelete = 123 // Replace 123 with the ID of the attribute you wish to delete
+const AttributeIDToDelete = 500 // Replace 500 with the ID of the attribute you wish to delete
 
 func main() {
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
