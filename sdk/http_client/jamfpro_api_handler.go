@@ -191,7 +191,10 @@ func (h *ClassicApiHandler) UnmarshalResponse(resp *http.Response, out interface
 	if strings.Contains(contentType, "text/html") {
 		errMsg := extractErrorMessageFromHTML(string(bodyBytes))
 		h.logger.Warn("Received HTML content", "error_message", errMsg, "status_code", resp.StatusCode)
-		return fmt.Errorf(errMsg)
+		return &APIError{
+			StatusCode: resp.StatusCode,
+			Message:    errMsg,
+		}
 	}
 
 	// If content type is XML
@@ -243,7 +246,6 @@ func (h *JamfProApiHandler) MarshalRequest(body interface{}, method string) ([]b
 }
 
 // UnmarshalResponse decodes the response body from JSON format for the JamfPro API.
-// UnmarshalResponse decodes the response body from JSON format for the JamfPro API.
 func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface{}) error {
 	// Handle DELETE method
 	if resp.Request.Method == "DELETE" {
@@ -273,7 +275,10 @@ func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface
 	if strings.Contains(contentType, "text/html") {
 		errMsg := extractErrorMessageFromHTML(string(bodyBytes))
 		h.logger.Warn("Received HTML content", "error_message", errMsg, "status_code", resp.StatusCode)
-		return fmt.Errorf(errMsg)
+		return &APIError{
+			StatusCode: resp.StatusCode,
+			Message:    errMsg,
+		}
 	}
 
 	// If content type is JSON

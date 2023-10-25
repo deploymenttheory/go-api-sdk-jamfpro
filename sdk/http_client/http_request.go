@@ -112,8 +112,15 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 
 			// Handle (unmarshall) response with API Handler
 			if err := handler.UnmarshalResponse(resp, out); err != nil {
-				c.logger.Error("Failed to unmarshal HTTP response", "method", method, "endpoint", endpoint, "error", err)
-				return resp, err
+				switch e := err.(type) {
+				case *APIError:
+					c.logger.Error("Received an API error", "status_code", e.StatusCode, "message", e.Message)
+					return resp, e
+				default:
+					// Existing error handling logic
+					c.logger.Error("Failed to unmarshal HTTP response", "method", method, "endpoint", endpoint, "error", err)
+					return resp, err
+				}
 			}
 
 			if resp.StatusCode >= 200 && resp.StatusCode < 300 {
@@ -167,8 +174,15 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 
 		// Unmarshal the response with the determined API Handler
 		if err := handler.UnmarshalResponse(resp, out); err != nil {
-			c.logger.Error("Failed to unmarshal HTTP response", "method", method, "endpoint", endpoint, "error", err)
-			return resp, err
+			switch e := err.(type) {
+			case *APIError:
+				c.logger.Error("Received an API error", "status_code", e.StatusCode, "message", e.Message)
+				return resp, e
+			default:
+				// Existing error handling logic
+				c.logger.Error("Failed to unmarshal HTTP response", "method", method, "endpoint", endpoint, "error", err)
+				return resp, err
+			}
 		}
 
 		// Check if the response status code is within the success range
