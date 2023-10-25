@@ -3,9 +3,13 @@
 package http_client
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 // APIError represents a structured API error response.
@@ -29,8 +33,8 @@ func (c *Client) handleAPIError(resp *http.Response) error {
 	var errMsg string
 	err = json.NewDecoder(resp.Body).Decode(&errMsg)
 	if err != nil || errMsg == "" {
-		c.logger.Warn("Failed to decode API error message, using HTTP status instead", "status", resp.Status)
-		errMsg = resp.Status
+		errMsg = fmt.Sprintf("Unexpected error with status code: %d", resp.StatusCode)
+		c.logger.Warn("Failed to decode API error message, using default error message", "status", resp.Status)
 	} else {
 		c.logger.Warn("API returned non-structured error", "status", resp.Status, "error_message", errMsg)
 	}
@@ -102,4 +106,20 @@ func isTransientError(resp *http.Response) bool {
 		http.StatusServiceUnavailable:  true,
 	}
 	return resp != nil && transientStatusCodes[resp.StatusCode]
+}
+
+// extractErrorMessageFromHTML attempts to parse an HTML error page and extract a human-readable error message.
+func extractErrorMessageFromHTML(htmlContent string) string {
+	r := bytes.NewReader([]byte(htmlContent))
+	doc, err := goquery.NewDocumentFromReader(r)
+	if err != nil {
+		return "Unable to parse HTML content"
+	}
+
+	var messages []string
+	doc.Find("p").Each(func(i int, s *goquery.Selection) {
+		messages = append(messages, s.Text())
+	})
+
+	return strings.Join(messages, " | ")
 }

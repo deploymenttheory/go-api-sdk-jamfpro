@@ -33,7 +33,7 @@ func (d *defaultLogger) Warn(msg string, keysAndValues ...interface{}) {
 }
 
 func (d *defaultLogger) Error(msg string, keysAndValues ...interface{}) {
-	log.Panicln("[ERROR]", msg, keysAndValues)
+	log.Println("[ERROR]", msg, keysAndValues)
 }
 
 func (d *defaultLogger) Fatal(msg string, keysAndValues ...interface{}) {
