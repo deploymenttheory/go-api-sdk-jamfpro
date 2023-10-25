@@ -243,7 +243,9 @@ func (h *JamfProApiHandler) MarshalRequest(body interface{}, method string) ([]b
 }
 
 // UnmarshalResponse decodes the response body from JSON format for the JamfPro API.
+// UnmarshalResponse decodes the response body from JSON format for the JamfPro API.
 func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface{}) error {
+	// Handle DELETE method
 	if resp.Request.Method == "DELETE" {
 		if resp.StatusCode >= 200 && resp.StatusCode < 300 {
 			return nil
@@ -264,11 +266,42 @@ func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface
 		h.logger.Debug("Unmarshaling response for JamfPro API", "status", resp.Status)
 	}
 
-	err = json.Unmarshal(bodyBytes, out)
-	if err != nil {
-		h.logger.Error("Failed unmarshaling response for JamfPro API", "error", err)
-		return err
+	// Check the Content-Type header
+	contentType := resp.Header.Get("Content-Type")
+
+	// If content type is HTML
+	if strings.Contains(contentType, "text/html") {
+		errMsg := extractErrorMessageFromHTML(string(bodyBytes))
+		h.logger.Warn("Received HTML content", "error_message", errMsg, "status_code", resp.StatusCode)
+		return fmt.Errorf(errMsg)
 	}
+
+	// If content type is JSON
+	if strings.Contains(contentType, "application/json") {
+		// Check the status code
+		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+			h.logger.Error("Received non-success status code", "status_code", resp.StatusCode)
+			return fmt.Errorf("received non-success status code: %d", resp.StatusCode)
+		}
+
+		// Try to unmarshal the JSON response
+		err = json.Unmarshal(bodyBytes, out)
+		if err != nil {
+			// If unmarshalling fails, check if the content might be HTML
+			if strings.Contains(string(bodyBytes), "<html>") {
+				errMsg := extractErrorMessageFromHTML(string(bodyBytes))
+				h.logger.Warn("Received HTML content instead of expected JSON", "error_message", errMsg, "status_code", resp.StatusCode)
+				return fmt.Errorf(errMsg)
+			}
+
+			h.logger.Error("Failed to unmarshal JSON response", "error", err)
+			return fmt.Errorf("failed to unmarshal JSON response: %v", err)
+		}
+	} else {
+		// If the content type is neither JSON nor HTML
+		return fmt.Errorf("unexpected content type: %s", contentType)
+	}
+
 	return nil
 }
 
