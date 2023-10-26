@@ -264,6 +264,17 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/JSSResource/scripts/id/{id}` - DeleteScriptByID deletes an existing script by its ID.
 - [ ] ✅ DELETE `/JSSResource/scripts/name/{name}` - DeleteScriptByName deletes an existing script by its name.
 
+### Jamf Pro Classic API - Sites
+
+- [ ] ✅ GET `/JSSResource/sites` - GetSites fetches all sites.
+- [ ] ✅ GET `/JSSResource/sites/id/{id}` - GetSiteByID fetches a site by its ID.
+- [ ] ✅ GET `/JSSResource/sites/name/{name}` - GetSiteByName fetches a site by its name.
+- [ ] ✅ POST `/JSSResource/sites/id/0` - CreateSite creates a new site.
+- [ ] ✅ PUT `/JSSResource/sites/id/{id}` - UpdateSiteByID updates an existing site by its ID.
+- [ ] ✅ PUT `/JSSResource/sites/name/{name}` - UpdateSiteByName updates a site by its name.
+- [ ] ✅ DELETE `/JSSResource/sites/id/{id}` - DeleteSiteByID deletes a site by its ID.
+- [ ] ✅ DELETE `/JSSResource/sites/name/{name}` - DeleteSiteByName deletes a site by its name.
+
 ### SSO Failover - /api/v1/sso/failover/generate
 
 - [ ] ✅ GET `/api/v1/sso/failover` - GetSSOFailoverSettings retrieves the current failover settings
