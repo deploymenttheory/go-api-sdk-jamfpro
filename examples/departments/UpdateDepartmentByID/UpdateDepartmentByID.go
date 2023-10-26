@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// ID of the department you want to update
-	departmentID := 6 // Placeholder ID, replace with the correct ID you want to update
+	departmentID := 34 // Placeholder ID, replace with the correct ID you want to update
 	// New name for the department you want to update
 	newDepartmentName := "UpdatedDepartmentNameBySDK10" // Replace with the desired updated department name
 
