@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Define the department ID you want to retrieve
-	departmentID := 5 // Replace with the desired department ID
+	departmentID := 33 // Replace with the desired department ID
 
 	// Call GetDepartmentByID function
 	department, err := client.GetDepartmentByID(departmentID)
