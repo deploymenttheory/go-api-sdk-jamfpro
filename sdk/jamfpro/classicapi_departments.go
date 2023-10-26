@@ -23,7 +23,7 @@ type DepartmentItem struct {
 	Id   int    `xml:"id,omitempty"`
 	Name string `xml:"name"`
 }
-type DepartmentScope struct {
+type ResponseDepartment struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
@@ -46,10 +46,10 @@ func (c *Client) GetDepartments() (*ResponseDepartmentsList, error) {
 }
 
 // GetDepartmentByID retrieves the department by its ID
-func (c *Client) GetDepartmentByID(id int) (*DepartmentItem, error) {
+func (c *Client) GetDepartmentByID(id int) (*ResponseDepartment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDepartments, id)
 
-	var department DepartmentItem
+	var department ResponseDepartment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &department)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch department by ID: %v", err)
@@ -63,10 +63,10 @@ func (c *Client) GetDepartmentByID(id int) (*DepartmentItem, error) {
 }
 
 // GetDepartmentByName retrieves the department by its name
-func (c *Client) GetDepartmentByName(name string) (*DepartmentItem, error) {
+func (c *Client) GetDepartmentByName(name string) (*ResponseDepartment, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDepartments, name)
 
-	var department DepartmentItem
+	var department ResponseDepartment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &department)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch department by name: %v", err)
@@ -95,20 +95,20 @@ func (c *Client) GetDepartmentIdByName(name string) (int, error) {
 }
 
 // CreateDepartment creates a new department
-func (c *Client) CreateDepartment(departmentName string) (*DepartmentItem, error) {
+func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartment, error) {
 	endpoint := uriDepartments
 
 	// Wrap the department with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
-		DepartmentItem
+		ResponseDepartment
 	}{
-		DepartmentItem: DepartmentItem{
+		ResponseDepartment: ResponseDepartment{
 			Name: departmentName,
 		},
 	}
 
-	var response DepartmentItem
+	var response ResponseDepartment
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create department: %v", err)
@@ -122,19 +122,19 @@ func (c *Client) CreateDepartment(departmentName string) (*DepartmentItem, error
 }
 
 // UpdateDepartmentByID updates an existing department
-func (c *Client) UpdateDepartmentByID(id int, departmentName string) (*DepartmentItem, error) {
+func (c *Client) UpdateDepartmentByID(id int, departmentName string) (*ResponseDepartment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDepartments, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
-		DepartmentItem
+		ResponseDepartment
 	}{
-		DepartmentItem: DepartmentItem{
+		ResponseDepartment: ResponseDepartment{
 			Name: departmentName,
 		},
 	}
 
-	var updatedDepartment DepartmentItem
+	var updatedDepartment ResponseDepartment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDepartment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update department: %v", err)
@@ -148,19 +148,19 @@ func (c *Client) UpdateDepartmentByID(id int, departmentName string) (*Departmen
 }
 
 // UpdateDepartmentByName updates an existing department by its name
-func (c *Client) UpdateDepartmentByName(oldName string, newName string) (*DepartmentItem, error) {
+func (c *Client) UpdateDepartmentByName(oldName string, newName string) (*ResponseDepartment, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDepartments, oldName)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
-		DepartmentItem
+		ResponseDepartment
 	}{
-		DepartmentItem: DepartmentItem{
+		ResponseDepartment: ResponseDepartment{
 			Name: newName,
 		},
 	}
 
-	var updatedDepartment DepartmentItem
+	var updatedDepartment ResponseDepartment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDepartment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update department by name: %v", err)
