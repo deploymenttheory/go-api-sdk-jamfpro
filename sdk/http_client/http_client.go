@@ -36,15 +36,14 @@ type Client struct {
 
 // Config holds configuration options for the HTTP Client.
 type Config struct {
-	DebugMode                 bool
-	MaxRetryAttempts          int
-	CustomBackoff             func(attempt int) time.Duration
-	EnableDynamicRateLimiting bool
-	Logger                    Logger
-	MaxConcurrentRequests     int
-	TokenLifespan             time.Duration
-	TokenRefreshBufferPeriod  time.Duration
-	TotalRetryDuration        time.Duration
+	DebugMode                bool
+	MaxRetryAttempts         int
+	CustomBackoff            func(attempt int) time.Duration
+	Logger                   Logger
+	MaxConcurrentRequests    int
+	TokenLifespan            time.Duration
+	TokenRefreshBufferPeriod time.Duration
+	TotalRetryDuration       time.Duration
 }
 
 // ClientPerformanceMetrics captures various metrics related to the client's
@@ -152,7 +151,6 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 			"TotalRetryDuration", client.config.TotalRetryDuration,
 			"MaxRetryAttempts", client.config.MaxRetryAttempts,
 			"MaxConcurrentRequests", client.config.MaxConcurrentRequests,
-			"EnableDynamicRateLimiting", client.config.EnableDynamicRateLimiting,
 		)
 	}
 

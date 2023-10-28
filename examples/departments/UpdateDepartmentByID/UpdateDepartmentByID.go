@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// Fetch the updated department's details
-	fetchedDepartment, err := client.GetDepartmentByID(updatedDepartment.Id)
+	fetchedDepartment, err := client.GetDepartmentByID(updatedDepartment.ID)
 	if err != nil {
 		log.Fatalf("Error fetching updated department: %v", err)
 	}

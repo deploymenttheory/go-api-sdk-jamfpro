@@ -279,6 +279,7 @@ func (c *Client) StartConcurrencyAdjustment() {
 	}
 }
 
+// Returns the average Acquisition Time to get a token from the semaphore
 func (c *Client) AverageAcquisitionTime() time.Duration {
 	// Assuming ConcurrencyMgr has a method to get this metric
 	return c.ConcurrencyMgr.AverageAcquisitionTime()
@@ -287,4 +288,9 @@ func (c *Client) AverageAcquisitionTime() time.Duration {
 func (c *Client) HistoricalAverageAcquisitionTime() time.Duration {
 	// Assuming ConcurrencyMgr has a method to get this metric
 	return c.ConcurrencyMgr.HistoricalAverageAcquisitionTime()
+}
+
+// Returns performance metrics from the http client
+func (c *Client) GetPerformanceMetrics() *ClientPerformanceMetrics {
+	return &c.PerfMetrics
 }
