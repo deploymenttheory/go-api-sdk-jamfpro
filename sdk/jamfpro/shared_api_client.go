@@ -83,12 +83,19 @@ func NewClient(config Config) (*Client, error) {
 	return client, nil
 }
 
+// SetClientOAuthCredentials sets the http clients OAuth Credentials once a client has been initialised
 func (c *Client) SetClientOAuthCredentials(creds http_client.OAuthCredentials) {
 	c.HTTP.SetOAuthCredentials(creds)
 }
 
+// SetAuthenticationCredentials sets the http clients bearer auth Credentials once a client has been initialised
 func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 	c.HTTP.SetAuthenticationCredentials(creds)
+}
+
+// GetPerformanceMetrics returns the http client performance metrics from the client
+func (c *Client) GetPerformanceMetrics() *http_client.ClientPerformanceMetrics {
+	return c.HTTP.GetPerformanceMetrics()
 }
 
 // LoadClientAuthConfig reads a JSON configuration file and decodes it into a ClientAuthConfig struct.
