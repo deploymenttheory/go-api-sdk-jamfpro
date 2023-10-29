@@ -204,6 +204,162 @@ func TestGetComputerExtensionAttributeByName(t *testing.T) {
 	}
 }
 
+// TestUpdateComputerExtensionAttributeByID_Basic tests the basic update of a computer extension attribute by its ID.
+func TestUpdateComputerExtensionAttributeByID_Basic(t *testing.T) {
+	// getClient creates and returns a new Jamf Pro API client
+	client := getClient(t)
+
+	// GetComputerExtensionAttributes retrieves all computer extension attributes
+	attributes, err := client.GetComputerExtensionAttributes()
+	if err != nil {
+		t.Fatalf("Error retrieving attributes: %v", err)
+	}
+
+	var attributeToUpdate *jamfpro.ComputerExtensionAttributeResponse
+	for _, attr := range attributes.Results {
+		if attr.Name == "Basic Pop Up Menu Test" {
+			// Create a new variable of the correct type and assign relevant fields
+			attributeToUpdate = &jamfpro.ComputerExtensionAttributeResponse{
+				ID:   attr.ID,
+				Name: attr.Name,
+				// Assign other fields that are present in ComputerExtensionAttributeItem
+			}
+			break
+		}
+	}
+
+	if attributeToUpdate == nil {
+		t.Fatalf("Could not find attribute to update")
+	}
+
+	// Define updates for the attribute
+	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+		Name: "Renamed Basic Pop Up Menu Test",
+		// Assign the DataType or other fields if necessary and available
+	}
+
+	// UpdateComputerExtensionAttributeByID updates the computer extension attribute with the specified ID
+	_, err = client.UpdateComputerExtensionAttributeByID(attributeToUpdate.ID, updatedAttribute)
+	if err != nil {
+		t.Errorf("Error updating Computer Extension Attribute by ID: %v", err)
+	}
+}
+
+// TestUpdateComputerExtensionAttributeByID_Full tests a comprehensive update of a computer extension attribute by its ID.
+func TestUpdateComputerExtensionAttributeByID_Full(t *testing.T) {
+	client := getClient(t)
+
+	attributes, err := client.GetComputerExtensionAttributes()
+	if err != nil {
+		t.Fatalf("Error retrieving attributes: %v", err)
+	}
+
+	var attributeToUpdate *jamfpro.ComputerExtensionAttributeResponse
+	for _, attr := range attributes.Results {
+		if attr.Name == "Renamed Basic Pop Up Menu Test" {
+			attributeToUpdate = &jamfpro.ComputerExtensionAttributeResponse{
+				ID:   attr.ID,
+				Name: attr.Name,
+			}
+			break
+		}
+	}
+
+	if attributeToUpdate == nil {
+		t.Fatalf("Could not find attribute to update")
+	}
+
+	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+		Name:             "Updated Battery Cycle Count",
+		Description:      "Updated number of charge cycles logged on the current battery",
+		DataType:         "String",
+		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Text Field"},
+		InventoryDisplay: "General",
+		ReconDisplay:     "Extension Attributes",
+	}
+
+	_, err = client.UpdateComputerExtensionAttributeByID(attributeToUpdate.ID, updatedAttribute)
+	if err != nil {
+		t.Errorf("Error updating Computer Extension Attribute by ID: %v", err)
+	}
+}
+
+// TestUpdateComputerExtensionAttributeByName_Basic tests the basic update of a computer extension attribute by its name.
+func TestUpdateComputerExtensionAttributeByName_Basic(t *testing.T) {
+	client := getClient(t)
+
+	// Retrieve the attribute to ensure it exists
+	attributeToUpdate, err := client.GetComputerExtensionAttributeByName("Basic Pop Up Menu Test")
+	if err != nil {
+		t.Fatalf("Error retrieving attribute by name: %v", err)
+	}
+
+	if attributeToUpdate == nil {
+		t.Fatalf("Could not find attribute to update")
+	}
+
+	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+		Name: "Renamed Basic Pop Up Menu Test",
+	}
+
+	_, err = client.UpdateComputerExtensionAttributeByName(attributeToUpdate.Name, updatedAttribute)
+	if err != nil {
+		t.Errorf("Error updating Computer Extension Attribute by Name: %v", err)
+	}
+}
+
+// TestUpdateComputerExtensionAttributeByName_Full tests a comprehensive update of a computer extension attribute by its name.
+func TestUpdateComputerExtensionAttributeByName_Full(t *testing.T) {
+	client := getClient(t)
+
+	attributeToUpdate, err := client.GetComputerExtensionAttributeByName("Renamed Basic Pop Up Menu Test")
+	if err != nil {
+		t.Fatalf("Error retrieving attribute by name: %v", err)
+	}
+
+	if attributeToUpdate == nil {
+		t.Fatalf("Could not find attribute to update")
+	}
+
+	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+		Name:             "Updated Battery Cycle Count",
+		Description:      "Updated number of charge cycles logged on the current battery",
+		DataType:         "String",
+		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Text Field"},
+		InventoryDisplay: "General",
+		ReconDisplay:     "Extension Attributes",
+	}
+
+	_, err = client.UpdateComputerExtensionAttributeByName(attributeToUpdate.Name, updatedAttribute)
+	if err != nil {
+		t.Errorf("Error updating Computer Extension Attribute by Name: %v", err)
+	}
+}
+
+// TestDeleteComputerExtensionAttributesByName removes the resources created as part of the this test strategy
+func TestDeleteComputerExtensionAttributesByName(t *testing.T) {
+	client := getClient(t)
+
+	// Names of resources created earlier and updated
+	namesToDelete := []string{"TestAttribute1", "TestAttribute2", "TestAttribute3", "UpdatedTestAttribute1", "UpdatedTestAttribute2", "UpdatedTestAttribute3"}
+
+	// Test Deletion by Name
+	for _, name := range namesToDelete {
+		err := client.DeleteComputerExtensionAttributeByNameByID(name)
+		if err != nil {
+			t.Errorf("Failed to delete resource with name %s: %v", name, err)
+		}
+
+		// Optional: Verify deletion
+		// attrs, _ := client.GetComputerExtensionAttributes()
+		// for _, attr := range attrs.Results {
+		//     if attr.Name == name {
+		//         t.Errorf("Resource with name %s still exists after deletion", name)
+		//     }
+		// }
+	}
+}
+
 func getClient(t *testing.T) *jamfpro.Client {
 	// Read environment variables
 	clientID := os.Getenv("JAMFPRO_CLIENT_ID")
