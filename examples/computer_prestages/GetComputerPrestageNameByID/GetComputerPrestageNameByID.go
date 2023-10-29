@@ -1,10 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+const (
+	prestageName = "pse-ade_lbgstaging_Jamf_Connect_New_Config-1.1-0000" // Replace with the actual prestage name you want to fetch
 )
 
 func main() {
@@ -26,20 +31,22 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
+	// Create a new jamfpro client instance,
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the NAME of the Computer Prestage you want to fetch
-	prestageName := "YourComputerPrestageName" // Replace with the actual prestage name
-
-	// Call GetComputerPrestageIDByName function
-	prestageID, err := client.GetComputerPrestageIDByName(prestageName)
+	// Call GetComputerPrestageByNameByID function
+	prestage, err := client.GetComputerPrestageByNameByID(prestageName)
 	if err != nil {
-		log.Fatalf("Error fetching Computer Prestage ID by Name: %v", err)
+		log.Fatalf("Error fetching Jamf computer prestage by name: %v", err)
 	}
 
-	fmt.Println("Fetched Computer Prestage ID for Name", prestageName, "is:", prestageID)
+	// Pretty print the prestage in JSON
+	prestageJSON, err := json.MarshalIndent(prestage, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling Jamf computer prestage data: %v", err)
+	}
+	fmt.Println("Fetched Jamf computer prestage:\n", string(prestageJSON))
 }

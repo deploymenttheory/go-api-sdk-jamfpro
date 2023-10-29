@@ -6,79 +6,61 @@ import (
 	"fmt"
 )
 
+const uriComputerPrestagesV2 = "/api/v2/computer-prestages/scope"
 const uriComputerPrestagesV3 = "/api/v3/computer-prestages"
 
 // ResponseComputerPrestages represents the structure of the response for fetching computer pre-stages
 type ResponseComputerPrestages struct {
-	TotalCount int                `json:"totalCount"`
-	Results    []ComputerPrestage `json:"results"`
+	TotalCount *int               `json:"totalCount,omitempty"`
+	Results    []ComputerPrestage `json:"results,omitempty"`
 }
 
-// ComputerPrestage represents the top-level structure for a computer prestage response.
 type ComputerPrestage struct {
-	DisplayName                       string                `json:"displayName"`
-	Mandatory                         bool                  `json:"mandatory"`
-	MdmRemovable                      bool                  `json:"mdmRemovable"`
-	SupportPhoneNumber                string                `json:"supportPhoneNumber"`
-	SupportEmailAddress               string                `json:"supportEmailAddress"`
-	Department                        string                `json:"department"`
-	DefaultPrestage                   bool                  `json:"defaultPrestage"`
-	EnrollmentSiteId                  string                `json:"enrollmentSiteId"`
-	KeepExistingSiteMembership        bool                  `json:"keepExistingSiteMembership"`
-	KeepExistingLocationInformation   bool                  `json:"keepExistingLocationInformation"`
-	RequireAuthentication             bool                  `json:"requireAuthentication"`
-	AuthenticationPrompt              string                `json:"authenticationPrompt"`
-	PreventActivationLock             bool                  `json:"preventActivationLock"`
-	EnableDeviceBasedActivationLock   bool                  `json:"enableDeviceBasedActivationLock"`
-	DeviceEnrollmentProgramInstanceId string                `json:"deviceEnrollmentProgramInstanceId"`
-	SkipSetupItems                    SkipSetupItems        `json:"skipSetupItems"`
-	LocationInformation               LocationInformation   `json:"locationInformation"`
-	PurchasingInformation             PurchasingInformation `json:"purchasingInformation"`
-	AnchorCertificates                []string              `json:"anchorCertificates"`
-	EnrollmentCustomizationId         string                `json:"enrollmentCustomizationId"`
-	Language                          string                `json:"language"`
-	Region                            string                `json:"region"`
-	AutoAdvanceSetup                  bool                  `json:"autoAdvanceSetup"`
-	InstallProfilesDuringSetup        bool                  `json:"installProfilesDuringSetup"`
-	PrestageInstalledProfileIds       []string              `json:"prestageInstalledProfileIds"`
-	CustomPackageIds                  []string              `json:"customPackageIds"`
-	CustomPackageDistributionPointId  string                `json:"customPackageDistributionPointId"`
-	EnableRecoveryLock                bool                  `json:"enableRecoveryLock"`
-	RecoveryLockPasswordType          string                `json:"recoveryLockPasswordType"`
-	RotateRecoveryLockPassword        bool                  `json:"rotateRecoveryLockPassword"`
-	ID                                string                `json:"id"`
-	ProfileUuid                       string                `json:"profileUuid"`
-	SiteId                            string                `json:"siteId"`
-	VersionLock                       int                   `json:"versionLock"`
-	AccountSettings                   AccountSettings       `json:"accountSettings"`
+	DisplayName                       string                                             `json:"displayName"`
+	Mandatory                         bool                                               `json:"mandatory"`
+	MdmRemovable                      bool                                               `json:"mdmRemovable"`
+	SupportPhoneNumber                string                                             `json:"supportPhoneNumber"`
+	SupportEmailAddress               string                                             `json:"supportEmailAddress"`
+	Department                        string                                             `json:"department"`
+	DefaultPrestage                   bool                                               `json:"defaultPrestage"`
+	EnrollmentSiteId                  string                                             `json:"enrollmentSiteId"`
+	KeepExistingSiteMembership        bool                                               `json:"keepExistingSiteMembership"`
+	KeepExistingLocationInformation   bool                                               `json:"keepExistingLocationInformation"`
+	RequireAuthentication             bool                                               `json:"requireAuthentication"`
+	AuthenticationPrompt              string                                             `json:"authenticationPrompt"`
+	PreventActivationLock             bool                                               `json:"preventActivationLock"`
+	EnableDeviceBasedActivationLock   bool                                               `json:"enableDeviceBasedActivationLock"`
+	DeviceEnrollmentProgramInstanceId string                                             `json:"deviceEnrollmentProgramInstanceId"`
+	SkipSetupItems                    *[]ComputerPrestageDataSubsetSkipSetupItems        `json:"skipSetupItems"`
+	LocationInformation               *[]ComputerPrestageDataSubsetLocationInformation   `json:"locationInformation"`
+	PurchasingInformation             *[]ComputerPrestageDataSubsetPurchasingInformation `json:"purchasingInformation"`
+	AnchorCertificates                []string                                           `json:"anchorCertificates"`
+	EnrollmentCustomizationId         string                                             `json:"enrollmentCustomizationId"`
+	Language                          string                                             `json:"language"`
+	Region                            string                                             `json:"region"`
+	AutoAdvanceSetup                  bool                                               `json:"autoAdvanceSetup"`
+	InstallProfilesDuringSetup        *bool                                              `json:"installProfilesDuringSetup"`
+	PrestageInstalledProfileIds       []string                                           `json:"prestageInstalledProfileIds"`
+	CustomPackageIds                  []string                                           `json:"customPackageIds"`
+	CustomPackageDistributionPointId  string                                             `json:"customPackageDistributionPointId"`
+	EnableRecoveryLock                *bool                                              `json:"enableRecoveryLock"`
+	RecoveryLockPasswordType          *string                                            `json:"recoveryLockPasswordType"`
+	RotateRecoveryLockPassword        *bool                                              `json:"rotateRecoveryLockPassword"`
+	ID                                string                                             `json:"id"`
+	ProfileUuid                       string                                             `json:"profileUuid"`
+	SiteId                            string                                             `json:"siteId"`
+	VersionLock                       int                                                `json:"versionLock"`
+	AccountSettings                   *[]ComputerPrestageDataSubsetAccountSettings       `json:"accountSettings"`
 }
 
-// SkipSetupItems represents the structure for skipping setup items.
-type SkipSetupItems struct {
-	Biometric         bool `json:"Biometric"`
-	TermsOfAddress    bool `json:"TermsOfAddress"`
-	FileVault         bool `json:"FileVault"`
-	ICloudDiagnostics bool `json:"iCloudDiagnostics"`
-	Diagnostics       bool `json:"Diagnostics"`
-	Accessibility     bool `json:"Accessibility"`
-	AppleID           bool `json:"AppleID"`
-	ScreenTime        bool `json:"ScreenTime"`
-	Siri              bool `json:"Siri"`
-	DisplayTone       bool `json:"DisplayTone"`
-	Restore           bool `json:"Restore"`
-	Appearance        bool `json:"Appearance"`
-	Privacy           bool `json:"Privacy"`
-	Payment           bool `json:"Payment"`
-	Registration      bool `json:"Registration"`
-	TOS               bool `json:"TOS"`
-	ICloudStorage     bool `json:"iCloudStorage"`
-	Location          bool `json:"Location"`
+type ComputerPrestageDataSubsetSkipSetupItems struct {
+	Location bool `json:"Location"`
+	Privacy  bool `json:"Privacy"`
 }
 
-// LocationInformation represents the structure for location information.
-type LocationInformation struct {
+type ComputerPrestageDataSubsetLocationInformation struct {
 	Username     string `json:"username"`
-	RealName     string `json:"realname"`
+	Realname     string `json:"realname"`
 	Phone        string `json:"phone"`
 	Email        string `json:"email"`
 	Room         string `json:"room"`
@@ -89,8 +71,7 @@ type LocationInformation struct {
 	VersionLock  int    `json:"versionLock"`
 }
 
-// PurchasingInformation represents the structure for purchasing information.
-type PurchasingInformation struct {
+type ComputerPrestageDataSubsetPurchasingInformation struct {
 	ID                string `json:"id"`
 	Leased            bool   `json:"leased"`
 	Purchased         bool   `json:"purchased"`
@@ -99,47 +80,35 @@ type PurchasingInformation struct {
 	Vendor            string `json:"vendor"`
 	PurchasePrice     string `json:"purchasePrice"`
 	LifeExpectancy    int    `json:"lifeExpectancy"`
-	WarrantyExpires   string `json:"warrantyExpires"`
-	LeaseExpires      string `json:"leaseExpires"`
-	PurchaseDate      string `json:"purchaseDate"`
-	PoDate            string `json:"poDate"`
-	VersionLock       int    `json:"versionLock"`
-	IsPurchased       bool   `json:"isPurchased"`
-	IsLeased          bool   `json:"isLeased"`
 	PurchasingAccount string `json:"purchasingAccount"`
-	WarrantyDaysLeft  int    `json:"warrantyDaysLeft"`
-	LeaseDaysLeft     int    `json:"leaseDaysLeft"`
-	Attachments       []struct {
-		ID           string `json:"id"`
-		Filename     string `json:"filename"`
-		Filetype     string `json:"filetype"`
-		Filesize     int    `json:"filesize"`
-		VersionLock  int    `json:"versionLock"`
-		DownloadLink string `json:"downloadLink"`
-	} `json:"attachments"`
+	PurchasingContact string `json:"purchasingContact"`
+	LeaseDate         string `json:"leaseDate"`
+	PoDate            string `json:"poDate"`
+	WarrantyDate      string `json:"warrantyDate"`
+	VersionLock       int    `json:"versionLock"`
 }
 
-// AccountSettings represents the structure for account settings.
-type AccountSettings struct {
-	ID                                      string `json:"id"`
-	PayloadConfigured                       bool   `json:"payloadConfigured"`
-	LocalAdminAccountEnabled                bool   `json:"localAdminAccountEnabled"`
-	AdminUsername                           string `json:"adminUsername"`
-	HiddenAdminAccount                      bool   `json:"hiddenAdminAccount"`
-	LocalUserManaged                        bool   `json:"localUserManaged"`
-	UserAccountType                         string `json:"userAccountType"`
-	VersionLock                             int    `json:"versionLock"`
-	PrefillPrimaryAccountInfoFeatureEnabled bool   `json:"prefillPrimaryAccountInfoFeatureEnabled"`
-	PrefillType                             string `json:"prefillType"`
-	PrefillAccountFullName                  string `json:"prefillAccountFullName"`
-	PrefillAccountUserName                  string `json:"prefillAccountUserName"`
-	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
+type ComputerPrestageDataSubsetAccountSettings struct {
+	ID                                      *string `json:"id"`
+	PayloadConfigured                       *bool   `json:"payloadConfigured"`
+	LocalAdminAccountEnabled                *bool   `json:"localAdminAccountEnabled"`
+	AdminUsername                           *string `json:"adminUsername"`
+	AdminPassword                           *string `json:"adminPassword"`
+	HiddenAdminAccount                      *bool   `json:"hiddenAdminAccount"`
+	LocalUserManaged                        *bool   `json:"localUserManaged"`
+	UserAccountType                         *string `json:"userAccountType"`
+	VersionLock                             *int    `json:"versionLock"`
+	PrefillPrimaryAccountInfoFeatureEnabled *bool   `json:"prefillPrimaryAccountInfoFeatureEnabled"`
+	PrefillType                             *string `json:"prefillType"`
+	PrefillAccountFullName                  *string `json:"prefillAccountFullName"`
+	PrefillAccountUserName                  *string `json:"prefillAccountUserName"`
+	PreventPrefillInfoFromModification      *bool   `json:"preventPrefillInfoFromModification"`
 }
 
 // GetComputerPrestages fetches all computer pre-stages
 func (c *Client) GetComputerPrestages() (*ResponseComputerPrestages, error) {
 	var preStagesList ResponseComputerPrestages
-	resp, err := c.HTTP.DoRequest("GET", uriComputerPrestagesV3, nil, &preStagesList)
+	resp, err := c.HTTP.DoRequest("GET", uriComputerPrestagesV2, nil, &preStagesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Jamf computer pre-stages: %v", err)
 	}
@@ -166,4 +135,22 @@ func (c *Client) GetComputerPrestageByID(id string) (*ComputerPrestage, error) {
 	}
 
 	return &preStage, nil
+}
+
+// GetComputerPrestageByNameByID fetches a Jamf computer pre-stage by its display name and then retrieves its details using its ID
+func (c *Client) GetComputerPrestageByNameByID(name string) (*ComputerPrestage, error) {
+	preStagesList, err := c.GetComputerPrestages()
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch all Jamf computer pre-stages: %v", err)
+	}
+
+	// Search for the pre-stage with the given name
+	for _, preStage := range preStagesList.Results {
+		fmt.Printf("Comparing desired name '%s' with pre-stage name '%s'\n", name, preStage.DisplayName) // Debug log
+		if preStage.DisplayName == name {
+			return c.GetComputerPrestageByID(preStage.ID)
+		}
+	}
+
+	return nil, fmt.Errorf("no Jamf computer pre-stage found with the name %s", name)
 }
