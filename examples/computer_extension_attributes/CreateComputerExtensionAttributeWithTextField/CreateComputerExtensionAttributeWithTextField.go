@@ -34,7 +34,7 @@ func main() {
 	}
 
 	// Define the new computer extension attribute
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:             "Battery Cycle Count",
 		Description:      "Number of charge cycles logged on the current battery",
 		DataType:         "String",                                                        // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
