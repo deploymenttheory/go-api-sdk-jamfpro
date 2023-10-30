@@ -197,6 +197,18 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ GET `/JSSResource/activationcode` - GetActivationCode retrieves the current activation code.
 - [ ] ✅ PUT `/JSSResource/activationcode` - UpdateActivationCode updates the activation code.
 
+### Jamf Pro Classic API - Advanced Computer Searches
+
+- [ ] ✅ GET `/JSSResource/advancedcomputersearches` - GetAdvancedComputerSearches fetches all advanced computer searches.
+- [ ] ✅ GET `/JSSResource/advancedcomputersearches/id/{id}` - GetAdvancedComputerSearchByID fetches an advanced computer search by its ID.
+- [ ] ✅ GET `/JSSResource/advancedcomputersearches/name/{name}` - GetAdvancedComputerSearchesByName fetches advanced computer searches by their name.
+- [ ] ✅ POST `/JSSResource/advancedcomputersearches` - CreateAdvancedComputerSearch creates a new advanced computer search.
+- [ ] ✅ PUT `/JSSResource/advancedcomputersearches/id/{id}` - UpdateAdvancedComputerSearchByID updates an existing advanced computer search by its ID.
+- [ ] ✅ PUT `/JSSResource/advancedcomputersearches/name/{name}` - UpdateAdvancedComputerSearchByName updates an advanced computer search by its name.
+- [ ] ✅ DELETE `/JSSResource/advancedcomputersearches/id/{id}` - DeleteAdvancedComputerSearchByID deletes an advanced computer search by its ID.
+- [ ] ✅ DELETE `/JSSResource/advancedcomputersearches/name/{name}` - DeleteAdvancedComputerSearchByName deletes an advanced computer search by its name.
+
+
 ### Allowed File Extensions - /JSSResource/allowedfileextensions
 
 - [ ] ✅ GET `/JSSResource/allowedfileextensions` - GetAllowedFileExtensions retrieves all allowed file extensions
