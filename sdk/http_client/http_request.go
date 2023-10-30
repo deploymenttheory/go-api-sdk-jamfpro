@@ -12,6 +12,9 @@ import (
 func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*http.Response, error) {
 	// Auth Token validation check
 	if !c.ValidAuthTokenCheck() {
+		if c.config.DebugMode {
+			c.logger.Debug("Failed to validate or refresh token.")
+		}
 		return nil, fmt.Errorf("failed to validate or refresh token. Stopping")
 	}
 
