@@ -16,7 +16,7 @@ func TestCreatePopUpMenuComputerExtensionAttribute_Basic(t *testing.T) {
 	client := getClient(t)
 
 	// Define a basic computer extension attribute
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:      "Test Resource - Computer Extension Attribute - Pop Up Menu Test - Basic",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{Type: "Pop Up Menu", Choices: []string{"Option 1", "Option 2"}},
 	}
@@ -33,7 +33,7 @@ func TestCreatePopUpMenuComputerExtensionAttribute_Full(t *testing.T) {
 	client := getClient(t)
 
 	// Define a detailed computer extension attribute
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:             "Test Resource - Computer Extension Attribute - Pop Up Menu Test - Full",
 		Description:      "A detailed pop up menu for testing",
 		DataType:         "String",
@@ -54,7 +54,7 @@ func TestCreateScriptComputerExtensionAttribute_Basic(t *testing.T) {
 	client := getClient(t)
 
 	// Define a basic computer extension attribute using the embedded script
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:     "Test Resource - Computer Extension Attribute - Script Test - Basic",
 		DataType: "String",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{
@@ -75,7 +75,7 @@ func TestCreateScriptComputerExtensionAttribute_Full(t *testing.T) {
 	client := getClient(t)
 
 	// Define a detailed computer extension attribute using the embedded script
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:        "Test Resource - Computer Extension Attribute - Script Test - Full",
 		Description: "A detailed script for testing",
 		DataType:    "String",
@@ -100,7 +100,7 @@ func TestCreateTextComputerExtensionAttribute_Basic(t *testing.T) {
 	client := getClient(t)
 
 	// Define a basic computer extension attribute with a text field
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:     "Test Resource - Computer Extension Attribute - Text Field - Basic",
 		DataType: "String",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{
@@ -120,7 +120,7 @@ func TestCreateTextComputerExtensionAttribute_Full(t *testing.T) {
 	client := getClient(t)
 
 	// Define a detailed computer extension attribute with a text field
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:        "Test Resource - Computer Extension Attribute - Text Field - Full",
 		Description: "A detailed text field for testing",
 		DataType:    "String",
@@ -251,11 +251,11 @@ func TestUpdateComputerExtensionAttributeByID_Basic(t *testing.T) {
 		t.Fatalf("Error retrieving attributes: %v", err)
 	}
 
-	var attributeToUpdate *jamfpro.ComputerExtensionAttributeResponse
+	var attributeToUpdate *jamfpro.ResponseComputerExtensionAttribute
 	for _, attr := range attributes.Results {
 		if attr.Name == "Basic Pop Up Menu Test" {
 			// Create a new variable of the correct type and assign relevant fields
-			attributeToUpdate = &jamfpro.ComputerExtensionAttributeResponse{
+			attributeToUpdate = &jamfpro.ResponseComputerExtensionAttribute{
 				ID:   attr.ID,
 				Name: attr.Name,
 				// Assign other fields that are present in ComputerExtensionAttributeItem
@@ -269,7 +269,7 @@ func TestUpdateComputerExtensionAttributeByID_Basic(t *testing.T) {
 	}
 
 	// Define updates for the attribute
-	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+	updatedAttribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name: "Renamed Basic Pop Up Menu Test",
 		// Assign the DataType or other fields if necessary and available
 	}
@@ -290,10 +290,10 @@ func TestUpdateComputerExtensionAttributeByID_Full(t *testing.T) {
 		t.Fatalf("Error retrieving attributes: %v", err)
 	}
 
-	var attributeToUpdate *jamfpro.ComputerExtensionAttributeResponse
+	var attributeToUpdate *jamfpro.ResponseComputerExtensionAttribute
 	for _, attr := range attributes.Results {
 		if attr.Name == "Renamed Basic Pop Up Menu Test" {
-			attributeToUpdate = &jamfpro.ComputerExtensionAttributeResponse{
+			attributeToUpdate = &jamfpro.ResponseComputerExtensionAttribute{
 				ID:   attr.ID,
 				Name: attr.Name,
 			}
@@ -305,7 +305,7 @@ func TestUpdateComputerExtensionAttributeByID_Full(t *testing.T) {
 		t.Fatalf("Could not find attribute to update")
 	}
 
-	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+	updatedAttribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:             "Updated Battery Cycle Count",
 		Description:      "Updated number of charge cycles logged on the current battery",
 		DataType:         "String",
@@ -334,7 +334,7 @@ func TestUpdateComputerExtensionAttributeByName_Basic(t *testing.T) {
 		t.Fatalf("Could not find attribute to update")
 	}
 
-	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+	updatedAttribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name: "Renamed Basic Pop Up Menu Test",
 	}
 
@@ -357,7 +357,7 @@ func TestUpdateComputerExtensionAttributeByName_Full(t *testing.T) {
 		t.Fatalf("Could not find attribute to update")
 	}
 
-	updatedAttribute := &jamfpro.ComputerExtensionAttributeResponse{
+	updatedAttribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:             "Updated Battery Cycle Count",
 		Description:      "Updated number of charge cycles logged on the current battery",
 		DataType:         "String",
