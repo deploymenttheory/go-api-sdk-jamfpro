@@ -5,7 +5,10 @@
 
 package jamfpro
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 const uriApiRoles = "/api/v1/api-roles"
 
@@ -22,7 +25,7 @@ type APIRole struct {
 	Privileges  []string `json:"privileges,omitempty"`
 }
 
-// GetJamfAPIRoles fetches all API roles
+// GetJamfAPIRoles fetches a list of Jamf API roles
 func (c *Client) GetJamfAPIRoles() (*ResponseApiRoles, error) {
 	var rolesList ResponseApiRoles
 	resp, err := c.HTTP.DoRequest("GET", uriApiRoles, nil, &rolesList)
@@ -37,15 +40,15 @@ func (c *Client) GetJamfAPIRoles() (*ResponseApiRoles, error) {
 	return &rolesList, nil
 }
 
-// GetJamfApiRolesByID fetches a list of Jamf API roles
-func (c *Client) GetJamfApiRolesByID(id string) (*APIRole, error) {
+// GetJamfApiRolesByID fetches a Jamf API role by its ID.
+func (c *Client) GetJamfApiRolesByID(id int) (*APIRole, error) {
 	// Construct the URL with the provided ID
-	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
+	endpoint := fmt.Sprintf(uriApiRoles+"/%d", id)
 
 	var profile APIRole
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf Api ID %s: %v", id, err)
+		return nil, fmt.Errorf("failed to fetch Jamf API role with ID %d: %v", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -55,7 +58,7 @@ func (c *Client) GetJamfApiRolesByID(id string) (*APIRole, error) {
 	return &profile, nil
 }
 
-// GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID
+// GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
 func (c *Client) GetJamfApiRolesNameById(name string) (*APIRole, error) {
 	rolesList, err := c.GetJamfAPIRoles()
 	if err != nil {
@@ -66,7 +69,12 @@ func (c *Client) GetJamfApiRolesNameById(name string) (*APIRole, error) {
 	for _, role := range rolesList.Results {
 		fmt.Printf("Comparing desired name '%s' with role name '%s'\n", name, role.DisplayName) // Debug log
 		if role.DisplayName == name {
-			return c.GetJamfApiRolesByID(role.ID)
+			// Convert the ID from string to int before passing it to GetJamfApiRolesByID
+			roleID, convErr := strconv.Atoi(role.ID)
+			if convErr != nil {
+				return nil, fmt.Errorf("failed to convert role ID '%s' to integer: %v", role.ID, convErr)
+			}
+			return c.GetJamfApiRolesByID(roleID)
 		}
 	}
 
