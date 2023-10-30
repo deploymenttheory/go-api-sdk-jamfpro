@@ -17,7 +17,7 @@ func TestCreatePopUpMenuComputerExtensionAttribute_Basic(t *testing.T) {
 
 	// Define a basic computer extension attribute
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
-		Name:      "Basic Pop Up Menu Test",
+		Name:      "Test Resource - Computer Extension Attribute - Pop Up Menu Test - Basic",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{Type: "Pop Up Menu", Choices: []string{"Option 1", "Option 2"}},
 	}
 
@@ -34,7 +34,7 @@ func TestCreatePopUpMenuComputerExtensionAttribute_Full(t *testing.T) {
 
 	// Define a detailed computer extension attribute
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
-		Name:             "Detailed Pop Up Menu Test",
+		Name:             "Test Resource - Computer Extension Attribute - Pop Up Menu Test - Full",
 		Description:      "A detailed pop up menu for testing",
 		DataType:         "String",
 		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Pop Up Menu", Choices: []string{"Choice 1", "Choice 2", "Choice 3"}},
@@ -55,7 +55,7 @@ func TestCreateScriptComputerExtensionAttribute_Basic(t *testing.T) {
 
 	// Define a basic computer extension attribute using the embedded script
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
-		Name:     "Basic Script Test",
+		Name:     "Test Resource - Computer Extension Attribute - Script Test - Basic",
 		DataType: "String",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{
 			Type:   "Script",
@@ -76,7 +76,7 @@ func TestCreateScriptComputerExtensionAttribute_Full(t *testing.T) {
 
 	// Define a detailed computer extension attribute using the embedded script
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
-		Name:        "Detailed Script Test",
+		Name:        "Test Resource - Computer Extension Attribute - Script Test - Full",
 		Description: "A detailed script for testing",
 		DataType:    "String",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{
@@ -101,7 +101,7 @@ func TestCreateTextComputerExtensionAttribute_Basic(t *testing.T) {
 
 	// Define a basic computer extension attribute with a text field
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
-		Name:     "Basic Text Field Test",
+		Name:     "Test Resource - Computer Extension Attribute - Text Field - Basic",
 		DataType: "String",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{
 			Type: "Text Field",
@@ -121,7 +121,7 @@ func TestCreateTextComputerExtensionAttribute_Full(t *testing.T) {
 
 	// Define a detailed computer extension attribute with a text field
 	attribute := &jamfpro.ComputerExtensionAttributeResponse{
-		Name:        "Detailed Text Field Test",
+		Name:        "Test Resource - Computer Extension Attribute - Text Field - Full",
 		Description: "A detailed text field for testing",
 		DataType:    "String",
 		InputType: jamfpro.ComputerExtensionAttributeInputType{
@@ -201,6 +201,42 @@ func TestGetComputerExtensionAttributeByName(t *testing.T) {
 
 	if attribute == nil || attribute.Name != testName {
 		t.Errorf("Attribute not found or name mismatch. Expected Name: %s", testName)
+	}
+}
+
+func TestUpdateComputerExtensionAttributeByID_SwapAllAttributes(t *testing.T) {
+	client := getClient(t)
+
+	// Retrieve the two specific attributes using their names
+	basicAttribute, err := client.GetComputerExtensionAttributeByName("Test Resource - Computer Extension Attribute - Pop Up Menu Test - Basic")
+	if err != nil {
+		t.Fatalf("Error retrieving Basic Attribute: %v", err)
+	}
+
+	fullAttribute, err := client.GetComputerExtensionAttributeByName("Test Resource - Computer Extension Attribute - Pop Up Menu Test - Full")
+	if err != nil {
+		t.Fatalf("Error retrieving Full Attribute: %v", err)
+	}
+
+	if basicAttribute == nil || fullAttribute == nil {
+		t.Fatal("Could not find both attributes to swap")
+	}
+
+	// Swap all attributes between basicAttribute and fullAttribute
+	tempAttribute := *basicAttribute
+	basicAttribute = fullAttribute
+	fullAttribute = &tempAttribute
+
+	// Update the basic attribute (which now holds the full attribute's data)
+	_, err = client.UpdateComputerExtensionAttributeByID(basicAttribute.ID, basicAttribute)
+	if err != nil {
+		t.Errorf("Error updating Basic Attribute by ID: %v", err)
+	}
+
+	// Update the full attribute (which now holds the basic attribute's data)
+	_, err = client.UpdateComputerExtensionAttributeByID(fullAttribute.ID, fullAttribute)
+	if err != nil {
+		t.Errorf("Error updating Full Attribute by ID: %v", err)
 	}
 }
 

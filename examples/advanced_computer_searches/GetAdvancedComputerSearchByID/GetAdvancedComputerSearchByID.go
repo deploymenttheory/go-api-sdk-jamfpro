@@ -8,8 +8,11 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
+// Define the ID of the advanced computer search
+const advancedComputerSearchID = 123 // Replace 123 with the actual ID
+
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -18,7 +21,7 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Configuration for the jamfpro
+	// Configuration for Jamf Pro
 	config := jamfpro.Config{
 		InstanceName: authConfig.InstanceName,
 		DebugMode:    true,
@@ -27,22 +30,22 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
+	// Create a new Jamf Pro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetComputerPrestages function
-	prestages, err := client.GetComputerPrestages()
+	// Call GetAdvancedComputerSearchByID function using the constant ID
+	advancedComputerSearch, err := client.GetAdvancedComputerSearchByID(advancedComputerSearchID)
 	if err != nil {
-		log.Fatalf("Error fetching Computer Prestages: %v", err)
+		log.Fatalf("Error fetching advanced computer search by ID: %v", err)
 	}
 
-	// Pretty print the prestages in XML
-	prestagesXML, err := xml.MarshalIndent(prestages, "", "    ") // Indent with 4 spaces
+	// Pretty print the advanced computer search in XML
+	advancedComputerSearchXML, err := xml.MarshalIndent(advancedComputerSearch, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling Computer Prestages data: %v", err)
+		log.Fatalf("Error marshaling advanced computer search data: %v", err)
 	}
-	fmt.Println("Fetched Computer Prestages:\n", string(prestagesXML))
+	fmt.Println("Fetched Advanced Computer Search by ID:\n", string(advancedComputerSearchXML))
 }
