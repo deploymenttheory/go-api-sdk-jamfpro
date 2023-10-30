@@ -4,17 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 const (
-	concurrentRequests           = 10 // Number of simultaneous requests.
-	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
-	integrationName              = "My integration name"
+	integrationName = "go-api-sdk-jamfpro"
 )
 
 func main() {

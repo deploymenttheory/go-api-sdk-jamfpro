@@ -4,17 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 const (
-	concurrentRequests           = 10 // Number of simultaneous requests.
-	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
-	integrationID                = "5"
+	integrationID = 1 // Updated to be an integer
 )
 
 func main() {
@@ -42,7 +37,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetApiIntegrationByID function
+	// Call GetApiIntegrationByID function with an integer ID
 	integration, err := client.GetApiIntegrationByID(integrationID)
 	if err != nil {
 		log.Fatalf("Error fetching Jamf API Integration by ID: %v", err)

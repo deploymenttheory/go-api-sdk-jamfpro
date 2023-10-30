@@ -48,14 +48,14 @@ func (c *Client) GetApiIntegrations() (*ResponseApiIntegrations, error) {
 }
 
 // GetApiIntegrationByID fetches an API integration by its ID
-func (c *Client) GetApiIntegrationByID(id string) (*ApiIntegration, error) {
+func (c *Client) GetApiIntegrationByID(id int) (*ApiIntegration, error) {
 	// Construct the URL with the provided ID
-	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s", id)
+	endpoint := fmt.Sprintf("%s/%d", uriApiIntegrations, id)
 
 	var integration ApiIntegration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API integration ID %s: %v", id, err)
+		return nil, fmt.Errorf("failed to fetch Jamf API integration ID %d: %v", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -75,7 +75,7 @@ func (c *Client) GetApiIntegrationNameByID(name string) (*ApiIntegration, error)
 	// Search for the integration with the given name
 	for _, integration := range integrationsList.Results {
 		if integration.DisplayName == name {
-			return c.GetApiIntegrationByID(fmt.Sprintf("%d", integration.ID))
+			return c.GetApiIntegrationByID(integration.ID)
 		}
 	}
 
