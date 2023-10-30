@@ -55,14 +55,15 @@ func TestNewClient(t *testing.T) {
 	// Setup
 	instanceName := "testInstance"
 	config := Config{
-		DebugMode:                true,
-		MaxRetryAttempts:         3,
-		CustomBackoff:            nil,
-		Logger:                   nil,
-		MaxConcurrentRequests:    5,
-		TokenLifespan:            45 * time.Minute,
-		TokenRefreshBufferPeriod: 10 * time.Minute,
-		TotalRetryDuration:       90 * time.Second,
+		DebugMode:                 true,
+		MaxRetryAttempts:          3,
+		CustomBackoff:             nil,
+		EnableDynamicRateLimiting: true,
+		Logger:                    nil,
+		MaxConcurrentRequests:     5,
+		TokenLifespan:             45 * time.Minute,
+		TokenRefreshBufferPeriod:  10 * time.Minute,
+		TotalRetryDuration:        90 * time.Second,
 	}
 	logger := &mockLogger{}
 
