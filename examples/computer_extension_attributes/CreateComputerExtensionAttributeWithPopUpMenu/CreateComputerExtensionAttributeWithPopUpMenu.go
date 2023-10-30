@@ -37,7 +37,7 @@ func main() {
 	choices := []string{"Choice 1", "Choice 2", "Choice 3"}
 
 	// Define the new computer extension attribute
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:             "Pop Up Menu Test",
 		Description:      "Pop Up Menu Test",
 		DataType:         "String",                                                                           // String / Integer / Date (YYYY-MM-DD hh:mm:ss)

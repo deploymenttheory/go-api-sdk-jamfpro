@@ -50,7 +50,7 @@ func main() {
 	}
 
 	// Define the new computer extension attribute
-	attribute := &jamfpro.ComputerExtensionAttributeResponse{
+	attribute := &jamfpro.ResponseComputerExtensionAttribute{
 		Name:        "Computer Extension Attribute Script Test",
 		Description: "Computer Extension Attribute SCript Test",
 		DataType:    "String", // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
