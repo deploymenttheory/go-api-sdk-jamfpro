@@ -37,7 +37,7 @@ func (c *Client) GetJamfAPIRoles() (*ResponseApiRoles, error) {
 	return &rolesList, nil
 }
 
-// GetJamfApiRolesByID fetches a macOS configuration profile by its ID
+// GetJamfApiRolesByID fetches a list of Jamf API roles
 func (c *Client) GetJamfApiRolesByID(id string) (*APIRole, error) {
 	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
