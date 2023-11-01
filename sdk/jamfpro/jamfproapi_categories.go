@@ -23,6 +23,12 @@ type CategoryItem struct {
 	Priority *int    `json:"priority,omitempty"`
 }
 
+type ResponseCategories struct {
+	Id       *string `json:"id"`
+	Name     *string `json:"name"`
+	Priority *int    `json:"priority"`
+}
+
 // GetCategories retrieves categories based on query parameters
 func (c *Client) GetCategories(page, pageSize int, sort, filter string) (*ResponseCategoriesList, error) {
 	endpoint := uriCategories
@@ -56,4 +62,56 @@ func (c *Client) GetCategories(page, pageSize int, sort, filter string) (*Respon
 	}
 
 	return &responseCategories, nil
+}
+
+// GetCategoryByID retrieves a category by its ID
+func (c *Client) GetCategoryByID(id string) (*ResponseCategories, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
+
+	var category ResponseCategories
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &category)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch category by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &category, nil
+}
+
+// GetCategoryNameByID retrieves a category by its name and then retrieves its details using its ID
+func (c *Client) GetCategoryNameByID(name string) (*ResponseCategories, error) {
+	// Fetch all categories
+	categoriesList, err := c.GetCategories(0, 100, "", "") // You may adjust page, pageSize, sort, and filter as needed
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch all categories: %v", err)
+	}
+
+	// Search for the category with the given name
+	for _, category := range categoriesList.Results {
+		if category.Name != nil && *category.Name == name {
+			return c.GetCategoryByID(*category.Id)
+		}
+	}
+
+	return nil, fmt.Errorf("no category found with the name %s", name)
+}
+
+// CreateCategory creates a new category
+func (c *Client) CreateCategory(category *ResponseCategories) (*ResponseCategories, error) {
+	endpoint := uriCategories
+
+	var response ResponseCategories
+	resp, err := c.HTTP.DoRequest("POST", endpoint, category, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create category: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }
