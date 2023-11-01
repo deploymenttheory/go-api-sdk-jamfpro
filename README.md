@@ -183,7 +183,7 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 ### Jamf Pro API Role Privileges - /api/v1/api-role-privileges
 
 - [ ] ✅ GET `/api/v1/api-role-privileges` - `GetJamfAPIPrivileges` fetches a list of Jamf API role privileges.
-- [ ] ✅ GET `/api/v1/api-role-privileges/search?name={name}&limit={limit}` - `GetJamfAPIPrivilegesByName` fetches a list of Jamf API role privileges by name.
+- [ ] ✅ GET `/api/v1/api-role-privileges/search?name={name}&limit={limit}` - `GetJamfAPIPrivilegesByName` fetches a Jamf API role privileges by name.
 
 
 ### Jamf Pro API Roles - /api/v1/api-roles
