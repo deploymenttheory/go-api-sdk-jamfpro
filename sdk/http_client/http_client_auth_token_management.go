@@ -2,6 +2,7 @@
 package http_client
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -11,51 +12,42 @@ type TokenResponse struct {
 	Expires time.Time `json:"expires"`
 }
 
-// ValidAuthToken checks if the current token is valid and not close to expiry.
+// ValidAuthTokenCheck checks if the current token is valid and not close to expiry.
 // If the token is invalid, it tries to refresh it.
-func (c *Client) ValidAuthTokenCheck() bool {
-
+// It returns a boolean indicating the validity of the token and an error if there's a failure.
+func (c *Client) ValidAuthTokenCheck() (bool, error) {
 	// If token doesn't exist
 	if c.Token == "" {
 		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err := c.ObtainToken()
 			if err != nil {
-				return false
+				return false, fmt.Errorf("failed to obtain bearer token: %w", err)
 			}
 		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
 			err := c.ObtainOAuthToken(c.OAuthCredentials)
 			if err != nil {
-				return false
+				return false, fmt.Errorf("failed to obtain OAuth token: %w", err)
 			}
 		} else {
-			c.logger.Error("No valid credentials provided. Unable to obtain a token.")
-			return false
+			return false, fmt.Errorf("no valid credentials provided. Unable to obtain a token")
 		}
 	}
 
 	// If token exists and is close to expiry or already expired
 	if time.Until(c.Expiry) < c.config.TokenRefreshBufferPeriod {
-		if c.config.DebugMode {
-			c.logger.Debug("Token is not valid or is close to expiry", "Expiry", c.Expiry)
-		}
-
 		var err error
 		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err = c.RefreshToken()
 		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
 			err = c.RefreshOAuthToken()
 		} else {
-			c.logger.Error("Unknown auth method", "AuthMethod", c.authMethod)
-			return false
+			return false, fmt.Errorf("unknown auth method: %s", c.authMethod)
 		}
 
 		if err != nil {
-			return false
+			return false, fmt.Errorf("failed to refresh token: %w", err)
 		}
 	}
 
-	if c.config.DebugMode {
-		c.logger.Debug("Token is valid", "Expiry", c.Expiry)
-	}
-	return true
+	return true, nil
 }
