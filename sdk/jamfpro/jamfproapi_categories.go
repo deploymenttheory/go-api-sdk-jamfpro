@@ -5,23 +5,55 @@
 
 package jamfpro
 
+import (
+	"fmt"
+	"net/url"
+)
+
 const uriCategories = "/api/v1/categories"
 
-type ResponseCategories struct {
-	TotalCount *int       `json:"totalCount,omitempty"`
-	Results    []Category `json:"results,omitempty"`
+type ResponseCategoriesList struct {
+	TotalCount *int           `json:"totalCount,omitempty"`
+	Results    []CategoryItem `json:"results,omitempty"`
 }
 
-type Category struct {
-	Id       *string `json:"id,omitempty"` // The response type to be returned is a string
+type CategoryItem struct {
+	Id       *string `json:"id,omitempty"`
 	Name     *string `json:"name,omitempty"`
 	Priority *int    `json:"priority,omitempty"`
-	Href     *string `json:"href,omitempty"`
 }
 
-type GeneralCategory struct {
-	ID   string `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
+// GetCategories retrieves categories based on query parameters
+func (c *Client) GetCategories(page, pageSize int, sort, filter string) (*ResponseCategoriesList, error) {
+	endpoint := uriCategories
 
-//TODO
+	// Construct the query parameters
+	params := url.Values{}
+	if page >= 0 {
+		params.Add("page", fmt.Sprintf("%d", page))
+	}
+	if pageSize > 0 {
+		params.Add("page-size", fmt.Sprintf("%d", pageSize))
+	}
+	if sort != "" {
+		params.Add("sort", sort)
+	}
+	if filter != "" {
+		params.Add("filter", filter)
+	}
+
+	// Append query parameters to the endpoint
+	endpointWithParams := fmt.Sprintf("%s?%s", endpoint, params.Encode())
+
+	var responseCategories ResponseCategoriesList
+	resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseCategories)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch categories: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseCategories, nil
+}

@@ -1,6 +1,7 @@
 // classicapi_accounts.go
-// Jamf Pro Classic Api
-// Classic API requires the structs to support both XML and JSON.
+// Jamf Pro Classic Api - Accounts
+// api reference: https://developer.jamf.com/jamf-pro/reference/accounts
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
