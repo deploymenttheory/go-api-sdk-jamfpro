@@ -1,4 +1,4 @@
-// http_token_management.go
+// http_client_auth_token_management.go
 package http_client
 
 import (
