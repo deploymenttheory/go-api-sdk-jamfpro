@@ -180,6 +180,12 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/api/v1/api-integrations/{id}` - DeleteApiIntegrationByID deletes an API integration by its ID.
 - [ ] ✅ DELETE `/api/v1/api-integrations` followed by searching by name - DeleteApiIntegrationByName deletes an API integration by its display name.
 
+### Jamf Pro API Role Privileges - /api/v1/api-role-privileges
+
+- [ ] ✅ GET `/api/v1/api-role-privileges` - `GetJamfAPIPrivileges` fetches a list of Jamf API role privileges.
+- [ ] ✅ GET `/api/v1/api-role-privileges/search?name={name}&limit={limit}` - `GetJamfAPIPrivilegesByName` fetches a list of Jamf API role privileges by name.
+
+
 ### Jamf Pro API Roles - /api/v1/api-roles
 
 - [ ] ✅ GET `/api/v1/api-roles` - GetJamfAPIRoles fetches all API roles.
