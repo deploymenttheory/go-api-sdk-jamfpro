@@ -11,11 +11,9 @@ import (
 
 func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*http.Response, error) {
 	// Auth Token validation check
-	if !c.ValidAuthTokenCheck() {
-		if c.config.DebugMode {
-			c.logger.Debug("Failed to validate or refresh token.")
-		}
-		return nil, fmt.Errorf("failed to validate or refresh token. Stopping")
+	valid, err := c.ValidAuthTokenCheck()
+	if err != nil || !valid {
+		return nil, fmt.Errorf("validity of the authentication token failed with error: %w", err)
 	}
 
 	// Acquire a token for concurrency management with a timeout and measure its acquisition time
