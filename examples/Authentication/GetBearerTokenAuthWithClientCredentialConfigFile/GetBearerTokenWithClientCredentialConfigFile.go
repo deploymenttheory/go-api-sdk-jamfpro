@@ -40,7 +40,10 @@ func main() {
 	client.SetOAuthCredentials(oAuthCreds)
 
 	// Call the ValidAuthTokenCheck function to ensure that a valid token is set in the client
-	isTokenValid := client.ValidAuthTokenCheck()
+	isTokenValid, err := client.ValidAuthTokenCheck()
+	if err != nil {
+		log.Fatalf("Error while validating token: %v", err)
+	}
 	if !isTokenValid {
 		fmt.Println("Error obtaining or refreshing token.")
 		return
