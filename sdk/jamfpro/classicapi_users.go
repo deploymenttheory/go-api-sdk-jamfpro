@@ -1,7 +1,7 @@
 // classicapi_users.go
-// Jamf Pro Api - users
+// Jamf Pro Classic Api  - users
 // api reference: https://developer.jamf.com/jamf-pro/reference/users
-// Jamf Pro API requires the structs to support an XML data structure.
+// Jamf Pro Classic Api  requires the structs to support an XML data structure.
 
 package jamfpro
 
