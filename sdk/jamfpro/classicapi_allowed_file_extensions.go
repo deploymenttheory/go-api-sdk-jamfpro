@@ -1,6 +1,7 @@
 // classicapi_allowed_file_extensions.go
-// Jamf Pro Classic Api
-// Classic API requires the structs to support both XML and JSON.
+// Jamf Pro Classic Api - Allowed File Extensions
+// api reference: https://developer.jamf.com/jamf-pro/reference/allowedfileextensions
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
