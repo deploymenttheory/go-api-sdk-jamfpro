@@ -23,12 +23,12 @@ type ComputerGroupListItem struct {
 }
 
 type ResponseComputerGroup struct {
-	ID        int                  `xml:"id"`
-	Name      string               `xml:"name"`
-	IsSmart   bool                 `xml:"is_smart"`
-	Site      ComputerGroupSite    `xml:"site"`
-	Criteria  []CriterionContainer `xml:"criteria>criterion_container"`
-	Computers []ComputerContainer  `xml:"computers>computer_container"`
+	ID        int                         `xml:"id"`
+	Name      string                      `xml:"name"`
+	IsSmart   bool                        `xml:"is_smart"`
+	Site      ComputerGroupSite           `xml:"site"`
+	Criteria  []ComputerGroupCriterion    `xml:"criteria>criterion"`
+	Computers []ComputerGroupComputerItem `xml:"computers>computer"`
 }
 
 type CriterionContainer struct {

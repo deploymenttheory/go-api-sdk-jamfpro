@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -27,7 +27,7 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
@@ -37,26 +37,20 @@ func main() {
 	groupName := "Updated Static Group Name" // Replace with your actual group name
 
 	// Define the updated computers for the static group
-	updatedComputers := []jamfpro.ComputerContainer{
+	updatedComputers := []jamfpro.ComputerGroupComputerItem{
 		{
-			Size: 1,
-			Computer: jamfpro.ComputerGroupComputerItem{
-				ID:            2,
-				Name:          "MacBook Pro",
-				MacAddress:    "",
-				AltMacAddress: "",
-				SerialNumber:  "D2FHXH22QB",
-			},
+			ID:            2,
+			Name:          "MacBook Pro",
+			MacAddress:    "",
+			AltMacAddress: "",
+			SerialNumber:  "D2FHXH22QB",
 		},
 		{
-			Size: 1,
-			Computer: jamfpro.ComputerGroupComputerItem{
-				ID:            6,
-				Name:          "MacBook Pro",
-				MacAddress:    "",
-				AltMacAddress: "",
-				SerialNumber:  "LT6M4DTF88",
-			},
+			ID:            6,
+			Name:          "MacBook Pro",
+			MacAddress:    "",
+			AltMacAddress: "",
+			SerialNumber:  "LT6M4DTF88",
 		},
 	}
 

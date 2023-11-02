@@ -35,24 +35,27 @@ func main() {
 
 	// Define the computer group details for update
 	groupUpdate := &jamfpro.ResponseComputerGroup{
-		Name:    "UpdatedGroupName",
+		Name:    "Group Name",
 		IsSmart: true,
-		Criteria: []jamfpro.CriterionContainer{
+		Site: jamfpro.ComputerGroupSite{
+			ID:   -1,
+			Name: "None",
+		},
+		Criteria: []jamfpro.ComputerGroupCriterion{
 			{
-				Size: 1,
-				Criterion: jamfpro.ComputerGroupCriterion{
-					Name:        "Last Inventory Update",
-					Priority:    0,
-					AndOr:       jamfpro.And,
-					SearchType:  "more than x days ago",
-					SearchValue: "7",
-				},
+				Name:         "Last Inventory Update",
+				Priority:     0,
+				AndOr:        jamfpro.And,
+				SearchType:   "more than x days ago",
+				SearchValue:  "10",
+				OpeningParen: false,
+				ClosingParen: false,
 			},
 		},
 	}
 
 	// Call UpdateComputerGroupByID function
-	updatedGroup, err := client.UpdateComputerGroupByID(47, groupUpdate) // Assuming 123 is the ID of the computer group you want to update
+	updatedGroup, err := client.UpdateComputerGroupByID(123, groupUpdate) // Assuming 123 is the ID of the computer group you want to update
 	if err != nil {
 		log.Fatalf("Error updating Computer Group by ID: %v", err)
 	}
