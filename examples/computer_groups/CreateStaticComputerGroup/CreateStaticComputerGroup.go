@@ -55,7 +55,7 @@ func main() {
 	newStaticGroup := &jamfpro.ComputerGroupRequest{
 		Name:      "SDK Static Group Test",
 		IsSmart:   false,
-		Site:      jamfpro.Site{ID: -1, Name: "None"},
+		Site:      jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
 		Computers: computers,
 	}
 

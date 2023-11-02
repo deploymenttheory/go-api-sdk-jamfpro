@@ -37,7 +37,7 @@ func main() {
 	newSmartGroup := &jamfpro.ComputerGroupRequest{
 		Name:    "NewGroupNameBySDKWithnoSiteset",
 		IsSmart: true,
-		Site:    jamfpro.Site{ID: -1, Name: "None"}, // not required in req as can be handled in func and set to none.
+		Site:    jamfpro.ComputerGroupSite{ID: -1, Name: "None"}, // not required in req as can be handled in func and set to none.
 		Criteria: []jamfpro.ComputerGroupCriterion{
 			{
 				Name:        "Last Inventory Update",

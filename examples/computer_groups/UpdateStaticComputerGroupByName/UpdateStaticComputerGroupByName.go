@@ -52,7 +52,7 @@ func main() {
 	updatedStaticGroup := &jamfpro.ComputerGroupRequest{
 		Name:      "Static Group Name",
 		IsSmart:   false,
-		Site:      jamfpro.Site{ID: -1, Name: "None"},
+		Site:      jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
 		Computers: updatedComputers,
 	}
 
