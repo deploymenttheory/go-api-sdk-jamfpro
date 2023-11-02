@@ -60,17 +60,17 @@ type PolicyGeneral struct {
 	LocationUserOnly           bool                      `xml:"location_user_only"`
 	TargetDrive                string                    `xml:"target_drive,omitempty"`
 	Offline                    bool                      `xml:"offline"`
-	Category                   PolicyCategory            `xml:"category"`
+	Category                   PolicyCategory            `xml:"category,omitempty"`
 	DateTimeLimitations        PolicyDateTimeLimitations `xml:"date_time_limitations,omitempty"`
 	NetworkLimitations         PolicyNetworkLimitations  `xml:"network_limitations,omitempty"`
 	OverrideDefaultSettings    PolicyOverrideSettings    `xml:"override_default_settings,omitempty"`
 	NetworkRequirements        string                    `xml:"network_requirements,omitempty"`
-	Site                       PolicySite                `xml:"site,omitempty"`
+	Site                       PolicySite                `xml:"site"`
 }
 
 type PolicyCategory struct {
-	ID        int    `xml:"id"`
-	Name      string `xml:"name"`
+	ID        string `xml:"id,omitempty"`
+	Name      string `xml:"name,omitempty"`
 	DisplayIn bool   `xml:"display_in,omitempty"`
 	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
@@ -106,8 +106,8 @@ type PolicyOverrideSettings struct {
 }
 
 type PolicySite struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 // PolicyScope represents the scope of the policy
@@ -194,15 +194,15 @@ type PolicySelfService struct {
 	ReinstallButtonText         string                    `xml:"re_install_button_text"`
 	SelfServiceDescription      string                    `xml:"self_service_description"`
 	ForceUsersToViewDescription bool                      `xml:"force_users_to_view_description"`
-	SelfServiceIcon             PolicySelfServiceIcon     `xml:"self_service_icon"`
+	SelfServiceIcon             PolicySelfServiceIcon     `xml:"self_service_icon,omitempty"`
 	FeatureOnMainPage           bool                      `xml:"feature_on_main_page"`
 	SelfServiceCategories       PolicySelfServiceCategory `xml:"self_service_categories"`
 }
 
 type PolicySelfServiceIcon struct {
-	ID       int    `xml:"id"`
-	Filename string `xml:"filename"`
-	URI      string `xml:"uri"`
+	ID       int    `xml:"id,omitempty"`
+	Filename string `xml:"filename,omitempty"`
+	URI      string `xml:"uri,omitempty"`
 }
 
 type PolicySelfServiceCategory struct {
@@ -350,8 +350,8 @@ type PolicyDiskEncryption struct {
 	Action                                 string `xml:"action"`
 	DiskEncryptionConfigurationID          int    `xml:"disk_encryption_configuration_id"`
 	AuthRestart                            bool   `xml:"auth_restart"`
-	RemediateKeyType                       string `xml:"remediate_key_type"`
-	RemediateDiskEncryptionConfigurationID int    `xml:"remediate_disk_encryption_configuration_id"`
+	RemediateKeyType                       string `xml:"remediate_key_type,omitempty"`
+	RemediateDiskEncryptionConfigurationID int    `xml:"remediate_disk_encryption_configuration_id,omitempty"`
 }
 
 // PolicyReboot represents the reboot settings of a policy
@@ -475,4 +475,54 @@ func (c *Client) CreatePolicyByID(policy *ResponsePolicy) (*ResponsePolicy, erro
 	}
 
 	return &responsePolicy, nil
+}
+
+// UpdatePolicyByID updates an existing policy by its ID.
+func (c *Client) UpdatePolicyByID(id int, policy *ResponsePolicy) (*ResponsePolicy, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+
+	// Wrap the policy with the desired XML name using an anonymous struct
+	requestBody := struct {
+		XMLName xml.Name `xml:"policy"`
+		*ResponsePolicy
+	}{
+		ResponsePolicy: policy,
+	}
+
+	var updatedPolicy ResponsePolicy
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedPolicy)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update policy: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &updatedPolicy, nil
+}
+
+// UpdatePolicyByName updates an existing policy by its name.
+func (c *Client) UpdatePolicyByName(name string, policy *ResponsePolicy) (*ResponsePolicy, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
+
+	// Wrap the policy with the desired XML name using an anonymous struct
+	requestBody := struct {
+		XMLName xml.Name `xml:"policy"`
+		*ResponsePolicy
+	}{
+		ResponsePolicy: policy,
+	}
+
+	var updatedPolicy ResponsePolicy
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedPolicy)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update policy: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &updatedPolicy, nil
 }
