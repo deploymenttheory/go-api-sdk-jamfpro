@@ -1,3 +1,6 @@
+// This uses a seperate function to the other delete operations, so it is intentionally
+// included as a seperate example.
+
 package main
 
 import (
@@ -8,7 +11,7 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -17,7 +20,7 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Configuration for the jamfpro
+	// Configuration for the Jamf Pro client
 	config := jamfpro.Config{
 		InstanceName: authConfig.InstanceName,
 		DebugMode:    true,
@@ -26,22 +29,20 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
+	// Create a new Jamf Pro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define a category ID for testing
-	categoryID := "1" // Replace with an actual category ID
+	// Define the category IDs to delete as strings
+	categoryIDsToDelete := []string{"3", "4"} // Replace with the actual category IDs you want to delete
 
-	// Call GetCategoryByID function
-	category, err := client.GetCategoryByID(categoryID)
+	// Call DeleteMultipleCategoriesByID function
+	err = client.DeleteMultipleCategoriesByID(categoryIDsToDelete)
 	if err != nil {
-		log.Fatalf("Error fetching category by ID: %v", err)
+		log.Fatalf("Error deleting multiple categories: %v", err)
 	}
 
-	// Pretty print the category details
-	fmt.Printf("Fetched Category Details:\nID: %s\nName: %s\nPriority: %d\n",
-		category.Id, category.Name, category.Priority)
+	fmt.Println("Categories deleted successfully")
 }

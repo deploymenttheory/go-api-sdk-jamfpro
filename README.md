@@ -235,6 +235,18 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/JSSResource/allowedfileextensions/id/{id}` - DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
 - [ ] ✅ DELETE `/JSSResource/allowedfileextensions/extension/{extensionName}` - DeleteAllowedFileExtensionByNameByID deletes an existing allowed file extension by resolving its name to an ID
 
+### Jamf Pro API - Categories
+
+- [ ] ✅ GET `/api/v1/categories` - `GetCategories` retrieves categories based on query parameters.
+- [ ] ✅ GET `/api/v1/categories/{id}` - `GetCategoryByID` retrieves a category by its ID.
+- [ ] ✅ GET `/api/v1/categories/name/{name}` - `GetCategoryNameByID` retrieves a category by its name and then retrieves its details using its ID.
+- [ ] ✅ POST `/api/v1/categories` - `CreateCategory` creates a new category.
+- [ ] ✅ PUT `/api/v1/categories/{id}` - `UpdateCategoryByID` updates an existing category by its ID.
+- [ ] ✅ PUT `UpdateCategoryByNameByID` updates a category by its name and then updates its details using its ID.
+- [ ] ✅ DELETE `/api/v1/categories/{id}` - `DeleteCategoryByID` deletes a category by its ID.
+- [ ] ✅ DELETE `DeleteCategoryByNameByID` deletes a category by its name after inferring its ID.
+- [ ] ✅ POST `/api/v1/categories/delete-multiple` - `DeleteMultipleCategoriesByID` deletes multiple categories by their IDs.
+
 ### Jamf Pro Classic API - Computer Groups
 
 - [ ] ✅ GET `/JSSResource/computergroups` - GetComputerGroups fetches all computer groups.

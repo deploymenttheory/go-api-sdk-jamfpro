@@ -43,5 +43,5 @@ func main() {
 
 	// Print the category details
 	fmt.Printf("Fetched Category Details:\nID: %s\nName: %s\nPriority: %d\n",
-		*category.Id, *category.Name, *category.Priority)
+		category.Id, category.Name, category.Priority)
 }

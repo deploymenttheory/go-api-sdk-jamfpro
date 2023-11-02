@@ -33,22 +33,23 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the new category you want to create
-	newCategory := &jamfpro.ResponseCategories{
-		Name:     "Applications",
-		Priority: 9,
+	// Define the category ID you want to update and the updated category details
+	categoryID := 1 // Replace with the actual category ID you want to update
+	updatedCategory := &jamfpro.ResponseCategories{
+		Name:     "Updated Category Name", // Replace with the updated name
+		Priority: 10,                      // Replace with the updated priority
 	}
 
-	// Call CreateCategory function
-	createdCategory, err := client.CreateCategory(newCategory)
+	// Call UpdateCategoryByID function
+	updatedCategoryResult, err := client.UpdateCategoryByID(categoryID, updatedCategory)
 	if err != nil {
-		log.Fatalf("Error creating category: %v", err)
+		log.Fatalf("Error updating category: %v", err)
 	}
 
-	// Pretty print the created category in JSON
-	categoryJSON, err := json.MarshalIndent(createdCategory, "", "    ") // Indent with 4 spaces
+	// Pretty print the updated category in JSON
+	categoryJSON, err := json.MarshalIndent(updatedCategoryResult, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling category data: %v", err)
+		log.Fatalf("Error marshaling updated category data: %v", err)
 	}
-	fmt.Println("Created Category:\n", string(categoryJSON))
+	fmt.Println("Updated Category:\n", string(categoryJSON))
 }

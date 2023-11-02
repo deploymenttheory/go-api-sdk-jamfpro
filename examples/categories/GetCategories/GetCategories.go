@@ -48,6 +48,6 @@ func main() {
 	// Print the fetched categories
 	fmt.Println("Fetched Categories:")
 	for _, category := range categories.Results {
-		fmt.Printf("ID: %s, Name: %s, Priority: %d\n", *category.Id, *category.Name, *category.Priority)
+		fmt.Printf("ID: %s, Name: %s, Priority: %d\n", category.Id, category.Name, category.Priority)
 	}
 }
