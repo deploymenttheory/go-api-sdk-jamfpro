@@ -36,9 +36,14 @@ type ComputerGroup struct {
 type ComputerGroupRequest struct {
 	Name      string                      `xml:"name"`
 	IsSmart   bool                        `xml:"is_smart"`
-	Site      Site                        `xml:"site"`
+	Site      ComputerGroupSite           `xml:"site"`
 	Criteria  []ComputerGroupCriterion    `xml:"criteria>criterion"`
 	Computers []ComputerGroupComputerItem `xml:"computers>computer,omitempty"`
+}
+
+type ComputerGroupSite struct {
+	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
 type ComputerGroupCriterion struct {
@@ -123,7 +128,7 @@ func (c *Client) CreateComputerGroup(group *ComputerGroupRequest) (*ComputerGrou
 
 	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = Site{
+		group.Site = ComputerGroupSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -156,7 +161,7 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ComputerGroupRequest) (*
 
 	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = Site{
+		group.Site = ComputerGroupSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -189,7 +194,7 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ComputerGroupRequ
 
 	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = Site{
+		group.Site = ComputerGroupSite{
 			ID:   -1,
 			Name: "None",
 		}
