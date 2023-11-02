@@ -293,6 +293,19 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/JSSResource/osxconfigurationprofiles/id/{id}` - DeleteMacOSConfigurationProfileByID deletes an existing macOS configuration profile by ID.
 - [ ] ✅ DELETE `/JSSResource/osxconfigurationprofiles/name/{name}` - DeleteMacOSConfigurationProfileByName deletes an existing macOS configuration profile by its name.
 
+### Policies - /JSSResource/policies
+
+- [ ] ✅ GET `/JSSResource/policies` - GetPolicies retrieves a list of all policies
+- [ ] ✅ GET `/JSSResource/policies/id/{id}` - GetPolicyByID retrieves the details of a policy by its ID
+- [ ] ✅ GET `/JSSResource/policies/name/{name}` - GetPolicyByName retrieves a policy by its name
+- [ ] ✅ GET `/JSSResource/policies/category/{category}` - GetPolicyByCategory retrieves policies by their category
+- [ ] ✅ GET `/JSSResource/policies/createdBy/{createdBy}` - GetPoliciesByType retrieves policies by the type of entity that created them
+- [ ] ✅ POST `/JSSResource/policies/id/0` - CreatePolicy creates a new policy
+- [ ] ✅ PUT `/JSSResource/policies/id/{id}` - UpdatePolicyByID updates an existing policy by its ID
+- [ ] ✅ PUT `/JSSResource/policies/name/{name}` - UpdatePolicyByName updates an existing policy by its name
+- [ ] ✅ DELETE `/JSSResource/policies/id/{id}` - DeletePolicyByID deletes a policy by its ID
+- [ ] ✅ DELETE `/JSSResource/policies/name/{name}` - DeletePolicyByName deletes a policy by its name
+
 ### Scripts - /JSSResource/scripts
 
 - [ ] ✅ GET `/JSSResource/scripts` - GetScripts retrieves all scripts.
