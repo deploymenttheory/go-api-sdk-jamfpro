@@ -1,7 +1,7 @@
 // classicapi_network_segments.go
-// Jamf Pro Api - Network Segments
+// Jamf Pro Classic Api  - Network Segments
 // api reference: https://developer.jamf.com/jamf-pro/reference/networksegments
-// Jamf Pro API requires the structs to support an XML data structure.
+// Jamf Pro Classic Api requires the structs to support an XML data structure.
 
 package jamfpro
 
