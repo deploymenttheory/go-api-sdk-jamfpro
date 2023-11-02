@@ -34,25 +34,31 @@ func main() {
 	}
 
 	// Define the computers for the static group
-	computers := []jamfpro.ComputerGroupComputerItem{
+	computers := []jamfpro.ComputerContainer{
 		{
-			ID:            2,
-			Name:          "MacBook Pro",
-			MacAddress:    "",
-			AltMacAddress: "",
-			SerialNumber:  "D2FHXH22QB",
+			Size: 1,
+			Computer: jamfpro.ComputerGroupComputerItem{
+				ID:            2,
+				Name:          "MacBook Pro",
+				MacAddress:    "",
+				AltMacAddress: "",
+				SerialNumber:  "D2FHXH22QB",
+			},
 		},
 		{
-			ID:            6,
-			Name:          "MacBook Pro",
-			MacAddress:    "",
-			AltMacAddress: "",
-			SerialNumber:  "LT6M4DTF88",
+			Size: 1,
+			Computer: jamfpro.ComputerGroupComputerItem{
+				ID:            6,
+				Name:          "MacBook Pro",
+				MacAddress:    "",
+				AltMacAddress: "",
+				SerialNumber:  "LT6M4DTF88",
+			},
 		},
 	}
 
 	// Create a new static computer group
-	newStaticGroup := &jamfpro.ComputerGroupRequest{
+	newStaticGroup := &jamfpro.ResponseComputerGroup{
 		Name:      "SDK Static Group Test",
 		IsSmart:   false,
 		Site:      jamfpro.ComputerGroupSite{ID: -1, Name: "None"},

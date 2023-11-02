@@ -34,17 +34,20 @@ func main() {
 	}
 
 	// Sample data for creating a new computer group (replace with actual data as needed)
-	newSmartGroup := &jamfpro.ComputerGroupRequest{
+	newSmartGroup := &jamfpro.ResponseComputerGroup{
 		Name:    "NewGroupNameBySDKWithnoSiteset",
 		IsSmart: true,
-		Site:    jamfpro.ComputerGroupSite{ID: -1, Name: "None"}, // not required in req as can be handled in func and set to none.
-		Criteria: []jamfpro.ComputerGroupCriterion{
+		Site:    jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
+		Criteria: []jamfpro.CriterionContainer{
 			{
-				Name:        "Last Inventory Update",
-				Priority:    0,
-				AndOr:       jamfpro.And,
-				SearchType:  "more than x days ago",
-				SearchValue: "7",
+				Size: 1,
+				Criterion: jamfpro.ComputerGroupCriterion{
+					Name:        "Last Inventory Update",
+					Priority:    0,
+					AndOr:       jamfpro.And,
+					SearchType:  "more than x days ago",
+					SearchValue: "7",
+				},
 			},
 		},
 	}

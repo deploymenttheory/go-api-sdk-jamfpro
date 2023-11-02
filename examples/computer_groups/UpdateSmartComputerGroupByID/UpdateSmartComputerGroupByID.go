@@ -34,16 +34,19 @@ func main() {
 	}
 
 	// Define the computer group details for update
-	groupUpdate := &jamfpro.ComputerGroupRequest{
+	groupUpdate := &jamfpro.ResponseComputerGroup{
 		Name:    "UpdatedGroupName",
 		IsSmart: true,
-		Criteria: []jamfpro.ComputerGroupCriterion{
+		Criteria: []jamfpro.CriterionContainer{
 			{
-				Name:        "Last Inventory Update",
-				Priority:    0,
-				AndOr:       jamfpro.And,
-				SearchType:  "more than x days ago",
-				SearchValue: "7",
+				Size: 1,
+				Criterion: jamfpro.ComputerGroupCriterion{
+					Name:        "Last Inventory Update",
+					Priority:    0,
+					AndOr:       jamfpro.And,
+					SearchType:  "more than x days ago",
+					SearchValue: "7",
+				},
 			},
 		},
 	}

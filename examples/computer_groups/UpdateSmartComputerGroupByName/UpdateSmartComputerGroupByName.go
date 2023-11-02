@@ -34,17 +34,21 @@ func main() {
 	}
 
 	// Define the computer group name and details for update
-	groupName := "NewGroupNameBySDK"
-	groupUpdate := &jamfpro.ComputerGroupRequest{
-		Name:    "UpdatedNewGroupNameBySDK",
+	groupName := "NewGroupNameBySDKWithnoSiteset"
+	groupUpdate := &jamfpro.ResponseComputerGroup{
+		Name:    "UpdatedGroupNameBySDKWithnoSiteset",
 		IsSmart: true,
-		Criteria: []jamfpro.ComputerGroupCriterion{
+		Site:    jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
+		Criteria: []jamfpro.CriterionContainer{
 			{
-				Name:        "Last Inventory Update",
-				Priority:    0,
-				AndOr:       jamfpro.And,
-				SearchType:  "more than x days ago",
-				SearchValue: "7",
+				Size: 1,
+				Criterion: jamfpro.ComputerGroupCriterion{
+					Name:        "Last Inventory Update",
+					Priority:    0,
+					AndOr:       jamfpro.And,
+					SearchType:  "more than x days ago",
+					SearchValue: "7",
+				},
 			},
 		},
 	}
