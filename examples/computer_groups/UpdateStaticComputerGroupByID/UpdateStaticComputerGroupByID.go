@@ -37,22 +37,34 @@ func main() {
 	groupID := 49 // Replace with your actual group ID
 
 	// Define the updated computers for the static group
-	updatedComputers := []jamfpro.ComputerGroupComputerItem{
+	updatedComputers := []jamfpro.ComputerContainer{
 		{
-			ID:            2,
-			Name:          "MacBook Pro",
-			MacAddress:    "",
-			AltMacAddress: "",
-			SerialNumber:  "D2FCKL22FH",
+			Size: 1,
+			Computer: jamfpro.ComputerGroupComputerItem{
+				ID:            2,
+				Name:          "MacBook Pro",
+				MacAddress:    "",
+				AltMacAddress: "",
+				SerialNumber:  "D2FHXH22QB",
+			},
 		},
-		// ... add more updated computers if needed
+		{
+			Size: 1,
+			Computer: jamfpro.ComputerGroupComputerItem{
+				ID:            6,
+				Name:          "MacBook Pro",
+				MacAddress:    "",
+				AltMacAddress: "",
+				SerialNumber:  "LT6M4DTF88",
+			},
+		},
 	}
 
 	// Create the updated static computer group data
-	updatedStaticGroup := &jamfpro.ComputerGroupRequest{
+	updatedStaticGroup := &jamfpro.ResponseComputerGroup{
 		Name:      "Updated Static Group Name",
 		IsSmart:   false,
-		Site:      jamfpro.Site{ID: -1, Name: "None"},
+		Site:      jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
 		Computers: updatedComputers,
 	}
 

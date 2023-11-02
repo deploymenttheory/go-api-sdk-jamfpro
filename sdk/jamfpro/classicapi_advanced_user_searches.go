@@ -1,4 +1,4 @@
-// classicapi_advancedusersearches.go
+// classicapi_advanced_user_searches.go
 // Jamf Pro Classic Api - Advanced User Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
 // Classic API requires the structs to support an XML data structure.

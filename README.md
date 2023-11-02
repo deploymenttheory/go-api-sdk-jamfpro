@@ -167,6 +167,11 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/groupid/{id}` - DeleteAccountGroupByID deletes an existing Jamf Pro Account Group by ID
 - [ ] ✅ DELETE `/groupname/{username}` - DeleteAccountGroupByName deletes an existing Jamf Pro Account Group by Name
 
+### Activation Code - /JSSResource/activationcode
+
+- [ ] ✅ GET `/JSSResource/activationcode` - GetActivationCode retrieves the current activation code and organization name.
+- [ ] ✅ PUT `/JSSResource/activationcode` - UpdateActivationCode updates the activation code with a new organization name and code.
+
 ### Jamf Pro API Integrations - /api/v1/api-integrations
 
 - [ ] ✅ GET `/api/v1/api-integrations` - GetApiIntegrations fetches all API integrations.
