@@ -1,4 +1,4 @@
-// classicapi_activationcode.go
+// classicapi_activation_code.go
 // Jamf Pro Classic Api - activationcode
 // api reference: https://developer.jamf.com/jamf-pro/reference/activationcode
 // Classic API requires the structs to support an XML data structure.

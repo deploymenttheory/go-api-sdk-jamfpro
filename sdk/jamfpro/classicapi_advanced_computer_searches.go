@@ -1,4 +1,4 @@
-// classicapi_advancedcomputersearches.go
+// classicapi_advanced_computer_searches.go
 // Jamf Pro Classic Api - Advanced Computer Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
 // Classic API requires the structs to support an XML data structure.
