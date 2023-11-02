@@ -526,3 +526,33 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResponsePolicy) (*Respo
 
 	return &updatedPolicy, nil
 }
+
+// DeletePolicyByID deletes a policy by its ID.
+func (c *Client) DeletePolicyByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete policy: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeletePolicyByName deletes a policy by its name.
+func (c *Client) DeletePolicyByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete policy: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
