@@ -32,14 +32,14 @@ type ResponseAdvancedComputerSearch struct {
 	Sort1         string                                     `xml:"sort_1,omitempty"`
 	Sort2         string                                     `xml:"sort_2,omitempty"`
 	Sort3         string                                     `xml:"sort_3,omitempty"`
-	Criteria      []Criteria                                 `xml:"criteria"`
-	DisplayFields []DisplayField                             `xml:"display_fields"`
+	Criteria      []AdvancedComputerSearchesCriteria         `xml:"criteria"`
+	DisplayFields []AdvancedComputerSearchesDisplayField     `xml:"display_fields"`
 	Computers     []AdvancedComputerSearchDataSubsetComputer `xml:"computers"`
-	Site          SiteDetail                                 `xml:"site"`
+	Site          AdvancedComputerSearchesSiteDetail         `xml:"site"`
 }
 
 // Criteria represents a criterion with its details.
-type Criteria struct {
+type AdvancedComputerSearchesCriteria struct {
 	Size      int             `xml:"size"`
 	Criterion CriterionDetail `xml:"criterion"`
 }
@@ -56,7 +56,7 @@ type CriterionDetail struct {
 }
 
 // DisplayField represents a display field with its details.
-type DisplayField struct {
+type AdvancedComputerSearchesDisplayField struct {
 	Size         int                `xml:"size"`
 	DisplayField DisplayFieldDetail `xml:"display_field"`
 }
@@ -81,7 +81,7 @@ type ComputerDetail struct {
 }
 
 // SiteDetail represents the details of a site.
-type SiteDetail struct {
+type AdvancedComputerSearchesSiteDetail struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }

@@ -40,7 +40,7 @@ func main() {
 	newSearch := &jamfpro.ResponseAdvancedComputerSearch{
 		Name:   "Advanced Search Name",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.Criteria{
+		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
 			{
 				Criterion: jamfpro.CriterionDetail{
 					Name:         "Last Inventory Update",
@@ -53,14 +53,14 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.DisplayField{
+		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
 			{
 				DisplayField: jamfpro.DisplayFieldDetail{
 					Name: "IP Address",
 				},
 			},
 		},
-		Site: jamfpro.SiteDetail{
+		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
 			ID:   -1,
 			Name: "None",
 		},
