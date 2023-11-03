@@ -14,11 +14,6 @@ import (
 const uriComputerPrestagesV2 = "/api/v2/computer-prestages"
 const uriComputerPrestagesV3 = "/api/v3/computer-prestages"
 
-// ResponseComputerPrestagesList represents the JSON structure of the response for computer prestage scopes.
-type ResponseComputerPrestagesList struct {
-	SerialsByPrestageId map[string]int `json:"serialsByPrestageId"`
-}
-
 // ResponseDeviceScope represents the structure of the response for a specific computer prestage scope.
 type ResponseDeviceScope struct {
 	PrestageId  string           `json:"prestageId"`
@@ -124,40 +119,6 @@ type ComputerPrestagesAccountSettings struct {
 	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
 }
 
-// GetComputerPrestages retrieves the computer prestage scope information.
-func (c *Client) GetComputerPrestagesV2() (*ResponseComputerPrestagesList, error) {
-	endpoint := uriComputerPrestagesV2 + "scope"
-
-	var responsePrestages ResponseComputerPrestagesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responsePrestages)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer prestage scopes: %v", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &responsePrestages, nil
-}
-
-// GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
-func (c *Client) GetDeviceScopeForComputerPrestage(id string) (*ResponseDeviceScope, error) {
-	endpoint := fmt.Sprintf("%s%s/scope", uriComputerPrestagesV2, id)
-
-	var deviceScope ResponseDeviceScope
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch device scope for computer prestage with ID %s: %v", id, err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &deviceScope, nil
-}
-
 // GetComputerPrestagesV3 retrieves the computer prestage information with optional pagination and sorting.
 func (c *Client) GetComputerPrestagesV3(page, pageSize int, sort []string) (*ResponseComputerPrestagesV3, error) {
 	endpoint := uriComputerPrestagesV3
@@ -186,6 +147,23 @@ func (c *Client) GetComputerPrestagesV3(page, pageSize int, sort []string) (*Res
 	}
 
 	return &responsePrestagesV3, nil
+}
+
+// GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
+func (c *Client) GetDeviceScopeForComputerPrestage(id string) (*ResponseDeviceScope, error) {
+	endpoint := fmt.Sprintf("%s/%s/scope", uriComputerPrestagesV2, id)
+
+	var deviceScope ResponseDeviceScope
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch device scope for computer prestage with ID %s: %v", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &deviceScope, nil
 }
 
 // GetComputerPrestageByID retrieves a specific computer prestage by its ID.
