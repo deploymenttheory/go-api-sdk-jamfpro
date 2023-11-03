@@ -202,12 +202,6 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/api/v1/api-roles/{id}` - DeleteJamfApiRoleByID deletes a Jamf API role by its ID.
 - [ ] ✅ DELETE `/api/v1/api-roles` followed by searching by name - DeleteJamfApiRoleByName deletes a Jamf API role by its display name.
 
-
-### Activation Code - /JSSResource/activationcode
-
-- [ ] ✅ GET `/JSSResource/activationcode` - GetActivationCode retrieves the current activation code.
-- [ ] ✅ PUT `/JSSResource/activationcode` - UpdateActivationCode updates the activation code.
-
 ### Jamf Pro Classic API - Advanced Computer Searches
 
 - [ ] ✅ GET `/JSSResource/advancedcomputersearches` - GetAdvancedComputerSearches fetches all advanced computer searches.
@@ -218,6 +212,18 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ PUT `/JSSResource/advancedcomputersearches/name/{name}` - UpdateAdvancedComputerSearchByName updates an advanced computer search by its name.
 - [ ] ✅ DELETE `/JSSResource/advancedcomputersearches/id/{id}` - DeleteAdvancedComputerSearchByID deletes an advanced computer search by its ID.
 - [ ] ✅ DELETE `/JSSResource/advancedcomputersearches/name/{name}` - DeleteAdvancedComputerSearchByName deletes an advanced computer search by its name.
+
+### Jamf Pro Classic API - Advanced Mobile Device Searches
+
+- [ ] ✅ GET `/JSSResource/advancedmobiledevicesearches` - GetAdvancedMobileDeviceSearches fetches all advanced mobile device searches.
+- [ ] ✅ GET `/JSSResource/advancedmobiledevicesearches/id/{id}` - GetAdvancedMobileDeviceSearchByID fetches an advanced mobile device search by its ID.
+- [ ] ✅ GET `/JSSResource/advancedmobiledevicesearches/name/{name}` - GetAdvancedMobileDeviceSearchByName fetches advanced mobile device searches by their name.
+- [ ] ✅ POST `/JSSResource/advancedmobiledevicesearches` - CreateAdvancedMobileDeviceSearch creates a new advanced mobile device search.
+- [ ] ✅ PUT `/JSSResource/advancedmobiledevicesearches/id/{id}` - UpdateAdvancedMobileDeviceSearchByID updates an existing advanced mobile device search by its ID.
+- [ ] ✅ PUT `/JSSResource/advancedmobiledevicesearches/name/{name}` - UpdateAdvancedMobileDeviceSearchByName updates an advanced mobile device search by its name.
+- [ ] ✅ DELETE `/JSSResource/advancedmobiledevicesearches/id/{id}` - DeleteAdvancedMobileDeviceSearchByID deletes an advanced mobile device search by its ID.
+- [ ] ✅ DELETE `/JSSResource/advancedmobiledevicesearches/name/{name}` - DeleteAdvancedMobileDeviceSearchByName deletes an advanced mobile device search by its name.
+
 
 ### Jamf Pro Classic API - Advanced User Searches
 
