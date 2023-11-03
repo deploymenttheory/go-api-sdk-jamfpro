@@ -237,7 +237,7 @@ func (h *JamfProApiHandler) MarshalRequest(body interface{}, method string) ([]b
 	// If in debug mode and the method is either POST (Create) or PUT (Update), log the full request body
 	if h.debugMode {
 		h.logger.Debug("Marshaling request for JamfPro API", "method", method)
-		if method == "POST" || method == "PUT" {
+		if method == "POST" || method == "PUT" || method == "Patch" {
 			h.logger.Debug("Full Request Body for JamfPro API:", string(data))
 		}
 	}
