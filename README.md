@@ -317,6 +317,18 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/JSSResource/policies/id/{id}` - DeletePolicyByID deletes a policy by its ID
 - [ ] ✅ DELETE `/JSSResource/policies/name/{name}` - DeletePolicyByName deletes a policy by its name
 
+### Jamf Pro API - Self Service Branding macOS
+
+- [x] ✅ GET `/api/v1/self-service/branding/macos` - `GetSelfServiceBrandingMacOS` fetches all self-service branding configurations for macOS.
+- [x] ✅ GET `/api/v1/self-service/branding/macos/{id}` - `GetSelfServiceBrandingMacOSByID` fetches a self-service branding configuration for macOS by its ID.
+- [x] ✅ GET `/api/v1/self-service/branding/macos/name/{name}` - `GetSelfServiceBrandingMacOSByNameByID` fetches a self-service branding configuration for macOS by its name.
+- [x] ✅ POST `/api/v1/self-service/branding/macos` - `CreateSelfServiceBrandingMacOS` creates a new self-service branding configuration for macOS.
+- [x] ✅ PUT `/api/v1/self-service/branding/macos/{id}` - `UpdateSelfServiceBrandingMacOSByID` updates an existing self-service branding configuration for macOS by its ID.
+- [x] ✅ PUT - `UpdateSelfServiceBrandingMacOSByName` updates a self-service branding configuration for macOS by its name.
+- [x] ✅ DELETE `/api/v1/self-service/branding/macos/{id}` - `DeleteSelfServiceBrandingMacOSByID` deletes a self-service branding configuration for macOS by its ID.
+- [x] ✅ DELETE - `DeleteSelfServiceBrandingMacOSByName` deletes a self-service branding configuration for macOS by its name.
+
+
 ### Scripts - /JSSResource/scripts
 
 - [ ] ✅ GET `/JSSResource/scripts` - GetScripts retrieves all scripts.
