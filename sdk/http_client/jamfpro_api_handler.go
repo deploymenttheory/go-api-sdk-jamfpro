@@ -34,10 +34,12 @@ Headers
 package http_client
 
 import (
+	"bytes"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"strings"
 )
@@ -94,6 +96,10 @@ func (h *JamfProApiHandler) SetDebugMode(debug bool) {
 
 func (h *UnknownApiHandler) SetDebugMode(debug bool) {
 	h.debugMode = debug
+}
+
+type MultipartAPIHandler interface {
+	MarshalMultipartRequest(fileFieldName, fileName string, file io.Reader, params map[string]string) (*bytes.Buffer, string, error)
 }
 
 // ConstructAPIResourceEndpoint returns the full URL for a Jamf API resource endpoint path.
@@ -324,4 +330,34 @@ func (h *UnknownApiHandler) UnmarshalResponse(resp *http.Response, out interface
 		h.logger.Warn("Attempted to unmarshal response for an unsupported API type", "status", resp.Status)
 	}
 	return fmt.Errorf("unsupported API type")
+}
+
+func (h *JamfProApiHandler) MarshalMultipartRequest(fileFieldName, fileName string, file io.Reader, params map[string]string) (*bytes.Buffer, string, error) {
+	// Create a buffer to hold the multipart form data
+	var buffer bytes.Buffer
+	writer := multipart.NewWriter(&buffer)
+
+	// Add the file part
+	part, err := writer.CreateFormFile(fileFieldName, fileName)
+	if err != nil {
+		return nil, "", err
+	}
+	_, err = io.Copy(part, file)
+	if err != nil {
+		return nil, "", err
+	}
+
+	// Add additional params
+	for key, val := range params {
+		_ = writer.WriteField(key, val)
+	}
+
+	// Close the writer to finalize the multipart message
+	err = writer.Close()
+	if err != nil {
+		return nil, "", err
+	}
+
+	// Return the buffer and the Content-Type for the multipart form
+	return &buffer, writer.FormDataContentType(), nil
 }
