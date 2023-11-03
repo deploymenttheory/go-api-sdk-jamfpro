@@ -1,10 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+const (
+	// Define the name of the mobile device search you want to delete
+	SearchNameToDelete = "Advanced Search Name"
 )
 
 func main() {
@@ -32,40 +36,11 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	updatedSearch, err := client.UpdateAdvancedComputerSearchByID(7, &jamfpro.ResponseAdvancedComputerSearch{
-		Name:   "Advanced Search Name",
-		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
-			{
-				Size: 1,
-				Criterion: jamfpro.CriterionDetail{
-					Name:         "Last Inventory Update",
-					Priority:     0,
-					AndOr:        "and",
-					SearchType:   "more than x days ago",
-					Value:        "7",
-					OpeningParen: false,
-					ClosingParen: false,
-				},
-			},
-		},
-		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
-			{
-				Size: 1,
-				DisplayField: jamfpro.DisplayFieldDetail{
-					Name: "IP Address",
-				},
-			},
-		},
-		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
-			ID:   -1,
-			Name: "None",
-		},
-	})
+	// Use the client to delete an advanced mobile device search by name
+	err = client.DeleteAdvancedMobileDeviceSearchByName(SearchNameToDelete)
 	if err != nil {
-		fmt.Println("Error updating advanced computer search by ID:", err)
-		return
+		log.Fatalf("Error deleting advanced mobile device search by name: %v", err)
+	} else {
+		log.Printf("Successfully deleted Advanced Mobile Device Search with name: %s\n", SearchNameToDelete)
 	}
-
-	fmt.Println("Updated Search:", updatedSearch)
 }

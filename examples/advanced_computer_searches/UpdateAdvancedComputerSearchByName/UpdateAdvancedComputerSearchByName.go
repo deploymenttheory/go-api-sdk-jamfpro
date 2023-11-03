@@ -38,7 +38,7 @@ func main() {
 	updatedSearch, err := client.UpdateAdvancedComputerSearchByName(advancedComputerSearchName, &jamfpro.ResponseAdvancedComputerSearch{
 		Name:   "Advanced Search Name Updated",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.Criteria{
+		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
 			{
 				Size: 1,
 				Criterion: jamfpro.CriterionDetail{
@@ -52,7 +52,7 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.DisplayField{
+		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
 			{
 				Size: 1,
 				DisplayField: jamfpro.DisplayFieldDetail{
@@ -60,7 +60,7 @@ func main() {
 				},
 			},
 		},
-		Site: jamfpro.SiteDetail{
+		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
 			ID:   -1,
 			Name: "None",
 		},

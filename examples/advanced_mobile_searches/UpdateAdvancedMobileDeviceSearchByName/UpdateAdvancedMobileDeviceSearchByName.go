@@ -8,9 +8,6 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-// Define the name of the advanced computer search
-const advancedComputerSearchName = "YourSearchName" // Replace with the actual name
-
 func main() {
 	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
@@ -36,48 +33,48 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the advanced computer search details
-	newSearch := &jamfpro.ResponseAdvancedComputerSearch{
-		Name:   "Advanced Search Name",
+	// Create a search struct with updated details
+	searchToUpdate := jamfpro.ResponseAdvancedMobileDeviceSearches{
+		Name:   "Advanced Search Name - Rename",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
+		Criteria: []jamfpro.AdvancedMobileDeviceSearchesCriteria{
 			{
-				Criterion: jamfpro.CriterionDetail{
+				Size: 1,
+				Criterion: jamfpro.Criterion{
 					Name:         "Last Inventory Update",
 					Priority:     0,
 					AndOr:        "and",
 					SearchType:   "more than x days ago",
-					Value:        "7",
+					Value:        7,
 					OpeningParen: false,
 					ClosingParen: false,
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
+		DisplayFields: []jamfpro.AdvancedMobileDeviceSearchesDisplayField{
 			{
-				DisplayField: jamfpro.DisplayFieldDetail{
+				Size: 1,
+				DisplayField: jamfpro.AdvancedMobileDeviceSearchesDisplayFieldItem{
 					Name: "IP Address",
 				},
 			},
 		},
-		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
+		Site: jamfpro.AdvancedMobileDeviceSearchesSite{
 			ID:   -1,
 			Name: "None",
 		},
 	}
 
-	// Create the advanced computer search
-	createdSearch, err := client.CreateAdvancedComputerSearch(newSearch)
+	// Use the struct we created above for the update
+	updatedSearch, err := client.UpdateAdvancedMobileDeviceSearchByName("Advanced Search Name", &searchToUpdate) // Replace with the actual search name
 	if err != nil {
-		fmt.Println("Error creating advanced computer search:", err)
-		return
+		log.Fatalf("Error updating advanced mobile device search by name: %v", err)
 	}
 
-	// Print the created advanced computer search details
-	createdSearchXML, err := xml.MarshalIndent(createdSearch, "", "  ")
+	// Output the updated search
+	output, err := xml.MarshalIndent(updatedSearch, "", "  ")
 	if err != nil {
-		fmt.Println("Error marshaling created search to XML:", err)
-		return
+		log.Fatalf("Error marshaling updated search to XML: %v", err)
 	}
-	fmt.Printf("Created Advanced Computer Search:\n%s\n", string(createdSearchXML))
+	fmt.Printf("Updated Advanced Mobile Device Search (Name: %s):\n%s\n", "Advanced Search Name", string(output))
 }

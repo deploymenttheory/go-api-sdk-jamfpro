@@ -35,7 +35,7 @@ func main() {
 
 	// Sample data for creating a new computer group (replace with actual data as needed)
 	newSmartGroup := &jamfpro.ResponseComputerGroup{
-		Name:    "Group Name",
+		Name:    "Operating System Version like 15",
 		IsSmart: true,
 		Site: jamfpro.ComputerGroupSite{
 			ID:   -1,
@@ -43,13 +43,13 @@ func main() {
 		},
 		Criteria: []jamfpro.ComputerGroupCriterion{
 			{
-				Name:         "Last Inventory Update",
-				Priority:     0,
-				AndOr:        jamfpro.And,
-				SearchType:   "more than x days ago",
-				SearchValue:  "7",
-				OpeningParen: false,
-				ClosingParen: false,
+				Name:        "Operating System Version",
+				Priority:    0,
+				AndOr:       "and",
+				SearchType:  "like",
+				SearchValue: "macOS 14",
+				//OpeningParen: false,
+				//ClosingParen: false,
 			},
 		},
 	}

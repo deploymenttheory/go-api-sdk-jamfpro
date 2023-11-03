@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -32,40 +33,21 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	updatedSearch, err := client.UpdateAdvancedComputerSearchByID(7, &jamfpro.ResponseAdvancedComputerSearch{
-		Name:   "Advanced Search Name",
-		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
-			{
-				Size: 1,
-				Criterion: jamfpro.CriterionDetail{
-					Name:         "Last Inventory Update",
-					Priority:     0,
-					AndOr:        "and",
-					SearchType:   "more than x days ago",
-					Value:        "7",
-					OpeningParen: false,
-					ClosingParen: false,
-				},
-			},
-		},
-		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
-			{
-				Size: 1,
-				DisplayField: jamfpro.DisplayFieldDetail{
-					Name: "IP Address",
-				},
-			},
-		},
-		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
-			ID:   -1,
-			Name: "None",
-		},
-	})
+	// The name of the advanced mobile device search you want to retrieve
+	searchName := "Advanced Search Name" // Replace with the actual name you want to retrieve
+
+	// Call the GetAdvancedMobileDeviceSearchByName function
+	search, err := client.GetAdvancedMobileDeviceSearchByName(searchName)
 	if err != nil {
-		fmt.Println("Error updating advanced computer search by ID:", err)
-		return
+		log.Fatalf("Error fetching advanced mobile device search by name: %v", err)
 	}
 
-	fmt.Println("Updated Search:", updatedSearch)
+	// Convert the response into pretty XML for printing
+	output, err := xml.MarshalIndent(search, "", "  ")
+	if err != nil {
+		log.Fatalf("Error marshaling search to XML: %v", err)
+	}
+
+	// Print the pretty XML
+	fmt.Printf("Advanced Mobile Device Search (Name: %s):\n%s\n", searchName, string(output))
 }
