@@ -141,7 +141,6 @@ Given that APIs can change their rate-limiting behaviors dynamically due to vari
         // ... other fields ...
         MaxRetryAttempts int
         CustomBackoff    func(attempt int) time.Duration
-        EnableDynamicRateLimiting bool
     }
     ```
 
@@ -160,6 +159,7 @@ Given that APIs can change their rate-limiting behaviors dynamically due to vari
 - **Latency**: In cases where the API is frequently rate-limiting or there are consistent transient errors, operations might experience added latency due to the wait times.
 
 ---
+
 
 ### Architectural Design Decision: Logging in the SDK
 
