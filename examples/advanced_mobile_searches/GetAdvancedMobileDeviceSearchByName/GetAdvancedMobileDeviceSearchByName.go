@@ -33,13 +33,13 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// The ID of the advanced mobile device search you want to retrieve
-	searchID := 5 // Replace with the actual ID you want to retrieve
+	// The name of the advanced mobile device search you want to retrieve
+	searchName := "Advanced Search Name" // Replace with the actual name you want to retrieve
 
-	// Call the GetAdvancedMobileDeviceSearchByID function
-	search, err := client.GetAdvancedMobileDeviceSearchByID(searchID)
+	// Call the GetAdvancedMobileDeviceSearchByName function
+	search, err := client.GetAdvancedMobileDeviceSearchByName(searchName)
 	if err != nil {
-		log.Fatalf("Error fetching advanced mobile device search by ID: %v", err)
+		log.Fatalf("Error fetching advanced mobile device search by name: %v", err)
 	}
 
 	// Convert the response into pretty XML for printing
@@ -49,5 +49,5 @@ func main() {
 	}
 
 	// Print the pretty XML
-	fmt.Printf("Advanced Mobile Device Search (ID: %d):\n%s\n", searchID, string(output))
+	fmt.Printf("Advanced Mobile Device Search (Name: %s):\n%s\n", searchName, string(output))
 }

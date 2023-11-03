@@ -1,11 +1,14 @@
 package main
 
 import (
-	"encoding/xml"
-	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+const (
+	// Define the ID of the mobile device search you want to delete
+	SearchIDToDelete = 123
 )
 
 func main() {
@@ -33,21 +36,12 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// The ID of the advanced mobile device search you want to retrieve
-	searchID := 5 // Replace with the actual ID you want to retrieve
-
-	// Call the GetAdvancedMobileDeviceSearchByID function
-	search, err := client.GetAdvancedMobileDeviceSearchByID(searchID)
+	// Use the client to delete an advanced mobile device search by ID
+	// Replace 123 with the actual ID
+	err = client.DeleteAdvancedMobileDeviceSearchByID(SearchIDToDelete)
 	if err != nil {
-		log.Fatalf("Error fetching advanced mobile device search by ID: %v", err)
+		log.Fatalf("Error deleting advanced mobile device search by ID: %v", err)
+	} else {
+		log.Printf("Successfully deleted Advanced Mobile Device Search with ID: %d\n", SearchIDToDelete)
 	}
-
-	// Convert the response into pretty XML for printing
-	output, err := xml.MarshalIndent(search, "", "  ")
-	if err != nil {
-		log.Fatalf("Error marshaling search to XML: %v", err)
-	}
-
-	// Print the pretty XML
-	fmt.Printf("Advanced Mobile Device Search (ID: %d):\n%s\n", searchID, string(output))
 }
