@@ -23,7 +23,7 @@ func (c *Client) UploadIcon(filePath string) (*ResponseUploadIcon, error) {
 
 	// Construct the files map
 	files := map[string]string{
-		"file": filePath, // 'file' is the form field name for the file upload according to the provided example
+		"file": filePath, // 'file' is the form field name for the file uploads from jamf docs
 	}
 
 	// Initialize the response struct
