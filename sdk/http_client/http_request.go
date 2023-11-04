@@ -193,3 +193,55 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		}
 	}
 }
+
+func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]string, files map[string]string, out interface{}) (*http.Response, error) {
+	// Auth Token validation check
+	valid, err := c.ValidAuthTokenCheck()
+	if err != nil || !valid {
+		return nil, fmt.Errorf("validity of the authentication token failed with error: %w", err)
+	}
+
+	// Determine which set of encoding and content-type request rules to use
+	handler := GetAPIHandler(endpoint, c.config.DebugMode)
+
+	// Marshal the multipart form data
+	requestData, contentType, err := handler.MarshalMultipartRequest(fields, files)
+	if err != nil {
+		return nil, err
+	}
+
+	// Construct URL using the ConstructAPIResourceEndpoint function
+	url := c.ConstructAPIResourceEndpoint(endpoint)
+
+	// Create the request
+	req, err := http.NewRequest(method, url, bytes.NewBuffer(requestData))
+	if err != nil {
+		return nil, err
+	}
+
+	// Set Request Headers
+	req.Header.Add("Authorization", "Bearer "+c.Token)
+	req.Header.Set("Content-Type", contentType)
+	req.Header.Set("User-Agent", GetUserAgent())
+
+	// Execute the request
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		c.logger.Error("Failed to send multipart request", "method", method, "endpoint", endpoint, "error", err)
+		return nil, err
+	}
+
+	// Check for successful status code
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		c.logger.Error("Received non-success status code from multipart request", "status_code", resp.StatusCode)
+		return resp, fmt.Errorf("received non-success status code: %d", resp.StatusCode)
+	}
+
+	// Unmarshal the response
+	if err := handler.UnmarshalResponse(resp, out); err != nil {
+		c.logger.Error("Failed to unmarshal HTTP response", "method", method, "endpoint", endpoint, "error", err)
+		return resp, err
+	}
+
+	return resp, nil
+}

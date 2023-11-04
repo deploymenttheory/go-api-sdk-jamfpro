@@ -41,6 +41,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -98,10 +99,6 @@ func (h *UnknownApiHandler) SetDebugMode(debug bool) {
 	h.debugMode = debug
 }
 
-type MultipartAPIHandler interface {
-	MarshalMultipartRequest(fileFieldName, fileName string, file io.Reader, params map[string]string) (*bytes.Buffer, string, error)
-}
-
 // ConstructAPIResourceEndpoint returns the full URL for a Jamf API resource endpoint path.
 func (c *Client) ConstructAPIResourceEndpoint(endpointPath string) string {
 	return fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
@@ -116,6 +113,7 @@ func (c *Client) ConstructAPIAuthEndpoint(endpointPath string) string {
 // It encapsulates behavior for encoding and decoding requests and responses.
 type APIHandler interface {
 	MarshalRequest(body interface{}, method string) ([]byte, error)
+	MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) // New method for multipart
 	UnmarshalResponse(resp *http.Response, out interface{}) error
 	GetContentType(method string) string
 	SetLogger(logger Logger)
@@ -332,32 +330,58 @@ func (h *UnknownApiHandler) UnmarshalResponse(resp *http.Response, out interface
 	return fmt.Errorf("unsupported API type")
 }
 
-func (h *JamfProApiHandler) MarshalMultipartRequest(fileFieldName, fileName string, file io.Reader, params map[string]string) (*bytes.Buffer, string, error) {
-	// Create a buffer to hold the multipart form data
-	var buffer bytes.Buffer
-	writer := multipart.NewWriter(&buffer)
+// MarshalMultipartRequest marshals a request with multipart form data for the JamfPro API.
+func (h *JamfProApiHandler) MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) {
+	if h.debugMode {
+		h.logger.Debug("Marshaling multipart request for JamfPro API")
+	}
+	return MarshalMultipartFormData(fields, files)
+}
 
-	// Add the file part
-	part, err := writer.CreateFormFile(fileFieldName, fileName)
-	if err != nil {
+// MarshalMultipartFormData takes a map with form fields and file paths and returns the encoded body and content type.
+func MarshalMultipartFormData(fields map[string]string, files map[string]string) ([]byte, string, error) {
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+
+	// Add the simple fields to the form data
+	for field, value := range fields {
+		if err := writer.WriteField(field, value); err != nil {
+			return nil, "", err
+		}
+	}
+
+	// Add the files to the form data
+	for formField, filepath := range files {
+		file, err := os.Open(filepath)
+		if err != nil {
+			return nil, "", err
+		}
+		defer file.Close()
+
+		part, err := writer.CreateFormFile(formField, filepath)
+		if err != nil {
+			return nil, "", err
+		}
+		if _, err := io.Copy(part, file); err != nil {
+			return nil, "", err
+		}
+	}
+
+	// Close the writer before returning
+	contentType := writer.FormDataContentType()
+	if err := writer.Close(); err != nil {
 		return nil, "", err
 	}
-	_, err = io.Copy(part, file)
-	if err != nil {
-		return nil, "", err
-	}
 
-	// Add additional params
-	for key, val := range params {
-		_ = writer.WriteField(key, val)
-	}
+	return body.Bytes(), contentType, nil
+}
 
-	// Close the writer to finalize the multipart message
-	err = writer.Close()
-	if err != nil {
-		return nil, "", err
-	}
+// MarshalMultipartRequest is not supported by the Classic API and will return an error.
+func (h *ClassicApiHandler) MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) {
+	return nil, "", fmt.Errorf("multipart request not supported by the Classic API")
+}
 
-	// Return the buffer and the Content-Type for the multipart form
-	return &buffer, writer.FormDataContentType(), nil
+// MarshalMultipartRequest is not supported for an unknown API type and will return an error.
+func (h *UnknownApiHandler) MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) {
+	return nil, "", fmt.Errorf("multipart request not supported for an unknown API type")
 }
