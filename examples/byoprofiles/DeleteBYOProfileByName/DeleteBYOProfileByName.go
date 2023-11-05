@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -26,21 +26,18 @@ func main() {
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Let's assume you want to delete a department with ID 123.
-	departmentID := 123
+	profileName := "Personal Device Profile" // Use the actual name of the profile to be deleted
 
-	// Call DeleteDepartmentByID function
-	err = client.DeleteDepartmentByID(departmentID)
+	err = client.DeleteBYOProfileByName(profileName)
 	if err != nil {
-		log.Fatalf("Error deleting department by ID: %v", err)
+		log.Fatalf("Error deleting BYO Profile by name: %v", err)
+	} else {
+		fmt.Println("BYO Profile deleted successfully by name")
 	}
-
-	// Print success message
-	fmt.Println("Deleted Department Successfully!")
 }

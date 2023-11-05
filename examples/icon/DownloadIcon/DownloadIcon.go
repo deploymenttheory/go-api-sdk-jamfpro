@@ -32,15 +32,17 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Let's assume you want to delete a department with ID 123.
-	departmentID := 123
+	// Set the icon ID to download
+	iconID := 3 // Replace with your actual icon ID
 
-	// Call DeleteDepartmentByID function
-	err = client.DeleteDepartmentByID(departmentID)
+	// Set the path where the icon should be saved
+	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
+
+	// To this:
+	err = client.DownloadIcon(iconID, savePath)
 	if err != nil {
-		log.Fatalf("Error deleting department by ID: %v", err)
+		fmt.Printf("Error downloading icon: %s\n", err)
+	} else {
+		fmt.Println("Icon downloaded successfully!")
 	}
-
-	// Print success message
-	fmt.Println("Deleted Department Successfully!")
 }

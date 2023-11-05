@@ -32,15 +32,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Let's assume you want to delete a department with ID 123.
-	departmentID := 123
+	// Path to the icon file you want to upload
+	filePath := "/Users/dafyddwatkins/Downloads/mac-icon.png"
 
-	// Call DeleteDepartmentByID function
-	err = client.DeleteDepartmentByID(departmentID)
+	// Call the UploadIcon function
+	uploadResponse, err := client.UploadIcon(filePath)
 	if err != nil {
-		log.Fatalf("Error deleting department by ID: %v", err)
+		fmt.Printf("Error uploading icon: %s\n", err)
+		return
 	}
 
-	// Print success message
-	fmt.Println("Deleted Department Successfully!")
+	// Print out the response from the server
+	fmt.Printf("Icon uploaded successfully!\nURL: %s\nID: %d\n", uploadResponse.URL, uploadResponse.ID)
 }
