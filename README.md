@@ -246,6 +246,18 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ DELETE `/JSSResource/allowedfileextensions/id/{id}` - DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
 - [ ] ✅ DELETE `/JSSResource/allowedfileextensions/extension/{extensionName}` - DeleteAllowedFileExtensionByNameByID deletes an existing allowed file extension by resolving its name to an ID
 
+# BYO Profiles - `/JSSResource/byoprofiles`
+
+- [x] ✅ GET `/JSSResource/byoprofiles` - `GetBYOProfiles` retrieves all BYO profiles.
+- [x] ✅ GET `/JSSResource/byoprofiles/id/{id}` - `GetBYOProfileByID` retrieves a BYO profile by its ID.
+- [x] ✅ GET `/JSSResource/byoprofiles/name/{name}` - `GetBYOProfileByName` retrieves a BYO profile by its name.
+- [x] ✅ POST `/JSSResource/byoprofiles/id/0` - `CreateBYOProfile` creates a new BYO profile.
+- [x] ✅ PUT `/JSSResource/byoprofiles/id/{id}` - `UpdateBYOProfileByID` updates an existing BYO profile by its ID.
+- [x] ✅ PUT `/JSSResource/byoprofiles/name/{oldName}` - `UpdateBYOProfileByName` updates an existing BYO profile by its name.
+- [x] ✅ DELETE `/JSSResource/byoprofiles/id/{id}` - `DeleteBYOProfileByID` deletes an existing BYO profile by its ID.
+- [x] ✅ DELETE `/JSSResource/byoprofiles/name/{name}` - `DeleteBYOProfileByName` deletes an existing BYO profile by its name.
+
+
 ### Jamf Pro API - Categories
 
 - [ ] ✅ GET `/api/v1/categories` - `GetCategories` retrieves categories based on query parameters.

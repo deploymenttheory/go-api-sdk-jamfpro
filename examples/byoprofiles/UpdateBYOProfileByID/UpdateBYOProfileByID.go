@@ -1,0 +1,61 @@
+package main
+
+import (
+	"encoding/xml"
+	"fmt"
+	"log"
+
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+func main() {
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+
+	// Load the client OAuth credentials from the configuration file
+	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	if err != nil {
+		log.Fatalf("Failed to load client OAuth configuration: %v", err)
+	}
+
+	// Configuration for the jamfpro
+	config := jamfpro.Config{
+		InstanceName: authConfig.InstanceName,
+		DebugMode:    true,
+		Logger:       jamfpro.NewDefaultLogger(),
+		ClientID:     authConfig.ClientID,
+		ClientSecret: authConfig.ClientSecret,
+	}
+
+	// Create a new jamfpro client instance
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
+
+	// Create a BYOProfile structure to send
+	updatedProfile := jamfpro.ResponseBYOProfile{
+		General: jamfpro.BYOProfileGeneralInfo{
+			Name:        "Personal Device Profile Updated",
+			Site:        jamfpro.BYOProfileSiteInfo{ID: -1, Name: "None"},
+			Enabled:     true,
+			Description: "Updated description for BYO device enrollments",
+		},
+	}
+
+	profileID := 1 // Use the actual ID of the profile to be updated
+
+	// Convert the profile to XML to see the output (optional, for debug purposes)
+	xmlData, err := xml.MarshalIndent(updatedProfile, "", "  ")
+	if err != nil {
+		log.Fatalf("Error marshaling XML: %v", err)
+	}
+	fmt.Printf("XML Request: %s\n", xmlData)
+
+	// Now call the update function
+	updatedProfileResp, err := client.UpdateBYOProfileByID(profileID, &updatedProfile)
+	if err != nil {
+		log.Fatalf("Error updating BYO Profile by ID: %v", err)
+	}
+	fmt.Printf("Updated BYO Profile: %+v\n", updatedProfileResp)
+}

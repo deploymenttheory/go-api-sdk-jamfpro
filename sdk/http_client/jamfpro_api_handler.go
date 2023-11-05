@@ -184,7 +184,7 @@ func (h *ClassicApiHandler) UnmarshalResponse(resp *http.Response, out interface
 		return err
 	}
 
-	// Log raw response if in debug mode
+	// Log raw response and resp headers if in debug mode
 	if h.debugMode {
 		h.logger.Debug("Raw HTTP Response for Classic API:", string(bodyBytes))
 		h.logger.Debug("Unmarshaling response for Classic API", "status", resp.Status)
@@ -271,7 +271,7 @@ func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface
 		return err
 	}
 
-	// Log raw response if in debug mode
+	// Log raw response and resp headers if in debug mode
 	if h.debugMode {
 		h.logger.Debug("Raw HTTP Response for JamfPro API:", string(bodyBytes))
 		h.logger.Debug("Unmarshaling response for JamfPro API", "status", resp.Status)
