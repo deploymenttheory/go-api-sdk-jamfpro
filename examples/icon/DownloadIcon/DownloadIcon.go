@@ -32,16 +32,17 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Path to the icon file you want to upload
-	filePath := "/Users/dafyddwatkins/Downloads/mac-icon.png"
+	// Set the icon ID to download
+	iconID := 3 // Replace with your actual icon ID
 
-	// Call the UploadIcon function
-	uploadResponse, err := client.UploadIcon(filePath)
+	// Set the path where the icon should be saved
+	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
+
+	// To this:
+	err = client.DownloadIcon(iconID, savePath)
 	if err != nil {
-		fmt.Printf("Error uploading icon: %s\n", err)
-		return
+		fmt.Printf("Error downloading icon: %s\n", err)
+	} else {
+		fmt.Println("Icon downloaded successfully!")
 	}
-
-	// Print out the response from the server
-	fmt.Printf("Icon uploaded successfully!\nURL: %s\nID: %d\n", uploadResponse.URL, uploadResponse.ID)
 }

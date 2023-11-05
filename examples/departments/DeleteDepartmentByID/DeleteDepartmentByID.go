@@ -32,8 +32,8 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Let's assume you want to delete a department with ID 23.
-	departmentID := 3
+	// Let's assume you want to delete a department with ID 123.
+	departmentID := 123
 
 	// Call DeleteDepartmentByID function
 	err = client.DeleteDepartmentByID(departmentID)
