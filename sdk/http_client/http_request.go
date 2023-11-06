@@ -69,6 +69,11 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	req.Header.Add("Accept", acceptHeader)
 	req.Header.Set("User-Agent", GetUserAgent())
 
+	// Debug: Print request headers if in debug mode
+	if c.config.DebugMode {
+		c.logger.Debug("HTTP Request Headers:", req.Header)
+	}
+
 	// Define if request is retryable
 	retryableHTTPMethods := map[string]bool{
 		http.MethodGet:    true, // GET
