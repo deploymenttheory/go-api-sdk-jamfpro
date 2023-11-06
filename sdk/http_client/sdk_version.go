@@ -8,6 +8,6 @@ const (
 	UserAgentBase = "go-jamfpro-api-sdk"
 )
 
-func GetUserAgent() string {
+func GetUserAgentHeader() string {
 	return fmt.Sprintf("%s/%s", UserAgentBase, SDKVersion)
 }

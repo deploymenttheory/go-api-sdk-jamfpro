@@ -98,7 +98,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Accept", acceptHeader)
-	req.Header.Set("User-Agent", GetUserAgent())
+	req.Header.Set("User-Agent", GetUserAgentHeader())
 
 	// Debug: Print request headers if in debug mode
 	if c.config.DebugMode {
@@ -290,7 +290,7 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	// Set Request Headers
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 	req.Header.Set("Content-Type", contentType)
-	req.Header.Set("User-Agent", GetUserAgent())
+	req.Header.Set("User-Agent", GetUserAgentHeader())
 
 	// Debug: Print request headers if in debug mode
 	if c.config.DebugMode {
