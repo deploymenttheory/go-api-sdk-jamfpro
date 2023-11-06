@@ -115,23 +115,23 @@ type APIHandler interface {
 	MarshalRequest(body interface{}, method string) ([]byte, error)
 	MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) // New method for multipart
 	UnmarshalResponse(resp *http.Response, out interface{}) error
-	GetContentType(method string) string
+	GetContentTypeHeader(method string) string
 	SetLogger(logger Logger)
 	SetDebugMode(debug bool)
 	GetAcceptHeader(url string) string
 }
 
-// GetContentType for ClassicApiHandler always returns XML as the content type.
-func (h *ClassicApiHandler) GetContentType(method string) string {
+// GetContentTypeHeader for ClassicApiHandler always returns XML as the content type.
+func (h *ClassicApiHandler) GetContentTypeHeader(method string) string {
 	return "application/xml"
 }
 
-// GetContentType for JamfProApiHandler always returns JSON as the content type.
-func (h *JamfProApiHandler) GetContentType(method string) string {
+// GetContentTypeHeader for JamfProApiHandler always returns JSON as the content type.
+func (h *JamfProApiHandler) GetContentTypeHeader(method string) string {
 	return "application/json"
 }
 
-func (h *UnknownApiHandler) GetContentType(method string) string {
+func (h *UnknownApiHandler) GetContentTypeHeader(method string) string {
 	// For an unknown API handler, defaults to JSON handling behavior.
 	return "application/json"
 }
@@ -418,12 +418,12 @@ func (h *JamfProApiHandler) GetAcceptHeader(url string) string {
 // Since the Classic API does not have exceptions like the Jamf Pro API for certain endpoints,
 // it defaults to the standard content type, which is "application/xml".
 func (h *ClassicApiHandler) GetAcceptHeader(url string) string {
-	return h.GetContentType("") // Returns the default "application/xml"
+	return h.GetContentTypeHeader("") // Returns the default "application/xml"
 }
 
 // GetAcceptHeader returns the Accept header value for requests made through an unknown API type.
 // Since the handler does not know the specifics of the API, it defaults to "application/json",
 // which is a reasonable default for modern web APIs.
 func (h *UnknownApiHandler) GetAcceptHeader(url string) string {
-	return h.GetContentType("") // Returns the default "application/json"
+	return h.GetContentTypeHeader("") // Returns the default "application/json"
 }
