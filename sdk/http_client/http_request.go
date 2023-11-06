@@ -234,6 +234,11 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	req.Header.Set("Content-Type", contentType)
 	req.Header.Set("User-Agent", GetUserAgent())
 
+	// Debug: Print request headers if in debug mode
+	if c.config.DebugMode {
+		c.logger.Debug("HTTP Multipart Request Headers:", req.Header)
+	}
+
 	// Execute the request
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
