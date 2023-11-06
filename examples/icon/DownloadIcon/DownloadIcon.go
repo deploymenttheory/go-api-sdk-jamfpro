@@ -33,13 +33,17 @@ func main() {
 	}
 
 	// Set the icon ID to download
-	iconID := 3 // Replace with your actual icon ID
+	iconID := 1 // Replace with your actual icon ID
 
 	// Set the path where the icon should be saved
 	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
 
-	// To this:
-	err = client.DownloadIcon(iconID, savePath)
+	// Set the desired resolution and scale
+	res := "original" // or "300" or "512"
+	scale := "0"      // or other scale as a string
+
+	// Call DownloadIcon with the new parameters
+	err = client.DownloadIcon(iconID, savePath, res, scale)
 	if err != nil {
 		fmt.Printf("Error downloading icon: %s\n", err)
 	} else {

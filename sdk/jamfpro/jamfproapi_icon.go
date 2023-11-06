@@ -8,6 +8,7 @@ package jamfpro
 import (
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 )
 
@@ -47,8 +48,17 @@ func (c *Client) UploadIcon(filePath string) (*ResponseUploadIcon, error) {
 
 // DownloadIcon downloads an icon by its ID from Jamf Pro and saves it to the specified file path.
 // The icon is saved to the path provided in the 'savePath' parameter.
-func (c *Client) DownloadIcon(iconID int, savePath string) error {
-	endpoint := fmt.Sprintf("%s/download/%d", uriUploadIcon, iconID)
+func (c *Client) DownloadIcon(iconID int, savePath string, res string, scale string) error {
+	// Construct the endpoint with query parameters
+	params := url.Values{}
+	if res != "" {
+		params.Add("res", res)
+	}
+	if scale != "" {
+		params.Add("scale", scale)
+	}
+	queryString := params.Encode()
+	endpoint := fmt.Sprintf("%s/download/%d?%s", uriUploadIcon, iconID, queryString)
 
 	// Create the file to write to
 	file, err := os.Create(savePath)
