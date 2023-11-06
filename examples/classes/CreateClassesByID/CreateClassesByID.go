@@ -1,0 +1,63 @@
+package main
+
+import (
+	"encoding/xml"
+	"fmt"
+	"log"
+
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+func main() {
+	// Define the path to the JSON configuration file inside the main function
+	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+
+	// Load the client OAuth credentials from the configuration file
+	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	if err != nil {
+		log.Fatalf("Failed to load client OAuth configuration: %v", err)
+	}
+
+	// Configuration for the jamfpro
+	config := jamfpro.Config{
+		InstanceName: authConfig.InstanceName,
+		DebugMode:    true,
+		Logger:       jamfpro.NewDefaultLogger(),
+		ClientID:     authConfig.ClientID,
+		ClientSecret: authConfig.ClientSecret,
+	}
+
+	// Create a new jamfpro client instance
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
+
+	// Define the new class details
+	newClass := &jamfpro.ResponseClasses{
+		Source:      "N/A",
+		Name:        "Math 101",
+		Description: "string",
+		Site: jamfpro.ClassSite{
+			ID:   -1,
+			Name: "None",
+		},
+		MeetingTimes: jamfpro.ClassMeetingTimes{
+			MeetingTime: jamfpro.ClassMeetingTime{
+				Days:      "M W F",
+				StartTime: 1300,
+				EndTime:   1345,
+			},
+		},
+	}
+
+	// Create class
+	createdClass, err := client.CreateClassesByID(newClass)
+	if err != nil {
+		log.Fatalf("Error creating class: %s\n", err)
+	}
+
+	// Print the XML structure of the created class for verification
+	classXML, _ := xml.MarshalIndent(createdClass, "", "  ")
+	fmt.Printf("Created Class:\n%s\n", classXML)
+}

@@ -196,6 +196,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 			return resp, fmt.Errorf("Error status code: %d - %s", resp.StatusCode, statusDescription)
 		}
 	}
+	// TODO refactor to remove repition.
 }
 
 func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]string, files map[string]string, out interface{}) (*http.Response, error) {
