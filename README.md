@@ -64,9 +64,15 @@ if err != nil {
 With the OAuth credentials loaded, you can now configure the HTTP client:
 
 ```go
+// Initialize a new default logger
+logger := http_client.NewDefaultLogger()
+
+// Set the desired log level on the logger
+logger.SetLevel(http_client.LogLevelInfo) // LogLevel can be None, Warning, Info, or Debug
+
+// Create the configuration for the HTTP client with the logger
 config := http_client.Config{
-	DebugMode:             true,
-	Logger:                http_client.NewDefaultLogger(),
+	Logger: logger,
 }
 ```
 
@@ -92,8 +98,6 @@ client.HTTP.SetOAuthCredentials(oAuthCreds)
 With these steps, the HTTP client will be fully set up and ready to make requests to the Jamf Pro API. You can then proceed to use the client to perform various actions as demonstrated in the sample code provided.
 
 Note: Remember to always keep your OAuth credentials confidential and never expose them in your code or public repositories. Using configuration files like clientauth.json and .gitignore-ing them is a good practice to ensure they're not accidentally committed.
-
-Certainly! Here's the section about URL construction in Markdown format:
 
 ---
 
@@ -129,6 +133,48 @@ The SDK is designed to be flexible. While it uses the `jamfcloud.com` domain by 
 Always ensure that the `InstanceName` is correctly set when initializing the client. Avoid including the full domain (e.g., `.jamfcloud.com`) in the `InstanceName` as the SDK will automatically append it.
 
 ---
+Putting it all together
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+func main() {
+	// Define the path to the JSON configuration file
+	configFilePath := "/path/to/your/clientauth.json"
+
+	// Load the client OAuth credentials from the configuration file
+	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	if err != nil {
+		log.Fatalf("Failed to load client OAuth configuration: %v", err)
+	}
+
+	// Instantiate the default logger and set the desired log level
+	logger := http_client.NewDefaultLogger()
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+
+	// Configuration for the jamfpro
+	config := jamfpro.Config{
+		InstanceName: authConfig.InstanceName,
+		LogLevel:     logLevel,
+		Logger:       logger,
+		ClientID:     authConfig.ClientID,
+		ClientSecret: authConfig.ClientSecret,
+	}
+
+	// Create a new jamfpro client instance
+	client, err := jamfpro.NewClient(config)
+	if err != nil {
+		log.Fatalf("Failed to create Jamf Pro client: %v", err)
+	}
+```
 
 ## Go SDK for Jamf Pro API Progress Tracker
 
@@ -370,8 +416,8 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 
 ## Progress Summary
 
-- Total Endpoints: 61
-- Covered: 60
+- Total Endpoints: 150
+- Covered: 149
 - Not Covered: 1
 - Partially Covered: 0
 

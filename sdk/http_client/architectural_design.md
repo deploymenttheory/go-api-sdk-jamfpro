@@ -39,6 +39,7 @@ func NewClient(cfg *Config) (*JamfClient, error) {
     // Initialization logic here
 }
 ```
+
 ### Configuration Loading Utility:
 
 Implement utility functions that will allow loading the configuration from a file, streamlining the process for users who prefer configuration files over environment variables or direct parameters.
@@ -66,55 +67,73 @@ Alright, let's break down the error handling architectural design decision based
 
 ---
 
-## Architectural Design Decision: Error Handling in Jamf Pro SDK
+## Architectural Design Decision: Implementing a Comprehensive Logging System in Jamf Pro SDK
 
-**Decision Topic**: Establishing a robust and user-friendly error handling mechanism within the SDK that provides clarity to the users, while also allowing in-depth troubleshooting through a debug mode.
+**Decision Topic**: The introduction and implementation of a comprehensive, multi-tiered logging system within the SDK to provide detailed and adjustable logging capabilities.
 
 ### Context:
-The Jamf Pro SDK will be leveraged across varied contexts, and as such, error handling should cater both to the general user, who desires clear, comprehensible messages, and to developers or advanced users, who need detailed diagnostic information for troubleshooting.
+The SDK is used by a diverse audience who have varying needs regarding the amount and type of information required from logging. There needs to be a balance between too much information, which can overwhelm users, and too little, which can hinder problem resolution.
 
 ### Decision:
 
-1. **Standardized Error Messages**:
-    - Implement a set of user-friendly error messages for common error scenarios.
-    - Translate API response codes into these standardized messages. For instance, a `404` error might be translated to "Resource not found. Please ensure the URL path is correct."
+1. **LogLevel Enumeration**:
+   - Define a `LogLevel` type as an enumeration to represent various logging levels, allowing users to set the granularity of logs they receive.
+   ```go
+   type LogLevel int
+   
+   const (
+       LogLevelNone LogLevel = iota
+       LogLevelWarning
+       LogLevelInfo
+       LogLevelDebug
+   )
+   ```
 
-2. **SDK Debug Mode**:
-    - Introduce a `DebugMode` flag within the SDK configuration. When this flag is set to `true`, the SDK will output verbose logging.
-    ```go
-    type Config struct {
-        // ... other fields ...
-        DebugMode bool
-    }
-    ```
+ **Logging Interface**:
+   - Introduce a `Logger` interface with methods corresponding to different logging levels (`Trace`, `Debug`, `Info`, `Warn`, `Error`, `Fatal`). This enables a consistent logging approach across different parts of the SDK.
 
-3. **Verbose Logging in Debug Mode**:
-    - When `DebugMode` is enabled, log the detailed error messages returned by the API, any stack traces, HTTP request and response details, and other pertinent diagnostic information. This can be achieved using a logging library that supports log levels (e.g., `Info`, `Debug`, `Error`).
+```go
+   type Logger interface {
+       // ... method signatures ...
+   }
+```
 
-4. **Error Wrapping**:
-    - Use error wrapping to provide context to errors. This helps in understanding the flow that led to the error while preserving the original error message.
-    ```go
-    return fmt.Errorf("failed to retrieve resource: %w", originalError)
-    ```
+3. **Default Logger**:
+   - Implement a `defaultLogger` that utilizes Go’s standard logging library, encapsulating the logic for checking log levels before emitting logs. The default logger's level can be set at runtime.
 
-5. **Function Signatures**:
-    - Ensure that SDK functions return errors where appropriate, allowing consumers of the SDK to handle or log these errors as they see fit.
+4. **Flexible Log Level Setting**:
+   - Provide a method to set the log level (`SetLevel`) dynamically, allowing users to adjust the verbosity of logs as needed without changing the code.
+
+   ```go
+   func (d *defaultLogger) SetLevel(level LogLevel) {
+       d.logLevel = level
+   }
+   ```
+
+5. **Level-Based Logging Logic**:
+   - Ensure that each logging method in the `defaultLogger` checks the current `logLevel` to decide whether to output the log message, effectively filtering logs based on the set level.
 
 ### Rationale:
 
-- **User Experience**: Providing clear and comprehensible error messages improves the experience for general users, as they can potentially understand and address the issue without diving deep into technical details.
-  
-- **Developer Experience**: The `DebugMode` ensures that developers or advanced users have access to detailed logs, aiding in troubleshooting and understanding the underlying issue.
+- **Customizability**: Users can customize the verbosity of the logs by setting the appropriate `LogLevel`, making the SDK adaptable for different environments and use cases.
 
-- **Flexibility**: By returning errors and providing a verbose logging mode, the SDK offers flexibility to its consumers, allowing them to decide how they want to handle and log these errors based on their specific use-case or application context.
+- **Clarity and Relevance**: By filtering logs according to the set level, users receive only the most relevant information, reducing noise and focusing on the appropriate details for their needs.
+
+- **Simplicity and Familiarity**: Using Go’s standard logging library for the default implementation keeps the SDK simple and familiar to Go developers.
+
+- **Flexibility and Maintenance**: The logging interface allows for different logging implementations to be integrated in the future, ensuring the SDK can evolve without breaking existing functionality.
 
 ### Implications:
 
-- **Maintenance**: As the SDK evolves or as the Jamf Pro API updates, there might be new error scenarios to consider. The error handling mechanism should be periodically reviewed to ensure it caters to all potential issues.
+- **Performance**: The logging system is designed to minimize performance impacts by checking log levels before constructing log messages or performing output operations.
 
-- **Performance**: While the `DebugMode` is invaluable for troubleshooting, it can be verbose. Users should be cautious about leaving it enabled in high-performance or production scenarios due to the overhead of extensive logging.
+- **Maintenance**: Developers must ensure that log messages at different levels are meaningful and appropriate, necessitating thoughtful logging throughout the SDK's development.
+
+- **Consistency**: A consistent logging interface across the SDK ensures that different components and external contributors adhere to the same logging standards and practices.
 
 ---
+
+This document outlines the architectural decision-making for implementing a comprehensive logging system, detailing the context, decisions, rationale, and implications, and aligns with the current implementation of the logging system in the SDK.
 
 ## Architectural Design Decision: Dynamic Rate Limiting and Retrying Mechanism in Jamf Pro SDK
 
@@ -157,79 +176,6 @@ Given that APIs can change their rate-limiting behaviors dynamically due to vari
 - **Complexity**: The dynamic nature of this mechanism might introduce additional complexities in terms of maintenance and debugging.
   
 - **Latency**: In cases where the API is frequently rate-limiting or there are consistent transient errors, operations might experience added latency due to the wait times.
-
----
-
-
-### Architectural Design Decision: Logging in the SDK
-
-**Decision**: The SDK will use an interface-based approach to logging, allowing consumers to plug in their preferred logging mechanism. For users without a specific preference, a default logger based on Go's standard `log` package will be provided.
-
-**Justification**:
-- **Flexibility**: By providing an interface for logging, SDK consumers can seamlessly integrate with their existing logging frameworks or systems.
-  
-- **Decoupling**: The SDK remains decoupled from any specific logging library, ensuring maintainability and avoiding potential dependency conflicts.
-  
-- **Usability**: For users who just want basic logging without integrating a third-party library, the default logger offers a simple and straightforward logging mechanism out-of-the-box.
-
-#### Interface Definition:
-
-```go
-package apiClient
-
-type Logger interface {
-    Debug(msg string, keysAndValues ...interface{})
-    Info(msg string, keysAndValues ...interface{})
-    Error(msg string, keysAndValues ...interface{})
-    // ... other log levels as needed
-}
-```
-
-#### Default Logger Implementation:
-
-```go
-package apiClient
-
-import "log"
-
-type defaultLogger struct{}
-
-func (d *defaultLogger) Debug(msg string, keysAndValues ...interface{}) {
-    log.Println("[DEBUG]", msg, keysAndValues)
-}
-
-func (d *defaultLogger) Info(msg string, keysAndValues ...interface{}) {
-    log.Println("[INFO]", msg, keysAndValues)
-}
-
-func (d *defaultLogger) Error(msg string, keysAndValues ...interface{}) {
-    log.Println("[ERROR]", msg, keysAndValues)
-}
-
-func NewDefaultLogger() Logger {
-    return &defaultLogger{}
-}
-```
-
-#### Usage:
-
-For users who want to use the default logger:
-
-```go
-client := apiClient.New(apiClient.WithLogger(apiClient.NewDefaultLogger()))
-```
-
-For users who want to plug in their custom logger:
-
-```go
-type myCustomLogger struct{}
-
-// Implement the Logger interface...
-
-client := apiClient.New(apiClient.WithLogger(&myCustomLogger{}))
-```
-
-This approach provides the flexibility for advanced users while ensuring simplicity for others.
 
 ---
 
@@ -371,58 +317,6 @@ func (c *Client) refreshToken() error {
 ```
 ---
 
-
-# Architectural Decision Record (ADR): Go HTTP Client Libraries
-
-## 1. Decision:
-
-For the development of our Go HTTP client to interface with the Jamf Pro API, we have chosen a set of libraries based on project requirements. The primary objective is to ensure the client is robust, maintainable, and has capabilities like rate limiting, logging, configuration management, and error handling.
-
-## 2. Libraries Selected:
-
-### 2.1. Core HTTP Requests:
-
-- **`net/http`**: The standard Go HTTP client to serve as the foundation for all HTTP requests.
-
-### 2.2. Advanced HTTP Client Features:
-
-- **[resty](https://github.com/go-resty/resty)**: To facilitate RESTful interactions, automatic retries, and to provide a user-friendly interface for requests and responses.
-
-### 2.3. Rate Limiting and Retries:
-
-- **[go-resiliency](https://github.com/eapache/go-resiliency)**: For implementing advanced rate limiting, retries, and other resilience strategies.
-
-### 2.4. JSON Marshaling/Unmarshaling:
-
-- **`encoding/json`**: Go's standard library for JSON operations. If there is a future need for performance optimization, we can consider other options.
-
-### 2.5. Logging:
-
-- **[logrus](https://github.com/sirupsen/logrus)**: Provides structured logging, log levels, and flexibility for output formats. This library is chosen for its widespread adoption and extensibility.
-
-### 2.6. Configuration Management:
-
-- **[viper](https://github.com/spf13/viper)**: To manage configurations across different environments (Dev, Staging, Production) and to fetch configurations from environment variables, config files, and potentially remote systems.
-
-### 2.7. Error Handling:
-
-- **[pkg/errors](https://github.com/pkg/errors)**: Enhances error messages with additional context, allowing better debugging and troubleshooting especially in debug mode.
-
-## 3. Rationale:
-
-- **Performance & Scalability**: The libraries are chosen for their efficiency and capability to handle various scenarios that our client may encounter.
-- **Maintainability**: Popular libraries with a large user base and regular updates are preferred to ensure long-term support and compatibility.
-- **Extensibility**: The selected libraries offer hooks and extensions, enabling our HTTP client to be adaptable to changing requirements.
-- **Developer Experience**: Leveraging these libraries should lead to more readable code, quicker development times, and fewer bugs.
-
-## 4. Consequences:
-
-- **Dependency Management**: With external libraries, there is a need for regular monitoring for updates, potential bugs, or security issues.
-- **Learning Curve**: Developers might need to spend some time initially to get familiar with the libraries, but the payoff in terms of productivity and maintainability is deemed worthwhile.
-
----
-
-This ADR can be stored as part of the project documentation to ensure that the rationale behind library choices is well-documented and can be referred to in the future.
 
 # Architectural Decision Record (ADR): Content Negotiation
 
