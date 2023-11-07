@@ -101,12 +101,16 @@ func (h *UnknownApiHandler) SetDebugMode(debug bool) {
 
 // ConstructAPIResourceEndpoint returns the full URL for a Jamf API resource endpoint path.
 func (c *Client) ConstructAPIResourceEndpoint(endpointPath string) string {
-	return fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
+	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
+	c.logger.Info("Request will be made to API Resource URL:", "URL", url)
+	return url
 }
 
 // ConstructAPIAuthEndpoint returns the full URL for a Jamf API auth endpoint path.
 func (c *Client) ConstructAPIAuthEndpoint(endpointPath string) string {
-	return fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
+	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
+	c.logger.Info("Request will be made to API authentication URL:", "URL", url)
+	return url
 }
 
 // APIHandler is an interface for encoding, decoding, and determining content types for different API implementations.
@@ -138,7 +142,7 @@ func (h *UnknownApiHandler) GetContentTypeHeader(method string) string {
 
 // GetAPIHandler determines the appropriate APIHandler based on the endpoint.
 // It identifies the type of API (Classic, JamfPro, or Unknown) and returns the corresponding handler.
-func GetAPIHandler(endpoint string, debugMode bool) APIHandler {
+func GetAPIHandler(endpoint string, logLevel LogLevel) APIHandler {
 	var handler APIHandler
 	if strings.Contains(endpoint, "/JSSResource") {
 		handler = &ClassicApiHandler{}
@@ -147,8 +151,9 @@ func GetAPIHandler(endpoint string, debugMode bool) APIHandler {
 	} else {
 		handler = &UnknownApiHandler{}
 	}
-	handler.SetLogger(NewDefaultLogger())
-	handler.SetDebugMode(debugMode) // Set the debug mode for the handler
+	logger := NewDefaultLogger()
+	logger.SetLevel(logLevel)
+	handler.SetLogger(logger)
 	return handler
 }
 
@@ -159,9 +164,9 @@ func (h *ClassicApiHandler) MarshalRequest(body interface{}, method string) ([]b
 		return nil, err
 	}
 
-	// If in debug mode and the method is either POST (Create) or PUT (Update), log the full request body
-	if h.debugMode && (method == "POST" || method == "PUT") {
-		h.logger.Debug("Full Request Body:", string(data))
+	// Log the full request body for POST and PUT methods
+	if method == "POST" || method == "PUT" {
+		h.logger.Trace("Full Request Body:", "Body", string(data))
 	}
 
 	return data, nil
@@ -184,14 +189,12 @@ func (h *ClassicApiHandler) UnmarshalResponse(resp *http.Response, out interface
 		return err
 	}
 
-	// Log raw response and resp headers if in debug mode
-	if h.debugMode {
-		h.logger.Debug("Raw HTTP Response for Classic API:", string(bodyBytes))
-		h.logger.Debug("Unmarshaling response for Classic API", "status", resp.Status)
+	// Log the raw response body and headers
+	h.logger.Trace("Raw HTTP Response for Classic API:", string(bodyBytes))
+	h.logger.Debug("Unmarshaling response for Classic API", "status", resp.Status)
 
-		// Log headers when in debug mode
-		h.logger.Debug("HTTP Response Headers:", resp.Header)
-	}
+	// Log headers when in debug mode
+	h.logger.Debug("HTTP Response Headers:", resp.Header)
 
 	// Check the Content-Type header
 	contentType := resp.Header.Get("Content-Type")
@@ -271,14 +274,12 @@ func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface
 		return err
 	}
 
-	// Log raw response and resp headers if in debug mode
-	if h.debugMode {
-		h.logger.Debug("Raw HTTP Response for JamfPro API:", string(bodyBytes))
-		h.logger.Debug("Unmarshaling response for JamfPro API", "status", resp.Status)
+	// Log the raw response body and headers
+	h.logger.Trace("Raw HTTP Response for Jamf Pro API:", string(bodyBytes))
+	h.logger.Debug("Unmarshaling response for Jamf Pro API", "status", resp.Status)
 
-		// Log headers when in debug mode
-		h.logger.Debug("HTTP Response Headers:", resp.Header)
-	}
+	// Log headers when in debug mode
+	h.logger.Debug("HTTP Response Headers:", resp.Header)
 
 	// Check the Content-Type header
 	contentType := resp.Header.Get("Content-Type")
@@ -324,25 +325,20 @@ func (h *JamfProApiHandler) UnmarshalResponse(resp *http.Response, out interface
 
 // MarshalRequest returns an error since the API type is unsupported.
 func (h *UnknownApiHandler) MarshalRequest(body interface{}, method string) ([]byte, error) {
-	if h.debugMode {
-		h.logger.Warn("Attempted to marshal request for an unsupported API type")
-	}
+	h.logger.Warn("Attempted to marshal request for an unsupported API type")
+
 	return nil, fmt.Errorf("unsupported API type")
 }
 
 // UnmarshalResponse returns an error since the API type is unsupported.
 func (h *UnknownApiHandler) UnmarshalResponse(resp *http.Response, out interface{}) error {
-	if h.debugMode {
-		h.logger.Warn("Attempted to unmarshal response for an unsupported API type", "status", resp.Status)
-	}
+	h.logger.Warn("Attempted to unmarshal response for an unsupported API type", "status", resp.Status)
 	return fmt.Errorf("unsupported API type")
 }
 
 // MarshalMultipartRequest marshals a request with multipart form data for the JamfPro API.
 func (h *JamfProApiHandler) MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) {
-	if h.debugMode {
-		h.logger.Debug("Marshaling multipart request for JamfPro API")
-	}
+	h.logger.Debug("Marshaling multipart request for JamfPro API")
 	return MarshalMultipartFormData(fields, files)
 }
 

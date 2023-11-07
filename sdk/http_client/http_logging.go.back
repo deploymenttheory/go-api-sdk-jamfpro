@@ -1,5 +1,5 @@
 // http_logging.go
-package jamfpro
+package http_client
 
 import "log"
 
@@ -44,6 +44,3 @@ func (d *defaultLogger) Fatal(msg string, keysAndValues ...interface{}) {
 func NewDefaultLogger() Logger {
 	return &defaultLogger{}
 }
-
-// new new logger instance
-var logger Logger = NewDefaultLogger()

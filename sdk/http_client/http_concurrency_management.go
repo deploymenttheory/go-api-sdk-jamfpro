@@ -74,12 +74,12 @@ func (c *ConcurrencyManager) Acquire(ctx context.Context) (uuid.UUID, error) {
 		c.lock.Unlock()
 		c.lastTokenAcquisitionTime = time.Now()
 
-		if c.debugMode {
-			utilizedTokens := len(c.sem)
-			availableTokens := cap(c.sem) - len(c.sem)
-			c.logger.Debug(fmt.Sprintf("[ConcurrencyTokenID: %s] Acquired concurrency token in %v. Details [Utilized tokens: %d. Available tokens: %d.]", requestID, acquisitionTime, utilizedTokens, availableTokens))
-		}
+		utilizedTokens := len(c.sem)
+		availableTokens := cap(c.sem) - utilizedTokens
+		c.logger.Trace(fmt.Sprintf("[ConcurrencyTokenID: %s] Acquired concurrency token in %v. Details [Utilized tokens: %d. Available tokens: %d.]", requestID, acquisitionTime, utilizedTokens, availableTokens))
+
 		return requestID, nil
+
 	case <-ctx.Done():
 		c.logger.Warn(fmt.Sprintf("[ConcurrencyTokenID: %s] Failed to acquire concurrency token, context done", requestID))
 		return requestID, ctx.Err()
@@ -93,7 +93,7 @@ func (c *ConcurrencyManager) Release(requestID uuid.UUID) {
 	if c.debugMode {
 		utilizedTokens := len(c.sem)
 		availableTokens := cap(c.sem) - len(c.sem)
-		c.logger.Debug(fmt.Sprintf("[ConcurrencyTokenID: %s] Released concurrency token. Details [Utilized tokens: %d. Available tokens: %d.]", requestID, utilizedTokens, availableTokens))
+		c.logger.Trace(fmt.Sprintf("[ConcurrencyTokenID: %s] Released concurrency token. Details [Utilized tokens: %d. Available tokens: %d.]", requestID, utilizedTokens, availableTokens))
 	}
 }
 
@@ -195,9 +195,9 @@ func (c *Client) AdjustConcurrencyBasedOnMetrics() {
 	// Adjust concurrency if new limit is different from current
 	if newLimit != currentLimit {
 		c.ConcurrencyMgr.AdjustConcurrencyLimit(newLimit)
-		if c.config.DebugMode {
-			c.logger.Debug(fmt.Sprintf("Adjusted concurrency from %d to %d based on average acquisition time of %v", currentLimit, newLimit, avgAcquisitionTime))
-		}
+
+		c.logger.Debug(fmt.Sprintf("Adjusted concurrency from %d to %d based on average acquisition time of %v", currentLimit, newLimit, avgAcquisitionTime))
+
 	}
 }
 

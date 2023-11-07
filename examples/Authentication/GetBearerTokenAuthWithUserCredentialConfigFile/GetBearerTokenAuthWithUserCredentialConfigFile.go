@@ -17,10 +17,14 @@ func main() {
 		log.Fatalf("Failed to load client authentication configuration: %v", err)
 	}
 
-	// Configuration for the client
+	// Instantiate the default logger and set the desired log level
+	logger := http_client.NewDefaultLogger()
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+
+	// Configuration for the jamfpro
 	config := http_client.Config{
-		DebugMode: true,
-		Logger:    http_client.NewDefaultLogger(),
+		LogLevel: logLevel,
+		Logger:   logger,
 	}
 
 	// Create a new client instance using the loaded InstanceName

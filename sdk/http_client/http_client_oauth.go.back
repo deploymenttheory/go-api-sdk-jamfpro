@@ -5,7 +5,6 @@ It provides structures and methods for handling OAuth-based authentication
 package http_client
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -48,36 +47,44 @@ func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
 
 	req, err := http.NewRequest("POST", authenticationEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
+		c.logger.Error("Failed to create new request for OAuth token", "error", err)
 		return err
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
+		c.logger.Error("Failed to make request for OAuth token", "error", err)
 		return err
 	}
 	defer resp.Body.Close()
 
 	// Debug: Print the entire raw response body for inspection
-
-	bodyBytes, _ := io.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		c.logger.Error("Failed to read response body for OAuth token", "error", err)
+		return err
+	}
 	c.logger.Debug("Raw OAuth response:", string(bodyBytes))
-	// Reset the response body to its original state
-	resp.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
 	oauthResp := &OAuthResponse{}
 	err = json.NewDecoder(resp.Body).Decode(oauthResp)
 	if err != nil {
+		c.logger.Error("Failed to decode OAuth token response", "error", err)
 		return err
 	}
 
-	if oauthResp.Error != "" { // Check if the "error" field is non-empty
+	if oauthResp.Error != "" {
+		c.logger.Warn("Error obtaining OAuth token", "error", oauthResp.Error)
 		return fmt.Errorf("error obtaining OAuth token: %s", oauthResp.Error)
 	}
 
 	if oauthResp.AccessToken == "" {
+		c.logger.Warn("Empty access token received")
 		return fmt.Errorf("empty access token received")
 	}
+
+	c.logger.Info("OAuth token obtained successfully", "AccessToken", oauthResp.AccessToken)
 
 	c.Token = oauthResp.AccessToken
 	c.Expiry = time.Now().Add(time.Second * time.Duration(oauthResp.ExpiresIn))
@@ -131,21 +138,30 @@ func (c *Client) RefreshOAuthToken() error {
 // After invalidation, the token cannot be used for further API requests.
 func (c *Client) InvalidateOAuthToken() error {
 	invalidateTokenEndpoint := c.ConstructAPIAuthEndpoint(TokenInvalidateEndpoint)
+
+	c.logger.Debug("Attempting to invalidate OAuth token", "URL", invalidateTokenEndpoint)
+
 	req, err := http.NewRequest("POST", invalidateTokenEndpoint, nil)
 	if err != nil {
+		c.logger.Error("Failed to create request to invalidate OAuth token", "error", err)
 		return err
 	}
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
+		c.logger.Error("Failed to make request to invalidate OAuth token", "error", err)
 		return err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("failed to invalidate token, status code: %d", resp.StatusCode)
+		errorMsg := fmt.Sprintf("Failed to invalidate token, status code: %d", resp.StatusCode)
+		c.logger.Warn(errorMsg)
+		return fmt.Errorf(errorMsg)
 	}
+
+	c.logger.Info("OAuth token invalidated successfully")
 
 	return nil
 }

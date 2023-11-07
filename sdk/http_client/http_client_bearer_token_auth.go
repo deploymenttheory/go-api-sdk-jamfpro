@@ -27,9 +27,7 @@ func (c *Client) SetBearerTokenAuthCredentials(credentials BearerTokenAuthCreden
 func (c *Client) ObtainToken() error {
 	authenticationEndpoint := c.ConstructAPIAuthEndpoint(BearerTokenEndpoint)
 
-	if c.config.DebugMode {
-		c.logger.Debug("Attempting to obtain token for user", "Username", c.BearerTokenAuthCredentials.Username)
-	}
+	c.logger.Debug("Attempting to obtain token for user", "Username", c.BearerTokenAuthCredentials.Username)
 
 	req, err := http.NewRequest("POST", authenticationEndpoint, nil)
 	if err != nil {
@@ -61,9 +59,7 @@ func (c *Client) ObtainToken() error {
 	c.Expiry = tokenResp.Expires
 	tokenDuration := time.Until(c.Expiry)
 
-	if c.config.DebugMode {
-		c.logger.Debug("Token obtained successfully", "Expiry", c.Expiry, "Duration", tokenDuration)
-	}
+	c.logger.Info("Token obtained successfully", "Expiry", c.Expiry, "Duration", tokenDuration)
 
 	return nil
 }
@@ -82,9 +78,7 @@ func (c *Client) RefreshToken() error {
 	}
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 
-	if c.config.DebugMode {
-		c.logger.Debug("Attempting to refresh token", "URL", tokenRefreshEndpoint)
-	}
+	c.logger.Debug("Attempting to refresh token", "URL", tokenRefreshEndpoint)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -105,9 +99,7 @@ func (c *Client) RefreshToken() error {
 		return err
 	}
 
-	if c.config.DebugMode {
-		c.logger.Debug("Token refreshed successfully", "Expiry", tokenResp.Expires)
-	}
+	c.logger.Info("Token refreshed successfully", "Expiry", tokenResp.Expires)
 
 	c.Token = tokenResp.Token
 	c.Expiry = tokenResp.Expires

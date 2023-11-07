@@ -3,6 +3,8 @@
 
 package jamfpro
 
+import "fmt"
+
 const uriSSOFailover = "/api/v1/sso/failover"
 
 type SSOFailoverResponse struct {
@@ -21,7 +23,7 @@ func (c *Client) GetSSOFailoverSettings() (*SSOFailoverResponse, error) {
 	}
 
 	if err != nil {
-		logger.Error("Failed to fetch SSO failover settings", "Error", err)
+		fmt.Printf("Failed to fetch SSO failover settings: %v\n", err)
 		return nil, err
 	}
 
@@ -42,7 +44,7 @@ func (c *Client) UpdateFailoverUrl() (*SSOFailoverResponse, error) {
 	}
 
 	if err != nil {
-		logger.Error("Failed to regenerate the failover URL", "Error", err)
+		fmt.Printf("Failed to regenerate the failover URL", "Error", err)
 		return nil, err
 	}
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -18,11 +19,15 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
+	// Instantiate the default logger and set the desired log level
+	logger := http_client.NewDefaultLogger()
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
 		InstanceName: authConfig.InstanceName,
-		DebugMode:    true,
-		Logger:       jamfpro.NewDefaultLogger(),
+		LogLevel:     logLevel,
+		Logger:       logger,
 		ClientID:     authConfig.ClientID,
 		ClientSecret: authConfig.ClientSecret,
 	}
@@ -32,6 +37,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Create a BYOProfile structure to send
 	newProfile := jamfpro.ResponseBYOProfile{
 		General: jamfpro.BYOProfileGeneralInfo{

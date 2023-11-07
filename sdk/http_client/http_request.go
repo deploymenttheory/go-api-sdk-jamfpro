@@ -67,7 +67,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	ctx = context.WithValue(ctx, requestIDKey{}, requestID)
 
 	// Determine which set of encoding and content-type request rules to use
-	handler := GetAPIHandler(endpoint, c.config.DebugMode)
+	handler := GetAPIHandler(endpoint, c.config.LogLevel)
 
 	// Construct request
 	requestData, err := handler.MarshalRequest(body, method)
@@ -101,9 +101,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	req.Header.Set("User-Agent", GetUserAgentHeader())
 
 	// Debug: Print request headers if in debug mode
-	if c.config.DebugMode {
-		c.logger.Debug("HTTP Request Headers:", req.Header)
-	}
+	c.logger.Debug("HTTP Request Headers:", req.Header)
 
 	// Define if request is retryable
 	retryableHTTPMethods := map[string]bool{
@@ -270,7 +268,7 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	}
 
 	// Determine which set of encoding and content-type request rules to use
-	handler := GetAPIHandler(endpoint, c.config.DebugMode)
+	handler := GetAPIHandler(endpoint, c.config.LogLevel)
 
 	// Marshal the multipart form data
 	requestData, contentType, err := handler.MarshalMultipartRequest(fields, files)
@@ -293,9 +291,8 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	req.Header.Set("User-Agent", GetUserAgentHeader())
 
 	// Debug: Print request headers if in debug mode
-	if c.config.DebugMode {
-		c.logger.Debug("HTTP Multipart Request Headers:", req.Header)
-	}
+
+	c.logger.Debug("HTTP Multipart Request Headers:", req.Header)
 
 	// Execute the request
 	resp, err := c.httpClient.Do(req)

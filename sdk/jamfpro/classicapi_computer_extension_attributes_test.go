@@ -401,7 +401,7 @@ func getClient(t *testing.T) *jamfpro.Client {
 	clientID := os.Getenv("JAMFPRO_CLIENT_ID")
 	clientSecret := os.Getenv("JAMFPRO_CLIENT_SECRET")
 	instanceName := os.Getenv("JAMFPRO_INSTANCE_NAME")
-	debugMode := os.Getenv("JAMFPRO_DEBUG_MODE") == "true"
+	//debugMode := os.Getenv("JAMFPRO_DEBUG_MODE") == "true"
 
 	// Check if environment variables are set
 	if clientID == "" {
@@ -416,8 +416,8 @@ func getClient(t *testing.T) *jamfpro.Client {
 
 	// Create a config object
 	config := jamfpro.Config{
-		InstanceName:             instanceName,
-		DebugMode:                debugMode,
+		InstanceName: instanceName,
+		//DebugMode:                debugMode,
 		ClientID:                 clientID,
 		ClientSecret:             clientSecret,
 		MaxConcurrentRequests:    5,

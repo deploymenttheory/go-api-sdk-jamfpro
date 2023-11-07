@@ -1,10 +1,12 @@
 // http_logging.go
-package http_client
+package jamfpro
 
 import "log"
 
+// Logger is an interface for logging within the SDK.// LogLevel mirrors the http_client's LogLevel to maintain compatibility.
 type LogLevel int
 
+// Exporting LogLevel constants matching http_client package.
 const (
 	LogLevelNone LogLevel = iota
 	LogLevelWarning
@@ -12,37 +14,30 @@ const (
 	LogLevelDebug
 )
 
-// Logger is an interface for logging within the SDK.
+// Logger interface to match http_client's Logger interface.
 type Logger interface {
 	SetLevel(level LogLevel)
-	Trace(msg string, keysAndValues ...interface{}) // For very detailed logs
-	Debug(msg string, keysAndValues ...interface{}) // For development and troubleshooting
-	Info(msg string, keysAndValues ...interface{})  // Informational messages
-	Warn(msg string, keysAndValues ...interface{})  // For potentially problematic situations
-	Error(msg string, keysAndValues ...interface{}) // For errors that might still allow the app to continue running
-	Fatal(msg string, keysAndValues ...interface{}) // For errors that might prevent the app from continuing
+	Trace(msg string, keysAndValues ...interface{})
+	Debug(msg string, keysAndValues ...interface{})
+	Info(msg string, keysAndValues ...interface{})
+	Warn(msg string, keysAndValues ...interface{})
+	Error(msg string, keysAndValues ...interface{})
+	Fatal(msg string, keysAndValues ...interface{})
 }
 
-// defaultLogger is the default logger based on Go's standard log package and includes a logLevel field to keep track of the current logging level.
+// defaultLogger now includes logLevel to control the logging output.
 type defaultLogger struct {
 	logLevel LogLevel
 }
 
-// SetLevel sets the current logging level for the defaultLogger.
+// SetLevel sets the log level for the logger.
 func (d *defaultLogger) SetLevel(level LogLevel) {
 	d.logLevel = level
 }
 
-// NewDefaultLogger now initializes a defaultLogger with a default log level.
-func NewDefaultLogger() Logger {
-	return &defaultLogger{
-		logLevel: LogLevelWarning, // default log level.
-	}
-}
-
-// Trace checks if the current log level permits debug messages before logging.
+// Trace logs if the level is set to LogLevelDebug or lower.
 func (d *defaultLogger) Trace(msg string, keysAndValues ...interface{}) {
-	if d.logLevel >= LogLevelDebug { // Trace is a part of LogLevelDebug
+	if d.logLevel >= LogLevelDebug {
 		log.Println("[TRACE]", msg, keysAndValues)
 	}
 }
@@ -81,3 +76,13 @@ func (d *defaultLogger) Fatal(msg string, keysAndValues ...interface{}) {
 		log.Fatalln("[FATAL]", msg, keysAndValues)
 	}
 }
+
+// NewDefaultLogger returns a new default logger instance with a default log level.
+func NewDefaultLogger() Logger {
+	return &defaultLogger{
+		logLevel: LogLevelWarning, // Default level can be set here.
+	}
+}
+
+// Expose the default logger instance for use in the main package.
+var DefaultLogger = NewDefaultLogger()
