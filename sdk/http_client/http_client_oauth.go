@@ -59,12 +59,11 @@ func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
 	defer resp.Body.Close()
 
 	// Debug: Print the entire raw response body for inspection
-	if c.config.DebugMode {
-		bodyBytes, _ := io.ReadAll(resp.Body)
-		c.logger.Debug("Raw OAuth response:", string(bodyBytes))
-		// Reset the response body to its original state
-		resp.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
-	}
+
+	bodyBytes, _ := io.ReadAll(resp.Body)
+	c.logger.Debug("Raw OAuth response:", string(bodyBytes))
+	// Reset the response body to its original state
+	resp.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
 	oauthResp := &OAuthResponse{}
 	err = json.NewDecoder(resp.Body).Decode(oauthResp)
@@ -100,9 +99,7 @@ func (c *Client) RefreshOAuthToken() error {
 	}
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 
-	if c.config.DebugMode {
-		c.logger.Debug("Attempting to refresh OAuth token", "URL", tokenRefreshEndpoint)
-	}
+	c.logger.Debug("Attempting to refresh OAuth token", "URL", tokenRefreshEndpoint)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
@@ -123,9 +120,7 @@ func (c *Client) RefreshOAuthToken() error {
 		return err
 	}
 
-	if c.config.DebugMode {
-		c.logger.Debug("OAuth token refreshed successfully", "Expiry", tokenResp.Expires)
-	}
+	c.logger.Debug("OAuth token refreshed successfully", "Expiry", tokenResp.Expires)
 
 	c.Token = tokenResp.Token
 	c.Expiry = tokenResp.Expires

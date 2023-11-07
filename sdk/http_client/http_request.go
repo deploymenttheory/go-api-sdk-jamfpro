@@ -9,6 +9,37 @@ import (
 	"time"
 )
 
+// DoRequest constructs and executes a standard HTTP request with support for retry logic.
+// It is intended for operations that can be encoded in a single JSON or XML body such as
+// creating or updating resources. This method includes token validation, concurrency control,
+// performance metrics, dynamic header setting, and structured error handling.
+//
+// Parameters:
+// - method: The HTTP method to use (e.g., GET, POST, PUT, DELETE, PATCH).
+// - endpoint: The API endpoint to which the request will be sent.
+// - body: The payload to send in the request, which will be marshaled based on the API handler rules.
+// - out: A pointer to a variable where the unmarshaled response will be stored.
+//
+// Returns:
+// - A pointer to the http.Response received from the server.
+// - An error if the request could not be sent, the response could not be processed, or if retry attempts fail.
+//
+// The function starts by validating the client's authentication token and managing concurrency using
+// a token system. It then determines the appropriate API handler for marshaling the request body and
+// setting headers. The request is sent to the constructed URL with all necessary headers including
+// authorization, content type, and user agent.
+//
+// If configured in debug mode, the function logs all request headers before sending. The function then
+// enters a loop to handle retryable HTTP methods, implementing a retry mechanism for transient errors,
+// rate limits, and other retryable conditions based on response status codes.
+//
+// The function also updates performance metrics to track total request count and cumulative response time.
+// After processing the response, it handles any API errors and unmarshals the response body into the provided
+// 'out' parameter if the response is successful.
+//
+// Note:
+// The function assumes that retryable HTTP methods have been properly defined in the retryableHTTPMethods map.
+// It is the caller's responsibility to close the response body when the request is successful to avoid resource leaks.
 func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*http.Response, error) {
 	// Auth Token validation check
 	valid, err := c.ValidAuthTokenCheck()
@@ -36,7 +67,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	ctx = context.WithValue(ctx, requestIDKey{}, requestID)
 
 	// Determine which set of encoding and content-type request rules to use
-	handler := GetAPIHandler(endpoint, c.config.DebugMode)
+	handler := GetAPIHandler(endpoint, c.config.LogLevel)
 
 	// Construct request
 	requestData, err := handler.MarshalRequest(body, method)
@@ -59,7 +90,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	}
 
 	// Define header content type based on url and http method
-	contentType := handler.GetContentType(method)
+	contentType := handler.GetContentTypeHeader(method)
 	// Define Request Headers dynamically based on handler logic
 	acceptHeader := handler.GetAcceptHeader(url)
 
@@ -67,7 +98,10 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Accept", acceptHeader)
-	req.Header.Set("User-Agent", GetUserAgent())
+	req.Header.Set("User-Agent", GetUserAgentHeader())
+
+	// Debug: Print request headers if in debug mode
+	c.logger.Debug("HTTP Request Headers:", req.Header)
 
 	// Define if request is retryable
 	retryableHTTPMethods := map[string]bool{
@@ -196,8 +230,36 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 			return resp, fmt.Errorf("Error status code: %d - %s", resp.StatusCode, statusDescription)
 		}
 	}
+	// TODO refactor to remove repition.
 }
 
+// DoMultipartRequest creates and executes a multipart HTTP request. It is used for sending files
+// and form fields in a single request. This method handles the construction of the multipart
+// message body, setting the appropriate headers, and sending the request to the given endpoint.
+//
+// Parameters:
+// - method: The HTTP method to use (e.g., POST, PUT).
+// - endpoint: The API endpoint to which the request will be sent.
+// - fields: A map of form fields and their values to include in the multipart message.
+// - files: A map of file field names to file paths that will be included as file attachments.
+// - out: A pointer to a variable where the unmarshaled response will be stored.
+//
+// Returns:
+// - A pointer to the http.Response received from the server.
+// - An error if the request could not be sent or the response could not be processed.
+//
+// The function first validates the authentication token, then constructs the multipart
+// request body based on the provided fields and files. It then constructs the full URL for
+// the request, sets the required headers (including Authorization and Content-Type), and
+// sends the request.
+//
+// If debug mode is enabled, the function logs all the request headers before sending the request.
+// After the request is sent, the function checks the response status code. If the response is
+// not within the success range (200-299), it logs an error and returns the response and an error.
+// If the response is successful, it attempts to unmarshal the response body into the 'out' parameter.
+//
+// Note:
+// The caller should handle closing the response body when successful.
 func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]string, files map[string]string, out interface{}) (*http.Response, error) {
 	// Auth Token validation check
 	valid, err := c.ValidAuthTokenCheck()
@@ -206,7 +268,7 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	}
 
 	// Determine which set of encoding and content-type request rules to use
-	handler := GetAPIHandler(endpoint, c.config.DebugMode)
+	handler := GetAPIHandler(endpoint, c.config.LogLevel)
 
 	// Marshal the multipart form data
 	requestData, contentType, err := handler.MarshalMultipartRequest(fields, files)
@@ -226,7 +288,11 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	// Set Request Headers
 	req.Header.Add("Authorization", "Bearer "+c.Token)
 	req.Header.Set("Content-Type", contentType)
-	req.Header.Set("User-Agent", GetUserAgent())
+	req.Header.Set("User-Agent", GetUserAgentHeader())
+
+	// Debug: Print request headers if in debug mode
+
+	c.logger.Debug("HTTP Multipart Request Headers:", req.Header)
 
 	// Execute the request
 	resp, err := c.httpClient.Do(req)

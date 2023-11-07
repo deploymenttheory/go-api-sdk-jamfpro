@@ -1,12 +1,10 @@
-// This uses a seperate function to the other delete operations, so it is intentionally
-// included as a seperate example.
-
 package main
 
 import (
 	"fmt"
 	"log"
 
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -20,16 +18,20 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Configuration for the Jamf Pro client
+	// Instantiate the default logger and set the desired log level
+	logger := http_client.NewDefaultLogger()
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+
+	// Configuration for the jamfpro
 	config := jamfpro.Config{
 		InstanceName: authConfig.InstanceName,
-		DebugMode:    true,
-		Logger:       jamfpro.NewDefaultLogger(),
+		LogLevel:     logLevel,
+		Logger:       logger,
 		ClientID:     authConfig.ClientID,
 		ClientSecret: authConfig.ClientSecret,
 	}
 
-	// Create a new Jamf Pro client instance
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)

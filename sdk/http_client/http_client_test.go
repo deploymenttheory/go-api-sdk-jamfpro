@@ -7,8 +7,9 @@ import (
 )
 
 // Mock Logger for testing
-// Mock Logger for testing
 type mockLogger struct{}
+
+func (m *mockLogger) SetLevel(level LogLevel) {}
 
 func (m *mockLogger) Trace(msg string, keysAndValues ...interface{}) {}
 
@@ -55,7 +56,7 @@ func TestNewClient(t *testing.T) {
 	// Setup
 	instanceName := "testInstance"
 	config := Config{
-		DebugMode:                 true,
+		LogLevel:                  LogLevelDebug, // Use LogLevel instead of DebugMode
 		MaxRetryAttempts:          3,
 		CustomBackoff:             nil,
 		EnableDynamicRateLimiting: true,

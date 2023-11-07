@@ -36,7 +36,7 @@ type Client struct {
 
 // Config holds configuration options for the HTTP Client.
 type Config struct {
-	DebugMode                 bool
+	LogLevel                  LogLevel // Field for log level setting
 	MaxRetryAttempts          int
 	CustomBackoff             func(attempt int) time.Duration
 	EnableDynamicRateLimiting bool
@@ -122,15 +122,18 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 	}
 
 	if logger == nil {
-		logger = &defaultLogger{}
+		logger = NewDefaultLogger()
 	}
+
+	// Set the log level of the logger
+	logger.SetLevel(config.LogLevel)
 
 	client := &Client{
 		InstanceName:   instanceName,
 		httpClient:     &http.Client{Timeout: DefaultTimeout},
 		config:         config,
 		logger:         logger,
-		ConcurrencyMgr: NewConcurrencyManager(config.MaxConcurrentRequests, logger, config.DebugMode),
+		ConcurrencyMgr: NewConcurrencyManager(config.MaxConcurrentRequests, logger, config.LogLevel >= LogLevelDebug),
 		PerfMetrics:    ClientPerformanceMetrics{},
 	}
 
@@ -142,7 +145,7 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 	// Start the periodic metric evaluation for adjusting concurrency.
 	go client.StartMetricEvaluation()
 
-	if client.config.DebugMode {
+	if client.config.LogLevel >= LogLevelDebug {
 		client.logger.Debug(
 			"New client initialized with the following details:",
 			"InstanceName", client.InstanceName,

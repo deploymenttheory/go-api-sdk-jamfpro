@@ -29,7 +29,7 @@ type Client struct {
 
 type Config struct {
 	InstanceName             string
-	DebugMode                bool
+	LogLevel                 http_client.LogLevel
 	Logger                   http_client.Logger
 	MaxConcurrentRequests    int
 	TokenLifespan            time.Duration
@@ -50,9 +50,15 @@ func NewClient(config Config) (*Client, error) {
 	if config.TokenRefreshBufferPeriod == 0 {
 		config.TokenRefreshBufferPeriod = defaultTokenBufferPeriod
 	}
+	// Initialize the logger with the desired log level
+	if config.Logger == nil {
+		config.Logger = http_client.NewDefaultLogger()
+	}
+	config.Logger.SetLevel(config.LogLevel) // Ensure the logger respects the set log level
+
 	// Initialise http client
 	httpConfig := http_client.Config{
-		DebugMode:                config.DebugMode,
+		LogLevel:                 config.LogLevel,
 		Logger:                   config.Logger,
 		MaxConcurrentRequests:    config.MaxConcurrentRequests,
 		TokenLifespan:            config.TokenLifespan,
