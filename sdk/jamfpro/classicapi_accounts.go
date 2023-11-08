@@ -103,7 +103,7 @@ type AccountDataSubsetGroups struct {
 
 // GetAccounts retrieves a list of all accounts (both users and groups).
 func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
-	endpoint := fmt.Sprintf("%s", uriAPIAccounts)
+	endpoint := uriAPIAccounts
 
 	var accountsList ResponseAccountsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountsList)
