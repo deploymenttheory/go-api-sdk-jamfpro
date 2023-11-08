@@ -414,6 +414,37 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 - [ ] ✅ GET `/api/v1/sso/failover` - GetSSOFailoverSettings retrieves the current failover settings
 - [ ] ✅ PUT `/api/v1/sso/failover/generate` - UpdateFailoverUrl updates failover url, by changing failover key to new one, and returns new failover settings
 
+### Jamf Pro API - Volume Purchasing Subscriptions
+
+This documentation provides details on the API endpoints available for managing Volume Purchasing Subscriptions within Jamf Pro.
+
+#### Endpoints
+
+- [x] ✅ **GET** `/api/v1/volume-purchasing-subscriptions`  
+  `GetVolumePurchasingSubscriptions` retrieves all volume purchasing subscriptions.
+
+- [x] ✅ **GET** `/api/v1/volume-purchasing-subscriptions/{id}`  
+  `GetVolumePurchasingSubscriptionByID` fetches a single volume purchasing subscription by its ID.
+
+- [x] ✅ **POST** `/api/v1/volume-purchasing-subscriptions`  
+  `CreateVolumePurchasingSubscription` creates a new volume purchasing subscription. If `siteId` is not included in the request, it defaults to `siteId: "-1"`.
+
+- [x] ✅ **PUT** `/api/v1/volume-purchasing-subscriptions/{id}`  
+  `UpdateVolumePurchasingSubscriptionByID` updates a volume purchasing subscription by its ID.
+
+- [x] ✅ **DELETE** `/api/v1/volume-purchasing-subscriptions/{id}`  
+  `DeleteVolumePurchasingSubscriptionByID` deletes a volume purchasing subscription by its ID.
+
+- [x] ✅ **Custom Function**  
+  `GetVolumePurchasingSubscriptionByNameByID` fetches a volume purchasing subscription by its display name and retrieves its details using its ID.
+
+- [x] ✅ **Custom Function**  
+  `UpdateVolumePurchasingSubscriptionByNameByID` updates a volume purchasing subscription by its display name.
+
+- [x] ✅ **Custom Function**  
+  `DeleteVolumePurchasingSubscriptionByName` deletes a volume purchasing subscription by its display name after resolving the name to an ID.
+
+
 ## Progress Summary
 
 - Total Endpoints: 150
