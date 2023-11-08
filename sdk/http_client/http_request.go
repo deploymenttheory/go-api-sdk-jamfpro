@@ -90,7 +90,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	}
 
 	// Define header content type based on url and http method
-	contentType := handler.GetContentTypeHeader(method)
+	contentType := handler.GetContentTypeHeader(method, url)
 	// Define Request Headers dynamically based on handler logic
 	acceptHeader := handler.GetAcceptHeader(url)
 

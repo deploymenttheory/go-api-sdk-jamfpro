@@ -1,6 +1,6 @@
-// classicapi_cache_settings.go
+// jamfapi_cache_settings.go
 // Jamf Pro Classic Api - Cache Settings
-// api reference: Your provided URL (adapt as needed)
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-cache-settings
 // Classic API requires the structs to support a JSON data structure.
 
 package jamfpro
