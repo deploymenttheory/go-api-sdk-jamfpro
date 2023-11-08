@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -32,6 +33,7 @@ func main() {
 	}
 
 	// Create a new jamfpro client instance
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
@@ -41,5 +43,14 @@ func main() {
 		log.Fatalf("Error fetching Jamf Pro Information: %s", err)
 	}
 
-	fmt.Printf("Jamf Pro Information: %+v\n", info)
+	// Convert the info struct to pretty-printed JSON
+	infoJSON, err := json.MarshalIndent(info, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshalling Jamf Pro Information to JSON: %s", err)
+	}
+
+	// Print the pretty-printed JSON
+	fmt.Println("Jamf Pro Information:")
+	fmt.Println(string(infoJSON))
+
 }
