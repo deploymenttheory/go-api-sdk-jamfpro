@@ -119,23 +119,26 @@ type APIHandler interface {
 	MarshalRequest(body interface{}, method string) ([]byte, error)
 	MarshalMultipartRequest(fields map[string]string, files map[string]string) ([]byte, string, error) // New method for multipart
 	UnmarshalResponse(resp *http.Response, out interface{}) error
-	GetContentTypeHeader(method string) string
+	//GetContentTypeHeader(method string) string
+	GetContentTypeHeader(method string, url string) string
 	SetLogger(logger Logger)
 	SetDebugMode(debug bool)
 	GetAcceptHeader(url string) string
 }
 
 // GetContentTypeHeader for ClassicApiHandler always returns XML as the content type.
-func (h *ClassicApiHandler) GetContentTypeHeader(method string) string {
+func (h *ClassicApiHandler) GetContentTypeHeader(url string, method string) string {
+	h.logger.Info("Setting default Content-Type to application/xml", "URL", url)
 	return "application/xml"
 }
 
-// GetContentTypeHeader for JamfProApiHandler always returns JSON as the content type.
-func (h *JamfProApiHandler) GetContentTypeHeader(method string) string {
+// GetContentTypeHeader returns the correct Content-Type header based on the URL endpoint.
+func (h *JamfProApiHandler) GetContentTypeHeader(url string, method string) string {
+	h.logger.Info("Setting default Content-Type to application/json", "URL", url)
 	return "application/json"
 }
 
-func (h *UnknownApiHandler) GetContentTypeHeader(method string) string {
+func (h *UnknownApiHandler) GetContentTypeHeader(url string, method string) string {
 	// For an unknown API handler, defaults to JSON handling behavior.
 	return "application/json"
 }
@@ -393,10 +396,24 @@ func (h *UnknownApiHandler) MarshalMultipartRequest(fields map[string]string, fi
 // GetAcceptHeader returns the correct Accept header based on the URL endpoint.
 // If the URL matches certain patterns that are exceptions, a specific Accept header is returned.
 func (h *JamfProApiHandler) GetAcceptHeader(url string) string {
+	// List of endpoints that should have the "application/x-x509-ca-cert" Accept header
+	derEndpoints := []string{
+		"/api/v1/pki/certificate-authority/active/der",
+		// Add more endpoints as needed
+	}
+
+	// Check if the requested URL is one of the DER endpoints
+	for _, endpoint := range derEndpoints {
+		if strings.Contains(url, endpoint) {
+			return "application/pkix-cert" // Return the correct content type for DER endpoints
+		}
+	}
+
 	// List of endpoints that should have the "image/*" Accept header
 	imageEndpoints := []string{
 		"/api/v1/branding-images/download/",
 		"/api/v1/icon/download/",
+		// Add more endpoints as needed
 	}
 
 	// Check if the requested URL is one of the image endpoints
@@ -414,12 +431,14 @@ func (h *JamfProApiHandler) GetAcceptHeader(url string) string {
 // Since the Classic API does not have exceptions like the Jamf Pro API for certain endpoints,
 // it defaults to the standard content type, which is "application/xml".
 func (h *ClassicApiHandler) GetAcceptHeader(url string) string {
-	return h.GetContentTypeHeader("") // Returns the default "application/xml"
+	method := ""
+	return h.GetContentTypeHeader(url, method) // Returns the default "application/xml"
 }
 
 // GetAcceptHeader returns the Accept header value for requests made through an unknown API type.
 // Since the handler does not know the specifics of the API, it defaults to "application/json",
 // which is a reasonable default for modern web APIs.
 func (h *UnknownApiHandler) GetAcceptHeader(url string) string {
-	return h.GetContentTypeHeader("") // Returns the default "application/json"
+	method := ""
+	return h.GetContentTypeHeader(url, method) // Returns the default "application/json"
 }

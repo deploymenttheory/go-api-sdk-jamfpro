@@ -29,7 +29,7 @@ import (
 // setting headers. The request is sent to the constructed URL with all necessary headers including
 // authorization, content type, and user agent.
 //
-// If configured in debug mode, the function logs all request headers before sending. The function then
+// If configured for debug logging, the function logs all request headers before sending. The function then
 // enters a loop to handle retryable HTTP methods, implementing a retry mechanism for transient errors,
 // rate limits, and other retryable conditions based on response status codes.
 //
@@ -69,7 +69,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	// Determine which set of encoding and content-type request rules to use
 	handler := GetAPIHandler(endpoint, c.config.LogLevel)
 
-	// Construct request
+	// Marshal Request with correct encoding
 	requestData, err := handler.MarshalRequest(body, method)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	}
 
 	// Define header content type based on url and http method
-	contentType := handler.GetContentTypeHeader(method)
+	contentType := handler.GetContentTypeHeader(method, url)
 	// Define Request Headers dynamically based on handler logic
 	acceptHeader := handler.GetAcceptHeader(url)
 
