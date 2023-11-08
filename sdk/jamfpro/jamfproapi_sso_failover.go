@@ -44,7 +44,7 @@ func (c *Client) UpdateFailoverUrl() (*SSOFailoverResponse, error) {
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to regenerate the failover URL", "Error", err)
+		fmt.Printf("Failed to regenerate the failover URL: %v\n", err)
 		return nil, err
 	}
 
