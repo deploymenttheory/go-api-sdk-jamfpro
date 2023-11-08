@@ -156,3 +156,20 @@ func (c *Client) DeleteSelfServiceBrandingMacOSByID(id string) error {
 
 	return nil
 }
+
+// DeleteSelfServiceBrandingMacOSByName deletes a self-service branding configuration for macOS by name.
+func (c *Client) DeleteSelfServiceBrandingMacOSByName(name string) error {
+	brandingList, err := c.GetSelfServiceBrandingMacOS()
+	if err != nil {
+		return fmt.Errorf("failed to fetch all self-service branding configurations: %v", err)
+	}
+
+	// Search for the branding with the given name
+	for _, branding := range brandingList.Results {
+		if branding.BrandingName == name || branding.BrandingNameSecondary == name {
+			return c.DeleteSelfServiceBrandingMacOSByID(branding.ID)
+		}
+	}
+
+	return fmt.Errorf("no self-service branding found with the name %s", name)
+}
