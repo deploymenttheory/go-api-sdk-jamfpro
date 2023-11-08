@@ -1,5 +1,7 @@
 // jamfproapi_sso_failover.go
-// uses jamf pro api and therefore structs support JSON only.
+// Jamf Pro Api - SSO Failover URL
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-sso-failover
+// Jamf Pro API requires the structs to support an JSON data structure.
 
 package jamfpro
 
@@ -44,7 +46,7 @@ func (c *Client) UpdateFailoverUrl() (*SSOFailoverResponse, error) {
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to regenerate the failover URL", "Error", err)
+		fmt.Printf("Failed to regenerate the failover URL: %v\n", err)
 		return nil, err
 	}
 

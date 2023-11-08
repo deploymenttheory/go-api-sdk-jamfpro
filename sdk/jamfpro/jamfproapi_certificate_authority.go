@@ -1,5 +1,7 @@
 // jamfproapi_certificate_authority.go
 // Jamf Pro Classic Api - Certificate Authority Information
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-pki-certificate-authority-active
+// Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
 

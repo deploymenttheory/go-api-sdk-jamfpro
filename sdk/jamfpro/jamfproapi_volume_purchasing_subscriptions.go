@@ -1,7 +1,7 @@
 // jamfproapi_volume_purchasing_subscriptions.go
 // Jamf Pro Api - Volume Purchasing Subscriptions
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-volume-purchasing-subscriptions
-// Classic API requires the structs to support an JSON data structure.
+// Jamf Pro API requires the structs to support an JSON data structure.
 package jamfpro
 
 import (

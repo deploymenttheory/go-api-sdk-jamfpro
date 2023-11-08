@@ -36,7 +36,7 @@ func (c *Client) GetSelfServiceBrandingMacOS() (*ResponseSelfServiceBranding, er
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to fetch self-service branding for macOS", "Error", err)
+		fmt.Printf("Failed to fetch self-service branding for macOS: %v\n", err)
 		return nil, err
 	}
 
@@ -56,7 +56,7 @@ func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*SelfServiceBrandin
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to fetch self-service branding for macOS by ID", "Error", err)
+		fmt.Printf("Failed to fetch self-service branding for macOS by ID: %v\n", err)
 		return nil, err
 	}
 

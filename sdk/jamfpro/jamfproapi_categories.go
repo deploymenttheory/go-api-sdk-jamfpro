@@ -1,5 +1,5 @@
 // jamfproapi_categories.go
-// Jamf Pro Api - osx configuration profiles
+// Jamf Pro Api - Categories
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-categories
 // Jamf Pro API requires the structs to support a JSON data structure.
 

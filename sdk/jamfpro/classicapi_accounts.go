@@ -103,12 +103,12 @@ type AccountDataSubsetGroups struct {
 
 // GetAccounts retrieves a list of all accounts (both users and groups).
 func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
-	endpoint := fmt.Sprintf("%s", uriAPIAccounts)
+	endpoint := uriAPIAccounts
 
 	var accountsList ResponseAccountsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountsList)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -126,7 +126,7 @@ func (c *Client) GetAccountByID(id int) (*ResponseAccount, error) {
 	var account ResponseAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -144,7 +144,7 @@ func (c *Client) GetAccountByName(name string) (*ResponseAccount, error) {
 	var account ResponseAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -162,6 +162,7 @@ func (c *Client) GetAccountGroupByID(id int) (*ResponseAccountGroup, error) {
 	var group ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -179,7 +180,7 @@ func (c *Client) GetAccountGroupByName(name string) (*ResponseAccount, error) {
 	var account ResponseAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -215,7 +216,7 @@ func (c *Client) CreateAccountByID(account *ResponseAccount) (*ResponseAccount, 
 	var returnedAccount ResponseAccount
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccount)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -251,7 +252,7 @@ func (c *Client) CreateAccountGroupByID(accountGroup *ResponseAccountGroup) (*Re
 	var returnedAccountGroup ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccountGroup)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -286,7 +287,7 @@ func (c *Client) UpdateAccountByID(id int, account *ResponseAccount) (*ResponseA
 	var updatedAccount ResponseAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -321,7 +322,7 @@ func (c *Client) UpdateAccountByName(name string, account *ResponseAccount) (*Re
 	var updatedAccount ResponseAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -356,7 +357,7 @@ func (c *Client) UpdateAccountGroupByID(id int, group *ResponseAccountGroup) (*R
 	var updatedGroup ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -391,7 +392,7 @@ func (c *Client) UpdateAccountGroupByName(name string, group *ResponseAccountGro
 	var updatedGroup ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return nil, err
 	}
 
@@ -409,7 +410,7 @@ func (c *Client) DeleteAccountByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return err
 	}
 
@@ -427,7 +428,7 @@ func (c *Client) DeleteAccountByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return err
 	}
 
@@ -445,7 +446,7 @@ func (c *Client) DeleteAccountGroupByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return err
 	}
 
@@ -463,7 +464,7 @@ func (c *Client) DeleteAccountGroupByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request", "Error", err)
+		fmt.Printf("Failed to execute request: %v\n", err)
 		return err
 	}
 

@@ -444,11 +444,38 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **Custom Function**  
   `DeleteVolumePurchasingSubscriptionByName` deletes a volume purchasing subscription by its display name after resolving the name to an ID.
 
+### Jamf Pro API - Computer Inventory Collection Settings
+
+This documentation outlines the API endpoints available for managing Computer Inventory Collection Settings in Jamf Pro.
+
+#### Endpoints
+
+- [x] ✅ **GET** `/api/v1/computer-inventory-collection-settings`  
+  `GetComputerInventoryCollectionSettings` retrieves the current computer inventory collection preferences and custom paths.
+
+- [x] ✅ **PATCH** `/api/v1/computer-inventory-collection-settings`  
+  `UpdateComputerInventoryCollectionSettings` updates the computer inventory collection preferences.
+
+- [x] ✅ **POST** `/api/v1/computer-inventory-collection-settings/custom-path`  
+  `CreateComputerInventoryCollectionSettingsCustomPath` creates a new custom path for the computer inventory collection settings.
+
+- [x] ✅ **DELETE** `/api/v1/computer-inventory-collection-settings/custom-path/{id}`  
+  `DeleteComputerInventoryCollectionSettingsCustomPathByID` deletes a custom path by its ID.
+
+### Jamf Pro API - Jamf Pro Information
+
+This documentation covers the API endpoints available for retrieving information about the Jamf Pro server.
+
+#### Endpoints
+
+- [x] ✅ **GET** `/api/v2/jamf-pro-information`  
+  `GetJamfProInformation` retrieves information about various services enabled on the Jamf Pro server, like VPP token, DEP account status, BYOD, and more.
+
 
 ## Progress Summary
 
-- Total Endpoints: 150
-- Covered: 149
+- Total Endpoints: 164
+- Covered: 163
 - Not Covered: 1
 - Partially Covered: 0
 
