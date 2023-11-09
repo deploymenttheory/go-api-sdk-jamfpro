@@ -472,7 +472,7 @@ This documentation covers the API endpoints available for retrieving information
   `GetJamfProInformation` retrieves information about various services enabled on the Jamf Pro server, like VPP token, DEP account status, BYOD, and more.
 
 	
-# Jamf Pro Classic API - Classes
+### Jamf Pro Classic API - Classes
 
 This documentation provides details on the API endpoints available for managing classes within Jamf Pro using the Classic API which requires XML data structure support.
 
@@ -502,6 +502,30 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/classes/name/{name}`  
   `DeleteClassByName` deletes a class by its name.
 
+Jamf Pro Classic API - Computer Invitations
+This documentation outlines the API endpoints available for managing computer invitations within Jamf Pro using the Classic API, which relies on XML data structures.
+
+Endpoints
+ ✅ GET /JSSResource/computerinvitations
+GetComputerInvitations retrieves a list of all computer invitations.
+
+ ✅ GET /JSSResource/computerinvitations/id/{id}
+GetComputerInvitationByID fetches a single computer invitation by its ID.
+
+ ✅ GET /JSSResource/computerinvitations/invitation/{invitation}
+GetComputerInvitationsByInvitationID retrieves a computer invitation by its invitation ID.
+
+ ✅ POST /JSSResource/computerinvitations/id/0
+CreateComputerInvitation creates a new computer invitation. Using ID 0 indicates creation as per API pattern. If siteId is not included, it defaults to using a siteId of -1, implying no specific site association.
+
+ ❌ PUT /JSSResource/computerinvitations/invitation/{invitation}
+There is no documented endpoint for updating a computer invitation by its invitation ID.
+
+ ✅ DELETE /JSSResource/computerinvitations/id/{id}
+DeleteComputerInvitationByID deletes a computer invitation by its ID.
+
+ ❌ DELETE /JSSResource/computerinvitations/invitation/{invitation}
+There is currently no SDK coverage for deleting an invitation by invitation ID
 
 ## Progress Summary
 
