@@ -471,6 +471,37 @@ This documentation covers the API endpoints available for retrieving information
 - [x] ✅ **GET** `/api/v2/jamf-pro-information`  
   `GetJamfProInformation` retrieves information about various services enabled on the Jamf Pro server, like VPP token, DEP account status, BYOD, and more.
 
+	
+# Jamf Pro Classic API - Classes
+
+This documentation provides details on the API endpoints available for managing classes within Jamf Pro using the Classic API which requires XML data structure support.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/classes`  
+  `GetClasses` retrieves a list of all classes.
+
+- [x] ✅ **GET** `/JSSResource/classes/id/{id}`  
+  `GetClassesByID` fetches a single class by its ID.
+
+- [x] ✅ **GET** `/JSSResource/classes/name/{name}`  
+  `GetClassesByName` retrieves a class by its name.
+
+- [x] ✅ **POST** `/JSSResource/classes/id/0`  
+  `CreateClassesByID` creates a new class with the provided details. Using ID `0` indicates creation as per API pattern. If `siteId` is not included, it defaults to `siteId: "-1"`.
+
+- [x] ✅ **PUT** `/JSSResource/classes/id/{id}`  
+  `UpdateClassesByID` updates an existing class with the given ID.
+
+- [x] ✅ **PUT** `/JSSResource/classes/name/{name}`  
+  `UpdateClassesByName` updates an existing class with the given name.
+
+- [x] ✅ **DELETE** `/JSSResource/classes/id/{id}`  
+  `DeleteClassByID` deletes a class by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/classes/name/{name}`  
+  `DeleteClassByName` deletes a class by its name.
+
 
 ## Progress Summary
 
