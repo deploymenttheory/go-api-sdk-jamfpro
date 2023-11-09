@@ -28,71 +28,70 @@ type ClassItem struct {
 
 // Structs for the Class response by ID
 type ResponseClasses struct {
-	ID                  int                 `xml:"id"`
-	Source              string              `xml:"source"`
-	Name                string              `xml:"name"`
-	Description         string              `xml:"description"`
+	ID                  int                 `xml:"id,omitempty"`
+	Source              string              `xml:"source,omitempty"`
+	Name                string              `xml:"name"` // Required
+	Description         string              `xml:"description,omitempty"`
 	Site                ClassSite           `xml:"site"`
-	MobileDeviceGroup   ClassDeviceGroup    `xml:"mobile_device_group"`
-	Students            []ClassStudent      `xml:"students>student"`
-	Teachers            []ClassTeacher      `xml:"teachers>teacher"`
-	TeacherIDs          []ClassTeacherID    `xml:"teacher_ids>id"`
-	StudentGroupIDs     []ClassGroupID      `xml:"student_group_ids>id"`
-	TeacherGroupIDs     []ClassGroupID      `xml:"teacher_group_ids>id"`
-	MobileDevices       []ClassMobileDevice `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroupID []ClassGroupID      `xml:"mobile_device_group_id>id"`
-	MeetingTimes        ClassMeetingTimes   `xml:"meeting_times"`
-	AppleTVs            []ClassAppleTV      `xml:"apple_tvs>apple_tv"`
+	MobileDeviceGroup   ClassDeviceGroup    `xml:"mobile_device_group,omitempty"`
+	Students            []ClassStudent      `xml:"students>student,omitempty"`
+	Teachers            []ClassTeacher      `xml:"teachers>teacher,omitempty"`
+	TeacherIDs          []ClassTeacherID    `xml:"teacher_ids>id,omitempty"`
+	StudentGroupIDs     []ClassGroupID      `xml:"student_group_ids>id,omitempty"`
+	TeacherGroupIDs     []ClassGroupID      `xml:"teacher_group_ids>id,omitempty"`
+	MobileDevices       []ClassMobileDevice `xml:"mobile_devices>mobile_device,omitempty"`
+	MobileDeviceGroupID []ClassGroupID      `xml:"mobile_device_group_id>id,omitempty"`
+	MeetingTimes        ClassMeetingTimes   `xml:"meeting_times,omitempty"`
+	AppleTVs            []ClassAppleTV      `xml:"apple_tvs>apple_tv,omitempty"`
 }
-
 type ClassSite struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name"` // Required
 }
 
 type ClassDeviceGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type ClassStudent struct {
-	Student string `xml:"student"`
+	Student string `xml:"student,omitempty"`
 }
 
 type ClassTeacher struct {
-	Teacher string `xml:"teacher"`
+	Teacher string `xml:"teacher,omitempty"`
 }
 
 type ClassTeacherID struct {
-	ID int `xml:"id"`
+	ID int `xml:"id,omitempty"`
 }
 
 type ClassGroupID struct {
-	ID int `xml:"id"`
+	ID int `xml:"id,omitempty"`
 }
 
 type ClassMobileDevice struct {
-	Name           string `xml:"name"`
-	UDID           string `xml:"udid"`
-	WifiMacAddress string `xml:"wifi_mac_address"`
+	Name           string `xml:"name,omitempty"`
+	UDID           string `xml:"udid,omitempty"`
+	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
 }
 
 type ClassMeetingTimes struct {
-	MeetingTime ClassMeetingTime `xml:"meeting_time"`
+	MeetingTime ClassMeetingTime `xml:"meeting_time,omitempty"`
 }
 
 type ClassMeetingTime struct {
-	Days      string `xml:"days"`
-	StartTime int    `xml:"start_time"`
-	EndTime   int    `xml:"end_time"`
+	Days      string `xml:"days,omitempty"`
+	StartTime int    `xml:"start_time,omitempty"`
+	EndTime   int    `xml:"end_time,omitempty"`
 }
 
 type ClassAppleTV struct {
-	Name            string `xml:"name"`
-	UDID            string `xml:"udid"`
-	WifiMacAddress  string `xml:"wifi_mac_address"`
-	DeviceID        string `xml:"device_id"`
-	AirplayPassword string `xml:"airplay_password"`
+	Name            string `xml:"name,omitempty"`
+	UDID            string `xml:"udid,omitempty"`
+	WifiMacAddress  string `xml:"wifi_mac_address,omitempty"`
+	DeviceID        string `xml:"device_id,omitempty"`
+	AirplayPassword string `xml:"airplay_password,omitempty"`
 }
 
 // GetClasses gets a list of all classes.
