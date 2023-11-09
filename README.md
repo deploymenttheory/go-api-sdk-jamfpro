@@ -502,36 +502,67 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/classes/name/{name}`  
   `DeleteClassByName` deletes a class by its name.
 
-Jamf Pro Classic API - Computer Invitations
+###  Jamf Pro Classic API - Computer Invitations
 This documentation outlines the API endpoints available for managing computer invitations within Jamf Pro using the Classic API, which relies on XML data structures.
 
 Endpoints
- ✅ GET /JSSResource/computerinvitations
+- [x] ✅ GET `/JSSResource/computerinvitations`
 GetComputerInvitations retrieves a list of all computer invitations.
 
- ✅ GET /JSSResource/computerinvitations/id/{id}
+- [x] ✅ GET `/JSSResource/computerinvitations/id/{id}`
 GetComputerInvitationByID fetches a single computer invitation by its ID.
 
- ✅ GET /JSSResource/computerinvitations/invitation/{invitation}
+- [x] ✅ GET `/JSSResource/computerinvitations/invitation/{invitation}`
 GetComputerInvitationsByInvitationID retrieves a computer invitation by its invitation ID.
 
- ✅ POST /JSSResource/computerinvitations/id/0
+- [x] ✅ POST `/JSSResource/computerinvitations/id/0`
 CreateComputerInvitation creates a new computer invitation. Using ID 0 indicates creation as per API pattern. If siteId is not included, it defaults to using a siteId of -1, implying no specific site association.
 
- ❌ PUT /JSSResource/computerinvitations/invitation/{invitation}
+- [] ❌ PUT `/JSSResource/computerinvitations/invitation/{invitation}`
 There is no documented endpoint for updating a computer invitation by its invitation ID.
 
- ✅ DELETE /JSSResource/computerinvitations/id/{id}
+- [x] ✅ DELETE `/JSSResource/computerinvitations/id/{id}`
 DeleteComputerInvitationByID deletes a computer invitation by its ID.
 
- ❌ DELETE /JSSResource/computerinvitations/invitation/{invitation}
+- [] ❌ DELETE `/JSSResource/computerinvitations/invitation/{invitation}`
 There is currently no SDK coverage for deleting an invitation by invitation ID
+
+### Jamf Pro Classic API - Disk Encryption Configurations
+
+This documentation provides details on the API endpoints available for managing disk encryption configurations within Jamf Pro using the Classic API which requires XML data structure support.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/diskencryptionconfigurations`  
+  `GetDiskEncryptionConfigurations` retrieves a serialized list of all disk encryption configurations.
+
+- [x] ✅ **GET** `/JSSResource/diskencryptionconfigurations/id/{id}`  
+  `GetDiskEncryptionConfigurationByID` fetches a single disk encryption configuration by its ID.
+
+- [x] ✅ **GET** `/JSSResource/diskencryptionconfigurations/name/{name}`  
+  `GetDiskEncryptionConfigurationByName` retrieves a disk encryption configuration by its name.
+
+- [x] ✅ **POST** `/JSSResource/diskencryptionconfigurations/id/0`  
+  `CreateDiskEncryptionConfiguration` creates a new disk encryption configuration with the provided details. Using ID `0` indicates creation as per API pattern.
+
+- [x] ✅ **PUT** `/JSSResource/diskencryptionconfigurations/id/{id}`  
+  `UpdateDiskEncryptionConfigurationByID` updates an existing disk encryption configuration with the given ID.
+
+- [x] ✅ **PUT** `/JSSResource/diskencryptionconfigurations/name/{name}`  
+  `UpdateDiskEncryptionConfigurationByName` updates an existing disk encryption configuration with the given name.
+
+- [x] ✅ **DELETE** `/JSSResource/diskencryptionconfigurations/id/{id}`  
+  `DeleteDiskEncryptionConfigurationByID` deletes a disk encryption configuration by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/diskencryptionconfigurations/name/{name}`  
+  `DeleteDiskEncryptionConfigurationByName` deletes a disk encryption configuration by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 164
-- Covered: 163
-- Not Covered: 1
+- Total Endpoints: 185
+- Covered: 182
+- Not Covered: 3
 - Partially Covered: 0
 
 
