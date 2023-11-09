@@ -13,6 +13,9 @@ func main() {
 	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
+	// Define the filename for the downloaded certificate
+	downloadPath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/certificate.der"
+
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
 	if err != nil {
@@ -37,10 +40,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-	derString, err := client.GetActiveCertificateAuthorityInDER()
+
+	// Attempt to download the active certificate authority in DER format
+	err = client.GetActiveCertificateAuthorityInDER(downloadPath)
 	if err != nil {
-		log.Fatalf("Error retrieving active certificate authority DER: %s", err)
+		log.Fatalf("Error saving active certificate authority DER: %s", err)
 	}
 
-	fmt.Printf("Active Certificate Authority DER:\n%s\n", derString)
+	fmt.Printf("Active Certificate Authority DER saved to: %s\n", downloadPath)
 }

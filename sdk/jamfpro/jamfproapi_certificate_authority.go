@@ -7,7 +7,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"io"
 )
 
 const uriCertificateAuthority = "/api/v1/pki/certificate-authority"
@@ -52,23 +51,14 @@ func (c *Client) GetActiveCertificateAuthority() (*ResponseActiveCertificateAuth
 }
 
 // GetActiveCertificateAuthorityInDER retrieves the active certificate authority in DER format.
-func (c *Client) GetActiveCertificateAuthorityInDER() (string, error) {
+func (c *Client) GetActiveCertificateAuthorityInDER(filename string) error {
 	endpoint := fmt.Sprintf("%s/active/der", uriCertificateAuthority)
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, nil)
+	// Use DoDownloadFileRequest to handle the file download.
+	err := c.HTTP.DoDownloadFileRequest(endpoint, filename)
 	if err != nil {
-		return "", fmt.Errorf("failed to fetch active certificate authority DER: %v", err)
+		return fmt.Errorf("failed to fetch active certificate authority DER: %v", err)
 	}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	// Assuming the response body is the raw DER string
-	derBytes, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("failed to read DER data: %v", err)
-	}
-
-	return string(derBytes), nil
+	return nil
 }

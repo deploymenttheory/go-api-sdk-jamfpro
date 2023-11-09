@@ -10,5 +10,9 @@
   "/api/v2/inventory-preload/csv-template": {
     "accept": "text/csv",
     "content_type": null
+  },
+  "/api/v1/pki/certificate-authority/active/der": {
+    "accept": "application/pkix-cert",
+    "content_type": null
   }
 }

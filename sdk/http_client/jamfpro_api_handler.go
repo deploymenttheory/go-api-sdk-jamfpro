@@ -190,13 +190,13 @@ func (u *UnifiedJamfAPIHandler) GetContentTypeHeader(endpoint string) string {
 				u.logger.Debug("Content-Type for endpoint found in configMap", "endpoint", endpoint, "content_type", *config.ContentType)
 				return *config.ContentType
 			}
-			// Handle the case where ContentType is nil
 			u.logger.Debug("Content-Type for endpoint is nil in configMap, handling as special case", "endpoint", endpoint)
-			// Return a special default value or handle the nil case as needed
+			// If a nil ContentType is an expected case, do not set Content-Type header.
+			return "" // Return empty to indicate no Content-Type should be set.
 		}
 	}
 
-	// If no specific configuration is found, then check for standard URL patterns
+	// If no specific configuration is found, then check for standard URL patterns.
 	if strings.Contains(endpoint, "/JSSResource") {
 		u.logger.Debug("Content-Type for endpoint defaulting to XML for Classic API", "endpoint", endpoint)
 		return "application/xml" // Classic API uses XML
@@ -205,7 +205,7 @@ func (u *UnifiedJamfAPIHandler) GetContentTypeHeader(endpoint string) string {
 		return "application/json" // JamfPro API uses JSON
 	}
 
-	// Fallback to JSON if no other match is found
+	// Fallback to JSON if no other match is found.
 	u.logger.Debug("Content-Type for endpoint not found in configMap or standard patterns, using default JSON", "endpoint", endpoint)
 	return "application/json"
 }
@@ -341,19 +341,20 @@ func (u *UnifiedJamfAPIHandler) UnmarshalResponse(resp *http.Response, out inter
 // indicating a preference for XML. The specified MIME types cover common content formats like
 // images, JSON, XML, HTML, plain text, and certificates, with a fallback option for all other types.
 func (u *UnifiedJamfAPIHandler) GetAcceptHeader() string {
-	weightedAcceptHeader := "application/xml;q=1.0," +
-		"application/json;q=0.9," +
-		"application/pkix-cert;q=0.8," +
-		"application/pem-certificate-chain;q=0.8," +
-		"application/x-x509-ca-cert;q=0.8," +
-		"image/png;q=0.7," +
-		"image/jpeg;q=0.7," +
-		"image/*;q=0.6," +
-		"text/xml;q=0.5," +
-		"text/xml;charset=UTF-8;q=0.5," +
-		"text/html;q=0.4," +
-		"text/plain;q=0.3," +
-		"*/*;q=0.2" // Fallback for any other types
+	weightedAcceptHeader := "application/x-x509-ca-cert;q=0.95," +
+		"application/pkix-cert;q=0.94," +
+		"application/pem-certificate-chain;q=0.93," +
+		"application/octet-stream;q=0.8," + // For general binary files
+		"image/png;q=0.75," +
+		"image/jpeg;q=0.74," +
+		"image/*;q=0.7," +
+		"application/xml;q=0.65," +
+		"text/xml;q=0.64," +
+		"text/xml;charset=UTF-8;q=0.63," +
+		"application/json;q=0.5," +
+		"text/html;q=0.5," +
+		"text/plain;q=0.4," +
+		"*/*;q=0.05" // Fallback for any other types
 	return weightedAcceptHeader
 }
 
