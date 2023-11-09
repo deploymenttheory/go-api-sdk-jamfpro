@@ -67,10 +67,11 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	ctx = context.WithValue(ctx, requestIDKey{}, requestID)
 
 	// Determine which set of encoding and content-type request rules to use
-	handler := GetAPIHandler(endpoint, c.config.LogLevel)
+	//handler := GetAPIHandler(endpoint, c.config.LogLevel)
+	handler := GetAPIHandler(c.config)
 
 	// Marshal Request with correct encoding
-	requestData, err := handler.MarshalRequest(body, method)
+	requestData, err := handler.MarshalRequest(body, method, endpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +91,9 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 	}
 
 	// Define header content type based on url and http method
-	contentType := handler.GetContentTypeHeader(method, url)
+	contentType := handler.GetContentTypeHeader(endpoint)
 	// Define Request Headers dynamically based on handler logic
-	acceptHeader := handler.GetAcceptHeader(url)
+	acceptHeader := handler.GetAcceptHeader()
 
 	// Set Headers
 	req.Header.Add("Authorization", "Bearer "+c.Token)
@@ -268,7 +269,8 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	}
 
 	// Determine which set of encoding and content-type request rules to use
-	handler := GetAPIHandler(endpoint, c.config.LogLevel)
+	//handler := GetAPIHandler(endpoint, c.config.LogLevel)
+	handler := GetAPIHandler(c.config)
 
 	// Marshal the multipart form data
 	requestData, contentType, err := handler.MarshalMultipartRequest(fields, files)
