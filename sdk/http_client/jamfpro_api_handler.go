@@ -275,8 +275,14 @@ func (u *UnifiedJamfAPIHandler) UnmarshalResponse(resp *http.Response, out inter
 	// Log headers when in debug mode
 	u.logger.Debug("HTTP Response Headers:", resp.Header)
 
-	// Check the Content-Type header
+	// Check the Content-Type and Content-Disposition headers
 	contentType := resp.Header.Get("Content-Type")
+	contentDisposition := resp.Header.Get("Content-Disposition")
+
+	// Handle binary data if necessary
+	if err := u.handleBinaryData(contentType, contentDisposition, bodyBytes, out); err != nil {
+		return err
+	}
 
 	// If content type is HTML, extract the error message
 	if strings.Contains(contentType, "text/html") {
@@ -394,4 +400,17 @@ func (u *UnifiedJamfAPIHandler) MarshalMultipartRequest(fields map[string]string
 	}
 
 	return body.Bytes(), contentType, nil
+}
+
+// handleBinaryData checks if the response should be treated as binary data and assigns to out if so.
+func (u *UnifiedJamfAPIHandler) handleBinaryData(contentType, contentDisposition string, bodyBytes []byte, out interface{}) error {
+	if strings.Contains(contentType, "application/octet-stream") || strings.HasPrefix(contentDisposition, "attachment") {
+		if outPointer, ok := out.(*[]byte); ok {
+			*outPointer = bodyBytes
+			return nil
+		} else {
+			return fmt.Errorf("output parameter is not a *[]byte for binary data")
+		}
+	}
+	return nil // If not binary data, no action needed
 }

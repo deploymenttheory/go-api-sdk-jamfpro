@@ -5,9 +5,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -318,43 +316,4 @@ func (c *Client) DoMultipartRequest(method, endpoint string, fields map[string]s
 	}
 
 	return resp, nil
-}
-
-// DownloadFile will handle downloading of files without trying to unmarshal the response.
-func (c *Client) DoDownloadFileRequest(endpoint string, filename string) error {
-	resp, err := c.DoRequest("GET", endpoint, nil, nil)
-	if err != nil {
-		return fmt.Errorf("failed to make request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	// Check if the response is successful and if the content type indicates a binary file
-	if resp.StatusCode == http.StatusOK && isExpectedBinaryContentType(resp.Header.Get("Content-Type")) {
-		file, err := os.Create(filename)
-		if err != nil {
-			return fmt.Errorf("failed to create file: %v", err)
-		}
-		defer file.Close()
-
-		// Copy the response body directly to the file
-		_, err = io.Copy(file, resp.Body)
-		if err != nil {
-			return fmt.Errorf("failed to write to file: %v", err)
-		}
-	} else {
-		// If the response status code is not OK or the content type is not a binary file, handle it accordingly
-		return fmt.Errorf("received non-successful status code: %d or unexpected content type: %s", resp.StatusCode, resp.Header.Get("Content-Type"))
-	}
-
-	return nil
-}
-
-// isExpectedBinaryContentType checks if the content type is one of the expected binary file types
-func isExpectedBinaryContentType(contentType string) bool {
-	switch contentType {
-	case "application/x-x509-ca-cert", "application/pkix-cert", "application/octet-stream":
-		return true
-	default:
-		return false
-	}
 }

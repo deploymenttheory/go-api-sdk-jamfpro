@@ -49,16 +49,3 @@ func (c *Client) GetActiveCertificateAuthority() (*ResponseActiveCertificateAuth
 
 	return &certAuth, nil
 }
-
-// GetActiveCertificateAuthorityInDER retrieves the active certificate authority in DER format.
-func (c *Client) GetActiveCertificateAuthorityInDER(filename string) error {
-	endpoint := fmt.Sprintf("%s/active/der", uriCertificateAuthority)
-
-	// Use DoDownloadFileRequest to handle the file download.
-	err := c.HTTP.DoDownloadFileRequest(endpoint, filename)
-	if err != nil {
-		return fmt.Errorf("failed to fetch active certificate authority DER: %v", err)
-	}
-
-	return nil
-}
