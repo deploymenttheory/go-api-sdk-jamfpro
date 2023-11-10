@@ -1,0 +1,212 @@
+// classicapi_distribution_points.go
+// Jamf Pro Classic Api - Distribution Points
+// api reference: https://developer.jamf.com/jamf-pro/reference/distributionpoints
+// Classic API requires the structs to support an XML data structure.
+
+package jamfpro
+
+import (
+	"encoding/xml"
+	"fmt"
+)
+
+// URI for Distribution Points in Jamf Pro API
+const uriDistributionPoints = "/JSSResource/distributionpoints"
+
+// Struct to capture the XML response for distribution points list
+type ResponseDistributionPointsList struct {
+	Size              int                         `xml:"size"`
+	DistributionPoint DistributionPointListDetail `xml:"distribution_point"`
+}
+
+type DistributionPointListDetail struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Struct for detailed Distribution Point data
+type ResponseDistributionPoint struct {
+	ID                       int    `xml:"id"`
+	Name                     string `xml:"name"`
+	IPAddress                string `xml:"ip_address"`
+	IsMaster                 bool   `xml:"is_master"`
+	FailoverPoint            string `xml:"failover_point"`
+	FailoverPointURL         string `xml:"failover_point_url"`
+	EnableLoadBalancing      bool   `xml:"enable_load_balancing"`
+	LocalPath                string `xml:"local_path"`
+	SSHUsername              string `xml:"ssh_username"`
+	Password                 string `xml:"password"`
+	ConnectionType           string `xml:"connection_type"`
+	ShareName                string `xml:"share_name"`
+	WorkgroupOrDomain        string `xml:"workgroup_or_domain"`
+	SharePort                int    `xml:"share_port"`
+	ReadOnlyUsername         string `xml:"read_only_username"`
+	ReadOnlyPassword         string `xml:"read_only_password"`
+	ReadWriteUsername        string `xml:"read_write_username"`
+	ReadWritePassword        string `xml:"read_write_password"`
+	HTTPDownloadsEnabled     bool   `xml:"http_downloads_enabled"`
+	HTTPURL                  string `xml:"http_url"`
+	Context                  string `xml:"context"`
+	Protocol                 string `xml:"protocol"`
+	Port                     int    `xml:"port"`
+	NoAuthenticationRequired bool   `xml:"no_authentication_required"`
+	UsernamePasswordRequired bool   `xml:"username_password_required"`
+	HTTPUsername             string `xml:"http_username"`
+	HTTPPassword             string `xml:"http_password"`
+}
+
+// GetDistributionPoints retrieves a serialized list of distribution points.
+func (c *Client) GetDistributionPoints() (*ResponseDistributionPointsList, error) {
+	endpoint := uriDistributionPoints
+
+	var distributionPoints ResponseDistributionPointsList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoints)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch Distribution Points: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &distributionPoints, nil
+}
+
+// GetDistributionPointByID retrieves a single distribution point by its ID.
+func (c *Client) GetDistributionPointByID(id int) (*ResponseDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
+
+	var distributionPoint ResponseDistributionPoint
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch Distribution Point by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &distributionPoint, nil
+}
+
+// GetDistributionPointByName retrieves a single distribution point by its name.
+func (c *Client) GetDistributionPointByName(name string) (*ResponseDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
+
+	var distributionPoint ResponseDistributionPoint
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch Distribution Point by Name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &distributionPoint, nil
+}
+
+// CreateDistributionPoint creates a new distribution point.
+func (c *Client) CreateDistributionPoint(dp *ResponseDistributionPoint) (*ResponseDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/id/0", uriDistributionPoints)
+
+	// Wrap the distribution point with the XML root element name
+	requestBody := struct {
+		XMLName xml.Name `xml:"distribution_point"`
+		*ResponseDistributionPoint
+	}{
+		ResponseDistributionPoint: dp,
+	}
+
+	var createdDistributionPoint ResponseDistributionPoint
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDistributionPoint)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create Distribution Point: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &createdDistributionPoint, nil
+}
+
+// UpdateDistributionPointByID updates a distribution point by its ID.
+func (c *Client) UpdateDistributionPointByID(id int, dp *ResponseDistributionPoint) (*ResponseDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"distribution_point"`
+		*ResponseDistributionPoint
+	}{
+		ResponseDistributionPoint: dp,
+	}
+
+	var updatedDistributionPoint ResponseDistributionPoint
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update Distribution Point by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &updatedDistributionPoint, nil
+}
+
+// UpdateDistributionPointByName updates a distribution point by its name.
+func (c *Client) UpdateDistributionPointByName(name string, dp *ResponseDistributionPoint) (*ResponseDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"distribution_point"`
+		*ResponseDistributionPoint
+	}{
+		ResponseDistributionPoint: dp,
+	}
+
+	var updatedDistributionPoint ResponseDistributionPoint
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update Distribution Point by Name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &updatedDistributionPoint, nil
+}
+
+// DeleteDistributionPointByID deletes a distribution point by its ID.
+func (c *Client) DeleteDistributionPointByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete Distribution Point by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeleteDistributionPointByName deletes a distribution point by its name.
+func (c *Client) DeleteDistributionPointByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete Distribution Point by Name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}

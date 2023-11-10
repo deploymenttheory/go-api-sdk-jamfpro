@@ -557,11 +557,42 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/diskencryptionconfigurations/name/{name}`  
   `DeleteDiskEncryptionConfigurationByName` deletes a disk encryption configuration by its name.
 
+### Jamf Pro Classic API - Distribution Points
+
+This documentation provides details on the API endpoints available for managing distribution points within Jamf Pro using the Classic API, which requires XML data structure support.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/distributionpoints`  
+  `GetDistributionPoints` retrieves a serialized list of all distribution points.
+
+- [x] ✅ **GET** `/JSSResource/distributionpoints/id/{id}`  
+  `GetDistributionPointByID` fetches a single distribution point by its ID.
+
+- [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`  
+  `GetDistributionPointByName` retrieves a distribution point by its name.
+
+- [x] ✅ **POST** `/JSSResource/distributionpoints/id/0`  
+  `CreateDistributionPoint` creates a new distribution point with the provided details. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/distributionpoints/id/{id}`  
+  `UpdateDistributionPointByID` updates an existing distribution point by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`  
+  `UpdateDistributionPointByName` updates an existing distribution point by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/distributionpoints/id/{id}`  
+  `DeleteDistributionPointByID` deletes a distribution point by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`  
+  `DeleteDistributionPointByName` deletes a distribution point by its name.
+
+
 
 ## Progress Summary
 
-- Total Endpoints: 185
-- Covered: 182
+- Total Endpoints: 193
+- Covered: 190
 - Not Covered: 3
 - Partially Covered: 0
 
