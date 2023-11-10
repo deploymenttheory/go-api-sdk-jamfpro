@@ -20,12 +20,12 @@ const DefaultTimeout = 10 * time.Second
 
 // Client represents an HTTP client to interact with a specific API.
 type Client struct {
-	InstanceName               string
-	authMethod                 string // Specifies the authentication method: "bearer" or "oauth"
-	Token                      string
+	InstanceName               string                     // Website Instance name without the root domain
+	AuthMethod                 string                     // Specifies the authentication method: "bearer" or "oauth"
+	Token                      string                     // Authentication Token
 	OAuthCredentials           OAuthCredentials           // ClientID / Client Secret
 	BearerTokenAuthCredentials BearerTokenAuthCredentials // Username and Password for Basic Authentication
-	Expiry                     time.Time
+	Expiry                     time.Time                  // Expiry time set for the auth token
 	httpClient                 *http.Client
 	tokenLock                  sync.Mutex
 	config                     Config
@@ -36,9 +36,9 @@ type Client struct {
 
 // Config holds configuration options for the HTTP Client.
 type Config struct {
-	LogLevel                  LogLevel // Field for log level setting
-	MaxRetryAttempts          int
-	CustomBackoff             func(attempt int) time.Duration
+	LogLevel         LogLevel // Field for log level setting
+	MaxRetryAttempts int
+	//CustomBackoff             func(attempt int) time.Duration
 	EnableDynamicRateLimiting bool
 	Logger                    Logger
 	MaxConcurrentRequests     int
@@ -110,6 +110,37 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 	if instanceName == "" {
 		return nil, fmt.Errorf("instanceName cannot be empty")
 	}
+
+	// Validate MaxRetryAttempts
+	if config.MaxRetryAttempts < 0 {
+		return nil, fmt.Errorf("MaxRetryAttempts cannot be negative")
+	}
+
+	// Validate LogLevel
+	if config.LogLevel < LogLevelNone || config.LogLevel > LogLevelDebug {
+		return nil, fmt.Errorf("invalid LogLevel")
+	}
+
+	// Validate MaxConcurrentRequests
+	if config.MaxConcurrentRequests < 0 {
+		return nil, fmt.Errorf("MaxConcurrentRequests cannot be negative")
+	}
+
+	// Validate TokenLifespan
+	if config.TokenLifespan < 0 {
+		return nil, fmt.Errorf("TokenLifespan cannot be negative")
+	}
+
+	// Validate TokenRefreshBufferPeriod
+	if config.TokenRefreshBufferPeriod < 0 {
+		return nil, fmt.Errorf("TokenRefreshBufferPeriod cannot be negative")
+	}
+
+	// Validate TotalRetryDuration
+	if config.TotalRetryDuration < 0 {
+		return nil, fmt.Errorf("TotalRetryDuration cannot be negative")
+	}
+
 	// Default settings if not supplied
 	if config.TokenLifespan == 0 {
 		config.TokenLifespan = 30 * time.Minute
