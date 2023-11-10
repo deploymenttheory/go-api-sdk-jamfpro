@@ -41,7 +41,7 @@ func (c *Client) ValidAuthTokenCheck() (bool, error) {
 		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
 			err = c.RefreshOAuthToken()
 		} else {
-			return false, fmt.Errorf("unknown auth method: %s", c.authMethod)
+			return false, fmt.Errorf("unknown auth method: %s", c.AuthMethod)
 		}
 
 		if err != nil {

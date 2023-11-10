@@ -38,7 +38,7 @@ func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 				ClientID:     clientID,
 				ClientSecret: clientSecret,
 			}
-			c.authMethod = "oauth"
+			c.AuthMethod = "oauth"
 			return
 		}
 	}
@@ -50,7 +50,7 @@ func (c *Client) SetAuthenticationCredentials(creds map[string]string) {
 				Username: username,
 				Password: password,
 			}
-			c.authMethod = "bearer"
+			c.AuthMethod = "bearer"
 			return
 		}
 	}
