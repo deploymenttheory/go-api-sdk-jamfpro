@@ -587,12 +587,38 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`  
   `DeleteDistributionPointByName` deletes a distribution point by its name.
 
+Jamf Pro Classic API - Directory Bindings
+This documentation provides details on the API endpoints available for managing directory bindings within Jamf Pro using the Classic API, which requires XML data structure support.
 
+Endpoints
+ ✅ GET /JSSResource/directorybindings
+GetDirectoryBindings retrieves a serialized list of all directory bindings.
+
+ ✅ GET /JSSResource/directorybindings/id/{id}
+GetDirectoryBindingByID fetches a single directory binding by its ID.
+
+ ✅ GET /JSSResource/directorybindings/name/{name}
+GetDirectoryBindingByName retrieves a directory binding by its name.
+
+ ✅ POST /JSSResource/directorybindings/id/0
+CreateDirectoryBinding creates a new directory binding with the provided details. The ID 0 in the endpoint indicates creation.
+
+ ✅ PUT /JSSResource/directorybindings/id/{id}
+UpdateDirectoryBindingByID updates an existing directory binding by its ID.
+
+ ✅ PUT /JSSResource/directorybindings/name/{name}
+UpdateDirectoryBindingByName updates an existing directory binding by its name.
+
+ ✅ DELETE /JSSResource/directorybindings/id/{id}
+DeleteDirectoryBindingByID deletes a directory binding by its ID.
+
+ ✅ DELETE /JSSResource/directorybindings/name/{name}
+DeleteDirectoryBindingByName deletes a directory binding by its name.
 
 ## Progress Summary
 
-- Total Endpoints: 193
-- Covered: 190
+- Total Endpoints: 201
+- Covered: 198
 - Not Covered: 3
 - Partially Covered: 0
 
