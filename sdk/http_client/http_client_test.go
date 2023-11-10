@@ -15,12 +15,11 @@ func TestNewClientValidConfig(t *testing.T) {
 
 	// Define a complete config with some fields explicitly set
 	config := Config{
-		MaxRetryAttempts: 3,
-		LogLevel:         LogLevelInfo, // Example log level
-		//CustomBackoff:             nil,          // Assuming nil implies default backoff strategy
-		EnableDynamicRateLimiting: true, // Explicitly enabling rate limiting
-		Logger:                    nil,  // Assuming nil will use the default logger
-		MaxConcurrentRequests:     10,   // Setting max concurrent requests
+		MaxRetryAttempts:          3,
+		LogLevel:                  LogLevelInfo, // Example log level
+		EnableDynamicRateLimiting: true,         // Explicitly enabling rate limiting
+		Logger:                    nil,          // Assuming nil will use the default logger
+		MaxConcurrentRequests:     10,           // Setting max concurrent requests
 		// TokenLifespan, TokenRefreshBufferPeriod, and TotalRetryDuration will use default values
 	}
 	logger := NewDefaultLogger() // Using a default logger for the test
@@ -32,7 +31,6 @@ func TestNewClientValidConfig(t *testing.T) {
 	// Assert that the explicit and default config values are correctly set
 	assert.Equal(config.MaxRetryAttempts, client.config.MaxRetryAttempts, "MaxRetryAttempts should match config")
 	assert.Equal(LogLevelInfo, client.config.LogLevel, "LogLevel should match config")
-	//assert.NotNil(client.config.CustomBackoff, "CustomBackoff should have a default value if not set")
 	assert.Equal(true, client.config.EnableDynamicRateLimiting, "EnableDynamicRateLimiting should match config")
 	assert.NotNil(client.logger, "Logger should not be nil")
 	assert.Equal(10, client.config.MaxConcurrentRequests, "MaxConcurrentRequests should match config")
