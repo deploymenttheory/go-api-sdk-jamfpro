@@ -5,8 +5,8 @@ jamf's api(s). It handles the encoding (marshalling) and decoding (unmarshalling
 of data. It also sets the correct content headers for the various http methods.
 
 This module integrates with the http_client logger for wrapped error handling
-for human readable return codes. It also supports the http_clients debugMode for
-verbose logging.
+for human readable return codes. It also supports the http_client tiered logging
+functionality for logging support.
 
 The logic of this module is defined as follows:
 Classic API:
