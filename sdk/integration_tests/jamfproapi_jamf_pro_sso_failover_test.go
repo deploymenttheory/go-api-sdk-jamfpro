@@ -37,7 +37,8 @@ var (
 	apiClient *jamfpro.ApiIntegration
 )
 
-// TestMain function for global setup and teardown
+// TestMain function performs global setup of the test suite, executes
+// the test suite and then performs the teardown of any resources created.
 func TestMain(m *testing.M) {
 	var err error
 	// Initialize the Jamf Pro client
@@ -133,9 +134,9 @@ func setupJamfProSSOFailoverTemporaryTestAPIClient(client *jamfpro.Client, roleN
 	// Define the new API Integration using the provided role names
 	newApiIntegration := &jamfpro.ApiIntegration{
 		AuthorizationScopes:        roleNames, // Use the role names provided
-		DisplayName:                "Temporary Test API Integration",
+		DisplayName:                "SSOFailoverTemporaryTestAPIClient",
 		Enabled:                    true,
-		AccessTokenLifetimeSeconds: 300,
+		AccessTokenLifetimeSeconds: 1200,
 	}
 
 	// Call the function to create the new API Integration
