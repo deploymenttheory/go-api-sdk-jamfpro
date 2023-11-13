@@ -36,12 +36,12 @@ type Client struct {
 
 // Config holds configuration options for the HTTP Client.
 type Config struct {
-	LogLevel         LogLevel // Field for log level setting
-	MaxRetryAttempts int
+	LogLevel         LogLevel // Field for defining tiered logging level.
+	MaxRetryAttempts int      // Config item defines the max number of retry request attempts for retryable HTTP methods.
 	//CustomBackoff             func(attempt int) time.Duration
 	EnableDynamicRateLimiting bool
-	Logger                    Logger
-	MaxConcurrentRequests     int
+	Logger                    Logger // Field for the packages initailzed logger
+	MaxConcurrentRequests     int    // Field for defining the maximum number of concurrent requests allowed in the semaphore
 	TokenLifespan             time.Duration
 	TokenRefreshBufferPeriod  time.Duration
 	TotalRetryDuration        time.Duration
