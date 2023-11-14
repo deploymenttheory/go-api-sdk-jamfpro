@@ -204,7 +204,7 @@ func TestJamfProIntegration_UpdateFailoverUrl(t *testing.T) {
 }
 
 // Helper function to delete API integration
-func teardownApiIntegration(client *jamfpro.Client, integrationName string) {
+func teardownSSOFailoverApiIntegration(client *jamfpro.Client, integrationName string) {
 	if err := client.DeleteApiIntegrationByName(integrationName); err != nil {
 		log.Fatalf("Failed to delete API integration: %v", err) // Exits the program if there's an error
 	} else {
@@ -213,7 +213,7 @@ func teardownApiIntegration(client *jamfpro.Client, integrationName string) {
 }
 
 // Helper function to delete API role
-func teardownApiRole(client *jamfpro.Client, roleName string) {
+func teardownSSOFailoverApiRole(client *jamfpro.Client, roleName string) {
 	if err := client.DeleteJamfApiRoleByName(roleName); err != nil {
 		log.Fatalf("Failed to delete API role: %v", err) // Exits the program if there's an error
 	} else {

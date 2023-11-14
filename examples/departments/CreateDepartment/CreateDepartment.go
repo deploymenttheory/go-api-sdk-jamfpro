@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Define the department name you want to create
-	departmentName := "NewDepartment3"
+	departmentName := "NewDepartment2"
 
 	// Call CreateDepartment function using the department name
 	createdDepartment, err := client.CreateDepartment(departmentName)
