@@ -48,7 +48,7 @@ func loadDepartmentTestData(t *testing.T) (*IntegrationTestData, error) {
 		t.Fatalf("Error reading XML file: %v\n", err)
 	}
 	t.Log("XML file read successfully")
-	t.Logf("Raw XML data: %s\n", string(data))
+	//t.Logf("Raw XML data: %s\n", string(data))
 
 	// Unmarshal the XML data into the testData struct
 	err = xml.Unmarshal(data, &testData)
@@ -101,38 +101,60 @@ func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 }
 
 func TestJamfProIntegration_GetDepartments(t *testing.T) {
+	// Initial log statement to confirm test execution
+	t.Log("Starting TestJamfProIntegration_GetDepartments")
+
+	// Load department test data from XML
+	testData, err := loadDepartmentTestData(t)
+	if err != nil {
+		t.Fatalf("Failed to load department test data: %v", err)
+	} else {
+		t.Logf("Loaded department test data: %+v", testData)
+	}
+
 	// Call GetDepartments function to retrieve all departments
 	departmentsList, err := intTestClient.GetDepartments()
 	if err != nil {
 		t.Fatalf("Error fetching departments: %v", err)
+	} else {
+		// Debug log: print the departmentsList for verification
+		t.Logf("Retrieved Departments: %+v", departmentsList)
 	}
 
-	// Check for the presence of the created departments
-	var found1, found2 bool
+	// Check for the presence of the departments defined in the test data
+	var foundMinConfig, foundMaxConfig bool
 	for _, department := range departmentsList.Results {
-		if department.Name == "NewDepartmentTest1" {
-			found1 = true
+		if department.Name == testData.Departments.Create.MinimumConfiguration.Name {
+			foundMinConfig = true
 		}
-		if department.Name == "NewDepartmentTest2" {
-			found2 = true
+		if department.Name == testData.Departments.Create.MaximumConfiguration.Name {
+			foundMaxConfig = true
 		}
 	}
 
 	// Assert that both departments are found
-	if !found1 {
-		t.Errorf("Department 'NewDepartmentTest1' not found")
+	if !foundMinConfig {
+		t.Errorf("Department '%s' not found", testData.Departments.Create.MinimumConfiguration.Name)
 	}
-	if !found2 {
-		t.Errorf("Department 'NewDepartmentTest2' not found")
+	if !foundMaxConfig {
+		t.Errorf("Department '%s' not found", testData.Departments.Create.MaximumConfiguration.Name)
 	}
 
 	// Log the result for verification
-	if found1 && found2 {
-		t.Logf("Both departments 'NewDepartmentTest1' and 'NewDepartmentTest2' are found")
+	if foundMinConfig && foundMaxConfig {
+		t.Logf("Both departments '%s' and '%s' are found",
+			testData.Departments.Create.MinimumConfiguration.Name,
+			testData.Departments.Create.MaximumConfiguration.Name)
+	} else {
+		if foundMinConfig {
+			t.Logf("Department '%s' is found", testData.Departments.Create.MinimumConfiguration.Name)
+		}
+		if foundMaxConfig {
+			t.Logf("Department '%s' is found", testData.Departments.Create.MaximumConfiguration.Name)
+		}
 	}
 }
 
-/*
 func TestJamfProIntegration_GetDepartmentByID(t *testing.T) {
 	// Define the department name for which you want to get the ID
 	departmentName := "NewDepartmentTest1"
@@ -172,6 +194,7 @@ func TestJamfProIntegration_GetDepartmentByID(t *testing.T) {
 	t.Logf("Retrieved Department: ID=%d, Name=%s", retrievedDepartment.ID, retrievedDepartment.Name)
 }
 
+/*
 func TestJamfProIntegration_GetDepartmentByName(t *testing.T) {
 	// Define the department name to retrieve
 	departmentName := "NewDepartmentTest1"

@@ -74,7 +74,7 @@ func setupJamfProClientWithBootstrapAccount() (*jamfpro.Client, error) {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // Set http_client logging level to debug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -149,7 +149,7 @@ func setupJamfProClientWithTestIntegrationAccount(bootstrapClient *jamfpro.Clien
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // Set http_client logging level to debug
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	jamfConfig := jamfpro.Config{
