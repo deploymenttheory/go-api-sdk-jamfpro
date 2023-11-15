@@ -40,8 +40,8 @@ func main() {
 
 	// Define the new Jamf API Role you want to create
 	newRole := &jamfpro.APIRole{
-		DisplayName: "One Role to Rule them all",
-		Privileges:  []string{"View License Serial Numbers"},
+		DisplayName: "Testing",
+		Privileges:  []string{"Read SSO Settings", "Update SSO Settings"},
 	}
 
 	// Call CreateJamfApiRole function

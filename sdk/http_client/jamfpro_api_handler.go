@@ -5,8 +5,8 @@ jamf's api(s). It handles the encoding (marshalling) and decoding (unmarshalling
 of data. It also sets the correct content headers for the various http methods.
 
 This module integrates with the http_client logger for wrapped error handling
-for human readable return codes. It also supports the http_clients debugMode for
-verbose logging.
+for human readable return codes. It also supports the http_client tiered logging
+functionality for logging support.
 
 The logic of this module is defined as follows:
 Classic API:
@@ -70,7 +70,7 @@ var configMap ConfigMap
 // Embedded Resources
 //
 //go:embed jamfpro_api_exceptions_configuration.json
-var defaultConfig []byte
+var jamfpro_api_exceptions_configuration []byte
 
 // Package-level Functions
 
@@ -85,12 +85,12 @@ func init() {
 	}
 }
 
-// loadDefaultConfig reads and unmarshals the default configuration JSON data from an embedded file
+// loadDefaultConfig reads and unmarshals the jamfpro_api_exceptions_configuration JSON data from an embedded file
 // into the configMap variable, which holds the exceptions configuration for endpoint-specific headers.
 // Returns an error if the unmarshalling process fails.
 func loadDefaultConfig() error {
 	// Unmarshal the embedded default configuration into the global configMap.
-	return json.Unmarshal(defaultConfig, &configMap)
+	return json.Unmarshal(jamfpro_api_exceptions_configuration, &configMap)
 }
 
 // LoadUserConfig allows users to apply their own configuration by providing a JSON file.
@@ -166,13 +166,6 @@ func GetAPIHandler(config Config) APIHandler {
 func (u *UnifiedJamfAPIHandler) SetLogger(logger Logger) {
 	u.logger = logger
 }
-
-/*
-// NewUnifiedAPIHandler creates a new UnifiedAPIHandler with the provided logger.
-func NewUnifiedAPIHandler(logger Logger) *UnifiedAPIHandler {
-	return &UnifiedAPIHandler{logger: logger}
-}
-*/
 
 // GetContentTypeHeader determines the appropriate Content-Type header for a given API endpoint.
 // It attempts to find a content type that matches the endpoint prefix in the global configMap.

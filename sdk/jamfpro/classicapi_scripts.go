@@ -12,6 +12,18 @@ import (
 
 const uriScripts = "/JSSResource/scripts"
 
+// Scripts List Structs
+type ResponseScriptsList struct {
+	Size   int          `xml:"size"`
+	Script []ScriptItem `xml:"script"`
+}
+
+type ScriptItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Script Resource structs
 type ResponseScript struct {
 	ID                    int        `xml:"id"`
 	Name                  string     `xml:"name"`
@@ -35,17 +47,6 @@ type Parameters struct {
 	Parameter9  string `xml:"parameter9,omitempty"`
 	Parameter10 string `xml:"parameter10,omitempty"`
 	Parameter11 string `xml:"parameter11,omitempty"`
-}
-
-// Scripts List Structs
-type ResponseScriptsList struct {
-	Size   int          `xml:"size"`
-	Script []ScriptItem `xml:"script"`
-}
-
-type ScriptItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
 }
 
 // GetScripts retrieves a list of all scripts.

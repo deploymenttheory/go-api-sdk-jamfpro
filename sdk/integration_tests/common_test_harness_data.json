@@ -1,0 +1,20 @@
+{
+  "JamfPro": {
+    "ApiClient": {
+      "displayName": "IntegrationTestAPIClient",
+      "enabled": true,
+      "accessTokenLifetimeSeconds": 1200
+    },
+    "ApiRoles": {
+      "departments": {
+        "name": "go-api-sdk-jamfpro-apir-departments",
+        "privileges": ["Create Departments", "Read Departments", "Update Departments", "Delete Departments"]
+      },
+      "ssoFailover": {
+        "name": "go-api-sdk-jamfpro-apir-sso-failover",
+        "privileges": ["Read SSO Settings", "Update SSO Settings"]
+      }
+    }
+  }
+}
+

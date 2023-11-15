@@ -1,0 +1,44 @@
+<IntegrationTestData>
+    <Scripts>
+        <Create>
+            <MinimumConfiguration>
+                <Name>CreateScriptsMinConfigIntTest1</Name>
+            </MinimumConfiguration>
+            <MaximumConfiguration>
+                <Name>CreateScriptsMaxConfigIntTest2</Name>
+                <Category>Utility</Category>
+                <Filename>max_script.sh</Filename>
+                <Info>Information to display to the administrator when the script is run</Info>
+                <Notes>Notes to display about the script (e.g., who created it and when it was created)</Notes>
+                <Priority>Before</Priority>
+                <Parameters>
+                    <Parameter4>TeamViewer.app</Parameter4>
+                    <Parameter5>com.teamviewer.teamviewer</Parameter5>
+                </Parameters>
+                <OsRequirements>10.15.x</OsRequirements>
+                <ScriptContents><![CDATA[#!/bin/bash\n\n# Inputted variables\nappName="$4"]]></ScriptContents>
+                <ScriptContentsEncoded>base64_encoded_value</ScriptContentsEncoded>
+            </MaximumConfiguration>
+        </Create>
+        <Update>
+            <MinimumConfiguration>
+                <Name>UpdateScriptsMinConfigIntTest1</Name>
+            </MinimumConfiguration>
+            <MaximumConfiguration>
+                <Name>UpdateScriptsMaxConfigIntTest2</Name>
+                <Category>Utility</Category>
+                <Filename>max_script.sh</Filename>
+                <Info>Information to display to the administrator when the script is run</Info>
+                <Notes>Notes to display about the script (e.g., who created it and when it was created)</Notes>
+                <Priority>Before</Priority>
+                <Parameters>
+                    <Parameter4>TeamViewer.app</Parameter4>
+                    <Parameter5>com.teamviewer.teamviewer</Parameter5>
+                </Parameters>
+                <OsRequirements>10.15.x</OsRequirements>
+                <ScriptContents><![CDATA[#!/bin/bash\n\n# Inputted variables\nappName="$4"]]></ScriptContents>
+                <ScriptContentsEncoded>base64_encoded_value</ScriptContentsEncoded>
+            </MaximumConfiguration>
+        </Update>
+    </Scripts>
+</IntegrationTestData>

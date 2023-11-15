@@ -1,0 +1,20 @@
+<IntegrationTestData>
+  <Departments>
+    <Create>
+      <MinimumConfiguration>
+        <Name>CreateDepartmentsMinConfigIntTest1</Name>
+      </MinimumConfiguration>
+      <MaximumConfiguration>
+        <Name>CreateDepartmentsMaxConfigIntTest2</Name>
+      </MaximumConfiguration>
+    </Create>
+    <Update>
+      <MinimumConfiguration>
+        <Name>UpdateDepartmentsMinConfigIntTest1</Name>
+      </MinimumConfiguration>
+      <MaximumConfiguration>
+        <Name>UpdateDepartmentsMaxConfigIntTest2</Name>
+      </MaximumConfiguration>
+    </Update>
+  </Departments>
+</IntegrationTestData>
