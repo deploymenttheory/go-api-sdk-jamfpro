@@ -587,7 +587,8 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`  
   `DeleteDistributionPointByName` deletes a distribution point by its name.
 
-Jamf Pro Classic API - Directory Bindings
+### Jamf Pro Classic API - Directory Bindings
+
 This documentation provides details on the API endpoints available for managing directory bindings within Jamf Pro using the Classic API, which requires XML data structure support.
 
 ## Endpoints
@@ -616,7 +617,8 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/directorybindings/name/{name}`
 `DeleteDirectoryBindingByName` deletes a directory binding by its name.
 
-Jamf Pro Classic API - Computers
+### Jamf Pro Classic API - Computers
+
 This documentation provides details on the API endpoints available for managing computers within Jamf Pro using the Classic API, which requires XML data structure support.
 
 ## Endpoints
