@@ -649,9 +649,9 @@ CreateComputer creates a new computer with the provided details. The ID 0 in the
 
 ## Progress Summary
 
-- Total Endpoints: 201
-- Covered: 198
-- Not Covered: 3
+- Total Endpoints: 227
+- Covered: 208
+- Not Covered: 19
 - Partially Covered: 0
 
 
