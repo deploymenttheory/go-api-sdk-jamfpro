@@ -647,10 +647,41 @@ CreateComputer creates a new computer with the provided details. The ID 0 in the
 - [x] ✅ **DELETE** `/JSSResource/computers/name/{name}`
 `DeleteComputerByName` deletes a computer by its name.
 
+### Jamf Pro Classic API - Dock Items
+
+This documentation provides details on the API endpoints available for managing dock items within Jamf Pro using the Classic API, which requires XML data structure support.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/dockitems`
+  `GetDockItems` retrieves a serialized list of all dock items.
+
+- [x] ✅ **GET** `/JSSResource/dockitems/id/{id}`
+  `GetDockItemsByID` fetches a single dock item by its ID.
+
+- [x] ✅ **GET** `/JSSResource/dockitems/name/{name}`
+  `GetDockItemsByName` retrieves a dock item by its name.
+
+- [x] ✅ **POST** `/JSSResource/dockitems/id/0`
+  `CreateDockItems` creates a new dock item with the provided details. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/dockitems/id/{id}`
+  `UpdateDockItemsByID` updates an existing dock item by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/dockitems/name/{name}`
+  `UpdateDockItemsByName` updates an existing dock item by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/dockitems/id/{id}`
+  `DeleteDockItemsByID` deletes a dock item by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/dockitems/name/{name}`
+  `DeleteDockItemsByName` deletes a dock item by its name.
+
+
 ## Progress Summary
 
-- Total Endpoints: 227
-- Covered: 208
+- Total Endpoints: 235
+- Covered: 216
 - Not Covered: 19
 - Partially Covered: 0
 
