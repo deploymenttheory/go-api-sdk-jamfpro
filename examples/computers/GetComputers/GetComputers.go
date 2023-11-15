@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -38,19 +37,15 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the computer ID you want to retrieve
-	computerID := 5 // Replace with the actual ID of the computer
-
-	// Call GetComputerByID function
-	computer, err := client.GetComputerByID(computerID)
+	// Call the GetComputers method
+	computers, err := client.GetComputers()
 	if err != nil {
-		log.Fatalf("Error retrieving computer by ID: %v", err)
+		log.Fatalf("Error fetching computers: %v", err)
 	}
 
-	// Pretty print the computer in XML
-	computerXML, err := xml.MarshalIndent(computer, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling computer data: %v", err)
+	// Print out the fetched computers
+	fmt.Println("Fetched Computers:")
+	for _, computer := range computers.Results {
+		fmt.Printf("ID: %d, Name: %s\n", computer.ID, computer.Name)
 	}
-	fmt.Println("Retrieved Computer:\n", string(computerXML))
 }

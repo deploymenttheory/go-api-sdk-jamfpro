@@ -38,18 +38,128 @@ func main() {
 	}
 
 	// Create a new computer configuration
-	// Create a new computer configuration
-	computer := jamfpro.Computer{
-		General: jamfpro.ComputerDataSubsetGeneral{
+	newComputer := jamfpro.ResponseComputer{
+		General: jamfpro.General{
 			Name:         "admin’s MacBook Pro",
-			SerialNumber: "C02Q7KHTGFWD",
-			UDID:         "EBBFF74D-C6B7-5589-93A9-19E8BDFEDE33",
+			SerialNumber: "C02Q7KHTGFWD",                         // Must be Unique
+			UDID:         "EBBFF74D-C6B7-5589-93A9-19E8BDFEDE33", // Must be Unique
+			RemoteManagement: jamfpro.RemoteManagement{
+				Managed: true,
+			},
+			Site: jamfpro.Site{
+				ID:   -1,
+				Name: "None",
+			},
 		},
-		// Other fields like Location, Purchasing, etc. can be set similarly
+		Location: jamfpro.Location{
+			// Populate location fields if necessary
+		},
+		Purchasing: jamfpro.Purchasing{
+			IsPurchased:          true,
+			IsLeased:             false,
+			PoNumber:             "PO123ABC",
+			Vendor:               "Computer Supplies Co.",
+			ApplecareID:          "AC123456789",
+			PurchasePrice:        "2000.00",
+			PurchasingAccount:    "IT Budget",
+			PoDate:               "2023-01-15",
+			PoDateEpoch:          1673760000,
+			PoDateUtc:            "2023-01-01T00:00:00.000+0000",
+			WarrantyExpires:      "2026-01-15",
+			WarrantyExpiresEpoch: 1773984000,
+			WarrantyExpiresUtc:   "2030-01-01T00:00:00.000+0000",
+			LeaseExpires:         "2030-01-01",
+			LeaseExpiresEpoch:    0,
+			LeaseExpiresUtc:      "2030-01-01T00:00:00.000+0000",
+			LifeExpectancy:       4,
+			PurchasingContact:    "Jane Smith",
+		},
+		ExtensionAttributes: []jamfpro.ExtensionAttribute{
+			{
+				ID:    2,
+				Value: "", // Set value if necessary
+			},
+		},
+		Hardware: jamfpro.Hardware{
+			Make:                        "Apple",
+			Model:                       "MacBook Pro",
+			ModelIdentifier:             "MacBookPro11,4",
+			OsName:                      "macOS",
+			OsVersion:                   "10.15.7",
+			OsBuild:                     "19H2",
+			MasterPasswordSet:           false,
+			ActiveDirectoryStatus:       "Not Connected",
+			ServicePack:                 "",
+			ProcessorType:               "Intel Core i7",
+			ProcessorArchitecture:       "x64",
+			ProcessorSpeed:              2200,
+			ProcessorSpeedMhz:           2200,
+			NumberProcessors:            1,
+			NumberCores:                 4,
+			TotalRam:                    8192,
+			TotalRamMb:                  8192,
+			BootRom:                     "220.0.0.0.0",
+			BusSpeed:                    100,
+			BusSpeedMhz:                 100,
+			BatteryCapacity:             85,
+			CacheSize:                   6,
+			CacheSizeKb:                 6144,
+			AvailableRamSlots:           0,
+			OpticalDrive:                "None",
+			NicSpeed:                    "1Gbit",
+			SmcVersion:                  "2.41f2",
+			BleCapable:                  true,
+			SipStatus:                   "Enabled",
+			GatekeeperStatus:            "Enabled",
+			XprotectVersion:             "2099",
+			InstitutionalRecoveryKey:    "ExampleKey",
+			DiskEncryptionConfiguration: "APFS Encrypted",
+			SoftwareUpdateDeviceID:      "ExampleDeviceID",
+			IsAppleSilicon:              false,
+			SupportsIosAppInstalls:      false,
+			Filevault2Users:             []jamfpro.Filevault2User{{User: "testuser"}},
+			Storage: []jamfpro.StorageDevice{
+				{
+					Disk:            "disk0",
+					Model:           "APPLE SSD AP0256",
+					Revision:        "11.0.1",
+					SerialNumber:    "S123456789",
+					Size:            256,
+					DriveCapacityMb: 256000,
+					ConnectionType:  "PCI",
+					SmartStatus:     "Verified",
+					Partitions: []jamfpro.Partition{
+						{
+							Name:                "Macintosh HD",
+							Size:                256,
+							Type:                "APFS",
+							PartitionCapacityMb: 256000,
+							PercentageFull:      60,
+							//FilevaultStatus:      "Enabled",
+							//FilevaultPercent:     100,
+							//Filevault2Status:     "Enabled",
+							Filevault2Percent:    100,
+							BootDriveAvailableMb: 102400,
+							LvgUUID:              "ExampleLvgUUID",
+							LvUUID:               "ExampleLvUUID",
+							PvUUID:               "ExamplePvUUID",
+						},
+					},
+				},
+			},
+			MappedPrinters: []jamfpro.Printer{
+				{
+					Name:     "Office Printer",
+					URI:      "lpd://192.168.1.100",
+					Type:     "Laser",
+					Location: "Office",
+				},
+			},
+		},
 	}
 
 	// Call CreateComputer function
-	createdComputer, err := client.CreateComputer(computer)
+	createdComputer, err := client.CreateComputer(newComputer)
 	if err != nil {
 		log.Fatalf("Error creating computer: %v", err)
 	}

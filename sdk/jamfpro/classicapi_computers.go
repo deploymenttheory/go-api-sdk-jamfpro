@@ -57,6 +57,8 @@ type General struct {
 	RemoteManagement           RemoteManagement `xml:"remote_management" json:"remote_management"`
 	MdmCapable                 bool             `xml:"mdm_capable" json:"mdm_capable"`
 	MdmCapableUsers            MdmCapableUsers  `xml:"mdm_capable_users" json:"mdm_capable_users"`
+	MdmProfileExpirationEpoch  int64            `xml:"mdm_profile_expiration_epoch" json:"mdm_profile_expiration_epoch"`
+	MdmProfileExpirationUtc    string           `xml:"mdm_profile_expiration_utc" json:"mdm_profile_expiration_utc"`
 	ManagementStatus           ManagementStatus `xml:"management_status" json:"management_status"`
 	ReportDate                 string           `xml:"report_date" json:"report_date"`
 	ReportDateEpoch            int64            `xml:"report_date_epoch" json:"report_date_epoch"`
@@ -73,6 +75,7 @@ type General struct {
 	LastEnrolledDateUtc        string           `xml:"last_enrolled_date_utc" json:"last_enrolled_date_utc"`
 	DistributionPoint          string           `xml:"distribution_point" json:"distribution_point"`
 	Sus                        string           `xml:"sus" json:"sus"`
+	Supervised                 bool             `xml:"supervised" json:"supervised"`
 	Site                       Site             `xml:"site" json:"site"`
 	ItunesStoreAccountIsActive bool             `xml:"itunes_store_account_is_active" json:"itunes_store_account_is_active"`
 }
@@ -125,6 +128,8 @@ type Purchasing struct {
 	LeaseExpiresUtc      string `xml:"lease_expires_utc" json:"lease_expires_utc"`
 	LifeExpectancy       int    `xml:"life_expectancy" json:"life_expectancy"`
 	PurchasingContact    string `xml:"purchasing_contact" json:"purchasing_contact"`
+	OSAppleCareID        string `xml:"os_applecare_id,omitempty" json:"os_applecare_id,omitempty"`
+	OSMaintenanceExpires string `xml:"os_maintenance_expires,omitempty" json:"os_maintenance_expires,omitempty"`
 }
 
 // Peripherals associated with the computer
@@ -134,13 +139,13 @@ type Peripherals struct {
 }
 
 type Peripheral struct {
-	ID          int                  `xml:"id" json:"id"`
-	BarCode1    string               `xml:"bar_code_1" json:"bar_code_1"`
-	BarCode2    string               `xml:"bar_code_2" json:"bar_code_2"`
-	Type        string               `xml:"type" json:"type"`
-	Fields      PeripheralFields     `xml:"fields" json:"fields"`
-	Purchasing  PeripheralPurchasing `xml:"purchasing" json:"purchasing"`
-	Attachments []Attachment         `xml:"attachments>attachment" json:"attachments"`
+	ID          int                    `xml:"id" json:"id"`
+	BarCode1    string                 `xml:"bar_code_1" json:"bar_code_1"`
+	BarCode2    string                 `xml:"bar_code_2" json:"bar_code_2"`
+	Type        string                 `xml:"type" json:"type"`
+	Fields      PeripheralFields       `xml:"fields" json:"fields"`
+	Purchasing  PeripheralPurchasing   `xml:"purchasing" json:"purchasing"`
+	Attachments []PeripheralAttachment `xml:"attachments>attachment" json:"attachments"`
 }
 
 type PeripheralFields struct {
@@ -175,7 +180,7 @@ type PeripheralPurchasing struct {
 }
 
 // Attachment represents an attachment to a peripheral
-type Attachment struct {
+type PeripheralAttachment struct {
 	Size     int    `xml:"size" json:"size"`
 	ID       int    `xml:"id" json:"id"`
 	Filename string `xml:"filename" json:"filename"`
@@ -217,6 +222,9 @@ type Hardware struct {
 	XprotectVersion             string           `xml:"xprotect_version" json:"xprotect_version"`
 	InstitutionalRecoveryKey    string           `xml:"institutional_recovery_key" json:"institutional_recovery_key"`
 	DiskEncryptionConfiguration string           `xml:"disk_encryption_configuration" json:"disk_encryption_configuration"`
+	SoftwareUpdateDeviceID      string           `xml:"software_update_device_id,omitempty" json:"software_update_device_id,omitempty"`
+	IsAppleSilicon              bool             `xml:"is_apple_silicon,omitempty" json:"is_apple_silicon,omitempty"`
+	SupportsIosAppInstalls      bool             `xml:"supports_ios_app_installs,omitempty" json:"supports_ios_app_installs,omitempty"`
 	Filevault2Users             []Filevault2User `xml:"filevault2_users>user" json:"filevault_2_users"`
 	Storage                     []StorageDevice  `xml:"storage>device" json:"storage"`
 	MappedPrinters              []Printer        `xml:"mapped_printers>printer" json:"mapped_printers"`
@@ -447,4 +455,102 @@ func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, e
 	}
 
 	return &response, nil
+}
+
+// UpdateComputerByID updates the details of a computer by its ID.
+func (c *Client) UpdateComputerByID(id int, computer ResponseComputer) (*ResponseComputer, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
+
+	// Check if site is not provided in the General subset and set default values
+	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
+		computer.General.Site = Site{
+			ID:   -1,
+			Name: "None",
+		}
+	}
+
+	// The requestBody struct should mirror the Computer struct, including all nested structs
+	requestBody := struct {
+		XMLName xml.Name `xml:"computer"`
+		ResponseComputer
+	}{
+		ResponseComputer: computer,
+	}
+
+	var response ResponseComputer
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update computer by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// UpdateComputerByName updates the details of a computer by its name.
+func (c *Client) UpdateComputerByName(name string, computer ResponseComputer) (*ResponseComputer, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriComputers, name)
+
+	// Check if site is not provided in the General subset and set default values
+	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
+		computer.General.Site = Site{
+			ID:   -1,
+			Name: "None",
+		}
+	}
+
+	// The requestBody struct should mirror the Computer struct, including all nested structs
+	requestBody := struct {
+		XMLName xml.Name `xml:"computer"`
+		ResponseComputer
+	}{
+		ResponseComputer: computer,
+	}
+
+	var response ResponseComputer
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update computer by name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// DeleteComputerByID deletes an existing Computer by its ID
+func (c *Client) DeleteComputerByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete computer by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeleteComputerByName deletes an existing computer by its name
+func (c *Client) DeleteComputerByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriComputers, name)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete computer by name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
 }

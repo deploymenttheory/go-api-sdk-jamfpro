@@ -1,0 +1,256 @@
+<IntegrationTestData>
+  <Computers>
+    <Create>
+      <MinimumConfiguration>
+        <Name>CreateComputersMinConfigIntTest1</Name>
+        <SerialNumber>C02Q7KHTGFWD</SerialNumber>
+        <UDID>EBBFF74D-C6B7-5589-93A9-19E8BDFEDE33</UDID>
+      </MinimumConfiguration>
+      <MaximumConfiguration>
+        <Name>CreateComputersMaxConfigIntTest2</Name>
+        <General>
+          <Name>admin’s MacBook Pro</Name>
+          <SerialNumber>C02Q7KHTGFWD</SerialNumber>
+          <UDID>EBBFF74D-C6B7-5589-93A9-19E8BDFEDE33</UDID>
+          <RemoteManagement>
+            <Managed>true</Managed>
+          </RemoteManagement>
+          <Site>
+            <ID>-1</ID>
+            <Name>None</Name>
+          </Site>
+        </General>
+        <Location>
+          <!-- Populate location fields -->
+        </Location>
+        <Purchasing>
+          <IsPurchased>true</IsPurchased>
+          <IsLeased>false</IsLeased>
+          <PoNumber>PO123ABC</PoNumber>
+          <Vendor>Computer Supplies Co.</Vendor>
+          <ApplecareID>AC123456789</ApplecareID>
+          <PurchasePrice>2000.00</PurchasePrice>
+          <PurchasingAccount>IT Budget</PurchasingAccount>
+          <PoDate>2023-01-15</PoDate>
+          <PoDateEpoch>1673760000</PoDateEpoch>
+          <PoDateUtc>2023-01-01T00:00:00.000+0000</PoDateUtc>
+          <WarrantyExpires>2026-01-15</WarrantyExpires>
+          <WarrantyExpiresEpoch>1773984000</WarrantyExpiresEpoch>
+          <WarrantyExpiresUtc>2030-01-01T00:00:00.000+0000</WarrantyExpiresUtc>
+          <LeaseExpires>2030-01-01</LeaseExpires>
+          <LeaseExpiresEpoch>0</LeaseExpiresEpoch>
+          <LeaseExpiresUtc>2030-01-01T00:00:00.000+0000</LeaseExpiresUtc>
+          <LifeExpectancy>4</LifeExpectancy>
+          <PurchasingContact>Jane Smith</PurchasingContact>
+        </Purchasing>
+        <ExtensionAttributes>
+          <!-- Add Extension Attributes -->
+        </ExtensionAttributes>
+        <Hardware>
+        <Make>Apple</Make>
+        <Model>MacBook Pro</Model>
+        <ModelIdentifier>MacBookPro11,4</ModelIdentifier>
+        <OsName>macOS</OsName>
+        <OsVersion>10.15.7</OsVersion>
+        <OsBuild>19H2</OsBuild>
+        <MasterPasswordSet>false</MasterPasswordSet>
+        <ActiveDirectoryStatus>Not Connected</ActiveDirectoryStatus>
+        <ServicePack></ServicePack>
+        <ProcessorType>Intel Core i7</ProcessorType>
+        <ProcessorArchitecture>x64</ProcessorArchitecture>
+        <ProcessorSpeed>2200</ProcessorSpeed>
+        <ProcessorSpeedMhz>2200</ProcessorSpeedMhz>
+        <NumberProcessors>1</NumberProcessors>
+        <NumberCores>4</NumberCores>
+        <TotalRam>8192</TotalRam>
+        <TotalRamMb>8192</TotalRamMb>
+        <BootRom>220.0.0.0.0</BootRom>
+        <BusSpeed>100</BusSpeed>
+        <BusSpeedMhz>100</BusSpeedMhz>
+        <BatteryCapacity>85</BatteryCapacity>
+        <CacheSize>6</CacheSize>
+        <CacheSizeKb>6144</CacheSizeKb>
+        <AvailableRamSlots>0</AvailableRamSlots>
+        <OpticalDrive>None</OpticalDrive>
+        <NicSpeed>1Gbit</NicSpeed>
+        <SmcVersion>2.41f2</SmcVersion>
+        <BleCapable>true</BleCapable>
+        <SipStatus>Enabled</SipStatus>
+        <GatekeeperStatus>Enabled</GatekeeperStatus>
+        <XprotectVersion>2099</XprotectVersion>
+        <InstitutionalRecoveryKey>ExampleKey</InstitutionalRecoveryKey>
+        <DiskEncryptionConfiguration>APFS Encrypted</DiskEncryptionConfiguration>
+        <SoftwareUpdateDeviceID>ExampleDeviceID</SoftwareUpdateDeviceID>
+        <IsAppleSilicon>false</IsAppleSilicon>
+        <SupportsIosAppInstalls>false</SupportsIosAppInstalls>
+        <Filevault2Users>
+          <User>testuser</User>
+        </Filevault2Users>
+        <Storage>
+          <Device>
+            <Disk>disk0</Disk>
+            <Model>APPLE SSD AP0256</Model>
+            <Revision>11.0.1</Revision>
+            <SerialNumber>S123456789</SerialNumber>
+            <Size>256</Size>
+            <DriveCapacityMb>256000</DriveCapacityMb>
+            <ConnectionType>PCI</ConnectionType>
+            <SmartStatus>Verified</SmartStatus>
+            <Partitions>
+              <Partition>
+                <Name>Macintosh HD</Name>
+                <Size>256</Size>
+                <Type>APFS</Type>
+                <PartitionCapacityMb>256000</PartitionCapacityMb>
+                <PercentageFull>60</PercentageFull>
+                <Filevault2Percent>100</Filevault2Percent>
+                <BootDriveAvailableMb>102400</BootDriveAvailableMb>
+                <LvgUUID>ExampleLvgUUID</LvgUUID>
+                <LvUUID>ExampleLvUUID</LvUUID>
+                <PvUUID>ExamplePvUUID</PvUUID>
+              </Partition>
+            </Partitions>
+          </Device>
+        </Storage>
+        <MappedPrinters>
+          <Printer>
+            <Name>Office Printer</Name>
+            <URI>lpd://192.168.1.100</URI>
+            <Type>Laser</Type>
+            <Location>Office</Location>
+          </Printer>
+        </MappedPrinters>
+      </Hardware>
+        <Peripherals>
+          <!-- Add Peripheral details -->
+        </Peripherals>
+      </MaximumConfiguration>
+    </Create>
+    <Update>
+      <MinimumConfiguration>
+        <Name>UpdateComputersMinConfigIntTest1</Name>
+        <SerialNumber>C02Q7KHTGFWX</SerialNumber>
+        <UDID>EBBFF74D-C6B7-5589-93A9-19E8BDFEDE34</UDID>
+      </MinimumConfiguration>
+      <MaximumConfiguration>
+        <Name>CreateComputersMaxConfigIntTest2</Name>
+        <General>
+          <Name>admin’s MacBook Pro</Name>
+          <SerialNumber>C02Q7KHTGFWD</SerialNumber>
+          <UDID>EBBFF74D-C6B7-5589-93A9-19E8BDFEDE33</UDID>
+          <RemoteManagement>
+            <Managed>true</Managed>
+          </RemoteManagement>
+          <Site>
+            <ID>-1</ID>
+            <Name>None</Name>
+          </Site>
+        </General>
+        <Location>
+          <!-- Populate location fields -->
+        </Location>
+        <Purchasing>
+          <IsPurchased>true</IsPurchased>
+          <IsLeased>false</IsLeased>
+          <PoNumber>PO123ABC</PoNumber>
+          <Vendor>Computer Supplies Co.</Vendor>
+          <ApplecareID>AC123456789</ApplecareID>
+          <PurchasePrice>2000.00</PurchasePrice>
+          <PurchasingAccount>IT Budget</PurchasingAccount>
+          <PoDate>2023-01-15</PoDate>
+          <PoDateEpoch>1673760000</PoDateEpoch>
+          <PoDateUtc>2023-01-01T00:00:00.000+0000</PoDateUtc>
+          <WarrantyExpires>2026-01-15</WarrantyExpires>
+          <WarrantyExpiresEpoch>1773984000</WarrantyExpiresEpoch>
+          <WarrantyExpiresUtc>2030-01-01T00:00:00.000+0000</WarrantyExpiresUtc>
+          <LeaseExpires>2030-01-01</LeaseExpires>
+          <LeaseExpiresEpoch>0</LeaseExpiresEpoch>
+          <LeaseExpiresUtc>2030-01-01T00:00:00.000+0000</LeaseExpiresUtc>
+          <LifeExpectancy>4</LifeExpectancy>
+          <PurchasingContact>Jane Smith</PurchasingContact>
+        </Purchasing>
+        <ExtensionAttributes>
+          <!-- Add Extension Attributes -->
+        </ExtensionAttributes>
+        <Hardware>
+        <Make>Apple</Make>
+        <Model>MacBook Pro</Model>
+        <ModelIdentifier>MacBookPro11,4</ModelIdentifier>
+        <OsName>macOS</OsName>
+        <OsVersion>10.15.7</OsVersion>
+        <OsBuild>19H2</OsBuild>
+        <MasterPasswordSet>false</MasterPasswordSet>
+        <ActiveDirectoryStatus>Not Connected</ActiveDirectoryStatus>
+        <ServicePack></ServicePack>
+        <ProcessorType>Intel Core i7</ProcessorType>
+        <ProcessorArchitecture>x64</ProcessorArchitecture>
+        <ProcessorSpeed>2200</ProcessorSpeed>
+        <ProcessorSpeedMhz>2200</ProcessorSpeedMhz>
+        <NumberProcessors>1</NumberProcessors>
+        <NumberCores>4</NumberCores>
+        <TotalRam>8192</TotalRam>
+        <TotalRamMb>8192</TotalRamMb>
+        <BootRom>220.0.0.0.0</BootRom>
+        <BusSpeed>100</BusSpeed>
+        <BusSpeedMhz>100</BusSpeedMhz>
+        <BatteryCapacity>85</BatteryCapacity>
+        <CacheSize>6</CacheSize>
+        <CacheSizeKb>6144</CacheSizeKb>
+        <AvailableRamSlots>0</AvailableRamSlots>
+        <OpticalDrive>None</OpticalDrive>
+        <NicSpeed>1Gbit</NicSpeed>
+        <SmcVersion>2.41f2</SmcVersion>
+        <BleCapable>true</BleCapable>
+        <SipStatus>Enabled</SipStatus>
+        <GatekeeperStatus>Enabled</GatekeeperStatus>
+        <XprotectVersion>2099</XprotectVersion>
+        <InstitutionalRecoveryKey>ExampleKey</InstitutionalRecoveryKey>
+        <DiskEncryptionConfiguration>APFS Encrypted</DiskEncryptionConfiguration>
+        <SoftwareUpdateDeviceID>ExampleDeviceID</SoftwareUpdateDeviceID>
+        <IsAppleSilicon>false</IsAppleSilicon>
+        <SupportsIosAppInstalls>false</SupportsIosAppInstalls>
+        <Filevault2Users>
+          <User>testuser</User>
+        </Filevault2Users>
+        <Storage>
+          <Device>
+            <Disk>disk0</Disk>
+            <Model>APPLE SSD AP0256</Model>
+            <Revision>11.0.1</Revision>
+            <SerialNumber>S123456789</SerialNumber>
+            <Size>256</Size>
+            <DriveCapacityMb>256000</DriveCapacityMb>
+            <ConnectionType>PCI</ConnectionType>
+            <SmartStatus>Verified</SmartStatus>
+            <Partitions>
+              <Partition>
+                <Name>Macintosh HD</Name>
+                <Size>256</Size>
+                <Type>APFS</Type>
+                <PartitionCapacityMb>256000</PartitionCapacityMb>
+                <PercentageFull>60</PercentageFull>
+                <Filevault2Percent>100</Filevault2Percent>
+                <BootDriveAvailableMb>102400</BootDriveAvailableMb>
+                <LvgUUID>ExampleLvgUUID</LvgUUID>
+                <LvUUID>ExampleLvUUID</LvUUID>
+                <PvUUID>ExamplePvUUID</PvUUID>
+              </Partition>
+            </Partitions>
+          </Device>
+        </Storage>
+        <MappedPrinters>
+          <Printer>
+            <Name>Office Printer</Name>
+            <URI>lpd://192.168.1.100</URI>
+            <Type>Laser</Type>
+            <Location>Office</Location>
+          </Printer>
+        </MappedPrinters>
+      </Hardware>
+        <Peripherals>
+          <!-- Add Peripheral details -->
+        </Peripherals>
+      </MaximumConfiguration>
+    </Update>
+  </Computers>
+</IntegrationTestData>

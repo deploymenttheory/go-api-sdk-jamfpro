@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -19,15 +18,11 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug
-
 	// Configuration for the jamfpro client
 	config := jamfpro.Config{
 		InstanceName: authConfig.InstanceName,
-		LogLevel:     logLevel,
-		Logger:       logger,
+		LogLevel:     http_client.LogLevelDebug,
+		Logger:       http_client.NewDefaultLogger(),
 		ClientID:     authConfig.ClientID,
 		ClientSecret: authConfig.ClientSecret,
 	}
@@ -38,19 +33,33 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the computer ID you want to retrieve
-	computerID := 5 // Replace with the actual ID of the computer
+	// Define the computer ID to update
+	computerID := 6 // Replace with actual computer ID
 
-	// Call GetComputerByID function
-	computer, err := client.GetComputerByID(computerID)
-	if err != nil {
-		log.Fatalf("Error retrieving computer by ID: %v", err)
+	// Define the computer configuration to be updated
+	updatedComputer := jamfpro.ResponseComputer{
+		// Populate with the updated fields
+		General: jamfpro.General{
+			Name:         "Steve Job's iMac",
+			SerialNumber: "XXXQ7KHTGXXX",                         // Must be Unique
+			UDID:         "EBBFF74D-C6B7-5589-93A9-19E8BDXXXXXX", // Must be Unique
+			RemoteManagement: jamfpro.RemoteManagement{
+				Managed: true,
+			},
+			Site: jamfpro.Site{
+				ID:   -1,
+				Name: "None",
+			},
+		},
+		// ... other struct fields ...
 	}
 
-	// Pretty print the computer in XML
-	computerXML, err := xml.MarshalIndent(computer, "", "    ") // Indent with 4 spaces
+	// Call UpdateComputerByID function
+	response, err := client.UpdateComputerByID(computerID, updatedComputer)
 	if err != nil {
-		log.Fatalf("Error marshaling computer data: %v", err)
+		log.Fatalf("Error updating computer: %v", err)
 	}
-	fmt.Println("Retrieved Computer:\n", string(computerXML))
+
+	// Output the result
+	fmt.Printf("Updated Computer: %+v\n", response)
 }
