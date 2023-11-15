@@ -91,12 +91,19 @@ func setupJamfProClientWithBootstrapAccount() (*jamfpro.Client, error) {
 		log.Fatalf("Failed to create Jamf Pro bootstrap client: %v", err)
 	}
 
+	// Log the status of the client
+	if Client == nil {
+		log.Println("Jamf Pro bootstrap client is nil after setup")
+	} else {
+		log.Println("Jamf Pro bootstrap client successfully initialized")
+	}
+
 	return Client, nil
 }
 
 // setupJamfProClientWithTestIntegrationAccount initializes the Jamf Pro client using
 // the integration test account
-func setupJamfProClientWithTestIntegrationAccount() (*jamfpro.Client, error) {
+func setupJamfProClientWithTestIntegrationAccount(bootstrapClient *jamfpro.Client) (*jamfpro.Client, error) {
 	// Load configuration from the embedded file
 	config, err := loadIntegrationTestDataConfig("common_test_harness_data.json")
 	if err != nil {
@@ -105,6 +112,11 @@ func setupJamfProClientWithTestIntegrationAccount() (*jamfpro.Client, error) {
 
 	// Extract displayName for the integration test API client
 	testApiClientDisplayName := config.JamfPro.ApiClient.DisplayName
+
+	// Before calling GetApiIntegrationNameByID, log the status of the client
+	if bootstrapClient == nil {
+		log.Fatalf("Bootstrap client is nil before calling GetApiIntegrationNameByID")
+	}
 
 	// Use bootstrap client to get API integration details
 	apiIntegration, err := bootstrapClient.GetApiIntegrationNameByID(testApiClientDisplayName)

@@ -22,30 +22,40 @@ type IntegrationTestData struct {
 }
 
 type DepartmentsTestData struct {
-	Create DepartmentConfig `xml:"Create"`
-	Update DepartmentConfig `xml:"Update"`
+	Create CreateConfig `xml:"Create"`
+	Update UpdateConfig `xml:"Update"`
 }
 
-type DepartmentConfig struct {
+type CreateConfig struct {
 	MinimumConfiguration jamfpro.DepartmentItem `xml:"MinimumConfiguration"`
 	MaximumConfiguration jamfpro.DepartmentItem `xml:"MaximumConfiguration"`
 }
 
-var (
-	departmentTestData DepartmentConfig
-)
+type UpdateConfig struct {
+	MinimumConfiguration jamfpro.DepartmentItem `xml:"MinimumConfiguration"`
+	MaximumConfiguration jamfpro.DepartmentItem `xml:"MaximumConfiguration"`
+}
 
+// loadDepartmentTestData reads and unmarshals the XML file containing test data
+// for department operations in integration tests.
 func loadDepartmentTestData() (*IntegrationTestData, error) {
 	var testData IntegrationTestData
+
+	// Read the XML file
 	data, err := testXMLData.ReadFile("classicapi_departments_test_data.xml")
 	if err != nil {
+		log.Printf("Error reading XML file: %v\n", err)
 		return nil, err
 	}
+	log.Println("XML file read successfully")
 
+	// Unmarshal the XML data into the testData struct
 	err = xml.Unmarshal(data, &testData)
 	if err != nil {
+		log.Printf("Error unmarshaling XML data: %v\n", err)
 		return nil, err
 	}
+	log.Printf("XML data unmarshaled successfully: %+v\n", testData)
 
 	return &testData, nil
 }

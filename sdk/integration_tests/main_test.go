@@ -50,7 +50,7 @@ func TestMain(m *testing.M) {
 	}
 
 	// Initialize the Jamf Pro Integration Test client we just created
-	intTestClient, err = setupJamfProClientWithTestIntegrationAccount()
+	intTestClient, err = setupJamfProClientWithTestIntegrationAccount(bootstrapClient)
 	if err != nil {
 		log.Fatalf("Failed to setup Jamf Pro Test Integration HTTP client: %v", err)
 	}
