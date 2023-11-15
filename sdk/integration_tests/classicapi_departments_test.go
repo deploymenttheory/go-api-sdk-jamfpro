@@ -60,6 +60,9 @@ func loadDepartmentTestData(t *testing.T) (*IntegrationTestData, error) {
 	return &testData, nil
 }
 
+// TestJamfProIntegration_CreateDepartments
+// Purpose: Tests the functionality to create new departments using the Jamf Pro Classic API. It verifies that the departments are successfully created with correct names and non-zero IDs.
+// Process: Loads department configurations from XML test data, creates departments based on the configurations, and then verifies their creation by retrieving them by ID.
 func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 	// Load department test data from XML
 	testData, err := loadDepartmentTestData(t)
@@ -100,6 +103,9 @@ func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 	}
 }
 
+// TestJamfProIntegration_GetDepartments
+// Purpose: Validates the ability to retrieve a list of all departments. It checks whether the departments created in the test data are present in the retrieved list.
+// Process: Loads department configurations from XML test data, fetches the list of all departments, and then verifies the presence of the test departments in the list.
 func TestJamfProIntegration_GetDepartments(t *testing.T) {
 	// Initial log statement to confirm test execution
 	t.Log("Starting TestJamfProIntegration_GetDepartments")
@@ -155,9 +161,15 @@ func TestJamfProIntegration_GetDepartments(t *testing.T) {
 	}
 }
 
+// TestJamfProIntegration_GetDepartmentByID
+// Purpose: Tests retrieving department details by department ID. It ensures that departments can be correctly identified and retrieved using their unique IDs.
+// Process: Iterates through each department defined in the test data, finds their IDs, retrieves them by these IDs, and verifies that the retrieved information matches the test data.
 func TestJamfProIntegration_GetDepartmentByID(t *testing.T) {
-	// Define the department name for which you want to get the ID
-	departmentName := "NewDepartmentTest1"
+	// Load department test data from XML
+	testData, err := loadDepartmentTestData(t)
+	if err != nil {
+		t.Fatalf("Failed to load department test data: %v", err)
+	}
 
 	// Retrieve the list of all departments
 	departmentsList, err := intTestClient.GetDepartments()
@@ -165,65 +177,85 @@ func TestJamfProIntegration_GetDepartmentByID(t *testing.T) {
 		t.Fatalf("Error fetching departments: %v", err)
 	}
 
-	// Find the department by name and get its ID
-	var departmentID int
-	for _, dept := range departmentsList.Results {
-		if dept.Name == departmentName {
-			departmentID = dept.Id
-			break
+	// Test for each department in test data
+	for _, config := range []DepartmentConfig{
+		testData.Departments.Create.MinimumConfiguration,
+		testData.Departments.Create.MaximumConfiguration,
+	} {
+		// Find the department by name and get its ID
+		var departmentID int
+		for _, dept := range departmentsList.Results {
+			if dept.Name == config.Name {
+				departmentID = dept.Id
+				break
+			}
 		}
-	}
 
-	// Assert that the department ID was found
-	if departmentID == 0 {
-		t.Fatalf("Department '%s' not found", departmentName)
-	}
+		// Assert that the department ID was found
+		if departmentID == 0 {
+			t.Fatalf("Department '%s' not found", config.Name)
+		}
 
-	// Retrieve the department details by its ID
-	retrievedDepartment, err := intTestClient.GetDepartmentByID(departmentID)
-	if err != nil {
-		t.Fatalf("Error retrieving department by ID %d: %v", departmentID, err)
-	}
+		// Retrieve the department details by its ID
+		retrievedDepartment, err := intTestClient.GetDepartmentByID(departmentID)
+		if err != nil {
+			t.Fatalf("Error retrieving department by ID %d: %v", departmentID, err)
+		}
 
-	// Assert that the retrieved department has the expected name
-	if retrievedDepartment.Name != departmentName {
-		t.Errorf("Expected department name '%s', got '%s'", departmentName, retrievedDepartment.Name)
-	}
+		// Assert that the retrieved department has the expected name
+		if retrievedDepartment.Name != config.Name {
+			t.Errorf("Expected department name '%s', got '%s'", config.Name, retrievedDepartment.Name)
+		}
 
-	// Log the retrieved department for verification
-	t.Logf("Retrieved Department: ID=%d, Name=%s", retrievedDepartment.ID, retrievedDepartment.Name)
+		// Log the retrieved department for verification
+		t.Logf("Retrieved Department: ID=%d, Name=%s", retrievedDepartment.ID, retrievedDepartment.Name)
+	}
 }
 
-/*
+// TestJamfProIntegration_GetDepartmentByName
+// Purpose: Verifies the functionality to retrieve department details by department name. It ensures that departments can be correctly identified and retrieved using their names.
+// Process: Iterates through each department defined in the test data, retrieves them by their names, and verifies that the retrieved information matches the test dat
 func TestJamfProIntegration_GetDepartmentByName(t *testing.T) {
-	// Define the department name to retrieve
-	departmentName := "NewDepartmentTest1"
-
-	// Retrieve the department by name
-	retrievedDepartment, err := intTestClient.GetDepartmentByName(departmentName)
+	// Load department test data from XML
+	testData, err := loadDepartmentTestData(t)
 	if err != nil {
-		t.Fatalf("Error retrieving department by name '%s': %v", departmentName, err)
+		t.Fatalf("Failed to load department test data: %v", err)
 	}
 
-	// Assert that the retrieved department's name matches the expected name
-	if retrievedDepartment.Name != departmentName {
-		t.Errorf("Expected department name '%s', got '%s'", departmentName, retrievedDepartment.Name)
-	}
+	// Test for each department in test data
+	for _, config := range []DepartmentConfig{
+		testData.Departments.Create.MinimumConfiguration,
+		testData.Departments.Create.MaximumConfiguration,
+	} {
+		// Retrieve the department by name
+		retrievedDepartment, err := intTestClient.GetDepartmentByName(config.Name)
+		if err != nil {
+			t.Fatalf("Error retrieving department by name '%s': %v", config.Name, err)
+		}
 
-	// Log the retrieved department for verification
-	t.Logf("Retrieved Department: ID=%d, Name=%s", retrievedDepartment.ID, retrievedDepartment.Name)
+		// Assert that the retrieved department's name matches the expected name
+		if retrievedDepartment.Name != config.Name {
+			t.Errorf("Expected department name '%s', got '%s'", config.Name, retrievedDepartment.Name)
+		}
+
+		// Log the retrieved department for verification
+		t.Logf("Retrieved Department: ID=%d, Name=%s", retrievedDepartment.ID, retrievedDepartment.Name)
+	}
 }
 
+// TestJamfProIntegration_UpdateDepartmentByName
+// Purpose: Tests the ability to update a department's name using the department's current name and tests that a minimum configuration can be replaced with a maximum configuration. It checks if the department name is correctly updated in the system.
+// Process: Loads department configurations from XML test data, updates the name of a specified department, retrieves the department by its new ID to verify the update, and ensures the department's name has been updated.
 func TestJamfProIntegration_UpdateDepartmentByName(t *testing.T) {
-	// Define the original and new department names
-	originalName := "NewDepartmentTest1"
-	newName := "UpdatedDepartmentTest1"
-
-	// Retrieve the department by its original name
-	originalDepartment, err := intTestClient.GetDepartmentByName(originalName)
+	// Load department test data from XML
+	testData, err := loadDepartmentTestData(t)
 	if err != nil {
-		t.Fatalf("Error retrieving department by name '%s': %v", originalName, err)
+		t.Fatalf("Failed to load department test data: %v", err)
 	}
+
+	// Define the original and new department names
+	originalName := testData.Departments.Create.MinimumConfiguration.Name
+	newName := testData.Departments.Update.MaximumConfiguration.Name
 
 	// Update the department name
 	updatedDepartment, err := intTestClient.UpdateDepartmentByName(originalName, newName)
@@ -231,32 +263,41 @@ func TestJamfProIntegration_UpdateDepartmentByName(t *testing.T) {
 		t.Fatalf("Error updating department name from '%s' to '%s': %v", originalName, newName, err)
 	}
 
-	// Assert that the updated department's ID matches the original department's ID
-	if updatedDepartment.ID != originalDepartment.ID {
-		t.Errorf("Expected updated department ID to match original, got: %d, want: %d", updatedDepartment.ID, originalDepartment.ID)
+	// Use the ID from the update response to retrieve the updated department
+	retrievedUpdatedDepartment, err := intTestClient.GetDepartmentByID(updatedDepartment.ID)
+	if err != nil {
+		t.Fatalf("Error retrieving updated department by ID %d: %v", updatedDepartment.ID, err)
 	}
 
-	// Assert that the updated department's name matches the new name
-	if updatedDepartment.Name != newName {
-		t.Errorf("Expected updated department name '%s', got '%s'", newName, updatedDepartment.Name)
+	// Assert that the retrieved updated department's name matches the new name
+	if retrievedUpdatedDepartment.Name != newName {
+		t.Errorf("Expected updated department name '%s', got '%s'", newName, retrievedUpdatedDepartment.Name)
 	}
 
 	// Log the updated department for verification
-	t.Logf("Updated Department: ID=%d, Original Name=%s, New Name=%s", updatedDepartment.ID, originalName, updatedDepartment.Name)
+	t.Logf("Updated Department: ID=%d, Original Name=%s, New Name=%s", retrievedUpdatedDepartment.ID, originalName, retrievedUpdatedDepartment.Name)
 }
 
+// TestJamfProIntegration_UpdateDepartmentByID
+// Purpose: Validates the functionality to update a department's name using the department's ID and tests that a minimum configuration can be replaced with a maximum configuration.. It ensures that department names can be accurately modified using their unique IDs.
+// Process: Loads department configurations from XML test data, finds the ID of a specified department, updates the department using its ID, and verifies that the department's name has been updated as expected.
 func TestJamfProIntegration_UpdateDepartmentByID(t *testing.T) {
-	// Define the original department name and the new name
-	originalName := "NewDepartmentTest2"
-	newName := "UpdatedDepartmentTest2"
+	// Load department test data from XML
+	testData, err := loadDepartmentTestData(t)
+	if err != nil {
+		t.Fatalf("Failed to load department test data: %v", err)
+	}
 
-	// Retrieve the list of all departments
+	// Define the department to update and the new name
+	originalName := testData.Departments.Create.MaximumConfiguration.Name
+	newName := testData.Departments.Update.MinimumConfiguration.Name
+
+	// Retrieve the list of all departments to find the target department's ID
 	departmentsList, err := intTestClient.GetDepartments()
 	if err != nil {
 		t.Fatalf("Error fetching departments: %v", err)
 	}
 
-	// Find the department by name and get its ID
 	var departmentID int
 	for _, dept := range departmentsList.Results {
 		if dept.Name == originalName {
@@ -265,15 +306,20 @@ func TestJamfProIntegration_UpdateDepartmentByID(t *testing.T) {
 		}
 	}
 
-	// Assert that the department ID was found
 	if departmentID == 0 {
 		t.Fatalf("Department '%s' not found", originalName)
 	}
 
-	// Update the department by its ID
-	updatedDepartment, err := intTestClient.UpdateDepartmentByID(departmentID, newName)
+	// Update the department by ID
+	_, err = intTestClient.UpdateDepartmentByID(departmentID, newName)
 	if err != nil {
-		t.Fatalf("Error updating department ID %d: %v", departmentID, err)
+		t.Fatalf("Error updating department ID %d to name '%s': %v", departmentID, newName, err)
+	}
+
+	// Retrieve the updated department to confirm the update
+	updatedDepartment, err := intTestClient.GetDepartmentByID(departmentID)
+	if err != nil {
+		t.Fatalf("Error retrieving updated department by ID %d: %v", departmentID, err)
 	}
 
 	// Assert that the updated department's name matches the new name
@@ -282,12 +328,15 @@ func TestJamfProIntegration_UpdateDepartmentByID(t *testing.T) {
 	}
 
 	// Log the updated department for verification
-	t.Logf("Updated Department: ID=%d, Original Name=%s, New Name=%s", updatedDepartment.ID, originalName, updatedDepartment.Name)
+	t.Logf("Updated Department: ID=%d, Original Name=%s, New Name=%s", departmentID, originalName, updatedDepartment.Name)
 }
 
+// TestJamfProIntegration_DeleteDepartmentByID
+// Purpose: Tests the deletion of a department using its ID. It confirms that departments can be successfully removed from the system by their unique IDs.
+// Process: Determines the ID of a specified department, deletes the department by its ID, and logs the deletion action for verification.
 func TestJamfProIntegration_DeleteDepartmentByID(t *testing.T) {
 	// Define the updated department name to delete
-	departmentName := "UpdatedDepartmentTest1"
+	departmentName := "UpdateDepartmentsMinConfigIntTest1"
 
 	// Retrieve the department ID by the updated name
 	departmentID, err := intTestClient.GetDepartmentIdByName(departmentName)
@@ -310,9 +359,12 @@ func TestJamfProIntegration_DeleteDepartmentByID(t *testing.T) {
 	t.Logf("Deleted Department: ID=%d, Name=%s", departmentID, departmentName)
 }
 
+// TestJamfProIntegration_DeleteDepartmentByName
+// Purpose: Validates the ability to delete a department using its name. It ensures that departments can be correctly identified and removed using their names.
+// Process: Deletes a department using its name and logs the deletion action for verification.
 func TestJamfProIntegration_DeleteDepartmentByName(t *testing.T) {
 	// Define the updated department name to delete
-	departmentName := "UpdatedDepartmentTest2"
+	departmentName := "UpdateDepartmentsMaxConfigIntTest2"
 
 	// Delete the department by its name
 	err := intTestClient.DeleteDepartmentByName(departmentName)
@@ -323,5 +375,3 @@ func TestJamfProIntegration_DeleteDepartmentByName(t *testing.T) {
 	// Log the deletion for verification
 	t.Logf("Deleted Department: Name=%s", departmentName)
 }
-
-*/
