@@ -20,12 +20,12 @@ type ResponseDepartmentsList struct {
 }
 
 type DepartmentItem struct {
-	Id   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
+	Id   int    `xml:"id,omitempty" json:"id,omitempty"`
+	Name string `xml:"name" json:"name"`
 }
 type ResponseDepartment struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	ID   int    `xml:"id,omitempty" json:"id,omitempty"`
+	Name string `xml:"name" json:"name"`
 }
 
 // GetDepartments retrieves all departments
