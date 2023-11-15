@@ -216,12 +216,19 @@ func setupIntegrationTestAPIClient(client *jamfpro.Client, apiClientConfig ApiCl
 		AccessTokenLifetimeSeconds: apiClientConfig.AccessTokenLifetimeSeconds,
 	}
 
+	log.Printf("Creating new API Integration with display name: %s\n", newApiIntegration.DisplayName)
+
 	createdApiIntegration, err := client.CreateApiIntegration(newApiIntegration)
 	if err != nil {
 		log.Fatalf("Error creating API Integration: %v", err)
 	}
 
-	log.Printf("Created API Integration with Display Name: %s\n", createdApiIntegration.DisplayName)
+	if createdApiIntegration == nil {
+		log.Printf("Created API Integration is nil\n")
+	} else {
+		log.Printf("Created API Integration with Display Name: %s and ID: %d\n", createdApiIntegration.DisplayName, createdApiIntegration.ID)
+		jamfApiIntegration = createdApiIntegration // Assigning to the global variable
+	}
 	return createdApiIntegration, nil
 }
 

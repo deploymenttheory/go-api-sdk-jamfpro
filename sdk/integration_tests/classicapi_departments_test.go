@@ -16,53 +16,53 @@ import (
 //go:embed classicapi_departments_test_data.xml
 var testXMLData embed.FS
 
-// Used for loading test data from the integration test configuration json in test functions
+// DepartmentConfig defines the test configuration for a department, including only the name.
+// IntegrationTestData represents the test data structure for department operations.
 type IntegrationTestData struct {
 	Departments DepartmentsTestData `xml:"Departments"`
 }
 
+// DepartmentsTestData holds configurations for creating and updating departments.
 type DepartmentsTestData struct {
-	Create CreateConfig `xml:"Create"`
-	Update UpdateConfig `xml:"Update"`
+	Create struct {
+		MinimumConfiguration DepartmentConfig `xml:"MinimumConfiguration"`
+		MaximumConfiguration DepartmentConfig `xml:"MaximumConfiguration"`
+	} `xml:"Create"`
+	Update struct {
+		MinimumConfiguration DepartmentConfig `xml:"MinimumConfiguration"`
+		MaximumConfiguration DepartmentConfig `xml:"MaximumConfiguration"`
+	} `xml:"Update"`
 }
-
-type CreateConfig struct {
-	MinimumConfiguration jamfpro.DepartmentItem `xml:"MinimumConfiguration"`
-	MaximumConfiguration jamfpro.DepartmentItem `xml:"MaximumConfiguration"`
-}
-
-type UpdateConfig struct {
-	MinimumConfiguration jamfpro.DepartmentItem `xml:"MinimumConfiguration"`
-	MaximumConfiguration jamfpro.DepartmentItem `xml:"MaximumConfiguration"`
+type DepartmentConfig struct {
+	Name string `xml:"Name"`
 }
 
 // loadDepartmentTestData reads and unmarshals the XML file containing test data
 // for department operations in integration tests.
-func loadDepartmentTestData() (*IntegrationTestData, error) {
+func loadDepartmentTestData(t *testing.T) (*IntegrationTestData, error) {
 	var testData IntegrationTestData
 
 	// Read the XML file
 	data, err := testXMLData.ReadFile("classicapi_departments_test_data.xml")
 	if err != nil {
-		log.Printf("Error reading XML file: %v\n", err)
-		return nil, err
+		t.Fatalf("Error reading XML file: %v\n", err)
 	}
-	log.Println("XML file read successfully")
+	t.Log("XML file read successfully")
+	t.Logf("Raw XML data: %s\n", string(data))
 
 	// Unmarshal the XML data into the testData struct
 	err = xml.Unmarshal(data, &testData)
 	if err != nil {
-		log.Printf("Error unmarshaling XML data: %v\n", err)
-		return nil, err
+		t.Fatalf("Error unmarshaling XML data: %v\n", err)
 	}
-	log.Printf("XML data unmarshaled successfully: %+v\n", testData)
+	t.Logf("XML data unmarshaled successfully: %+v\n", testData)
 
 	return &testData, nil
 }
 
 func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 	// Load department test data from XML
-	testData, err := loadDepartmentTestData()
+	testData, err := loadDepartmentTestData(t)
 	if err != nil {
 		t.Fatalf("Failed to load department test data: %v", err)
 	}
@@ -74,7 +74,8 @@ func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 	log.Printf("Loaded Create Department Test Data: %+v\n", createTestData)
 
 	// Create and assert departments using the loaded create test data
-	for _, department := range []jamfpro.DepartmentItem{createTestData.MinimumConfiguration, createTestData.MaximumConfiguration} {
+	for _, departmentConfig := range []DepartmentConfig{createTestData.MinimumConfiguration, createTestData.MaximumConfiguration} {
+		department := jamfpro.DepartmentItem{Name: departmentConfig.Name}
 		createdDepartment, err := intTestClient.CreateDepartment(department.Name)
 		if err != nil {
 			t.Fatalf("Error creating department '%s': %v", department.Name, err)
@@ -99,7 +100,6 @@ func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 	}
 }
 
-/*
 func TestJamfProIntegration_GetDepartments(t *testing.T) {
 	// Call GetDepartments function to retrieve all departments
 	departmentsList, err := intTestClient.GetDepartments()
@@ -132,6 +132,7 @@ func TestJamfProIntegration_GetDepartments(t *testing.T) {
 	}
 }
 
+/*
 func TestJamfProIntegration_GetDepartmentByID(t *testing.T) {
 	// Define the department name for which you want to get the ID
 	departmentName := "NewDepartmentTest1"

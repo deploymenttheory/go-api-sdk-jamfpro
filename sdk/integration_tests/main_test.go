@@ -1,3 +1,4 @@
+// main_test.go
 package jamfpro_integration_test
 
 import (
