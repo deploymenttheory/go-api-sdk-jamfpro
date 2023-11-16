@@ -62,7 +62,6 @@ func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
 
 	bodyBytes, _ := io.ReadAll(resp.Body)
 	c.logger.Debug("Raw OAuth response:", string(bodyBytes))
-	c.logger.Debug("testing:")
 
 	// Reset the response body to its original state
 	resp.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
