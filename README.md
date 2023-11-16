@@ -677,11 +677,44 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/dockitems/name/{name}`
   `DeleteDockItemsByName` deletes a dock item by its name.
 
+### Jamf Pro Classic API - eBooks
+
+This documentation provides details on the API endpoints available for managing dock items within Jamf Pro using the Classic API, which requires XML data structure support.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/ebooks`
+  `GetEbooks` retrieves a serialized list of all ebooks.
+
+- [x] ✅ **GET** `/JSSResource/ebooks/id/{id}`
+  `GetEbooksByID` fetches a single ebook by its ID.
+
+- [x] ✅ **GET** `/JSSResource/ebooks/name/{name}`
+  `GetEbooksByName` retrieves an ebook by its name.
+
+- [x] ✅ **GET** `/JSSResource/ebooks/name/{name}/subset/{subset}`
+  `GetEbooksByNameAndDataSubset` retrieves a specific subset (General, Scope, or SelfService) of an ebook by its name.
+
+- [x] ✅ **POST** `/JSSResource/ebooks/id/0`
+  `CreateEbook` creates a new ebook with the provided details. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/ebooks/id/{id}`
+  `UpdateEbookByID` updates an existing ebook by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/ebooks/name/{name}`
+  `UpdateEbookByName` updates an existing ebook by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/ebooks/id/{id}`
+  `DeleteEbookByID` deletes an ebook by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/ebooks/name/{name}`
+  `DeleteEbookByName` deletes an ebook by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 235
-- Covered: 216
+- Total Endpoints: 244
+- Covered: 225
 - Not Covered: 19
 - Partially Covered: 0
 
