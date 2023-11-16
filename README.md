@@ -710,11 +710,47 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/ebooks/name/{name}`
   `DeleteEbookByName` deletes an ebook by its name.
 
+### Jamf Pro Classic API - VPP Mac Applications
+
+This documentation outlines the API endpoints available for managing VPP Mac applications within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/macapplications`
+  `GetMacApplications` retrieves a serialized list of all VPP Mac applications.
+
+- [x] ✅ **GET** `/JSSResource/macapplications/id/{id}`
+  `GetMacApplicationByID` fetches a single Mac application by its ID.
+
+- [x] ✅ **GET** `/JSSResource/macapplications/name/{name}`
+  `GetMacApplicationByName` retrieves a Mac application by its name.
+
+- [x] ✅ **GET** `/JSSResource/macapplications/name/{name}/subset/{subset}`
+  `GetMacApplicationByNameAndDataSubset` retrieves a specific subset (General, Scope, SelfService, VPPCodes, and VPP) of a Mac application by its name.
+
+- [x] ✅ **GET** `/JSSResource/macapplications/id/{id}/subset/{subset}`
+  `GetMacApplicationByIDAndDataSubset` retrieves a specific subset (General, Scope, SelfService, VPPCodes, and VPP) of a Mac application by its ID.
+
+- [x] ✅ **POST** `/JSSResource/macapplications/id/0`
+  `CreateMacApplication` creates a new Mac application with the provided details. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/macapplications/id/{id}`
+  `UpdateMacApplicationByID` updates an existing Mac application by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/macapplications/name/{name}`
+  `UpdateMacApplicationByName` updates an existing Mac application by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/macapplications/id/{id}`
+  `DeleteMacApplicationByID` deletes a Mac application by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/macapplications/name/{name}`
+  `DeleteMacApplicationByName` deletes a Mac application by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 244
-- Covered: 225
+- Total Endpoints: 254
+- Covered: 235
 - Not Covered: 19
 - Partially Covered: 0
 
