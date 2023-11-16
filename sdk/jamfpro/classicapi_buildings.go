@@ -5,7 +5,10 @@
 
 package jamfpro
 
-import "fmt"
+import (
+	"encoding/xml"
+	"fmt"
+)
 
 const uriAPIBuildings = "/JSSResource/buildings"
 
@@ -122,14 +125,21 @@ func (c *Client) CreateBuilding(building *Building) (*Building, error) {
 	return &response, nil
 }
 
-// UpdateBuildingByID updates an existing building
-func (c *Client) UpdateBuildingByID(building *Building) (*Building, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIBuildings, building.ID)
+// UpdateBuildingByID updates an existing building by its ID.
+func (c *Client) UpdateBuildingByID(id int, building *ResponseBuildings) (*ResponseBuildings, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriAPIBuildings, id)
 
-	var updatedBuilding Building
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, building, &updatedBuilding)
+	requestBody := struct {
+		XMLName xml.Name `xml:"building"`
+		*ResponseBuildings
+	}{
+		ResponseBuildings: building,
+	}
+
+	var updatedBuilding ResponseBuildings
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBuilding)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update building: %v", err)
+		return nil, fmt.Errorf("failed to update building by ID: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -139,12 +149,19 @@ func (c *Client) UpdateBuildingByID(building *Building) (*Building, error) {
 	return &updatedBuilding, nil
 }
 
-// UpdateBuildingByName updates an existing building by its name
-func (c *Client) UpdateBuildingByName(building *Building) (*Building, error) {
-	endpoint := fmt.Sprintf("%s/name/%s", uriAPIBuildings, building.Name)
+// UpdateBuildingByName updates an existing building by its name.
+func (c *Client) UpdateBuildingByName(name string, building *ResponseBuildings) (*ResponseBuildings, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriAPIBuildings, name)
 
-	var updatedBuilding Building
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, building, &updatedBuilding)
+	requestBody := struct {
+		XMLName xml.Name `xml:"building"`
+		*ResponseBuildings
+	}{
+		ResponseBuildings: building,
+	}
+
+	var updatedBuilding ResponseBuildings
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBuilding)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update building by name: %v", err)
 	}
