@@ -6,17 +6,13 @@ import (
 	"io"
 	"log"
 	"os"
-	"time"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 const (
-	maxConcurrentRequestsAllowed = 5 // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
-	scriptNameToUpdate           = "Embedded Sample Script" // The name of the script to update.
+	scriptNameToUpdate = "Embedded Sample Script" // The name of the script to update.
 )
 
 func main() {
@@ -79,7 +75,7 @@ func main() {
 		ScriptContents: string(scriptContents),
 	}
 
-	updatedScript, err := client.UpdateScriptByName(sampleScript)
+	updatedScript, err := client.UpdateScriptByName(scriptNameToUpdate, sampleScript)
 	if err != nil {
 		log.Fatalf("Error updating script by name: %v", err)
 	}

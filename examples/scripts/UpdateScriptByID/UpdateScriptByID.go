@@ -43,7 +43,7 @@ func main() {
 
 	// Define a sample script for testing
 	updatedScript := &jamfpro.ResponseScript{
-		ID:             195, // Assuming ID 1 for this example
+		ID:             3,
 		Name:           "Embedded Sample Script",
 		Category:       "None",
 		Filename:       "string",
@@ -55,7 +55,7 @@ func main() {
 	}
 
 	// Call UpdateScriptByID function
-	resultScript, err := client.UpdateScriptByID(updatedScript)
+	resultScript, err := client.UpdateScriptByID(updatedScript.ID, updatedScript)
 	if err != nil {
 		log.Fatalf("Error updating script: %v", err)
 	}

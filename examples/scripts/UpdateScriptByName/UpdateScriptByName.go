@@ -71,7 +71,7 @@ func main() {
 		ScriptContents: embeddedScript,
 	}
 
-	updatedScript, err := client.UpdateScriptByName(sampleScript)
+	updatedScript, err := client.UpdateScriptByName(scriptNameToUpdate, sampleScript)
 	if err != nil {
 		log.Fatalf("Error updating script by name: %v", err)
 	}
