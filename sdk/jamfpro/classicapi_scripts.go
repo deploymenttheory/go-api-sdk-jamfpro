@@ -126,10 +126,9 @@ func (c *Client) CreateScriptByID(script *ResponseScript) (*ResponseScript, erro
 }
 
 // UpdateScriptByID updates an existing script by its ID.
-func (c *Client) UpdateScriptByID(script *ResponseScript) (*ResponseScript, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriScripts, script.ID)
+func (c *Client) UpdateScriptByID(id int, script *ResponseScript) (*ResponseScript, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriScripts, id)
 
-	// Wrap the script with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"script"`
 		*ResponseScript
@@ -151,10 +150,9 @@ func (c *Client) UpdateScriptByID(script *ResponseScript) (*ResponseScript, erro
 }
 
 // UpdateScriptByName updates an existing script by its name.
-func (c *Client) UpdateScriptByName(script *ResponseScript) (*ResponseScript, error) {
-	endpoint := fmt.Sprintf("%s/name/%s", uriScripts, script.Name)
+func (c *Client) UpdateScriptByName(name string, script *ResponseScript) (*ResponseScript, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriScripts, name)
 
-	// Wrap the script with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"script"`
 		*ResponseScript
