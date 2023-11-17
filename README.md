@@ -855,11 +855,65 @@ This documentation outlines the API endpoints available for managing Licensed So
 - [x] ✅ **DELETE** `/JSSResource/licensedsoftware/name/{name}`
   `DeleteLicensedSoftwareByName` deletes a Licensed Software item by its name.
 
+### Jamf Pro Classic API - Mobile Device Applications
+
+This documentation outlines the API endpoints available for managing Mobile Device Applications within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications`
+  `GetMobileDeviceApplications` retrieves a serialized list of all Mobile Device Applications.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/id/{id}`
+  `GetMobileDeviceApplicationByID` fetches details of a single Mobile Device Application by its ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/name/{name}`
+  `GetMobileDeviceApplicationByName` retrieves details of a Mobile Device Application by its name.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
+  `GetMobileDeviceApplicationByAppBundleID` fetches details of a Mobile Device Application by its Bundle ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}/version/{version}`
+  `GetMobileDeviceApplicationByAppBundleIDAndVersion` fetches details of a Mobile Device Application by its Bundle ID and specific version.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/id/{id}/subset/{subset}`
+  `GetMobileDeviceApplicationByIDAndDataSubset` fetches a Mobile Device Application by its ID and a specified data subset.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/name/{name}/subset/{subset}`
+  `GetMobileDeviceApplicationByNameAndDataSubset` fetches a Mobile Device Application by its name and a specified data subset.
+
+- [x] ✅ **POST** `/JSSResource/mobiledeviceapplications/id/0`
+  `CreateMobileDeviceApplication` creates a new Mobile Device Application. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/id/{id}`
+  `UpdateMobileDeviceApplicationByID` updates an existing Mobile Device Application by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/name/{name}`
+  `UpdateMobileDeviceApplicationByName` updates an existing Mobile Device Application by its name.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
+  `UpdateMobileDeviceApplicationByApplicationBundleID` updates an existing Mobile Device Application by its Bundle ID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}/version/{version}`
+  `UpdateMobileDeviceApplicationByIDAndAppVersion` updates an existing Mobile Device Application by its ID and specific version.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/id/{id}`
+  `DeleteMobileDeviceApplicationByID` deletes a Mobile Device Application by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/name/{name}`
+  `DeleteMobileDeviceApplicationByName` deletes a Mobile Device Application by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
+  `DeleteMobileDeviceApplicationByBundleID` deletes a Mobile Device Application by its Bundle ID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}/version/{version}`
+  `DeleteMobileDeviceApplicationByBundleIDAndVersion` deletes a Mobile Device Application by its Bundle ID and specific version.
+
 
 ## Progress Summary
 
-- Total Endpoints: 284
-- Covered: 265
+- Total Endpoints: 300
+- Covered: 281
 - Not Covered: 19
 - Partially Covered: 0
 
