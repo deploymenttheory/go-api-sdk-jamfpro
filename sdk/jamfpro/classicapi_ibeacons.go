@@ -5,31 +5,190 @@
 
 package jamfpro
 
+import (
+	"encoding/xml"
+	"fmt"
+)
+
 const uriIbeacons = "/JSSResource/ibeacons"
 
-type ResponseIbeacon struct {
-	ID    int    `json:"id" xml:"id"`
-	Name  string `json:"name" xml:"name"`
-	UUID  string `json:"uuid" xml:"uuid"`
-	Major int    `json:"major" xml:"major"`
-	Minor int    `json:"minor" xml:"minor"`
+// ResponseIBeaconsList represents the response structure for a list of iBeacons.
+type ResponseIBeaconsList struct {
+	Size     int           `xml:"size"`
+	IBeacons []IBeaconItem `xml:"ibeacon"`
 }
 
-type ResponseIbeaconList struct {
-	Ibeacons []IbeaconListItem `json:"ibeacon" xml:"ibeacon"`
+// IBeaconItem represents the structure of an individual iBeacon.
+type IBeaconItem struct {
+	ID    int    `xml:"id"`
+	Name  string `xml:"name"`
+	UUID  string `xml:"uuid"`
+	Major int    `xml:"major,omitempty"`
+	Minor int    `xml:"minor,omitempty"`
 }
 
-type IbeaconListItem struct {
-	ID    int    `json:"id" xml:"id"`
-	Name  string `json:"name" xml:"name"`
-	UUID  string `json:"uuid" xml:"uuid"`
-	Major int    `json:"major" xml:"major"`
-	Minor int    `json:"minor" xml:"minor"`
+// ResponseIBeacons represents the structure of an individual iBeacon.
+type ResponseIBeacons struct {
+	ID    int    `xml:"id"`
+	Name  string `xml:"name"`
+	UUID  string `xml:"uuid"`
+	Major int    `xml:"major,omitempty"`
+	Minor int    `xml:"minor,omitempty"`
 }
 
-type IBeaconScope struct {
-	Id   int    `xml:"id"`
-	Name string `xml:"name"`
+// GetIBeacons retrieves a list of all iBeacons registered in Jamf Pro.
+// It returns a serialized list of iBeacon details including ID, name, UUID, major, and minor values.
+func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
+	endpoint := uriIbeacons
+
+	var iBeacons ResponseIBeaconsList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &iBeacons)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch iBeacons: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &iBeacons, nil
 }
 
-// Functions TODO
+// GetIBeaconByID fetches the details of a specific iBeacon by its ID.
+// It returns the iBeacon's ID, name, UUID, major, and minor values.
+func (c *Client) GetIBeaconByID(id int) (*ResponseIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+	var beacon ResponseIBeacons
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch iBeacon by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &beacon, nil
+}
+
+// GetIBeaconByName fetches the details of a specific iBeacon by its name.
+// It returns the iBeacon's ID, name, UUID, major, and minor values.
+func (c *Client) GetIBeaconByName(name string) (*ResponseIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
+	var beacon ResponseIBeacons
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch iBeacon by Name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &beacon, nil
+}
+
+// CreateIBeacon creates a new iBeacon in Jamf Pro.
+func (c *Client) CreateIBeacon(beacon *ResponseIBeacons) (*ResponseIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/id/0", uriIbeacons) // '0' typically used for creation in APIs
+
+	// The requestBody struct should mirror the ResponseIBeacons struct
+	requestBody := struct {
+		XMLName xml.Name `xml:"ibeacon"`
+		*ResponseIBeacons
+	}{
+		ResponseIBeacons: beacon,
+	}
+
+	var response ResponseIBeacons
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create iBeacon: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// UpdateIBeaconByID updates an existing iBeacon by its ID in Jamf Pro.
+func (c *Client) UpdateIBeaconByID(id int, beacon *ResponseIBeacons) (*ResponseIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"ibeacon"`
+		*ResponseIBeacons
+	}{
+		ResponseIBeacons: beacon,
+	}
+
+	var response ResponseIBeacons
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update iBeacon by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// UpdateIBeaconByName updates an existing iBeacon by its name in Jamf Pro.
+func (c *Client) UpdateIBeaconByName(name string, beacon *ResponseIBeacons) (*ResponseIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"ibeacon"`
+		*ResponseIBeacons
+	}{
+		ResponseIBeacons: beacon,
+	}
+
+	var response ResponseIBeacons
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update iBeacon by Name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// DeleteIBeaconByID deletes an iBeacon by its ID in Jamf Pro.
+func (c *Client) DeleteIBeaconByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete iBeacon by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeleteIBeaconByName deletes an iBeacon by its name in Jamf Pro.
+func (c *Client) DeleteIBeaconByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete iBeacon by Name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}

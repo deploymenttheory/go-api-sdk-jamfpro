@@ -61,7 +61,7 @@ func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
 	// Debug: Print the entire raw response body for inspection
 
 	bodyBytes, _ := io.ReadAll(resp.Body)
-	c.logger.Debug("Raw OAuth response:", string(bodyBytes))
+
 	// Reset the response body to its original state
 	resp.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 
@@ -78,6 +78,16 @@ func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
 	if oauthResp.AccessToken == "" {
 		return fmt.Errorf("empty access token received")
 	}
+
+	// Calculate and format token expiration time
+	expiresIn := time.Duration(oauthResp.ExpiresIn) * time.Second
+	expirationTime := time.Now().Add(expiresIn)
+	formattedExpirationTime := expirationTime.Format(time.RFC1123) // or any other preferred format
+
+	// Log the token life expiry details in a human-readable format
+	c.logger.Debug("The OAuth token obtained is: ",
+		"Valid for", expiresIn.String(),
+		"Expires at", formattedExpirationTime)
 
 	c.Token = oauthResp.AccessToken
 	c.Expiry = time.Now().Add(time.Second * time.Duration(oauthResp.ExpiresIn))

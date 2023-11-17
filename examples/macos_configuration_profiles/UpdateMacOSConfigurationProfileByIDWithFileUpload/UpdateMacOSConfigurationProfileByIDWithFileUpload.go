@@ -57,41 +57,37 @@ func main() {
 		log.Fatalf("Failed to read payload: %v", err)
 	}
 
-	generalConfig := jamfpro.GeneralConfig{
-		Name:               "WiFi Test Updated with sdk",
-		Description:        "",
-		Site:               jamfpro.SiteInfo{Name: "None"},
-		Category:           jamfpro.CategoryInfo{Name: "No category assigned"},
-		DistributionMethod: "Install Automatically",
-		UserRemovable:      false,
-		Level:              "computer",
-		RedeployOnUpdate:   "Newly Assigned",
-		Payloads:           payloads,
-	}
-
-	scopeConfig := jamfpro.ScopeConfig{
-		AllComputers: false,
-		AllJSSUsers:  false,
-	}
-
-	selfServiceConfig := jamfpro.SelfServiceConfig{
-		InstallButtonText:           "Install",
-		SelfServiceDescription:      "null",
-		ForceUsersToViewDescription: false,
-		FeatureOnMainPage:           false,
-	}
-
-	profile := &jamfpro.ResponseMacOSConfigurationProfile{
-		General:     generalConfig,
-		Scope:       scopeConfig,
-		SelfService: selfServiceConfig,
+	// General profile data
+	// Define the macOS Configuration Profile as per the given XML structure
+	profile := jamfpro.ResponseMacOSConfigurationProfiles{
+		General: jamfpro.MacOSConfigurationProfilesDataSubsetGeneral{
+			Name:               "WiFi Test",
+			Description:        "",
+			Site:               jamfpro.MacOSConfigurationProfilesDataSubsetSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
+			Category:           jamfpro.MacOSConfigurationProfilesDataSubsetCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
+			DistributionMethod: "Install Automatically",
+			UserRemovable:      false,
+			Level:              "computer",
+			RedeployOnUpdate:   "Newly Assigned",
+			Payloads:           payloads,
+		},
+		Scope: jamfpro.MacOSConfigurationProfilesDataSubsetScope{
+			AllComputers: false,
+			AllJSSUsers:  false,
+		},
+		SelfService: jamfpro.MacOSConfigurationProfilesDataSubsetSelfService{
+			InstallButtonText:           "Install",
+			SelfServiceDescription:      "null",
+			ForceUsersToViewDescription: false,
+			// Add other fields as per the XML example
+		},
 	}
 
 	// Assuming the ID of the macOS Configuration Profile you want to update is 123
 	id := 78
 
 	// Call the UpdateMacOSConfigurationProfileByID function
-	response, err := client.UpdateMacOSConfigurationProfileByID(id, profile)
+	response, err := client.UpdateMacOSConfigurationProfileByID(id, &profile)
 	if err != nil {
 		log.Fatalf("Failed to update macOS Configuration Profile: %v", err)
 	}

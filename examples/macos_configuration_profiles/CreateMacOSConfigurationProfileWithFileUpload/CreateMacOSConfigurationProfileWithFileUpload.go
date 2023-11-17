@@ -74,18 +74,18 @@ func main() {
 	}
 
 	// Define a sample macOS Configuration Profile
-	profile := &jamfpro.ResponseMacOSConfigurationProfile{
-		General: jamfpro.GeneralConfig{
+	profile := &jamfpro.ResponseMacOSConfigurationProfiles{
+		General: jamfpro.MacOSConfigurationProfilesDataSubsetGeneral{
 			Name:               "WiFi Test",
-			Site:               jamfpro.SiteInfo{Name: "None"},
-			Category:           jamfpro.CategoryInfo{Name: "No category assigned"},
+			Site:               jamfpro.MacOSConfigurationProfilesDataSubsetSite{Name: "None"},
+			Category:           jamfpro.MacOSConfigurationProfilesDataSubsetCategory{Name: "No category assigned"},
 			DistributionMethod: "Install Automatically",
 			Level:              "computer",
 			RedeployOnUpdate:   "Newly Assigned",
 			Payloads:           payload,
 		},
-		Scope: jamfpro.ScopeConfig{},
-		SelfService: jamfpro.SelfServiceConfig{
+		Scope: jamfpro.MacOSConfigurationProfilesDataSubsetScope{},
+		SelfService: jamfpro.MacOSConfigurationProfilesDataSubsetSelfService{
 			InstallButtonText: "Install",
 		},
 	}

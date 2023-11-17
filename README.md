@@ -747,10 +747,41 @@ This documentation outlines the API endpoints available for managing VPP Mac app
   `DeleteMacApplicationByName` deletes a Mac application by its name.
 
 
+### Jamf Pro Classic API - iBeacons
+
+This documentation outlines the API endpoints available for managing iBeacons within Jamf Pro using the Classic API, which supports XML data structures
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/ibeacons`
+  `GetIBeacons` retrieves a serialized list of all iBeacons.
+
+- [x] ✅ **GET** `/JSSResource/ibeacons/id/{id}`
+  `GetIBeaconByID` fetches a single iBeacon by its ID.
+
+- [x] ✅ **GET** `/JSSResource/ibeacons/name/{name}`
+  `GetIBeaconByName` retrieves an iBeacon by its name.
+
+- [x] ✅ **POST** `/JSSResource/ibeacons/id/0`
+  `CreateIBeacon` creates a new iBeacon with the provided details. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/ibeacons/id/{id}`
+  `UpdateIBeaconByID` updates an existing iBeacon by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/ibeacons/name/{name}`
+  `UpdateIBeaconByName` updates an existing iBeacon by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/ibeacons/id/{id}`
+  `DeleteIBeaconByID` deletes an iBeacon by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/ibeacons/name/{name}`
+  `DeleteIBeaconByName` deletes an iBeacon by its name.
+
+
 ## Progress Summary
 
-- Total Endpoints: 254
-- Covered: 235
+- Total Endpoints: 262
+- Covered: 243
 - Not Covered: 19
 - Partially Covered: 0
 
