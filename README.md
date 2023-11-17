@@ -1050,11 +1050,41 @@ This documentation outlines the API endpoints available for managing printers wi
 - [x] ✅ **DELETE** `/JSSResource/printers/name/{name}`
   `DeletePrinterByName` deletes a printer by its name.
 
+### Jamf Pro Classic API - Network Segments
+
+This documentation outlines the API endpoints available for managing Network Segments within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/networksegments`
+  `GetNetworkSegments` retrieves a serialized list of all Network Segments.
+
+- [x] ✅ **GET** `/JSSResource/networksegments/id/{id}`
+  `GetNetworkSegmentByID` fetches details of a single Network Segment by its ID.
+
+- [x] ✅ **GET** `/JSSResource/networksegments/name/{name}`
+  `GetNetworkSegmentByName` retrieves details of a Network Segment by its name.
+
+- [x] ✅ **POST** `/JSSResource/networksegments/id/0`
+  `CreateNetworkSegment` creates a new Network Segment. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/networksegments/id/{id}`
+  `UpdateNetworkSegmentByID` updates an existing Network Segment by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/networksegments/name/{name}`
+  `UpdateNetworkSegmentByName` updates an existing Network Segment by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/networksegments/id/{id}`
+  `DeleteNetworkSegmentByID` deletes a Network Segment by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/networksegments/name/{name}`
+  `DeleteNetworkSegmentByName` deletes a Network Segment by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 339
-- Covered: 320
+- Total Endpoints: 347
+- Covered: 328
 - Not Covered: 19
 - Partially Covered: 0
 
