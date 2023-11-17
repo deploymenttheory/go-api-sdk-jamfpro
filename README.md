@@ -975,11 +975,56 @@ This documentation outlines the API endpoints available for managing Mobile Exte
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceextensionattributes/name/{name}`
   `DeleteMobileExtensionAttributeByName` deletes a Mobile Extension Attribute by its name.
 
+### Jamf Pro Classic API - Mobile Device Enrollment Profiles
+
+This documentation outlines the API endpoints available for managing Mobile Device Enrollment Profiles within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles`
+  `GetMobileDeviceEnrollmentProfiles` retrieves a serialized list of all Mobile Device Enrollment Profiles.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
+  `GetMobileDeviceEnrollmentProfileByID` fetches details of a single Mobile Device Enrollment Profile by its ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
+  `GetMobileDeviceEnrollmentProfileByName` retrieves details of a Mobile Device Enrollment Profile by its name.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
+  `GetProfileByInvitation` fetches a Mobile Device Enrollment Profile by its invitation.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}/subset/{subset}`
+  `GetMobileDeviceEnrollmentProfileByIDBySubset` fetches a specific Mobile Device Enrollment Profile by its ID and a specified subset.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}/subset/{subset}`
+  `GetMobileDeviceEnrollmentProfileByNameBySubset` fetches a specific Mobile Device Enrollment Profile by its name and a specified subset.
+
+- [x] ✅ **POST** `/JSSResource/mobiledeviceenrollmentprofiles/id/0`
+  `CreateMobileDeviceEnrollmentProfile` creates a new Mobile Device Enrollment Profile. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
+  `UpdateMobileDeviceEnrollmentProfileByID` updates an existing Mobile Device Enrollment Profile by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
+  `UpdateMobileDeviceEnrollmentProfileByName` updates an existing Mobile Device Enrollment Profile by its name.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
+  `UpdateMobileDeviceEnrollmentProfileByInvitation` updates an existing Mobile Device Enrollment Profile by its invitation.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
+  `DeleteMobileDeviceEnrollmentProfileByID` deletes a Mobile Device Enrollment Profile by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
+  `DeleteMobileDeviceEnrollmentProfileByName` deletes a Mobile Device Enrollment Profile by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
+  `DeleteMobileDeviceEnrollmentProfileByInvitation` deletes a Mobile Device Enrollment Profile by its invitation.
+
 
 ## Progress Summary
 
-- Total Endpoints: 318
-- Covered: 299
+- Total Endpoints: 331
+- Covered: 312
 - Not Covered: 19
 - Partially Covered: 0
 
