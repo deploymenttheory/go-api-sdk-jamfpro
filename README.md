@@ -777,11 +777,59 @@ This documentation outlines the API endpoints available for managing iBeacons wi
 - [x] ✅ **DELETE** `/JSSResource/ibeacons/name/{name}`
   `DeleteIBeaconByName` deletes an iBeacon by its name.
 
+### Jamf Pro Classic API - LDAP Servers
+
+This documentation outlines the API endpoints available for managing LDAP servers within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/ldapservers`
+  `GetLDAPServers` retrieves a serialized list of all LDAP servers.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}`
+  `GetLDAPServerByID` fetches a single LDAP server by its ID.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}`
+  `GetLDAPServerByName` retrieves a LDAP server by its name.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}/user/{user}`
+  `GetLDAPServerByIDAndUserDataSubset` retrieves user data for a specific LDAP server by its ID.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}/group/{group}`
+  `GetLDAPServerByIDAndGroupDataSubset` retrieves group data for a specific LDAP server by its ID.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}/group/{group}/user/{user}`
+  `GetLDAPServerByIDAndUserMembershipInGroupDataSubset` retrieves user group membership details for a specific LDAP server by its ID.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}/user/{user}`
+  `GetLDAPServerByNameAndUserDataSubset` retrieves user data for a specific LDAP server by its name.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}/group/{group}`
+  `GetLDAPServerByNameAndGroupDataSubset` retrieves group data for a specific LDAP server by its name.
+
+- [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}/group/{group}/user/{user}`
+  `GetLDAPServerByNameAndUserMembershipInGroupDataSubset` retrieves user group membership details for a specific LDAP server by its name.
+
+- [x] ✅ **POST** `/JSSResource/ldapservers/id/0`
+  `CreateLDAPServer` creates a new LDAP server with the provided details.
+
+- [x] ✅ **PUT** `/JSSResource/ldapservers/id/{id}`
+  `UpdateLDAPServerByID` updates an existing LDAP server by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/ldapservers/name/{name}`
+  `UpdateLDAPServerByName` updates an existing LDAP server by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/ldapservers/id/{id}`
+  `DeleteLDAPServerByID` deletes an LDAP server by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/ldapservers/name/{name}`
+  `DeleteLDAPServerByName` deletes an LDAP server by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 262
-- Covered: 243
+- Total Endpoints: 276
+- Covered: 257
 - Not Covered: 19
 - Partially Covered: 0
 
