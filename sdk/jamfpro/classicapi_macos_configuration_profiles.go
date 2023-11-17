@@ -290,7 +290,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigura
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
-		XMLName xml.Name `xml:"os_x_configuration_profile,omitempty"`
+		XMLName xml.Name `xml:"os_x_configuration_profile"`
 		*ResponseMacOSConfigurationProfiles
 	}{
 		ResponseMacOSConfigurationProfiles: profile,
@@ -315,7 +315,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResponseMa
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
-		XMLName xml.Name `xml:"os_x_configuration_profile,omitempty"`
+		XMLName xml.Name `xml:"os_x_configuration_profile"`
 		*ResponseMacOSConfigurationProfiles
 	}{
 		ResponseMacOSConfigurationProfiles: profile,
@@ -340,7 +340,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
-		XMLName xml.Name `xml:"os_x_configuration_profile,omitempty"`
+		XMLName xml.Name `xml:"os_x_configuration_profile"`
 		*ResponseMacOSConfigurationProfiles
 	}{
 		ResponseMacOSConfigurationProfiles: profile,
