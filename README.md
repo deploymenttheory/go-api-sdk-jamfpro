@@ -1020,11 +1020,41 @@ This documentation outlines the API endpoints available for managing Mobile Devi
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
   `DeleteMobileDeviceEnrollmentProfileByInvitation` deletes a Mobile Device Enrollment Profile by its invitation.
 
+### Jamf Pro Classic API - Printers
+
+This documentation outlines the API endpoints available for managing printers within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/printers`
+  `GetPrinters` retrieves a serialized list of all printers.
+
+- [x] ✅ **GET** `/JSSResource/printers/id/{id}`
+  `GetPrinterByID` fetches details of a single printer by its ID.
+
+- [x] ✅ **GET** `/JSSResource/printers/name/{name}`
+  `GetPrinterByName` retrieves details of a printer by its name.
+
+- [x] ✅ **POST** `/JSSResource/printers/id/0`
+  `CreatePrinters` creates a new printer. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/printers/id/{id}`
+  `UpdatePrinterByID` updates an existing printer by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/printers/name/{name}`
+  `UpdatePrinterByName` updates an existing printer by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/printers/id/{id}`
+  `DeletePrinterByID` deletes a printer by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/printers/name/{name}`
+  `DeletePrinterByName` deletes a printer by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 331
-- Covered: 312
+- Total Endpoints: 339
+- Covered: 320
 - Not Covered: 19
 - Partially Covered: 0
 
