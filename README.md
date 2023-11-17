@@ -825,11 +825,41 @@ This documentation outlines the API endpoints available for managing LDAP server
 - [x] ✅ **DELETE** `/JSSResource/ldapservers/name/{name}`
   `DeleteLDAPServerByName` deletes an LDAP server by its name.
 
+### Jamf Pro Classic API - Licensed Software
+
+This documentation outlines the API endpoints available for managing Licensed Software within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/licensedsoftware`
+  `GetLicensedSoftware` retrieves a serialized list of all Licensed Software.
+
+- [x] ✅ **GET** `/JSSResource/licensedsoftware/id/{id}`
+  `GetLicensedSoftwareByID` fetches details of a single Licensed Software item by its ID.
+
+- [x] ✅ **GET** `/JSSResource/licensedsoftware/name/{name}`
+  `GetLicensedSoftwareByName` retrieves details of a Licensed Software item by its name.
+
+- [x] ✅ **POST** `/JSSResource/licensedsoftware/id/0`
+  `CreateLicensedSoftware` creates a new Licensed Software item. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/licensedsoftware/id/{id}`
+  `UpdateLicensedSoftwareByID` updates an existing Licensed Software item by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/licensedsoftware/name/{name}`
+  `UpdateLicensedSoftwareByName` updates an existing Licensed Software item by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/licensedsoftware/id/{id}`
+  `DeleteLicensedSoftwareByID` deletes a Licensed Software item by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/licensedsoftware/name/{name}`
+  `DeleteLicensedSoftwareByName` deletes a Licensed Software item by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 276
-- Covered: 257
+- Total Endpoints: 284
+- Covered: 265
 - Not Covered: 19
 - Partially Covered: 0
 
