@@ -76,7 +76,7 @@ config := http_client.Config{
 }
 ```
 
-Here, the DebugMode is set to true, which means the client will print debug information. The Logger uses the SDK's default logger.
+The Logger uses the SDK's default logger.
 
 4. Initializing the Jamf Pro Client
 Once the HTTP client is configured, initialize the Jamf Pro client:
@@ -97,7 +97,7 @@ client.HTTP.SetOAuthCredentials(oAuthCreds)
 
 With these steps, the HTTP client will be fully set up and ready to make requests to the Jamf Pro API. You can then proceed to use the client to perform various actions as demonstrated in the sample code provided.
 
-Note: Remember to always keep your OAuth credentials confidential and never expose them in your code or public repositories. Using configuration files like clientauth.json and .gitignore-ing them is a good practice to ensure they're not accidentally committed.
+Note: Remember to always keep your OAuth credentials confidential and never expose them in your code or public repositories. 
 
 ---
 
