@@ -1116,6 +1116,51 @@ This documentation outlines the API endpoints available for managing Mobile Devi
 - [x] ✅ **DELETE** `/JSSResource/mobiledevicegroups/name/{name}`
   `DeleteMobileDeviceGroupByName` deletes a Mobile Device Group by its name.
 
+### Jamf Pro Classic API - Mobile Device Provisioning Profiles
+
+This documentation outlines the API endpoints available for managing Mobile Device Provisioning Profiles within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles`
+  `GetMobileDeviceProvisioningProfiles` retrieves a serialized list of all Mobile Device Provisioning Profiles.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
+  `GetMobileDeviceProvisioningProfileByID` fetches a specific Mobile Device Provisioning Profile by its ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
+  `GetMobileDeviceProvisioningProfileByName` fetches a specific Mobile Device Provisioning Profile by its name.
+
+- [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
+  `GetMobileDeviceProvisioningProfileByUUID` fetches a specific Mobile Device Provisioning Profile by its UUID.
+
+- [x] ✅ **POST** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
+  `CreateMobileDeviceProvisioningProfileByID` creates a new Mobile Device Provisioning Profile by its ID.
+
+- [x] ✅ **POST** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
+  `CreateMobileDeviceProvisioningProfileByName` creates a new Mobile Device Provisioning Profile by its name.
+
+- [x] ✅ **POST** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
+  `CreateMobileDeviceProvisioningProfileByUUID` creates a new Mobile Device Provisioning Profile by its UUID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
+  `UpdateMobileDeviceProvisioningProfileByID` updates an existing Mobile Device Provisioning Profile by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
+  `UpdateMobileDeviceProvisioningProfileByName` updates an existing Mobile Device Provisioning Profile by its name.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
+  `UpdateMobileDeviceProvisioningProfileByUUID` updates an existing Mobile Device Provisioning Profile by its UUID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
+  `DeleteMobileDeviceProvisioningProfileByID` deletes a Mobile Device Provisioning Profile by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
+  `DeleteMobileDeviceProvisioningProfileByName` deletes a Mobile Device Provisioning Profile by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
+  `DeleteMobileDeviceProvisioningProfileByUUID` deletes a Mobile Device Provisioning Profile by its UUID.
+
 
 ## Progress Summary
 
