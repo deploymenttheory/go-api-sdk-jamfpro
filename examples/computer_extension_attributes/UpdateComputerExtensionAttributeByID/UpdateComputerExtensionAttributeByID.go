@@ -23,11 +23,12 @@ func main() {
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
-		InstanceName: authConfig.InstanceName,
-		LogLevel:     logLevel,
-		Logger:       logger,
-		ClientID:     authConfig.ClientID,
-		ClientSecret: authConfig.ClientSecret,
+		InstanceName:       authConfig.InstanceName,
+		OverrideBaseDomain: authConfig.OverrideBaseDomain,
+		LogLevel:           logLevel,
+		Logger:             logger,
+		ClientID:           authConfig.ClientID,
+		ClientSecret:       authConfig.ClientSecret,
 	}
 
 	client, err := jamfpro.NewClient(config)

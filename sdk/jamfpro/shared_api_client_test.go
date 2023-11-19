@@ -13,6 +13,7 @@ func TestOAuthCredentialsSetting(t *testing.T) {
 	// Mock config for testing
 	config := Config{
 		InstanceName:             "testInstance",
+		OverrideBaseDomain:       "testBaseDomain",
 		LogLevel:                 http_client.LogLevelInfo,
 		Logger:                   http_client.NewDefaultLogger(),
 		MaxConcurrentRequests:    5,

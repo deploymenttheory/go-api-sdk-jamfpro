@@ -52,7 +52,7 @@ import (
 
 // Endpoint constants represent the URL suffixes used for Jamf API token interactions.
 const (
-	BaseDomain              = ".jamfcloud.com"                // BaseDomain represents the base domain for the jamf instance.
+	DefaultBaseDomain       = ".jamfcloud.com"                // DefaultBaseDomain: represents the base domain for the jamf instance.
 	OAuthTokenEndpoint      = "/api/oauth/token"              // OAuthTokenEndpoint: The endpoint to obtain an OAuth token.
 	BearerTokenEndpoint     = "/api/v1/auth/token"            // BearerTokenEndpoint: The endpoint to obtain a bearer token.
 	TokenRefreshEndpoint    = "/api/v1/auth/keep-alive"       // TokenRefreshEndpoint: The endpoint to refresh an existing token.
@@ -126,16 +126,27 @@ type UnifiedJamfAPIHandler struct {
 
 // Functions
 
+// GetBaseDomain returns the appropriate base domain for URL construction.
+// It uses OverrideBaseDomain if set, otherwise falls back to DefaultBaseDomain.
+func (c *Client) GetBaseDomain() string {
+	if c.OverrideBaseDomain != "" {
+		return c.OverrideBaseDomain
+	}
+	return DefaultBaseDomain
+}
+
 // ConstructAPIResourceEndpoint returns the full URL for a Jamf API resource endpoint path.
 func (c *Client) ConstructAPIResourceEndpoint(endpointPath string) string {
-	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
+	baseDomain := c.GetBaseDomain()
+	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, baseDomain, endpointPath)
 	c.logger.Info("Request will be made to API Resource URL:", "URL", url)
 	return url
 }
 
 // ConstructAPIAuthEndpoint returns the full URL for a Jamf API auth endpoint path.
 func (c *Client) ConstructAPIAuthEndpoint(endpointPath string) string {
-	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, BaseDomain, endpointPath)
+	baseDomain := c.GetBaseDomain()
+	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, baseDomain, endpointPath)
 	c.logger.Info("Request will be made to API authentication URL:", "URL", url)
 	return url
 }

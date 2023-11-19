@@ -29,6 +29,7 @@ type Client struct {
 
 type Config struct {
 	InstanceName             string
+	OverrideBaseDomain       string
 	LogLevel                 http_client.LogLevel
 	Logger                   http_client.Logger
 	MaxConcurrentRequests    int
@@ -68,6 +69,11 @@ func NewClient(config Config) (*Client, error) {
 	httpCli, err := http_client.NewClient(config.InstanceName, httpConfig, nil)
 	if err != nil {
 		return nil, err // Return the error if HTTP client initialization fails
+	}
+
+	// Set OverrideBaseDomain if provided
+	if config.OverrideBaseDomain != "" {
+		httpCli.OverrideBaseDomain = config.OverrideBaseDomain
 	}
 
 	client := &Client{

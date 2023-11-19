@@ -23,6 +23,7 @@ type Client struct {
 	InstanceName               string                     // Website Instance name without the root domain
 	AuthMethod                 string                     // Specifies the authentication method: "bearer" or "oauth"
 	Token                      string                     // Authentication Token
+	OverrideBaseDomain         string                     // Base domain override used when the default in the api handler isn't suitable
 	OAuthCredentials           OAuthCredentials           // ClientID / Client Secret
 	BearerTokenAuthCredentials BearerTokenAuthCredentials // Username and Password for Basic Authentication
 	Expiry                     time.Time                  // Expiry time set for the auth token
@@ -60,11 +61,12 @@ type ClientPerformanceMetrics struct {
 
 // ClientAuthConfig represents the structure to read authentication details from a JSON configuration file.
 type ClientAuthConfig struct {
-	InstanceName string `json:"instanceName,omitempty"`
-	Username     string `json:"username,omitempty"`
-	Password     string `json:"password,omitempty"`
-	ClientID     string `json:"clientID,omitempty"`
-	ClientSecret string `json:"clientSecret,omitempty"`
+	InstanceName       string `json:"instanceName,omitempty"`
+	OverrideBaseDomain string `json:"overrideBaseDomain,omitempty"`
+	Username           string `json:"username,omitempty"`
+	Password           string `json:"password,omitempty"`
+	ClientID           string `json:"clientID,omitempty"`
+	ClientSecret       string `json:"clientSecret,omitempty"`
 }
 
 // StructuredError represents a structured error response from the API.
