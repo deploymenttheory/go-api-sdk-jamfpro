@@ -1164,8 +1164,8 @@ This documentation outlines the API endpoints available for managing Mobile Devi
 
 ## Progress Summary
 
-- Total Endpoints: 355
-- Covered: 336
+- Total Endpoints: 3568
+- Covered: 349
 - Not Covered: 19
 - Partially Covered: 0
 
