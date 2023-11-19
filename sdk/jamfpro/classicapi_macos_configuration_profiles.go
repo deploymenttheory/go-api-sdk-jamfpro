@@ -135,7 +135,7 @@ type MacOSConfigurationProfilesDataSubsetNetworkSegment struct {
 
 type MacOSConfigurationProfilesDataSubsetNetworkSegmentItem struct {
 	ID   int    `xml:"id,omitempty"`
-	UID  string `xml:"uid,omitempty,omitempty"`
+	UID  string `xml:"uid,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
@@ -202,10 +202,10 @@ type MacOSConfigurationProfilesDataSubsetSelfServiceCategories struct {
 }
 
 type MacOSConfigurationProfilesDataSubsetSelfServiceCategory struct {
-	ID        int    `xml:"id,omitempty,omitempty"`
-	Name      string `xml:"name,omitempty,omitempty"`
-	DisplayIn bool   `xml:"display_in,omitempty,omitempty"`
-	FeatureIn bool   `xml:"feature_in,omitempty,omitempty"`
+	ID        int    `xml:"id,omitempty"`
+	Name      string `xml:"name,omitempty"`
+	DisplayIn bool   `xml:"display_in,omitempty"`
+	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
 // GetMacOSConfigurationProfiles fetches a list of all macOS Configuration Profiles from the Jamf Pro server.
