@@ -1086,11 +1086,41 @@ This documentation outlines the API endpoints available for managing Network Seg
 - [x] ✅ **DELETE** `/JSSResource/networksegments/name/{name}`
   `DeleteNetworkSegmentByName` deletes a Network Segment by its name.
 
+### Jamf Pro Classic API - Mobile Device Groups
+
+This documentation outlines the API endpoints available for managing Mobile Device Groups within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/JSSResource/mobiledevicegroups`
+  `GetMobileDeviceGroups` retrieves a serialized list of all Mobile Device Groups.
+
+- [x] ✅ **GET** `/JSSResource/mobiledevicegroups/id/{id}`
+  `GetMobileDeviceGroupByID` fetches details of a single Mobile Device Group by its ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledevicegroups/name/{name}`
+  `GetMobileDeviceGroupByName` retrieves details of a Mobile Device Group by its name.
+
+- [x] ✅ **POST** `/JSSResource/mobiledevicegroups/id/0`
+  `CreateMobileDeviceGroup` creates a new Mobile Device Group. The ID `0` in the endpoint indicates creation.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledevicegroups/id/{id}`
+  `UpdateMobileDeviceGroupByID` updates an existing Mobile Device Group by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledevicegroups/name/{name}`
+  `UpdateMobileDeviceGroupByName` updates an existing Mobile Device Group by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledevicegroups/id/{id}`
+  `DeleteMobileDeviceGroupByID` deletes a Mobile Device Group by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledevicegroups/name/{name}`
+  `DeleteMobileDeviceGroupByName` deletes a Mobile Device Group by its name.
+
 
 ## Progress Summary
 
-- Total Endpoints: 347
-- Covered: 328
+- Total Endpoints: 355
+- Covered: 336
 - Not Covered: 19
 - Partially Covered: 0
 
