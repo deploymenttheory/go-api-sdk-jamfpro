@@ -19,12 +19,12 @@ type ResponseMobileDeviceApplicationsList struct {
 
 // MobileDeviceApplicationItem represents a single mobile device application item.
 type MobileDeviceApplicationItem struct {
-	ID          int     `xml:"id"`
-	Name        string  `xml:"name"`
-	DisplayName string  `xml:"display_name"`
-	BundleID    string  `xml:"bundle_id"`
-	Version     float64 `xml:"version"`
-	InternalApp bool    `xml:"internal_app"`
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	DisplayName string `xml:"display_name"`
+	BundleID    string `xml:"bundle_id"`
+	Version     string `xml:"version"`
+	InternalApp bool   `xml:"internal_app"`
 }
 
 // ResponseMobileDeviceApplication represents the detailed structure of a single mobile device application.

@@ -1,6 +1,6 @@
 ## Getting Started with `go-api-sdk-jamfpro`
 
-This guide will help you get started with `go-api-sdk-jamfpro`, a Go SDK for interfacing with Jamf Pro.
+This guide will help you **GET** started with `go-api-sdk-jamfpro`, a Go SDK for interfacing with Jamf Pro.
 
 ### Prerequisites
 
@@ -11,7 +11,7 @@ Ensure you have Go installed and set up on your system. If not, follow the instr
 Install the `go-api-sdk-jamfpro` package using `go get`:
 
 ```bash
-go get github.com/deploymenttheory/go-api-sdk-jamfpro
+go **GET** github.com/deploymenttheory/go-api-sdk-jamfpro
 ```
 
 ## Usage
@@ -37,13 +37,14 @@ const (
 These constants are used to set the maximum number of concurrent requests the client can make, the lifespan of the token, and a buffer period.
 
 2. Loading OAuth Credentials
-OAuth credentials are essential for authenticating with the Jamf Pro API. Store these credentials in a JSON file for secure and easy access. The structure of the clientauth.json should be:
+The http client for this SDK supports both classic auth and Oauth with bearer token. Since the direction of travel is Oauth, in this example store your credentials in a JSON file for secure and easy access. The structure of the client auth json should be like this:
 
 ```json
 {
-  "instanceName": "your_jamf_instance_name", 
-  "clientID": "your_client_id",
-  "clientSecret": "your_client_secret"
+  "instanceName": "your_jamf_instance_name", // Required
+  "clientID": "your_client_id", // Required
+  "clientSecret": "your_client_secret", // Required
+  "overrideBaseDomain": "optional_custom_domain.com" // Optional field
 }
 ```
 
@@ -76,7 +77,7 @@ config := http_client.Config{
 }
 ```
 
-Here, the DebugMode is set to true, which means the client will print debug information. The Logger uses the SDK's default logger.
+The Logger uses the SDK's default logger.
 
 4. Initializing the Jamf Pro Client
 Once the HTTP client is configured, initialize the Jamf Pro client:
@@ -97,7 +98,7 @@ client.HTTP.SetOAuthCredentials(oAuthCreds)
 
 With these steps, the HTTP client will be fully set up and ready to make requests to the Jamf Pro API. You can then proceed to use the client to perform various actions as demonstrated in the sample code provided.
 
-Note: Remember to always keep your OAuth credentials confidential and never expose them in your code or public repositories. Using configuration files like clientauth.json and .gitignore-ing them is a good practice to ensure they're not accidentally committed.
+Note: Remember to always keep your OAuth credentials confidential and never expose them in your code or public repositories. 
 
 ---
 
@@ -109,7 +110,10 @@ The `go-api-sdk-jamfpro` SDK constructs URLs in a structured manner to ensure co
 The primary identifier for constructing URLs in the client is the `InstanceName` which represents the Jamf Pro instance. For example, for the URL `mycompany.jamfcloud.com`, the instance name would be `mycompany`.
 
 #### **Base Domain:**
-The SDK uses a constant base domain: `jamfcloud.com`. This domain is appended to the `InstanceName` to form the full domain for the API calls. This can be modifed within the http_client package in jamfpro_api_handler.go if you don't use jamf cloud hosting for your jamf instance.
+If OverrideBaseDomain is provided during http client initialization, this will override jamfcloud.com and will be used as the base domain for URL construction. Otherwise, the default domain defined in the http_client package (jamfcloud.com) will be used.
+
+URL Construction in the Client
+URLs are constructed using the InstanceName and, optionally, the OverrideBaseDomain. If the OverrideBaseDomain is not specified, the default domain (jamfcloud.com) is used. The SDK automatically appends this domain to the InstanceName for API calls.
 
 ```go
 const (
@@ -162,11 +166,12 @@ func main() {
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
-		InstanceName: authConfig.InstanceName,
-		LogLevel:     logLevel,
-		Logger:       logger,
-		ClientID:     authConfig.ClientID,
-		ClientSecret: authConfig.ClientSecret,
+		InstanceName:       authConfig.InstanceName,
+		OverrideBaseDomain: authConfig.OverrideBaseDomain,
+		LogLevel:           logLevel,
+		Logger:             logger,
+		ClientID:           authConfig.ClientID,
+		ClientSecret:       authConfig.ClientSecret,
 	}
 
 	// Create a new jamfpro client instance
@@ -174,13 +179,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+}
 ```
 
 ## Go SDK for Jamf Pro API Progress Tracker
 
 ### API Coverage Progress
 
-Date: Oct-2023 
+Date: Nov-2023 
 Maintainer: [ShocOne]
 
 ## Overview
@@ -197,222 +203,222 @@ This document tracks the progress of API endpoint coverage tests. As endpoints a
 
 ### Accounts - /JSSResource/accounts
 
-- [x] ✅ GET `/userid/{id}` - GetAccountByID retrieves the Account by its ID
-- [x] ✅ GET `/username/{username}` - GetAccountByName retrieves the Account by its name
-- [x] ✅ GET `/` - GetAccounts retrieves all user accounts
-- [x] ✅ GET `/groupid/{id}` - GetAccountGroupByID retrieves the Account Group by its ID
-- [x] ✅ GET `/groupname/{id}` - GetAccountGroupByName retrieves the Account Group by its name
-- [x] ✅ POST `/` - CreateAccount creates a new Jamf Pro Account.
-- [x] ✅ POST `/groupid/0` - CreateAccountGroup creates a new Jamf Pro Account Group.
-- [x] ✅ PUT `/userid/{id}` - UpdateAccountByID updates an existing Jamf Pro Account by ID
-- [x] ✅ PUT `/username/{id}` - UpdateAccountByName updates an existing Jamf Pro Account by Name
-- [x] ✅ PUT `/groupid/{id}` - UpdateAccountGroupByID updates an existing Jamf Pro Account Group by ID
-- [x] ✅ PUT `/groupname/{id}` - UpdateAccountGroupByName updates an existing Jamf Pro Account Group by Name
-- [x] ✅ DELETE `/userid/{id}` - DeleteAccountByID deletes an existing Jamf Pro Account by ID
-- [x] ✅ DELETE `/username/{username}` - DeleteAccountByName deletes an existing Jamf Pro Account by Name
-- [x] ✅ DELETE `/groupid/{id}` - DeleteAccountGroupByID deletes an existing Jamf Pro Account Group by ID
-- [x] ✅ DELETE `/groupname/{username}` - DeleteAccountGroupByName deletes an existing Jamf Pro Account Group by Name
+- [x] ✅ **GET** `/userid/{id}` - GetAccountByID retrieves the Account by its ID
+- [x] ✅ **GET** `/username/{username}` - GetAccountByName retrieves the Account by its name
+- [x] ✅ **GET** `/` - GetAccounts retrieves all user accounts
+- [x] ✅ **GET** `/groupid/{id}` - GetAccountGroupByID retrieves the Account Group by its ID
+- [x] ✅ **GET** `/groupname/{id}` - GetAccountGroupByName retrieves the Account Group by its name
+- [x] ✅ **POST** `/` - CreateAccount creates a new Jamf Pro Account.
+- [x] ✅ **POST** `/groupid/0` - CreateAccountGroup creates a new Jamf Pro Account Group.
+- [x] ✅ **PUT** `/userid/{id}` - UpdateAccountByID updates an existing Jamf Pro Account by ID
+- [x] ✅ **PUT** `/username/{id}` - UpdateAccountByName updates an existing Jamf Pro Account by Name
+- [x] ✅ **PUT** `/groupid/{id}` - UpdateAccountGroupByID updates an existing Jamf Pro Account Group by ID
+- [x] ✅ **PUT** `/groupname/{id}` - UpdateAccountGroupByName updates an existing Jamf Pro Account Group by Name
+- [x] ✅ **DELETE** `/userid/{id}` - DeleteAccountByID deletes an existing Jamf Pro Account by ID
+- [x] ✅ **DELETE** `/username/{username}` - DeleteAccountByName deletes an existing Jamf Pro Account by Name
+- [x] ✅ **DELETE** `/groupid/{id}` - DeleteAccountGroupByID deletes an existing Jamf Pro Account Group by ID
+- [x] ✅ **DELETE** `/groupname/{username}` - DeleteAccountGroupByName deletes an existing Jamf Pro Account Group by Name
 
 ### Activation Code - /JSSResource/activationcode
 
-- [x] ✅ GET `/JSSResource/activationcode` - GetActivationCode retrieves the current activation code and organization name.
-- [x] ✅ PUT `/JSSResource/activationcode` - UpdateActivationCode updates the activation code with a new organization name and code.
+- [x] ✅ **GET** `/JSSResource/activationcode` - GetActivationCode retrieves the current activation code and organization name.
+- [x] ✅ **PUT** `/JSSResource/activationcode` - UpdateActivationCode updates the activation code with a new organization name and code.
 
 ### Jamf Pro API Integrations - /api/v1/api-integrations
 
-- [x] ✅ GET `/api/v1/api-integrations` - GetApiIntegrations fetches all API integrations.
-- [x] ✅ GET `/api/v1/api-integrations/{id}` - GetApiIntegrationByID fetches an API integration by its ID.
-- [x] ✅ GET `/api/v1/api-integrations` followed by searching by name - GetApiIntegrationNameByID fetches an API integration by its display name and then retrieves its details using its ID.
-- [x] ✅ POST `/api/v1/api-integrations` - CreateApiIntegration creates a new API integration.
-- [x] ✅ POST `/api/v1/api-integrations/{id}/client-credentials` - CreateClientCredentialsByApiRoleID creates new client credentials for an API integration by its ID.
-- [x] ✅ PUT `/api/v1/api-integrations/{id}` - UpdateApiIntegrationByID updates an API integration by its ID.
-- [x] ✅ PUT `/api/v1/api-integrations` followed by searching by name - UpdateApiIntegrationByName updates an API integration based on its display name.
-- [x] ✅ POST `/api/v1/api-integrations/{id}/client-credentials` (Used for updating) - UpdateClientCredentialsByApiIntegrationID updates client credentials for an API integration by its ID.
-- [x] ✅ DELETE `/api/v1/api-integrations/{id}` - DeleteApiIntegrationByID deletes an API integration by its ID.
-- [x] ✅ DELETE `/api/v1/api-integrations` followed by searching by name - DeleteApiIntegrationByName deletes an API integration by its display name.
+- [x] ✅ **GET** `/api/v1/api-integrations` - GetApiIntegrations fetches all API integrations.
+- [x] ✅ **GET** `/api/v1/api-integrations/{id}` - GetApiIntegrationByID fetches an API integration by its ID.
+- [x] ✅ **GET** `/api/v1/api-integrations` followed by searching by name - GetApiIntegrationNameByID fetches an API integration by its display name and then retrieves its details using its ID.
+- [x] ✅ **POST**  `/api/v1/api-integrations` - CreateApiIntegration creates a new API integration.
+- [x] ✅ **POST**  `/api/v1/api-integrations/{id}/client-credentials` - CreateClientCredentialsByApiRoleID creates new client credentials for an API integration by its ID.
+- [x] ✅ **PUT** `/api/v1/api-integrations/{id}` - UpdateApiIntegrationByID updates an API integration by its ID.
+- [x] ✅ **PUT** `/api/v1/api-integrations` followed by searching by name - UpdateApiIntegrationByName updates an API integration based on its display name.
+- [x] ✅ **POST**  `/api/v1/api-integrations/{id}/client-credentials` (Used for updating) - UpdateClientCredentialsByApiIntegrationID updates client credentials for an API integration by its ID.
+- [x] ✅ **DELETE** `/api/v1/api-integrations/{id}` - DeleteApiIntegrationByID deletes an API integration by its ID.
+- [x] ✅ **DELETE** `/api/v1/api-integrations` followed by searching by name - DeleteApiIntegrationByName deletes an API integration by its display name.
 
 ### Jamf Pro API Role Privileges - /api/v1/api-role-privileges
 
-- [x] ✅ GET `/api/v1/api-role-privileges` - `GetJamfAPIPrivileges` fetches a list of Jamf API role privileges.
-- [x] ✅ GET `/api/v1/api-role-privileges/search?name={name}&limit={limit}` - `GetJamfAPIPrivilegesByName` fetches a Jamf API role privileges by name.
+- [x] ✅ **GET** `/api/v1/api-role-privileges` - `GetJamfAPIPrivileges` fetches a list of Jamf API role privileges.
+- [x] ✅ **GET** `/api/v1/api-role-privileges/search?name={name}&limit={limit}` - `GetJamfAPIPrivilegesByName` fetches a Jamf API role privileges by name.
 
 
 ### Jamf Pro API Roles - /api/v1/api-roles
 
-- [x] ✅ GET `/api/v1/api-roles` - GetJamfAPIRoles fetches all API roles.
-- [x] ✅ GET `/api/v1/api-roles/{id}` - GetJamfApiRolesByID fetches a Jamf API role by its ID.
-- [x] ✅ GET `/api/v1/api-roles` followed by searching by name - GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
-- [x] ✅ POST `/api/v1/api-roles` - CreateJamfApiRole creates a new Jamf API role.
-- [x] ✅ PUT `/api/v1/api-roles/{id}` - UpdateJamfApiRoleByID updates a Jamf API role by its ID.
-- [x] ✅ PUT `/api/v1/api-roles` followed by searching by name - UpdateJamfApiRoleByName updates a Jamf API role based on its display name.
-- [x] ✅ DELETE `/api/v1/api-roles/{id}` - DeleteJamfApiRoleByID deletes a Jamf API role by its ID.
-- [x] ✅ DELETE `/api/v1/api-roles` followed by searching by name - DeleteJamfApiRoleByName deletes a Jamf API role by its display name.
+- [x] ✅ **GET** `/api/v1/api-roles` - GetJamfAPIRoles fetches all API roles.
+- [x] ✅ **GET** `/api/v1/api-roles/{id}` - GetJamfApiRolesByID fetches a Jamf API role by its ID.
+- [x] ✅ **GET** `/api/v1/api-roles` followed by searching by name - GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
+- [x] ✅ **POST**  `/api/v1/api-roles` - CreateJamfApiRole creates a new Jamf API role.
+- [x] ✅ **PUT** `/api/v1/api-roles/{id}` - UpdateJamfApiRoleByID updates a Jamf API role by its ID.
+- [x] ✅ **PUT** `/api/v1/api-roles` followed by searching by name - UpdateJamfApiRoleByName updates a Jamf API role based on its display name.
+- [x] ✅ **DELETE** `/api/v1/api-roles/{id}` - DeleteJamfApiRoleByID deletes a Jamf API role by its ID.
+- [x] ✅ **DELETE** `/api/v1/api-roles` followed by searching by name - DeleteJamfApiRoleByName deletes a Jamf API role by its display name.
 
 ### Jamf Pro Classic API - Advanced Computer Searches
 
-- [x] ✅ GET `/JSSResource/advancedcomputersearches` - GetAdvancedComputerSearches fetches all advanced computer searches.
-- [x] ✅ GET `/JSSResource/advancedcomputersearches/id/{id}` - GetAdvancedComputerSearchByID fetches an advanced computer search by its ID.
-- [x] ✅ GET `/JSSResource/advancedcomputersearches/name/{name}` - GetAdvancedComputerSearchesByName fetches advanced computer searches by their name.
-- [x] ✅ POST `/JSSResource/advancedcomputersearches` - CreateAdvancedComputerSearch creates a new advanced computer search.
-- [x] ✅ PUT `/JSSResource/advancedcomputersearches/id/{id}` - UpdateAdvancedComputerSearchByID updates an existing advanced computer search by its ID.
-- [x] ✅ PUT `/JSSResource/advancedcomputersearches/name/{name}` - UpdateAdvancedComputerSearchByName updates an advanced computer search by its name.
-- [x] ✅ DELETE `/JSSResource/advancedcomputersearches/id/{id}` - DeleteAdvancedComputerSearchByID deletes an advanced computer search by its ID.
-- [x] ✅ DELETE `/JSSResource/advancedcomputersearches/name/{name}` - DeleteAdvancedComputerSearchByName deletes an advanced computer search by its name.
+- [x] ✅ **GET** `/JSSResource/advancedcomputersearches` - GetAdvancedComputerSearches fetches all advanced computer searches.
+- [x] ✅ **GET** `/JSSResource/advancedcomputersearches/id/{id}` - GetAdvancedComputerSearchByID fetches an advanced computer search by its ID.
+- [x] ✅ **GET** `/JSSResource/advancedcomputersearches/name/{name}` - GetAdvancedComputerSearchesByName fetches advanced computer searches by their name.
+- [x] ✅ **POST**  `/JSSResource/advancedcomputersearches` - CreateAdvancedComputerSearch creates a new advanced computer search.
+- [x] ✅ **PUT** `/JSSResource/advancedcomputersearches/id/{id}` - UpdateAdvancedComputerSearchByID updates an existing advanced computer search by its ID.
+- [x] ✅ **PUT** `/JSSResource/advancedcomputersearches/name/{name}` - UpdateAdvancedComputerSearchByName updates an advanced computer search by its name.
+- [x] ✅ **DELETE** `/JSSResource/advancedcomputersearches/id/{id}` - DeleteAdvancedComputerSearchByID deletes an advanced computer search by its ID.
+- [x] ✅ **DELETE** `/JSSResource/advancedcomputersearches/name/{name}` - DeleteAdvancedComputerSearchByName deletes an advanced computer search by its name.
 
 ### Jamf Pro Classic API - Advanced Mobile Device Searches
 
-- [x] ✅ GET `/JSSResource/advancedmobiledevicesearches` - GetAdvancedMobileDeviceSearches fetches all advanced mobile device searches.
-- [x] ✅ GET `/JSSResource/advancedmobiledevicesearches/id/{id}` - GetAdvancedMobileDeviceSearchByID fetches an advanced mobile device search by its ID.
-- [x] ✅ GET `/JSSResource/advancedmobiledevicesearches/name/{name}` - GetAdvancedMobileDeviceSearchByName fetches advanced mobile device searches by their name.
-- [x] ✅ POST `/JSSResource/advancedmobiledevicesearches` - CreateAdvancedMobileDeviceSearch creates a new advanced mobile device search.
-- [x] ✅ PUT `/JSSResource/advancedmobiledevicesearches/id/{id}` - UpdateAdvancedMobileDeviceSearchByID updates an existing advanced mobile device search by its ID.
-- [x] ✅ PUT `/JSSResource/advancedmobiledevicesearches/name/{name}` - UpdateAdvancedMobileDeviceSearchByName updates an advanced mobile device search by its name.
-- [x] ✅ DELETE `/JSSResource/advancedmobiledevicesearches/id/{id}` - DeleteAdvancedMobileDeviceSearchByID deletes an advanced mobile device search by its ID.
-- [x] ✅ DELETE `/JSSResource/advancedmobiledevicesearches/name/{name}` - DeleteAdvancedMobileDeviceSearchByName deletes an advanced mobile device search by its name.
+- [x] ✅ **GET** `/JSSResource/advancedmobiledevicesearches` - GetAdvancedMobileDeviceSearches fetches all advanced mobile device searches.
+- [x] ✅ **GET** `/JSSResource/advancedmobiledevicesearches/id/{id}` - GetAdvancedMobileDeviceSearchByID fetches an advanced mobile device search by its ID.
+- [x] ✅ **GET** `/JSSResource/advancedmobiledevicesearches/name/{name}` - GetAdvancedMobileDeviceSearchByName fetches advanced mobile device searches by their name.
+- [x] ✅ **POST**  `/JSSResource/advancedmobiledevicesearches` - CreateAdvancedMobileDeviceSearch creates a new advanced mobile device search.
+- [x] ✅ **PUT** `/JSSResource/advancedmobiledevicesearches/id/{id}` - UpdateAdvancedMobileDeviceSearchByID updates an existing advanced mobile device search by its ID.
+- [x] ✅ **PUT** `/JSSResource/advancedmobiledevicesearches/name/{name}` - UpdateAdvancedMobileDeviceSearchByName updates an advanced mobile device search by its name.
+- [x] ✅ **DELETE** `/JSSResource/advancedmobiledevicesearches/id/{id}` - DeleteAdvancedMobileDeviceSearchByID deletes an advanced mobile device search by its ID.
+- [x] ✅ **DELETE** `/JSSResource/advancedmobiledevicesearches/name/{name}` - DeleteAdvancedMobileDeviceSearchByName deletes an advanced mobile device search by its name.
 
 
 ### Jamf Pro Classic API - Advanced User Searches
 
-- [x] ✅ GET `/JSSResource/advancedusersearches` - GetAdvancedUserSearches fetches all advanced user searches.
-- [x] ✅ GET `/JSSResource/advancedusersearches/id/{id}` - GetAdvancedUserSearchByID fetches an advanced user search by its ID.
-- [x] ✅ GET `/JSSResource/advancedusersearches/name/{name}` - GetAdvancedUserSearchesByName fetches advanced user searches by their name.
-- [x] ✅ POST `/JSSResource/advancedusersearches` - CreateAdvancedUserSearch creates a new advanced user search.
-- [x] ✅ PUT `/JSSResource/advancedusersearches/id/{id}` - UpdateAdvancedUserSearchByID updates an existing advanced user search by its ID.
-- [x] ✅ PUT `/JSSResource/advancedusersearches/name/{name}` - UpdateAdvancedUserSearchByName updates an advanced user search by its name.
-- [x] ✅ DELETE `/JSSResource/advancedusersearches/id/{id}` - DeleteAdvancedUserSearchByID deletes an advanced user search by its ID.
-- [x] ✅ DELETE `/JSSResource/advancedusersearches/name/{name}` - DeleteAdvancedUserSearchByName deletes an advanced user search by its name.
+- [x] ✅ **GET** `/JSSResource/advancedusersearches` - GetAdvancedUserSearches fetches all advanced user searches.
+- [x] ✅ **GET** `/JSSResource/advancedusersearches/id/{id}` - GetAdvancedUserSearchByID fetches an advanced user search by its ID.
+- [x] ✅ **GET** `/JSSResource/advancedusersearches/name/{name}` - GetAdvancedUserSearchesByName fetches advanced user searches by their name.
+- [x] ✅ **POST**  `/JSSResource/advancedusersearches` - CreateAdvancedUserSearch creates a new advanced user search.
+- [x] ✅ **PUT** `/JSSResource/advancedusersearches/id/{id}` - UpdateAdvancedUserSearchByID updates an existing advanced user search by its ID.
+- [x] ✅ **PUT** `/JSSResource/advancedusersearches/name/{name}` - UpdateAdvancedUserSearchByName updates an advanced user search by its name.
+- [x] ✅ **DELETE** `/JSSResource/advancedusersearches/id/{id}` - DeleteAdvancedUserSearchByID deletes an advanced user search by its ID.
+- [x] ✅ **DELETE** `/JSSResource/advancedusersearches/name/{name}` - DeleteAdvancedUserSearchByName deletes an advanced user search by its name.
 
 ### Allowed File Extensions - /JSSResource/allowedfileextensions
 
-- [x] ✅ GET `/JSSResource/allowedfileextensions` - GetAllowedFileExtensions retrieves all allowed file extensions
-- [x] ✅ GET `/JSSResource/allowedfileextensions/id/{id}` - GetAllowedFileExtensionByID retrieves the allowed file extension by its ID
-- [x] ✅ GET `/JSSResource/allowedfileextensions/extension/{extensionName}` - GetAllowedFileExtensionByName retrieves the allowed file extension by its name
-- [x] ✅ POST `/JSSResource/allowedfileextensions/id/0` - CreateAllowedFileExtension creates a new allowed file extension
-- [] ❌ PUT `/JSSResource/allowedfileextensions/id/{id}` - UpdateAllowedFileExtensionByID (API doesn't support update)
-- [x] ✅ DELETE `/JSSResource/allowedfileextensions/id/{id}` - DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
-- [x] ✅ DELETE `/JSSResource/allowedfileextensions/extension/{extensionName}` - DeleteAllowedFileExtensionByNameByID deletes an existing allowed file extension by resolving its name to an ID
+- [x] ✅ **GET** `/JSSResource/allowedfileextensions` - GetAllowedFileExtensions retrieves all allowed file extensions
+- [x] ✅ **GET** `/JSSResource/allowedfileextensions/id/{id}` - GetAllowedFileExtensionByID retrieves the allowed file extension by its ID
+- [x] ✅ **GET** `/JSSResource/allowedfileextensions/extension/{extensionName}` - GetAllowedFileExtensionByName retrieves the allowed file extension by its name
+- [x] ✅ **POST**  `/JSSResource/allowedfileextensions/id/0` - CreateAllowedFileExtension creates a new allowed file extension
+- [] ❌ **PUT** `/JSSResource/allowedfileextensions/id/{id}` - UpdateAllowedFileExtensionByID (API doesn't support update)
+- [x] ✅ **DELETE** `/JSSResource/allowedfileextensions/id/{id}` - DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
+- [x] ✅ **DELETE** `/JSSResource/allowedfileextensions/extension/{extensionName}` - DeleteAllowedFileExtensionByNameByID deletes an existing allowed file extension by resolving its name to an ID
 
 ### BYO Profiles - `/JSSResource/byoprofiles`
 
-- [x] ✅ GET `/JSSResource/byoprofiles` - `GetBYOProfiles` retrieves all BYO profiles.
-- [x] ✅ GET `/JSSResource/byoprofiles/id/{id}` - `GetBYOProfileByID` retrieves a BYO profile by its ID.
-- [x] ✅ GET `/JSSResource/byoprofiles/name/{name}` - `GetBYOProfileByName` retrieves a BYO profile by its name.
-- [x] ✅ POST `/JSSResource/byoprofiles/id/0` - `CreateBYOProfile` creates a new BYO profile.
-- [x] ✅ PUT `/JSSResource/byoprofiles/id/{id}` - `UpdateBYOProfileByID` updates an existing BYO profile by its ID.
-- [x] ✅ PUT `/JSSResource/byoprofiles/name/{oldName}` - `UpdateBYOProfileByName` updates an existing BYO profile by its name.
-- [x] ✅ DELETE `/JSSResource/byoprofiles/id/{id}` - `DeleteBYOProfileByID` deletes an existing BYO profile by its ID.
-- [x] ✅ DELETE `/JSSResource/byoprofiles/name/{name}` - `DeleteBYOProfileByName` deletes an existing BYO profile by its name.
+- [x] ✅ **GET** `/JSSResource/byoprofiles` - `GetBYOProfiles` retrieves all BYO profiles.
+- [x] ✅ **GET** `/JSSResource/byoprofiles/id/{id}` - `GetBYOProfileByID` retrieves a BYO profile by its ID.
+- [x] ✅ **GET** `/JSSResource/byoprofiles/name/{name}` - `GetBYOProfileByName` retrieves a BYO profile by its name.
+- [x] ✅ **POST**  `/JSSResource/byoprofiles/id/0` - `CreateBYOProfile` creates a new BYO profile.
+- [x] ✅ **PUT** `/JSSResource/byoprofiles/id/{id}` - `UpdateBYOProfileByID` updates an existing BYO profile by its ID.
+- [x] ✅ **PUT** `/JSSResource/byoprofiles/name/{oldName}` - `UpdateBYOProfileByName` updates an existing BYO profile by its name.
+- [x] ✅ **DELETE** `/JSSResource/byoprofiles/id/{id}` - `DeleteBYOProfileByID` deletes an existing BYO profile by its ID.
+- [x] ✅ **DELETE** `/JSSResource/byoprofiles/name/{name}` - `DeleteBYOProfileByName` deletes an existing BYO profile by its name.
 
 
 ### Jamf Pro API - Categories
 
-- [x] ✅ GET `/api/v1/categories` - `GetCategories` retrieves categories based on query parameters.
-- [x] ✅ GET `/api/v1/categories/{id}` - `GetCategoryByID` retrieves a category by its ID.
-- [x] ✅ GET `/api/v1/categories/name/{name}` - `GetCategoryNameByID` retrieves a category by its name and then retrieves its details using its ID.
-- [x] ✅ POST `/api/v1/categories` - `CreateCategory` creates a new category.
-- [x] ✅ PUT `/api/v1/categories/{id}` - `UpdateCategoryByID` updates an existing category by its ID.
-- [x] ✅ PUT `UpdateCategoryByNameByID` updates a category by its name and then updates its details using its ID.
-- [x] ✅ DELETE `/api/v1/categories/{id}` - `DeleteCategoryByID` deletes a category by its ID.
-- [x] ✅ DELETE `DeleteCategoryByNameByID` deletes a category by its name after inferring its ID.
-- [x] ✅ POST `/api/v1/categories/delete-multiple` - `DeleteMultipleCategoriesByID` deletes multiple categories by their IDs.
+- [x] ✅ **GET** `/api/v1/categories` - `GetCategories` retrieves categories based on query parameters.
+- [x] ✅ **GET** `/api/v1/categories/{id}` - `GetCategoryByID` retrieves a category by its ID.
+- [x] ✅ **GET** `/api/v1/categories/name/{name}` - `GetCategoryNameByID` retrieves a category by its name and then retrieves its details using its ID.
+- [x] ✅ **POST**  `/api/v1/categories` - `CreateCategory` creates a new category.
+- [x] ✅ **PUT** `/api/v1/categories/{id}` - `UpdateCategoryByID` updates an existing category by its ID.
+- [x] ✅ **PUT** `UpdateCategoryByNameByID` updates a category by its name and then updates its details using its ID.
+- [x] ✅ **DELETE** `/api/v1/categories/{id}` - `DeleteCategoryByID` deletes a category by its ID.
+- [x] ✅ **DELETE** `DeleteCategoryByNameByID` deletes a category by its name after inferring its ID.
+- [x] ✅ **POST**  `/api/v1/categories/delete-multiple` - `DeleteMultipleCategoriesByID` deletes multiple categories by their IDs.
 
 ### Jamf Pro Classic API - Computer Groups
 
-- [x] ✅ GET `/JSSResource/computergroups` - GetComputerGroups fetches all computer groups.
-- [x] ✅ GET `/JSSResource/computergroups/id/{id}` - GetComputerGroupByID fetches a computer group by its ID.
-- [x] ✅ GET `/JSSResource/computergroups/name/{name}` - GetComputerGroupByName fetches a computer group by its name.
-- [x] ✅ POST `/JSSResource/computergroups/id/0` - CreateComputerGroup creates a new computer group.
-- [x] ✅ PUT `/JSSResource/computergroups/id/{id}` - UpdateComputerGroupByID updates an existing computer group by its ID.
-- [x] ✅ PUT `/JSSResource/computergroups/name/{name}` - UpdateComputerGroupByName updates a computer group by its name.
-- [x] ✅ DELETE `/JSSResource/computergroups/id/{id}` - DeleteComputerGroupByID deletes a computer group by its ID.
-- [x] ✅ DELETE `/JSSResource/computergroups/name/{name}` - DeleteComputerGroupByName deletes a computer group by its name.
+- [x] ✅ **GET** `/JSSResource/computergroups` - GetComputerGroups fetches all computer groups.
+- [x] ✅ **GET** `/JSSResource/computergroups/id/{id}` - GetComputerGroupByID fetches a computer group by its ID.
+- [x] ✅ **GET** `/JSSResource/computergroups/name/{name}` - GetComputerGroupByName fetches a computer group by its name.
+- [x] ✅ **POST**  `/JSSResource/computergroups/id/0` - CreateComputerGroup creates a new computer group.
+- [x] ✅ **PUT** `/JSSResource/computergroups/id/{id}` - UpdateComputerGroupByID updates an existing computer group by its ID.
+- [x] ✅ **PUT** `/JSSResource/computergroups/name/{name}` - UpdateComputerGroupByName updates a computer group by its name.
+- [x] ✅ **DELETE** `/JSSResource/computergroups/id/{id}` - DeleteComputerGroupByID deletes a computer group by its ID.
+- [x] ✅ **DELETE** `/JSSResource/computergroups/name/{name}` - DeleteComputerGroupByName deletes a computer group by its name.
 
 
 ### Jamf Pro Classic API - Computer Extension Attributes
 
-- [x] ✅ GET `/JSSResource/computerextensionattributes` - GetComputerExtensionAttributes gets a list of all computer extension attributes.
-- [x] ✅ GET `/JSSResource/computerextensionattributes/id/{id}` - GetComputerExtensionAttributeByID retrieves a computer extension attribute by its ID.
-- [x] ✅ GET `/JSSResource/computerextensionattributes/name/{name}` - GetComputerExtensionAttributeByName retrieves a computer extension attribute by its name.
-- [x] ✅ POST `/JSSResource/computerextensionattributes/id/0` - CreateComputerExtensionAttribute creates a new computer extension attribute.
-- [x] ✅ PUT `/JSSResource/computerextensionattributes/id/{id}` - UpdateComputerExtensionAttributeByID updates an existing computer extension attribute by its ID.
-- [x] ✅ PUT `/JSSResource/computerextensionattributes/name/{name}` - UpdateComputerExtensionAttributeByName updates a computer extension attribute by its name.
-- [x] ✅ DELETE `/JSSResource/computerextensionattributes/id/{id}` - DeleteComputerExtensionAttributeByID deletes a computer extension attribute by its ID.
-- [x] ⚠️ DELETE (Complex Operation) - `DeleteComputerExtensionAttributeByNameByID` deletes a computer extension attribute by its name (involves fetching ID by name first). 
+- [x] ✅ **GET** `/JSSResource/computerextensionattributes` - GetComputerExtensionAttributes gets a list of all computer extension attributes.
+- [x] ✅ **GET** `/JSSResource/computerextensionattributes/id/{id}` - GetComputerExtensionAttributeByID retrieves a computer extension attribute by its ID.
+- [x] ✅ **GET** `/JSSResource/computerextensionattributes/name/{name}` - GetComputerExtensionAttributeByName retrieves a computer extension attribute by its name.
+- [x] ✅ **POST**  `/JSSResource/computerextensionattributes/id/0` - CreateComputerExtensionAttribute creates a new computer extension attribute.
+- [x] ✅ **PUT** `/JSSResource/computerextensionattributes/id/{id}` - UpdateComputerExtensionAttributeByID updates an existing computer extension attribute by its ID.
+- [x] ✅ **PUT** `/JSSResource/computerextensionattributes/name/{name}` - UpdateComputerExtensionAttributeByName updates a computer extension attribute by its name.
+- [x] ✅ **DELETE** `/JSSResource/computerextensionattributes/id/{id}` - DeleteComputerExtensionAttributeByID deletes a computer extension attribute by its ID.
+- [x] ⚠️ **DELETE** (Complex Operation) - `DeleteComputerExtensionAttributeByNameByID` deletes a computer extension attribute by its name (involves fetching ID by name first). 
 
 
 ### Departments - /JSSResource/departments
 
-- [x] ✅ GET `/JSSResource/departments` - GetDepartments retrieves all departments
-- [x] ✅ GET `/JSSResource/departments/id/{id}` - GetDepartmentByID retrieves the department by its ID
-- [x] ✅ GET `/JSSResource/departments/name/{name}` - GetDepartmentByName retrieves the department by its name
-- [x] ✅ POST `/JSSResource/departments/id/0` - CreateDepartment creates a new department
-- [x] ✅ PUT `/JSSResource/departments/id/{id}` - UpdateDepartmentByID updates an existing department
-- [x] ✅ PUT `/JSSResource/departments/name/{oldName}` - UpdateDepartmentByName updates an existing department by its name
-- [x] ✅ DELETE `/JSSResource/departments/id/{id}` - DeleteDepartmentByID deletes an existing department by its ID
-- [x] ✅ DELETE `/JSSResource/departments/name/{name}` - DeleteDepartmentByName deletes an existing department by its name
+- [x] ✅ **GET** `/JSSResource/departments` - GetDepartments retrieves all departments
+- [x] ✅ **GET** `/JSSResource/departments/id/{id}` - GetDepartmentByID retrieves the department by its ID
+- [x] ✅ **GET** `/JSSResource/departments/name/{name}` - GetDepartmentByName retrieves the department by its name
+- [x] ✅ **POST**  `/JSSResource/departments/id/0` - CreateDepartment creates a new department
+- [x] ✅ **PUT** `/JSSResource/departments/id/{id}` - UpdateDepartmentByID updates an existing department
+- [x] ✅ **PUT** `/JSSResource/departments/name/{oldName}` - UpdateDepartmentByName updates an existing department by its name
+- [x] ✅ **DELETE** `/JSSResource/departments/id/{id}` - DeleteDepartmentByID deletes an existing department by its ID
+- [x] ✅ **DELETE** `/JSSResource/departments/name/{name}` - DeleteDepartmentByName deletes an existing department by its name
 
 ### macOS Configuration Profiles - /JSSResource/osxconfigurationprofiles
 
-- [x] ✅ GET `/JSSResource/osxconfigurationprofiles` - GetMacOSConfigurationProfiles retrieves all macOS configuration profiles.
-- [x] ✅ GET `/JSSResource/osxconfigurationprofiles/id/{id}` - GetMacOSConfigurationProfileByID retrieves the macOS configuration profile by its ID.
-- [x] ✅ GET `/JSSResource/osxconfigurationprofiles/name/{name}` - GetMacOSConfigurationProfileByName retrieves the macOS configuration profile by its name.
-- [x] ✅ POST `/JSSResource/osxconfigurationprofiles/id/0` - CreateMacOSConfigurationProfile creates a new macOS configuration profile.
-- [x] ✅ PUT `/JSSResource/osxconfigurationprofiles/id/{id}` - UpdateMacOSConfigurationProfileByID updates an existing macOS configuration profile by ID.
-- [x] ✅ PUT `/JSSResource/osxconfigurationprofiles/name/{name}` - UpdateMacOSConfigurationProfileByName updates an existing macOS configuration profile by its name.
-- [x] ✅ DELETE `/JSSResource/osxconfigurationprofiles/id/{id}` - DeleteMacOSConfigurationProfileByID deletes an existing macOS configuration profile by ID.
-- [x] ✅ DELETE `/JSSResource/osxconfigurationprofiles/name/{name}` - DeleteMacOSConfigurationProfileByName deletes an existing macOS configuration profile by its name.
+- [x] ✅ **GET** `/JSSResource/osxconfigurationprofiles` - GetMacOSConfigurationProfiles retrieves all macOS configuration profiles.
+- [x] ✅ **GET** `/JSSResource/osxconfigurationprofiles/id/{id}` - GetMacOSConfigurationProfileByID retrieves the macOS configuration profile by its ID.
+- [x] ✅ **GET** `/JSSResource/osxconfigurationprofiles/name/{name}` - GetMacOSConfigurationProfileByName retrieves the macOS configuration profile by its name.
+- [x] ✅ **POST**  `/JSSResource/osxconfigurationprofiles/id/0` - CreateMacOSConfigurationProfile creates a new macOS configuration profile.
+- [x] ✅ **PUT** `/JSSResource/osxconfigurationprofiles/id/{id}` - UpdateMacOSConfigurationProfileByID updates an existing macOS configuration profile by ID.
+- [x] ✅ **PUT** `/JSSResource/osxconfigurationprofiles/name/{name}` - UpdateMacOSConfigurationProfileByName updates an existing macOS configuration profile by its name.
+- [x] ✅ **DELETE** `/JSSResource/osxconfigurationprofiles/id/{id}` - DeleteMacOSConfigurationProfileByID deletes an existing macOS configuration profile by ID.
+- [x] ✅ **DELETE** `/JSSResource/osxconfigurationprofiles/name/{name}` - DeleteMacOSConfigurationProfileByName deletes an existing macOS configuration profile by its name.
 
 ### Policies - /JSSResource/policies
 
-- [x] ✅ GET `/JSSResource/policies` - GetPolicies retrieves a list of all policies
-- [x] ✅ GET `/JSSResource/policies/id/{id}` - GetPolicyByID retrieves the details of a policy by its ID
-- [x] ✅ GET `/JSSResource/policies/name/{name}` - GetPolicyByName retrieves a policy by its name
-- [x] ✅ GET `/JSSResource/policies/category/{category}` - GetPolicyByCategory retrieves policies by their category
-- [x] ✅ GET `/JSSResource/policies/createdBy/{createdBy}` - GetPoliciesByType retrieves policies by the type of entity that created them
-- [x] ✅ POST `/JSSResource/policies/id/0` - CreatePolicy creates a new policy
-- [x] ✅ PUT `/JSSResource/policies/id/{id}` - UpdatePolicyByID updates an existing policy by its ID
-- [x] ✅ PUT `/JSSResource/policies/name/{name}` - UpdatePolicyByName updates an existing policy by its name
-- [x] ✅ DELETE `/JSSResource/policies/id/{id}` - DeletePolicyByID deletes a policy by its ID
-- [x] ✅ DELETE `/JSSResource/policies/name/{name}` - DeletePolicyByName deletes a policy by its name
+- [x] ✅ **GET** `/JSSResource/policies` - GetPolicies retrieves a list of all policies
+- [x] ✅ **GET** `/JSSResource/policies/id/{id}` - GetPolicyByID retrieves the details of a policy by its ID
+- [x] ✅ **GET** `/JSSResource/policies/name/{name}` - GetPolicyByName retrieves a policy by its name
+- [x] ✅ **GET** `/JSSResource/policies/category/{category}` - GetPolicyByCategory retrieves policies by their category
+- [x] ✅ **GET** `/JSSResource/policies/createdBy/{createdBy}` - GetPoliciesByType retrieves policies by the type of entity that created them
+- [x] ✅ **POST**  `/JSSResource/policies/id/0` - CreatePolicy creates a new policy
+- [x] ✅ **PUT** `/JSSResource/policies/id/{id}` - UpdatePolicyByID updates an existing policy by its ID
+- [x] ✅ **PUT** `/JSSResource/policies/name/{name}` - UpdatePolicyByName updates an existing policy by its name
+- [x] ✅ **DELETE** `/JSSResource/policies/id/{id}` - DeletePolicyByID deletes a policy by its ID
+- [x] ✅ **DELETE** `/JSSResource/policies/name/{name}` - DeletePolicyByName deletes a policy by its name
 
 ### Jamf Pro API - Self Service Branding macOS
 
-- [x] ✅ GET `/api/v1/self-service/branding/macos` - `GetSelfServiceBrandingMacOS` fetches all self-service branding configurations for macOS.
-- [x] ✅ GET `/api/v1/self-service/branding/macos/{id}` - `GetSelfServiceBrandingMacOSByID` fetches a self-service branding configuration for macOS by its ID.
-- [x] ✅ GET `/api/v1/self-service/branding/macos/name/{name}` - `GetSelfServiceBrandingMacOSByNameByID` fetches a self-service branding configuration for macOS by its name.
-- [x] ✅ POST `/api/v1/self-service/branding/macos` - `CreateSelfServiceBrandingMacOS` creates a new self-service branding configuration for macOS.
-- [x] ✅ PUT `/api/v1/self-service/branding/macos/{id}` - `UpdateSelfServiceBrandingMacOSByID` updates an existing self-service branding configuration for macOS by its ID.
-- [x] ✅ PUT - `UpdateSelfServiceBrandingMacOSByName` updates a self-service branding configuration for macOS by its name.
-- [x] ✅ DELETE `/api/v1/self-service/branding/macos/{id}` - `DeleteSelfServiceBrandingMacOSByID` deletes a self-service branding configuration for macOS by its ID.
-- [x] ✅ DELETE - `DeleteSelfServiceBrandingMacOSByName` deletes a self-service branding configuration for macOS by its name.
+- [x] ✅ **GET** `/api/v1/self-service/branding/macos` - `GetSelfServiceBrandingMacOS` fetches all self-service branding configurations for macOS.
+- [x] ✅ **GET** `/api/v1/self-service/branding/macos/{id}` - `GetSelfServiceBrandingMacOSByID` fetches a self-service branding configuration for macOS by its ID.
+- [x] ✅ **GET** `/api/v1/self-service/branding/macos/name/{name}` - `GetSelfServiceBrandingMacOSByNameByID` fetches a self-service branding configuration for macOS by its name.
+- [x] ✅ **POST**  `/api/v1/self-service/branding/macos` - `CreateSelfServiceBrandingMacOS` creates a new self-service branding configuration for macOS.
+- [x] ✅ **PUT** `/api/v1/self-service/branding/macos/{id}` - `UpdateSelfServiceBrandingMacOSByID` updates an existing self-service branding configuration for macOS by its ID.
+- [x] ✅ **PUT** - `UpdateSelfServiceBrandingMacOSByName` updates a self-service branding configuration for macOS by its name.
+- [x] ✅ **DELETE** `/api/v1/self-service/branding/macos/{id}` - `DeleteSelfServiceBrandingMacOSByID` deletes a self-service branding configuration for macOS by its ID.
+- [x] ✅ **DELETE** - `DeleteSelfServiceBrandingMacOSByName` deletes a self-service branding configuration for macOS by its name.
 
 
 ### Scripts - /JSSResource/scripts
 
-- [x] ✅ GET `/JSSResource/scripts` - GetScripts retrieves all scripts.
-- [x] ✅ GET `/JSSResource/scripts/id/{id}` - GetScriptsByID retrieves the script details by its ID.
-- [x] ✅ GET `/JSSResource/scripts/name/{name}` - GetScriptsByName retrieves the script details by its name.
-- [x] ✅ POST `/JSSResource/scripts/id/0` - CreateScriptByID creates a new script.
-- [x] ✅ PUT `/JSSResource/scripts/id/{id}` - UpdateScriptByID updates an existing script by its ID.
-- [x] ✅ PUT `/JSSResource/scripts/name/{name}` - UpdateScriptByName updates an existing script by its name.
-- [x] ✅ DELETE `/JSSResource/scripts/id/{id}` - DeleteScriptByID deletes an existing script by its ID.
-- [x] ✅ DELETE `/JSSResource/scripts/name/{name}` - DeleteScriptByName deletes an existing script by its name.
+- [x] ✅ **GET** `/JSSResource/scripts` - GetScripts retrieves all scripts.
+- [x] ✅ **GET** `/JSSResource/scripts/id/{id}` - GetScriptsByID retrieves the script details by its ID.
+- [x] ✅ **GET** `/JSSResource/scripts/name/{name}` - GetScriptsByName retrieves the script details by its name.
+- [x] ✅ **POST**  `/JSSResource/scripts/id/0` - CreateScriptByID creates a new script.
+- [x] ✅ **PUT** `/JSSResource/scripts/id/{id}` - UpdateScriptByID updates an existing script by its ID.
+- [x] ✅ **PUT** `/JSSResource/scripts/name/{name}` - UpdateScriptByName updates an existing script by its name.
+- [x] ✅ **DELETE** `/JSSResource/scripts/id/{id}` - DeleteScriptByID deletes an existing script by its ID.
+- [x] ✅ **DELETE** `/JSSResource/scripts/name/{name}` - DeleteScriptByName deletes an existing script by its name.
 
 ### Jamf Pro Classic API - Sites
 
-- [x] ✅ GET `/JSSResource/sites` - GetSites fetches all sites.
-- [x] ✅ GET `/JSSResource/sites/id/{id}` - GetSiteByID fetches a site by its ID.
-- [x] ✅ GET `/JSSResource/sites/name/{name}` - GetSiteByName fetches a site by its name.
-- [x] ✅ POST `/JSSResource/sites/id/0` - CreateSite creates a new site.
-- [x] ✅ PUT `/JSSResource/sites/id/{id}` - UpdateSiteByID updates an existing site by its ID.
-- [x] ✅ PUT `/JSSResource/sites/name/{name}` - UpdateSiteByName updates a site by its name.
-- [x] ✅ DELETE `/JSSResource/sites/id/{id}` - DeleteSiteByID deletes a site by its ID.
-- [x] ✅ DELETE `/JSSResource/sites/name/{name}` - DeleteSiteByName deletes a site by its name.
+- [x] ✅ **GET** `/JSSResource/sites` - GetSites fetches all sites.
+- [x] ✅ **GET** `/JSSResource/sites/id/{id}` - GetSiteByID fetches a site by its ID.
+- [x] ✅ **GET** `/JSSResource/sites/name/{name}` - GetSiteByName fetches a site by its name.
+- [x] ✅ **POST**  `/JSSResource/sites/id/0` - CreateSite creates a new site.
+- [x] ✅ **PUT** `/JSSResource/sites/id/{id}` - UpdateSiteByID updates an existing site by its ID.
+- [x] ✅ **PUT** `/JSSResource/sites/name/{name}` - UpdateSiteByName updates a site by its name.
+- [x] ✅ **DELETE** `/JSSResource/sites/id/{id}` - DeleteSiteByID deletes a site by its ID.
+- [x] ✅ **DELETE** `/JSSResource/sites/name/{name}` - DeleteSiteByName deletes a site by its name.
 
 ### SSO Failover - /api/v1/sso/failover/generate
 
-- [x] ✅ GET `/api/v1/sso/failover` - GetSSOFailoverSettings retrieves the current failover settings
-- [x] ✅ PUT `/api/v1/sso/failover/generate` - UpdateFailoverUrl updates failover url, by changing failover key to new one, and returns new failover settings
+- [x] ✅ **GET** `/api/v1/sso/failover` - GetSSOFailoverSettings retrieves the current failover settings
+- [x] ✅ **PUT** `/api/v1/sso/failover/generate` - UpdateFailoverUrl updates failover url, by changing failover key to new one, and returns new failover settings
 
 ### Jamf Pro API - Volume Purchasing Subscriptions
 
@@ -506,25 +512,25 @@ This documentation provides details on the API endpoints available for managing 
 This documentation outlines the API endpoints available for managing computer invitations within Jamf Pro using the Classic API, which relies on XML data structures.
 
 Endpoints
-- [x] ✅ GET `/JSSResource/computerinvitations`
+- [x] ✅ **GET** `/JSSResource/computerinvitations`
 GetComputerInvitations retrieves a list of all computer invitations.
 
-- [x] ✅ GET `/JSSResource/computerinvitations/id/{id}`
+- [x] ✅ **GET** `/JSSResource/computerinvitations/id/{id}`
 GetComputerInvitationByID fetches a single computer invitation by its ID.
 
-- [x] ✅ GET `/JSSResource/computerinvitations/invitation/{invitation}`
+- [x] ✅ **GET** `/JSSResource/computerinvitations/invitation/{invitation}`
 GetComputerInvitationsByInvitationID retrieves a computer invitation by its invitation ID.
 
-- [x] ✅ POST `/JSSResource/computerinvitations/id/0`
+- [x] ✅ **POST**  `/JSSResource/computerinvitations/id/0`
 CreateComputerInvitation creates a new computer invitation. Using ID 0 indicates creation as per API pattern. If siteId is not included, it defaults to using a siteId of -1, implying no specific site association.
 
-- [] ❌ PUT `/JSSResource/computerinvitations/invitation/{invitation}`
+- [] ❌ **PUT** `/JSSResource/computerinvitations/invitation/{invitation}`
 There is no documented endpoint for updating a computer invitation by its invitation ID.
 
-- [x] ✅ DELETE `/JSSResource/computerinvitations/id/{id}`
+- [x] ✅ **DELETE** `/JSSResource/computerinvitations/id/{id}`
 DeleteComputerInvitationByID deletes a computer invitation by its ID.
 
-- [] ❌ DELETE `/JSSResource/computerinvitations/invitation/{invitation}`
+- [] ❌ **DELETE** `/JSSResource/computerinvitations/invitation/{invitation}`
 There is currently no SDK coverage for deleting an invitation by invitation ID
 
 ### Jamf Pro Classic API - Disk Encryption Configurations

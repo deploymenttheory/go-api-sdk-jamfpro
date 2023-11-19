@@ -18,13 +18,18 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Configuration for the jamfpro client
+	// Instantiate the default logger and set the desired log level
+	logger := http_client.NewDefaultLogger()
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+
+	// Configuration for the jamfpro
 	config := jamfpro.Config{
-		InstanceName: authConfig.InstanceName,
-		LogLevel:     http_client.LogLevelDebug,
-		Logger:       http_client.NewDefaultLogger(),
-		ClientID:     authConfig.ClientID,
-		ClientSecret: authConfig.ClientSecret,
+		InstanceName:       authConfig.InstanceName,
+		OverrideBaseDomain: authConfig.OverrideBaseDomain,
+		LogLevel:           logLevel,
+		Logger:             logger,
+		ClientID:           authConfig.ClientID,
+		ClientSecret:       authConfig.ClientSecret,
 	}
 
 	// Create a new jamfpro client instance
