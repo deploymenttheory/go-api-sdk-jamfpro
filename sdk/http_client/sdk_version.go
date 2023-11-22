@@ -4,7 +4,7 @@ package http_client
 import "fmt"
 
 const (
-	SDKVersion    = "0.0.76"
+	SDKVersion    = "0.0.77"
 	UserAgentBase = "go-jamfpro-api-sdk"
 )
 

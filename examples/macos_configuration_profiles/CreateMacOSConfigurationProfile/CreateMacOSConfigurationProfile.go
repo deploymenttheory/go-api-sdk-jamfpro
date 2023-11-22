@@ -69,12 +69,13 @@ func main() {
 	}
 
 	// Call the CreateMacOSConfigurationProfile function
-	createdProfile, err := client.CreateMacOSConfigurationProfile(&profile)
+	createdProfileID, err := client.CreateMacOSConfigurationProfile(&profile)
 	if err != nil {
 		fmt.Println("Error creating macOS Configuration Profile:", err)
 		return
 	}
 
-	// Process the response as needed
-	fmt.Println("Created Profile:", createdProfile)
+	// Print the ID of the created profile
+	fmt.Printf("Successfully created macOS Configuration Profile with ID: %d\n", createdProfileID)
+
 }

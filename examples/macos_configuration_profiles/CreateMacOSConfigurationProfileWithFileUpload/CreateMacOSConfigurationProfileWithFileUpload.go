@@ -97,6 +97,7 @@ func main() {
 		log.Fatalf("Error creating macOS Configuration Profile: %v", err)
 	}
 
-	// Print the created profile details
-	fmt.Printf("Created macOS Configuration Profile with ID %d and Name %s\n", createdProfile.General.ID, createdProfile.General.Name)
+	// Print the ID of the created profile
+	fmt.Printf("Successfully created macOS Configuration Profile with ID: %d\n", createdProfile)
+
 }

@@ -23,6 +23,12 @@ type MacOSConfigurationProfileListItem struct {
 	Name string `xml:"name" `
 }
 
+// ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
+type ResponseMacOSConfigurationProfileCreation struct {
+	XMLName xml.Name `xml:"os_x_configuration_profile"`
+	ID      int      `xml:"id"`
+}
+
 // ResponseMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
 type ResponseMacOSConfigurationProfiles struct {
 	General     MacOSConfigurationProfilesDataSubsetGeneral     `xml:"general,omitempty"`
@@ -268,24 +274,18 @@ func (c *Client) GetMacOSConfigurationProfileNameByID(id int) (string, error) {
 	return profile.General.Name, nil
 }
 
-// CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server.
-func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigurationProfiles) (*ResponseMacOSConfigurationProfiles, error) {
+// CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the profile with its ID updated.
+// It sends a POST request to the Jamf Pro server with the profile details and expects a response with the ID of the newly created profile.
+// CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the ID of the newly created profile.
+func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigurationProfiles) (int, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMacOSConfigurationProfiles)
 
-	// Set default values for site if not included within request
+	// Set default values for site and category if not included within request
 	if profile.General.Site.ID == 0 && profile.General.Site.Name == "" {
-		profile.General.Site = MacOSConfigurationProfilesDataSubsetSite{
-			ID:   -1,
-			Name: "None",
-		}
+		profile.General.Site = MacOSConfigurationProfilesDataSubsetSite{ID: -1, Name: "None"}
 	}
-
-	// Set default values for category if not included within request
 	if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
-		profile.General.Category = MacOSConfigurationProfilesDataSubsetCategory{
-			ID:   -1,
-			Name: "No category assigned",
-		}
+		profile.General.Category = MacOSConfigurationProfilesDataSubsetCategory{ID: -1, Name: "No category assigned"}
 	}
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -296,17 +296,21 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigura
 		ResponseMacOSConfigurationProfiles: profile,
 	}
 
-	var responseProfile ResponseMacOSConfigurationProfiles
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
+	// Use ResponseMacOSConfigurationProfileCreation struct to handle the API response
+	var response ResponseMacOSConfigurationProfileCreation
+
+	// Send the request and capture the response
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create macOS Configuration Profile: %v", err)
+		return 0, fmt.Errorf("failed to create macOS Configuration Profile: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &responseProfile, nil
+	// Return the ID from the response
+	return response.ID, nil
 }
 
 // UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server.
