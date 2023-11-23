@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -21,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -39,9 +39,14 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the payload for creating a new computer prestage
-	var prestage jamfpro.ComputerPrestagesItem
-	payload := `{
+	// The ID of the computer prestage you want to update
+	prestageName := "YOUR_PRESTAGE_ID_HERE"
+
+	// Define the updated information for the computer prestage
+	// Here we are just creating a new instance for demonstration purposes.
+	// You would typically populate this struct with your updated data.
+	var update jamfpro.ComputerPrestagesItem
+	updateData := `{
 		"mandatory": true,
 		"mdmRemovable": true,
 		"defaultPrestage": true,
@@ -121,21 +126,18 @@ func main() {
 		"customPackageIds": [
 			"-1"
 		]
-	}
-	`
-
-	// Unmarshal the JSON payload into the prestage struct
-	err = json.Unmarshal([]byte(payload), &prestage)
+	}`
+	err = json.Unmarshal([]byte(updateData), &update)
 	if err != nil {
-		log.Fatalf("Error unmarshaling prestage payload: %v", err)
+		log.Fatalf("Error unmarshaling update data: %v", err)
 	}
 
-	// Call the CreateComputerPrestage function
-	createdPrestage, err := client.CreateComputerPrestage(&prestage)
+	// Call UpdateComputerPrestageByID to update the prestage
+	updatedPrestage, err := client.UpdateComputerPrestageByNameByID(prestageName, &update)
 	if err != nil {
-		log.Fatalf("Error creating computer prestage: %v", err)
+		log.Fatalf("Error updating computer prestage: %v", err)
 	}
 
-	// Print the response
-	fmt.Printf("Created Computer Prestage: %+v\n", createdPrestage)
+	// Print the updated prestage
+	fmt.Printf("Updated Computer Prestage: %+v\n", updatedPrestage)
 }
