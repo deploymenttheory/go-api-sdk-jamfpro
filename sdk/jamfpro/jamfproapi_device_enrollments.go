@@ -8,6 +8,7 @@ package jamfpro
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -36,29 +37,23 @@ type DeviceEnrollment struct {
 }
 
 // GetDeviceEnrollments retrieves a paginated list of device enrollments.
-// If page and pageSize are both set to -1, it retrieves all pages.
-func (c *Client) GetDeviceEnrollments(page, pageSize int, sort []string) (*ResponseDeviceEnrollmentList, error) {
-	var allResults []DeviceEnrollment
-	currentPage := 1
-	totalFetched := 0
+func (c *Client) GetDeviceEnrollments(sort []string) (*ResponseDeviceEnrollmentList, error) {
+	const maxPageSize = 2000 // Assuming 2000 is a suitable limit for this API
+	var allEnrollments []DeviceEnrollment
 
+	page := 0
 	for {
-		endpoint := uriDeviceEnrollments
-		params := url.Values{}
-
-		if page != -1 && pageSize != -1 {
-			params.Add("page", fmt.Sprintf("%d", currentPage))
-			params.Add("page-size", fmt.Sprintf("%d", pageSize))
-		} else if pageSize > 0 {
-			params.Add("page-size", fmt.Sprintf("%d", pageSize))
+		// Construct the endpoint with query parameters for the current page
+		params := url.Values{
+			"page":      []string{strconv.Itoa(page)},
+			"page-size": []string{strconv.Itoa(maxPageSize)},
 		}
-
 		if len(sort) > 0 {
 			params.Add("sort", url.QueryEscape(strings.Join(sort, ",")))
 		}
+		endpointWithParams := fmt.Sprintf("%s?%s", uriDeviceEnrollments, params.Encode())
 
-		endpointWithParams := fmt.Sprintf("%s?%s", endpoint, params.Encode())
-
+		// Fetch the device enrollments for the current page
 		var response ResponseDeviceEnrollmentList
 		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &response)
 		if err != nil {
@@ -69,17 +64,21 @@ func (c *Client) GetDeviceEnrollments(page, pageSize int, sort []string) (*Respo
 			defer resp.Body.Close()
 		}
 
-		allResults = append(allResults, response.Results...)
-		totalFetched += len(response.Results)
+		// Add the fetched enrollments to the total list
+		allEnrollments = append(allEnrollments, response.Results...)
 
-		if totalFetched >= response.TotalCount || (page != -1 && currentPage == page) {
+		// Check if all enrollments have been fetched
+		if len(allEnrollments) >= response.TotalCount {
 			break
 		}
-		currentPage++
+
+		// Increment page number for the next iteration
+		page++
 	}
 
+	// Return the combined list of all device enrollments
 	return &ResponseDeviceEnrollmentList{
-		TotalCount: len(allResults),
-		Results:    allResults,
+		TotalCount: len(allEnrollments),
+		Results:    allEnrollments,
 	}, nil
 }
