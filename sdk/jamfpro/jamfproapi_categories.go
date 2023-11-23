@@ -30,39 +30,55 @@ type ResponseCategories struct {
 	Priority int    `json:"priority"`
 }
 
-// GetCategories retrieves categories based on query parameters
-func (c *Client) GetCategories(page, pageSize int, sort, filter string) (*ResponseCategoriesList, error) {
-	endpoint := uriCategories
+// GetCategories retrieves all categories from the Jamf Pro API, handling pagination automatically.
+// This function makes multiple API calls to fetch each page of category data and aggregates the results.
+// It uses a loop to iterate through all available pages of categories.
+// The default response contains information for 100 resources, this function is set to the maximum number of 2000.
+// Parameters:
+// - sort: A string specifying the sorting order of the returned categories.
+// - filter: A string to filter the categories based on certain criteria.
+func (c *Client) GetCategories(sort, filter string) (*ResponseCategoriesList, error) {
+	const maxPageSize = 2000
+	var allCategories []CategoryItem
 
-	// Construct the query parameters
-	params := url.Values{}
-	if page >= 0 {
-		params.Add("page", fmt.Sprintf("%d", page))
-	}
-	if pageSize > 0 {
-		params.Add("page-size", fmt.Sprintf("%d", pageSize))
-	}
-	if sort != "" {
-		params.Add("sort", sort)
-	}
-	if filter != "" {
-		params.Add("filter", filter)
+	page := 0
+	for {
+		// Construct the endpoint with query parameters for the current page
+		endpointWithParams := fmt.Sprintf("%s?%s", uriCategories, url.Values{
+			"page":      []string{strconv.Itoa(page)},
+			"page-size": []string{strconv.Itoa(maxPageSize)},
+			"sort":      []string{sort},
+			"filter":    []string{filter},
+		}.Encode())
+
+		// Fetch the categories for the current page
+		var responseCategories ResponseCategoriesList
+		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseCategories)
+		if err != nil {
+			return nil, fmt.Errorf("failed to fetch categories: %v", err)
+		}
+
+		if resp != nil && resp.Body != nil {
+			defer resp.Body.Close()
+		}
+
+		// Add the fetched categories to the total list
+		allCategories = append(allCategories, responseCategories.Results...)
+
+		// Check if all categories have been fetched
+		if responseCategories.TotalCount == nil || len(allCategories) >= *responseCategories.TotalCount {
+			break
+		}
+
+		// Increment page number for the next iteration
+		page++
 	}
 
-	// Append query parameters to the endpoint
-	endpointWithParams := fmt.Sprintf("%s?%s", endpoint, params.Encode())
-
-	var responseCategories ResponseCategoriesList
-	resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseCategories)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch categories: %v", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &responseCategories, nil
+	// Return the combined list of all categories
+	return &ResponseCategoriesList{
+		TotalCount: &[]int{len(allCategories)}[0],
+		Results:    allCategories,
+	}, nil
 }
 
 // GetCategoryByID retrieves a category by its ID
@@ -85,7 +101,7 @@ func (c *Client) GetCategoryByID(id string) (*ResponseCategories, error) {
 // GetCategoryNameByID retrieves a category by its name and then retrieves its details using its ID
 func (c *Client) GetCategoryNameByID(name string) (*ResponseCategories, error) {
 	// Fetch all categories
-	categoriesList, err := c.GetCategories(0, 100, "", "") // You may adjust page, pageSize, sort, and filter as needed
+	categoriesList, err := c.GetCategories("", "")
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all categories: %v", err)
 	}
@@ -134,10 +150,10 @@ func (c *Client) UpdateCategoryByID(id int, updatedCategory *ResponseCategories)
 	return &response, nil
 }
 
-// UpdateCategoryByNameByID updates a category by its name and then updates its details using its ID
+// UpdateCategoryByNameByID updates a category by its name and then updates its details using its ID.
 func (c *Client) UpdateCategoryByNameByID(name string, updatedCategory *ResponseCategories) (*ResponseCategories, error) {
 	// Fetch all categories
-	categoriesList, err := c.GetCategories(0, 100, "", "") // You may adjust page, pageSize, sort, and filter as needed
+	categoriesList, err := c.GetCategories("", "") // Adjusted call to match new signature of GetCategories
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all categories: %v", err)
 	}
@@ -174,10 +190,10 @@ func (c *Client) DeleteCategoryByID(id int) error {
 	return nil
 }
 
-// DeleteCategoryByNameByID deletes a category by its name after inferring its ID
+// DeleteCategoryByNameByID deletes a category by its name after inferring its ID.
 func (c *Client) DeleteCategoryByNameByID(name string) error {
 	// Fetch all categories
-	categoriesList, err := c.GetCategories(0, 100, "", "") // You may adjust page, pageSize, sort, and filter as needed
+	categoriesList, err := c.GetCategories("", "") // Call updated to match new signature of GetCategories
 	if err != nil {
 		return fmt.Errorf("failed to fetch all categories: %v", err)
 	}
