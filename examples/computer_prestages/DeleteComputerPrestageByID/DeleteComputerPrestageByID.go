@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -20,7 +20,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -38,18 +38,15 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define sorting parameters
-	sort := []string{""} // Example: sort by name
+	// The ID of the computer prestage you want to delete
+	prestageID := "YOUR_PRESTAGE_ID_HERE"
 
-	// Fetch computer prestages using the V3 API
-	prestages, err := client.GetComputerPrestagesV3(sort)
+	// Call DeleteComputerPrestageByID to delete the prestage
+	err = client.DeleteComputerPrestageByID(prestageID)
 	if err != nil {
-		log.Fatalf("Error fetching computer prestages: %v", err)
+		log.Fatalf("Error deleting computer prestage: %v", err)
 	}
 
-	// Print out the fetched computer prestages
-	for _, prestage := range prestages.Results {
-		fmt.Printf("Prestage Name: %s\n", prestage.DisplayName)
-		// Add more details to print as needed
-	}
+	// Print a confirmation message
+	fmt.Println("Computer prestage deleted successfully.")
 }

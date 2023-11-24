@@ -68,7 +68,8 @@ func main() {
 	client.HTTP.SetAuthenticationCredentials(creds)
 
 	// Read the payload from a file
-	payloadFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/api-test.mobileconfig"
+	payloadFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/accessibility-chara-nosub-test.mobileconfig"
+	//payloadFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/accessibility-chara-sub-test.mobileconfig"
 	payload, err := readPayloadFromFile(payloadFilePath)
 	if err != nil {
 		log.Fatalf("Error reading payload from file: %v", err)
@@ -77,7 +78,7 @@ func main() {
 	// Define a sample macOS Configuration Profile
 	profile := &jamfpro.ResponseMacOSConfigurationProfiles{
 		General: jamfpro.MacOSConfigurationProfilesDataSubsetGeneral{
-			Name:               "WiFi Test",
+			Name:               "accessibility-formatted-test",
 			Site:               jamfpro.MacOSConfigurationProfilesDataSubsetSite{Name: "None"},
 			Category:           jamfpro.MacOSConfigurationProfilesDataSubsetCategory{Name: "No category assigned"},
 			DistributionMethod: "Install Automatically",

@@ -8,6 +8,7 @@ package jamfpro
 import (
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -29,7 +30,7 @@ type AssignmentItem struct {
 }
 
 type ResponseComputerPrestagesV3 struct {
-	TotalCount int                     `json:"totalCount"`
+	TotalCount *int                    `json:"totalCount"`
 	Results    []ComputerPrestagesItem `json:"results"`
 }
 
@@ -119,34 +120,54 @@ type ComputerPrestagesAccountSettings struct {
 	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
 }
 
-// GetComputerPrestagesV3 retrieves the computer prestage information with optional pagination and sorting.
-func (c *Client) GetComputerPrestagesV3(page, pageSize int, sort []string) (*ResponseComputerPrestagesV3, error) {
-	endpoint := uriComputerPrestagesV3
+// GetComputerPrestagesV3 retrieves all computer prestage information with optional sorting.
+func (c *Client) GetComputerPrestagesV3(sort []string) (*ResponseComputerPrestagesV3, error) {
+	const maxPageSize = 2000 // Assuming 2000 is a suitable limit for this API
+	var allPrestages []ComputerPrestagesItem
 
-	params := url.Values{}
-	if page >= 0 {
-		params.Add("page", fmt.Sprintf("%d", page))
-	}
-	if pageSize > 0 {
-		params.Add("page-size", fmt.Sprintf("%d", pageSize))
-	}
-	if len(sort) > 0 {
-		params.Add("sort", url.QueryEscape(strings.Join(sort, ",")))
+	page := 0
+	for {
+		// Construct the endpoint with query parameters for the current page
+		params := url.Values{
+			"page":      []string{strconv.Itoa(page)},
+			"page-size": []string{strconv.Itoa(maxPageSize)},
+		}
+		if len(sort) > 0 {
+			params.Add("sort", url.QueryEscape(strings.Join(sort, ",")))
+		}
+		endpointWithParams := fmt.Sprintf("%s?%s", uriComputerPrestagesV3, params.Encode())
+
+		// Fetch the computer prestages for the current page
+		var responsePrestagesV3 ResponseComputerPrestagesV3
+		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responsePrestagesV3)
+		if err != nil {
+			return nil, fmt.Errorf("failed to fetch computer prestages v3: %v", err)
+		}
+
+		if resp != nil && resp.Body != nil {
+			defer resp.Body.Close()
+		}
+
+		// Add the fetched prestages to the total list
+		allPrestages = append(allPrestages, responsePrestagesV3.Results...)
+
+		// Check if all prestages have been fetched
+		if responsePrestagesV3.TotalCount == nil || len(allPrestages) >= *responsePrestagesV3.TotalCount {
+			break
+		}
+
+		// Increment page number for the next iteration
+		page++
 	}
 
-	endpointWithParams := fmt.Sprintf("%s?%s", endpoint, params.Encode())
+	// Create an int variable for the total count and assign its address to TotalCount
+	totalCount := len(allPrestages)
 
-	var responsePrestagesV3 ResponseComputerPrestagesV3
-	resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responsePrestagesV3)
-	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer prestages v3: %v", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &responsePrestagesV3, nil
+	// Return the combined list of all computer prestages
+	return &ResponseComputerPrestagesV3{
+		TotalCount: &totalCount,
+		Results:    allPrestages,
+	}, nil
 }
 
 // GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
@@ -185,13 +206,13 @@ func (c *Client) GetComputerPrestageByID(id string) (*ComputerPrestagesItem, err
 
 // GetComputerPrestageByName retrieves a specific computer prestage by its name.
 func (c *Client) GetComputerPrestageByName(name string) (*ComputerPrestagesItem, error) {
-	// First, get all prestages. You might want to handle pagination here if there are a lot of prestages.
-	response, err := c.GetComputerPrestagesV3(0, 100, []string{}) // Adjust page, pageSize, and sort as needed
+	// Fetch all prestages
+	response, err := c.GetComputerPrestagesV3([]string{}) // Adjust sort as needed
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch computer prestages: %v", err)
 	}
 
-	// Now, find the prestage with the given name.
+	// Search for the prestage with the given name
 	var prestageID string
 	for _, prestage := range response.Results {
 		if prestage.DisplayName == name {
@@ -204,7 +225,7 @@ func (c *Client) GetComputerPrestageByName(name string) (*ComputerPrestagesItem,
 		return nil, fmt.Errorf("no computer prestage found with the name %s", name)
 	}
 
-	// Use the ID to get the full details of the prestage.
+	// Use the ID to get the full details of the prestage
 	return c.GetComputerPrestageByID(prestageID)
 }
 
@@ -243,9 +264,10 @@ func (c *Client) UpdateComputerPrestageByID(id string, prestageUpdate *ComputerP
 	return &updatedPrestage, nil
 }
 
-// UpdateComputerPrestageByName updates a computer prestage based on its display name
-func (c *Client) UpdateComputerPrestageByName(name string, updatedPrestage *ComputerPrestagesItem) (*ComputerPrestagesItem, error) {
-	prestagesList, err := c.GetComputerPrestagesV3(0, 100, []string{}) // Adjust page, pageSize, and sort as needed
+// UpdateComputerPrestageByNameByID updates a computer prestage based on its display name.
+func (c *Client) UpdateComputerPrestageByNameByID(name string, updatedPrestage *ComputerPrestagesItem) (*ComputerPrestagesItem, error) {
+	// Fetch all prestages
+	prestagesList, err := c.GetComputerPrestagesV3([]string{}) // Adjust sort as needed
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all computer prestages: %v", err)
 	}
@@ -253,7 +275,7 @@ func (c *Client) UpdateComputerPrestageByName(name string, updatedPrestage *Comp
 	// Search for the prestage with the given name
 	for _, prestage := range prestagesList.Results {
 		if prestage.DisplayName == name {
-			// Update the prestage with the provided ID
+			// Update the prestage using its ID
 			return c.UpdateComputerPrestageByID(prestage.ID, updatedPrestage)
 		}
 	}
@@ -279,10 +301,10 @@ func (c *Client) DeleteComputerPrestageByID(id string) error {
 	return nil
 }
 
-// DeleteComputerPrestageByName deletes a computer prestage by its name.
-func (c *Client) DeleteComputerPrestageByName(name string) error {
-	// First, get all prestages to find the one with the given name.
-	response, err := c.GetComputerPrestagesV3(0, 100, []string{}) // Adjust page, pageSize, and sort as needed.
+// DeleteComputerPrestageByNameByID deletes a computer prestage by its name.
+func (c *Client) DeleteComputerPrestageByNameByID(name string) error {
+	// Fetch all prestages to find the one with the given name.
+	response, err := c.GetComputerPrestagesV3([]string{}) // Adjust sort as needed.
 	if err != nil {
 		return fmt.Errorf("failed to fetch computer prestages: %v", err)
 	}

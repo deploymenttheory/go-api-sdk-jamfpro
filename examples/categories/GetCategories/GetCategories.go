@@ -38,14 +38,12 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the query parameters
-	page := 0
-	pageSize := 100
+	// Define the sort and filter query parameters
 	sort := "id:asc"
 	filter := ""
 
 	// Call the GetCategories function
-	categories, err := client.GetCategories(page, pageSize, sort, filter)
+	categories, err := client.GetCategories(sort, filter) // Will return all results by default
 	if err != nil {
 		fmt.Printf("Error fetching categories: %v\n", err)
 		return

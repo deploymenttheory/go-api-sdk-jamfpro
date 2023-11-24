@@ -1,16 +1,56 @@
 // utilities.go
-// For utility/helper functions to support from the main package
+// For utility/helper functions to support the jamf pro package
 package utils
 
 import (
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
-	"net/http"
-	"net/http/httputil"
 	"os"
-	"path/filepath"
+	"strings"
 )
+
+// ConvertToXMLSafeString replaces disallowed XML characters in a string with their corresponding XML entity references.
+// This function is useful for preparing a string to be safely included in an XML document.
+func ConvertToXMLSafeString(s string) string {
+	// Define a map of disallowed characters and their XML entity equivalents.
+	replacements := map[string]string{
+		"&":  "&amp;",
+		"<":  "&lt;",
+		">":  "&gt;",
+		"'":  "&apos;",
+		"\"": "&quot;",
+	}
+
+	// Replace each disallowed character with its entity reference.
+	for key, val := range replacements {
+		s = strings.ReplaceAll(s, key, val)
+	}
+
+	// Return the XML-safe string.
+	return s
+}
+
+// ConvertFromXMLSafeString reverses the process of ConvertToXMLSafeString.
+// It replaces XML entity references in a string back to their original characters.
+// This is useful when reading XML data that contains entity references and converting them back to normal characters.
+func ConvertFromXMLSafeString(s string) string {
+	// Define a map of XML entities and their corresponding characters.
+	replacements := map[string]string{
+		"&amp;":  "&",
+		"&lt;":   "<",
+		"&gt;":   ">",
+		"&apos;": "'",
+		"&quot;": "\"",
+	}
+
+	// Replace each entity reference with its corresponding character.
+	for key, val := range replacements {
+		s = strings.ReplaceAll(s, key, val)
+	}
+
+	// Return the original string with characters restored.
+	return s
+}
 
 func Base64EncodeCertificate(certPath string) (string, error) {
 	// Read the certificate file
@@ -25,94 +65,21 @@ func Base64EncodeCertificate(certPath string) (string, error) {
 	return encoded, nil
 }
 
-// GetImageContentType determines the content type based on file extension
-func GetImageContentType(filePath string) string {
-	ext := filepath.Ext(filePath)
-	switch ext {
-	case ".png":
-		return "image/png"
-	case ".jpg", ".jpeg":
-		return "image/jpeg"
-	default:
-		return "application/octet-stream"
-	}
-}
+// EnsureXMLSafeString checks if a string contains disallowed XML characters.
+// If it does, it converts the string to an XML-safe format using ConvertToXMLSafeString.
+// This function is useful for ensuring that strings are safe for inclusion in XML documents.
+func EnsureXMLSafeString(s string) string {
+	// Define a set of disallowed XML characters.
+	disallowedChars := []string{"&", "<", ">", "'", "\""}
 
-// Base64Encode encodes the provided data into a base64 string and provides details about the encoding process.
-func Base64Encode(data []byte) (string, error) {
-	// Check if the provided data is empty
-	if len(data) == 0 {
-		return "", fmt.Errorf("no data provided for encoding")
-	}
-
-	// Encode the data to base64
-	encoded := base64.StdEncoding.EncodeToString(data)
-
-	// Check if the encoding process was successful
-	if encoded == "" {
-		return "", fmt.Errorf("failed to encode the data")
-	}
-
-	// Return the encoded data
-	return encoded, nil
-}
-
-// UnmarshalJSONData unmarshals binary data into the given output structure.
-func UnmarshalJSONData(data []byte, out interface{}) error {
-	return json.Unmarshal(data, out)
-}
-
-// DumpRequestToFile dumps the given request to a specified file.
-func DumpRequestToFile(req *http.Request, filename string) error {
-	// Dump the request details
-	dump, err := httputil.DumpRequestOut(req, true)
-	if err != nil {
-		return fmt.Errorf("error dumping request: %v", err)
-	}
-
-	// Open a file for writing
-	file, err := os.Create(filename)
-	if err != nil {
-		return fmt.Errorf("cannot create file: %v", err)
-	}
-	defer file.Close()
-
-	// Write the dumped request to the file
-	_, err = file.WriteString(string(dump))
-	if err != nil {
-		return fmt.Errorf("cannot write to file: %v", err)
-	}
-
-	return nil
-}
-
-/*
-// Print request headers for troubleshooting
-func PrintRequestHeaders(req *http.Request) {
-	fmt.Println("Request Headers:")
-	for name, values := range req.Header {
-		// Each value is a slice of strings since headers can be repeated.
-		for _, value := range values {
-			fmt.Printf("%s: %s\n", name, value)
+	// Check if the string contains any disallowed characters.
+	for _, char := range disallowedChars {
+		if strings.Contains(s, char) {
+			// If a disallowed character is found, convert the entire string to an XML-safe format.
+			return ConvertToXMLSafeString(s)
 		}
 	}
-}
-*/
-// PrettyPrintStruct prints the structure in a pretty format
-func PrettyPrintStruct(v interface{}) string {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err.Error()
-	}
 
-	var out map[string]interface{}
-	if err := json.Unmarshal(b, &out); err != nil {
-		return err.Error()
-	}
-
-	pretty, err := json.MarshalIndent(out, "", "  ")
-	if err != nil {
-		return err.Error()
-	}
-	return string(pretty)
+	// If no disallowed characters are found, return the original string.
+	return s
 }
