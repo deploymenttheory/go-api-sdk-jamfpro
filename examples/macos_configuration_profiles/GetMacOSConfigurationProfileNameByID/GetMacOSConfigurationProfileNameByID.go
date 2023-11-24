@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,7 +40,7 @@ func main() {
 	}
 
 	// Let's assume you want to get the name of a macOS Configuration Profile with ID 23.
-	profileID := 23
+	profileID := 47
 
 	// Call GetMacOSConfigurationProfileNameByID function
 	profileName, err := client.GetMacOSConfigurationProfileNameByID(profileID)
@@ -47,6 +48,10 @@ func main() {
 		log.Fatalf("Error fetching macOS Configuration Profile name by ID: %v", err)
 	}
 
-	// Print the retrieved profile name
-	fmt.Printf("The name of the macOS Configuration Profile with ID %d is: %s\n", profileID, profileName)
+	// Pretty print the details in XML
+	configurationProfileXML, err := xml.MarshalIndent(profileName, "", "    ") // Indent with 4 spaces and use '='
+	if err != nil {
+		log.Fatalf("Error marshaling policy details data: %v", err)
+	}
+	fmt.Println("Created Policy Details:\n", string(configurationProfileXML))
 }

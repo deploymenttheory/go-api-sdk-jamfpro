@@ -6,9 +6,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/aws/aws-sdk-go v1.45.18
 	github.com/bradfitz/slice v0.0.0-20180809154707-2b758aa73013
-	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/google/uuid v1.3.1
-	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.8.4
 )
 

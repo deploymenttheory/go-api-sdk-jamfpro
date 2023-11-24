@@ -1,6 +1,7 @@
 // classicapi_macos_configuration_profiles.go
 // Jamf Pro Classic Api - osx configuration profiles
 // api reference: https://developer.jamf.com/jamf-pro/reference/osxconfigurationprofiles
+// Entity_Equivalents_for_Disallowed_XML_Characters: https://learn.jamf.com/bundle/technical-articles/page/Entity_Equivalents_for_Disallowed_XML_Characters.html
 // Classic API requires the structs to support an XML data structure.
 
 package jamfpro
