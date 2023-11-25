@@ -12,6 +12,7 @@ import (
 
 const uriNetworkSegments = "/JSSResource/networksegments"
 
+// ResponseNetworkSegmentList represents the response for a list of Network Segments.
 type ResponseNetworkSegmentList struct {
 	Size    int                  `xml:"size"`
 	Results []NetworkSegmentItem `xml:"network_segment"`
@@ -24,6 +25,7 @@ type NetworkSegmentItem struct {
 	EndingAddress   string `xml:"ending_address"`
 }
 
+// ResponseNetworkSegment represents the response structure for a Network Segment.
 type ResponseNetworkSegment struct {
 	ID                  int    `json:"id" xml:"id"`
 	Name                string `json:"name" xml:"name"`
