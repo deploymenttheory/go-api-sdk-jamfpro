@@ -25,7 +25,7 @@ type MacOSConfigurationProfileListItem struct {
 }
 
 // ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
-type ResponseMacOSConfigurationProfileCreation struct {
+type ResponseMacOSConfigurationProfileCreationAndUpdate struct {
 	XMLName xml.Name `xml:"os_x_configuration_profile"`
 	ID      int      `xml:"id"`
 }
@@ -266,13 +266,34 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResponseMacOS
 	return &profile, nil
 }
 
-// GetMacOSConfigurationProfileNameByID retrieves the name of a macOS Configuration Profile by its ID.
-func (c *Client) GetMacOSConfigurationProfileNameByID(id int) (string, error) {
-	profile, err := c.GetMacOSConfigurationProfileByID(id)
+// GetMacOSConfigurationProfileByNameByID retrieves the details of a macOS Configuration Profile by its name.
+func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResponseMacOSConfigurationProfiles, error) {
+	// Fetch all macOS Configuration Profiles
+	profilesList, err := c.GetMacOSConfigurationProfiles()
 	if err != nil {
-		return "", fmt.Errorf("failed to fetch macOS Configuration Profile by ID: %v", err)
+		return nil, fmt.Errorf("failed to fetch macOS Configuration Profiles: %v", err)
 	}
-	return profile.General.Name, nil
+
+	// Search for the profile with the given name
+	var profileID int
+	for _, profile := range profilesList.Results {
+		if profile.Name == name {
+			profileID = profile.ID
+			break
+		}
+	}
+
+	if profileID == 0 {
+		return nil, fmt.Errorf("no macOS Configuration Profile found with the name %s", name)
+	}
+
+	// Fetch the full details of the profile using its ID
+	detailedProfile, err := c.GetMacOSConfigurationProfileByID(profileID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch macOS Configuration Profile by ID: %v", err)
+	}
+
+	return detailedProfile, nil
 }
 
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the profile with its ID updated.
@@ -297,8 +318,8 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigura
 		ResponseMacOSConfigurationProfiles: profile,
 	}
 
-	// Use ResponseMacOSConfigurationProfileCreation struct to handle the API response
-	var response ResponseMacOSConfigurationProfileCreation
+	// Use ResponseMacOSConfigurationProfileCreationAndUpdate struct to handle the API response
+	var response ResponseMacOSConfigurationProfileCreationAndUpdate
 
 	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
@@ -314,8 +335,9 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigura
 	return response.ID, nil
 }
 
-// UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server.
-func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResponseMacOSConfigurationProfiles) (*ResponseMacOSConfigurationProfiles, error) {
+// UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server
+// and returns the ID of the updated profile.
+func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResponseMacOSConfigurationProfiles) (int, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -326,21 +348,26 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResponseMa
 		ResponseMacOSConfigurationProfiles: profile,
 	}
 
-	var updatedProfile ResponseMacOSConfigurationProfiles
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	// Use ResponseMacOSConfigurationProfileCreationAndUpdate struct to handle the API response
+	var response ResponseMacOSConfigurationProfileCreationAndUpdate
+
+	// Send the request and capture the response
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update macOS Configuration Profile: %v", err)
+		return 0, fmt.Errorf("failed to update macOS Configuration Profile: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &updatedProfile, nil
+	// Return the ID from the response
+	return response.ID, nil
 }
 
-// UpdateMacOSConfigurationProfileByName updates an existing macOS Configuration Profile by its name on the Jamf Pro server.
-func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *ResponseMacOSConfigurationProfiles) (*ResponseMacOSConfigurationProfiles, error) {
+// UpdateMacOSConfigurationProfileByName updates an existing macOS Configuration Profile by its name on the Jamf Pro server
+// and returns the ID of the updated profile.
+func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *ResponseMacOSConfigurationProfiles) (int, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -351,17 +378,21 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 		ResponseMacOSConfigurationProfiles: profile,
 	}
 
-	var updatedProfile ResponseMacOSConfigurationProfiles
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	// Use ResponseMacOSConfigurationProfileCreationAndUpdate struct to handle the API response
+	var response ResponseMacOSConfigurationProfileCreationAndUpdate
+
+	// Send the request and capture the response
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update macOS Configuration Profile by name: %v", err)
+		return 0, fmt.Errorf("failed to update macOS Configuration Profile by name: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &updatedProfile, nil
+	// Return the ID from the response
+	return response.ID, nil
 }
 
 // DeleteMacOSConfigurationProfileByID deletes a macOS Configuration Profile by its ID from the Jamf Pro server.

@@ -12,15 +12,15 @@ import (
 
 const uriLicensedSoftware = "/JSSResource/licensedsoftware"
 
+// ResponseLicensedSoftwareList represents the response for a list of licensed software.
+type ResponseLicensedSoftwareList struct {
+	LicensedSoftware []LicensedSoftwareItem `xml:"licensed_software"`
+}
+
 // LicensedSoftwareItem represents a single licensed software item.
 type LicensedSoftwareItem struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
-}
-
-// ResponseLicensedSoftwareList represents the response for a list of licensed software.
-type ResponseLicensedSoftwareList struct {
-	LicensedSoftware []LicensedSoftwareItem `xml:"licensed_software"`
 }
 
 // ResponseLicensedSoftware represents the structure of a single licensed software item.

@@ -68,14 +68,14 @@ func main() {
 		},
 	}
 
-	// Assuming the name of the macOS Configuration Profile you want to update is "WiFi Test Updated with sdk"
-	name := "WiFi Test Updated with sdk with embeded payload"
+	// The name of the macOS Configuration Profile you want to update
+	name := "WiFi Test"
 
 	// Call the UpdateMacOSConfigurationProfileByName function
-	response, err := client.UpdateMacOSConfigurationProfileByName(name, &profile)
+	updatedProfileID, err := client.UpdateMacOSConfigurationProfileByName(name, &profile)
 	if err != nil {
 		log.Fatalf("Failed to update macOS Configuration Profile: %v", err)
 	}
 
-	fmt.Printf("Profile updated: %+v\n", response)
+	fmt.Printf("Profile updated successfully. Updated Profile ID: %d\n", updatedProfileID)
 }

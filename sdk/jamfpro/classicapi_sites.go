@@ -13,7 +13,7 @@ const uriSites = "/JSSResource/sites"
 
 // Structs for the sites
 
-type SitesListResponse struct {
+type ResponseSitesList struct {
 	Size int        `xml:"size"`
 	Site []SiteItem `xml:"site"`
 }
@@ -29,10 +29,10 @@ type ResponseSite struct {
 }
 
 // GetSites gets a list of all sites
-func (c *Client) GetSites() (*SitesListResponse, error) {
+func (c *Client) GetSites() (*ResponseSitesList, error) {
 	endpoint := uriSites
 
-	var sites SitesListResponse
+	var sites ResponseSitesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &sites)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all Sites: %v", err)

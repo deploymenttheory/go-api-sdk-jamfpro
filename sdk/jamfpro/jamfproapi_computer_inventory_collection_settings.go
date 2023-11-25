@@ -12,6 +12,12 @@ import (
 
 const uriComputerInventoryCollectionSettings = "/api/v1/computer-inventory-collection-settings"
 
+type ResponseComputerInventoryCollectionSettings struct {
+	ComputerInventoryCollectionPreferences InventoryCollectionPreference `json:"computerInventoryCollectionPreferences"`
+	ApplicationPaths                       []PathItem                    `json:"applicationPaths"`
+	FontPaths                              []PathItem                    `json:"fontPaths"`
+	PluginPaths                            []PathItem                    `json:"pluginPaths"`
+}
 type InventoryCollectionPreference struct {
 	MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
 	IncludeFonts                                 bool `json:"includeFonts"`
@@ -41,13 +47,6 @@ type PathItem struct {
 type ComputerInventoryCollectionSettingsCustomPath struct {
 	Scope string `json:"scope"`
 	Path  string `json:"path"`
-}
-
-type ResponseComputerInventoryCollectionSettings struct {
-	ComputerInventoryCollectionPreferences InventoryCollectionPreference `json:"computerInventoryCollectionPreferences"`
-	ApplicationPaths                       []PathItem                    `json:"applicationPaths"`
-	FontPaths                              []PathItem                    `json:"fontPaths"`
-	PluginPaths                            []PathItem                    `json:"pluginPaths"`
 }
 
 func (c *Client) GetComputerInventoryCollectionSettings() (*ResponseComputerInventoryCollectionSettings, error) {
