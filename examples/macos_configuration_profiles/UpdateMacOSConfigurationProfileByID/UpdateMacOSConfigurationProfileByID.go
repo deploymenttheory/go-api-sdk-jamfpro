@@ -67,14 +67,14 @@ func main() {
 		},
 	}
 
-	// Assuming the ID of the macOS Configuration Profile you want to update is 78
-	id := 5
+	// Set the config profile ID you want to update
+	id := 153 // Replace with the actual ID of the profile you want to update
 
 	// Call the UpdateMacOSConfigurationProfileByID function
-	response, err := client.UpdateMacOSConfigurationProfileByID(id, &profile)
+	updatedProfileID, err := client.UpdateMacOSConfigurationProfileByID(id, &profile)
 	if err != nil {
 		log.Fatalf("Failed to update macOS Configuration Profile: %v", err)
 	}
 
-	fmt.Printf("Profile updated: %+v\n", response)
+	fmt.Printf("Profile updated successfully. Updated Profile ID: %d\n", updatedProfileID)
 }

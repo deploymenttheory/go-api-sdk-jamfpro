@@ -39,19 +39,19 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Let's assume you want to get the name of a macOS Configuration Profile with ID 23.
-	profileID := 47
+	profileName := "WiFi Test" // Replace with the actual profile name you want to fetch
 
-	// Call GetMacOSConfigurationProfileNameByID function
-	profileName, err := client.GetMacOSConfigurationProfileNameByID(profileID)
+	// Call the function to get the profile by name
+	profile, err := client.GetMacOSConfigurationProfileByNameByID(profileName)
 	if err != nil {
-		log.Fatalf("Error fetching macOS Configuration Profile name by ID: %v", err)
+		fmt.Printf("Error fetching profile: %v\n", err)
+		return
 	}
 
 	// Pretty print the details in XML
-	configurationProfileXML, err := xml.MarshalIndent(profileName, "", "    ") // Indent with 4 spaces and use '='
+	configurationProfileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling policy details data: %v", err)
+		log.Fatalf("Error marshaling profile data: %v", err)
 	}
-	fmt.Println("Created Policy Details:\n", string(configurationProfileXML))
+	fmt.Println("Fetched Profile Details:\n", string(configurationProfileXML))
 }
