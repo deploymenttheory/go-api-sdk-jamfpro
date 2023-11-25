@@ -12,8 +12,8 @@ import (
 
 const uriAPIAdvancedComputerSearches = "/JSSResource/advancedcomputersearches"
 
-// ResponseAdvancedComputerSearches represents the structure for multiple advanced computer searches.
-type ResponseAdvancedComputerSearches struct {
+// ResponseAdvancedComputerSearchesList represents the structure for multiple advanced computer searches.
+type ResponseAdvancedComputerSearchesList struct {
 	Size                     int                            `xml:"size"`
 	AdvancedComputerSearches []AdvancedComputerSearchDetail `xml:"advanced_computer_search"`
 }
@@ -87,10 +87,10 @@ type AdvancedComputerSearchesSiteDetail struct {
 }
 
 // GetAdvancedComputerSearches retrieves all advanced computer searches.
-func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearches, error) {
+func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearchesList, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
-	var searchesList ResponseAdvancedComputerSearches
+	var searchesList ResponseAdvancedComputerSearchesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced computer searches: %v", err)

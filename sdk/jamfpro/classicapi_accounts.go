@@ -11,6 +11,26 @@ import (
 
 const uriAPIAccounts = "/JSSResource/accounts"
 
+// ResponseAccountsList represents a serialized list of accounts
+type ResponseAccountsList struct {
+	Users  *AccountDataSubsetUsers  `xml:"users,omitempty"`
+	Groups *AccountDataSubsetGroups `xml:"groups,omitempty"`
+}
+
+type AccountDataSubsetUsers struct {
+	User []AccountDataSubsetUserItem `xml:"user,omitempty"`
+}
+
+type AccountDataSubsetUserItem struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+
+type AccountDataSubsetGroups struct {
+	Group []AccountDataSubsetGroup `xml:"group,omitempty"`
+}
+
+// ResponseAccount represents an account object
 type ResponseAccount struct {
 	ID                  int                         `json:"id,omitempty" xml:"id,omitempty"`
 	Name                string                      `json:"name" xml:"name"`
@@ -80,25 +100,6 @@ type ResponseAccountGroup struct {
 	Site         AccountDataSubsetSite       `json:"site" xml:"site"`
 	Privileges   AccountDataSubsetPrivileges `json:"privileges" xml:"privileges"`
 	Members      []AccountDataSubsetUser     `json:"members" xml:"members>user"`
-}
-
-// Get Account List
-type ResponseAccountsList struct {
-	Users  *AccountDataSubsetUsers  `xml:"users,omitempty"`
-	Groups *AccountDataSubsetGroups `xml:"groups,omitempty"`
-}
-
-type AccountDataSubsetUsers struct {
-	User []AccountDataSubsetUserItem `xml:"user,omitempty"`
-}
-
-type AccountDataSubsetUserItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type AccountDataSubsetGroups struct {
-	Group []AccountDataSubsetGroup `xml:"group,omitempty"`
 }
 
 // GetAccounts retrieves a list of all accounts (both users and groups).

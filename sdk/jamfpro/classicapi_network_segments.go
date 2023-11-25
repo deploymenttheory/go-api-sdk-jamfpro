@@ -12,7 +12,7 @@ import (
 
 const uriNetworkSegments = "/JSSResource/networksegments"
 
-type NetworkSegmentList struct {
+type ResponseNetworkSegmentList struct {
 	Size    int                  `xml:"size"`
 	Results []NetworkSegmentItem `xml:"network_segment"`
 }
@@ -40,10 +40,10 @@ type ResponseNetworkSegment struct {
 }
 
 // GetNetworkSegments retrieves a list of network segments.
-func (c *Client) GetNetworkSegments() (*NetworkSegmentList, error) {
+func (c *Client) GetNetworkSegments() (*ResponseNetworkSegmentList, error) {
 	endpoint := uriNetworkSegments
 
-	var segments NetworkSegmentList
+	var segments ResponseNetworkSegmentList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segments)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch network segments: %v", err)
