@@ -1,20 +1,15 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	profileID = 171
-)
-
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -37,22 +32,29 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetMacOSConfigurationProfileByID function
-	profile, err := client.GetMacOSConfigurationProfileByID(profileID)
-	if err != nil {
-		log.Fatalf("Error fetching macOS Configuration Profile by ID: %v", err)
+	// Building details to be created
+	newBuilding := &jamfpro.ResponseBuilding{
+		Name:           "Apple Park",
+		StreetAddress1: "The McIntosh Tree",
+		StreetAddress2: "One Apple Park Way",
+		City:           "Cupertino",
+		StateProvince:  "California",
+		ZipPostalCode:  "95014",
+		Country:        "The United States of America",
 	}
 
-	// Pretty print the profile in XML
-	profileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	// Create the building
+	createdBuilding, err := client.CreateBuilding(newBuilding)
 	if err != nil {
-		log.Fatalf("Error marshaling macOS Configuration Profile data: %v", err)
+		log.Fatalf("Error creating building: %v", err)
 	}
-	fmt.Println("Fetched macOS Configuration Profile:\n", string(profileXML))
+
+	// Print the details of the created building
+	fmt.Printf("Created Building: %+v\n", createdBuilding)
 }

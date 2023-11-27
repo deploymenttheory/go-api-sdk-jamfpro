@@ -1,20 +1,15 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	profileID = 171
-)
-
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -37,22 +32,24 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetMacOSConfigurationProfileByID function
-	profile, err := client.GetMacOSConfigurationProfileByID(profileID)
-	if err != nil {
-		log.Fatalf("Error fetching macOS Configuration Profile by ID: %v", err)
+	// Resource history details to be updated
+	historyUpdate := &jamfpro.ResponseBuildingResourceHistory{
+		Note: "Sso settings update",
 	}
 
-	// Pretty print the profile in XML
-	profileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	// Add specified Building history object notes with a specific ID
+	buildingID := "4" // Replace with the actual ID of the building you want to update
+	updatedHistory, err := client.CreateBuildingResourceHistoryByID(buildingID, historyUpdate)
 	if err != nil {
-		log.Fatalf("Error marshaling macOS Configuration Profile data: %v", err)
+		log.Fatalf("Error updating building resource history: %v", err)
 	}
-	fmt.Println("Fetched macOS Configuration Profile:\n", string(profileXML))
+
+	// Print the details of the updated resource history
+	fmt.Printf("Updated Building Resource History: %+v\n", updatedHistory)
 }
