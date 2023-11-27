@@ -1161,11 +1161,44 @@ This documentation outlines the API endpoints available for managing Mobile Devi
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
   `DeleteMobileDeviceProvisioningProfileByUUID` deletes a Mobile Device Provisioning Profile by its UUID.
 
+### Jamf Pro API - Buildings
+
+This documentation outlines the API endpoints available for managing Buildings within Jamf Pro using the API, which supports JSON data structures.
+
+## Endpoints
+
+- [x] ✅ **GET** `/api/v1/buildings`
+  `GetBuildings` retrieves a serialized list of all buildings.
+
+- [x] ✅ **GET** `/api/v1/buildings/{id}`
+  `GetBuildingByID` fetches a specific building by its ID.
+
+- [x] ✅ **GET** `/api/v1/buildings/{id}/history`
+  `GetBuildingResourceHistoryByID` retrieves the resource history of a specific building by its ID.
+
+- [x] ✅ **POST** `/api/v1/buildings`
+  `CreateBuilding` creates a new building.
+
+- [x] ✅ **PUT** `/api/v1/buildings/{id}`
+  `UpdateBuildingByID` updates an existing building by its ID.
+
+- [x] ✅ **POST** `/api/v1/buildings/{id}/history`
+  `CreateBuildingResourceHistoryByID` updates the resource history of a building by its ID.
+
+- [x] ✅ **DELETE** `/api/v1/buildings/{id}`
+  `DeleteBuildingByID` deletes a building by its ID.
+
+- [x] ✅ **POST** `/api/v1/buildings/delete-multiple`
+  `DeleteMultipleBuildingsByID` deletes multiple buildings by their IDs.
+
+- [x] ❌ **POST** `/api/v1/buildings/{id}/history/export`
+
+
 
 ## Progress Summary
 
-- Total Endpoints: 3568
-- Covered: 349
+- Total Endpoints: 377
+- Covered: 358
 - Not Covered: 19
 - Partially Covered: 0
 

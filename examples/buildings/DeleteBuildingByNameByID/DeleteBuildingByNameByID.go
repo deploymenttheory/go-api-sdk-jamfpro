@@ -1,20 +1,15 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	profileID = 171
-)
-
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -37,22 +32,19 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetMacOSConfigurationProfileByID function
-	profile, err := client.GetMacOSConfigurationProfileByID(profileID)
+	// Name of the building to be deleted
+	buildingName := "Apple Park" // Replace with the actual name of the building you want to delete
+
+	err = client.DeleteBuildingByNameByID(buildingName)
 	if err != nil {
-		log.Fatalf("Error fetching macOS Configuration Profile by ID: %v", err)
+		log.Fatalf("Error deleting building: %v", err)
 	}
 
-	// Pretty print the profile in XML
-	profileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling macOS Configuration Profile data: %v", err)
-	}
-	fmt.Println("Fetched macOS Configuration Profile:\n", string(profileXML))
+	fmt.Println("Building deleted successfully")
 }

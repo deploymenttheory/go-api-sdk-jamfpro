@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,19 +38,24 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the variable for the building name
-	buildingName := "bld-terraform_test-0.0.1-test" // Change this value as needed
-
-	// Call GetBuildingByName function
-	building, err := client.GetBuildingByName(buildingName)
-	if err != nil {
-		log.Fatalf("Error fetching building by Name: %v", err)
+	// Building details to be updated
+	buildingUpdate := &jamfpro.ResponseBuilding{
+		Name:           "Updated Building Name",
+		StreetAddress1: "Updated Address 1",
+		StreetAddress2: "Updated Address 2",
+		City:           "Updated City",
+		StateProvince:  "Updated State",
+		ZipPostalCode:  "Updated Zip Code",
+		Country:        "Updated Country",
 	}
 
-	// Pretty print the building details using XML marshaling
-	buildingXML, err := xml.MarshalIndent(building, "", "    ") // Indent with 4 spaces
+	// Update the building with a specific ID
+	buildingID := "3" // Replace with the actual ID of the building you want to update
+	updatedBuilding, err := client.UpdateBuildingByID(buildingID, buildingUpdate)
 	if err != nil {
-		log.Fatalf("Error marshaling building data: %v", err)
+		log.Fatalf("Error updating building: %v", err)
 	}
-	fmt.Println("Fetched Building Details:", string(buildingXML))
+
+	// Print the details of the updated building
+	fmt.Printf("Updated Building: %+v\n", updatedBuilding)
 }

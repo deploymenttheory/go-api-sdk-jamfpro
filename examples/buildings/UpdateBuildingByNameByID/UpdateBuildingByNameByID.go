@@ -1,20 +1,15 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	profileID = 171
-)
-
 func main() {
-	// Define the path to the JSON configuration file inside the main function
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -37,22 +32,30 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetMacOSConfigurationProfileByID function
-	profile, err := client.GetMacOSConfigurationProfileByID(profileID)
-	if err != nil {
-		log.Fatalf("Error fetching macOS Configuration Profile by ID: %v", err)
+	// Specify the updated details for the building
+	buildingUpdate := &jamfpro.ResponseBuilding{
+		Name:           "Updated Building Name",
+		StreetAddress1: "Updated Address 1",
+		StreetAddress2: "Updated Address 2",
+		City:           "Updated City",
+		StateProvince:  "Updated State",
+		ZipPostalCode:  "Updated Zip Code",
+		Country:        "Updated Country",
 	}
 
-	// Pretty print the profile in XML
-	profileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	// Update building by name
+	buildingName := "Apple Park" // Replace with the actual name
+	updatedBuilding, err := client.UpdateBuildingByNameByID(buildingName, buildingUpdate)
 	if err != nil {
-		log.Fatalf("Error marshaling macOS Configuration Profile data: %v", err)
+		log.Fatalf("Error updating building: %v", err)
 	}
-	fmt.Println("Fetched macOS Configuration Profile:\n", string(profileXML))
+
+	// Output the result
+	fmt.Printf("Updated Building: %+v\n", updatedBuilding)
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,16 +38,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetBuildings function
-	buildings, err := client.GetBuildings()
+	// Fetch the buildings
+	buildings, err := client.GetBuildings(nil) // Pass nil or a specific sorting criteria
 	if err != nil {
-		log.Fatalf("Error fetching all buildings: %v", err)
+		log.Fatalf("Error fetching buildings: %v", err)
 	}
 
-	// Pretty print the building details in XML
-	buildingXML, err := xml.MarshalIndent(buildings, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling building data: %v", err)
+	// Iterate through the buildings and print them
+	for _, building := range buildings.Results {
+		fmt.Printf("ID: %s, Name: %s, Address: %s, %s, %s, %s, %s\n",
+			building.ID, building.Name, building.StreetAddress1, building.StreetAddress2,
+			building.City, building.StateProvince, building.ZipPostalCode)
 	}
-	fmt.Println("Fetched Building Details:\n", string(buildingXML))
 }
