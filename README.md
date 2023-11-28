@@ -11,7 +11,7 @@ Ensure you have Go installed and set up on your system. If not, follow the instr
 Install the `go-api-sdk-jamfpro` package using `go get`:
 
 ```bash
-go **GET** github.com/deploymenttheory/go-api-sdk-jamfpro
+go get github.com/deploymenttheory/go-api-sdk-jamfpro
 ```
 
 ## Usage
