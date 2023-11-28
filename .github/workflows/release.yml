@@ -1,4 +1,4 @@
-# Terraform Provider release workflow.
+# SDK release workflow.
 name: Release
 
 # This GitHub action creates a release when a tag that matches the pattern
