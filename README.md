@@ -2215,10 +2215,40 @@ This documentation details the operations available for managing Mobile Devices 
 - Total Operations Not Covered: 11
 
 
+### Jamf Pro Classic API - Patch Policies
+
+This documentation outlines the operations available for managing Patch Policies within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/patchpolicies/id/{id}`
+  - `GetPatchPoliciesByID` operation retrieves the details of a patch policy by its ID.
+
+- [x] ✅ **GET** `/JSSResource/patchpolicies/id/{id}/subset/{subset}`
+  - `GetPatchPolicyByIDAndDataSubset` operation fetches a specific subset of data for a patch policy by its ID.
+
+- [x] ✅ **POST** `/JSSResource/patchpolicies/softwaretitleconfig/id/{softwaretitleconfigid}`
+  - `CreatePatchPolicy` operation creates a new patch policy.
+
+- [x] ✅ **PUT** `/JSSResource/patchpolicies/id/{id}`
+  - `UpdatePatchPolicy` operation updates an existing patch policy by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/patchpolicies/id/{id}`
+  - `DeletePatchPolicyByID` operation deletes a patch policy by its ID.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/patchpolicies/id/{id}`
+  - `/JSSResource/patchpolicies/id/{id}/subset/{subset}`
+  - `/JSSResource/patchpolicies/softwaretitleconfig/id/{softwaretitleconfigid}`
+
+- Total Operations Covered: 5
+
 ## Progress Summary
 
-- Total Operations: 393
-- Total Covered Operations: 371
+- Total Operations: 398
+- Total Covered Operations: 376
 - Not Covered: 33
 - Partially Covered: 0
 - Deprecated: 
