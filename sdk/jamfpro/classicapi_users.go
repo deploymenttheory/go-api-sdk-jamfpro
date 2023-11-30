@@ -1,99 +1,297 @@
 // classicapi_users.go
-// Jamf Pro Classic Api  - users
+// Jamf Pro Classic Api - users
 // api reference: https://developer.jamf.com/jamf-pro/reference/users
-// Jamf Pro Classic Api  requires the structs to support an XML data structure.
+// Jamf Pro Classic Api requires the structs to support an XML data structure.
 
 package jamfpro
 
+import (
+	"encoding/xml"
+	"fmt"
+)
+
 const uriUsers = "/JSSResource/users"
 
-type UserScope struct {
-	Name string `xml:"name"`
+type ResponseUsersList struct {
+	Size  int        `xml:"size"`
+	Users []UserItem `xml:"user"`
 }
 
-type JamfUserScope struct {
-	Id   int    `xml:"id"`
+type UserItem struct {
+	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 type ResponseUser struct {
-	ID                   int                                 `json:"id" xml:"id"`
-	Name                 string                              `json:"name" xml:"name"` // required
-	FullName             string                              `json:"full_name,omitempty" xml:"full_name,omitempty"`
-	Email                string                              `json:"email,omitempty" xml:"email,omitempty"`
-	EmailAddress         string                              `json:"email_address,omitempty" xml:"email_address,omitempty"`
-	PhoneNumber          string                              `json:"phone_number,omitempty" xml:"phone_number,omitempty"`
-	Position             string                              `json:"position,omitempty" xml:"position,omitempty"`
-	EnableCustomPhotoURL bool                                `json:"enable_custom_photo_url,omitempty" xml:"enable_custom_photo_url,omitempty"`
-	CustomPhotoURL       string                              `json:"custom_photo_url,omitempty" xml:"custom_photo_url,omitempty"`
-	LDAPServer           UsersDataSubsetLDAPServer           `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
-	ExtensionAttributes  []UsersDataSubsetExtensionAttribute `json:"extension_attributes,omitempty" xml:"extension_attributes,omitempty"`
-	Sites                []UsersDataSubsetUserSite           `json:"sites,omitempty" xml:"sites,omitempty"`
-	Links                UsersDataSubsetUserLinks            `json:"links,omitempty" xml:"links,omitempty"`
+	ID                  int                               `xml:"id"`
+	Name                string                            `xml:"name"`
+	FullName            string                            `xml:"full_name"`
+	Email               string                            `xml:"email"`
+	EmailAddress        string                            `xml:"email_address"`
+	PhoneNumber         string                            `xml:"phone_number"`
+	Position            string                            `xml:"position"`
+	EnableCustomPhoto   bool                              `xml:"enable_custom_photo_url"`
+	CustomPhotoURL      string                            `xml:"custom_photo_url"`
+	LDAPServer          UserDataSubsetLDAPServer          `xml:"ldap_server"`
+	ExtensionAttributes UserDataSubsetExtensionAttributes `xml:"extension_attributes"`
+	Sites               []UserDataSubsetSite              `xml:"sites>site"`
+	Links               UserDataSubsetUserLinks           `xml:"links"`
 }
 
-type UsersDataSubsetLDAPServer struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
+type UserDataSubsetLDAPServer struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
-type UsersDataSubsetExtensionAttribute struct {
-	ExtensionAttributeItem `json:"extension_attribute" xml:"extension_attribute"`
+type UserDataSubsetExtensionAttributes struct {
+	Attributes []UserDataSubsetExtensionAttributeItem `xml:"extension_attribute"`
 }
 
-type ExtensionAttributeItem struct {
-	ID    int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name  string `json:"name,omitempty" xml:"name,omitempty"`
-	Type  string `json:"type,omitempty" xml:"type,omitempty"` // possible values: String, Integer, Date
-	Value string `json:"value,omitempty" xml:"value,omitempty"`
+type UserDataSubsetExtensionAttributeItem struct {
+	ID    int    `xml:"id"`
+	Name  string `xml:"name"`
+	Type  string `xml:"type"`
+	Value string `xml:"value"`
 }
 
-type UsersDataSubsetUserSite struct {
-	Site Site `json:"site,omitempty" xml:"site,omitempty"`
+type UserDataSubsetSite struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
-type UsersDataSubsetUserLinks struct {
-	Computers         ComputerLink      `json:"computers,omitempty" xml:"computers,omitempty"`
-	Peripherals       PeripheralLink    `json:"peripherals,omitempty" xml:"peripherals,omitempty"`
-	MobileDevices     MobileDeviceLink  `json:"mobile_devices,omitempty" xml:"mobile_devices,omitempty"`
-	VPPAssignments    VPPAssignmentLink `json:"vpp_assignments,omitempty" xml:"vpp_assignments,omitempty"`
-	TotalVPPCodeCount int               `json:"total_vpp_code_count,omitempty" xml:"total_vpp_code_count,omitempty"`
+type UserDataSubsetUserLinks struct {
+	Computers         []UserDataSubsetComputer      `xml:"computers>computer"`
+	Peripherals       []UserDataSubsetPeripheral    `xml:"peripherals>peripheral"`
+	MobileDevices     []UserDataSubsetMobileDevice  `xml:"mobile_devices>mobile_device"`
+	VPPAssignments    []UserDataSubsetVPPAssignment `xml:"vpp_assignments>vpp_assignment"`
+	TotalVPPCodeCount int                           `xml:"total_vpp_code_count"`
 }
 
-type ComputerLink struct {
-	Computer UsersDataSubsetItem `json:"computer" xml:"computer"`
+type UserDataSubsetComputer struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
-type PeripheralLink struct {
-	Peripheral UsersDataSubsetItem `json:"peripheral" xml:"peripheral"`
+type UserDataSubsetPeripheral struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
-type MobileDeviceLink struct {
-	MobileDevice UsersDataSubsetItem `json:"mobile_device" xml:"mobile_device"`
+type UserDataSubsetMobileDevice struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
-type VPPAssignmentLink struct {
-	VPPAssignment UsersDataSubsetItem `json:"vpp_assignment" xml:"vpp_assignment"`
+type UserDataSubsetVPPAssignment struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
-type UsersDataSubsetItem struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
+// GetUsers retrieves a list of all users.
+func (c *Client) GetUsers() (*ResponseUsersList, error) {
+	endpoint := uriUsers
+
+	var usersList ResponseUsersList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &usersList)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch users: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &usersList, nil
 }
 
-type ResponseUsers struct {
-	Size  int            `xml:"size"`
-	Users []ResponseUser `xml:"user"`
+// GetUserByID retrieves the details of a user by their ID.
+func (c *Client) GetUserByID(id int) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+
+	var userDetail ResponseUser
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch user by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &userDetail, nil
 }
 
-type ResponseUserList struct {
-	Size  int            `json:"size" xml:"size"`
-	Users []UserListItem `json:"user" xml:"user"`
+// GetUserByName retrieves the details of a user by their name.
+func (c *Client) GetUserByName(name string) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
+
+	var userDetail ResponseUser
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch user by name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &userDetail, nil
 }
 
-type UserListItem struct {
-	ID   int    `json:"id" xml:"id"`
-	Name string `json:"name" xml:"name"`
+// GetUserByEmail retrieves the details of a user by their email.
+func (c *Client) GetUserByEmail(email string) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
+
+	var userDetail ResponseUser
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch user by email: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &userDetail, nil
 }
 
-// Functions TODO
+// CreateUser creates a new user.
+func (c *Client) CreateUser(newUser *ResponseUser) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/id/0", uriUsers) // Using ID 0 for creation
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"user"`
+		*ResponseUser
+	}{
+		ResponseUser: newUser,
+	}
+
+	var createdUser ResponseUser
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUser)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create user: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &createdUser, nil
+}
+
+// UpdateUserByID updates a user's details by their ID.
+func (c *Client) UpdateUserByID(id int, updatedUser *ResponseUser) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"user"`
+		*ResponseUser
+	}{
+		ResponseUser: updatedUser,
+	}
+
+	var user ResponseUser
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update user by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &user, nil
+}
+
+// UpdateUserByName updates a user's details by their name.
+func (c *Client) UpdateUserByName(name string, updatedUser *ResponseUser) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"user"`
+		*ResponseUser
+	}{
+		ResponseUser: updatedUser,
+	}
+
+	var user ResponseUser
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update user by name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &user, nil
+}
+
+// UpdateUserByEmail updates a user's details by their email.
+func (c *Client) UpdateUserByEmail(email string, updatedUser *ResponseUser) (*ResponseUser, error) {
+	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"user"`
+		*ResponseUser
+	}{
+		ResponseUser: updatedUser,
+	}
+
+	var user ResponseUser
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update user by email: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &user, nil
+}
+
+// DeleteUserByID deletes a user by their ID.
+func (c *Client) DeleteUserByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete user by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeleteUserByName deletes a user by their name.
+func (c *Client) DeleteUserByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete user by name: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeleteUserByEmail deletes a user by their email.
+func (c *Client) DeleteUserByEmail(email string) error {
+	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete user by email: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
