@@ -186,7 +186,7 @@ func main() {
 
 ### API Coverage Progress
 
-Date: Nov-2023 
+Date: Dec-2023 
 Maintainer: [ShocOne]
 
 ## Overview
@@ -685,346 +685,436 @@ This documentation provides details on the API endpoints available for managing 
 
 ### Jamf Pro Classic API - eBooks
 
-This documentation provides details on the API endpoints available for managing dock items within Jamf Pro using the Classic API, which requires XML data structure support.
+This documentation outlines the operations available for managing eBooks within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/ebooks`
-  `GetEbooks` retrieves a serialized list of all ebooks.
+  - `GetEbooks` operation retrieves a serialized list of all eBooks.
 
 - [x] ✅ **GET** `/JSSResource/ebooks/id/{id}`
-  `GetEbooksByID` fetches a single ebook by its ID.
+  - `GetEbookByID` operation fetches a single eBook by its ID.
 
 - [x] ✅ **GET** `/JSSResource/ebooks/name/{name}`
-  `GetEbooksByName` retrieves an ebook by its name.
+  - `GetEbookByName` operation retrieves an eBook by its name.
 
 - [x] ✅ **GET** `/JSSResource/ebooks/name/{name}/subset/{subset}`
-  `GetEbooksByNameAndDataSubset` retrieves a specific subset (General, Scope, or SelfService) of an ebook by its name.
+  - `GetEbooksByNameAndDataSubset` operation retrieves a specific subset (General, Scope, or SelfService) of an eBook by its name.
 
 - [x] ✅ **POST** `/JSSResource/ebooks/id/0`
-  `CreateEbook` creates a new ebook with the provided details. The ID `0` in the endpoint indicates creation.
+  - `CreateEbook` operation creates a new eBook with the provided details. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/ebooks/id/{id}`
-  `UpdateEbookByID` updates an existing ebook by its ID.
+  - `UpdateEbookByID` operation updates an existing eBook by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/ebooks/name/{name}`
-  `UpdateEbookByName` updates an existing ebook by its name.
+  - `UpdateEbookByName` operation updates an existing eBook by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/ebooks/id/{id}`
-  `DeleteEbookByID` deletes an ebook by its ID.
+  - `DeleteEbookByID` operation deletes an eBook by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/ebooks/name/{name}`
-  `DeleteEbookByName` deletes an ebook by its name.
+  - `DeleteEbookByName` operation deletes an eBook by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/ebooks`
+  - `/JSSResource/ebooks/id/{id}`
+  - `/JSSResource/ebooks/name/{name}`
+
+- Total Operations Covered: 9
+
 
 ### Jamf Pro Classic API - VPP Mac Applications
 
-This documentation outlines the API endpoints available for managing VPP Mac applications within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing VPP Mac applications within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/macapplications`
-  `GetMacApplications` retrieves a serialized list of all VPP Mac applications.
+  - `GetMacApplications` operation retrieves a serialized list of all VPP Mac applications.
 
 - [x] ✅ **GET** `/JSSResource/macapplications/id/{id}`
-  `GetMacApplicationByID` fetches a single Mac application by its ID.
+  - `GetMacApplicationByID` operation fetches a single Mac application by its ID.
 
 - [x] ✅ **GET** `/JSSResource/macapplications/name/{name}`
-  `GetMacApplicationByName` retrieves a Mac application by its name.
+  - `GetMacApplicationByName` operation retrieves a Mac application by its name.
 
 - [x] ✅ **GET** `/JSSResource/macapplications/name/{name}/subset/{subset}`
-  `GetMacApplicationByNameAndDataSubset` retrieves a specific subset (General, Scope, SelfService, VPPCodes, and VPP) of a Mac application by its name.
+  - `GetMacApplicationByNameAndDataSubset` operation retrieves a specific subset (General, Scope, SelfService, VPPCodes, and VPP) of a Mac application by its name.
 
 - [x] ✅ **GET** `/JSSResource/macapplications/id/{id}/subset/{subset}`
-  `GetMacApplicationByIDAndDataSubset` retrieves a specific subset (General, Scope, SelfService, VPPCodes, and VPP) of a Mac application by its ID.
+  - `GetMacApplicationByIDAndDataSubset` operation retrieves a specific subset (General, Scope, SelfService, VPPCodes, and VPP) of a Mac application by its ID.
 
 - [x] ✅ **POST** `/JSSResource/macapplications/id/0`
-  `CreateMacApplication` creates a new Mac application with the provided details. The ID `0` in the endpoint indicates creation.
+  - `CreateMacApplication` operation creates a new Mac application with the provided details. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/macapplications/id/{id}`
-  `UpdateMacApplicationByID` updates an existing Mac application by its ID.
+  - `UpdateMacApplicationByID` operation updates an existing Mac application by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/macapplications/name/{name}`
-  `UpdateMacApplicationByName` updates an existing Mac application by its name.
+  - `UpdateMacApplicationByName` operation updates an existing Mac application by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/macapplications/id/{id}`
-  `DeleteMacApplicationByID` deletes a Mac application by its ID.
+  - `DeleteMacApplicationByID` operation deletes a Mac application by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/macapplications/name/{name}`
-  `DeleteMacApplicationByName` deletes a Mac application by its name.
+  - `DeleteMacApplicationByName` operation deletes a Mac application by its name.
 
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/macapplications`
+  - `/JSSResource/macapplications/id/{id}`
+  - `/JSSResource/macapplications/name/{name}`
+
+- Total Operations Covered: 10
 
 ### Jamf Pro Classic API - iBeacons
 
-This documentation outlines the API endpoints available for managing iBeacons within Jamf Pro using the Classic API, which supports XML data structures
+This documentation outlines the operations available for managing iBeacons within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/ibeacons`
-  `GetIBeacons` retrieves a serialized list of all iBeacons.
+  - `GetIBeacons` operation retrieves a serialized list of all iBeacons.
 
 - [x] ✅ **GET** `/JSSResource/ibeacons/id/{id}`
-  `GetIBeaconByID` fetches a single iBeacon by its ID.
+  - `GetIBeaconByID` operation fetches a single iBeacon by its ID.
 
 - [x] ✅ **GET** `/JSSResource/ibeacons/name/{name}`
-  `GetIBeaconByName` retrieves an iBeacon by its name.
+  - `GetIBeaconByName` operation retrieves an iBeacon by its name.
 
 - [x] ✅ **POST** `/JSSResource/ibeacons/id/0`
-  `CreateIBeacon` creates a new iBeacon with the provided details. The ID `0` in the endpoint indicates creation.
+  - `CreateIBeacon` operation creates a new iBeacon with the provided details. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/ibeacons/id/{id}`
-  `UpdateIBeaconByID` updates an existing iBeacon by its ID.
+  - `UpdateIBeaconByID` operation updates an existing iBeacon by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/ibeacons/name/{name}`
-  `UpdateIBeaconByName` updates an existing iBeacon by its name.
+  - `UpdateIBeaconByName` operation updates an existing iBeacon by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/ibeacons/id/{id}`
-  `DeleteIBeaconByID` deletes an iBeacon by its ID.
+  - `DeleteIBeaconByID` operation deletes an iBeacon by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/ibeacons/name/{name}`
-  `DeleteIBeaconByName` deletes an iBeacon by its name.
+  - `DeleteIBeaconByName` operation deletes an iBeacon by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/ibeacons`
+  - `/JSSResource/ibeacons/id/{id}`
+  - `/JSSResource/ibeacons/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - LDAP Servers
 
-This documentation outlines the API endpoints available for managing LDAP servers within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing LDAP servers within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/ldapservers`
-  `GetLDAPServers` retrieves a serialized list of all LDAP servers.
+  - `GetLDAPServers` operation retrieves a serialized list of all LDAP servers.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}`
-  `GetLDAPServerByID` fetches a single LDAP server by its ID.
+  - `GetLDAPServerByID` operation fetches a single LDAP server by its ID.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}`
-  `GetLDAPServerByName` retrieves a LDAP server by its name.
+  - `GetLDAPServerByName` operation retrieves an LDAP server by its name.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}/user/{user}`
-  `GetLDAPServerByIDAndUserDataSubset` retrieves user data for a specific LDAP server by its ID.
+  - `GetLDAPServerByIDAndUserDataSubset` operation retrieves user data for a specific LDAP server by its ID.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}/group/{group}`
-  `GetLDAPServerByIDAndGroupDataSubset` retrieves group data for a specific LDAP server by its ID.
+  - `GetLDAPServerByIDAndGroupDataSubset` operation retrieves group data for a specific LDAP server by its ID.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/id/{id}/group/{group}/user/{user}`
-  `GetLDAPServerByIDAndUserMembershipInGroupDataSubset` retrieves user group membership details for a specific LDAP server by its ID.
+  - `GetLDAPServerByIDAndUserMembershipInGroupDataSubset` operation retrieves user group membership details for a specific LDAP server by its ID.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}/user/{user}`
-  `GetLDAPServerByNameAndUserDataSubset` retrieves user data for a specific LDAP server by its name.
+  - `GetLDAPServerByNameAndUserDataSubset` operation retrieves user data for a specific LDAP server by its name.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}/group/{group}`
-  `GetLDAPServerByNameAndGroupDataSubset` retrieves group data for a specific LDAP server by its name.
+  - `GetLDAPServerByNameAndGroupDataSubset` operation retrieves group data for a specific LDAP server by its name.
 
 - [x] ✅ **GET** `/JSSResource/ldapservers/name/{name}/group/{group}/user/{user}`
-  `GetLDAPServerByNameAndUserMembershipInGroupDataSubset` retrieves user group membership details for a specific LDAP server by its name.
+  - `GetLDAPServerByNameAndUserMembershipInGroupDataSubset` operation retrieves user group membership details for a specific LDAP server by its name.
 
 - [x] ✅ **POST** `/JSSResource/ldapservers/id/0`
-  `CreateLDAPServer` creates a new LDAP server with the provided details.
+  - `CreateLDAPServer` operation creates a new LDAP server with the provided details.
 
 - [x] ✅ **PUT** `/JSSResource/ldapservers/id/{id}`
-  `UpdateLDAPServerByID` updates an existing LDAP server by its ID.
+  - `UpdateLDAPServerByID` operation updates an existing LDAP server by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/ldapservers/name/{name}`
-  `UpdateLDAPServerByName` updates an existing LDAP server by its name.
+  - `UpdateLDAPServerByName` operation updates an existing LDAP server by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/ldapservers/id/{id}`
-  `DeleteLDAPServerByID` deletes an LDAP server by its ID.
+  - `DeleteLDAPServerByID` operation deletes an LDAP server by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/ldapservers/name/{name}`
-  `DeleteLDAPServerByName` deletes an LDAP server by its name.
+  - `DeleteLDAPServerByName` operation deletes an LDAP server by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/ldapservers`
+  - `/JSSResource/ldapservers/id/{id}`
+  - `/JSSResource/ldapservers/name/{name}`
+
+- Total Operations Covered: 14
+
 
 ### Jamf Pro Classic API - Licensed Software
 
-This documentation outlines the API endpoints available for managing Licensed Software within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Licensed Software within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/licensedsoftware`
-  `GetLicensedSoftware` retrieves a serialized list of all Licensed Software.
+  - `GetLicensedSoftware` operation retrieves a serialized list of all Licensed Software.
 
 - [x] ✅ **GET** `/JSSResource/licensedsoftware/id/{id}`
-  `GetLicensedSoftwareByID` fetches details of a single Licensed Software item by its ID.
+  - `GetLicensedSoftwareByID` operation fetches details of a single Licensed Software item by its ID.
 
 - [x] ✅ **GET** `/JSSResource/licensedsoftware/name/{name}`
-  `GetLicensedSoftwareByName` retrieves details of a Licensed Software item by its name.
+  - `GetLicensedSoftwareByName` operation retrieves details of a Licensed Software item by its name.
 
 - [x] ✅ **POST** `/JSSResource/licensedsoftware/id/0`
-  `CreateLicensedSoftware` creates a new Licensed Software item. The ID `0` in the endpoint indicates creation.
+  - `CreateLicensedSoftware` operation creates a new Licensed Software item. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/licensedsoftware/id/{id}`
-  `UpdateLicensedSoftwareByID` updates an existing Licensed Software item by its ID.
+  - `UpdateLicensedSoftwareByID` operation updates an existing Licensed Software item by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/licensedsoftware/name/{name}`
-  `UpdateLicensedSoftwareByName` updates an existing Licensed Software item by its name.
+  - `UpdateLicensedSoftwareByName` operation updates an existing Licensed Software item by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/licensedsoftware/id/{id}`
-  `DeleteLicensedSoftwareByID` deletes a Licensed Software item by its ID.
+  - `DeleteLicensedSoftwareByID` operation deletes a Licensed Software item by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/licensedsoftware/name/{name}`
-  `DeleteLicensedSoftwareByName` deletes a Licensed Software item by its name.
+  - `DeleteLicensedSoftwareByName` operation deletes a Licensed Software item by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/licensedsoftware`
+  - `/JSSResource/licensedsoftware/id/{id}`
+  - `/JSSResource/licensedsoftware/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - Mobile Device Applications
 
-This documentation outlines the API endpoints available for managing Mobile Device Applications within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Mobile Device Applications within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications`
-  `GetMobileDeviceApplications` retrieves a serialized list of all Mobile Device Applications.
+  - `GetMobileDeviceApplications` operation retrieves a serialized list of all Mobile Device Applications.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/id/{id}`
-  `GetMobileDeviceApplicationByID` fetches details of a single Mobile Device Application by its ID.
+  - `GetMobileDeviceApplicationByID` operation fetches details of a single Mobile Device Application by its ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/name/{name}`
-  `GetMobileDeviceApplicationByName` retrieves details of a Mobile Device Application by its name.
+  - `GetMobileDeviceApplicationByName` operation retrieves details of a Mobile Device Application by its name.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
-  `GetMobileDeviceApplicationByAppBundleID` fetches details of a Mobile Device Application by its Bundle ID.
+  - `GetMobileDeviceApplicationByAppBundleID` operation fetches details of a Mobile Device Application by its Bundle ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}/version/{version}`
-  `GetMobileDeviceApplicationByAppBundleIDAndVersion` fetches details of a Mobile Device Application by its Bundle ID and specific version.
+  - `GetMobileDeviceApplicationByAppBundleIDAndVersion` operation fetches details of a Mobile Device Application by its Bundle ID and specific version.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/id/{id}/subset/{subset}`
-  `GetMobileDeviceApplicationByIDAndDataSubset` fetches a Mobile Device Application by its ID and a specified data subset.
+  - `GetMobileDeviceApplicationByIDAndDataSubset` operation fetches a Mobile Device Application by its ID and a specified data subset.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceapplications/name/{name}/subset/{subset}`
-  `GetMobileDeviceApplicationByNameAndDataSubset` fetches a Mobile Device Application by its name and a specified data subset.
+  - `GetMobileDeviceApplicationByNameAndDataSubset` operation fetches a Mobile Device Application by its name and a specified data subset.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceapplications/id/0`
-  `CreateMobileDeviceApplication` creates a new Mobile Device Application. The ID `0` in the endpoint indicates creation.
+  - `CreateMobileDeviceApplication` operation creates a new Mobile Device Application. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/id/{id}`
-  `UpdateMobileDeviceApplicationByID` updates an existing Mobile Device Application by its ID.
+  - `UpdateMobileDeviceApplicationByID` operation updates an existing Mobile Device Application by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/name/{name}`
-  `UpdateMobileDeviceApplicationByName` updates an existing Mobile Device Application by its name.
+  - `UpdateMobileDeviceApplicationByName` operation updates an existing Mobile Device Application by its name.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
-  `UpdateMobileDeviceApplicationByApplicationBundleID` updates an existing Mobile Device Application by its Bundle ID.
+  - `UpdateMobileDeviceApplicationByApplicationBundleID` operation updates an existing Mobile Device Application by its Bundle ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}/version/{version}`
-  `UpdateMobileDeviceApplicationByIDAndAppVersion` updates an existing Mobile Device Application by its ID and specific version.
+  - `UpdateMobileDeviceApplicationByIDAndAppVersion` operation updates an existing Mobile Device Application by its ID and specific version.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/id/{id}`
-  `DeleteMobileDeviceApplicationByID` deletes a Mobile Device Application by its ID.
+  - `DeleteMobileDeviceApplicationByID` operation deletes a Mobile Device Application by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/name/{name}`
-  `DeleteMobileDeviceApplicationByName` deletes a Mobile Device Application by its name.
+  - `DeleteMobileDeviceApplicationByName` operation deletes a Mobile Device Application by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
-  `DeleteMobileDeviceApplicationByBundleID` deletes a Mobile Device Application by its Bundle ID.
+  - `DeleteMobileDeviceApplicationByBundleID` operation deletes a Mobile Device Application by its Bundle ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}/version/{version}`
-  `DeleteMobileDeviceApplicationByBundleIDAndVersion` deletes a Mobile Device Application by its Bundle ID and specific version.
+  - `DeleteMobileDeviceApplicationByBundleIDAndVersion` operation deletes a Mobile Device Application by its Bundle ID and specific version.
+
+## Summary
+
+- Total Endpoints Covered: 4
+  - `/JSSResource/mobiledeviceapplications`
+  - `/JSSResource/mobiledeviceapplications/id/{id}`
+  - `/JSSResource/mobiledeviceapplications/name/{name}`
+  - `/JSSResource/mobiledeviceapplications/bundleid/{bundleid}`
+
+- Total Operations Covered: 14
+
 
 ### Jamf Pro Classic API - Mobile Device Configuration Profiles
 
-This documentation outlines the API endpoints available for managing Mobile Device Configuration Profiles within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Mobile Device Configuration Profiles within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceconfigurationprofiles`
-  `GetMobileDeviceConfigurationProfiles` retrieves a serialized list of all Mobile Device Configuration Profiles.
+  - `GetMobileDeviceConfigurationProfiles` operation retrieves a serialized list of all Mobile Device Configuration Profiles.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceconfigurationprofiles/id/{id}`
-  `GetMobileDeviceConfigurationProfileByID` fetches details of a single Mobile Device Configuration Profile by its ID.
+  - `GetMobileDeviceConfigurationProfileByID` operation fetches details of a single Mobile Device Configuration Profile by its ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceconfigurationprofiles/name/{name}`
-  `GetMobileDeviceConfigurationProfileByName` retrieves details of a Mobile Device Configuration Profile by its name.
+  - `GetMobileDeviceConfigurationProfileByName` operation retrieves details of a Mobile Device Configuration Profile by its name.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceconfigurationprofiles/id/{id}/subset/{subset}`
-  `GetMobileDeviceConfigurationProfileByIDBySubset` fetches a specific Mobile Device Configuration Profile by its ID and a specified subset.
+  - `GetMobileDeviceConfigurationProfileByIDBySubset` operation fetches a specific Mobile Device Configuration Profile by its ID and a specified subset.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceconfigurationprofiles/name/{name}/subset/{subset}`
-  `GetMobileDeviceConfigurationProfileByNameBySubset` fetches a specific Mobile Device Configuration Profile by its name and a specified subset.
+  - `GetMobileDeviceConfigurationProfileByNameBySubset` operation fetches a specific Mobile Device Configuration Profile by its name and a specified subset.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceconfigurationprofiles/id/0`
-  `CreateMobileDeviceConfigurationProfile` creates a new Mobile Device Configuration Profile. The ID `0` in the endpoint indicates creation.
+  - `CreateMobileDeviceConfigurationProfile` operation creates a new Mobile Device Configuration Profile. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceconfigurationprofiles/id/{id}`
-  `UpdateMobileDeviceConfigurationProfileByID` updates an existing Mobile Device Configuration Profile by its ID.
+  - `UpdateMobileDeviceConfigurationProfileByID` operation updates an existing Mobile Device Configuration Profile by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceconfigurationprofiles/name/{name}`
-  `UpdateMobileDeviceConfigurationProfileByName` updates an existing Mobile Device Configuration Profile by its name.
+  - `UpdateMobileDeviceConfigurationProfileByName` operation updates an existing Mobile Device Configuration Profile by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceconfigurationprofiles/id/{id}`
-  `DeleteMobileDeviceConfigurationProfileByID` deletes a Mobile Device Configuration Profile by its ID.
+  - `DeleteMobileDeviceConfigurationProfileByID` operation deletes a Mobile Device Configuration Profile by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceconfigurationprofiles/name/{name}`
-  `DeleteMobileDeviceConfigurationProfileByName` deletes a Mobile Device Configuration Profile by its name.
+  - `DeleteMobileDeviceConfigurationProfileByName` operation deletes a Mobile Device Configuration Profile by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/mobiledeviceconfigurationprofiles`
+  - `/JSSResource/mobiledeviceconfigurationprofiles/id/{id}`
+  - `/JSSResource/mobiledeviceconfigurationprofiles/name/{name}`
+
+- Total Operations Covered: 10
+
 
 ### Jamf Pro Classic API - Mobile Extension Attributes
 
-This documentation outlines the API endpoints available for managing Mobile Extension Attributes within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Mobile Extension Attributes within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceextensionattributes`
-  `GetMobileExtensionAttributes` retrieves a serialized list of all Mobile Extension Attributes.
+  - `GetMobileExtensionAttributes` operation retrieves a serialized list of all Mobile Extension Attributes.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceextensionattributes/id/{id}`
-  `GetMobileExtensionAttributeByID` fetches details of a single Mobile Extension Attribute by its ID.
+  - `GetMobileExtensionAttributeByID` operation fetches details of a single Mobile Extension Attribute by its ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceextensionattributes/name/{name}`
-  `GetMobileExtensionAttributeByName` retrieves details of a Mobile Extension Attribute by its name.
+  - `GetMobileExtensionAttributeByName` operation retrieves details of a Mobile Extension Attribute by its name.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceextensionattributes/id/0`
-  `CreateMobileExtensionAttribute` creates a new Mobile Extension Attribute. The ID `0` in the endpoint indicates creation.
+  - `CreateMobileExtensionAttribute` operation creates a new Mobile Extension Attribute. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceextensionattributes/id/{id}`
-  `UpdateMobileExtensionAttributeByID` updates an existing Mobile Extension Attribute by its ID.
+  - `UpdateMobileExtensionAttributeByID` operation updates an existing Mobile Extension Attribute by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceextensionattributes/name/{name}`
-  `UpdateMobileExtensionAttributeByName` updates an existing Mobile Extension Attribute by its name.
+  - `UpdateMobileExtensionAttributeByName` operation updates an existing Mobile Extension Attribute by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceextensionattributes/id/{id}`
-  `DeleteMobileExtensionAttributeByID` deletes a Mobile Extension Attribute by its ID.
+  - `DeleteMobileExtensionAttributeByID` operation deletes a Mobile Extension Attribute by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceextensionattributes/name/{name}`
-  `DeleteMobileExtensionAttributeByName` deletes a Mobile Extension Attribute by its name.
+  - `DeleteMobileExtensionAttributeByName` operation deletes a Mobile Extension Attribute by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/mobiledeviceextensionattributes`
+  - `/JSSResource/mobiledeviceextensionattributes/id/{id}`
+  - `/JSSResource/mobiledeviceextensionattributes/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - Mobile Device Enrollment Profiles
 
-This documentation outlines the API endpoints available for managing Mobile Device Enrollment Profiles within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Mobile Device Enrollment Profiles within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles`
-  `GetMobileDeviceEnrollmentProfiles` retrieves a serialized list of all Mobile Device Enrollment Profiles.
+  - `GetMobileDeviceEnrollmentProfiles` operation retrieves a serialized list of all Mobile Device Enrollment Profiles.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
-  `GetMobileDeviceEnrollmentProfileByID` fetches details of a single Mobile Device Enrollment Profile by its ID.
+  - `GetMobileDeviceEnrollmentProfileByID` operation fetches details of a single Mobile Device Enrollment Profile by its ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
-  `GetMobileDeviceEnrollmentProfileByName` retrieves details of a Mobile Device Enrollment Profile by its name.
+  - `GetMobileDeviceEnrollmentProfileByName` operation retrieves details of a Mobile Device Enrollment Profile by its name.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
-  `GetProfileByInvitation` fetches a Mobile Device Enrollment Profile by its invitation.
+  - `GetProfileByInvitation` operation fetches a Mobile Device Enrollment Profile by its invitation.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}/subset/{subset}`
-  `GetMobileDeviceEnrollmentProfileByIDBySubset` fetches a specific Mobile Device Enrollment Profile by its ID and a specified subset.
+  - `GetMobileDeviceEnrollmentProfileByIDBySubset` operation fetches a specific Mobile Device Enrollment Profile by its ID and a specified subset.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}/subset/{subset}`
-  `GetMobileDeviceEnrollmentProfileByNameBySubset` fetches a specific Mobile Device Enrollment Profile by its name and a specified subset.
+  - `GetMobileDeviceEnrollmentProfileByNameBySubset` operation fetches a specific Mobile Device Enrollment Profile by its name and a specified subset.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceenrollmentprofiles/id/0`
-  `CreateMobileDeviceEnrollmentProfile` creates a new Mobile Device Enrollment Profile. The ID `0` in the endpoint indicates creation.
+  - `CreateMobileDeviceEnrollmentProfile` operation creates a new Mobile Device Enrollment Profile. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
-  `UpdateMobileDeviceEnrollmentProfileByID` updates an existing Mobile Device Enrollment Profile by its ID.
+  - `UpdateMobileDeviceEnrollmentProfileByID` operation updates an existing Mobile Device Enrollment Profile by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
-  `UpdateMobileDeviceEnrollmentProfileByName` updates an existing Mobile Device Enrollment Profile by its name.
+  - `UpdateMobileDeviceEnrollmentProfileByName` operation updates an existing Mobile Device Enrollment Profile by its name.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
-  `UpdateMobileDeviceEnrollmentProfileByInvitation` updates an existing Mobile Device Enrollment Profile by its invitation.
+  - `UpdateMobileDeviceEnrollmentProfileByInvitation` operation updates an existing Mobile Device Enrollment Profile by its invitation.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
-  `DeleteMobileDeviceEnrollmentProfileByID` deletes a Mobile Device Enrollment Profile by its ID.
+  - `DeleteMobileDeviceEnrollmentProfileByID` operation deletes a Mobile Device Enrollment Profile by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
-  `DeleteMobileDeviceEnrollmentProfileByName` deletes a Mobile Device Enrollment Profile by its name.
+  - `DeleteMobileDeviceEnrollmentProfileByName` operation deletes a Mobile Device Enrollment Profile by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
-  `DeleteMobileDeviceEnrollmentProfileByInvitation` deletes a Mobile Device Enrollment Profile by its invitation.
+  - `DeleteMobileDeviceEnrollmentProfileByInvitation` operation deletes a Mobile Device Enrollment Profile by its invitation.
+
+## Summary
+
+- Total Endpoints Covered: 4
+  - `/JSSResource/mobiledeviceenrollmentprofiles`
+  - `/JSSResource/mobiledeviceenrollmentprofiles/id/{id}`
+  - `/JSSResource/mobiledeviceenrollmentprofiles/name/{name}`
+  - `/JSSResource/mobiledeviceenrollmentprofiles/invitation/{invitation}`
+
+- Total Operations Covered: 12
+
 
 ### Jamf Pro Classic API - Printers
 
@@ -1058,149 +1148,229 @@ This documentation outlines the API endpoints available for managing printers wi
 
 ### Jamf Pro Classic API - Network Segments
 
-This documentation outlines the API endpoints available for managing Network Segments within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Network Segments within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/networksegments`
-  `GetNetworkSegments` retrieves a serialized list of all Network Segments.
+  - `GetNetworkSegments` operation retrieves a serialized list of all Network Segments.
 
 - [x] ✅ **GET** `/JSSResource/networksegments/id/{id}`
-  `GetNetworkSegmentByID` fetches details of a single Network Segment by its ID.
+  - `GetNetworkSegmentByID` operation fetches details of a single Network Segment by its ID.
 
 - [x] ✅ **GET** `/JSSResource/networksegments/name/{name}`
-  `GetNetworkSegmentByName` retrieves details of a Network Segment by its name.
+  - `GetNetworkSegmentByName` operation retrieves details of a Network Segment by its name.
 
 - [x] ✅ **POST** `/JSSResource/networksegments/id/0`
-  `CreateNetworkSegment` creates a new Network Segment. The ID `0` in the endpoint indicates creation.
+  - `CreateNetworkSegment` operation creates a new Network Segment. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/networksegments/id/{id}`
-  `UpdateNetworkSegmentByID` updates an existing Network Segment by its ID.
+  - `UpdateNetworkSegmentByID` operation updates an existing Network Segment by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/networksegments/name/{name}`
-  `UpdateNetworkSegmentByName` updates an existing Network Segment by its name.
+  - `UpdateNetworkSegmentByName` operation updates an existing Network Segment by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/networksegments/id/{id}`
-  `DeleteNetworkSegmentByID` deletes a Network Segment by its ID.
+  - `DeleteNetworkSegmentByID` operation deletes a Network Segment by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/networksegments/name/{name}`
-  `DeleteNetworkSegmentByName` deletes a Network Segment by its name.
+  - `DeleteNetworkSegmentByName` operation deletes a Network Segment by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/networksegments`
+  - `/JSSResource/networksegments/id/{id}`
+  - `/JSSResource/networksegments/name/{name}`
+
+- Total Operations Covered: 8
 
 ### Jamf Pro Classic API - Mobile Device Groups
 
-This documentation outlines the API endpoints available for managing Mobile Device Groups within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Mobile Device Groups within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/mobiledevicegroups`
-  `GetMobileDeviceGroups` retrieves a serialized list of all Mobile Device Groups.
+  - `GetMobileDeviceGroups` operation retrieves a serialized list of all Mobile Device Groups.
 
 - [x] ✅ **GET** `/JSSResource/mobiledevicegroups/id/{id}`
-  `GetMobileDeviceGroupByID` fetches details of a single Mobile Device Group by its ID.
+  - `GetMobileDeviceGroupByID` operation fetches details of a single Mobile Device Group by its ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledevicegroups/name/{name}`
-  `GetMobileDeviceGroupByName` retrieves details of a Mobile Device Group by its name.
+  - `GetMobileDeviceGroupByName` operation retrieves details of a Mobile Device Group by its name.
 
 - [x] ✅ **POST** `/JSSResource/mobiledevicegroups/id/0`
-  `CreateMobileDeviceGroup` creates a new Mobile Device Group. The ID `0` in the endpoint indicates creation.
+  - `CreateMobileDeviceGroup` operation creates a new Mobile Device Group. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledevicegroups/id/{id}`
-  `UpdateMobileDeviceGroupByID` updates an existing Mobile Device Group by its ID.
+  - `UpdateMobileDeviceGroupByID` operation updates an existing Mobile Device Group by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledevicegroups/name/{name}`
-  `UpdateMobileDeviceGroupByName` updates an existing Mobile Device Group by its name.
+  - `UpdateMobileDeviceGroupByName` operation updates an existing Mobile Device Group by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledevicegroups/id/{id}`
-  `DeleteMobileDeviceGroupByID` deletes a Mobile Device Group by its ID.
+  - `DeleteMobileDeviceGroupByID` operation deletes a Mobile Device Group by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledevicegroups/name/{name}`
-  `DeleteMobileDeviceGroupByName` deletes a Mobile Device Group by its name.
+  - `DeleteMobileDeviceGroupByName` operation deletes a Mobile Device Group by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/mobiledevicegroups`
+  - `/JSSResource/mobiledevicegroups/id/{id}`
+  - `/JSSResource/mobiledevicegroups/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - Mobile Device Provisioning Profiles
 
-This documentation outlines the API endpoints available for managing Mobile Device Provisioning Profiles within Jamf Pro using the Classic API, which supports XML data structures.
+This documentation outlines the operations available for managing Mobile Device Provisioning Profiles within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles`
-  `GetMobileDeviceProvisioningProfiles` retrieves a serialized list of all Mobile Device Provisioning Profiles.
+  - `GetMobileDeviceProvisioningProfiles` operation retrieves a serialized list of all Mobile Device Provisioning Profiles.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
-  `GetMobileDeviceProvisioningProfileByID` fetches a specific Mobile Device Provisioning Profile by its ID.
+  - `GetMobileDeviceProvisioningProfileByID` operation fetches a specific Mobile Device Provisioning Profile by its ID.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
-  `GetMobileDeviceProvisioningProfileByName` fetches a specific Mobile Device Provisioning Profile by its name.
+  - `GetMobileDeviceProvisioningProfileByName` operation fetches a specific Mobile Device Provisioning Profile by its name.
 
 - [x] ✅ **GET** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
-  `GetMobileDeviceProvisioningProfileByUUID` fetches a specific Mobile Device Provisioning Profile by its UUID.
+  - `GetMobileDeviceProvisioningProfileByUUID` operation fetches a specific Mobile Device Provisioning Profile by its UUID.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
-  `CreateMobileDeviceProvisioningProfileByID` creates a new Mobile Device Provisioning Profile by its ID.
+  - `CreateMobileDeviceProvisioningProfileByID` operation creates a new Mobile Device Provisioning Profile by its ID.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
-  `CreateMobileDeviceProvisioningProfileByName` creates a new Mobile Device Provisioning Profile by its name.
+  - `CreateMobileDeviceProvisioningProfileByName` operation creates a new Mobile Device Provisioning Profile by its name.
 
 - [x] ✅ **POST** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
-  `CreateMobileDeviceProvisioningProfileByUUID` creates a new Mobile Device Provisioning Profile by its UUID.
+  - `CreateMobileDeviceProvisioningProfileByUUID` operation creates a new Mobile Device Provisioning Profile by its UUID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
-  `UpdateMobileDeviceProvisioningProfileByID` updates an existing Mobile Device Provisioning Profile by its ID.
+  - `UpdateMobileDeviceProvisioningProfileByID` operation updates an existing Mobile Device Provisioning Profile by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
-  `UpdateMobileDeviceProvisioningProfileByName` updates an existing Mobile Device Provisioning Profile by its name.
+  - `UpdateMobileDeviceProvisioningProfileByName` operation updates an existing Mobile Device Provisioning Profile by its name.
 
 - [x] ✅ **PUT** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
-  `UpdateMobileDeviceProvisioningProfileByUUID` updates an existing Mobile Device Provisioning Profile by its UUID.
+  - `UpdateMobileDeviceProvisioningProfileByUUID` operation updates an existing Mobile Device Provisioning Profile by its UUID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
-  `DeleteMobileDeviceProvisioningProfileByID` deletes a Mobile Device Provisioning Profile by its ID.
+  - `DeleteMobileDeviceProvisioningProfileByID` operation deletes a Mobile Device Provisioning Profile by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
-  `DeleteMobileDeviceProvisioningProfileByName` deletes a Mobile Device Provisioning Profile by its name.
+  - `DeleteMobileDeviceProvisioningProfileByName` operation deletes a Mobile Device Provisioning Profile by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
-  `DeleteMobileDeviceProvisioningProfileByUUID` deletes a Mobile Device Provisioning Profile by its UUID.
+  - `DeleteMobileDeviceProvisioningProfileByUUID` operation deletes a Mobile Device Provisioning Profile by its UUID.
+
+## Summary
+
+- Total Endpoints Covered: 4
+  - `/JSSResource/mobiledeviceprovisioningprofiles`
+  - `/JSSResource/mobiledeviceprovisioningprofiles/id/{id}`
+  - `/JSSResource/mobiledeviceprovisioningprofiles/name/{name}`
+  - `/JSSResource/mobiledeviceprovisioningprofiles/uuid/{uuid}`
+
+- Total Operations Covered: 12
 
 ### Jamf Pro API - Buildings
 
-This documentation outlines the API endpoints available for managing Buildings within Jamf Pro using the API, which supports JSON data structures.
+This documentation outlines the operations available for managing Buildings within Jamf Pro using the API, which supports JSON data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/api/v1/buildings`
-  `GetBuildings` retrieves a serialized list of all buildings.
+  - `GetBuildings` operation retrieves a serialized list of all buildings.
 
 - [x] ✅ **GET** `/api/v1/buildings/{id}`
-  `GetBuildingByID` fetches a specific building by its ID.
+  - `GetBuildingByID` operation fetches a specific building by its ID.
 
 - [x] ✅ **GET** `/api/v1/buildings/{id}/history`
-  `GetBuildingResourceHistoryByID` retrieves the resource history of a specific building by its ID.
+  - `GetBuildingResourceHistoryByID` operation retrieves the resource history of a specific building by its ID.
 
 - [x] ✅ **POST** `/api/v1/buildings`
-  `CreateBuilding` creates a new building.
+  - `CreateBuilding` operation creates a new building.
 
 - [x] ✅ **PUT** `/api/v1/buildings/{id}`
-  `UpdateBuildingByID` updates an existing building by its ID.
+  - `UpdateBuildingByID` operation updates an existing building by its ID.
 
 - [x] ✅ **POST** `/api/v1/buildings/{id}/history`
-  `CreateBuildingResourceHistoryByID` updates the resource history of a building by its ID.
+  - `CreateBuildingResourceHistoryByID` operation updates the resource history of a building by its ID.
 
 - [x] ✅ **DELETE** `/api/v1/buildings/{id}`
-  `DeleteBuildingByID` deletes a building by its ID.
+  - `DeleteBuildingByID` operation deletes a building by its ID.
 
 - [x] ✅ **POST** `/api/v1/buildings/delete-multiple`
-  `DeleteMultipleBuildingsByID` deletes multiple buildings by their IDs.
+  - `DeleteMultipleBuildingsByID` operation deletes multiple buildings by their IDs.
 
-- [x] ❌ **POST** `/api/v1/buildings/{id}/history/export`
+- [] ❌ **POST** `/api/v1/buildings/{id}/history/export`
+  - `ExportBuildingResourceHistoryByID` operation (not implemented/available).
 
+## Summary
+
+- Total Endpoints Covered: 4
+  - `/api/v1/buildings`
+  - `/api/v1/buildings/{id}`
+  - `/api/v1/buildings/{id}/history`
+  - `/api/v1/buildings/delete-multiple`
+
+- Total Operations Covered: 8
+- Total Operations Not Covered: 1
+
+### Jamf Pro Classic API - User Groups
+
+This documentation outlines the operations available for managing User Groups within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/usergroups`
+  - `GetUserGroups` operation retrieves a serialized list of all User Groups.
+
+- [x] ✅ **GET** `/JSSResource/usergroups/id/{id}`
+  - `GetUserGroupsByID` operation fetches a specific User Group by its ID.
+
+- [x] ✅ **GET** `/JSSResource/usergroups/name/{name}`
+  - `GetUserGroupsByName` operation fetches a specific User Group by its name.
+
+- [x] ✅ **POST** `/JSSResource/usergroups/id/0`
+  - `CreateUserGroup` operation creates a new User Group.
+
+- [x] ✅ **PUT** `/JSSResource/usergroups/id/{id}`
+  - `UpdateUserGroupByID` operation updates an existing User Group by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/usergroups/name/{name}`
+  - `UpdateUserGroupByName` operation updates an existing User Group by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/usergroups/id/{id}`
+  - `DeleteUserGroupByID` operation deletes a User Group by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/usergroups/name/{name}`
+  - `DeleteUserGroupByName` operation deletes a User Group by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/usergroups`
+  - `/JSSResource/usergroups/id/{id}`
+  - `/JSSResource/usergroups/name/{name}`
+
+- Total Operations Covered: 8
 
 
 ## Progress Summary
 
-- Total Endpoints: 377
-- Covered: 358
+- Total Operations: 367
+- Total Covered Operations: 358
 - Not Covered: 19
 - Partially Covered: 0
+- Deprecated: 
 
 
 ## Notes

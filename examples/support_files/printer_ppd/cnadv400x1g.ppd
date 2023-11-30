@@ -1,0 +1,2580 @@
+*PPD-Adobe: "4.3"
+*% PostScript(R) Printer Description File
+*% Copyright 2012 CANON INC.
+*%
+*% Permission is hereby granted, free of charge, to any person obtaining 
+*% a copy of this software and associated documentation files (the 
+*% "Software"), to deal in the Software without restriction, including 
+*% without limitation the rights to use, copy, modify, merge, publish, 
+*% distribute, sublicense, and/or sell copies of the Software, and to 
+*% permit persons to whom the Software is furnished to do so, subject to 
+*% the following conditions:
+*%
+*% The above copyright notice and this permission notice shall be 
+*% included in all copies or substantial portions of the Software.
+*%
+*% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+*% EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+*% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+*% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY 
+*% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+*% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+*% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*%
+*% [this is the MIT open source license -- please see www.opensource.org]
+*%
+*% End of Copyright statement for Canon iR-ADV 400/500.
+*% Release version 3.40 2012
+*%
+*FormatVersion: "4.3"
+*FileVersion: "1.0"
+*LanguageEncoding: ISOLatin1
+*LanguageVersion: English
+*Manufacturer: "Canon"
+*PCFileName: "CNADV400U1.PPD"
+*Product: "(iR-ADV 400/500)"
+*PSVersion: "(3017.104)1"
+*ModelName: "Canon iR-ADV 400/500"
+*ShortNickName: "Canon iR-ADV 400/500 PS3"
+*NickName: "Canon iR-ADV 400/500 PPD"
+
+*OpenGroup: InstallableOptions/Attached Options
+
+*OpenUI *OptENV/Envelope Feeder Attachment: Boolean
+*DefaultOptENV: False
+*OptENV False/Off: ""
+*OptENV True/On: ""
+*CloseUI: *OptENV
+
+*OpenUI *OptCST/Paper Source Options: PickOne
+*DefaultOptCST: None
+*OptCST None/Off: ""
+*OptCST SnglCst550/550 Sheet Drawer: ""
+*OptCST DblCst550/550 Sheet Drawer x 2: ""
+*OptCST TrplCst550/550 Sheet Drawer x 3: ""
+*CloseUI: *OptCST
+
+*OpenUI *OptFIN/Output Options: PickOne
+*DefaultOptFIN: None
+*OptFIN None/Off: ""
+*OptFIN StapFinR1/Staple Finisher R1: ""
+*CloseUI: *OptFIN
+
+*OpenUI *OptWKT/Secure Watermark Function of Device: Boolean
+*DefaultOptWKT: False
+*OptWKT False/Off: ""
+*OptWKT True/On: ""
+*CloseUI: *OptWKT
+
+*CloseGroup: InstallableOptions
+
+*UIConstraints: *InputSlot EnvCas *OptENV False
+*UIConstraints: *OptENV False *InputSlot EnvCas
+*UIConstraints: *InputSlot Tray2 *OptENV True
+*UIConstraints: *OptENV True *InputSlot Tray2
+
+*UIConstraints: *InputSlot Tray2 *OptCST None
+*UIConstraints: *OptCST None *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *OptCST None
+*UIConstraints: *OptCST None *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *OptCST None
+*UIConstraints: *OptCST None *InputSlot Tray4
+*UIConstraints: *InputSlot Tray3 *OptCST SnglCst550
+*UIConstraints: *OptCST SnglCst550 *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *OptCST SnglCst550
+*UIConstraints: *OptCST SnglCst550 *InputSlot Tray4
+*UIConstraints: *InputSlot Tray4 *OptCST DblCst550
+*UIConstraints: *OptCST DblCst550 *InputSlot Tray4
+
+*UIConstraints: *OptENV True *OptCST None
+*UIConstraints: *OptCST None *OptENV True
+
+*UIConstraints: *Finishing OffCol *OptFIN None
+*UIConstraints: *OptFIN None *Finishing OffCol
+*UIConstraints: *Finishing OffGr *OptFIN None
+*UIConstraints: *OptFIN None *Finishing OffGr
+
+*UIConstraints: *Staple 1PRU *OptFIN None
+*UIConstraints: *OptFIN None *Staple 1PRU
+*UIConstraints: *Staple 1PLB *OptFIN None
+*UIConstraints: *OptFIN None *Staple 1PLB
+*UIConstraints: *Staple 1PLU *OptFIN None
+*UIConstraints: *OptFIN None *Staple 1PLU
+
+*UIConstraints: *UseWatermk On *OptWKT False
+*UIConstraints: *OptWKT False *UseWatermk On
+
+*UIConstraints: *InputSlot EnvCas *PageSize Letter
+*UIConstraints: *PageSize Letter *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize Legal
+*UIConstraints: *PageSize Legal *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize Legal_MAX
+*UIConstraints: *PageSize Legal_MAX *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize Executive
+*UIConstraints: *PageSize Executive *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize Statement
+*UIConstraints: *PageSize Statement *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize A4
+*UIConstraints: *PageSize A4 *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize A5
+*UIConstraints: *PageSize A5 *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageSize B5
+*UIConstraints: *PageSize B5 *InputSlot EnvCas
+*UIConstraints: *InputSlot Tray1 *PageSize Monarch
+*UIConstraints: *PageSize Monarch *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageSize Monarch
+*UIConstraints: *PageSize Monarch *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageSize Monarch
+*UIConstraints: *PageSize Monarch *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageSize Monarch
+*UIConstraints: *PageSize Monarch *InputSlot Tray4
+*UIConstraints: *InputSlot Tray1 *PageSize Com10
+*UIConstraints: *PageSize Com10 *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageSize Com10
+*UIConstraints: *PageSize Com10 *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageSize Com10
+*UIConstraints: *PageSize Com10 *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageSize Com10
+*UIConstraints: *PageSize Com10 *InputSlot Tray4
+*UIConstraints: *InputSlot Tray1 *PageSize DL
+*UIConstraints: *PageSize DL *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageSize DL
+*UIConstraints: *PageSize DL *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageSize DL
+*UIConstraints: *PageSize DL *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageSize DL
+*UIConstraints: *PageSize DL *InputSlot Tray4
+*UIConstraints: *InputSlot Tray1 *PageSize C5
+*UIConstraints: *PageSize C5 *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageSize C5
+*UIConstraints: *PageSize C5 *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageSize C5
+*UIConstraints: *PageSize C5 *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageSize C5
+*UIConstraints: *PageSize C5 *InputSlot Tray4
+
+*UIConstraints: *InputSlot EnvCas *PageRegion Letter
+*UIConstraints: *PageRegion Letter *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion Legal
+*UIConstraints: *PageRegion Legal *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion Legal_MAX
+*UIConstraints: *PageRegion Legal_MAX *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion Executive
+*UIConstraints: *PageRegion Executive *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion Statement
+*UIConstraints: *PageRegion Statement *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion A4
+*UIConstraints: *PageRegion A4 *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion A5
+*UIConstraints: *PageRegion A5 *InputSlot EnvCas
+*UIConstraints: *InputSlot EnvCas *PageRegion B5
+*UIConstraints: *PageRegion B5 *InputSlot EnvCas
+*UIConstraints: *InputSlot Tray1 *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *InputSlot Tray4
+*UIConstraints: *InputSlot Tray1 *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *InputSlot Tray4
+*UIConstraints: *InputSlot Tray1 *PageRegion DL
+*UIConstraints: *PageRegion DL *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageRegion DL
+*UIConstraints: *PageRegion DL *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageRegion DL
+*UIConstraints: *PageRegion DL *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageRegion DL
+*UIConstraints: *PageRegion DL *InputSlot Tray4
+*UIConstraints: *InputSlot Tray1 *PageRegion C5
+*UIConstraints: *PageRegion C5 *InputSlot Tray1
+*UIConstraints: *InputSlot Tray2 *PageRegion C5
+*UIConstraints: *PageRegion C5 *InputSlot Tray2
+*UIConstraints: *InputSlot Tray3 *PageRegion C5
+*UIConstraints: *PageRegion C5 *InputSlot Tray3
+*UIConstraints: *InputSlot Tray4 *PageRegion C5
+*UIConstraints: *PageRegion C5 *InputSlot Tray4
+
+*UIConstraints: *Duplex DuplexTumble *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *PageSize Com10
+*UIConstraints: *PageSize Com10 *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageSize Com10
+*UIConstraints: *PageSize Com10 *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *PageSize DL
+*UIConstraints: *PageSize DL *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageSize DL
+*UIConstraints: *PageSize DL *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *PageSize C5
+*UIConstraints: *PageSize C5 *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageSize C5
+*UIConstraints: *PageSize C5 *Duplex DuplexNoTumble
+
+*UIConstraints: *Duplex DuplexTumble *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *PageRegion DL
+*UIConstraints: *PageRegion DL *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageRegion DL
+*UIConstraints: *PageRegion DL *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *PageRegion C5
+*UIConstraints: *PageRegion C5 *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *PageRegion C5
+*UIConstraints: *PageRegion C5 *Duplex DuplexNoTumble
+
+*UIConstraints: *Staple 1PRU *PageSize Statement
+*UIConstraints: *PageSize Statement *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageSize Statement
+*UIConstraints: *PageSize Statement *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageSize Statement
+*UIConstraints: *PageSize Statement *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageSize A5
+*UIConstraints: *PageSize A5 *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageSize A5
+*UIConstraints: *PageSize A5 *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageSize A5
+*UIConstraints: *PageSize A5 *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageSize Com10
+*UIConstraints: *PageSize Com10 *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageSize Com10
+*UIConstraints: *PageSize Com10 *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageSize Com10
+*UIConstraints: *PageSize Com10 *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageSize DL
+*UIConstraints: *PageSize DL *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageSize DL
+*UIConstraints: *PageSize DL *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageSize DL
+*UIConstraints: *PageSize DL *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageSize C5
+*UIConstraints: *PageSize C5 *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageSize C5
+*UIConstraints: *PageSize C5 *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageSize C5
+*UIConstraints: *PageSize C5 *Staple 1PLU
+
+*UIConstraints: *Staple 1PRU *PageRegion Statement
+*UIConstraints: *PageRegion Statement *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageRegion Statement
+*UIConstraints: *PageRegion Statement *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageRegion Statement
+*UIConstraints: *PageRegion Statement *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageRegion A5
+*UIConstraints: *PageRegion A5 *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageRegion A5
+*UIConstraints: *PageRegion A5 *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageRegion A5
+*UIConstraints: *PageRegion A5 *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageRegion DL
+*UIConstraints: *PageRegion DL *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageRegion DL
+*UIConstraints: *PageRegion DL *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageRegion DL
+*UIConstraints: *PageRegion DL *Staple 1PLU
+*UIConstraints: *Staple 1PRU *PageRegion C5
+*UIConstraints: *PageRegion C5 *Staple 1PRU
+*UIConstraints: *Staple 1PLB *PageRegion C5
+*UIConstraints: *PageRegion C5 *Staple 1PLB
+*UIConstraints: *Staple 1PLU *PageRegion C5
+*UIConstraints: *PageRegion C5 *Staple 1PLU
+
+*UIConstraints: *Finishing OffCol *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageSize Monarch
+*UIConstraints: *PageSize Monarch *Finishing OffGr
+*UIConstraints: *Finishing OffCol *PageSize Com10
+*UIConstraints: *PageSize Com10 *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageSize Com10
+*UIConstraints: *PageSize Com10 *Finishing OffGr
+*UIConstraints: *Finishing OffCol *PageSize DL
+*UIConstraints: *PageSize DL *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageSize DL
+*UIConstraints: *PageSize DL *Finishing OffGr
+*UIConstraints: *Finishing OffCol *PageSize C5
+*UIConstraints: *PageSize C5 *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageSize C5
+*UIConstraints: *PageSize C5 *Finishing OffGr
+
+*UIConstraints: *Finishing OffCol *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageRegion Monarch
+*UIConstraints: *PageRegion Monarch *Finishing OffGr
+*UIConstraints: *Finishing OffCol *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageRegion Com10
+*UIConstraints: *PageRegion Com10 *Finishing OffGr
+*UIConstraints: *Finishing OffCol *PageRegion DL
+*UIConstraints: *PageRegion DL *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageRegion DL
+*UIConstraints: *PageRegion DL *Finishing OffGr
+*UIConstraints: *Finishing OffCol *PageRegion C5
+*UIConstraints: *PageRegion C5 *Finishing OffCol
+*UIConstraints: *Finishing OffGr *PageRegion C5
+*UIConstraints: *PageRegion C5 *Finishing OffGr
+
+*NonUIConstraints: *CustomPageSize True *InputSlot Tray1
+*NonUIConstraints: *InputSlot Tray1 *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *InputSlot Tray2
+*NonUIConstraints: *InputSlot Tray2 *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *InputSlot EnvCas
+*NonUIConstraints: *InputSlot EnvCas *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *InputSlot Tray3
+*NonUIConstraints: *InputSlot Tray3 *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *InputSlot Tray4
+*NonUIConstraints: *InputSlot Tray4 *CustomPageSize True
+
+*NonUIConstraints: *CustomPageSize True *MediaType BOND
+*NonUIConstraints: *MediaType BOND *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *MediaType PREPUNCHED
+*NonUIConstraints: *MediaType PREPUNCHED *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *MediaType TRANSPARENCY
+*NonUIConstraints: *MediaType TRANSPARENCY *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *MediaType LABELS
+*NonUIConstraints: *MediaType LABELS *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *MediaType ENVELOPE
+*NonUIConstraints: *MediaType ENVELOPE *CustomPageSize True
+
+*NonUIConstraints: *CustomPageSize True *Finishing OffCol
+*NonUIConstraints: *Finishing OffCol *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *Finishing OffGr
+*NonUIConstraints: *Finishing OffGr *CustomPageSize True
+
+*NonUIConstraints: *CustomPageSize True *Duplex DuplexTumble
+*NonUIConstraints: *Duplex DuplexTumble *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *Duplex DuplexNoTumble
+*NonUIConstraints: *Duplex DuplexNoTumble *CustomPageSize True
+
+*NonUIConstraints: *CustomPageSize True *Staple 1PRU
+*NonUIConstraints: *Staple 1PRU *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *Staple 1PLU
+*NonUIConstraints: *Staple 1PLU *CustomPageSize True
+*NonUIConstraints: *CustomPageSize True *Staple 1PLB
+*NonUIConstraints: *Staple 1PLB *CustomPageSize True
+
+*UIConstraints: *Duplex DuplexTumble *MediaType BOND
+*UIConstraints: *MediaType BOND *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *MediaType BOND
+*UIConstraints: *MediaType BOND *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *MediaType MIDHEAVY
+*UIConstraints: *MediaType MIDHEAVY *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *MediaType MIDHEAVY
+*UIConstraints: *MediaType MIDHEAVY *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *MediaType TRANSPARENCY
+*UIConstraints: *MediaType TRANSPARENCY *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *MediaType TRANSPARENCY
+*UIConstraints: *MediaType TRANSPARENCY *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *MediaType LABELS
+*UIConstraints: *MediaType LABELS *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *MediaType LABELS
+*UIConstraints: *MediaType LABELS *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexTumble *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexNoTumble *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Duplex DuplexNoTumble
+
+*UIConstraints: *Staple 1PRU *MediaType TRANSPARENCY
+*UIConstraints: *MediaType TRANSPARENCY *Staple 1PRU
+*UIConstraints: *Staple 1PLB *MediaType TRANSPARENCY
+*UIConstraints: *MediaType TRANSPARENCY *Staple 1PLB
+*UIConstraints: *Staple 1PLU *MediaType TRANSPARENCY
+*UIConstraints: *MediaType TRANSPARENCY *Staple 1PLU
+*UIConstraints: *Staple 1PRU *MediaType LABELS
+*UIConstraints: *MediaType LABELS *Staple 1PRU
+*UIConstraints: *Staple 1PLB *MediaType LABELS
+*UIConstraints: *MediaType LABELS *Staple 1PLB
+*UIConstraints: *Staple 1PLU *MediaType LABELS
+*UIConstraints: *MediaType LABELS *Staple 1PLU
+*UIConstraints: *Staple 1PRU *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Staple 1PRU
+*UIConstraints: *Staple 1PLB *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Staple 1PLB
+*UIConstraints: *Staple 1PLU *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Staple 1PLU
+
+*UIConstraints: *Finishing OffCol *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Finishing OffCol
+*UIConstraints: *Finishing OffGr *MediaType ENVELOPE
+*UIConstraints: *MediaType ENVELOPE *Finishing OffGr
+
+*UIConstraints: *BindingLocation LongEdge *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexTumble *BindingLocation LongEdge
+*UIConstraints: *BindingLocation ShortEdge *Duplex DuplexTumble
+*UIConstraints: *Duplex DuplexTumble *BindingLocation ShortEdge
+*UIConstraints: *BindingLocation LongEdge *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexNoTumble *BindingLocation LongEdge
+*UIConstraints: *BindingLocation ShortEdge *Duplex DuplexNoTumble
+*UIConstraints: *Duplex DuplexNoTumble *BindingLocation ShortEdge
+
+*UIConstraints: *Finishing OffCol *Staple 1PRU
+*UIConstraints: *Staple 1PRU *Finishing OffCol
+*UIConstraints: *Finishing OffGr *Staple 1PRU
+*UIConstraints: *Staple 1PRU *Finishing OffGr
+*UIConstraints: *Finishing OffCol *Staple 1PLU
+*UIConstraints: *Staple 1PLU *Finishing OffCol
+*UIConstraints: *Finishing OffGr *Staple 1PLU
+*UIConstraints: *Staple 1PLU *Finishing OffGr
+*UIConstraints: *Finishing OffCol *Staple 1PLB
+*UIConstraints: *Staple 1PLB *Finishing OffCol
+*UIConstraints: *Finishing OffGr *Staple 1PLB
+*UIConstraints: *Staple 1PLB *Finishing OffGr
+
+*UIConstraints: *TonerSave On *CN_DPI 1200dpi
+*UIConstraints: *CN_DPI 1200dpi *TonerSave On
+
+*UIConstraints: *ImageRefine On *CN_DPI 1200dpi
+*UIConstraints: *CN_DPI 1200dpi *ImageRefine On
+
+*% ==== Device Capabilities ===============
+*LanguageLevel: "3"
+*Protocols: TBCP
+
+*FreeVM: "2157000"
+
+*ColorDevice: False
+*DefaultColorSpace: Gray
+
+*TTRasterizer: Type42
+*?TTRasterizer: "save
+ 42 /FontType resourcestatus
+ {pop pop (Type42)} {(No Type42)} ifelse = flush
+restore"
+*End
+
+*% Optional flash rom is treated like a disk.
+*FileSystem: True
+*?FileSystem: "save statusdict /diskonline get exec
+ {(True)}{(False)} ifelse = flush restore"
+*End
+
+*Throughput: "50"
+*Password: "()"
+*ExitServer: "
+  count 0 eq
+  {false}
+  {true exch startjob}
+  ifelse
+  not
+  {
+    (WARNING: Cannot modify initial VM.) =
+    (Missing or invalid password.) =
+    (Please contact the author of this software.) = flush quit
+  } if"
+*End
+*Reset: "
+  count 0 eq
+  {false}
+  {true exch startjob}
+  ifelse
+  not
+  {
+    (WARNING: Cannot reset printer.) =
+    (Missing or invalid password.) =
+    (Please contact the author of this software.) = flush quit
+  } if
+  systemdict /quit get exec
+  (WARNING : Printer Reset Failed.) = flush"
+*End
+*OpenUI *Collate/Collated: Boolean
+*OrderDependency: 60.0 AnySetup *Collate
+*DefaultCollate: True
+*Collate True/On: ""
+*Collate False/Off: ""
+*CloseUI: *Collate
+
+*OpenGroup: PaperSource/Paper
+
+*OpenUI *InputSlot: PickOne
+*OrderDependency: 40.0 AnySetup *InputSlot
+*DefaultInputSlot: Auto
+*InputSlot Auto/Auto: "<</InputAttributes <</Priority []>> >>
+ systemdict /setpagedevice get exec"
+*End
+*InputSlot Tray1/Drawer 1: "
+ currentpagedevice /InputAttributes get 0 get null ne
+ {<</InputAttributes <</Priority [0]>> >>
+ systemdict /setpagedevice get exec} if
+ <</MediaType (ANY) /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*InputSlot Tray2/Drawer 2: "
+ currentpagedevice /InputAttributes get 2 get null ne
+ {<</InputAttributes <</Priority [2]>> >>
+ systemdict /setpagedevice get exec} if
+ <</MediaType (ANY) /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*InputSlot EnvCas/Drawer 2 (Envelope): "
+ currentpagedevice /InputAttributes get 2 get null ne
+ {<</InputAttributes <</Priority [2]>> >>
+ systemdict /setpagedevice get exec} if
+ <</MediaType (ANY) /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*InputSlot Tray3/Drawer 3: "
+ currentpagedevice /InputAttributes get 3 get null ne
+ {<</InputAttributes <</Priority [3]>> >>
+ systemdict /setpagedevice get exec} if
+ <</MediaType (ANY) /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*InputSlot Tray4/Drawer 4: "
+ currentpagedevice /InputAttributes get 4 get null ne
+ {<</InputAttributes <</Priority [4]>> >>
+ systemdict /setpagedevice get exec} if
+ <</MediaType (ANY) /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*InputSlot MPT/Multi Purpose Tray: "
+ currentpagedevice /InputAttributes get 1 get null ne
+ {<</InputAttributes <</Priority [1]>> >>
+ systemdict /setpagedevice get exec} if
+ <</MediaType (ANY) /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *InputSlot
+
+*OpenUI *MediaType/Paper Type: PickOne
+*OrderDependency: 50.0 AnySetup *MediaType
+*DefaultMediaType: None
+*MediaType None/Printer Default: ""
+*MediaType PLAIN/Plain 1 (64 to 80 g/m2): "<</MediaType (PLAIN)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType PLAIN2/Plain 2 (81 to 90 g/m2): "<</MediaType (PLAIN2)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType RECYCLED/Recycled (64 to 80 g/m2): "<</MediaType (RECYCLED)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType COLOR/Color (64 to 90 g/m2): "<</MediaType (COLOR)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType PREPUNCHED/Pre-punched (75 to 80 g/m2): "<</MediaType (PREPUNCHED)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType BOND/Bond (75 to 90 g/m2): "<</MediaType (BOND)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType HEAVY/Heavy 1 (91 to 105 g/m2): "<</MediaType (HEAVY)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType MIDHEAVY/Heavy 2 (106 to 128 g/m2): "<</MediaType (MIDHEAVY)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType TRANSPARENCY/Transparency (151 to 181 g/m2): "<</MediaType (TRANSPARENCY)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType LABELS/Labels (151 to 181 g/m2): "<</MediaType (LABELS)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*MediaType ENVELOPE/Envelope (75 to 105 g/m2): "<</MediaType (ENVELOPE)
+ /Policies <</MediaType 2>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *MediaType
+
+*CloseGroup: PaperSource
+
+*DefaultResolution: 600dpi
+*RequiresPageRegion All: True
+
+*OpenGroup: Finishing/Finishing
+
+*OpenUI *Duplex/Duplex: PickOne
+*OrderDependency: 50.0 AnySetup *Duplex
+*DefaultDuplex: DuplexNoTumble
+*Duplex None/Off: "<</Duplex false /Tumble false>> systemdict /setpagedevice get exec"
+*Duplex DuplexNoTumble/Long edge: "<</Duplex true /Tumble false>> systemdict /setpagedevice get exec"
+*Duplex DuplexTumble/Short edge: "<</Duplex true /Tumble true>> systemdict /setpagedevice get exec"
+*CloseUI: *Duplex
+
+*OpenUI *BindingLocation/Binding Location: PickOne
+*OrderDependency: 50.0 AnySetup *BindingLocation
+*DefaultBindingLocation: None
+*BindingLocation None/Printer Default: ""
+*BindingLocation LongEdge/Long Edge: "<</Bind 4 /BindDetails 
+<</Type 8 /BindingLocation 1>> >> systemdict /setpagedevice get exec"
+*End
+*BindingLocation ShortEdge/Short Edge: "<</Bind 4 /BindDetails 
+<</Type 8 /BindingLocation 2>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *BindingLocation
+
+*OpenUI *Gutter/Gutter: PickOne
+*OrderDependency: 50.0 AnySetup *Gutter
+*DefaultGutter: None
+*Gutter 20inch/+2.0 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 50 >> >> systemdict /setpagedevice get exec"
+*Gutter 19inch/+1.9 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 48 >> >> systemdict /setpagedevice get exec"
+*Gutter 18inch/+1.8 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 46 >> >> systemdict /setpagedevice get exec"
+*Gutter 17inch/+1.7 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 43 >> >> systemdict /setpagedevice get exec"
+*Gutter 16inch/+1.6 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 41 >> >> systemdict /setpagedevice get exec"
+*Gutter 15inch/+1.5 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 38 >> >> systemdict /setpagedevice get exec"
+*Gutter 14inch/+1.4 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 36 >> >> systemdict /setpagedevice get exec"
+*Gutter 13inch/+1.3 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 33 >> >> systemdict /setpagedevice get exec"
+*Gutter 12inch/+1.2 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 30 >> >> systemdict /setpagedevice get exec"
+*Gutter 11inch/+1.1 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 28 >> >> systemdict /setpagedevice get exec"
+*Gutter 10inch/+1.0 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 25 >> >> systemdict /setpagedevice get exec"
+*Gutter 9inch/+0.9 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 23 >> >> systemdict /setpagedevice get exec"
+*Gutter 8inch/+0.8 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 20 >> >> systemdict /setpagedevice get exec"
+*Gutter 7inch/+0.7 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 18 >> >> systemdict /setpagedevice get exec"
+*Gutter 6inch/+0.6 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 15 >> >> systemdict /setpagedevice get exec"
+*Gutter 5inch/+0.5 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 13 >> >> systemdict /setpagedevice get exec"
+*Gutter 4inch/+0.4 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 10 >> >> systemdict /setpagedevice get exec"
+*Gutter 3inch/+0.3 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 8 >> >> systemdict /setpagedevice get exec"
+*Gutter 2inch/+0.2 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 5 >> >> systemdict /setpagedevice get exec"
+*Gutter 1inch/+0.1 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 3 >> >> systemdict /setpagedevice get exec"
+*Gutter None/0 in: "<</Bind 4 /BindDetails <</Type 8 /Gutter 0 >> >> systemdict /setpagedevice get exec"
+*CloseUI: *Gutter
+
+*OpenUI *Finishing/Finishing: PickOne
+*OrderDependency: 50.0 AnySetup *Finishing
+*DefaultFinishing: Col
+*Finishing Col/Collate: "<</Collate true /Jog 0
+ /PostRenderingEnhance true /PostRenderingEnhanceDetails
+ <</Type 44 /Rotate false>> >> systemdict /setpagedevice get exec"
+*End
+*Finishing None/Group: "<</Collate false /Jog 0
+ /PostRenderingEnhance true /PostRenderingEnhanceDetails
+ <</Type 44 /Rotate false>> >> systemdict /setpagedevice get exec"
+*End
+*Finishing OffCol/Offset-collate: "<</Collate true /Jog 2
+ /PostRenderingEnhance true /PostRenderingEnhanceDetails
+ <</Type 44 /Rotate false>> >> systemdict /setpagedevice get exec"
+*End
+*Finishing OffGr/Offset-group: "<</Collate false /Jog 2
+ /PostRenderingEnhance true /PostRenderingEnhanceDetails
+ <</Type 44 /Rotate false>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *Finishing
+
+*OpenUI *Staple/Staple: PickOne
+*OrderDependency: 50.0 AnySetup *Staple
+*DefaultStaple: None
+*Staple None/Off: "<</Staple 0 >> systemdict /setpagedevice get exec"
+*Staple 1PRU/1 Staple (Port RU/Land RB): "<</Staple 3 /StapleDetails 
+<</Type 21 /Position (1PRU)>> >> systemdict /setpagedevice get exec"
+*End
+*Staple 1PLU/1 Staple (Port LU/Land RU): "<</Staple 3 /StapleDetails 
+<</Type 21 /Position (1PLU)>> >> systemdict /setpagedevice get exec"
+*End
+*Staple 1PLB/1 Staple (Port LB/Land LU): "<</Staple 3 /StapleDetails 
+<</Type 21 /Position (1PLB)>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *Staple
+
+*OpenUI *UseWatermk/Use Secure Watermark Function of Device: PickOne
+*OrderDependency: 50.0 AnySetup *UseWatermk
+*DefaultUseWatermk: Off
+*UseWatermk Off/Off: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /TrustPrint false>> >> systemdict /setpagedevice get exec"
+*End
+*UseWatermk On/On: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /TrustPrint true>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *UseWatermk
+
+*OpenUI *ShiftFrontUD/Shift Print Position (Front/Long Edge): PickOne
+*OrderDependency: 50.0 AnySetup *ShiftFrontUD
+*DefaultShiftFrontUD: None
+*ShiftFrontUD m20inch/ -2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 144.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m19inch/ -1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 136.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m18inch/ -1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 129.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m17inch/ -1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 122.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m16inch/ -1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 115.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m15inch/ -1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 108.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m14inch/ -1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 100.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m13inch/ -1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 93.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m12inch/ -1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 86.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m11inch/ -1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 79.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m10inch/ -1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 72.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m9inch/ -0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 64.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m8inch/ -0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 57.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m7inch/ -0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 50.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m6inch/ -0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 43.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m5inch/ -0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 36.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m4inch/ -0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 28.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m3inch/ -0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 21.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m2inch/ -0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 14.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD m1inch/ -0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 7.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD None/ 0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ 0.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 1inch/ 0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -7.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 2inch/ 0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -14.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 3inch/ 0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -21.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 4inch/ 0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -28.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 5inch/ 0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -36.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 6inch/ 0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -43.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 7inch/ 0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -50.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 8inch/ 0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -57.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 9inch/ 0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -64.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 10inch/ 1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -72.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 11inch/ 1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -79.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 12inch/ 1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -86.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 13inch/ 1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -93.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 14inch/ 1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -100.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 15inch/ 1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -108.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 16inch/ 1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -115.20 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 17inch/ 1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -122.40 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 18inch/ 1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -129.60 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 19inch/ 1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -136.80 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontUD 20inch/ 2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 2 roll
+ -144.00 exch pop
+ 4 2 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *ShiftFrontUD
+
+*OpenUI *ShiftFrontLR/Shift Print Position (Front/Short Edge): PickOne
+*OrderDependency: 50.0 AnySetup *ShiftFrontLR
+*DefaultShiftFrontLR: None
+*ShiftFrontLR m20inch/ -2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -144.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m19inch/ -1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -136.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m18inch/ -1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -129.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m17inch/ -1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -122.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m16inch/ -1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -115.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m15inch/ -1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -108.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m14inch/ -1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -100.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m13inch/ -1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -93.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m12inch/ -1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -86.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m11inch/ -1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -79.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m10inch/ -1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -72.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m9inch/ -0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -64.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m8inch/ -0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -57.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m7inch/ -0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -50.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m6inch/ -0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -43.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m5inch/ -0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -36.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m4inch/ -0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -28.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m3inch/ -0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -21.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m2inch/ -0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -14.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR m1inch/ -0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ -7.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR None/ 0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 0.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 1inch/ 0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 7.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 2inch/ 0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 14.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 3inch/ 0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 21.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 4inch/ 0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 28.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 5inch/ 0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 36.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 6inch/ 0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 43.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 7inch/ 0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 50.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 8inch/ 0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 57.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 9inch/ 0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 64.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 10inch/ 1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 72.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 11inch/ 1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 79.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 12inch/ 1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 86.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 13inch/ 1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 93.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 14inch/ 1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 100.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 15inch/ 1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 108.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 16inch/ 1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 115.20 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 17inch/ 1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 122.40 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 18inch/ 1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 129.60 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 19inch/ 1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 136.80 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftFrontLR 20inch/ 2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 3 roll
+ 144.00 exch pop
+ 4 1 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *ShiftFrontLR
+
+*OpenUI *ShiftBackUD/Shift Print Position (Back/Long Edge): PickOne
+*OrderDependency: 50.0 AnySetup *ShiftBackUD
+*DefaultShiftBackUD: None
+*ShiftBackUD m20inch/ -2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 144.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m19inch/ -1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 136.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m18inch/ -1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 129.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m17inch/ -1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 122.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m16inch/ -1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 115.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m15inch/ -1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 108.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m14inch/ -1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 100.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m13inch/ -1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 93.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m12inch/ -1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 86.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m11inch/ -1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 79.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m10inch/ -1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 72.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m9inch/ -0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 64.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m8inch/ -0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 57.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m7inch/ -0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 50.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m6inch/ -0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 43.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m5inch/ -0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 36.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m4inch/ -0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 28.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m3inch/ -0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 21.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m2inch/ -0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 14.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD m1inch/ -0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 7.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD None/ 0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 0.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 1inch/ 0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -7.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 2inch/ 0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -14.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 3inch/ 0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -21.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 4inch/ 0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -28.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 5inch/ 0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -36.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 6inch/ 0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -43.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 7inch/ 0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -50.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 8inch/ 0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -57.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 9inch/ 0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -64.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 10inch/ 1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -72.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 11inch/ 1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -79.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 12inch/ 1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -86.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 13inch/ 1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -93.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 14inch/ 1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -100.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 15inch/ 1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -108.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 16inch/ 1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -115.20 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 17inch/ 1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -122.40 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 18inch/ 1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -129.60 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 19inch/ 1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -136.80 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackUD 20inch/ 2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ -144.00 exch pop
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *ShiftBackUD
+
+*OpenUI *ShiftBackLR/Shift Print Position (Back/Short Edge): PickOne
+*OrderDependency: 50.0 AnySetup *ShiftBackLR
+*DefaultShiftBackLR: None
+*ShiftBackLR m20inch/ -2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -144.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m19inch/ -1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -136.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m18inch/ -1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -129.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m17inch/ -1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -122.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m16inch/ -1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -115.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m15inch/ -1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -108.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m14inch/ -1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -100.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m13inch/ -1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -93.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m12inch/ -1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -86.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m11inch/ -1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -79.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m10inch/ -1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -72.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m9inch/ -0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -64.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m8inch/ -0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -57.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m7inch/ -0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -50.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m6inch/ -0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -43.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m5inch/ -0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -36.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m4inch/ -0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -28.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m3inch/ -0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -21.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m2inch/ -0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -14.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR m1inch/ -0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ -7.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR None/ 0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 0.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 1inch/ 0.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 7.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 2inch/ 0.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 14.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 3inch/ 0.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 21.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 4inch/ 0.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 28.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 5inch/ 0.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 36.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 6inch/ 0.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 43.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 7inch/ 0.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 50.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 8inch/ 0.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 57.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 9inch/ 0.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 64.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 10inch/ 1.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 72.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 11inch/ 1.1 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 79.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 12inch/ 1.2 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 86.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 13inch/ 1.3 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 93.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 14inch/ 1.4 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 100.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 15inch/ 1.5 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 108.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 16inch/ 1.6 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 115.20 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 17inch/ 1.7 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 122.40 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 18inch/ 1.8 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 129.60 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 19inch/ 1.9 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 136.80 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*ShiftBackLR 20inch/ 2.0 in: "
+ currentpagedevice /PostRenderingEnhanceDetails get /ImageShift get aload pop
+ 4 1 roll
+ 144.00 exch pop
+ 4 3 roll
+ 4 array astore
+ << /PostRenderingEnhanceDetails
+ << /Type 44 /ImageShift  7 -1 roll >> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *ShiftBackLR
+
+*CloseGroup: Finishing
+
+*OpenGroup: DetailedSettings/Quality
+
+*OpenUI *CN_DPI/Resolution: PickOne
+*OrderDependency: 60.0 AnySetup *CN_DPI
+*DefaultCN_DPI: 600dpi
+*CN_DPI 1200dpi/1200 dpi: "<</HWResolution [1200 1200]>> systemdict /setpagedevice get exec"
+*CN_DPI 600dpi/600 dpi: "<</HWResolution [600 600]>> systemdict /setpagedevice get exec"
+*CloseUI: *CN_DPI
+
+*OpenUI *ImageRefine/Image Refinement: PickOne
+*OrderDependency: 50.0 AnySetup *ImageRefine
+*DefaultImageRefine: Default
+*ImageRefine Default/Printer Default: ""
+*ImageRefine Off/Off: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /ImageRefine false>> >>systemdict /setpagedevice get exec"
+*End
+*ImageRefine On/On: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /ImageRefine true>> >>systemdict /setpagedevice get exec"
+*End
+*?ImageRefine: "save
+ currentpagedevice dup /PostRenderingEnhance known
+ {dup /PostRenderingEnhance get
+  {
+   /PostRenderingEnhanceDetails get
+   dup /Type get 44 eq
+   {
+    dup /REValue get dup 0 eq
+    {pop (On)}
+    {1 eq {(Off)}{(Default)}ifelse}
+    ifelse
+   }
+   {pop (Default)} ifelse
+  }
+  {pop (Off)}
+  ifelse}
+ {pop (Default)}
+ ifelse = flush
+restore"
+*End
+*CloseUI: *ImageRefine
+
+*OpenUI *LineRefine/Line Refinement: PickOne
+*OrderDependency: 50.0 AnySetup *LineRefine
+*DefaultLineRefine: Default
+*LineRefine Default/Printer Default: ""
+*LineRefine Off/Off: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /LineRefine false>> >> systemdict /setpagedevice get exec"
+*End
+*LineRefine On/On: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /LineRefine true>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *LineRefine
+
+*OpenUI *Gscale/Grayscale Conversion: PickOne
+*OrderDependency: 50.0 AnySetup *Gscale
+*DefaultGscale: Default
+*Gscale Default/Printer Default: ""
+*Gscale SRGB/sRGB: "<</DeviceRenderingInfo 
+<</Type 36 /GrayScaleConversion 1>> >> systemdict /setpagedevice get exec"
+*End
+*Gscale NTSC/NTSC: "<</DeviceRenderingInfo 
+<</Type 36 /GrayScaleConversion 2>> >> systemdict /setpagedevice get exec"
+*End
+*Gscale UnifrmRGB/Uniform RGB: "<</DeviceRenderingInfo 
+<</Type 36 /GrayScaleConversion 3>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *Gscale
+
+*OpenUI *DotGAdjust/Dot Gain Adjustment: PickOne
+*OrderDependency: 50.0 AnySetup *DotGAdjust
+*DefaultDotGAdjust: Default
+*DotGAdjust Default/Printer Default: ""
+*DotGAdjust m10/ -10%: "<</DeviceRenderingInfo 
+<</Type 35 /DotGainAdjustment 1>> >> systemdict /setpagedevice get exec"
+*End
+*DotGAdjust m5/ -5%: "<</DeviceRenderingInfo 
+<</Type 35 /DotGainAdjustment 2>> >> systemdict /setpagedevice get exec"
+*End
+*DotGAdjust Standard/Standard: "<</DeviceRenderingInfo 
+<</Type 35 /DotGainAdjustment 3>> >> systemdict /setpagedevice get exec"
+*End
+*DotGAdjust 5/ +5%: "<</DeviceRenderingInfo 
+<</Type 35 /DotGainAdjustment 4>> >> systemdict /setpagedevice get exec"
+*End
+*DotGAdjust 10/ +10%: "<</DeviceRenderingInfo 
+<</Type 35 /DotGainAdjustment 5>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *DotGAdjust
+
+*OpenUI *TonerSave/Toner Save: PickOne
+*OrderDependency: 50.0 AnySetup *TonerSave
+*DefaultTonerSave: Default
+*TonerSave Default/Printer Default: ""
+*TonerSave Off/Off: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /TonerSaver 0>> >> systemdict /setpagedevice get exec"
+*End
+*TonerSave On/On: "<</PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /TonerSaver 1>> >> systemdict /setpagedevice get exec"
+*End
+*CloseUI: *TonerSave
+
+*OpenUI *HalfTone/Halftones: PickOne
+*OrderDependency: 50.0 AnySetup *HalfTone
+*DefaultHalfTone: Default
+*HalfTone Default/Printer Default: ""
+*HalfTone Resolution/Resolution: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 0 /GraphicSelectScreen 0 /ImageSelectScreen 0>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone HighResolution/High Resolution: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 3 /GraphicSelectScreen 3 /ImageSelectScreen 3>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Gradation/Gradation: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 1 /GraphicSelectScreen 1 /ImageSelectScreen 1>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat1/Pattern 1: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 3 /GraphicSelectScreen 3 /ImageSelectScreen 0>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat2/Pattern 2: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 3 /GraphicSelectScreen 3 /ImageSelectScreen 1>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat3/Pattern 3: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 3 /GraphicSelectScreen 0 /ImageSelectScreen 0>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat4/Pattern 4: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 3 /GraphicSelectScreen 1 /ImageSelectScreen 1>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat5/Pattern 5: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 0 /GraphicSelectScreen 0 /ImageSelectScreen 1>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat6/Pattern 6: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 0 /GraphicSelectScreen 1 /ImageSelectScreen 1>> >> 
+systemdict /setpagedevice get exec"
+*End
+*HalfTone Pat7/Pattern 7: "<</DeviceRenderingInfo <</Type 35 
+/TextSelectScreen 3 /GraphicSelectScreen 0 /ImageSelectScreen 1>> >> 
+systemdict /setpagedevice get exec"
+*End
+*CloseUI: *HalfTone
+
+*CloseGroup: DetailedSettings
+
+*% Halftone Information ===============
+*DefaultHalftoneType: 1
+*ScreenFreq: "71.0"
+*ScreenAngle: "45.0"
+
+*DefaultScreenProc: Dot
+*ScreenProc Dot: "
+ {abs exch abs 2 copy add 1 gt {1 sub dup mul exch 1 sub dup mul add 1 sub}
+ {dup mul exch dup mul add 1 exch sub} ifelse}"
+*End
+*ScreenProc Line: "{pop}"
+*ScreenProc Ellipse: "{dup 5 mul 8 div mul exch dup mul exch add sqrt 1
+ exch sub}"
+*End
+
+*DefaultTransfer: Null
+*Transfer Null: "{ }"
+*Transfer Null.Inverse: "{1 exch sub}"
+
+*% Paper Handling =====================
+
+*NonUIOrderDependency: 50.0 AnySetup *CustomPageSize
+*MaxMediaWidth: "612"
+*MaxMediaHeight: "1785"
+*CenterRegistered: True
+*HWMargins: 11.3386 11.3386 11.3386 11.3386
+*LeadingEdge Short: ""
+*DefaultLeadingEdge: Short
+*VariablePaperSize: True
+*ParamCustomPageSize Width: 1 points 280 612
+*ParamCustomPageSize Height: 2 points 396 1785
+*ParamCustomPageSize WidthOffset: 3 points 0 0
+*ParamCustomPageSize HeightOffset: 4 points 0 0
+*ParamCustomPageSize Orientation: 5 int 0 3
+
+*CustomPageSize True: "pop pop pop <</PageSize [5 -2 roll]
+/PostRenderingEnhance true /PostRenderingEnhanceDetails
+ <</Type 44 /CustomPaperSize true>> >> systemdict /setpagedevice get exec"
+*End
+
+*LandscapeOrientation: Plus90
+
+*OpenUI *PageSize: PickOne
+*OrderDependency: 50.0 AnySetup *PageSize
+*DefaultPageSize: Letter
+*PageSize Letter/US Letter: "<</PageSize [612 792] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize Legal/US Legal: "<</PageSize [612 1008] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize Legal_MAX/US Legal (Print Area-Large): "<</PageSize [612 1008] /Policies <</PageSize 2>>
+/PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /MarginMode 1>> >> systemdict /setpagedevice get exec"
+*End
+*PageSize Executive/Executive: "<</PageSize [522 756] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize Statement/Statement: "<</PageSize [396 612] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize A4/A4: "<</PageSize [595 842] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize A5/A5: "<</PageSize [420 595] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize B5/JB5: "<</PageSize [516 729] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize Monarch/Envelope Monarch: "<</PageSize [279 540] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize Com10/Envelope No. 10 (COM10): "<</PageSize [297 684] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize DL/Envelope DL: "<</PageSize [312 624] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageSize C5/Envelope C5: "<</PageSize [459 649] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion: PickOne
+*OrderDependency: 50.0 AnySetup *PageRegion
+*DefaultPageRegion: Letter
+*PageRegion Letter/US Letter: "<</PageSize [612 792] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion Legal/US Legal: "<</PageSize [612 1008] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion Legal_MAX/US Legal (Print Area-Large): "<</PageSize [612 1008] /Policies <</PageSize 2>>
+/PostRenderingEnhance true /PostRenderingEnhanceDetails 
+<</Type 44 /MarginMode 1>> >> systemdict /setpagedevice get exec"
+*End
+*PageRegion Executive/Executive: "<</PageSize [522 756] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion Statement/Statement: "<</PageSize [396 612] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion A4/A4: "<</PageSize [595 842] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion A5/A5: "<</PageSize [420 595] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion B5/JB5: "<</PageSize [516 729] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion Monarch/Envelope Monarch: "<</PageSize [279 540] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion Com10/Envelope No. 10 (COM10): "<</PageSize [297 684] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion DL/Envelope DL: "<</PageSize [312 624] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*PageRegion C5/Envelope C5: "<</PageSize [459 649] /Policies <</PageSize 2>> >> systemdict /setpagedevice get exec"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: Letter
+*ImageableArea Letter/US Letter: "11.3386 11.3386 600.6614 780.6614"
+*ImageableArea Legal/US Legal: "11.3386 11.3386 600.6614 996.6614"
+*ImageableArea Legal_MAX/US Legal (Print Area-Large): "0 0 612 1008"
+*ImageableArea Executive/Executive: "11.3386 11.3386 510.6614 744.6614"
+*ImageableArea Statement/Statement: "11.3386 11.3386 384.6614 600.6614"
+*ImageableArea A4/A4: "11.3386 11.3386 583.6614 830.6614"
+*ImageableArea A5/A5: "11.3386 11.3386 408.6614 583.6614"
+*ImageableArea B5/JB5: "11.3386 11.3386 504.6614 717.6614"
+*ImageableArea Monarch/Envelope Monarch: "11.3386 11.3386 267.6614 528.6614"
+*ImageableArea Com10/Envelope No. 10 (COM10): "11.3386 11.3386 285.6614 672.6614"
+*ImageableArea DL/Envelope DL: "11.3386 11.3386 300.6614 612.6614"
+*ImageableArea C5/Envelope C5: "11.3386 11.3386 447.6614 637.6614"
+
+*DefaultPaperDimension: Letter
+*PaperDimension Letter/US Letter: "612 792"
+*PaperDimension Legal/US Legal: "612 1008"
+*PaperDimension Legal_MAX/US Legal (Print Area-Large): "612 1008"
+*PaperDimension Executive/Executive: "522 756"
+*PaperDimension Statement/Statement: "396 612"
+*PaperDimension A4/A4: "595 842"
+*PaperDimension A5/A5: "420 595"
+*PaperDimension B5/JB5: "516 729"
+*PaperDimension Monarch/Envelope Monarch: "279 540"
+*PaperDimension Com10/Envelope No. 10 (COM10): "297 684"
+*PaperDimension DL/Envelope DL: "312 624"
+*PaperDimension C5/Envelope C5: "459 649"
+
+*% Font Information ===================
+
+*FCacheSize None: 917600
+
+*DefaultFont: Courier
+*Font AdobeSansMM: Standard "(001.002)" Standard Disk
+*Font AdobeSerifMM: Standard "(001.003)" Standard Disk
+*Font AlbertusMT: Standard "(001.001)" Standard Disk
+*Font AlbertusMT-Italic: Standard "(001.001)" Standard Disk
+*Font AlbertusMT-Light: Standard "(001.001)" Standard Disk
+*Font AntiqueOlive-Bold: Standard "(001.002)" Standard Disk
+*Font AntiqueOlive-Compact: Standard "(001.002)" Standard Disk
+*Font AntiqueOlive-Italic: Standard "(001.002)" Standard Disk
+*Font AntiqueOlive-Roman: Standard "(001.002)" Standard Disk
+*Font Apple-Chancery: Standard "(001.002)" Standard Disk
+*Font Arial-BoldItalicMT: Standard "(001.003)" ExtendedRoman Disk
+*Font Arial-BoldMT: Standard "(001.003)" ExtendedRoman Disk
+*Font Arial-ItalicMT: Standard "(001.003)" ExtendedRoman Disk
+*Font ArialMT: Standard "(001.003)" ExtendedRoman Disk
+*Font AvantGarde-Book: Standard "(003.000)" ExtendedRoman Disk
+*Font AvantGarde-BookOblique: Standard "(003.000)" ExtendedRoman Disk
+*Font AvantGarde-Demi: Standard "(003.000)" ExtendedRoman Disk
+*Font AvantGarde-DemiOblique: Standard "(003.000)" ExtendedRoman Disk
+*Font Bodoni: Standard "(001.003)" Standard Disk
+*Font Bodoni-Bold: Standard "(001.003)" Standard Disk
+*Font Bodoni-BoldItalic: Standard "(001.003)" Standard Disk
+*Font Bodoni-Italic: Standard "(001.003)" Standard Disk
+*Font Bodoni-Poster: Standard "(001.003)" Standard Disk
+*Font Bodoni-PosterCompressed: Standard "(001.002)" Standard Disk
+*Font Bookman-Demi: Standard "(003.000)" ExtendedRoman Disk
+*Font Bookman-DemiItalic: Standard "(003.000)" ExtendedRoman Disk
+*Font Bookman-Light: Standard "(003.000)" ExtendedRoman Disk
+*Font Bookman-LightItalic: Standard "(003.000)" ExtendedRoman Disk
+*Font Carta: Special "(001.001)" Special Disk
+*Font Chicago: Standard "(001.000)" Standard Disk
+*Font Clarendon: Standard "(001.002)" Standard Disk
+*Font Clarendon-Bold: Standard "(001.002)" Standard Disk
+*Font Clarendon-Light: Standard "(001.002)" Standard Disk
+*Font CooperBlack: Standard "(001.004)" Standard Disk
+*Font CooperBlack-Italic: Standard "(001.004)" Standard Disk
+*Font Copperplate-ThirtyThreeBC: Standard "(001.003)" Standard Disk
+*Font Copperplate-ThirtyTwoBC: Standard "(001.003)" Standard Disk
+*Font Coronet-Regular: Standard "(001.002)" ExtendedRoman Disk
+*Font Courier: Standard "(004.000)" ExtendedRoman Disk
+*Font Courier-Bold: Standard "(004.000)" ExtendedRoman Disk
+*Font Courier-BoldOblique: Standard "(004.000)" ExtendedRoman Disk
+*Font Courier-Oblique: Standard "(004.000)" ExtendedRoman Disk
+*Font Eurostile: Standard "(001.003)" Standard Disk
+*Font Eurostile-Bold: Standard "(001.002)" Standard Disk
+*Font Eurostile-BoldExtendedTwo: Standard "(001.003)" Standard Disk
+*Font Eurostile-ExtendedTwo: Standard "(001.003)" Standard Disk
+*Font Geneva: Standard "(001.000)" Standard Disk
+*Font GillSans: Standard "(001.003)" Standard Disk
+*Font GillSans-Bold: Standard "(001.002)" Standard Disk
+*Font GillSans-BoldCondensed: Standard "(001.002)" Standard Disk
+*Font GillSans-BoldItalic: Standard "(001.003)" Standard Disk
+*Font GillSans-Condensed: Standard "(001.002)" Standard Disk
+*Font GillSans-ExtraBold: Standard "(001.002)" Standard Disk
+*Font GillSans-Italic: Standard "(001.003)" Standard Disk
+*Font GillSans-Light: Standard "(001.002)" Standard Disk
+*Font GillSans-LightItalic: Standard "(001.003)" Standard Disk
+*Font Goudy: Standard "(001.004)" Standard Disk
+*Font Goudy-Bold: Standard "(001.003)" Standard Disk
+*Font Goudy-BoldItalic: Standard "(001.003)" Standard Disk
+*Font Goudy-ExtraBold: Standard "(001.002)" Standard Disk
+*Font Goudy-Italic: Standard "(001.003)" Standard Disk
+*Font Helvetica: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Bold: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-BoldOblique: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Condensed: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Condensed-Bold: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Condensed-BoldObl: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Condensed-Oblique: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Narrow: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Narrow-Bold: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Narrow-BoldOblique: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Narrow-Oblique: Standard "(003.000)" ExtendedRoman Disk
+*Font Helvetica-Oblique: Standard "(003.000)" ExtendedRoman Disk
+*Font HoeflerText-Black: Standard "(001.000)" Standard Disk
+*Font HoeflerText-BlackItalic: Standard "(001.000)" Standard Disk
+*Font HoeflerText-Italic: Standard "(001.000)" Standard Disk
+*Font HoeflerText-Ornaments: Special "(001.001)" Special Disk
+*Font HoeflerText-Regular: Standard "(001.000)" Standard Disk
+*Font JoannaMT: Standard "(001.001)" Standard Disk
+*Font JoannaMT-Bold: Standard "(001.001)" Standard Disk
+*Font JoannaMT-BoldItalic: Standard "(001.001)" Standard Disk
+*Font JoannaMT-Italic: Standard "(001.001)" Standard Disk
+*Font LetterGothic: Standard "(001.005)" Standard Disk
+*Font LetterGothic-Bold: Standard "(001.007)" Standard Disk
+*Font LetterGothic-BoldSlanted: Standard "(001.006)" Standard Disk
+*Font LetterGothic-Slanted: Standard "(001.005)" Standard Disk
+*Font LubalinGraph-Book: Standard "(001.004)" Standard Disk
+*Font LubalinGraph-BookOblique: Standard "(001.004)" Standard Disk
+*Font LubalinGraph-Demi: Standard "(001.004)" Standard Disk
+*Font LubalinGraph-DemiOblique: Standard "(001.004)" Standard Disk
+*Font Marigold: Standard "(001.001)" Standard Disk
+*Font Monaco: Standard "(001.001)" Standard Disk
+*Font MonaLisa-Recut: Standard "(001.001)" Standard Disk
+*Font NewCenturySchlbk-Bold: Standard "(003.000)" ExtendedRoman Disk
+*Font NewCenturySchlbk-BoldItalic: Standard "(003.000)" ExtendedRoman Disk
+*Font NewCenturySchlbk-Italic: Standard "(003.000)" ExtendedRoman Disk
+*Font NewCenturySchlbk-Roman: Standard "(003.000)" ExtendedRoman Disk
+*Font NewYork: Standard "(001.000)" Standard Disk
+*Font Optima: Standard "(001.006)" Standard Disk
+*Font Optima-Bold: Standard "(001.007)" Standard Disk
+*Font Optima-BoldItalic: Standard "(001.001)" Standard Disk
+*Font Optima-Italic: Standard "(001.001)" Standard Disk
+*Font Oxford: Standard "(001.001)" Standard Disk
+*Font Palatino-Bold: Standard "(003.000)" ExtendedRoman Disk
+*Font Palatino-BoldItalic: Standard "(003.000)" ExtendedRoman Disk
+*Font Palatino-Italic: Standard "(003.000)" ExtendedRoman Disk
+*Font Palatino-Roman: Standard "(003.000)" ExtendedRoman Disk
+*Font StempelGaramond-Bold: Standard "(001.003)" Standard Disk
+*Font StempelGaramond-BoldItalic: Standard "(001.003)" Standard Disk
+*Font StempelGaramond-Italic: Standard "(001.003)" Standard Disk
+*Font StempelGaramond-Roman: Standard "(001.003)" Standard Disk
+*Font Symbol: Special "(001.008)" Special Disk
+*Font Tekton: Standard "(001.002)" Standard Disk
+*Font Times-Bold: Standard "(003.000)" ExtendedRoman Disk
+*Font Times-BoldItalic: Standard "(003.000)" ExtendedRoman Disk
+*Font Times-Italic: Standard "(003.000)" ExtendedRoman Disk
+*Font TimesNewRomanPS-BoldItalicMT: Standard "(001.003)" ExtendedRoman Disk
+*Font TimesNewRomanPS-BoldMT: Standard "(001.004)" ExtendedRoman Disk
+*Font TimesNewRomanPS-ItalicMT: Standard "(001.003)" ExtendedRoman Disk
+*Font TimesNewRomanPSMT: Standard "(001.003)" ExtendedRoman Disk
+*Font Times-Roman: Standard "(003.000)" ExtendedRoman Disk
+*Font Univers: Standard "(001.004)" Standard Disk
+*Font Univers-Bold: Standard "(001.004)" Standard Disk
+*Font Univers-BoldExt: Standard "(001.001)" Standard Disk
+*Font Univers-BoldExtObl: Standard "(001.001)" Standard Disk
+*Font Univers-BoldOblique: Standard "(001.004)" Standard Disk
+*Font Univers-Condensed: Standard "(001.003)" Standard Disk
+*Font Univers-CondensedBold: Standard "(001.002)" Standard Disk
+*Font Univers-CondensedBoldOblique: Standard "(001.002)" Standard Disk
+*Font Univers-CondensedOblique: Standard "(001.003)" Standard Disk
+*Font Univers-Extended: Standard "(001.001)" Standard Disk
+*Font Univers-ExtendedObl: Standard "(001.001)" Standard Disk
+*Font Univers-Light: Standard "(001.004)" Standard Disk
+*Font Univers-LightOblique: Standard "(001.004)" Standard Disk
+*Font Univers-Oblique: Standard "(001.004)" Standard Disk
+*Font Wingdings: UnknownEncoding "(001.001)" UnknownCharset Disk
+*Font Wingdings-Regular: Special "(001.001)" Special Disk
+*Font ZapfChancery-MediumItalic: Standard "(003.000)" ExtendedRoman Disk
+*Font ZapfDingbats: Special "(002.000)" Special Disk
+
+*?FontQuery: "save
+{count 1 gt
+  {exch dup 127 string cvs (/)print print (:)print
+   /Font resourcestatus
+   {pop pop (Yes)} {(No)} ifelse =
+  }
+  {exit}
+  ifelse
+} bind loop
+(*) = flush
+restore"
+*End
+
+*?FontList: "save
+ (*) {cvn ==} 128 string /Font resourceforall
+ (*) = flush
+restore"
+*End
+
+*% Printer Messages (verbatim from printer):
+*Message: "%%[ exitserver: permanent state may be changed ]%%"
+*Message: "%%[ Flushing: rest of job (to end-of-file) will be ignored ]%%"
+*Message: "\FontName\ not found, using Courier"
+
+*% Status (format: %%[ status: <one of these> ] %%)
+*Status: "initializing"
+*Status: "idle"
+*Status: "busy"
+*Status: "waiting"
+*Status: "online"
+
+*% Input Sources (format: %%[ status: <stat>; source: <one of these> ]%% )
+*Source: "Parallel"
+*Source: "EtherTalk"
+*Source: "TokenTalk"
+
+*%DeviceAdjustMatrix: "[1 0 0 1 0 0]"
+
+*% Color Separation Information =====================
+
+*DefaultColorSep: ProcessBlack.106lpi.600dpi/106 lpi / 600x600 dpi
+
+*%  For 106 lpi / 600 x 600 dpi  ===============================
+
+*ColorSepScreenAngle ProcessBlack.106lpi.600dpi/106 lpi / 600x600 dpi: "45"
+*ColorSepScreenAngle CustomColor.106lpi.600dpi/106 lpi / 600x600 dpi: "45"
+*ColorSepScreenAngle ProcessCyan.106lpi.600dpi/106 lpi / 600x600 dpi: "15"
+*ColorSepScreenAngle ProcessMagenta.106lpi.600dpi/106 lpi / 600x600 dpi: "75"
+*ColorSepScreenAngle ProcessYellow.106lpi.600dpi/106 lpi / 600x600 dpi: "0"
+
+*ColorSepScreenFreq ProcessBlack.106lpi.600dpi/106 lpi / 600x600 dpi: "60"
+*ColorSepScreenFreq CustomColor.106lpi.600dpi/106 lpi / 600x600 dpi: "60"
+*ColorSepScreenFreq ProcessCyan.106lpi.600dpi/106 lpi / 600x600 dpi: "60"
+*ColorSepScreenFreq ProcessMagenta.106lpi.600dpi/106 lpi / 600x600 dpi: "60"
+*ColorSepScreenFreq ProcessYellow.106lpi.600dpi/106 lpi / 600x600 dpi: "60"
+
+*% @(#)cnadv400e1.ppd 3.40 2012
+*% The byte count of this file should be exactly 88009 or greater
+*% depending on the filesystem it resides in.
+*% end of PPD file for Canon iR-ADV 400/500 Printer
