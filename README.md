@@ -2005,6 +2005,56 @@ This documentation outlines the operations available for managing Buildings with
 - Total Operations Covered: 8
 - Total Operations Not Covered: 1
 
+### Jamf Pro Classic API - Users
+
+This documentation outlines the operations available for managing Users within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/users`
+  - `GetUsers` operation retrieves a serialized list of all Users.
+
+- [x] ✅ **GET** `/JSSResource/users/id/{id}`
+  - `GetUserByID` operation fetches a specific User by their ID.
+
+- [x] ✅ **GET** `/JSSResource/users/name/{name}`
+  - `GetUserByName` operation fetches a specific User by their name.
+
+- [x] ✅ **GET** `/JSSResource/users/email/{email}`
+  - `GetUserByEmail` operation fetches a specific User by their email.
+
+- [x] ✅ **POST** `/JSSResource/users/id/0`
+  - `CreateUser` operation creates a new User.
+
+- [x] ✅ **PUT** `/JSSResource/users/id/{id}`
+  - `UpdateUserByID` operation updates an existing User by their ID.
+
+- [x] ✅ **PUT** `/JSSResource/users/name/{name}`
+  - `UpdateUserByName` operation updates an existing User by their name.
+
+- [x] ✅ **PUT** `/JSSResource/users/email/{email}`
+  - `UpdateUserByEmail` operation updates an existing User by their email.
+
+- [x] ✅ **DELETE** `/JSSResource/users/id/{id}`
+  - `DeleteUserByID` operation deletes a User by their ID.
+
+- [x] ✅ **DELETE** `/JSSResource/users/name/{name}`
+  - `DeleteUserByName` operation deletes a User by their name.
+
+- [x] ✅ **DELETE** `/JSSResource/users/email/{email}`
+  - `DeleteUserByEmail` operation deletes a User by their email.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/users`
+  - `/JSSResource/users/id/{id}`
+  - `/JSSResource/users/name/{name}`
+  - `/JSSResource/users/email/{email}`
+
+- Total Operations Covered: 11
+
+
 ### Jamf Pro Classic API - User Groups
 
 This documentation outlines the operations available for managing User Groups within Jamf Pro using the Classic API, which supports XML data structures.
@@ -2047,8 +2097,8 @@ This documentation outlines the operations available for managing User Groups wi
 
 ## Progress Summary
 
-- Total Operations: 364
-- Total Covered Operations: 342
+- Total Operations: 375
+- Total Covered Operations: 353
 - Not Covered: 22
 - Partially Covered: 0
 - Deprecated: 
