@@ -2094,11 +2094,50 @@ This documentation outlines the operations available for managing User Groups wi
 
 - Total Operations Covered: 8
 
+### Jamf Pro Classic API - User Extension Attributes
+
+This documentation outlines the operations available for managing User Extension Attributes within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/userextensionattributes`
+  - `GetUserExtensionAttributes` operation retrieves a serialized list of all User Extension Attributes.
+
+- [x] ✅ **GET** `/JSSResource/userextensionattributes/id/{id}`
+  - `GetUserExtensionAttributeByID` operation fetches a specific User Extension Attribute by its ID.
+
+- [x] ✅ **GET** `/JSSResource/userextensionattributes/name/{name}`
+  - `GetUserExtensionAttributeByName` operation fetches a specific User Extension Attribute by its name.
+
+- [x] ✅ **POST** `/JSSResource/userextensionattributes/id/0`
+  - `CreateUserExtensionAttribute` operation creates a new User Extension Attribute.
+
+- [x] ✅ **PUT** `/JSSResource/userextensionattributes/id/{id}`
+  - `UpdateUserExtensionAttributeByID` operation updates an existing User Extension Attribute by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/userextensionattributes/name/{name}`
+  - `UpdateUserExtensionAttributeByName` operation updates an existing User Extension Attribute by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/userextensionattributes/id/{id}`
+  - `DeleteUserExtensionAttributeByID` operation deletes a User Extension Attribute by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/userextensionattributes/name/{name}`
+  - `DeleteUserExtensionAttributeByName` operation deletes a User Extension Attribute by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/userextensionattributes`
+  - `/JSSResource/userextensionattributes/id/{id}`
+  - `/JSSResource/userextensionattributes/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ## Progress Summary
 
-- Total Operations: 375
-- Total Covered Operations: 353
+- Total Operations: 383
+- Total Covered Operations: 361
 - Not Covered: 22
 - Partially Covered: 0
 - Deprecated: 
