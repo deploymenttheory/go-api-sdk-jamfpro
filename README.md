@@ -2133,12 +2133,93 @@ This documentation outlines the operations available for managing User Extension
 
 - Total Operations Covered: 8
 
+### Jamf Pro Classic API - Mobile Devices
+
+This documentation details the operations available for managing Mobile Devices within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/mobiledevices`
+  - `GetMobileDevices` operation retrieves a serialized list of all mobile devices.
+
+- [x] ✅ **GET** `/JSSResource/mobiledevices/id/{id}`
+  - `GetMobileDeviceByID` operation fetches a specific mobile device by its ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledevices/name/{name}`
+  - `GetMobileDeviceByName` operation fetches a specific mobile device by its name.
+
+- [x] ✅ **GET** `/JSSResource/mobiledevices/id/{id}/subset/{subset}`
+  - `GetMobileDeviceByIDAndDataSubset` operation retrieves a specific subset of data for a mobile device by its ID.
+
+- [x] ✅ **GET** `/JSSResource/mobiledevices/name/{name}/subset/{subset}`
+  - `GetMobileDeviceByNameAndDataSubset` operation retrieves a specific subset of data for a mobile device by its name.
+
+- [] ❌ **GET** `/JSSResource/mobiledevices/match/{match}`
+  - `GetMobileDeviceBySearchTerm` operation retrieves a Match and performs the same function as a simple search in the GUI.
+
+- [] ❌ **GET** `/JSSResource/mobiledevices/udid/{udid}`
+  - `GetMobileDeviceByUUID` operation retrieves a mobile device by its UUID.
+
+- [] ❌ **GET** `/JSSResource/mobiledevices/udid/{udid}/subset/{subset}`
+  - `GetMobileDeviceByUUIDAndDataSubset` operation retrieves a mobile device by its UUID and a data subset.
+
+- [] ❌ **GET** `/JSSResource/mobiledevices/serialnumber/{serialnumber}`
+  - `GetMobileDeviceBySerialNumber` operation retrieves a mobile device by its serial number.
+
+- [] ❌ **GET** `/JSSResource/mobiledevices/serialnumber/{serialnumber}/subset/{subset}`
+  - `GetMobileDeviceBySerialNumberAndDataSubset` operation retrieves a mobile device by its Serial Number and a data subset.
+
+- [x] ✅ **POST** `/JSSResource/mobiledevices/id/0`
+  - `CreateMobileDevice` operation creates a new mobile device.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledevices/id/{id}`
+  - `UpdateMobileDeviceByID` operation updates an existing mobile device by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/mobiledevices/name/{name}`
+  - `UpdateMobileDeviceByName` operation updates an existing mobile device by its name.
+
+- [] ❌ **PUT** `/JSSResource/mobiledevices/udid/{udid}`
+  - `UpdateMobileDeviceByUDID` operation updates an existing mobile device by its UDID.
+
+- [] ❌ **PUT** `/JSSResource/mobiledevices/serialnumber/{serialnumber}`
+  - `UpdateMobileDeviceBySerialNumber` operation updates an existing mobile device by its Serial number.
+
+- [] ❌ **PUT** `/JSSResource/mobiledevices/macaddress/{macaddress}`
+  - `UpdateMobileDeviceByMACAddress` operation updates an existing mobile device by its MAC Address.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledevices/id/{id}`
+  - `DeleteMobileDeviceByID` operation deletes a mobile device by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/mobiledevices/name/{name}`
+  - `DeleteMobileDeviceByName` operation deletes a mobile device by its name.
+
+- [] ❌ **DELETE** `/JSSResource/computers/udid/{udid}`
+  - `DeleteComputerByUUID` operation deletes a computer by its UUID.
+
+- [] ❌ **DELETE** `/JSSResource/mobiledevices/serialnumber/{serialnumber}`
+  - `DeletemobiledevicesBySerialNumber` operation deletes a computer by its Serial Number.
+
+- [] ❌ **DELETE** `/JSSResource/mobiledevices/macaddress/{macaddress}`
+  - `DeletemobiledevicesByMacAddress` operation deletes a computer by its Mac Address.
+
+## Summary
+
+- Total Endpoints Covered: 10
+  - `/JSSResource/mobiledevices`
+  - `/JSSResource/mobiledevices/id/{id}`
+  - `/JSSResource/mobiledevices/name/{name}`
+  - `/JSSResource/mobiledevices/id/{id}/subset/{subset}`
+  - `/JSSResource/mobiledevices/name/{name}/subset/{subset}`
+
+- Total Operations Covered: 10
+- Total Operations Not Covered: 11
+
 
 ## Progress Summary
 
-- Total Operations: 383
-- Total Covered Operations: 361
-- Not Covered: 22
+- Total Operations: 393
+- Total Covered Operations: 371
+- Not Covered: 33
 - Partially Covered: 0
 - Deprecated: 
 
