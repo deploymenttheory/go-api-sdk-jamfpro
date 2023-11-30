@@ -450,11 +450,20 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **Custom Function**  
   `DeleteVolumePurchasingSubscriptionByName` deletes a volume purchasing subscription by its display name after resolving the name to an ID.
 
+## Summary
+
+- Total Endpoints Covered: 2
+  - `/api/v1/volume-purchasing-subscriptions`
+  - `/api/v1/volume-purchasing-subscriptions/{id}`
+
+- Total Operations Covered: 5
+- Total Custom Operations Covered: 3
+
 ### Jamf Pro API - Computer Inventory Collection Settings
 
 This documentation outlines the API endpoints available for managing Computer Inventory Collection Settings in Jamf Pro.
 
-#### Endpoints
+## Operations
 
 - [x] ✅ **GET** `/api/v1/computer-inventory-collection-settings`  
   `GetComputerInventoryCollectionSettings` retrieves the current computer inventory collection preferences and custom paths.
@@ -468,21 +477,36 @@ This documentation outlines the API endpoints available for managing Computer In
 - [x] ✅ **DELETE** `/api/v1/computer-inventory-collection-settings/custom-path/{id}`  
   `DeleteComputerInventoryCollectionSettingsCustomPathByID` deletes a custom path by its ID.
 
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/api/v1/computer-inventory-collection-settings`
+  - `/api/v1/computer-inventory-collection-settings/custom-path`
+  - `/api/v1/computer-inventory-collection-settings/custom-path/{id}`
+
+- Total Operations Covered: 4
+
 ### Jamf Pro API - Jamf Pro Information
 
 This documentation covers the API endpoints available for retrieving information about the Jamf Pro server.
 
-#### Endpoints
+## Operations
 
 - [x] ✅ **GET** `/api/v2/jamf-pro-information`  
   `GetJamfProInformation` retrieves information about various services enabled on the Jamf Pro server, like VPP token, DEP account status, BYOD, and more.
 
+## Summary
+
+- Total Endpoints Covered: 1
+  - `/api/v2/jamf-pro-information`
+
+- Total Operations Covered: 1
 	
 ### Jamf Pro Classic API - Classes
 
 This documentation provides details on the API endpoints available for managing classes within Jamf Pro using the Classic API which requires XML data structure support.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/classes`  
   `GetClasses` retrieves a list of all classes.
@@ -508,10 +532,21 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/classes/name/{name}`  
   `DeleteClassByName` deletes a class by its name.
 
-###  Jamf Pro Classic API - Computer Invitations
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/classes`
+  - `/JSSResource/classes/id/{id}`
+  - `/JSSResource/classes/name/{name}`
+
+- Total Operations Covered: 8
+
+### Jamf Pro Classic API - Computer Invitations
+
 This documentation outlines the API endpoints available for managing computer invitations within Jamf Pro using the Classic API, which relies on XML data structures.
 
-Endpoints
+## Operations
+
 - [x] ✅ **GET** `/JSSResource/computerinvitations`
 GetComputerInvitations retrieves a list of all computer invitations.
 
@@ -532,6 +567,16 @@ DeleteComputerInvitationByID deletes a computer invitation by its ID.
 
 - [] ❌ **DELETE** `/JSSResource/computerinvitations/invitation/{invitation}`
 There is currently no SDK coverage for deleting an invitation by invitation ID
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/computerinvitations`
+  - `/JSSResource/computerinvitations/id/{id}`
+  - `/JSSResource/computerinvitations/invitation/{invitation}`
+
+- Total Operations Covered: 5
+- Total Operations Not Covered: 3
 
 ### Jamf Pro Classic API - Disk Encryption Configurations
 
@@ -563,125 +608,229 @@ This documentation provides details on the API endpoints available for managing 
 - [x] ✅ **DELETE** `/JSSResource/diskencryptionconfigurations/name/{name}`  
   `DeleteDiskEncryptionConfigurationByName` deletes a disk encryption configuration by its name.
 
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/diskencryptionconfigurations`
+  - `/JSSResource/diskencryptionconfigurations/id/{id}`
+  - `/JSSResource/diskencryptionconfigurations/name/{name}`
+
+- Total Operations Covered: 8
+
 ### Jamf Pro Classic API - Distribution Points
 
-This documentation provides details on the API endpoints available for managing distribution points within Jamf Pro using the Classic API, which requires XML data structure support.
+This documentation outlines the operations available for managing Distribution Points within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints`  
-  `GetDistributionPoints` retrieves a serialized list of all distribution points.
+- [x] ✅ **GET** `/JSSResource/distributionpoints`
+  - `GetDistributionPoints` operation retrieves a serialized list of all distribution points.
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints/id/{id}`  
-  `GetDistributionPointByID` fetches a single distribution point by its ID.
+- [x] ✅ **GET** `/JSSResource/distributionpoints/id/{id}`
+  - `GetDistributionPointByID` operation fetches a single distribution point by its ID.
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`  
-  `GetDistributionPointByName` retrieves a distribution point by its name.
+- [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`
+  - `GetDistributionPointByName` operation retrieves a distribution point by its name.
 
-- [x] ✅ **POST** `/JSSResource/distributionpoints/id/0`  
-  `CreateDistributionPoint` creates a new distribution point with the provided details. The ID `0` in the endpoint indicates creation.
+- [x] ✅ **POST** `/JSSResource/distributionpoints/id/0`
+  - `CreateDistributionPoint` operation creates a new distribution point with the provided details. The ID `0` in the endpoint indicates creation.
 
-- [x] ✅ **PUT** `/JSSResource/distributionpoints/id/{id}`  
-  `UpdateDistributionPointByID` updates an existing distribution point by its ID.
+- [x] ✅ **PUT** `/JSSResource/distributionpoints/id/{id}`
+  - `UpdateDistributionPointByID` operation updates an existing distribution point by its ID.
 
-- [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`  
-  `UpdateDistributionPointByName` updates an existing distribution point by its name.
+- [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`
+  - `UpdateDistributionPointByName` operation updates an existing distribution point by its name.
 
-- [x] ✅ **DELETE** `/JSSResource/distributionpoints/id/{id}`  
-  `DeleteDistributionPointByID` deletes a distribution point by its ID.
+- [x] ✅ **DELETE** `/JSSResource/distributionpoints/id/{id}`
+  - `DeleteDistributionPointByID` operation deletes a distribution point by its ID.
 
-- [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`  
-  `DeleteDistributionPointByName` deletes a distribution point by its name.
+- [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`
+  - `DeleteDistributionPointByName` operation deletes a distribution point by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/distributionpoints`
+  - `/JSSResource/distributionpoints/id/{id}`
+  - `/JSSResource/distributionpoints/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - Directory Bindings
 
-This documentation provides details on the API endpoints available for managing directory bindings within Jamf Pro using the Classic API, which requires XML data structure support.
+This documentation outlines the operations available for managing Directory Bindings within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/directorybindings`
-`GetDirectoryBindings` retrieves a serialized list of all directory bindings.
+  - `GetDirectoryBindings` operation retrieves a serialized list of all directory bindings.
 
 - [x] ✅ **GET** `/JSSResource/directorybindings/id/{id}`
-`GetDirectoryBindingByID` fetches a single directory binding by its ID.
+  - `GetDirectoryBindingByID` operation fetches a single directory binding by its ID.
 
 - [x] ✅ **GET** `/JSSResource/directorybindings/name/{name}`
-`GetDirectoryBindingByName` retrieves a directory binding by its name.
+  - `GetDirectoryBindingByName` operation retrieves a directory binding by its name.
 
 - [x] ✅ **POST** `/JSSResource/directorybindings/id/0`
-`CreateDirectoryBinding` creates a new directory binding with the provided details. The ID 0 in the endpoint indicates creation.
+  - `CreateDirectoryBinding` operation creates a new directory binding with the provided details. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/directorybindings/id/{id}`
-`UpdateDirectoryBindingByID` updates an existing directory binding by its ID.
+  - `UpdateDirectoryBindingByID` operation updates an existing directory binding by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/directorybindings/name/{name}`
-`UpdateDirectoryBindingByName updates an existing directory binding by its name.
+  - `UpdateDirectoryBindingByName` operation updates an existing directory binding by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/directorybindings/id/{id}`
-`DeleteDirectoryBindingByID deletes a directory binding by its ID.
+  - `DeleteDirectoryBindingByID` operation deletes a directory binding by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/directorybindings/name/{name}`
-`DeleteDirectoryBindingByName` deletes a directory binding by its name.
+  - `DeleteDirectoryBindingByName` operation deletes a directory binding by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/directorybindings`
+  - `/JSSResource/directorybindings/id/{id}`
+  - `/JSSResource/directorybindings/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - Computers
 
-This documentation provides details on the API endpoints available for managing computers within Jamf Pro using the Classic API, which requires XML data structure support.
+This documentation outlines the operations available for managing Computers within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/computers`
-`GetComputers` retrieves a serialized list of all computers.
+  - `GetComputers` operation retrieves a serialized list of all computers.
 
 - [x] ✅ **GET** `/JSSResource/computers/id/{id}`
-`GetComputerByID` fetches a single computer by its ID.
+  - `GetComputerByID` operation fetches a single computer by its ID.
 
 - [x] ✅ **GET** `/JSSResource/computers/name/{name}`
-`GetComputerByName` retrieves a computer by its name.
+  - `GetComputerByName` operation retrieves a computer by its name.
+
+- [] ❌ **GET** `/JSSResource/computers/subset/basic`
+  - `GetComputerByBasicDataSubset` operation retrieves a basic data about a computer.
+
+- [] ❌ **GET** `/JSSResource/computers/match/{match}`
+  - `GetComputerBySearchTerm` operation retrieves a Match and performs the same function as a simple search in the GUI.
+
+- [] ❌ **GET** `/JSSResource/computers/match/name/{matchname}`
+  - `GetComputerByNameParameter` operation retrieves a Match and performs the same function as a simple search in the GUI.
+
+- [] ❌ **GET** `/JSSResource/computers/id/{id}/subset/{subset}`
+  - `GetComputerByIDAndDataSubset` Subset values can also be appended using an ampersand to return multiple subsets (e.g. /subsets/General&Location).
+
+- [] ❌ **GET** `/JSSResource/computers/name/{name}/subset/{subset}`
+  - `GetComputerByNameAndDataSubset` Subset values can also be appended using an ampersand to return multiple subsets (e.g. /subsets/General&Location).
+
+- [] ❌ **GET** `/JSSResource/computers/udid/{udid}`
+  - `GetComputerByUUID` operation retrieves a computer by its UUID.
+
+- [] ❌ **GET** `/JSSResource/computers/udid/{udid}/subset/{subset}`
+  - `GetComputerByUUIDAndDataSubset` operation retrieves a computer by its UUID and a data subset.
+
+- [] ❌ **GET** `/JSSResource/computers/serialnumber/{serialnumber}`
+  - `GetComputerBySerialNumber` operation retrieves a computer by its serial number.
+
+- [] ❌ **GET** `/JSSResource/computers/serialnumber/{serialnumber}/subset/{subset}`
+  - `GetComputerBySerialNumberAndDataSubset` operation retrieves a computer by its Serial Number and a data subset.
+
+- [] ❌ **GET** `/JSSResource/computers/macaddress/{macaddress}`
+  - `GetComputerByMACAddress` operation retrieves a computer by its MAC Address.
+
+- [] ❌ **GET** `/JSSResource/computers/macaddress/{macaddress}/subset/{subset}`
+  - `GetComputerByMACAddressAndDataSubset` operation retrieves a computer by its MAC Address and a data subset.
 
 - [x] ✅ **POST** `/JSSResource/computers/id/0`
-CreateComputer creates a new computer with the provided details. The ID 0 in the endpoint indicates creation.
+  - `CreateComputer` operation creates a new computer with the provided details. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/computers/id/{id}`
-`UpdateComputerByID` updates an existing computer by its ID.
+  - `UpdateComputerByID` operation updates an existing computer by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/computers/name/{name}`
-`UpdateComputerByName` updates an existing computer by its name.
+  - `UpdateComputerByName` operation updates an existing computer by its name.
+
+- [] ❌ **PUT** `/JSSResource/computers/udid/{udid}`
+  - `UpdateComputerByUUID` operation updates an existing computer by its UUID.
+
+- [] ❌ **PUT** `/JSSResource/computers/serialnumber/{serialnumber}`
+  - `UpdateComputerBySerialNumber` operation updates an existing computer by its Serial Number.
+
+- [] ❌ **PUT** `/JSSResource/computers/macaddress/{macaddress}`
+  - `UpdateComputerByMacAddress` operation updates an existing computer by its Mac Address.
 
 - [x] ✅ **DELETE** `/JSSResource/computers/id/{id}`
-`DeleteComputerByID` deletes a computer by its ID.
+  - `DeleteComputerByID` operation deletes a computer by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/computers/name/{name}`
-`DeleteComputerByName` deletes a computer by its name.
+  - `DeleteComputerByName` operation deletes a computer by its name.
+
+- [] ❌ **DELETE** `/JSSResource/computers/udid/{udid}`
+  - `DeleteComputerByUUID operation deletes a computer by its UUID.
+
+- [] ❌ **DELETE** `/JSSResource/computers/serialnumber/{serialnumber}`
+  - `DeleteComputerBySerialNumber` operation deletes a computer by its Serial Number.
+
+- [] ❌ **DELETE** `/JSSResource/computers/macaddress/{macaddress}`
+  - `DeleteComputerByMacAddress` operation deletes a computer by its Mac Address.
+
+- [] ❌ **DELETE** `/JSSResource/computers/extensionattributedataflush/id/{id}`
+  - `Deletes data collected by an extension attribute` operation Deletes data collected by an extension attribute.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/computers`
+  - `/JSSResource/computers/id/{id}`
+  - `/JSSResource/computers/name/{name}`
+
+- Total Operations Covered: 8
+- Total Operations Not Covered: 18
+
 
 ### Jamf Pro Classic API - Dock Items
 
-This documentation provides details on the API endpoints available for managing dock items within Jamf Pro using the Classic API, which requires XML data structure support.
+This documentation outlines the operations available for managing Dock Items within Jamf Pro using the Classic API, which supports XML data structures.
 
-## Endpoints
+## Operations
 
 - [x] ✅ **GET** `/JSSResource/dockitems`
-  `GetDockItems` retrieves a serialized list of all dock items.
+  - `GetDockItems` operation retrieves a serialized list of all dock items.
 
 - [x] ✅ **GET** `/JSSResource/dockitems/id/{id}`
-  `GetDockItemsByID` fetches a single dock item by its ID.
+  - `GetDockItemByID` operation fetches a single dock item by its ID.
 
 - [x] ✅ **GET** `/JSSResource/dockitems/name/{name}`
-  `GetDockItemsByName` retrieves a dock item by its name.
+  - `GetDockItemByName` operation retrieves a dock item by its name.
 
 - [x] ✅ **POST** `/JSSResource/dockitems/id/0`
-  `CreateDockItems` creates a new dock item with the provided details. The ID `0` in the endpoint indicates creation.
+  - `CreateDockItem` operation creates a new dock item with the provided details. The ID `0` in the endpoint indicates creation.
 
 - [x] ✅ **PUT** `/JSSResource/dockitems/id/{id}`
-  `UpdateDockItemsByID` updates an existing dock item by its ID.
+  - `UpdateDockItemByID` operation updates an existing dock item by its ID.
 
 - [x] ✅ **PUT** `/JSSResource/dockitems/name/{name}`
-  `UpdateDockItemsByName` updates an existing dock item by its name.
+  - `UpdateDockItemByName` operation updates an existing dock item by its name.
 
 - [x] ✅ **DELETE** `/JSSResource/dockitems/id/{id}`
-  `DeleteDockItemsByID` deletes a dock item by its ID.
+  - `DeleteDockItemByID` operation deletes a dock item by its ID.
 
 - [x] ✅ **DELETE** `/JSSResource/dockitems/name/{name}`
-  `DeleteDockItemsByName` deletes a dock item by its name.
+  - `DeleteDockItemByName` operation deletes a dock item by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/dockitems`
+  - `/JSSResource/dockitems/id/{id}`
+  - `/JSSResource/dockitems/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ### Jamf Pro Classic API - eBooks
 
@@ -1366,9 +1515,9 @@ This documentation outlines the operations available for managing User Groups wi
 
 ## Progress Summary
 
-- Total Operations: 367
-- Total Covered Operations: 358
-- Not Covered: 19
+- Total Operations: 366
+- Total Covered Operations: 344
+- Not Covered: 22
 - Partially Covered: 0
 - Deprecated: 
 
