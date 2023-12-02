@@ -56,7 +56,7 @@ func main() {
 	sections := []string{"GENERAL", "DISK_ENCRYPTION", "STORAGE"} // Example sections
 
 	// Call the GetComputersInventory function
-	inventoryList, err := client.GetComputerInventory(sortCriteria, sections)
+	inventoryList, err := client.GetComputersInventory(sortCriteria, sections)
 	if err != nil {
 		log.Fatalf("Error fetching computer inventory: %v", err)
 	}

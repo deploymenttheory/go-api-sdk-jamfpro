@@ -41,8 +41,8 @@ func main() {
 	newComputer := jamfpro.ResponseComputer{
 		General: jamfpro.General{
 			Name:         "admin’s MacBook Pro",
-			SerialNumber: "C02Q7KHTGFWD",                         // Must be Unique
-			UDID:         "EBBFF74D-C6B7-5589-93A9-19E8BDFEDE33", // Must be Unique
+			SerialNumber: "C02Q7KHTGFXX",                         // Must be Unique
+			UDID:         "EBBFF74D-C6B7-5589-93A9-19E8BDFEDEXX", // Must be Unique
 			RemoteManagement: jamfpro.RemoteManagement{
 				Managed: true,
 			},

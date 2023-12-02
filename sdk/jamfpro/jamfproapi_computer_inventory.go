@@ -489,8 +489,25 @@ type ComputerInventoryDataSubsetGroupMembership struct {
 	SmartGroup bool   `json:"smartGroup"`
 }
 
+// FileVaultInventoryList represents the paginated FileVault inventory response.
+type FileVaultInventoryList struct {
+	TotalCount int                  `json:"totalCount"`
+	Results    []FileVaultInventory `json:"results"`
+}
+
+// FileVaultInventory represents the FileVault information for a single computer.
+type FileVaultInventory struct {
+	ComputerId                          string                                                    `json:"computerId"`
+	Name                                string                                                    `json:"name"`
+	PersonalRecoveryKey                 string                                                    `json:"personalRecoveryKey"`
+	BootPartitionEncryptionDetails      ComputerInventoryDataSubsetBootPartitionEncryptionDetails `json:"bootPartitionEncryptionDetails"`
+	IndividualRecoveryKeyValidityStatus string                                                    `json:"individualRecoveryKeyValidityStatus"`
+	InstitutionalRecoveryKeyPresent     bool                                                      `json:"institutionalRecoveryKeyPresent"`
+	DiskEncryptionConfigurationName     string                                                    `json:"diskEncryptionConfigurationName"`
+}
+
 // GetComputersInventory retrieves all computer inventory information with optional sorting and section filters.
-func (c *Client) GetComputerInventory(sort []string, sections []string) (*ResponseComputerInventoryList, error) {
+func (c *Client) GetComputersInventory(sort []string, sections []string) (*ResponseComputerInventoryList, error) {
 	var allInventories []ResponseComputerInventory
 
 	page := 0
@@ -558,4 +575,65 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResponseComputerInventory
 	}
 
 	return &responseInventory, nil
+}
+
+// GetComputersFileVaultInventory retrieves all computer inventory filevault information.
+func (c *Client) GetComputersFileVaultInventory() (*FileVaultInventoryList, error) {
+	var allInventories []FileVaultInventory
+
+	page := 0
+	for {
+		params := url.Values{
+			"page":      []string{strconv.Itoa(page)},
+			"page-size": []string{strconv.Itoa(maxPageSize)},
+		}
+
+		endpointWithParams := fmt.Sprintf("%s/filevault?%s", uriComputersInventory, params.Encode())
+
+		// Fetch the FileVault inventory for the current page
+		var responseInventories FileVaultInventoryList
+		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseInventories)
+		if err != nil {
+			return nil, fmt.Errorf("failed to fetch FileVault inventory: %v", err)
+		}
+
+		if resp != nil && resp.Body != nil {
+			defer resp.Body.Close()
+		}
+
+		// Add the fetched inventories to the total list
+		allInventories = append(allInventories, responseInventories.Results...)
+
+		// Check if all inventories have been fetched
+		if len(allInventories) >= responseInventories.TotalCount {
+			break
+		}
+
+		// Increment page number for the next iteration
+		page++
+	}
+
+	// Return the combined list of all FileVault inventories
+	return &FileVaultInventoryList{
+		TotalCount: len(allInventories),
+		Results:    allInventories,
+	}, nil
+}
+
+func (c *Client) GetComputerFileVaultInventoryByID(id string) (*FileVaultInventory, error) {
+	// Construct the endpoint URL using the provided ID
+	endpoint := fmt.Sprintf("%s/%s/filevault", uriComputersInventory, id)
+
+	// Fetch the FileVault inventory by ID
+	var fileVaultInventory FileVaultInventory
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &fileVaultInventory)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch FileVault inventory by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &fileVaultInventory, nil
 }
