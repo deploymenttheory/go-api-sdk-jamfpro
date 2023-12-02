@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -39,19 +38,13 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the ID of the computer whose FileVault inventory you want to retrieve
-	computerID := "your_computer_id"
+	computerID := "8"                                                                                                                                                              // Example computer ID
+	filePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/ebooks_pdf/Apple-Developer-Program-License-Agreement-20230828-English.pdf" // File to be uploaded
 
-	// Call the GetComputerFileVaultInventoryByID function
-	fileVaultInventory, err := client.GetComputerFileVaultInventoryByID(computerID)
+	response, err := client.UploadAttachmentAndAssignToComputerByID(computerID, filePath)
 	if err != nil {
-		log.Fatalf("Error fetching FileVault inventory by ID: %v", err)
+		log.Fatalf("Error uploading attachment: %v", err)
 	}
 
-	// Pretty print the response
-	prettyJSON, err := json.MarshalIndent(fileVaultInventory, "", "    ")
-	if err != nil {
-		log.Fatalf("Failed to generate pretty JSON: %v", err)
-	}
-	fmt.Printf("%s\n", prettyJSON)
+	fmt.Printf("Attachment uploaded successfully. ID: %s, Href: %s\n", response.ID, response.Href)
 }

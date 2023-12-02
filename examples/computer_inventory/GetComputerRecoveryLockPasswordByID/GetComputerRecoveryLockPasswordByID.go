@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -39,19 +38,15 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the ID of the computer whose FileVault inventory you want to retrieve
-	computerID := "your_computer_id"
+	// Define the ID of the computer
+	computerID := "8"
 
-	// Call the GetComputerFileVaultInventoryByID function
-	fileVaultInventory, err := client.GetComputerFileVaultInventoryByID(computerID)
+	// Call the GetComputerRecoveryLockPasswordByID function
+	recoveryLockPasswordResponse, err := client.GetComputerRecoveryLockPasswordByID(computerID)
 	if err != nil {
-		log.Fatalf("Error fetching FileVault inventory by ID: %v", err)
+		log.Fatalf("Error fetching Recovery Lock password by ID: %v", err)
 	}
 
-	// Pretty print the response
-	prettyJSON, err := json.MarshalIndent(fileVaultInventory, "", "    ")
-	if err != nil {
-		log.Fatalf("Failed to generate pretty JSON: %v", err)
-	}
-	fmt.Printf("%s\n", prettyJSON)
+	// Print the Recovery Lock password
+	fmt.Printf("Recovery Lock Password: %s\n", recoveryLockPasswordResponse.RecoveryLockPassword)
 }

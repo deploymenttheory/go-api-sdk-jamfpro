@@ -377,7 +377,7 @@ type ComputerInventoryDataSubsetSoftwareUpdate struct {
 type ComputerInventoryDataSubsetContentCaching struct {
 	ComputerContentCachingInformationId string                                                      `json:"computerContentCachingInformationId"`
 	Parents                             []ComputerInventoryDataSubsetContentCachingParent           `json:"parents"`
-	Alerts                              []ComputerInventoryDataSubsetContentCachingAlert            `json:"alerts"`
+	Alerts                              []ComputerInventoryDataSubsetContentCachingAlert            `json:"alerts"` // Corrected to slice
 	Activated                           bool                                                        `json:"activated"`
 	Active                              bool                                                        `json:"active"`
 	ActualCacheBytesUsed                int                                                         `json:"actualCacheBytesUsed"`
@@ -418,7 +418,7 @@ type ComputerInventoryDataSubsetContentCaching struct {
 type ComputerInventoryDataSubsetContentCachingParent struct {
 	ContentCachingParentId string                                           `json:"contentCachingParentId"`
 	Address                string                                           `json:"address"`
-	Alerts                 []ComputerInventoryDataSubsetContentCachingAlert `json:"alerts"`
+	Alerts                 ComputerInventoryDataSubsetContentCachingAlert   `json:"alerts"` // Changed from slice to struct
 	Details                ComputerInventoryDataSubsetContentCachingDetails `json:"details"`
 	Guid                   string                                           `json:"guid"`
 	Healthy                bool                                             `json:"healthy"`
@@ -438,7 +438,7 @@ type ComputerInventoryDataSubsetContentCachingAlert struct {
 type ComputerInventoryDataSubsetContentCachingDetails struct {
 	ContentCachingParentDetailsId string                                                  `json:"contentCachingParentDetailsId"`
 	AcPower                       bool                                                    `json:"acPower"`
-	CacheSizeBytes                string                                                  `json:"cacheSizeBytes"`
+	CacheSizeBytes                int64                                                   `json:"cacheSizeBytes"`
 	Capabilities                  ComputerInventoryDataSubsetContentCachingCapabilities   `json:"capabilities"`
 	Portable                      bool                                                    `json:"portable"`
 	LocalNetwork                  []ComputerInventoryDataSubsetContentCachingLocalNetwork `json:"localNetwork"`
@@ -458,7 +458,7 @@ type ComputerInventoryDataSubsetContentCachingCapabilities struct {
 // ContentCachingLocalNetwork represents a local network in content caching details.
 type ComputerInventoryDataSubsetContentCachingLocalNetwork struct {
 	ContentCachingParentLocalNetworkId string `json:"contentCachingParentLocalNetworkId"`
-	Speed                              string `json:"speed"`
+	Speed                              int    `json:"speed"`
 	Wired                              bool   `json:"wired"`
 }
 
@@ -466,12 +466,12 @@ type ComputerInventoryDataSubsetContentCachingLocalNetwork struct {
 type ComputerInventoryDataSubsetContentCachingCacheDetail struct {
 	ComputerContentCachingCacheDetailsId string `json:"computerContentCachingCacheDetailsId"`
 	CategoryName                         string `json:"categoryName"`
-	DiskSpaceBytesUsed                   string `json:"diskSpaceBytesUsed"`
+	DiskSpaceBytesUsed                   int64  `json:"diskSpaceBytesUsed"`
 }
 
 // ContentCachingDataMigrationError represents a data migration error in content caching.
 type ComputerInventoryDataSubsetContentCachingDataMigrationError struct {
-	Code     string                                              `json:"code"`
+	Code     int                                                 `json:"code"`
 	Domain   string                                              `json:"domain"`
 	UserInfo []ComputerInventoryDataSubsetContentCachingUserInfo `json:"userInfo"`
 }
@@ -504,6 +504,15 @@ type FileVaultInventory struct {
 	IndividualRecoveryKeyValidityStatus string                                                    `json:"individualRecoveryKeyValidityStatus"`
 	InstitutionalRecoveryKeyPresent     bool                                                      `json:"institutionalRecoveryKeyPresent"`
 	DiskEncryptionConfigurationName     string                                                    `json:"diskEncryptionConfigurationName"`
+}
+
+type ResponseRecoveryLockPassword struct {
+	RecoveryLockPassword string `json:"recoveryLockPassword"`
+}
+
+type ResponseUploadAttachment struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
 }
 
 // GetComputersInventory retrieves all computer inventory information with optional sorting and section filters.
@@ -620,6 +629,7 @@ func (c *Client) GetComputersFileVaultInventory() (*FileVaultInventoryList, erro
 	}, nil
 }
 
+// GetComputerFileVaultInventoryByID returns file vault details by the computer ID.
 func (c *Client) GetComputerFileVaultInventoryByID(id string) (*FileVaultInventory, error) {
 	// Construct the endpoint URL using the provided ID
 	endpoint := fmt.Sprintf("%s/%s/filevault", uriComputersInventory, id)
@@ -636,4 +646,113 @@ func (c *Client) GetComputerFileVaultInventoryByID(id string) (*FileVaultInvento
 	}
 
 	return &fileVaultInventory, nil
+}
+
+// GetComputerRecoveryLockPasswordByID returns a computer recover lock password by the computer ID.
+func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecoveryLockPassword, error) {
+	endpoint := fmt.Sprintf("%s/%s/view-recovery-lock-password", uriComputersInventory, id)
+
+	var recoveryLockPasswordResponse ResponseRecoveryLockPassword
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &recoveryLockPasswordResponse)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch Recovery Lock password by ID: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &recoveryLockPasswordResponse, nil
+}
+
+// UpdateComputerInventoryByID updates a specific computer's inventory information by its ID.
+func (c *Client) UpdateComputerInventoryByID(id string, inventoryUpdate *ResponseComputerInventory) (*ResponseComputerInventory, error) {
+	// Construct the endpoint URL using the provided ID
+	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
+
+	var updatedInventory ResponseComputerInventory
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, inventoryUpdate, &updatedInventory)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update computer inventory with ID %s: %v", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &updatedInventory, nil
+}
+
+// DeleteComputerInventoryByID deletes a computer's inventory information by its ID.
+func (c *Client) DeleteComputerInventoryByID(id string) error {
+	// Construct the endpoint URL using the provided ID
+	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
+
+	// Make a DELETE request to the endpoint
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete computer inventory: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	// Check if the DELETE operation was successful
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("failed to delete computer inventory, status code: %d", resp.StatusCode)
+	}
+
+	return nil
+}
+
+// UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
+func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*ResponseUploadAttachment, error) {
+	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
+
+	// Construct the files map
+	files := map[string]string{
+		"file": filePath, // Assuming 'file' is the form field name for the file uploads
+	}
+
+	// Initialize the response struct
+	var uploadResponse ResponseUploadAttachment
+
+	// Call DoMultipartRequest with the method, endpoint, files, and the response struct
+	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse)
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload attachment and assign to computer: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	// Return the response struct pointer
+	return &uploadResponse, nil
+}
+
+// DeleteAttachmentByIDAndComputerID deletes a computer's inventory attached by computer ID
+// and the computer's attachment ID. Multiple attachments can be assigned to a single computer resource.
+func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID string) error {
+	// Construct the endpoint URL using the provided computerID and attachmentID
+	endpoint := fmt.Sprintf("%s/%s/attachments/%s", uriComputersInventory, computerID, attachmentID)
+
+	// Make a DELETE request to the endpoint
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete attachment: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	// Check if the DELETE operation was successful
+	// Typical success codes for DELETE are 200 (OK), 202 (Accepted), or 204 (No Content)
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("failed to delete attachment, status code: %d", resp.StatusCode)
+	}
+
+	return nil
 }

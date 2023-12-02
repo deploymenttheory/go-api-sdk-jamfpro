@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -39,19 +38,13 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the ID of the computer whose FileVault inventory you want to retrieve
-	computerID := "your_computer_id"
+	// Example: Delete a computer inventory with a specific ID
+	computerID := "9" // Replace with the actual computer ID
 
-	// Call the GetComputerFileVaultInventoryByID function
-	fileVaultInventory, err := client.GetComputerFileVaultInventoryByID(computerID)
+	err = client.DeleteComputerInventoryByID(computerID)
 	if err != nil {
-		log.Fatalf("Error fetching FileVault inventory by ID: %v", err)
+		fmt.Println("Error deleting computer inventory:", err)
+	} else {
+		fmt.Println("Computer inventory deleted successfully")
 	}
-
-	// Pretty print the response
-	prettyJSON, err := json.MarshalIndent(fileVaultInventory, "", "    ")
-	if err != nil {
-		log.Fatalf("Failed to generate pretty JSON: %v", err)
-	}
-	fmt.Printf("%s\n", prettyJSON)
 }
