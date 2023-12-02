@@ -2245,11 +2245,58 @@ This documentation outlines the operations available for managing Patch Policies
 
 - Total Operations Covered: 5
 
+### Jamf Pro API - Computer Inventory
+
+This documentation details the operations available for managing Computer Inventory within Jamf Pro using the API, which supports JSON data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/api/v1/computers-inventory`
+  - `GetComputersInventory` retrieves a paginated list of all computer inventory information. It supports sorting and section filters.
+
+- [x] ✅ **GET** `/api/v1/computers-inventory/{id}`
+  - `GetComputerInventoryByID` fetches a specific computer's inventory information by its ID.
+
+- [x] ✅ **GET** `/api/v1/computers-inventory/filevault`
+  - `GetComputersFileVaultInventory` retrieves all computer inventory FileVault information.
+
+- [x] ✅ **GET** `/api/v1/computers-inventory/{id}/filevault`
+  - `GetComputerFileVaultInventoryByID` returns FileVault details for a specific computer by its ID.
+
+- [x] ✅ **GET** `/api/v1/computers-inventory/{id}/view-recovery-lock-password`
+  - `GetComputerRecoveryLockPasswordByID` retrieves a computer's recovery lock password by the computer ID.
+
+- [x] ✅ **PATCH** `/api/v1/computers-inventory/{id}`
+  - `UpdateComputerInventoryByID` updates a specific computer's inventory information by its ID.
+
+- [x] ✅ **DELETE** `/api/v1/computers-inventory/{id}`
+  - `DeleteComputerInventoryByID` deletes a computer's inventory information by its ID.
+
+- [x] ✅ **POST** `/api/v1/computers-inventory/{id}/attachments`
+  - `UploadAttachmentAndAssignToComputerByID` uploads a file attachment and assigns it to a computer by the computer ID.
+
+- [x] ✅ **DELETE** `/api/v1/computers-inventory/{computerID}/attachments/{attachmentID}`
+  - `DeleteAttachmentByIDAndComputerID` deletes a computer's inventory attachment by the computer ID and attachment ID.
+
+## Summary
+
+- Total Endpoints Covered: 6
+  - `/api/v1/computers-inventory`
+  - `/api/v1/computers-inventory/{id}`
+  - `/api/v1/computers-inventory/filevault`
+  - `/api/v1/computers-inventory/{id}/filevault`
+  - `/api/v1/computers-inventory/{id}/view-recovery-lock-password`
+  - `/api/v1/computers-inventory/{id}/attachments`
+
+- Total Operations Covered: 9
+- Total Operations Covered: 2
+
+
 ## Progress Summary
 
-- Total Operations: 398
-- Total Covered Operations: 376
-- Not Covered: 33
+- Total Operations: 407
+- Total Covered Operations: 385
+- Not Covered: 35
 - Partially Covered: 0
 - Deprecated: 
 
