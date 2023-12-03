@@ -2291,11 +2291,50 @@ This documentation details the operations available for managing Computer Invent
 - Total Operations Covered: 9
 - Total Operations Covered: 2
 
+### Jamf Pro Classic API - Removable Mac Addresses
+
+This documentation outlines the operations available for managing Removable Mac Addresses within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/removablemacaddresses`
+  - `GetRemovableMACAddresses` operation retrieves a list of all removable MAC addresses.
+
+- [x] ✅ **GET** `/JSSResource/removablemacaddresses/id/{id}`
+  - `GetRemovableMACAddressByID` operation retrieves the details of a removable MAC address by its ID.
+
+- [x] ✅ **GET** `/JSSResource/removablemacaddresses/name/{name}`
+  - `GetRemovableMACAddressByName` operation retrieves the details of a removable MAC address by its name.
+
+- [x] ✅ **POST** `/JSSResource/removablemacaddresses/id/{id}`
+  - `CreateRemovableMACAddress` operation creates a new removable MAC address.
+
+- [x] ✅ **PUT** `/JSSResource/removablemacaddresses/id/{id}`
+  - `UpdateRemovableMACAddressByID` operation updates an existing removable MAC address by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/removablemacaddresses/name/{name}`
+  - `UpdateRemovableMACAddressByName` operation updates an existing removable MAC address by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/removablemacaddresses/id/{id}`
+  - `DeleteRemovableMACAddressByID` operation deletes a removable MAC address by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/removablemacaddresses/name/{name}`
+  - `DeleteRemovableMACAddressByName` operation deletes a removable MAC address by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/removablemacaddresses`
+  - `/JSSResource/removablemacaddresses/id/{id}`
+  - `/JSSResource/removablemacaddresses/name/{name}`
+
+- Total Operations Covered: 8
+
 
 ## Progress Summary
 
-- Total Operations: 407
-- Total Covered Operations: 385
+- Total Operations: 415
+- Total Covered Operations: 393
 - Not Covered: 35
 - Partially Covered: 0
 - Deprecated: 

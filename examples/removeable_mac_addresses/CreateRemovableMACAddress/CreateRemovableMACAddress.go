@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -38,21 +39,22 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
-
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
-	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+	// Create a new Removable MAC Address
+	newMACAddress := &jamfpro.RemovableMacAddress{
+		Name: "E0:AC:CB:97:36:G4", // Replace with the actual MAC address name
+		// ID: [set the ID if necessary]
 	}
+
+	createdMACAddress, err := client.CreateRemovableMACAddress(newMACAddress)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// Pretty print the created MAC address details in XML
+	createdMACAddressXML, err := xml.MarshalIndent(createdMACAddress, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling created MAC address data: %v", err)
+	}
+	fmt.Println("Created MAC Address Details:\n", string(createdMACAddressXML))
 }
