@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,16 +38,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetSoftwareUpdateServers
-	softwareUpdateServer, err := client.GetSoftwareUpdateServers()
+	// Example VPP Account ID
+	vppAccountID := 1
+
+	// Call GetVPPAccountByID
+	vppAccount, err := client.GetVPPAccountByID(vppAccountID)
 	if err != nil {
-		log.Fatalf("Error fetching software update servers: %v", err)
+		log.Fatalf("Error fetching VPP account by ID: %v", err)
 	}
 
-	// Pretty print the details in XML
-	softwareUpdateServerXML, err := xml.MarshalIndent(softwareUpdateServer, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling server data: %v", err)
-	}
-	fmt.Println("Created Script Details:\n", string(softwareUpdateServerXML))
+	// Print the retrieved VPP account details
+	fmt.Printf("ID: %d\nName: %s\nContact: %s\nService Token: %s\nAccount Name: %s\nExpiration Date: %s\nCountry: %s\nApple ID: %s\nSite ID: %d\nSite Name: %s\nPopulate Catalog From VPP Content: %t\nNotify Disassociation: %t\nAuto Register Managed Users: %t\n",
+		vppAccount.ID, vppAccount.Name, vppAccount.Contact, vppAccount.ServiceToken, vppAccount.AccountName, vppAccount.ExpirationDate, vppAccount.Country, vppAccount.AppleID, vppAccount.Site.ID, vppAccount.Site.Name, vppAccount.PopulateCatalogFromVPPContent, vppAccount.NotifyDisassociation, vppAccount.AutoRegisterManagedUsers)
 }

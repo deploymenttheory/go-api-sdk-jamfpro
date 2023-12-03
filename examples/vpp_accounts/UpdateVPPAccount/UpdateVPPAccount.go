@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,16 +38,23 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetSoftwareUpdateServers
-	softwareUpdateServer, err := client.GetSoftwareUpdateServers()
-	if err != nil {
-		log.Fatalf("Error fetching software update servers: %v", err)
+	updatedAccount := &jamfpro.ResponseVPPAccount{
+		Name:         "Company VPP Account",
+		Contact:      "Company Admin",
+		ServiceToken: "eyJvcmdOYWadveaz40d2FyZSIsImV4cERhdGUiOiIyMDE3LTA5LTEzVDA5OjQ5OjA5LTA3MDAiLCJ0b2tlbiI6Ik5yVUtPK1RXeityUXQyWFpIeENtd0xxby8ydUFmSFU1NW40V1FTZU8wR1E5eFh4UUZTckVJQjlzbGdYei95WkpaeVZ3SklJbW0rWEhJdGtKM1BEZGRRPT0ifQ==",
+		AccountName:  "Company Name",
+		AppleID:      "vpp@company.com",
+		// Site information is optional, defaults will be set if not provided
+		PopulateCatalogFromVPPContent: true,
+		NotifyDisassociation:          true,
+		AutoRegisterManagedUsers:      false,
 	}
 
-	// Pretty print the details in XML
-	softwareUpdateServerXML, err := xml.MarshalIndent(softwareUpdateServer, "", "    ") // Indent with 4 spaces
+	// Assume we are updating the account with ID 1
+	updatedResponse, err := client.UpdateVPPAccount(1, updatedAccount)
 	if err != nil {
-		log.Fatalf("Error marshaling server data: %v", err)
+		log.Fatalf("Error updating VPP account: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(softwareUpdateServerXML))
+
+	fmt.Printf("Updated VPP Account: %+v\n", updatedResponse)
 }

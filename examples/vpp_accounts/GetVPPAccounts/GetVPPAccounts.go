@@ -39,16 +39,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetSoftwareUpdateServers
-	softwareUpdateServer, err := client.GetSoftwareUpdateServers()
+	// Call GetVPPAccounts
+	vppAccounts, err := client.GetVPPAccounts()
 	if err != nil {
-		log.Fatalf("Error fetching software update servers: %v", err)
+		log.Fatalf("Error fetching VPP accounts: %v", err)
 	}
 
 	// Pretty print the details in XML
-	softwareUpdateServerXML, err := xml.MarshalIndent(softwareUpdateServer, "", "    ") // Indent with 4 spaces
+	vppAccountXML, err := xml.MarshalIndent(vppAccounts, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling server data: %v", err)
+		log.Fatalf("Error marshaling VPP account data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(softwareUpdateServerXML))
+	fmt.Println("Created Script Details:\n", string(vppAccountXML))
 }

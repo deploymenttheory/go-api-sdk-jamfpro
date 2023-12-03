@@ -2408,6 +2408,36 @@ This documentation outlines the operations available for managing Software Updat
 
 - Total Operations Covered: 8
 
+### Jamf Pro Classic API - VPP Accounts
+
+This documentation outlines the operations available for managing VPP (Volume Purchase Program) Accounts within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/vppaccounts`
+  - `GetVPPAccounts` operation retrieves a list of all VPP accounts.
+
+- [x] ✅ **GET** `/JSSResource/vppaccounts/id/{id}`
+  - `GetVPPAccountByID` operation retrieves the details of a specific VPP account by its ID.
+
+- [x] ✅ **POST** `/JSSResource/vppaccounts/id/0`
+  - `CreateVPPAccount` operation creates a new VPP account.
+
+- [x] ✅ **PUT** `/JSSResource/vppaccounts/id/{id}`
+  - `UpdateVPPAccountByID` operation updates an existing VPP account by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/vppaccounts/id/{id}`
+  - `DeleteVPPAccountByID` operation deletes a VPP account by its ID.
+
+## Summary
+
+- Total Endpoints Covered: 2
+  - `/JSSResource/vppaccounts`
+  - `/JSSResource/vppaccounts/id/{id}`
+
+- Total Operations Covered: 5
+
+
 
 ## Progress Summary
 

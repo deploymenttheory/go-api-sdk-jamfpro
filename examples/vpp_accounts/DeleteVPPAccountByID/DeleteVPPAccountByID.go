@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,16 +38,11 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetSoftwareUpdateServers
-	softwareUpdateServer, err := client.GetSoftwareUpdateServers()
+	// Assume we are deleting the account with ID 1
+	err = client.DeleteVPPAccountByID(1)
 	if err != nil {
-		log.Fatalf("Error fetching software update servers: %v", err)
+		log.Fatalf("Error deleting VPP account: %v", err)
 	}
 
-	// Pretty print the details in XML
-	softwareUpdateServerXML, err := xml.MarshalIndent(softwareUpdateServer, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling server data: %v", err)
-	}
-	fmt.Println("Created Script Details:\n", string(softwareUpdateServerXML))
+	fmt.Println("VPP Account deleted successfully")
 }
