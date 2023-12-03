@@ -2330,6 +2330,46 @@ This documentation outlines the operations available for managing Removable Mac 
 
 - Total Operations Covered: 8
 
+### Jamf Pro Classic API - Restricted Software
+
+This documentation outlines the operations available for managing Restricted Software within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/restrictedsoftware`
+  - `GetRestrictedSoftwares` operation retrieves a list of all restricted software entries.
+
+- [x] ✅ **GET** `/JSSResource/restrictedsoftware/id/{id}`
+  - `GetRestrictedSoftwareByID` operation retrieves the details of a specific restricted software entry by its ID.
+
+- [x] ✅ **GET** `/JSSResource/restrictedsoftware/name/{name}`
+  - `GetRestrictedSoftwareByName` operation retrieves the details of a specific restricted software entry by its name.
+
+- [x] ✅ **POST** `/JSSResource/restrictedsoftware/id/{id}`
+  - `CreateRestrictedSoftware` operation creates a new restricted software entry.
+
+- [x] ✅ **PUT** `/JSSResource/restrictedsoftware/id/{id}`
+  - `UpdateRestrictedSoftwareByID` operation updates an existing restricted software entry by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/restrictedsoftware/name/{name}`
+  - `UpdateRestrictedSoftwareByName` operation updates an existing restricted software entry by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/restrictedsoftware/id/{id}`
+  - `DeleteRestrictedSoftwareByID` operation deletes a restricted software entry by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/restrictedsoftware/name/{name}`
+  - `DeleteRestrictedSoftwareByName` operation deletes a restricted software entry by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/restrictedsoftware`
+  - `/JSSResource/restrictedsoftware/id/{id}`
+  - `/JSSResource/restrictedsoftware/name/{name}`
+
+- Total Operations Covered: 8
+
+
 
 ## Progress Summary
 
