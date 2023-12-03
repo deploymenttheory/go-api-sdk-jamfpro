@@ -2369,6 +2369,44 @@ This documentation outlines the operations available for managing Restricted Sof
 
 - Total Operations Covered: 8
 
+### Jamf Pro Classic API - Software Update Servers
+
+This documentation outlines the operations available for managing Software Update Servers within Jamf Pro using the Classic API, which supports XML data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/JSSResource/softwareupdateservers`
+  - `GetSoftwareUpdateServers` operation retrieves a list of all software update servers.
+
+- [x] ✅ **GET** `/JSSResource/softwareupdateservers/id/{id}`
+  - `GetSoftwareUpdateServersByID` operation retrieves the details of a specific software update server by its ID.
+
+- [x] ✅ **GET** `/JSSResource/softwareupdateservers/name/{name}`
+  - `GetSoftwareUpdateServersByName` operation retrieves the details of a specific software update server by its name.
+
+- [x] ✅ **POST** `/JSSResource/softwareupdateservers/id/0`
+  - `CreateSoftwareUpdateServer` operation creates a new software update server.
+
+- [x] ✅ **PUT** `/JSSResource/softwareupdateservers/id/{id}`
+  - `UpdateSoftwareUpdateServerByID` operation updates an existing software update server by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/softwareupdateservers/name/{name}`
+  - `UpdateSoftwareUpdateServerByName` operation updates an existing software update server by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/softwareupdateservers/id/{id}`
+  - `DeleteSoftwareUpdateServerByID` operation deletes a software update server by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/softwareupdateservers/name/{name}`
+  - `DeleteSoftwareUpdateServerByName` operation deletes a software update server by its name.
+
+## Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/softwareupdateservers`
+  - `/JSSResource/softwareupdateservers/id/{id}`
+  - `/JSSResource/softwareupdateservers/name/{name}`
+
+- Total Operations Covered: 8
 
 
 ## Progress Summary
