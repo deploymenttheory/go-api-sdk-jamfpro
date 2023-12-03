@@ -2441,8 +2441,8 @@ This documentation outlines the operations available for managing VPP (Volume Pu
 
 ## Progress Summary
 
-- Total Operations: 415
-- Total Covered Operations: 393
+- Total Operations: 451
+- Total Covered Operations: 416
 - Not Covered: 35
 - Partially Covered: 0
 - Deprecated: 
