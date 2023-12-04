@@ -2476,7 +2476,27 @@ This documentation outlines the operations available for managing Webhooks withi
 
 - Total Operations Covered: 8
 
+## Jamf Pro Classic API - Computer Checkin
 
+This documentation outlines the operations available for managing Computer Checkin settings within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/computercheckin`
+  - `GetComputerCheckinInformation` operation retrieves the current computer check-in settings.
+
+- [x] ✅ **PUT** `/JSSResource/computercheckin`
+  - `UpdateComputerCheckinInformation` operation updates the computer check-in settings.
+
+### Summary
+
+- Total Endpoints Covered: 1
+  - `/JSSResource/computercheckin`
+
+- Total Operations Covered: 2
+  - Retrieving current computer check-in settings.
+  - Updating computer check-in settings.
+  
 ## Progress Summary
 
 - Total Operations: 459
