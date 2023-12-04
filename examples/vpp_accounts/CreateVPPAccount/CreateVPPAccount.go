@@ -38,21 +38,23 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
-
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
-	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+	// Create a new VPP account
+	newAccount := &jamfpro.ResponseVPPAccount{
+		Name:         "Company VPP Account",
+		Contact:      "Company Admin",
+		ServiceToken: "eyJvcmdOYWadveaz40d2FyZSIsImV4cERhdGUiOiIyMDE3LTA5LTEzVDA5OjQ5OjA5LTA3MDAiLCJ0b2tlbiI6Ik5yVUtPK1RXeityUXQyWFpIeENtd0xxby8ydUFmSFU1NW40V1FTZU8wR1E5eFh4UUZTckVJQjlzbGdYei95WkpaeVZ3SklJbW0rWEhJdGtKM1BEZGRRPT0ifQ==",
+		AccountName:  "Company Name",
+		AppleID:      "vpp@company.com",
+		// Site information is optional, defaults will be set if not provided
+		PopulateCatalogFromVPPContent: true,
+		NotifyDisassociation:          true,
+		AutoRegisterManagedUsers:      false,
 	}
+
+	createdAccount, err := client.CreateVPPAccount(newAccount)
+	if err != nil {
+		log.Fatalf("Error creating VPP account: %v", err)
+	}
+
+	fmt.Printf("Created VPP Account: %+v\n", createdAccount)
 }

@@ -38,21 +38,14 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
+	// ID of the software update server to delete
+	serverID := 1
 
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
+	// Call DeleteSoftwareUpdateServerByID
+	err = client.DeleteSoftwareUpdateServerByID(serverID)
 	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+		log.Fatalf("Error deleting software update server by ID: %v", err)
 	}
+
+	fmt.Printf("Successfully deleted software update server with ID %d\n", serverID)
 }

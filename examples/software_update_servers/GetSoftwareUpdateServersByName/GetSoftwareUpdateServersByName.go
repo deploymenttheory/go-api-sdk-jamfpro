@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -38,21 +39,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
-
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
+	// Replace with the correct name
+	softwareUpdateServerByName, err := client.GetSoftwareUpdateServersByName("New York SUS") // Example name
 	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+		log.Fatalf("Error fetching software update server by name: %v", err)
 	}
+
+	// Pretty print the details in XML
+	softwareUpdateServerByNameXML, err := xml.MarshalIndent(softwareUpdateServerByName, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling data: %v", err)
+	}
+	fmt.Println("Software Update Server by Name Details:\n", string(softwareUpdateServerByNameXML))
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -38,21 +39,17 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
-
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
+	// Call the GetWebhooks function to retrieve the list of webhooks
+	webhooks, err := client.GetWebhooks()
 	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+		fmt.Printf("Error: %v\n", err)
+		return
 	}
+
+	// Pretty print the user groups details in XML
+	webhooksXML, err := xml.MarshalIndent(webhooks, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling webhook data: %v", err)
+	}
+	fmt.Println("User Groups Details:\n", string(webhooksXML))
 }

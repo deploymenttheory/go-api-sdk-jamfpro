@@ -60,13 +60,6 @@ func (c *Client) DownloadIcon(iconID int, savePath string, res string, scale str
 	queryString := params.Encode()
 	endpoint := fmt.Sprintf("%s/download/%d?%s", uriUploadIcon, iconID, queryString)
 
-	// Create the file to write to
-	file, err := os.Create(savePath)
-	if err != nil {
-		return fmt.Errorf("failed to create file: %v", err)
-	}
-	defer file.Close()
-
 	// Initialize an empty struct since we are interested in the response body (the file content)
 	var placeholder struct{}
 
@@ -76,6 +69,20 @@ func (c *Client) DownloadIcon(iconID int, savePath string, res string, scale str
 		return fmt.Errorf("failed to download icon: %v", err)
 	}
 	defer resp.Body.Close()
+
+	// Check for successful status code
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("received non-success status code: %d", resp.StatusCode)
+	}
+
+	// Optionally, check the Content-Type of the response here
+
+	// Create the file to write to
+	file, err := os.Create(savePath)
+	if err != nil {
+		return fmt.Errorf("failed to create file: %v", err)
+	}
+	defer file.Close()
 
 	// Write the response body to file
 	_, err = io.Copy(file, resp.Body)
@@ -89,6 +96,5 @@ func (c *Client) DownloadIcon(iconID int, savePath string, res string, scale str
 		return fmt.Errorf("failed to sync file: %v", err)
 	}
 
-	// Return nil if no error occurred, indicating success
 	return nil
 }

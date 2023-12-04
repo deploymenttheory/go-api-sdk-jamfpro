@@ -38,21 +38,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
+	// Example VPP Account ID
+	vppAccountID := 1
 
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
+	// Call GetVPPAccountByID
+	vppAccount, err := client.GetVPPAccountByID(vppAccountID)
 	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+		log.Fatalf("Error fetching VPP account by ID: %v", err)
 	}
+
+	// Print the retrieved VPP account details
+	fmt.Printf("ID: %d\nName: %s\nContact: %s\nService Token: %s\nAccount Name: %s\nExpiration Date: %s\nCountry: %s\nApple ID: %s\nSite ID: %d\nSite Name: %s\nPopulate Catalog From VPP Content: %t\nNotify Disassociation: %t\nAuto Register Managed Users: %t\n",
+		vppAccount.ID, vppAccount.Name, vppAccount.Contact, vppAccount.ServiceToken, vppAccount.AccountName, vppAccount.ExpirationDate, vppAccount.Country, vppAccount.AppleID, vppAccount.Site.ID, vppAccount.Site.Name, vppAccount.PopulateCatalogFromVPPContent, vppAccount.NotifyDisassociation, vppAccount.AutoRegisterManagedUsers)
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -20,7 +20,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelDebug // Adjust log level as needed
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -38,21 +38,22 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
-
-	// Set the path where the icon should be saved
-	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon
-
-	// Set the desired resolution and scale
-	res := "original" // or "300" or "512"
-	scale := "0"      // or other scale as a string
-
-	// Call DownloadIcon with the new parameters
-	err = client.DownloadIcon(iconID, savePath, res, scale)
-	if err != nil {
-		fmt.Printf("Error downloading icon: %s\n", err)
-	} else {
-		fmt.Println("Icon downloaded successfully!")
+	// Create the payload
+	newVPL := jamfpro.VolumePurchasingLocation{
+		Name:                                  "Example Location",
+		AutomaticallyPopulatePurchasedContent: true,
+		SendNotificationWhenNoLongerAssigned:  true,
+		AutoRegisterManagedUsers:              true,
+		SiteID:                                "-1",
+		ServiceToken:                          "eyJleHBEYXRlIjoiMjAyMi0wMy0yOVQxNTozNjoyNiswMDAwIiwidG9rZW4iOiJWR2hwY3lCcGN5QnViM1FnWVNCMGIydGxiaTRnU0c5d1pXWjFiR3g1SUdsMElHeHZiMnR6SUd4cGEyVWdZU0IwYjJ0bGJpd2dZblYwSUdsMEozTWdibTkwTGc9PSIsIm9yZ05hbWUiOiJFeGFtcGxlIE9yZyJ9",
 	}
+
+	// Call the CreateVolumePurchasingLocation function
+	response, err := client.CreateVolumePurchasingLocation(&newVPL)
+	if err != nil {
+		log.Fatalf("Error creating volume purchasing location: %v", err)
+	}
+
+	// Print the response
+	fmt.Printf("Created Volume Purchasing Location: %+v\n", response)
 }
