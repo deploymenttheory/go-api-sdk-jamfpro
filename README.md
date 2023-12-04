@@ -2496,11 +2496,32 @@ This documentation outlines the operations available for managing Computer Check
 - Total Operations Covered: 2
   - Retrieving current computer check-in settings.
   - Updating computer check-in settings.
-  
+
+## Jamf Pro Classic API - GSX Connection
+
+This documentation outlines the operations available for managing the GSX Connection settings within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/gsxconnection`
+  - `GetGSXConnectionInformation` operation retrieves the current GSX connection settings.
+
+- [x] ✅ **PUT** `/JSSResource/gsxconnection`
+  - `UpdateGSXConnectionInformation` operation updates the GSX connection settings.
+
+### Summary
+
+- Total Endpoints Covered: 1
+  - `/JSSResource/gsxconnection`
+
+- Total Operations Covered: 2
+  - Retrieving current GSX connection settings.
+  - Updating GSX connection settings.
+
 ## Progress Summary
 
-- Total Operations: 459
-- Total Covered Operations: 424
+- Total Operations: 463
+- Total Covered Operations: 428
 - Not Covered: 35
 - Partially Covered: 0
 - Deprecated: 

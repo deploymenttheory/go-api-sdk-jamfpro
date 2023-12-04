@@ -1,4 +1,4 @@
-// classicapi_mobile_extension_attributes.go
+// classicapi_mobile_device_extension_attributes.go
 // Jamf Pro Classic Api - Mobile Extension Attributes
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceextensionattributes
 // Jamf Pro Classic API requires the structs to support an XML data structure.
