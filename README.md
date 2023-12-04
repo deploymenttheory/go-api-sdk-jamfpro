@@ -2437,12 +2437,50 @@ This documentation outlines the operations available for managing VPP (Volume Pu
 
 - Total Operations Covered: 5
 
+## Jamf Pro Classic API - Webhooks
+
+This documentation outlines the operations available for managing Webhooks within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/webhooks`
+  - `GetWebhooks` operation retrieves a list of all webhooks.
+
+- [x] ✅ **GET** `/JSSResource/webhooks/id/{id}`
+  - `GetWebhookByID` operation retrieves the details of a specific webhook by its ID.
+
+- [x] ✅ **GET** `/JSSResource/webhooks/name/{name}`
+  - `GetWebhookByName` operation retrieves the details of a specific webhook by its name.
+
+- [x] ✅ **POST** `/JSSResource/webhooks/id/0`
+  - `CreateWebhook` operation creates a new webhook.
+
+- [x] ✅ **PUT** `/JSSResource/webhooks/id/{id}`
+  - `UpdateWebhookByID` operation updates an existing webhook by its ID.
+
+- [x] ✅ **PUT** `/JSSResource/webhooks/name/{name}`
+  - `UpdateWebhookByName` operation updates an existing webhook by its name.
+
+- [x] ✅ **DELETE** `/JSSResource/webhooks/id/{id}`
+  - `DeleteWebhookByID` operation deletes a webhook by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/webhooks/name/{name}`
+  - `DeleteWebhookByName` operation deletes a webhook by its name.
+
+### Summary
+
+- Total Endpoints Covered: 3
+  - `/JSSResource/webhooks`
+  - `/JSSResource/webhooks/id/{id}`
+  - `/JSSResource/webhooks/name/{name}`
+
+- Total Operations Covered: 8
 
 
 ## Progress Summary
 
-- Total Operations: 451
-- Total Covered Operations: 416
+- Total Operations: 459
+- Total Covered Operations: 424
 - Not Covered: 35
 - Partially Covered: 0
 - Deprecated: 
