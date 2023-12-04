@@ -2476,11 +2476,107 @@ This documentation outlines the operations available for managing Webhooks withi
 
 - Total Operations Covered: 8
 
+## Jamf Pro Classic API - Computer Checkin
+
+This documentation outlines the operations available for managing Computer Checkin settings within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/computercheckin`
+  - `GetComputerCheckinInformation` operation retrieves the current computer check-in settings.
+
+- [x] ✅ **PUT** `/JSSResource/computercheckin`
+  - `UpdateComputerCheckinInformation` operation updates the computer check-in settings.
+
+### Summary
+
+- Total Endpoints Covered: 1
+  - `/JSSResource/computercheckin`
+
+- Total Operations Covered: 2
+  - Retrieving current computer check-in settings.
+  - Updating computer check-in settings.
+
+## Jamf Pro Classic API - GSX Connection
+
+This documentation outlines the operations available for managing the GSX Connection settings within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/gsxconnection`
+  - `GetGSXConnectionInformation` operation retrieves the current GSX connection settings.
+
+- [x] ✅ **PUT** `/JSSResource/gsxconnection`
+  - `UpdateGSXConnectionInformation` operation updates the GSX connection settings.
+
+### Summary
+
+- Total Endpoints Covered: 1
+  - `/JSSResource/gsxconnection`
+
+- Total Operations Covered: 2
+  - Retrieving current GSX connection settings.
+  - Updating GSX connection settings.
+
+## Jamf Pro Classic API - SMTP Server
+
+This documentation outlines the operations available for managing SMTP Server settings within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/smtpserver`
+  - `GetSMTPServerInformation` operation retrieves the current SMTP server settings.
+
+- [x] ✅ **PUT** `/JSSResource/smtpserver`
+  - `UpdateSMTPServerInformation` operation updates the SMTP server settings.
+
+### Summary
+
+- Total Endpoints Covered: 1
+  - `/JSSResource/smtpserver`
+
+- Total Operations Covered: 2
+  - Retrieving current SMTP server settings.
+  - Updating SMTP server settings.
+
+## Jamf Pro Classic API - VPP Assignments
+
+This documentation outlines the operations available for managing VPP Assignments within Jamf Pro using the Classic API, which supports XML data structures.
+
+### Operations
+
+- [x] ✅ **GET** `/JSSResource/vppassignments`
+  - `GetVPPAssignments` operation fetches a list of all VPP assignments.
+
+- [x] ✅ **GET** `/JSSResource/vppassignments/id/{id}`
+  - `GetVPPAssignmentByID` operation fetches a specific VPP assignment by its ID.
+
+- [x] ✅ **POST** `/JSSResource/vppassignments/id/0`
+  - `CreateVPPAssignment` operation creates a new VPP assignment.
+
+- [x] ✅ **PUT** `/JSSResource/vppassignments/id/{id}`
+  - `UpdateVPPAssignmentByID` operation updates an existing VPP assignment by its ID.
+
+- [x] ✅ **DELETE** `/JSSResource/vppassignments/id/{id}`
+  - `DeleteVPPAssignmentByID` operation deletes a VPP assignment by its ID.
+
+### Summary
+
+- Total Endpoints Covered: 2
+  - `/JSSResource/vppassignments`
+  - `/JSSResource/vppassignments/id/{id}`
+
+- Total Operations Covered: 5
+  - Fetching all VPP assignments.
+  - Fetching a specific VPP assignment by ID.
+  - Creating a new VPP assignment.
+  - Updating an existing VPP assignment by ID.
+  - Deleting a VPP assignment by ID.
 
 ## Progress Summary
 
-- Total Operations: 459
-- Total Covered Operations: 424
+- Total Operations: 470
+- Total Covered Operations: 435
 - Not Covered: 35
 - Partially Covered: 0
 - Deprecated: 
