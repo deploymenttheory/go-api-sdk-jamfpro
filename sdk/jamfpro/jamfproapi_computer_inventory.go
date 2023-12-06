@@ -586,6 +586,25 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResponseComputerInventory
 	return &responseInventory, nil
 }
 
+// GetComputerInventoryByName retrieves a specific computer's inventory information by its name.
+func (c *Client) GetComputerInventoryByName(name string) (*ResponseComputerInventory, error) {
+	// Retrieve all computer inventories
+	allInventories, err := c.GetComputersInventory(nil, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch computers inventory: %v", err)
+	}
+
+	// Iterate through the inventories to find the computer with the specified name
+	for _, inventory := range allInventories.Results {
+		if inventory.General.Name == name {
+			return &inventory, nil
+		}
+	}
+
+	// Return an error if no computer with the specified name is found
+	return nil, fmt.Errorf("no computer found with name: %s", name)
+}
+
 // GetComputersFileVaultInventory retrieves all computer inventory filevault information.
 func (c *Client) GetComputersFileVaultInventory() (*FileVaultInventoryList, error) {
 	var allInventories []FileVaultInventory
