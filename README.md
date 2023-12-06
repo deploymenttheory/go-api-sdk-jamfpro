@@ -16,7 +16,7 @@ go get github.com/deploymenttheory/go-api-sdk-jamfpro
 
 ## Usage
 
-sample code: [examples](https://github.com/deploymenttheory/go-jamfpro-api/tree/main/examples)
+sample code: [examples](https://github.com/deploymenttheory/go-api-sdk-jamfpro/tree/main/examples)
 
 ## Configuring the HTTP Client
 
@@ -37,7 +37,7 @@ const (
 These constants are used to set the maximum number of concurrent requests the client can make, the lifespan of the token, and a buffer period.
 
 2. Loading OAuth Credentials
-The http client for this SDK supports both classic auth and Oauth with bearer token. Since the direction of travel is Oauth, in this example store your credentials in a JSON file for secure and easy access. The structure of the client auth json should be like this:
+The http client for this SDK supports both classic auth and Oauth with bearer token. Since the direction of travel is Oauth, and it's fine grain permission management it's strongly suggested to use this auth method when using this SDK. To make use of this sdk, create your api client ID and secret and then store your credentials in a JSON file for credential loading. The structure of the client auth json should be like this:
 
 ```json
 {
@@ -110,7 +110,7 @@ The `go-api-sdk-jamfpro` SDK constructs URLs in a structured manner to ensure co
 The primary identifier for constructing URLs in the client is the `InstanceName` which represents the Jamf Pro instance. For example, for the URL `mycompany.jamfcloud.com`, the instance name would be `mycompany`.
 
 #### **Base Domain:**
-If OverrideBaseDomain is provided during http client initialization, this will override jamfcloud.com and will be used as the base domain for URL construction. Otherwise, the default domain defined in the http_client package (jamfcloud.com) will be used.
+If OverrideBaseDomain is provided during http client initialization, this will override jamfcloud.com and will be used as the base domain for URL construction.
 
 URL Construction in the Client
 URLs are constructed using the InstanceName and, optionally, the OverrideBaseDomain. If the OverrideBaseDomain is not specified, the default domain (jamfcloud.com) is used. The SDK automatically appends this domain to the InstanceName for API calls.
@@ -129,9 +129,6 @@ Given the `InstanceName` as `mycompany` and an endpoint path `/JSSResource/accou
 ```
 https://mycompany.jamfcloud.com/JSSResource/accounts/userid/{id}
 ```
-
-#### **Customizability:**
-The SDK is designed to be flexible. While it uses the `jamfcloud.com` domain by default, this can be updated to meet your requiremesnt for your environment.
 
 ### **Note:**
 Always ensure that the `InstanceName` is correctly set when initializing the client. Avoid including the full domain (e.g., `.jamfcloud.com`) in the `InstanceName` as the SDK will automatically append it.
