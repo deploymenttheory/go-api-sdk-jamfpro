@@ -64,126 +64,82 @@ type MacOSConfigurationProfilesDataSubsetCategory struct {
 type MacOSConfigurationProfilesDataSubsetScope struct {
 	AllComputers   bool                                                `xml:"all_computers,omitempty"`
 	AllJSSUsers    bool                                                `xml:"all_jss_users,omitempty"`
-	Computers      []MacOSConfigurationProfilesDataSubsetComputer      `xml:"computers,omitempty"`
-	Buildings      []MacOSConfigurationProfilesDataSubsetBuilding      `xml:"buildings,omitempty"`
-	Departments    []MacOSConfigurationProfilesDataSubsetDepartment    `xml:"departments,omitempty"`
-	ComputerGroups []MacOSConfigurationProfilesDataSubsetComputerGroup `xml:"computer_groups,omitempty"`
-	JSSUsers       []MacOSConfigurationProfilesDataSubsetJSSUser       `xml:"jss_users,omitempty"`
-	JSSUserGroups  []MacOSConfigurationProfilesDataSubsetJSSUserGroup  `xml:"jss_user_groups,omitempty"`
+	Computers      []MacOSConfigurationProfilesDataSubsetComputer      `xml:"computers>computer,omitempty"`
+	ComputerGroups []MacOSConfigurationProfilesDataSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers       []MacOSConfigurationProfilesDataSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups  []MacOSConfigurationProfilesDataSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings      []MacOSConfigurationProfilesDataSubsetBuilding      `xml:"buildings>building,omitempty"`
+	Departments    []MacOSConfigurationProfilesDataSubsetDepartment    `xml:"departments>department,omitempty"`
 	Limitations    MacOSConfigurationProfilesDataSubsetLimitations     `xml:"limitations,omitempty"`
 	Exclusions     MacOSConfigurationProfilesDataSubsetExclusions      `xml:"exclusions,omitempty"`
 }
 
 type MacOSConfigurationProfilesDataSubsetComputer struct {
-	Computer MacOSConfigurationProfilesDataSubsetComputerItem `xml:"computer,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetComputerItem struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 	UDID string `xml:"udid,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetBuilding struct {
-	Building MacOSConfigurationProfilesDataSubsetBuildingItem `xml:"building,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetBuildingItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetDepartment struct {
-	Department MacOSConfigurationProfilesDataSubsetDepartmentItem `xml:"department,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetDepartmentItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
 type MacOSConfigurationProfilesDataSubsetComputerGroup struct {
-	ComputerGroup MacOSConfigurationProfilesDataSubsetComputerGroupItem `xml:"computer_group,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetComputerGroupItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetLimitations struct {
-	Users           []MacOSConfigurationProfilesDataSubsetUser           `xml:"users,omitempty"`
-	UserGroups      []MacOSConfigurationProfilesDataSubsetUserGroup      `xml:"user_groups,omitempty"`
-	NetworkSegments []MacOSConfigurationProfilesDataSubsetNetworkSegment `xml:"network_segments,omitempty"`
-	IBeacons        []MacOSConfigurationProfilesDataSubsetIBeacon        `xml:"ibeacons,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetUser struct {
-	User MacOSConfigurationProfilesDataSubsetUserItem `xml:"user,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetUserItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetUserGroup struct {
-	UserGroup MacOSConfigurationProfilesDataSubsetUserGroupItem `xml:"user_group,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetUserGroupItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetNetworkSegment struct {
-	NetworkSegment MacOSConfigurationProfilesDataSubsetNetworkSegmentItem `xml:"network_segment,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetNetworkSegmentItem struct {
-	ID   int    `xml:"id,omitempty"`
-	UID  string `xml:"uid,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetIBeacon struct {
-	IBeacon MacOSConfigurationProfilesDataSubsetIBeaconItem `xml:"ibeacon,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetIBeaconItem struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
 type MacOSConfigurationProfilesDataSubsetJSSUser struct {
-	JSSUser MacOSConfigurationProfilesDataSubsetJSSUserItem `xml:"jss_user,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetJSSUserItem struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
 type MacOSConfigurationProfilesDataSubsetJSSUserGroup struct {
-	JSSUserGroup MacOSConfigurationProfilesDataSubsetJSSUserGroupItem `xml:"jss_user_group,omitempty"`
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetJSSUserGroupItem struct {
+type MacOSConfigurationProfilesDataSubsetBuilding struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+
+type MacOSConfigurationProfilesDataSubsetDepartment struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+type MacOSConfigurationProfilesDataSubsetLimitations struct {
+	Users           []MacOSConfigurationProfilesDataSubsetUser           `xml:"users>user,omitempty"`
+	UserGroups      []MacOSConfigurationProfilesDataSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	NetworkSegments []MacOSConfigurationProfilesDataSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	IBeacons        []MacOSConfigurationProfilesDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+}
+type MacOSConfigurationProfilesDataSubsetIBeacon struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+type MacOSConfigurationProfilesDataSubsetNetworkSegment struct {
+	ID   int    `xml:"id,omitempty"`
+	UID  string `xml:"uid,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+type MacOSConfigurationProfilesDataSubsetUserGroup struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+
+type MacOSConfigurationProfilesDataSubsetUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
 type MacOSConfigurationProfilesDataSubsetExclusions struct {
 	Computers       []MacOSConfigurationProfilesDataSubsetComputer       `xml:"computers,omitempty"`
-	Buildings       []MacOSConfigurationProfilesDataSubsetBuilding       `xml:"buildings,omitempty"`
-	Departments     []MacOSConfigurationProfilesDataSubsetDepartment     `xml:"departments,omitempty"`
 	ComputerGroups  []MacOSConfigurationProfilesDataSubsetComputerGroup  `xml:"computer_groups,omitempty"`
 	Users           []MacOSConfigurationProfilesDataSubsetUser           `xml:"users,omitempty"`
 	UserGroups      []MacOSConfigurationProfilesDataSubsetUserGroup      `xml:"user_groups,omitempty"`
+	Buildings       []MacOSConfigurationProfilesDataSubsetBuilding       `xml:"buildings,omitempty"`
+	Departments     []MacOSConfigurationProfilesDataSubsetDepartment     `xml:"departments,omitempty"`
 	NetworkSegments []MacOSConfigurationProfilesDataSubsetNetworkSegment `xml:"network_segments,omitempty"`
-	IBeacons        []MacOSConfigurationProfilesDataSubsetIBeacon        `xml:"ibeacons,omitempty"`
 	JSSUsers        []MacOSConfigurationProfilesDataSubsetJSSUser        `xml:"jss_users,omitempty"`
 	JSSUserGroups   []MacOSConfigurationProfilesDataSubsetJSSUserGroup   `xml:"jss_user_groups,omitempty"`
+	IBeacons        []MacOSConfigurationProfilesDataSubsetIBeacon        `xml:"ibeacons,omitempty"`
 }
 
 type MacOSConfigurationProfilesDataSubsetSelfService struct {

@@ -40,16 +40,16 @@ func main() {
 
 	// Set up new settings
 	newSettings := jamfpro.ResponseComputerCheckin{
-		CheckInFrequency:                 5,
+		CheckInFrequency:                 15, // Values can be 60, 30, 15 and  5
 		CreateStartupScript:              true,
 		LogStartupEvent:                  true,
 		CheckForPoliciesAtStartup:        true,
-		ApplyComputerLevelManagedPrefs:   false,
+		ApplyComputerLevelManagedPrefs:   true,
 		EnsureSSHIsEnabled:               false,
 		CreateLoginLogoutHooks:           true,
 		LogUsername:                      true,
 		CheckForPoliciesAtLoginLogout:    true,
-		ApplyUserLevelManagedPreferences: false,
+		ApplyUserLevelManagedPreferences: true,
 		HideRestorePartition:             false,
 		PerformLoginActionsInBackground:  true,
 		DisplayStatusToUser:              false,
