@@ -110,7 +110,7 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 	return &ResponseScriptCreate, err
 }
 
-func (c *Client) UpdateScriptById(id string, script *ResourceScript) (interface{}, error) {
+func (c *Client) UpdateScriptById(id string, script *ResourceScript) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var NewScript ResourceScript
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, script, &NewScript)
@@ -123,7 +123,25 @@ func (c *Client) UpdateScriptById(id string, script *ResourceScript) (interface{
 		defer resp.Body.Close()
 	}
 
-	fmt.Println(resp)
-	return resp, err
+	return &NewScript, nil
 
+}
+
+func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*ResourceScript, error) {
+
+	target, err := c.GetScriptsByName(name)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get script by id, %v", err)
+	}
+
+	target_id := target.ID
+
+	resp, err := c.UpdateScriptById(target_id, script)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update by id, %v", err)
+	}
+
+	return &resp, nil
 }
