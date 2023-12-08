@@ -112,14 +112,20 @@ type PolicySite struct {
 
 // PolicyScope represents the scope of the policy
 type PolicyScope struct {
-	AllComputers   bool                  `xml:"all_computers"`
-	Computers      []PolicyComputer      `xml:"computers>computer,omitempty"`
-	ComputerGroups []PolicyComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	Buildings      []PolicyBuilding      `xml:"buildings>building,omitempty"`
-	Departments    []PolicyDepartment    `xml:"departments>department,omitempty"`
-	LimitToUsers   PolicyLimitToUsers    `xml:"limit_to_users,omitempty"`
-	Limitations    PolicyLimitations     `xml:"limitations,omitempty"`
-	Exclusions     PolicyExclusions      `xml:"exclusions,omitempty"`
+	AllComputers    bool                   `xml:"all_computers"`
+	Computers       []PolicyComputer       `xml:"computers>computer,omitempty"`
+	ComputerGroups  []PolicyComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers        []PolicyJSSUser        `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups   []PolicyJSSUserGroup   `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings       []PolicyBuilding       `xml:"buildings>building,omitempty"`
+	Departments     []PolicyDepartment     `xml:"departments>department,omitempty"`
+	NetworkSegments []PolicyNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	Users           []PolicyUser           `xml:"users>user,omitempty"`
+	UserGroups      []PolicyUserGroup      `xml:"user_groups>user_group,omitempty"`
+	IBeacons        []PolicyIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+	LimitToUsers    PolicyLimitToUsers     `xml:"limit_to_users,omitempty"`
+	Limitations     PolicyLimitations      `xml:"limitations,omitempty"`
+	Exclusions      PolicyExclusions       `xml:"exclusions,omitempty"`
 }
 
 type PolicyComputer struct {
@@ -133,12 +139,42 @@ type PolicyComputerGroup struct {
 	Name string `xml:"name"`
 }
 
+type PolicyJSSUser struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name,omitempty"`
+}
+
+type PolicyJSSUserGroup struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
 type PolicyBuilding struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 type PolicyDepartment struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+type PolicyNetworkSegment struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+	UID  string `xml:"uid,omitempty"`
+}
+
+type PolicyUser struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+type PolicyUserGroup struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+type PolicyIBeacon struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -154,27 +190,6 @@ type PolicyLimitations struct {
 	IBeacons        []PolicyIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
 
-type PolicyUser struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type PolicyUserGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type PolicyNetworkSegment struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-	UID  string `xml:"uid,omitempty"`
-}
-
-type PolicyIBeacon struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
 type PolicyExclusions struct {
 	Computers       []PolicyComputer       `xml:"computers>computer,omitempty"`
 	ComputerGroups  []PolicyComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
@@ -184,6 +199,8 @@ type PolicyExclusions struct {
 	UserGroups      []PolicyUserGroup      `xml:"user_groups>user_group,omitempty"`
 	NetworkSegments []PolicyNetworkSegment `xml:"network_segments>network_segment,omitempty"`
 	IBeacons        []PolicyIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+	JSSUsers        []PolicyJSSUser        `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups   []PolicyJSSUserGroup   `xml:"jss_user_groups>jss_user_group,omitempty"`
 }
 
 // PolicySelfService represents the self service settings of a policy
