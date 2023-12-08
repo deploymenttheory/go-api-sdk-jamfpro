@@ -11,10 +11,7 @@ import (
 	"strconv"
 )
 
-const (
-	uriComputersInventory = "/api/v1/computers-inventory" // Define the constant for the computers inventory endpoint
-	maxPageSize           = 2000                          // Maximum number of items per page
-)
+const uriComputersInventory = "/api/v1/computers-inventory" // Define the constant for the computers inventory endpoint
 
 // ResponseComputerInventoryList represents the top-level JSON response structure.
 type ResponseComputerInventoryList struct {
