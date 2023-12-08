@@ -113,7 +113,7 @@ type PolicySite struct {
 // PolicyScope represents the scope of the policy
 type PolicyScope struct {
 	AllComputers   bool                            `xml:"all_computers"`
-	AllJSSUSers    bool                            `xml:"all_jss_users"`
+	AllJSSUsers    bool                            `xml:"all_jss_users"`
 	Computers      []PolicyDataSubsetComputer      `xml:"computers>computer,omitempty"`
 	ComputerGroups []PolicyDataSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
 	JSSUsers       []PolicyDataSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
@@ -202,15 +202,15 @@ type PolicyExclusions struct {
 
 // PolicySelfService represents the self service settings of a policy
 type PolicySelfService struct {
-	UseForSelfService           bool                      `xml:"use_for_self_service"`
-	SelfServiceDisplayName      string                    `xml:"self_service_display_name"`
-	InstallButtonText           string                    `xml:"install_button_text"`
-	ReinstallButtonText         string                    `xml:"re_install_button_text"`
-	SelfServiceDescription      string                    `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                      `xml:"force_users_to_view_description"`
-	SelfServiceIcon             PolicySelfServiceIcon     `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                      `xml:"feature_on_main_page"`
-	SelfServiceCategories       PolicySelfServiceCategory `xml:"self_service_categories"`
+	UseForSelfService           bool                        `xml:"use_for_self_service"`
+	SelfServiceDisplayName      string                      `xml:"self_service_display_name"`
+	InstallButtonText           string                      `xml:"install_button_text"`
+	ReinstallButtonText         string                      `xml:"re_install_button_text"`
+	SelfServiceDescription      string                      `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                        `xml:"force_users_to_view_description"`
+	SelfServiceIcon             PolicySelfServiceIcon       `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage           bool                        `xml:"feature_on_main_page"`
+	SelfServiceCategories       []PolicySelfServiceCategory `xml:"self_service_categories"`
 }
 
 type PolicySelfServiceIcon struct {
