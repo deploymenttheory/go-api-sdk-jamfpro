@@ -113,6 +113,7 @@ type PolicySite struct {
 // PolicyScope represents the scope of the policy
 type PolicyScope struct {
 	AllComputers    bool                   `xml:"all_computers"`
+	AllJSSUSers     bool                   `xml:"all_jss_users"`
 	Computers       []PolicyComputer       `xml:"computers>computer,omitempty"`
 	ComputerGroups  []PolicyComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
 	JSSUsers        []PolicyJSSUser        `xml:"jss_users>jss_user,omitempty"`
