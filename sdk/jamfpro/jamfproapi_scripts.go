@@ -7,13 +7,13 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-const uriProScripts = "/api/v1/scripts"
+const uriScripts = "/api/v1/scripts"
 
-type ProScript struct {
+type ResourceScript struct {
 	ID             string `json:"id"`
 	Name           string `json:"name"`
 	CategoryName   string `json:"categoryName,omitempty"`
-	CategoryId     string `json:"CategoryID,omitempty"`
+	CategoryId     string `json:"categoryId,omitempty"`
 	Info           string `json:"info,omitempty"`
 	Notes          string `json:"notes,omitempty"`
 	OSRequirements string `json:"osRequirements,omitempty"`
@@ -29,27 +29,32 @@ type ProScript struct {
 	Parameter11    string `json:"parameter11,omitempty"`
 }
 
-type ResponseProScriptsList struct {
-	Size    int         `json:"totalCount"`
-	Results []ProScript `json:"results"`
+type ResponseScriptsList struct {
+	Size    int              `json:"totalCount"`
+	Results []ResourceScript `json:"results"`
 }
 
-func (c *Client) GetProScripts() (*ResponseProScriptsList, error) {
+type ResponseScriptCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+func (c *Client) GetScripts() (*ResponseScriptsList, error) {
 	resp, err := c.DoPaginatedGet(
-		uriProScripts,
+		uriScripts,
 		100,
 		0,
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("fail %v", err)
+		return nil, fmt.Errorf("failed to fetch scripts %v", err)
 	}
 
-	var out ResponseProScriptsList
+	var out ResponseScriptsList
 	out.Size = resp.Size
 
 	for _, value := range resp.Results {
-		var newObj ProScript
+		var newObj ResourceScript
 		mapstructure.Decode(value, &newObj)
 		out.Results = append(out.Results, newObj)
 	}
@@ -58,10 +63,9 @@ func (c *Client) GetProScripts() (*ResponseProScriptsList, error) {
 
 }
 
-func (c *Client) GetProScriptByID(id int) (*ProScript, error) {
-	endpoint := fmt.Sprintf("%s/%d", uriProScripts, id)
-	fmt.Println(endpoint)
-	var script ProScript
+func (c *Client) GetScriptsByID(id int) (*ResourceScript, error) {
+	endpoint := fmt.Sprintf("%s/%d", uriScripts, id)
+	var script ResourceScript
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &script)
 	if err != nil {
 		log.Fatalf("Failed to get script %s", err)
@@ -72,4 +76,54 @@ func (c *Client) GetProScriptByID(id int) (*ProScript, error) {
 	}
 
 	return &script, nil
+}
+
+func (c *Client) GetScriptsByName(name string) (*ResourceScript, error) {
+	scripts, err := c.GetScripts()
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get script by name, %v", err)
+	}
+
+	for _, value := range scripts.Results {
+		if value.Name == name {
+			return &value, nil
+		}
+	}
+
+	return nil, fmt.Errorf("failed to locate script by name %v", name)
+}
+
+func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, error) {
+	endpoint := uriScripts
+	var ResponseScriptCreate ResponseScriptCreate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, script, &ResponseScriptCreate)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to create script, %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &ResponseScriptCreate, err
+}
+
+func (c *Client) UpdateScriptById(id string, script *ResourceScript) (interface{}, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
+	var NewScript ResourceScript
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, script, &NewScript)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update script, %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	fmt.Println(resp)
+	return resp, err
+
 }
