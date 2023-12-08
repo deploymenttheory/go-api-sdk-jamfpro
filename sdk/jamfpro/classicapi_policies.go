@@ -202,15 +202,15 @@ type PolicyExclusions struct {
 
 // PolicySelfService represents the self service settings of a policy
 type PolicySelfService struct {
-	UseForSelfService           bool                      `xml:"use_for_self_service"`
-	SelfServiceDisplayName      string                    `xml:"self_service_display_name"`
-	InstallButtonText           string                    `xml:"install_button_text"`
-	ReinstallButtonText         string                    `xml:"re_install_button_text"`
-	SelfServiceDescription      string                    `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                      `xml:"force_users_to_view_description"`
-	SelfServiceIcon             PolicySelfServiceIcon     `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                      `xml:"feature_on_main_page"`
-	SelfServiceCategories       PolicySelfServiceCategory `xml:"self_service_categories"`
+	UseForSelfService           bool                        `xml:"use_for_self_service"`
+	SelfServiceDisplayName      string                      `xml:"self_service_display_name"`
+	InstallButtonText           string                      `xml:"install_button_text"`
+	ReinstallButtonText         string                      `xml:"re_install_button_text"`
+	SelfServiceDescription      string                      `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                        `xml:"force_users_to_view_description"`
+	SelfServiceIcon             PolicySelfServiceIcon       `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage           bool                        `xml:"feature_on_main_page"`
+	SelfServiceCategories       []PolicySelfServiceCategory `xml:"self_service_categories"`
 }
 
 type PolicySelfServiceIcon struct {
