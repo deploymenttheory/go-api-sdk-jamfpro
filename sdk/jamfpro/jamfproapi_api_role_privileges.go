@@ -13,13 +13,13 @@ import (
 const uriApiRolePrivileges = "/api/v1/api-role-privileges"
 
 // ResponseApiRolePrivileges represents the structure of the response for fetching API role privileges
-type ResponseApiRolePrivileges struct {
+type ResourceApiRolePrivilegesList struct {
 	Privileges []string `json:"privileges"`
 }
 
 // GetJamfAPIPrivileges fetches a list of Jamf API role privileges
-func (c *Client) GetJamfAPIPrivileges() (*ResponseApiRolePrivileges, error) {
-	var privilegesList ResponseApiRolePrivileges
+func (c *Client) GetJamfAPIPrivileges() (*ResourceApiRolePrivilegesList, error) {
+	var privilegesList ResourceApiRolePrivilegesList
 	resp, err := c.HTTP.DoRequest("GET", uriApiRolePrivileges, nil, &privilegesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Jamf API role privileges: %v", err)
@@ -33,14 +33,14 @@ func (c *Client) GetJamfAPIPrivileges() (*ResponseApiRolePrivileges, error) {
 }
 
 // GetJamfAPIPrivilegesByName fetches a list of Jamf API role privileges by name
-func (c *Client) GetJamfAPIPrivilegesByName(name string, limit int) (*ResponseApiRolePrivileges, error) {
+func (c *Client) GetJamfAPIPrivilegesByName(name string, limit int) (*ResourceApiRolePrivilegesList, error) {
 	// Encode the name parameter to handle special characters
 	encodedName := url.QueryEscape(name)
 
 	// Construct the URL with the provided name and limit
 	endpoint := fmt.Sprintf(uriApiRolePrivileges+"/search?name=%s&limit=%d", encodedName, limit)
 
-	var privilegesList ResponseApiRolePrivileges
+	var privilegesList ResourceApiRolePrivilegesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &privilegesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Jamf API role privileges by name: %v", err)
