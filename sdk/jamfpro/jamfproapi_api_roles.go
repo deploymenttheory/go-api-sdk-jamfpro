@@ -49,11 +49,10 @@ func (c *Client) GetJamfAPIRoles() (*ResponseApiRolesList, error) {
 
 // GetJamfApiRolesByID fetches a Jamf API role by its ID.
 func (c *Client) GetJamfApiRolesByID(id int) (*ResourceAPIRole, error) {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf(uriApiRoles+"/%d", id)
 
-	var profile ResourceAPIRole
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	var ApiRole ResourceAPIRole
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ApiRole)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Jamf API role with ID %d: %v", id, err)
 	}
@@ -62,8 +61,10 @@ func (c *Client) GetJamfApiRolesByID(id int) (*ResourceAPIRole, error) {
 		defer resp.Body.Close()
 	}
 
-	return &profile, nil
+	return &ApiRole, nil
 }
+
+/////// PROGRESS TO HERE
 
 // GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
 func (c *Client) GetJamfApiRolesNameById(name string) (*ResourceAPIRole, error) {
