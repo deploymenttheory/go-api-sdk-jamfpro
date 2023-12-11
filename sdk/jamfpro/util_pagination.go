@@ -18,7 +18,7 @@ func (c *Client) DoPaginatedGet(
 		maxPageSize = 200
 	}
 
-	endpoint_template := endpoint + "?page=%d&page-size=%d&sort=name%%3Asc"
+	endpoint_template := endpoint + "?page=%d&page-size=%d"
 
 	var OutStruct StandardPaginatedResponse
 	var TargetObjectAccumulator StandardPaginatedResponse

@@ -9,6 +9,7 @@ import (
 
 const uriScripts = "/api/v1/scripts"
 
+// Struct which represents Script object JSON from Pro API
 type ResourceScript struct {
 	ID             string `json:"id"`
 	Name           string `json:"name"`
@@ -29,16 +30,19 @@ type ResourceScript struct {
 	Parameter11    string `json:"parameter11,omitempty"`
 }
 
+// Struct for paginated response for scripts
 type ResponseScriptsList struct {
 	Size    int              `json:"totalCount"`
 	Results []ResourceScript `json:"results"`
 }
 
+// Response format struct for create function
 type ResponseScriptCreate struct {
 	ID   string `json:"id"`
 	Href string `json:"href"`
 }
 
+// Gets full list of scripts & handles pagination
 func (c *Client) GetScripts() (*ResponseScriptsList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriScripts,
@@ -63,8 +67,9 @@ func (c *Client) GetScripts() (*ResponseScriptsList, error) {
 
 }
 
-func (c *Client) GetScriptByID(id int) (*ResourceScript, error) {
-	endpoint := fmt.Sprintf("%s/%d", uriScripts, id)
+// Retrieves script from provided ID & returns ResourceScript
+func (c *Client) GetScriptByID(id string) (*ResourceScript, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var script ResourceScript
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &script)
 	if err != nil {
@@ -78,9 +83,9 @@ func (c *Client) GetScriptByID(id int) (*ResourceScript, error) {
 	return &script, nil
 }
 
+// Retrieves script by Name by leveraging GetScripts(), returns ResourceScript
 func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
 	scripts, err := c.GetScripts()
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to get script by name, %v", err)
 	}
@@ -94,6 +99,7 @@ func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
 	return nil, fmt.Errorf("failed to locate script by name %v", name)
 }
 
+// Creates script from ResourceScript struct
 func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, error) {
 	endpoint := uriScripts
 	var ResponseScriptCreate ResponseScriptCreate
@@ -110,6 +116,7 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 	return &ResponseScriptCreate, err
 }
 
+// Updates script from provided ResourceScript - only updates provided keys
 func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var NewScript ResourceScript
@@ -127,6 +134,7 @@ func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceS
 
 }
 
+// Leverages UpdateScriptByID and GetScripts to update script from provided ResourceScript
 func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*ResourceScript, error) {
 
 	target, err := c.GetScriptByName(name)
@@ -145,6 +153,7 @@ func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*Resou
 	return resp, nil
 }
 
+// Deletes script with provided ID
 func (c *Client) DeleteScriptByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var response interface{}
@@ -160,6 +169,7 @@ func (c *Client) DeleteScriptByID(id string) error {
 	return nil
 }
 
+// Leverages DeleteScriptByID and GetScripts to delete script by Name
 func (c *Client) DeleteScriptByName(name string) error {
 	target, err := c.GetScriptByName(name)
 	if err != nil {
@@ -173,5 +183,5 @@ func (c *Client) DeleteScriptByName(name string) error {
 		return fmt.Errorf("failed to delete script by found id, %v", err)
 	}
 
-	return nil
+	return fmt.Errorf("an error occured")
 }
