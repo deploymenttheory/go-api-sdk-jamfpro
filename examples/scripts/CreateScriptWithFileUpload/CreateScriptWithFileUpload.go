@@ -56,29 +56,26 @@ func main() {
 	scriptContents := string(scriptFile)
 
 	// Define a sample script for testing
-	sampleScript := &jamfpro.ResponseScript{
-		Name:     "Sample Script",
-		Category: "None",
-		Filename: "string",
-		Info:     "Script information",
-		Notes:    "Sample Script",
-		Priority: "Before",
-		Parameters: jamfpro.Parameters{
-			Parameter4:  "string",
-			Parameter5:  "string",
-			Parameter6:  "string",
-			Parameter7:  "string",
-			Parameter8:  "string",
-			Parameter9:  "string",
-			Parameter10: "string",
-			Parameter11: "string",
-		},
+	sampleScript := &jamfpro.ResourceScript{
+		Name:           "Sample Script",
+		CategoryId:     "None",
+		Info:           "Script information",
+		Notes:          "Sample Script",
+		Priority:       "Before",
+		Parameter4:     "string",
+		Parameter5:     "string",
+		Parameter6:     "string",
+		Parameter7:     "string",
+		Parameter8:     "string",
+		Parameter9:     "string",
+		Parameter10:    "string",
+		Parameter11:    "string",
 		OSRequirements: "string",
 		ScriptContents: scriptContents,
 	}
 
 	// Call CreateScriptByID function
-	createdScript, err := client.CreateScriptByID(sampleScript)
+	createdScript, err := client.CreateScript(sampleScript)
 	if err != nil {
 		log.Fatalf("Error creating script: %v", err)
 	}
