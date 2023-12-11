@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Call UpdateScriptByID function
-	resultScript, err := client.UpdateScriptById("3851", updatedScript)
+	resultScript, err := client.UpdateScriptByID("3851", updatedScript)
 	if err != nil {
 		log.Fatalf("Error updating script: %v", err)
 	}

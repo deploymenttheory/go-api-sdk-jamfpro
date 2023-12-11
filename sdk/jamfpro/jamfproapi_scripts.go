@@ -42,8 +42,8 @@ type ResponseScriptCreate struct {
 func (c *Client) GetScripts() (*ResponseScriptsList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriScripts,
-		100,
-		0,
+		standardPageSize,
+		startingPageNumber,
 	)
 
 	if err != nil {
@@ -63,7 +63,7 @@ func (c *Client) GetScripts() (*ResponseScriptsList, error) {
 
 }
 
-func (c *Client) GetScriptsByID(id int) (*ResourceScript, error) {
+func (c *Client) GetScriptByID(id int) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%d", uriScripts, id)
 	var script ResourceScript
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &script)
@@ -78,7 +78,7 @@ func (c *Client) GetScriptsByID(id int) (*ResourceScript, error) {
 	return &script, nil
 }
 
-func (c *Client) GetScriptsByName(name string) (*ResourceScript, error) {
+func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
 	scripts, err := c.GetScripts()
 
 	if err != nil {
@@ -110,7 +110,7 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 	return &ResponseScriptCreate, err
 }
 
-func (c *Client) UpdateScriptById(id string, script *ResourceScript) (*ResourceScript, error) {
+func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var NewScript ResourceScript
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, script, &NewScript)
@@ -129,19 +129,49 @@ func (c *Client) UpdateScriptById(id string, script *ResourceScript) (*ResourceS
 
 func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*ResourceScript, error) {
 
-	target, err := c.GetScriptsByName(name)
+	target, err := c.GetScriptByName(name)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get script by id, %v", err)
 	}
 
 	target_id := target.ID
-
-	resp, err := c.UpdateScriptById(target_id, script)
+	resp, err := c.UpdateScriptByID(target_id, script)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to update by id, %v", err)
 	}
 
-	return &resp, nil
+	return resp, nil
+}
+
+func (c *Client) DeleteScriptByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
+	var response interface{}
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response)
+	if err != nil {
+		return fmt.Errorf("failed to delete script %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+func (c *Client) DeleteScriptByName(name string) error {
+	target, err := c.GetScriptByName(name)
+	if err != nil {
+		return fmt.Errorf("failed to get script by name, %v", err)
+	}
+
+	target_id := target.ID
+
+	err = c.DeleteScriptByID(target_id)
+	if err != nil {
+		return fmt.Errorf("failed to delete script by found id, %v", err)
+	}
+
+	return nil
 }

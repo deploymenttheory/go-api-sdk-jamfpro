@@ -43,7 +43,7 @@ func main() {
 	scriptName := "test_script" // Replace this with an actual script name for testing
 
 	// Call GetScriptsByName function
-	script, err := client.GetScriptsByName(scriptName)
+	script, err := client.GetScriptByName(scriptName)
 	if err != nil {
 		log.Fatalf("Error fetching script by Name: %v", err)
 	}

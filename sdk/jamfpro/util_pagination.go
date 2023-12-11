@@ -45,7 +45,8 @@ func (c *Client) DoPaginatedGet(
 		OutData = append(OutData, TargetObjectAccumulator.Results...)
 
 		if len(OutData) >= TargetObjectAccumulator.Size ||
-			len(TargetObjectAccumulator.Results) < maxPageSize {
+			len(TargetObjectAccumulator.Results) < maxPageSize ||
+			len(TargetObjectAccumulator.Results) == 0 {
 			break
 		}
 

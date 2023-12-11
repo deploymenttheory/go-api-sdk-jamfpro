@@ -62,11 +62,10 @@ func main() {
 	}
 
 	// Define a sample script for testing
-	updatedScript := &jamfpro.ResponseScript{
-		ID:             3, // Assuming ID 194 for this example
+	updatedScript := &jamfpro.ResourceScript{
+		ID:             "3", // Assuming ID 194 for this example
 		Name:           "Updated Sample Script",
-		Category:       "None",
-		Filename:       "string",
+		CategoryId:     "None",
 		Info:           "Updated Script information",
 		Notes:          "Updated Sample Script",
 		Priority:       "After",
