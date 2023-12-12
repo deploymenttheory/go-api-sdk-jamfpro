@@ -59,7 +59,10 @@ func (c *Client) GetScripts() (*ResponseScriptsList, error) {
 
 	for _, value := range resp.Results {
 		var newObj ResourceScript
-		mapstructure.Decode(value, &newObj)
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf("failed to map struct, %v", err)
+		}
 		out.Results = append(out.Results, newObj)
 	}
 
