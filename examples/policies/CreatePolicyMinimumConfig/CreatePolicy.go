@@ -40,9 +40,9 @@ func main() {
 	}
 
 	// Define a new policy with all required fields
-	updatedPolicy := &jamfpro.ResponsePolicy{
+	newPolicy := &jamfpro.ResponsePolicy{
 		General: jamfpro.PolicyGeneral{
-			Name:                       "firefox",
+			Name:                       "policy-creation-test",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -130,21 +130,22 @@ func main() {
 		},
 	}
 
-	policyXML, err := xml.MarshalIndent(updatedPolicy, "", "    ")
+	policyXML, err := xml.MarshalIndent(newPolicy, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling policy data: %v", err)
 	}
 	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
 
-	policyID := 19
-
-	// Update the policy
-	response, err := client.UpdatePolicyByID(policyID, updatedPolicy)
+	// Call CreatePolicy function
+	createdPolicy, err := client.CreatePolicyByID(newPolicy)
 	if err != nil {
-		log.Fatalf("Error updating policy: %v", err)
+		log.Fatalf("Error creating policy: %v", err)
 	}
 
-	// Print the ID of the updated policy
-	fmt.Printf("Updated Policy ID: %d\n", response.ID)
-
+	// Pretty print the created policy details in XML
+	policyXML, err = xml.MarshalIndent(createdPolicy, "", "    ") // Indent with 4 spaces and use '='
+	if err != nil {
+		log.Fatalf("Error marshaling policy details data: %v", err)
+	}
+	fmt.Println("Created Policy Details:\n", string(policyXML))
 }

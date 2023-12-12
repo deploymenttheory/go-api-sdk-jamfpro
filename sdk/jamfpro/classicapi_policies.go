@@ -23,6 +23,12 @@ type PolicyItem struct {
 	Name string `xml:"name"`
 }
 
+// ResponsePolicyCreateAndUpdate represents the response structure for creating or updating a policy
+type ResponsePolicyCreateAndUpdate struct {
+	XMLName xml.Name `xml:"policy"`
+	ID      int      `xml:"id"`
+}
+
 // ResponsePolicy represents the response structure for a single policy
 type ResponsePolicy struct {
 	General              PolicyGeneral              `xml:"general"`
@@ -467,7 +473,7 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 }
 
 // CreatePolicy creates a new policy.
-func (c *Client) CreatePolicyByID(policy *ResponsePolicy) (*ResponsePolicy, error) {
+func (c *Client) CreatePolicyByID(policy *ResponsePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, policy.General.ID)
 
 	// Wrap the policy with the desired XML name using an anonymous struct
@@ -478,7 +484,7 @@ func (c *Client) CreatePolicyByID(policy *ResponsePolicy) (*ResponsePolicy, erro
 		ResponsePolicy: policy,
 	}
 
-	var responsePolicy ResponsePolicy
+	var responsePolicy ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create policy: %v", err)
@@ -488,11 +494,12 @@ func (c *Client) CreatePolicyByID(policy *ResponsePolicy) (*ResponsePolicy, erro
 		defer resp.Body.Close()
 	}
 
+	// Return the ID of the newly created policy
 	return &responsePolicy, nil
 }
 
 // UpdatePolicyByID updates an existing policy by its ID.
-func (c *Client) UpdatePolicyByID(id int, policy *ResponsePolicy) (*ResponsePolicy, error) {
+func (c *Client) UpdatePolicyByID(id int, policy *ResponsePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
 
 	// Wrap the policy with the desired XML name using an anonymous struct
@@ -503,8 +510,8 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResponsePolicy) (*ResponsePoli
 		ResponsePolicy: policy,
 	}
 
-	var updatedPolicy ResponsePolicy
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedPolicy)
+	var response ResponsePolicyCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update policy: %v", err)
 	}
@@ -513,11 +520,11 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResponsePolicy) (*ResponsePoli
 		defer resp.Body.Close()
 	}
 
-	return &updatedPolicy, nil
+	return &response, nil
 }
 
 // UpdatePolicyByName updates an existing policy by its name.
-func (c *Client) UpdatePolicyByName(name string, policy *ResponsePolicy) (*ResponsePolicy, error) {
+func (c *Client) UpdatePolicyByName(name string, policy *ResponsePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
 
 	// Wrap the policy with the desired XML name using an anonymous struct
@@ -528,8 +535,8 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResponsePolicy) (*Respo
 		ResponsePolicy: policy,
 	}
 
-	var updatedPolicy ResponsePolicy
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedPolicy)
+	var response ResponsePolicyCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update policy: %v", err)
 	}
@@ -538,7 +545,7 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResponsePolicy) (*Respo
 		defer resp.Body.Close()
 	}
 
-	return &updatedPolicy, nil
+	return &response, nil
 }
 
 // DeletePolicyByID deletes a policy by its ID.
