@@ -176,7 +176,7 @@ func (c *Client) DeleteApiIntegrationByName(name string) error {
 
 // Client Credentials
 
-// CreateClientCredentialsByApiRoleID creates new client credentials for an API integration by its ID
+// RefreshClientCredentialsByApiRoleID creates new client credentials for an API integration by its ID
 func (c *Client) RefreshClientCredentialsByApiRoleID(id string) (*ResourceClientCredentials, error) {
 	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s/client-credentials", id)
 
