@@ -82,19 +82,19 @@ type PolicyCategory struct {
 }
 
 type PolicyDateTimeLimitations struct {
-	ActivationDate      string            `xml:"activation_date,omitempty"`
-	ActivationDateEpoch int               `xml:"activation_date_epoch,omitempty"`
-	ActivationDateUTC   string            `xml:"activation_date_utc,omitempty"`
-	ExpirationDate      string            `xml:"expiration_date,omitempty"`
-	ExpirationDateEpoch int               `xml:"expiration_date_epoch,omitempty"`
-	ExpirationDateUTC   string            `xml:"expiration_date_utc,omitempty"`
-	NoExecuteOn         PolicyNoExecuteOn `xml:"no_execute_on,omitempty"`
-	NoExecuteStart      string            `xml:"no_execute_start,omitempty"`
-	NoExecuteEnd        string            `xml:"no_execute_end,omitempty"`
+	ActivationDate      string              `xml:"activation_date,omitempty"`
+	ActivationDateEpoch int                 `xml:"activation_date_epoch,omitempty"`
+	ActivationDateUTC   string              `xml:"activation_date_utc,omitempty"`
+	ExpirationDate      string              `xml:"expiration_date,omitempty"`
+	ExpirationDateEpoch int                 `xml:"expiration_date_epoch,omitempty"`
+	ExpirationDateUTC   string              `xml:"expiration_date_utc,omitempty"`
+	NoExecuteOn         []PolicyNoExecuteOn `xml:"no_execute_on>day,omitempty"`
+	NoExecuteStart      string              `xml:"no_execute_start,omitempty"`
+	NoExecuteEnd        string              `xml:"no_execute_end,omitempty"`
 }
 
 type PolicyNoExecuteOn struct {
-	Day string `xml:"day,omitempty"`
+	Day string `xml:",chardata"`
 }
 
 type PolicyNetworkLimitations struct {
