@@ -66,14 +66,16 @@ func main() {
 			ReinstallButtonText:         "",
 			SelfServiceDescription:      "",
 			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
+			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-			SelfServiceCategories: jamfpro.PolicySelfServiceCategory{
-				Category: jamfpro.PolicyCategory{
-					//ID:        "-1",
-					//Name:      "None",
-					DisplayIn: false, // or true, depending on your requirements
-					FeatureIn: false, // or true, depending on your requirements
+			SelfServiceCategories: []jamfpro.PolicySelfServiceCategory{
+				{
+					Category: jamfpro.PolicyCategory{
+						//ID:        "-1",
+						//Name:      "None",
+						DisplayIn: false, // or true, depending on your requirements
+						FeatureIn: false, // or true, depending on your requirements
+					},
 				},
 			},
 		},
