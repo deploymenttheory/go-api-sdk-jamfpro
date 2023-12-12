@@ -75,7 +75,7 @@ type PolicyGeneral struct {
 }
 
 type PolicyCategory struct {
-	ID        string `xml:"id,omitempty"`
+	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
 	DisplayIn bool   `xml:"display_in,omitempty"`
 	FeatureIn bool   `xml:"feature_in,omitempty"`
