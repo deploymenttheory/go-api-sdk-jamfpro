@@ -11,9 +11,9 @@ import (
 
 // Global variables
 var (
-	bootstrapClient    *jamfpro.Client         // initialzed client for bootstrap account
-	intTestClient      *jamfpro.Client         // initialzed client for integration testing account
-	jamfApiIntegration *jamfpro.ApiIntegration // jamf pro api integration / client
+	bootstrapClient    *jamfpro.Client                 // initialzed client for bootstrap account
+	intTestClient      *jamfpro.Client                 // initialzed client for integration testing account
+	jamfApiIntegration *jamfpro.ResourceApiIntegration // jamf pro api integration / client
 )
 
 // TestMain function performs global setup of the test suite, executes

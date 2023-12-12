@@ -119,7 +119,7 @@ func setupJamfProClientWithTestIntegrationAccount(bootstrapClient *jamfpro.Clien
 	}
 
 	// Use bootstrap client to get API integration details
-	apiIntegration, err := bootstrapClient.GetApiIntegrationNameByID(testApiClientDisplayName)
+	apiIntegration, err := bootstrapClient.GetApiIntegrationByName(testApiClientDisplayName)
 	if err != nil {
 		log.Fatalf("Failed to get API Integration by name: %v", err)
 	}
@@ -134,7 +134,7 @@ func setupJamfProClientWithTestIntegrationAccount(bootstrapClient *jamfpro.Clien
 	instanceName := os.Getenv("JAMFPRO_INSTANCE_NAME")
 
 	// Use bootstrap client to update client credentials by API Integration ID
-	credentials, err := bootstrapClient.UpdateClientCredentialsByApiIntegrationID(fmt.Sprintf("%d", resourceID))
+	credentials, err := bootstrapClient.RefreshClientCredentialsByApiRoleID(fmt.Sprintf("%d", resourceID))
 	if err != nil {
 		log.Fatalf("Failed to update client credentials for API Integration ID %d: %v", resourceID, err)
 	}
@@ -189,7 +189,7 @@ func setupAllIntegrationTestRoles(client *jamfpro.Client, rolesConfig map[string
 // setupIntegrationTestRoles sets up a temporary test role in Jamf Pro for testing purposes.
 // It creates a new Jamf API role based on the provided configuration.
 func setupIntegrationTestRole(client *jamfpro.Client, roleConfig ApiRoleConfig) (string, error) {
-	newRole := &jamfpro.APIRole{
+	newRole := &jamfpro.ResourceAPIRole{
 		DisplayName: roleConfig.Name,
 		Privileges:  roleConfig.Privileges,
 	}
@@ -208,8 +208,8 @@ func setupIntegrationTestRole(client *jamfpro.Client, roleConfig ApiRoleConfig) 
 
 // setupJamfProTemporaryTestAPIClient creates a temporary API integration in Jamf Pro.
 // It uses the provided API client configuration and role names.
-func setupIntegrationTestAPIClient(client *jamfpro.Client, apiClientConfig ApiClientConfig, roleNames []string) (*jamfpro.ApiIntegration, error) {
-	newApiIntegration := &jamfpro.ApiIntegration{
+func setupIntegrationTestAPIClient(client *jamfpro.Client, apiClientConfig ApiClientConfig, roleNames []string) (*jamfpro.ResourceApiIntegration, error) {
+	newApiIntegration := &jamfpro.ResourceApiIntegration{
 		AuthorizationScopes:        roleNames,
 		DisplayName:                apiClientConfig.DisplayName,
 		Enabled:                    apiClientConfig.Enabled,

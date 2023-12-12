@@ -43,7 +43,7 @@ func main() {
 	roleName := "One Role to Rule them all"
 
 	// Updated role data
-	updatedRole := &jamfpro.APIRole{
+	updatedRole := &jamfpro.ResourceAPIRole{
 		DisplayName: "Updated Role Name",
 		Privileges:  []string{"Update eBooks", "Update User"},
 	}
