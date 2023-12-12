@@ -1,25 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	concurrentRequests           = 10 // Number of simultaneous requests.
-	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
-	integrationID                = "7"
-)
-
 func main() {
 	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -41,19 +33,24 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Reset client credentials for the given API Integration ID
-	response, err := client.UpdateClientCredentialsByApiIntegrationID(integrationID)
+	// Fetch API role privileges by name
+	name := "Read API Roles" // Replace with the privilege name you want to search for
+	limit := 15              // Replace with your desired limit for results
+	apiPrivileges, err := client.GetJamfAPIPrivilegesByName(name, limit)
 	if err != nil {
-		fmt.Println("Error resetting client credentials:", err)
-		return
+		log.Fatalf("Error fetching API role privileges by name: %v", err)
 	}
 
-	// Print the updated credentials
-	fmt.Printf("Updated client credentials - Client ID: %s, Client Secret: %s\n", response.ClientID, response.ClientSecret)
+	// Pretty print the fetched API role privileges using JSON marshaling
+	privilegesJSON, err := json.MarshalIndent(apiPrivileges, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling API role privileges data: %v", err)
+	}
+	fmt.Println("Fetched API Role Privileges by Name:", string(privilegesJSON))
 }

@@ -14,12 +14,12 @@ const (
 	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
 	defaultTokenLifespan         = 30 * time.Minute
 	defaultBufferPeriod          = 5 * time.Minute
-	apiIntegrationName           = "jamf-api-integration-name"
+	apiIntegrationName           = "My API Integration - new name"
 )
 
 func main() {
 	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -29,7 +29,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -48,8 +48,8 @@ func main() {
 	}
 
 	// Create an instance of the ApiIntegration with updated values
-	integrationUpdate := &jamfpro.ApiIntegration{
-		AuthorizationScopes:        []string{"api-role-1", "api-role-2", "api-role-3"},
+	integrationUpdate := &jamfpro.ResourceApiIntegration{
+		AuthorizationScopes:        []string{"sdktest2"},
 		DisplayName:                "updated by sdk using name",
 		Enabled:                    true,
 		AccessTokenLifetimeSeconds: 300,

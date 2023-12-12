@@ -14,12 +14,12 @@ const (
 	maxConcurrentRequestsAllowed = 5  // Maximum allowed concurrent requests.
 	defaultTokenLifespan         = 30 * time.Minute
 	defaultBufferPeriod          = 5 * time.Minute
-	scriptNameToDelete           = "script-name-to-delete"
+	scriptNameToDelete           = "delete_me"
 )
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)

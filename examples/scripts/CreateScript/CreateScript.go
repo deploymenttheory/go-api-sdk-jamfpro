@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -40,35 +40,32 @@ func main() {
 	}
 
 	// Define a sample script for testing
-	sampleScript := &jamfpro.ResponseScript{
-		Name:     "Sample Script",
-		Category: "None",
-		Filename: "string",
-		Info:     "Script information",
-		Notes:    "Sample Script",
-		Priority: "Before",
-		Parameters: jamfpro.Parameters{
-			Parameter4:  "string",
-			Parameter5:  "string",
-			Parameter6:  "string",
-			Parameter7:  "string",
-			Parameter8:  "string",
-			Parameter9:  "string",
-			Parameter10: "string",
-			Parameter11: "string",
-		},
+	sampleScript := &jamfpro.ResourceScript{
+		Name:           "Sample Script",
+		CategoryName:   "None",
+		Info:           "Script information",
+		Notes:          "Sample Script",
+		Priority:       "BEFORE",
+		Parameter4:     "string",
+		Parameter5:     "string",
+		Parameter6:     "string",
+		Parameter7:     "string",
+		Parameter8:     "string",
+		Parameter9:     "string",
+		Parameter10:    "string",
+		Parameter11:    "string",
 		OSRequirements: "string",
 		ScriptContents: "echo \"Sample script\"",
 	}
 
 	// Call CreateScriptByID function
-	createdScript, err := client.CreateScriptByID(sampleScript)
+	createdScript, err := client.CreateScript(sampleScript)
 	if err != nil {
 		log.Fatalf("Error creating script: %v", err)
 	}
 
 	// Pretty print the created script details in XML
-	createdScriptXML, err := xml.MarshalIndent(createdScript, "", "    ") // Indent with 4 spaces
+	createdScriptXML, err := json.MarshalIndent(createdScript, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling created script data: %v", err)
 	}

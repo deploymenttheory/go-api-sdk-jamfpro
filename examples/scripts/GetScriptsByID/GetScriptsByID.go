@@ -40,10 +40,10 @@ func main() {
 	}
 
 	// Define a script ID for testing
-	scriptID := 187
+	scriptID := "9"
 
 	// Call GetScriptsByID function
-	script, err := client.GetScriptsByID(scriptID)
+	script, err := client.GetScriptByID(scriptID)
 	if err != nil {
 		log.Fatalf("Error fetching script by ID: %v", err)
 	}

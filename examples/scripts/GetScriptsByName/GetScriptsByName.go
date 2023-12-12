@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -40,16 +40,18 @@ func main() {
 	}
 
 	// Define a script name for testing
-	scriptName := "some-script-name" // Replace this with an actual script name for testing
+	scriptName := "test_script" // Replace this with an actual script name for testing
 
 	// Call GetScriptsByName function
-	script, err := client.GetScriptsByName(scriptName)
+	script, err := client.GetScriptByName(scriptName)
 	if err != nil {
 		log.Fatalf("Error fetching script by Name: %v", err)
 	}
 
+	fmt.Println(script)
+
 	// Pretty print the script details in XML
-	scriptXML, err := xml.MarshalIndent(script, "", "    ") // Indent with 4 spaces
+	scriptXML, err := json.MarshalIndent(script, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling script details data: %v", err)
 	}

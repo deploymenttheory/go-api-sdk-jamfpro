@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -11,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -21,7 +20,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -39,32 +38,23 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Use the embedded script
-	embeddedScriptContents := `echo "Sample script"`
-
 	// Define a sample script for testing
-	updatedScript := &jamfpro.ResponseScript{
-		ID:             3,
-		Name:           "Embedded Sample Script",
-		Category:       "None",
-		Filename:       "string",
-		Info:           "Script information",
-		Notes:          "Sample Script",
-		Priority:       "Before",
-		OSRequirements: "string",
-		ScriptContents: embeddedScriptContents,
+	updatedScript := &jamfpro.ResourceScript{
+		Name: "Another new name",
 	}
 
 	// Call UpdateScriptByID function
-	resultScript, err := client.UpdateScriptByID(updatedScript.ID, updatedScript)
+	resultScript, err := client.UpdateScriptByID("2", updatedScript)
 	if err != nil {
 		log.Fatalf("Error updating script: %v", err)
 	}
 
+	fmt.Println(resultScript)
+
 	// Pretty print the updated script details in XML
-	resultScriptXML, err := xml.MarshalIndent(resultScript, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling updated script data: %v", err)
-	}
-	fmt.Println("Updated Script Details with Embedded Script:\n", string(resultScriptXML))
+	// resultScriptXML, err := xml.MarshalIndent(resultScript, "", "    ") // Indent with 4 spaces
+	// if err != nil {
+	// 	log.Fatalf("Error marshaling updated script data: %v", err)
+	// }
+	// fmt.Println("Updated Script Details with Embedded Script:\n", string(resultScriptXML))
 }

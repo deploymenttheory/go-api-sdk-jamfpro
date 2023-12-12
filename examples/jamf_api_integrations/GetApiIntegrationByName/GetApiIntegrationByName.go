@@ -9,9 +9,13 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
+const (
+	integrationName = "My API Integration - new name"
+)
+
 func main() {
 	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -19,9 +23,10 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
+	// Configuration for the jamfpro
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -33,24 +38,22 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
+	// Create a new jamfpro client instanceclient,
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Fetch API role privileges by name
-	name := "Read API Roles" // Replace with the privilege name you want to search for
-	limit := 15              // Replace with your desired limit for results
-	apiPrivileges, err := client.GetJamfAPIPrivilegesByName(name, limit)
+	// Call GetApiIntegrationNameByID function
+	integration, err := client.GetApiIntegrationByName(integrationName)
 	if err != nil {
-		log.Fatalf("Error fetching API role privileges by name: %v", err)
+		log.Fatalf("Error fetching Jamf API Integration by name: %v", err)
 	}
 
-	// Pretty print the fetched API role privileges using JSON marshaling
-	privilegesJSON, err := json.MarshalIndent(apiPrivileges, "", "    ") // Indent with 4 spaces
+	// Pretty print the integration in JSON
+	integrationJSON, err := json.MarshalIndent(integration, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling API role privileges data: %v", err)
+		log.Fatalf("Error marshaling Jamf API Integration data: %v", err)
 	}
-	fmt.Println("Fetched API Role Privileges by Name:", string(privilegesJSON))
+	fmt.Println("Fetched Jamf API Integration:\n", string(integrationJSON))
 }

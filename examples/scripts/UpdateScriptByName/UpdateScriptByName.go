@@ -51,23 +51,20 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	sampleScript := &jamfpro.ResponseScript{
-		Name:     scriptNameToUpdate,
-		Category: "None",
-		Filename: "string",
-		Info:     "Script information",
-		Notes:    "Sample Script",
-		Priority: "Before",
-		Parameters: jamfpro.Parameters{
-			Parameter4:  "string",
-			Parameter5:  "string",
-			Parameter6:  "string",
-			Parameter7:  "string",
-			Parameter8:  "string",
-			Parameter9:  "string",
-			Parameter10: "string",
-			Parameter11: "string",
-		},
+	sampleScript := &jamfpro.ResourceScript{
+		Name:           scriptNameToUpdate,
+		CategoryName:   "None",
+		Info:           "Script information",
+		Notes:          "Sample Script",
+		Priority:       "Before",
+		Parameter4:     "string",
+		Parameter5:     "string",
+		Parameter6:     "string",
+		Parameter7:     "string",
+		Parameter8:     "string",
+		Parameter9:     "string",
+		Parameter10:    "string",
+		Parameter11:    "string",
 		OSRequirements: "string",
 		ScriptContents: embeddedScript,
 	}
