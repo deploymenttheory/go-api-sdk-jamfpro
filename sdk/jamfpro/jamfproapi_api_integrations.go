@@ -48,7 +48,10 @@ func (c *Client) GetApiIntegrations() (*ResponseApiIntegrationsList, error) {
 	OutStruct.Size = resp.Size
 	for _, value := range resp.Results {
 		var newObj ResourceApiIntegration
-		mapstructure.Decode(value, &newObj)
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf("failed to map structure, %v", err)
+		}
 		OutStruct.Results = append(OutStruct.Results, newObj)
 	}
 

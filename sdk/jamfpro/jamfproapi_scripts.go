@@ -106,8 +106,8 @@ func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
 func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, error) {
 	endpoint := uriScripts
 	var ResponseScriptCreate ResponseScriptCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, script, &ResponseScriptCreate)
 
+	resp, err := c.HTTP.DoRequest("POST", endpoint, script, &ResponseScriptCreate)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create script, %v", err)
 	}
@@ -116,14 +116,14 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 		defer resp.Body.Close()
 	}
 
-	return &ResponseScriptCreate, err
+	return &ResponseScriptCreate, nil
 }
 
 // Updates script from provided ResourceScript - only updates provided keys
 func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
-	var NewScript ResourceScript
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, script, &NewScript)
+	var updatedScript ResourceScript
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, script, &updatedScript)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to update script, %v", err)
@@ -133,7 +133,7 @@ func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceS
 		defer resp.Body.Close()
 	}
 
-	return &NewScript, nil
+	return &updatedScript, nil
 
 }
 
