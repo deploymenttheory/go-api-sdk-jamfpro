@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Call GetJamfApiRolesNameById function
-	role, err := client.GetJamfApiRolesNameById(roleName)
+	role, err := client.GetJamfApiRoleByName(roleName)
 	if err != nil {
 		log.Fatalf("Error fetching Jamf API role by name: %v", err)
 	}

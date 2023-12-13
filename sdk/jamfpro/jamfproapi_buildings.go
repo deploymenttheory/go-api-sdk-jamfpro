@@ -15,8 +15,8 @@ const uriBuildings = "/api/v1/buildings"
 
 // ResponseBuildings represents the structure of the response for the buildings list.
 type ResponseBuildingsList struct {
-	Size    int                `json:"totalCount"`
-	Results []ResourceBuilding `json:"results"`
+	TotalCount int                `json:"totalCount"`
+	Results    []ResourceBuilding `json:"results"`
 }
 
 // ResponseBuilding represents the structure of each building item in the response.
@@ -53,11 +53,12 @@ type ResourceBuildingResourceHistory struct {
 }
 
 // GetBuildings retrieves all building information with optional sorting.
-func (c *Client) GetBuildings(sort []string) (*ResponseBuildingsList, error) {
+func (c *Client) GetBuildings(sort_filter string) (*ResponseBuildingsList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriBuildings,
 		standardPageSize,
 		startingPageNumber,
+		sort_filter,
 	)
 
 	if err != nil {
@@ -65,7 +66,7 @@ func (c *Client) GetBuildings(sort []string) (*ResponseBuildingsList, error) {
 	}
 
 	var out ResponseBuildingsList
-	out.Size = resp.Size
+	out.TotalCount = resp.Size
 
 	for _, value := range resp.Results {
 		var newObj ResourceBuilding
@@ -98,7 +99,7 @@ func (c *Client) GetBuildingByID(id string) (*ResourceBuilding, error) {
 
 // GetBuildingByNameByID retrieves a single building information by its name using GetBuildingByID.
 func (c *Client) GetBuildingByName(name string) (*ResourceBuilding, error) {
-	buildings, err := c.GetBuildings(nil)
+	buildings, err := c.GetBuildings("")
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch buildings: %v", err)
 	}
@@ -220,11 +221,11 @@ func (c *Client) DeleteMultipleBuildingsByID(ids []string) error {
 }
 
 // GetBuildingResourceHistoryByID retrieves the resource history of a specific building by its ID.
-func (c *Client) GetBuildingResourceHistoryByID(id string) (*ResponseBuildingResourceHistoryList, error) {
+func (c *Client) GetBuildingResourceHistoryByID(id, sort_filter string) (*ResponseBuildingResourceHistoryList, error) {
 	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf("%s/%s/history", uriBuildings, id)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sort_filter)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch building history, %v", err)
 	}

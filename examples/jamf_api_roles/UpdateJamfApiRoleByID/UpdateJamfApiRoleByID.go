@@ -43,7 +43,7 @@ func main() {
 	roleID := "13" // For example, use the ID "1"
 
 	// Define the new data for the role
-	updatedRole := &jamfpro.APIRole{
+	updatedRole := &jamfpro.ResourceAPIRole{
 		DisplayName: "Updated Role Display Name",
 		Privileges:  []string{"Update eBooks", "Update User"},
 	}

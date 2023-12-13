@@ -43,11 +43,12 @@ type ResponseScriptCreate struct {
 }
 
 // Gets full list of scripts & handles pagination
-func (c *Client) GetScripts() (*ResponseScriptsList, error) {
+func (c *Client) GetScripts(sort_filter string) (*ResponseScriptsList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriScripts,
 		standardPageSize,
 		startingPageNumber,
+		sort_filter,
 	)
 
 	if err != nil {
@@ -88,7 +89,7 @@ func (c *Client) GetScriptByID(id string) (*ResourceScript, error) {
 
 // Retrieves script by Name by leveraging GetScripts(), returns ResourceScript
 func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
-	scripts, err := c.GetScripts()
+	scripts, err := c.GetScripts("")
 	if err != nil {
 		return nil, fmt.Errorf("failed to get script by name, %v", err)
 	}
@@ -120,10 +121,10 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 }
 
 // Updates script from provided ResourceScript - only updates provided keys
-func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceScript, error) {
+func (c *Client) UpdateScriptByID(id string, scriptUpdate *ResourceScript) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var updatedScript ResourceScript
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, script, &updatedScript)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, scriptUpdate, &updatedScript)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to update script, %v", err)
@@ -138,7 +139,7 @@ func (c *Client) UpdateScriptByID(id string, script *ResourceScript) (*ResourceS
 }
 
 // Leverages UpdateScriptByID and GetScripts to update script from provided ResourceScript
-func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*ResourceScript, error) {
+func (c *Client) UpdateScriptByName(name string, scriptUpdate *ResourceScript) (*ResourceScript, error) {
 
 	target, err := c.GetScriptByName(name)
 
@@ -147,7 +148,7 @@ func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*Resou
 	}
 
 	target_id := target.ID
-	resp, err := c.UpdateScriptByID(target_id, script)
+	resp, err := c.UpdateScriptByID(target_id, scriptUpdate)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to update by id, %v", err)

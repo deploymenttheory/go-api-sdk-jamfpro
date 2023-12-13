@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Example cache settings to update
-	newSettings := &jamfpro.ResponseCacheSettings{
+	newSettings := &jamfpro.ResourceCacheSettings{
 		CacheType:                  "ehcache",
 		TimeToLiveSeconds:          180,
 		TimeToIdleSeconds:          180,

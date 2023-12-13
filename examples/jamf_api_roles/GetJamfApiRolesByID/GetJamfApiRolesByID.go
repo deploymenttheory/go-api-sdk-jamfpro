@@ -9,7 +9,7 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const apiRoleID = 5 // Set the desired ID as a constant integer
+const apiRoleID = "5" // Set the desired ID as a constant integer
 
 func main() {
 	// Define the path to the JSON configuration file inside the main function
@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// Call GetJamfApiRolesByID function
-	apiRole, err := client.GetJamfApiRolesByID(apiRoleID)
+	apiRole, err := client.GetJamfApiRoleByID(apiRoleID)
 	if err != nil {
 		log.Fatalf("Error fetching Jamf API role by ID: %v", err)
 	}

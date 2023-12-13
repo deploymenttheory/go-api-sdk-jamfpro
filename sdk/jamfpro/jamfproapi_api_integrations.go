@@ -37,9 +37,9 @@ type ResourceClientCredentials struct {
 }
 
 // GetApiIntegrations fetches all API integrations
-func (c *Client) GetApiIntegrations() (*ResponseApiIntegrationsList, error) {
+func (c *Client) GetApiIntegrations(sort_filter string) (*ResponseApiIntegrationsList, error) {
 	endpoint := uriApiIntegrations
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}
@@ -77,7 +77,7 @@ func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) 
 
 // GetApiIntegrationNameByID fetches an API integration by its display name and then retrieves its details using its ID
 func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, error) {
-	integrations, err := c.GetApiIntegrations()
+	integrations, err := c.GetApiIntegrations("")
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}
@@ -127,14 +127,14 @@ func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApi
 }
 
 // UpdateApiIntegrationByName updates an API integration based on its display name
-func (c *Client) UpdateApiIntegrationByName(name string, updatedIntegration *ResourceApiIntegration) (*ResourceApiIntegration, error) {
+func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
 	target, err := c.GetApiIntegrationByName(name)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "api integrations", name, err)
 	}
 
 	target_id := target.ID
-	resp, err := c.UpdateApiIntegrationByID(target_id, updatedIntegration)
+	resp, err := c.UpdateApiIntegrationByID(target_id, integrationUpdate)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api integrations", name, err)
 	}
