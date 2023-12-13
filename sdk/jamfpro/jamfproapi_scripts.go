@@ -143,7 +143,7 @@ func (c *Client) UpdateScriptByName(name string, script *ResourceScript) (*Resou
 	target, err := c.GetScriptByName(name)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get script by id, %v", err)
+		return nil, fmt.Errorf("failed to get script by name, %v", err)
 	}
 
 	target_id := target.ID

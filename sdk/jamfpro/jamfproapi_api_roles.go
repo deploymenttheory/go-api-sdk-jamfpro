@@ -167,5 +167,5 @@ func (c *Client) DeleteJamfApiRoleByName(name string) error {
 		return fmt.Errorf("failed to delete api role, %v", err)
 	}
 
-	return fmt.Errorf("an error occured")
+	return nil
 }
