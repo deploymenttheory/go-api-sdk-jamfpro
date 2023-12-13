@@ -41,13 +41,13 @@ func main() {
 
 	// Define the category name you want to update and the updated category details
 	categoryName := "Existing Category Name" // Replace with the actual category name you want to update
-	updatedCategory := &jamfpro.ResponseCategories{
+	updatedCategory := &jamfpro.ResourceCategory{
 		Name:     "Updated Category Name", // Replace with the updated name
 		Priority: 10,                      // Replace with the updated priority
 	}
 
 	// Call UpdateCategoryByNameByID function
-	updatedCategoryResult, err := client.UpdateCategoryByNameByID(categoryName, updatedCategory)
+	updatedCategoryResult, err := client.UpdateCategoryByName(categoryName, updatedCategory)
 	if err != nil {
 		log.Fatalf("Error updating category: %v", err)
 	}

@@ -14,14 +14,14 @@ import (
 const uriCategories = "/api/v1/categories"
 
 type ResponseCategoriesList struct {
-	TotalCount int                `json:"totalCount,omitempty"`
-	Results    []ResourceCategory `json:"results,omitempty"`
+	TotalCount int                `json:"totalCount"`
+	Results    []ResourceCategory `json:"results"`
 }
 
 type ResourceCategory struct {
-	Id       string `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
-	Priority int    `json:"priority,omitempty"`
+	Id       string `json:"id"`
+	Name     string `json:"name"`
+	Priority int    `json:"priority"`
 }
 
 // GetCategories retrieves all categories from the Jamf Pro API, handling pagination automatically.
@@ -59,7 +59,7 @@ func (c *Client) GetCategoryByID(id string) (*ResourceCategory, error) {
 	var category ResourceCategory
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &category)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch category by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "categories", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -69,141 +69,125 @@ func (c *Client) GetCategoryByID(id string) (*ResourceCategory, error) {
 	return &category, nil
 }
 
-// // GetCategoryNameByID retrieves a category by its name and then retrieves its details using its ID
-// func (c *Client) GetCategoryNameByID(name string) (*ResponseCategories, error) {
-// 	// Fetch all categories
-// 	categoriesList, err := c.GetCategories("", "")
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to fetch all categories: %v", err)
-// 	}
+// GetCategoryNameByID retrieves a category by its name and then retrieves its details using its ID
+func (c *Client) GetCategoryByName(name string) (*ResourceCategory, error) {
+	categories, err := c.GetCategories("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
+	}
 
-// 	// Search for the category with the given name
-// 	for _, category := range categoriesList.Results {
-// 		if category.Name == name {
-// 			return c.GetCategoryByID(category.Id)
-// 		}
-// 	}
+	for _, value := range categories.Results {
+		if value.Name == name {
+			return &value, nil
+		}
+	}
 
-// 	return nil, fmt.Errorf("no category found with the name %s", name)
-// }
+	return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, err)
+}
 
-// // CreateCategory creates a new category
-// func (c *Client) CreateCategory(category *ResponseCategories) (*ResponseCategories, error) {
-// 	endpoint := uriCategories
+// CreateCategory creates a new category
+func (c *Client) CreateCategory(category *ResourceCategory) (*ResourceCategory, error) {
+	endpoint := uriCategories
 
-// 	var response ResponseCategories
-// 	resp, err := c.HTTP.DoRequest("POST", endpoint, category, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to create category: %v", err)
-// 	}
+	var response ResourceCategory
+	resp, err := c.HTTP.DoRequest("POST", endpoint, category, &response)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "category", err)
+	}
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// 	return &response, nil
-// }
+	return &response, nil
+}
 
-// // UpdateCategoryByID updates an existing category by its ID
-// func (c *Client) UpdateCategoryByID(id int, updatedCategory *ResponseCategories) (*ResponseCategories, error) {
-// 	endpoint := fmt.Sprintf("%s/%d", uriCategories, id)
+// UpdateCategoryByID updates an existing category by its ID
+func (c *Client) UpdateCategoryByID(id string, categoryUpdate *ResourceCategory) (*ResourceCategory, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
 
-// 	var response ResponseCategories
-// 	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedCategory, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to update category: %v", err)
-// 	}
+	var response ResourceCategory
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, categoryUpdate, &response)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "category", id, err)
+	}
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// 	return &response, nil
-// }
+	return &response, nil
+}
 
-// // UpdateCategoryByNameByID updates a category by its name and then updates its details using its ID.
-// func (c *Client) UpdateCategoryByNameByID(name string, updatedCategory *ResponseCategories) (*ResponseCategories, error) {
-// 	// Fetch all categories
-// 	categoriesList, err := c.GetCategories("", "") // Adjusted call to match new signature of GetCategories
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to fetch all categories: %v", err)
-// 	}
+// UpdateCategoryByNameByID updates a category by its name and then updates its details using its ID.
+func (c *Client) UpdateCategoryByName(name string, categoryUpdate *ResourceCategory) (*ResourceCategory, error) {
+	category, err := c.GetCategoryByName(name)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
+	}
 
-// 	// Search for the category with the given name
-// 	for _, category := range categoriesList.Results {
-// 		if category.Name == name {
-// 			// Parse the ID from string to int
-// 			id, err := strconv.Atoi(category.Id)
-// 			if err != nil {
-// 				return nil, fmt.Errorf("failed to parse category ID: %v", err)
-// 			}
-// 			// Update the category using its ID
-// 			return c.UpdateCategoryByID(id, updatedCategory)
-// 		}
-// 	}
+	target_id := category.Id
+	resp, err := c.UpdateCategoryByID(target_id, categoryUpdate)
 
-// 	return nil, fmt.Errorf("no category found with the name %s", name)
-// }
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "category", name, err)
+	}
 
-// // DeleteCategoryByID deletes a category by its ID
-// func (c *Client) DeleteCategoryByID(id int) error {
-// 	endpoint := fmt.Sprintf("%s/%d", uriCategories, id)
+	return resp, nil
+}
 
-// 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
-// 	if err != nil {
-// 		return fmt.Errorf("failed to delete category: %v", err)
-// 	}
+// DeleteCategoryByID deletes a category by its ID
+func (c *Client) DeleteCategoryByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "category", id, err)
+	}
 
-// 	return nil
-// }
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// // DeleteCategoryByNameByID deletes a category by its name after inferring its ID.
-// func (c *Client) DeleteCategoryByNameByID(name string) error {
-// 	// Fetch all categories
-// 	categoriesList, err := c.GetCategories("", "") // Call updated to match new signature of GetCategories
-// 	if err != nil {
-// 		return fmt.Errorf("failed to fetch all categories: %v", err)
-// 	}
+	return nil
+}
 
-// 	// Search for the category with the given name
-// 	for _, category := range categoriesList.Results {
-// 		if category.Name == name {
-// 			// Parse the ID from string to int
-// 			id, err := strconv.Atoi(category.Id)
-// 			if err != nil {
-// 				return fmt.Errorf("failed to parse category ID: %v", err)
-// 			}
-// 			// Delete the category using its ID
-// 			return c.DeleteCategoryByID(id)
-// 		}
-// 	}
+// DeleteCategoryByNameByID deletes a category by its name after inferring its ID.
+func (c *Client) DeleteCategoryByName(name string) error {
+	category, err := c.GetCategoryByName(name)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedGetByName, "category", name, err)
+	}
 
-// 	return fmt.Errorf("no category found with the name %s", name)
-// }
+	target_id := category.Id
+	err = c.DeleteCategoryByID(target_id)
 
-// // DeleteMultipleCategoriesByID deletes multiple categories by their IDs
-// func (c *Client) DeleteMultipleCategoriesByID(ids []string) error {
-// 	endpoint := fmt.Sprintf("%s/delete-multiple", uriCategories)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "category", name, err)
+	}
 
-// 	// Construct the request payload
-// 	payload := struct {
-// 		IDs []string `json:"ids"`
-// 	}{
-// 		IDs: ids,
-// 	}
+	return nil
+}
 
-// 	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil)
-// 	if err != nil {
-// 		return fmt.Errorf("failed to delete multiple categories: %v", err)
-// 	}
+// DeleteMultipleCategoriesByID deletes multiple categories by their IDs
+func (c *Client) DeleteMultipleCategoriesByID(ids []string) error {
+	endpoint := fmt.Sprintf("%s/delete-multiple", uriCategories)
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	// Construct the request payload
+	payload := struct {
+		IDs []string `json:"ids"`
+	}{
+		IDs: ids,
+	}
 
-// 	return nil
-// }
+	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteMultiple, "categories", ids, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}

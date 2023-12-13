@@ -40,7 +40,7 @@ func main() {
 
 	categoryName := "Updated Applications Category Name" // Replace with the actual category name you want to delete
 
-	err = client.DeleteCategoryByNameByID(categoryName)
+	err = client.DeleteCategoryByName(categoryName)
 	if err != nil {
 		log.Fatalf("Error deleting category: %v", err)
 	}

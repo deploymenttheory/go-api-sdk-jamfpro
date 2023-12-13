@@ -39,11 +39,9 @@ func main() {
 	}
 
 	// Define the sort and filter query parameters
-	sort := "id:asc"
-	filter := ""
-
+	// none
 	// Call the GetCategories function
-	categories, err := client.GetCategories(sort, filter) // Will return all results by default
+	categories, err := client.GetCategories("") // Will return all results by default
 	if err != nil {
 		fmt.Printf("Error fetching categories: %v\n", err)
 		return
