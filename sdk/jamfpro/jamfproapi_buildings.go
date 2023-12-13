@@ -136,7 +136,7 @@ func (c *Client) UpdateBuildingByID(id string, buildingUpdate *ResourceBuilding)
 	var updatedBuilding ResourceBuilding
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, buildingUpdate, &updatedBuilding)
 	if err != nil {
-		return nil, fmt.Errorf(errFailedUpdateByID, "building", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "building", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

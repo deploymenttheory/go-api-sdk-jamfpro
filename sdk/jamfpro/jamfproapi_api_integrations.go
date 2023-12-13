@@ -15,8 +15,8 @@ const uriApiIntegrations = "/api/v1/api-integrations"
 
 // ResponseApiIntegrations represents the structure of the response for fetching API integrations
 type ResponseApiIntegrationsList struct {
-	Size    int                      `json:"totalCount"`
-	Results []ResourceApiIntegration `json:"results"`
+	TotalCount int                      `json:"totalCount"`
+	Results    []ResourceApiIntegration `json:"results"`
 }
 
 // Integration represents the details of an individual API integration
@@ -41,16 +41,16 @@ func (c *Client) GetApiIntegrations() (*ResponseApiIntegrationsList, error) {
 	endpoint := uriApiIntegrations
 	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API integrations: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}
 
 	var OutStruct ResponseApiIntegrationsList
-	OutStruct.Size = resp.Size
+	OutStruct.TotalCount = resp.Size
 	for _, value := range resp.Results {
 		var newObj ResourceApiIntegration
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
-			return nil, fmt.Errorf("failed to map structure, %v", err)
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "api integrations", err)
 		}
 		OutStruct.Results = append(OutStruct.Results, newObj)
 	}
@@ -65,7 +65,7 @@ func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) 
 	var integration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API integration ID %d: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "api integrations", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -79,7 +79,7 @@ func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) 
 func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, error) {
 	integrations, err := c.GetApiIntegrations()
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Jamf API integrations: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}
 
 	for _, integration := range integrations.Results {
@@ -88,7 +88,7 @@ func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, 
 		}
 	}
 
-	return nil, fmt.Errorf("no Jamf API integration found with the name %s", name)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "api integrations", name, err)
 }
 
 // CreateApiIntegration creates a new API integration
@@ -98,7 +98,7 @@ func (c *Client) CreateApiIntegration(integration *ResourceApiIntegration) (*Res
 	var response ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("POST", endpoint, integration, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Jamf API integration: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "api integration", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -116,7 +116,7 @@ func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApi
 	var updatedIntegration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, integrationUpdate, &updatedIntegration)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Jamf API integration with ID %d: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "api integrations", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -130,13 +130,13 @@ func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApi
 func (c *Client) UpdateApiIntegrationByName(name string, updatedIntegration *ResourceApiIntegration) (*ResourceApiIntegration, error) {
 	target, err := c.GetApiIntegrationByName(name)
 	if err != nil {
-		return nil, fmt.Errorf("failed to find integration, %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "api integrations", name, err)
 	}
 
 	target_id := target.ID
 	resp, err := c.UpdateApiIntegrationByID(target_id, updatedIntegration)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update api integration, %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api integrations", name, err)
 	}
 
 	return resp, nil
@@ -150,7 +150,7 @@ func (c *Client) DeleteApiIntegrationByID(id int) error {
 	// Perform the DELETE request
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Jamf API integration with ID %d: %v", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "api integrations", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -164,14 +164,14 @@ func (c *Client) DeleteApiIntegrationByID(id int) error {
 func (c *Client) DeleteApiIntegrationByName(name string) error {
 	target, err := c.GetApiIntegrationByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to find api integration, %v", err)
+		return fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}
 
 	target_id := target.ID
 
 	err = c.DeleteApiIntegrationByID(target_id)
 	if err != nil {
-		return fmt.Errorf("failed to delete api integration, %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "api integrations", name, err)
 	}
 
 	return nil
