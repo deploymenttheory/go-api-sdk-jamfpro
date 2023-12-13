@@ -12,13 +12,13 @@ import (
 
 const uriComputerInventoryCollectionSettings = "/api/v1/computer-inventory-collection-settings"
 
-type ResponseComputerInventoryCollectionSettings struct {
-	ComputerInventoryCollectionPreferences InventoryCollectionPreference `json:"computerInventoryCollectionPreferences"`
-	ApplicationPaths                       []PathItem                    `json:"applicationPaths"`
-	FontPaths                              []PathItem                    `json:"fontPaths"`
-	PluginPaths                            []PathItem                    `json:"pluginPaths"`
+type ResourceComputerInventoryCollectionSettings struct {
+	ComputerInventoryCollectionPreferences ResourceDataInventoryCollectionPreference `json:"computerInventoryCollectionPreferences"`
+	ApplicationPaths                       []ResourceDataPathItem                    `json:"applicationPaths"`
+	FontPaths                              []ResourceDataPathItem                    `json:"fontPaths"`
+	PluginPaths                            []ResourceDataPathItem                    `json:"pluginPaths"`
 }
-type InventoryCollectionPreference struct {
+type ResourceDataInventoryCollectionPreference struct {
 	MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
 	IncludeFonts                                 bool `json:"includeFonts"`
 	IncludePlugins                               bool `json:"includePlugins"`
@@ -38,24 +38,24 @@ type InventoryCollectionPreference struct {
 	CollectUnmanagedCertificates                 bool `json:"collectUnmanagedCertificates"`
 }
 
-type PathItem struct {
+type ResourceDataPathItem struct {
 	ID   string `json:"id"`
 	Path string `json:"path"`
 }
 
 // ComputerInventoryCollectionSettingsCustomPath defines the request body for creating a custom path.
-type ComputerInventoryCollectionSettingsCustomPath struct {
+type ResourceComputerInventoryCollectionSettingsCustomPath struct {
 	Scope string `json:"scope"`
 	Path  string `json:"path"`
 }
 
-func (c *Client) GetComputerInventoryCollectionSettings() (*ResponseComputerInventoryCollectionSettings, error) {
+func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInventoryCollectionSettings, error) {
 	endpoint := uriComputerInventoryCollectionSettings
 
-	var settings ResponseComputerInventoryCollectionSettings
+	var settings ResourceComputerInventoryCollectionSettings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &settings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer inventory collection settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "computer inventory collection settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -66,7 +66,7 @@ func (c *Client) GetComputerInventoryCollectionSettings() (*ResponseComputerInve
 }
 
 // UpdateComputerInventoryCollectionSettings updates the computer inventory collection settings.
-func (c *Client) UpdateComputerInventoryCollectionSettings(settings *ResponseComputerInventoryCollectionSettings) (*ResponseComputerInventoryCollectionSettings, error) {
+func (c *Client) UpdateComputerInventoryCollectionSettings(settings *ResourceComputerInventoryCollectionSettings) (*ResourceComputerInventoryCollectionSettings, error) {
 	endpoint := uriComputerInventoryCollectionSettings
 
 	// Marshal the settings into JSON for the request body
@@ -94,10 +94,10 @@ func (c *Client) UpdateComputerInventoryCollectionSettings(settings *ResponseCom
 }
 
 // CreateComputerInventoryCollectionSettingsCustomPath creates a custom path for computer inventory collection settings.
-func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath *ComputerInventoryCollectionSettingsCustomPath) (*ComputerInventoryCollectionSettingsCustomPath, error) {
+func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath *ResourceComputerInventoryCollectionSettingsCustomPath) (*ResourceComputerInventoryCollectionSettingsCustomPath, error) {
 	endpoint := fmt.Sprintf("%s/custom-path", uriComputerInventoryCollectionSettings)
 
-	var response ComputerInventoryCollectionSettingsCustomPath
+	var response ResourceComputerInventoryCollectionSettingsCustomPath
 	resp, err := c.HTTP.DoRequest("POST", endpoint, customPath, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create computer inventory collection settings custom path: %v", err)
