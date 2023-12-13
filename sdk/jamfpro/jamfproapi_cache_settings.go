@@ -43,7 +43,7 @@ func (c *Client) GetCacheSettings() (*ResourceCacheSettings, error) {
 	var cacheSettings ResourceCacheSettings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cacheSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch cache settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "cache settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -59,13 +59,13 @@ func (c *Client) UpdateCacheSettings(cacheSettingsUpdate *ResourceCacheSettings)
 
 	requestBody, err := json.Marshal(cacheSettingsUpdate)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal cache settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedJsonMarshal, "cache settings", err)
 	}
 
 	var updatedSettings ResourceCacheSettings
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update cache settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "cache settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {

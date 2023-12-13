@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Call GetApiIntegrations function
-	integrations, err := client.GetApiIntegrations()
+	integrations, err := client.GetApiIntegrations("")
 	if err != nil {
 		log.Fatalf("Error fetching API Integrations: %v", err)
 	}

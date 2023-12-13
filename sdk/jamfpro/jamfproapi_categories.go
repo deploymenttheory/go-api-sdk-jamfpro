@@ -123,7 +123,7 @@ func (c *Client) UpdateCategoryByID(id string, categoryUpdate *ResourceCategory)
 func (c *Client) UpdateCategoryByName(name string, categoryUpdate *ResourceCategory) (*ResourceCategory, error) {
 	category, err := c.GetCategoryByName(name)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, err)
 	}
 
 	target_id := category.Id

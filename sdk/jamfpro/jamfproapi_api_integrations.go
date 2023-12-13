@@ -65,7 +65,7 @@ func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) 
 	var integration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "api integrations", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "api integration", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -79,7 +79,7 @@ func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) 
 func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, error) {
 	integrations, err := c.GetApiIntegrations("")
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integration", err)
 	}
 
 	for _, integration := range integrations.Results {
@@ -88,7 +88,7 @@ func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, 
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "api integrations", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 }
 
 // CreateApiIntegration creates a new API integration
@@ -116,7 +116,7 @@ func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApi
 	var updatedIntegration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, integrationUpdate, &updatedIntegration)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdateByID, "api integrations", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "api integration", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -130,13 +130,13 @@ func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApi
 func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
 	target, err := c.GetApiIntegrationByName(name)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "api integrations", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 	}
 
 	target_id := target.ID
 	resp, err := c.UpdateApiIntegrationByID(target_id, integrationUpdate)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api integrations", name, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api integration", name, err)
 	}
 
 	return resp, nil
@@ -150,7 +150,7 @@ func (c *Client) DeleteApiIntegrationByID(id int) error {
 	// Perform the DELETE request
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByID, "api integrations", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "api integration", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -164,14 +164,14 @@ func (c *Client) DeleteApiIntegrationByID(id int) error {
 func (c *Client) DeleteApiIntegrationByName(name string) error {
 	target, err := c.GetApiIntegrationByName(name)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
+		return fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 	}
 
 	target_id := target.ID
 
 	err = c.DeleteApiIntegrationByID(target_id)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByName, "api integrations", name, err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "api integration", name, err)
 	}
 
 	return nil
@@ -186,7 +186,7 @@ func (c *Client) RefreshClientCredentialsByApiRoleID(id string) (*ResourceClient
 	var response ResourceClientCredentials
 	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create client credentials for Jamf API integration with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedRefreshClientCreds, id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

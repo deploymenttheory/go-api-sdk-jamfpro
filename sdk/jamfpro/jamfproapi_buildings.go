@@ -62,7 +62,7 @@ func (c *Client) GetBuildings(sort_filter string) (*ResponseBuildingsList, error
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get all buildings, %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "buildings", err)
 	}
 
 	var out ResponseBuildingsList
@@ -72,7 +72,7 @@ func (c *Client) GetBuildings(sort_filter string) (*ResponseBuildingsList, error
 		var newObj ResourceBuilding
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
-			return nil, fmt.Errorf("failed to map structure, %v", err)
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "building", err)
 		}
 		out.Results = append(out.Results, newObj)
 	}
@@ -87,7 +87,7 @@ func (c *Client) GetBuildingByID(id string) (*ResourceBuilding, error) {
 	var building ResourceBuilding
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &building)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch building with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "building", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -101,7 +101,7 @@ func (c *Client) GetBuildingByID(id string) (*ResourceBuilding, error) {
 func (c *Client) GetBuildingByName(name string) (*ResourceBuilding, error) {
 	buildings, err := c.GetBuildings("")
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch buildings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "building", err)
 	}
 
 	for _, value := range buildings.Results {
@@ -110,7 +110,7 @@ func (c *Client) GetBuildingByName(name string) (*ResourceBuilding, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("failed to get building by name, %v", err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "building", name, err)
 }
 
 // CreateBuilding creates a new building in Jamf Pro
@@ -120,7 +120,7 @@ func (c *Client) CreateBuilding(building *ResourceBuilding) (*ResponseBuildingCr
 	var responseBuildingCreate ResponseBuildingCreate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, building, &responseBuildingCreate)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create building: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "building", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -152,14 +152,14 @@ func (c *Client) UpdateBuildingByName(name string, buildingUpdate *ResourceBuild
 	target, err := c.GetBuildingByName(name)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to get building by name")
+		return nil, fmt.Errorf(errMsgFailedGetByName, "building", name, err)
 	}
 
 	target_id := target.ID
 	resp, err := c.UpdateBuildingByID(target_id, buildingUpdate)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to update building by id, %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "building", name, err)
 	}
 
 	return resp, err
@@ -172,7 +172,7 @@ func (c *Client) DeleteBuildingByID(id string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete building with ID %s: %v", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "buidling", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -186,13 +186,13 @@ func (c *Client) DeleteBuildingByID(id string) error {
 func (c *Client) DeleteBuildingByName(name string) error {
 	target, err := c.GetBuildingByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to get building by name, %v", err)
+		return fmt.Errorf(errMsgFailedGetByName, "building", name, err)
 	}
 
 	target_id := target.ID
 	err = c.DeleteBuildingByID(target_id)
 	if err != nil {
-		return fmt.Errorf("failed to delete building by id, %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "building", name, err)
 	}
 
 	return nil
@@ -210,7 +210,7 @@ func (c *Client) DeleteMultipleBuildingsByID(ids []string) error {
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete multiple buildings: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteMultiple, "buildings", ids, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -227,7 +227,7 @@ func (c *Client) GetBuildingResourceHistoryByID(id, sort_filter string) (*Respon
 
 	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sort_filter)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch building history, %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "building histories", err)
 	}
 
 	var out ResponseBuildingResourceHistoryList
@@ -237,7 +237,7 @@ func (c *Client) GetBuildingResourceHistoryByID(id, sort_filter string) (*Respon
 		var newObj ResourceBuildingResourceHistory
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
-			return nil, fmt.Errorf("failed to map structure, %v", err)
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "buidling histories", err)
 		}
 		out.Results = append(out.Results, newObj)
 
@@ -253,7 +253,7 @@ func (c *Client) CreateBuildingResourceHistoryByID(id string, historyUpdate *Res
 	var updatedHistory ResourceBuildingResourceHistory
 	resp, err := c.HTTP.DoRequest("POST", endpoint, historyUpdate, &updatedHistory)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update building resource history with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "building histories", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

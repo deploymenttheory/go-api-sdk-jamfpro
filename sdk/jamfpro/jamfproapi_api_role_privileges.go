@@ -22,7 +22,7 @@ func (c *Client) GetJamfAPIPrivileges() (*ResourceApiRolePrivilegesList, error) 
 	var privilegesList ResourceApiRolePrivilegesList
 	resp, err := c.HTTP.DoRequest("GET", uriApiRolePrivileges, nil, &privilegesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API role privileges: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "API Privileges", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetJamfAPIPrivilegesByName(name string, limit int) (*ResourceAp
 	var privilegesList ResourceApiRolePrivilegesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &privilegesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API role privileges by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "API Privilege", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
