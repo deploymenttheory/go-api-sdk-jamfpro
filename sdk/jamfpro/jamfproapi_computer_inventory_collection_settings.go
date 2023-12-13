@@ -6,7 +6,6 @@
 package jamfpro
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -66,31 +65,21 @@ func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInve
 }
 
 // UpdateComputerInventoryCollectionSettings updates the computer inventory collection settings.
-func (c *Client) UpdateComputerInventoryCollectionSettings(settings *ResourceComputerInventoryCollectionSettings) (*ResourceComputerInventoryCollectionSettings, error) {
+func (c *Client) UpdateComputerInventoryCollectionSettings(settingsUpdate *ResourceComputerInventoryCollectionSettings) (*ResourceComputerInventoryCollectionSettings, error) {
 	endpoint := uriComputerInventoryCollectionSettings
 
-	// Marshal the settings into JSON for the request body
-	requestBody, err := json.Marshal(settings)
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal settings: %v", err)
-	}
-
 	// Perform the PATCH request
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, requestBody, nil)
+	var updatedSettings ResourceComputerInventoryCollectionSettings
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, settingsUpdate, &updatedSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update computer inventory collection settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "computer inventory collection settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	// Read the response body into the same settings struct
-	if err := json.NewDecoder(resp.Body).Decode(&settings); err != nil {
-		return nil, fmt.Errorf("failed to decode response body: %v", err)
-	}
-
-	return settings, nil
+	return &updatedSettings, nil
 }
 
 // CreateComputerInventoryCollectionSettingsCustomPath creates a custom path for computer inventory collection settings.
@@ -100,7 +89,7 @@ func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath 
 	var response ResourceComputerInventoryCollectionSettingsCustomPath
 	resp, err := c.HTTP.DoRequest("POST", endpoint, customPath, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create computer inventory collection settings custom path: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "computer inventory collection settings custom path", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -116,13 +105,12 @@ func (c *Client) DeleteComputerInventoryCollectionSettingsCustomPathByID(id stri
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete computer inventory collection settings custom path: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer inventory collection settings custom path", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	// Success, no error
 	return nil
 }

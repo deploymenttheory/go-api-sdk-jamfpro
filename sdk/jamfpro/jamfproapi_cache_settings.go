@@ -14,20 +14,20 @@ const uriCacheSettings = "/api/v1/cache-settings"
 
 // ResponseCacheSettings represents the JSON response for cache settings.
 type ResourceCacheSettings struct {
-	ID                         string              `json:"id,omitempty"`
-	Name                       string              `json:"name,omitempty"`
-	CacheType                  string              `json:"cacheType"`
-	TimeToLiveSeconds          int                 `json:"timeToLiveSeconds"`
-	TimeToIdleSeconds          int                 `json:"timeToIdleSeconds"`
-	DirectoryTimeToLiveSeconds int                 `json:"directoryTimeToLiveSeconds,omitempty"`
-	EhcacheMaxBytesLocalHeap   string              `json:"ehcacheMaxBytesLocalHeap,omitempty"`
-	CacheUniqueId              string              `json:"cacheUniqueId"`
-	Elasticache                bool                `json:"elasticache,omitempty"`
-	MemcachedEndpoints         []MemcachedEndpoint `json:"memcachedEndpoints"`
+	ID                         string                          `json:"id,omitempty"`
+	Name                       string                          `json:"name,omitempty"`
+	CacheType                  string                          `json:"cacheType"`
+	TimeToLiveSeconds          int                             `json:"timeToLiveSeconds"`
+	TimeToIdleSeconds          int                             `json:"timeToIdleSeconds"`
+	DirectoryTimeToLiveSeconds int                             `json:"directoryTimeToLiveSeconds,omitempty"`
+	EhcacheMaxBytesLocalHeap   string                          `json:"ehcacheMaxBytesLocalHeap,omitempty"`
+	CacheUniqueId              string                          `json:"cacheUniqueId"`
+	Elasticache                bool                            `json:"elasticache,omitempty"`
+	MemcachedEndpoints         []ResourceDataMemcachedEndpoint `json:"memcachedEndpoints"`
 }
 
 // MemcachedEndpoint represents an individual memcached endpoint in the cache settings.
-type MemcachedEndpoint struct {
+type ResourceDataMemcachedEndpoint struct {
 	ID                      string `json:"id,omitempty"`
 	Name                    string `json:"name,omitempty"`
 	HostName                string `json:"hostName,omitempty"`
