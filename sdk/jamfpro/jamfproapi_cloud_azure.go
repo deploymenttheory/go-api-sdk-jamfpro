@@ -22,20 +22,20 @@ type ResourceDataCloudIdpCommon struct {
 }
 
 type ResourceCloudIdpServer struct {
-	ID                                       string                             `json:"id"`
-	TenantId                                 string                             `json:"tenantId"`
-	Enabled                                  bool                               `json:"enabled"`
-	Migrated                                 bool                               `json:"migrated"`
-	Mappings                                 ResourceDataCloudIdpServerMappings `json:"mappings"`
-	SearchTimeout                            int                                `json:"searchTimeout"`
-	TransitiveMembershipEnabled              bool                               `json:"transitiveMembershipEnabled"`
-	TransitiveMembershipUserField            string                             `json:"transitiveMembershipUserField"`
-	TransitiveDirectoryMembershipEnabled     bool                               `json:"transitiveDirectoryMembershipEnabled"`
-	MembershipCalculationOptimizationEnabled bool                               `json:"membershipCalculationOptimizationEnabled"`
-	Code                                     string                             `json:"code"`
+	ID                                       string                                     `json:"id"`
+	TenantId                                 string                                     `json:"tenantId"`
+	Enabled                                  bool                                       `json:"enabled"`
+	Migrated                                 bool                                       `json:"migrated"`
+	Mappings                                 CloudIdpServerSubsetCloudIdpServerMappings `json:"mappings"`
+	SearchTimeout                            int                                        `json:"searchTimeout"`
+	TransitiveMembershipEnabled              bool                                       `json:"transitiveMembershipEnabled"`
+	TransitiveMembershipUserField            string                                     `json:"transitiveMembershipUserField"`
+	TransitiveDirectoryMembershipEnabled     bool                                       `json:"transitiveDirectoryMembershipEnabled"`
+	MembershipCalculationOptimizationEnabled bool                                       `json:"membershipCalculationOptimizationEnabled"`
+	Code                                     string                                     `json:"code"`
 }
 
-type ResourceDataCloudIdpServerMappings struct {
+type CloudIdpServerSubsetCloudIdpServerMappings struct {
 	UserId     string `json:"userId"`
 	UserName   string `json:"userName"`
 	RealName   string `json:"realName"`
@@ -141,10 +141,10 @@ func (c *Client) DeleteCloudIdentityProviderByID(id string) error {
 }
 
 // GetCloudIdentityProviderDefaultServerMappings retrieves the default mappings for the Cloud Identity Provider.
-func (c *Client) GetCloudIdentityProviderDefaultServerMappings() (*ResourceDataCloudIdpServerMappings, error) {
+func (c *Client) GetCloudIdentityProviderDefaultServerMappings() (*CloudIdpServerSubsetCloudIdpServerMappings, error) {
 	endpoint := uriCloudIdentityProvider + "defaults/mappings"
 
-	var defaultMappings ResourceDataCloudIdpServerMappings
+	var defaultMappings CloudIdpServerSubsetCloudIdpServerMappings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultMappings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Azure Cloud IDP Server Mappings", err)

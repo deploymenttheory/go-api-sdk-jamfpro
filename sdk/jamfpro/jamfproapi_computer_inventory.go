@@ -7,8 +7,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"net/url"
-	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -23,91 +21,91 @@ type ResponseComputerInventoryList struct {
 
 // ResponseComputerInventory represents an individual computer from the inventory.
 type ResourceComputerInventory struct {
-	ID                    string                                                        `json:"id"`
-	UDID                  string                                                        `json:"udid"`
-	General               ResourceDataComputerInventoryDataSubsetGeneral                `json:"general"`
-	DiskEncryption        ResourceDataComputerInventoryDataSubsetDiskEncryption         `json:"diskEncryption"`
-	Purchasing            ResourceDataComputerInventoryDataSubsetPurchasing             `json:"purchasing"`
-	Applications          []ResourceDataComputerInventoryDataSubsetApplication          `json:"applications"`
-	Storage               ResourceDataComputerInventoryDataSubsetStorage                `json:"storage"`
-	UserAndLocation       ResourceDataComputerInventoryDataSubsetUserAndLocation        `json:"userAndLocation"`
-	ConfigurationProfiles []ResourceDataComputerInventoryDataSubsetConfigurationProfile `json:"configurationProfiles"`
-	Printers              []ResourceDataComputerInventoryDataSubsetPrinter              `json:"printers"`
-	Services              []ResourceDataComputerInventoryDataSubsetService              `json:"services"`
-	Hardware              ResourceDataComputerInventoryDataSubsetHardware               `json:"hardware"`
-	LocalUserAccounts     []ResourceDataComputerInventoryDataSubsetLocalUserAccount     `json:"localUserAccounts"`
-	Certificates          []ResourceDataComputerInventoryDataSubsetCertificate          `json:"certificates"`
-	Attachments           []ResourceDataComputerInventoryDataSubsetAttachment           `json:"attachments"`
-	Plugins               []ResourceDataComputerInventoryDataSubsetPlugin               `json:"plugins"`
-	PackageReceipts       ResourceDataComputerInventoryDataSubsetPackageReceipts        `json:"packageReceipts"`
-	Fonts                 []ResourceDataComputerInventoryDataSubsetFont                 `json:"fonts"`
-	Security              ResourceDataComputerInventoryDataSubsetSecurity               `json:"security"`
-	OperatingSystem       ResourceDataComputerInventoryDataSubsetOperatingSystem        `json:"operatingSystem"`
-	LicensedSoftware      []ResourceDataComputerInventoryDataSubsetLicensedSoftware     `json:"licensedSoftware"`
-	Ibeacons              []ResourceDataComputerInventoryDataSubsetIbeacon              `json:"ibeacons"`
-	SoftwareUpdates       []ResourceDataComputerInventoryDataSubsetSoftwareUpdate       `json:"softwareUpdates"`
-	ExtensionAttributes   []ResourceDataComputerInventoryDataSubsetExtensionAttribute   `json:"extensionAttributes"`
-	ContentCaching        ResourceDataComputerInventoryDataSubsetContentCaching         `json:"contentCaching"`
-	GroupMemberships      []ResourceDataComputerInventoryDataSubsetGroupMembership      `json:"groupMemberships"`
+	ID                    string                                        `json:"id"`
+	UDID                  string                                        `json:"udid"`
+	General               ComputerInventorySubsetGeneral                `json:"general"`
+	DiskEncryption        ComputerInventorySubsetDiskEncryption         `json:"diskEncryption"`
+	Purchasing            ComputerInventorySubsetPurchasing             `json:"purchasing"`
+	Applications          []ComputerInventorySubsetApplication          `json:"applications"`
+	Storage               ComputerInventorySubsetStorage                `json:"storage"`
+	UserAndLocation       ComputerInventorySubsetUserAndLocation        `json:"userAndLocation"`
+	ConfigurationProfiles []ComputerInventorySubsetConfigurationProfile `json:"configurationProfiles"`
+	Printers              []ComputerInventorySubsetPrinter              `json:"printers"`
+	Services              []ComputerInventorySubsetService              `json:"services"`
+	Hardware              ComputerInventorySubsetHardware               `json:"hardware"`
+	LocalUserAccounts     []ComputerInventorySubsetLocalUserAccount     `json:"localUserAccounts"`
+	Certificates          []ComputerInventorySubsetCertificate          `json:"certificates"`
+	Attachments           []ComputerInventorySubsetAttachment           `json:"attachments"`
+	Plugins               []ComputerInventorySubsetPlugin               `json:"plugins"`
+	PackageReceipts       ComputerInventorySubsetPackageReceipts        `json:"packageReceipts"`
+	Fonts                 []ComputerInventorySubsetFont                 `json:"fonts"`
+	Security              ComputerInventorySubsetSecurity               `json:"security"`
+	OperatingSystem       ComputerInventorySubsetOperatingSystem        `json:"operatingSystem"`
+	LicensedSoftware      []ComputerInventorySubsetLicensedSoftware     `json:"licensedSoftware"`
+	Ibeacons              []ComputerInventorySubsetIbeacon              `json:"ibeacons"`
+	SoftwareUpdates       []ComputerInventorySubsetSoftwareUpdate       `json:"softwareUpdates"`
+	ExtensionAttributes   []ComputerInventorySubsetExtensionAttribute   `json:"extensionAttributes"`
+	ContentCaching        ComputerInventorySubsetContentCaching         `json:"contentCaching"`
+	GroupMemberships      []ComputerInventorySubsetGroupMembership      `json:"groupMemberships"`
 }
 
 // General represents the 'general' section of a result.
-type ResourceDataComputerInventoryDataSubsetGeneral struct {
-	Name                                 string                                                      `json:"name"`
-	LastIpAddress                        string                                                      `json:"lastIpAddress"`
-	LastReportedIp                       string                                                      `json:"lastReportedIp"`
-	JamfBinaryVersion                    string                                                      `json:"jamfBinaryVersion"`
-	Platform                             string                                                      `json:"platform"`
-	Barcode1                             string                                                      `json:"barcode1"`
-	Barcode2                             string                                                      `json:"barcode2"`
-	AssetTag                             string                                                      `json:"assetTag"`
-	RemoteManagement                     ResourceDataComputerInventoryDataSubsetRemoteManagement     `json:"remoteManagement"`
-	Supervised                           bool                                                        `json:"supervised"`
-	MdmCapable                           ResourceDataComputerInventoryDataSubsetMdmCapable           `json:"mdmCapable"`
-	ReportDate                           string                                                      `json:"reportDate"`
-	LastContactTime                      string                                                      `json:"lastContactTime"`
-	LastCloudBackupDate                  string                                                      `json:"lastCloudBackupDate"`
-	LastEnrolledDate                     string                                                      `json:"lastEnrolledDate"`
-	MdmProfileExpiration                 string                                                      `json:"mdmProfileExpiration"`
-	InitialEntryDate                     string                                                      `json:"initialEntryDate"`
-	DistributionPoint                    string                                                      `json:"distributionPoint"`
-	EnrollmentMethod                     ResourceDataComputerInventoryDataSubsetEnrollmentMethod     `json:"enrollmentMethod"`
-	Site                                 ResourceDataComputerInventoryDataSubsetSite                 `json:"site"`
-	ItunesStoreAccountActive             bool                                                        `json:"itunesStoreAccountActive"`
-	EnrolledViaAutomatedDeviceEnrollment bool                                                        `json:"enrolledViaAutomatedDeviceEnrollment"`
-	UserApprovedMdm                      bool                                                        `json:"userApprovedMdm"`
-	DeclarativeDeviceManagementEnabled   bool                                                        `json:"declarativeDeviceManagementEnabled"`
-	ExtensionAttributes                  []ResourceDataComputerInventoryDataSubsetExtensionAttribute `json:"extensionAttributes"`
-	ManagementId                         string                                                      `json:"managementId"`
+type ComputerInventorySubsetGeneral struct {
+	Name                                 string                                      `json:"name"`
+	LastIpAddress                        string                                      `json:"lastIpAddress"`
+	LastReportedIp                       string                                      `json:"lastReportedIp"`
+	JamfBinaryVersion                    string                                      `json:"jamfBinaryVersion"`
+	Platform                             string                                      `json:"platform"`
+	Barcode1                             string                                      `json:"barcode1"`
+	Barcode2                             string                                      `json:"barcode2"`
+	AssetTag                             string                                      `json:"assetTag"`
+	RemoteManagement                     ComputerInventorySubsetRemoteManagement     `json:"remoteManagement"`
+	Supervised                           bool                                        `json:"supervised"`
+	MdmCapable                           ComputerInventorySubsetMdmCapable           `json:"mdmCapable"`
+	ReportDate                           string                                      `json:"reportDate"`
+	LastContactTime                      string                                      `json:"lastContactTime"`
+	LastCloudBackupDate                  string                                      `json:"lastCloudBackupDate"`
+	LastEnrolledDate                     string                                      `json:"lastEnrolledDate"`
+	MdmProfileExpiration                 string                                      `json:"mdmProfileExpiration"`
+	InitialEntryDate                     string                                      `json:"initialEntryDate"`
+	DistributionPoint                    string                                      `json:"distributionPoint"`
+	EnrollmentMethod                     ComputerInventorySubsetEnrollmentMethod     `json:"enrollmentMethod"`
+	Site                                 ComputerInventorySubsetSite                 `json:"site"`
+	ItunesStoreAccountActive             bool                                        `json:"itunesStoreAccountActive"`
+	EnrolledViaAutomatedDeviceEnrollment bool                                        `json:"enrolledViaAutomatedDeviceEnrollment"`
+	UserApprovedMdm                      bool                                        `json:"userApprovedMdm"`
+	DeclarativeDeviceManagementEnabled   bool                                        `json:"declarativeDeviceManagementEnabled"`
+	ExtensionAttributes                  []ComputerInventorySubsetExtensionAttribute `json:"extensionAttributes"`
+	ManagementId                         string                                      `json:"managementId"`
 }
 
 // RemoteManagement represents the 'remoteManagement' section of 'general'.
-type ResourceDataComputerInventoryDataSubsetRemoteManagement struct {
+type ComputerInventorySubsetRemoteManagement struct {
 	Managed            bool   `json:"managed"`
 	ManagementUsername string `json:"managementUsername"`
 }
 
 // MdmCapable represents the 'mdmCapable' section of 'general'.
-type ResourceDataComputerInventoryDataSubsetMdmCapable struct {
+type ComputerInventorySubsetMdmCapable struct {
 	Capable      bool     `json:"capable"`
 	CapableUsers []string `json:"capableUsers"`
 }
 
 // EnrollmentMethod represents the 'enrollmentMethod' section of 'general'.
-type ResourceDataComputerInventoryDataSubsetEnrollmentMethod struct {
+type ComputerInventorySubsetEnrollmentMethod struct {
 	ID         string `json:"id"`
 	ObjectName string `json:"objectName"`
 	ObjectType string `json:"objectType"`
 }
 
 // Site represents the 'site' section of 'general'.
-type ResourceDataComputerInventoryDataSubsetSite struct {
+type ComputerInventorySubsetSite struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 // ExtensionAttribute represents a generic extension attribute.
-type ResourceDataComputerInventoryDataSubsetExtensionAttribute struct {
+type ComputerInventorySubsetExtensionAttribute struct {
 	DefinitionId string   `json:"definitionId"`
 	Name         string   `json:"name"`
 	Description  string   `json:"description"`
@@ -119,42 +117,42 @@ type ResourceDataComputerInventoryDataSubsetExtensionAttribute struct {
 	InputType    string   `json:"inputType"`
 }
 
-// ComputerInventoryDataSubsetDiskEncryption represents the 'diskEncryption' section of a result.
-type ResourceDataComputerInventoryDataSubsetDiskEncryption struct {
-	BootPartitionEncryptionDetails      ResourceDataComputerInventoryDataSubsetBootPartitionEncryptionDetails `json:"bootPartitionEncryptionDetails"`
-	IndividualRecoveryKeyValidityStatus string                                                                `json:"individualRecoveryKeyValidityStatus"`
-	InstitutionalRecoveryKeyPresent     bool                                                                  `json:"institutionalRecoveryKeyPresent"`
-	DiskEncryptionConfigurationName     string                                                                `json:"diskEncryptionConfigurationName"`
-	FileVault2EnabledUserNames          []string                                                              `json:"fileVault2EnabledUserNames"`
-	FileVault2EligibilityMessage        string                                                                `json:"fileVault2EligibilityMessage"`
+// ComputerInventorySubsetDiskEncryption represents the 'diskEncryption' section of a result.
+type ComputerInventorySubsetDiskEncryption struct {
+	BootPartitionEncryptionDetails      ComputerInventorySubsetBootPartitionEncryptionDetails `json:"bootPartitionEncryptionDetails"`
+	IndividualRecoveryKeyValidityStatus string                                                `json:"individualRecoveryKeyValidityStatus"`
+	InstitutionalRecoveryKeyPresent     bool                                                  `json:"institutionalRecoveryKeyPresent"`
+	DiskEncryptionConfigurationName     string                                                `json:"diskEncryptionConfigurationName"`
+	FileVault2EnabledUserNames          []string                                              `json:"fileVault2EnabledUserNames"`
+	FileVault2EligibilityMessage        string                                                `json:"fileVault2EligibilityMessage"`
 }
 
 // BootPartitionEncryptionDetails represents the details of disk encryption.
-type ResourceDataComputerInventoryDataSubsetBootPartitionEncryptionDetails struct {
+type ComputerInventorySubsetBootPartitionEncryptionDetails struct {
 	PartitionName              string `json:"partitionName"`
 	PartitionFileVault2State   string `json:"partitionFileVault2State"`
 	PartitionFileVault2Percent int    `json:"partitionFileVault2Percent"`
 }
 
 // Purchasing represents the 'purchasing' section of a result.
-type ResourceDataComputerInventoryDataSubsetPurchasing struct {
-	Leased              bool                                                        `json:"leased"`
-	Purchased           bool                                                        `json:"purchased"`
-	PoNumber            string                                                      `json:"poNumber"`
-	PoDate              string                                                      `json:"poDate"`
-	Vendor              string                                                      `json:"vendor"`
-	WarrantyDate        string                                                      `json:"warrantyDate"`
-	AppleCareId         string                                                      `json:"appleCareId"`
-	LeaseDate           string                                                      `json:"leaseDate"`
-	PurchasePrice       string                                                      `json:"purchasePrice"`
-	LifeExpectancy      int                                                         `json:"lifeExpectancy"`
-	PurchasingAccount   string                                                      `json:"purchasingAccount"`
-	PurchasingContact   string                                                      `json:"purchasingContact"`
-	ExtensionAttributes []ResourceDataComputerInventoryDataSubsetExtensionAttribute `json:"extensionAttributes"`
+type ComputerInventorySubsetPurchasing struct {
+	Leased              bool                                        `json:"leased"`
+	Purchased           bool                                        `json:"purchased"`
+	PoNumber            string                                      `json:"poNumber"`
+	PoDate              string                                      `json:"poDate"`
+	Vendor              string                                      `json:"vendor"`
+	WarrantyDate        string                                      `json:"warrantyDate"`
+	AppleCareId         string                                      `json:"appleCareId"`
+	LeaseDate           string                                      `json:"leaseDate"`
+	PurchasePrice       string                                      `json:"purchasePrice"`
+	LifeExpectancy      int                                         `json:"lifeExpectancy"`
+	PurchasingAccount   string                                      `json:"purchasingAccount"`
+	PurchasingContact   string                                      `json:"purchasingContact"`
+	ExtensionAttributes []ComputerInventorySubsetExtensionAttribute `json:"extensionAttributes"`
 }
 
-// ComputerInventoryDataSubsetApplication represents an individual application in the 'applications' array.
-type ResourceDataComputerInventoryDataSubsetApplication struct {
+// ComputerInventorySubsetApplication represents an individual application in the 'applications' array.
+type ComputerInventorySubsetApplication struct {
 	Name              string `json:"name"`
 	Path              string `json:"path"`
 	Version           string `json:"version"`
@@ -166,26 +164,26 @@ type ResourceDataComputerInventoryDataSubsetApplication struct {
 }
 
 // Storage represents the 'storage' section of a result.
-type ResourceDataComputerInventoryDataSubsetStorage struct {
-	BootDriveAvailableSpaceMegabytes int                                           `json:"bootDriveAvailableSpaceMegabytes"`
-	Disks                            []ResourceDataComputerInventoryDataSubsetDisk `json:"disks"`
+type ComputerInventorySubsetStorage struct {
+	BootDriveAvailableSpaceMegabytes int                           `json:"bootDriveAvailableSpaceMegabytes"`
+	Disks                            []ComputerInventorySubsetDisk `json:"disks"`
 }
 
-// ComputerInventoryDataSubsetDisk represents a storage disk.
-type ResourceDataComputerInventoryDataSubsetDisk struct {
-	ID            string                                             `json:"id"`
-	Device        string                                             `json:"device"`
-	Model         string                                             `json:"model"`
-	Revision      string                                             `json:"revision"`
-	SerialNumber  string                                             `json:"serialNumber"`
-	SizeMegabytes int                                                `json:"sizeMegabytes"`
-	SmartStatus   string                                             `json:"smartStatus"`
-	Type          string                                             `json:"type"`
-	Partitions    []ResourceDataComputerInventoryDataSubsetPartition `json:"partitions"`
+// ComputerInventorySubsetDisk represents a storage disk.
+type ComputerInventorySubsetDisk struct {
+	ID            string                             `json:"id"`
+	Device        string                             `json:"device"`
+	Model         string                             `json:"model"`
+	Revision      string                             `json:"revision"`
+	SerialNumber  string                             `json:"serialNumber"`
+	SizeMegabytes int                                `json:"sizeMegabytes"`
+	SmartStatus   string                             `json:"smartStatus"`
+	Type          string                             `json:"type"`
+	Partitions    []ComputerInventorySubsetPartition `json:"partitions"`
 }
 
 // Partition represents a partition of a disk.
-type ResourceDataComputerInventoryDataSubsetPartition struct {
+type ComputerInventorySubsetPartition struct {
 	Name                      string `json:"name"`
 	SizeMegabytes             int    `json:"sizeMegabytes"`
 	AvailableMegabytes        int    `json:"availableMegabytes"`
@@ -197,20 +195,20 @@ type ResourceDataComputerInventoryDataSubsetPartition struct {
 }
 
 // UserAndLocation represents the 'userAndLocation' section of a result.
-type ResourceDataComputerInventoryDataSubsetUserAndLocation struct {
-	Username            string                                                      `json:"username"`
-	Realname            string                                                      `json:"realname"`
-	Email               string                                                      `json:"email"`
-	Position            string                                                      `json:"position"`
-	Phone               string                                                      `json:"phone"`
-	DepartmentId        string                                                      `json:"departmentId"`
-	BuildingId          string                                                      `json:"buildingId"`
-	Room                string                                                      `json:"room"`
-	ExtensionAttributes []ResourceDataComputerInventoryDataSubsetExtensionAttribute `json:"extensionAttributes"`
+type ComputerInventorySubsetUserAndLocation struct {
+	Username            string                                      `json:"username"`
+	Realname            string                                      `json:"realname"`
+	Email               string                                      `json:"email"`
+	Position            string                                      `json:"position"`
+	Phone               string                                      `json:"phone"`
+	DepartmentId        string                                      `json:"departmentId"`
+	BuildingId          string                                      `json:"buildingId"`
+	Room                string                                      `json:"room"`
+	ExtensionAttributes []ComputerInventorySubsetExtensionAttribute `json:"extensionAttributes"`
 }
 
 // ConfigurationProfile represents a configuration profile.
-type ResourceDataComputerInventoryDataSubsetConfigurationProfile struct {
+type ComputerInventorySubsetConfigurationProfile struct {
 	ID                string `json:"id"`
 	Username          string `json:"username"`
 	LastInstalled     string `json:"lastInstalled"`
@@ -220,7 +218,7 @@ type ResourceDataComputerInventoryDataSubsetConfigurationProfile struct {
 }
 
 // Printer represents a printer device.
-type ResourceDataComputerInventoryDataSubsetPrinter struct {
+type ComputerInventorySubsetPrinter struct {
 	Name     string `json:"name"`
 	Type     string `json:"type"`
 	URI      string `json:"uri"`
@@ -228,42 +226,42 @@ type ResourceDataComputerInventoryDataSubsetPrinter struct {
 }
 
 // Service represents a service.
-type ResourceDataComputerInventoryDataSubsetService struct {
+type ComputerInventorySubsetService struct {
 	Name string `json:"name"`
 }
 
 // Hardware represents the hardware details of a computer.
-type ResourceDataComputerInventoryDataSubsetHardware struct {
-	Make                   string                                                      `json:"make"`
-	Model                  string                                                      `json:"model"`
-	ModelIdentifier        string                                                      `json:"modelIdentifier"`
-	SerialNumber           string                                                      `json:"serialNumber"`
-	ProcessorSpeedMhz      int                                                         `json:"processorSpeedMhz"`
-	ProcessorCount         int                                                         `json:"processorCount"`
-	CoreCount              int                                                         `json:"coreCount"`
-	ProcessorType          string                                                      `json:"processorType"`
-	ProcessorArchitecture  string                                                      `json:"processorArchitecture"`
-	BusSpeedMhz            int                                                         `json:"busSpeedMhz"`
-	CacheSizeKilobytes     int                                                         `json:"cacheSizeKilobytes"`
-	NetworkAdapterType     string                                                      `json:"networkAdapterType"`
-	MacAddress             string                                                      `json:"macAddress"`
-	AltNetworkAdapterType  string                                                      `json:"altNetworkAdapterType"`
-	AltMacAddress          string                                                      `json:"altMacAddress"`
-	TotalRamMegabytes      int                                                         `json:"totalRamMegabytes"`
-	OpenRamSlots           int                                                         `json:"openRamSlots"`
-	BatteryCapacityPercent int                                                         `json:"batteryCapacityPercent"`
-	SmcVersion             string                                                      `json:"smcVersion"`
-	NicSpeed               string                                                      `json:"nicSpeed"`
-	OpticalDrive           string                                                      `json:"opticalDrive"`
-	BootRom                string                                                      `json:"bootRom"`
-	BleCapable             bool                                                        `json:"bleCapable"`
-	SupportsIosAppInstalls bool                                                        `json:"supportsIosAppInstalls"`
-	AppleSilicon           bool                                                        `json:"appleSilicon"`
-	ExtensionAttributes    []ResourceDataComputerInventoryDataSubsetExtensionAttribute `json:"extensionAttributes"`
+type ComputerInventorySubsetHardware struct {
+	Make                   string                                      `json:"make"`
+	Model                  string                                      `json:"model"`
+	ModelIdentifier        string                                      `json:"modelIdentifier"`
+	SerialNumber           string                                      `json:"serialNumber"`
+	ProcessorSpeedMhz      int                                         `json:"processorSpeedMhz"`
+	ProcessorCount         int                                         `json:"processorCount"`
+	CoreCount              int                                         `json:"coreCount"`
+	ProcessorType          string                                      `json:"processorType"`
+	ProcessorArchitecture  string                                      `json:"processorArchitecture"`
+	BusSpeedMhz            int                                         `json:"busSpeedMhz"`
+	CacheSizeKilobytes     int                                         `json:"cacheSizeKilobytes"`
+	NetworkAdapterType     string                                      `json:"networkAdapterType"`
+	MacAddress             string                                      `json:"macAddress"`
+	AltNetworkAdapterType  string                                      `json:"altNetworkAdapterType"`
+	AltMacAddress          string                                      `json:"altMacAddress"`
+	TotalRamMegabytes      int                                         `json:"totalRamMegabytes"`
+	OpenRamSlots           int                                         `json:"openRamSlots"`
+	BatteryCapacityPercent int                                         `json:"batteryCapacityPercent"`
+	SmcVersion             string                                      `json:"smcVersion"`
+	NicSpeed               string                                      `json:"nicSpeed"`
+	OpticalDrive           string                                      `json:"opticalDrive"`
+	BootRom                string                                      `json:"bootRom"`
+	BleCapable             bool                                        `json:"bleCapable"`
+	SupportsIosAppInstalls bool                                        `json:"supportsIosAppInstalls"`
+	AppleSilicon           bool                                        `json:"appleSilicon"`
+	ExtensionAttributes    []ComputerInventorySubsetExtensionAttribute `json:"extensionAttributes"`
 }
 
 // LocalUserAccount represents a local user account on the computer.
-type ResourceDataComputerInventoryDataSubsetLocalUserAccount struct {
+type ComputerInventorySubsetLocalUserAccount struct {
 	UID                            string `json:"uid"`
 	UserGuid                       string `json:"userGuid"`
 	Username                       string `json:"username"`
@@ -284,7 +282,7 @@ type ResourceDataComputerInventoryDataSubsetLocalUserAccount struct {
 }
 
 // Certificate represents a security certificate.
-type ResourceDataComputerInventoryDataSubsetCertificate struct {
+type ComputerInventorySubsetCertificate struct {
 	CommonName        string `json:"commonName"`
 	Identity          bool   `json:"identity"`
 	ExpirationDate    string `json:"expirationDate"`
@@ -298,7 +296,7 @@ type ResourceDataComputerInventoryDataSubsetCertificate struct {
 }
 
 // Attachment represents an attachment.
-type ResourceDataComputerInventoryDataSubsetAttachment struct {
+type ComputerInventorySubsetAttachment struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
 	FileType  string `json:"fileType"`
@@ -306,28 +304,28 @@ type ResourceDataComputerInventoryDataSubsetAttachment struct {
 }
 
 // Plugin represents a software plugin.
-type ResourceDataComputerInventoryDataSubsetPlugin struct {
+type ComputerInventorySubsetPlugin struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
 	Path    string `json:"path"`
 }
 
 // PackageReceipts represents the package receipts.
-type ResourceDataComputerInventoryDataSubsetPackageReceipts struct {
+type ComputerInventorySubsetPackageReceipts struct {
 	InstalledByJamfPro      []string `json:"installedByJamfPro"`
 	InstalledByInstallerSwu []string `json:"installedByInstallerSwu"`
 	Cached                  []string `json:"cached"`
 }
 
 // Font represents a font installed on the computer.
-type ResourceDataComputerInventoryDataSubsetFont struct {
+type ComputerInventorySubsetFont struct {
 	Name    string `json:"name"`
 	Version string `json:"version"`
 	Path    string `json:"path"`
 }
 
 // Security represents the security settings of the computer.
-type ResourceDataComputerInventoryDataSubsetSecurity struct {
+type ComputerInventorySubsetSecurity struct {
 	SipStatus             string `json:"sipStatus"`
 	GatekeeperStatus      string `json:"gatekeeperStatus"`
 	XprotectVersion       string `json:"xprotectVersion"`
@@ -342,91 +340,91 @@ type ResourceDataComputerInventoryDataSubsetSecurity struct {
 }
 
 // OperatingSystem represents the operating system details of the computer.
-type ResourceDataComputerInventoryDataSubsetOperatingSystem struct {
-	Name                     string                                                      `json:"name"`
-	Version                  string                                                      `json:"version"`
-	Build                    string                                                      `json:"build"`
-	SupplementalBuildVersion string                                                      `json:"supplementalBuildVersion"`
-	RapidSecurityResponse    string                                                      `json:"rapidSecurityResponse"`
-	ActiveDirectoryStatus    string                                                      `json:"activeDirectoryStatus"`
-	FileVault2Status         string                                                      `json:"fileVault2Status"`
-	SoftwareUpdateDeviceId   string                                                      `json:"softwareUpdateDeviceId"`
-	ExtensionAttributes      []ResourceDataComputerInventoryDataSubsetExtensionAttribute `json:"extensionAttributes"`
+type ComputerInventorySubsetOperatingSystem struct {
+	Name                     string                                      `json:"name"`
+	Version                  string                                      `json:"version"`
+	Build                    string                                      `json:"build"`
+	SupplementalBuildVersion string                                      `json:"supplementalBuildVersion"`
+	RapidSecurityResponse    string                                      `json:"rapidSecurityResponse"`
+	ActiveDirectoryStatus    string                                      `json:"activeDirectoryStatus"`
+	FileVault2Status         string                                      `json:"fileVault2Status"`
+	SoftwareUpdateDeviceId   string                                      `json:"softwareUpdateDeviceId"`
+	ExtensionAttributes      []ComputerInventorySubsetExtensionAttribute `json:"extensionAttributes"`
 }
 
 // LicensedSoftware represents licensed software.
-type ResourceDataComputerInventoryDataSubsetLicensedSoftware struct {
+type ComputerInventorySubsetLicensedSoftware struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 // Ibeacon represents an iBeacon.
-type ResourceDataComputerInventoryDataSubsetIbeacon struct {
+type ComputerInventorySubsetIbeacon struct {
 	Name string `json:"name"`
 }
 
 // SoftwareUpdate represents a software update.
-type ResourceDataComputerInventoryDataSubsetSoftwareUpdate struct {
+type ComputerInventorySubsetSoftwareUpdate struct {
 	Name        string `json:"name"`
 	Version     string `json:"version"`
 	PackageName string `json:"packageName"`
 }
 
 // ContentCaching represents the content caching details.
-type ResourceDataComputerInventoryDataSubsetContentCaching struct {
-	ComputerContentCachingInformationId string                                                                  `json:"computerContentCachingInformationId"`
-	Parents                             []ResourceDataComputerInventoryDataSubsetContentCachingParent           `json:"parents"`
-	Alerts                              []ResourceDataComputerInventoryDataSubsetContentCachingAlert            `json:"alerts"` // Corrected to slice
-	Activated                           bool                                                                    `json:"activated"`
-	Active                              bool                                                                    `json:"active"`
-	ActualCacheBytesUsed                int                                                                     `json:"actualCacheBytesUsed"`
-	CacheDetails                        []ResourceDataComputerInventoryDataSubsetContentCachingCacheDetail      `json:"cacheDetails"`
-	CacheBytesFree                      int                                                                     `json:"cacheBytesFree"`
-	CacheBytesLimit                     int                                                                     `json:"cacheBytesLimit"`
-	CacheStatus                         string                                                                  `json:"cacheStatus"`
-	CacheBytesUsed                      int                                                                     `json:"cacheBytesUsed"`
-	DataMigrationCompleted              bool                                                                    `json:"dataMigrationCompleted"`
-	DataMigrationProgressPercentage     int                                                                     `json:"dataMigrationProgressPercentage"`
-	DataMigrationError                  ResourceDataComputerInventoryDataSubsetContentCachingDataMigrationError `json:"dataMigrationError"`
-	MaxCachePressureLast1HourPercentage int                                                                     `json:"maxCachePressureLast1HourPercentage"`
-	PersonalCacheBytesFree              int                                                                     `json:"personalCacheBytesFree"`
-	PersonalCacheBytesLimit             int                                                                     `json:"personalCacheBytesLimit"`
-	PersonalCacheBytesUsed              int                                                                     `json:"personalCacheBytesUsed"`
-	Port                                int                                                                     `json:"port"`
-	PublicAddress                       string                                                                  `json:"publicAddress"`
-	RegistrationError                   string                                                                  `json:"registrationError"`
-	RegistrationResponseCode            int                                                                     `json:"registrationResponseCode"`
-	RegistrationStarted                 string                                                                  `json:"registrationStarted"`
-	RegistrationStatus                  string                                                                  `json:"registrationStatus"`
-	RestrictedMedia                     bool                                                                    `json:"restrictedMedia"`
-	ServerGuid                          string                                                                  `json:"serverGuid"`
-	StartupStatus                       string                                                                  `json:"startupStatus"`
-	TetheratorStatus                    string                                                                  `json:"tetheratorStatus"`
-	TotalBytesAreSince                  string                                                                  `json:"totalBytesAreSince"`
-	TotalBytesDropped                   int64                                                                   `json:"totalBytesDropped"`
-	TotalBytesImported                  int64                                                                   `json:"totalBytesImported"`
-	TotalBytesReturnedToChildren        int64                                                                   `json:"totalBytesReturnedToChildren"`
-	TotalBytesReturnedToClients         int64                                                                   `json:"totalBytesReturnedToClients"`
-	TotalBytesReturnedToPeers           int64                                                                   `json:"totalBytesReturnedToPeers"`
-	TotalBytesStoredFromOrigin          int64                                                                   `json:"totalBytesStoredFromOrigin"`
-	TotalBytesStoredFromParents         int64                                                                   `json:"totalBytesStoredFromParents"`
-	TotalBytesStoredFromPeers           int64                                                                   `json:"totalBytesStoredFromPeers"`
+type ComputerInventorySubsetContentCaching struct {
+	ComputerContentCachingInformationId string                                                  `json:"computerContentCachingInformationId"`
+	Parents                             []ComputerInventorySubsetContentCachingParent           `json:"parents"`
+	Alerts                              []ComputerInventorySubsetContentCachingAlert            `json:"alerts"` // Corrected to slice
+	Activated                           bool                                                    `json:"activated"`
+	Active                              bool                                                    `json:"active"`
+	ActualCacheBytesUsed                int                                                     `json:"actualCacheBytesUsed"`
+	CacheDetails                        []ComputerInventorySubsetContentCachingCacheDetail      `json:"cacheDetails"`
+	CacheBytesFree                      int                                                     `json:"cacheBytesFree"`
+	CacheBytesLimit                     int                                                     `json:"cacheBytesLimit"`
+	CacheStatus                         string                                                  `json:"cacheStatus"`
+	CacheBytesUsed                      int                                                     `json:"cacheBytesUsed"`
+	DataMigrationCompleted              bool                                                    `json:"dataMigrationCompleted"`
+	DataMigrationProgressPercentage     int                                                     `json:"dataMigrationProgressPercentage"`
+	DataMigrationError                  ComputerInventorySubsetContentCachingDataMigrationError `json:"dataMigrationError"`
+	MaxCachePressureLast1HourPercentage int                                                     `json:"maxCachePressureLast1HourPercentage"`
+	PersonalCacheBytesFree              int                                                     `json:"personalCacheBytesFree"`
+	PersonalCacheBytesLimit             int                                                     `json:"personalCacheBytesLimit"`
+	PersonalCacheBytesUsed              int                                                     `json:"personalCacheBytesUsed"`
+	Port                                int                                                     `json:"port"`
+	PublicAddress                       string                                                  `json:"publicAddress"`
+	RegistrationError                   string                                                  `json:"registrationError"`
+	RegistrationResponseCode            int                                                     `json:"registrationResponseCode"`
+	RegistrationStarted                 string                                                  `json:"registrationStarted"`
+	RegistrationStatus                  string                                                  `json:"registrationStatus"`
+	RestrictedMedia                     bool                                                    `json:"restrictedMedia"`
+	ServerGuid                          string                                                  `json:"serverGuid"`
+	StartupStatus                       string                                                  `json:"startupStatus"`
+	TetheratorStatus                    string                                                  `json:"tetheratorStatus"`
+	TotalBytesAreSince                  string                                                  `json:"totalBytesAreSince"`
+	TotalBytesDropped                   int64                                                   `json:"totalBytesDropped"`
+	TotalBytesImported                  int64                                                   `json:"totalBytesImported"`
+	TotalBytesReturnedToChildren        int64                                                   `json:"totalBytesReturnedToChildren"`
+	TotalBytesReturnedToClients         int64                                                   `json:"totalBytesReturnedToClients"`
+	TotalBytesReturnedToPeers           int64                                                   `json:"totalBytesReturnedToPeers"`
+	TotalBytesStoredFromOrigin          int64                                                   `json:"totalBytesStoredFromOrigin"`
+	TotalBytesStoredFromParents         int64                                                   `json:"totalBytesStoredFromParents"`
+	TotalBytesStoredFromPeers           int64                                                   `json:"totalBytesStoredFromPeers"`
 }
 
 // ContentCachingParent represents a parent in the content caching details.
-type ResourceDataComputerInventoryDataSubsetContentCachingParent struct {
-	ContentCachingParentId string                                                       `json:"contentCachingParentId"`
-	Address                string                                                       `json:"address"`
-	Alerts                 ResourceDataComputerInventoryDataSubsetContentCachingAlert   `json:"alerts"` // Changed from slice to struct
-	Details                ResourceDataComputerInventoryDataSubsetContentCachingDetails `json:"details"`
-	Guid                   string                                                       `json:"guid"`
-	Healthy                bool                                                         `json:"healthy"`
-	Port                   int                                                          `json:"port"`
-	Version                string                                                       `json:"version"`
+type ComputerInventorySubsetContentCachingParent struct {
+	ContentCachingParentId string                                       `json:"contentCachingParentId"`
+	Address                string                                       `json:"address"`
+	Alerts                 ComputerInventorySubsetContentCachingAlert   `json:"alerts"` // Changed from slice to struct
+	Details                ComputerInventorySubsetContentCachingDetails `json:"details"`
+	Guid                   string                                       `json:"guid"`
+	Healthy                bool                                         `json:"healthy"`
+	Port                   int                                          `json:"port"`
+	Version                string                                       `json:"version"`
 }
 
 // ContentCachingAlert represents an alert in the content caching details.
-type ResourceDataComputerInventoryDataSubsetContentCachingAlert struct {
+type ComputerInventorySubsetContentCachingAlert struct {
 	ContentCachingParentAlertId string   `json:"contentCachingParentAlertId"`
 	Addresses                   []string `json:"addresses"`
 	ClassName                   string   `json:"className"`
@@ -434,17 +432,17 @@ type ResourceDataComputerInventoryDataSubsetContentCachingAlert struct {
 }
 
 // ContentCachingDetails represents the details of content caching.
-type ResourceDataComputerInventoryDataSubsetContentCachingDetails struct {
-	ContentCachingParentDetailsId string                                                              `json:"contentCachingParentDetailsId"`
-	AcPower                       bool                                                                `json:"acPower"`
-	CacheSizeBytes                int64                                                               `json:"cacheSizeBytes"`
-	Capabilities                  ResourceDataComputerInventoryDataSubsetContentCachingCapabilities   `json:"capabilities"`
-	Portable                      bool                                                                `json:"portable"`
-	LocalNetwork                  []ResourceDataComputerInventoryDataSubsetContentCachingLocalNetwork `json:"localNetwork"`
+type ComputerInventorySubsetContentCachingDetails struct {
+	ContentCachingParentDetailsId string                                              `json:"contentCachingParentDetailsId"`
+	AcPower                       bool                                                `json:"acPower"`
+	CacheSizeBytes                int64                                               `json:"cacheSizeBytes"`
+	Capabilities                  ComputerInventorySubsetContentCachingCapabilities   `json:"capabilities"`
+	Portable                      bool                                                `json:"portable"`
+	LocalNetwork                  []ComputerInventorySubsetContentCachingLocalNetwork `json:"localNetwork"`
 }
 
 // ContentCachingCapabilities represents the capabilities in content caching details.
-type ResourceDataComputerInventoryDataSubsetContentCachingCapabilities struct {
+type ComputerInventorySubsetContentCachingCapabilities struct {
 	ContentCachingParentCapabilitiesId string `json:"contentCachingParentCapabilitiesId"`
 	Imports                            bool   `json:"imports"`
 	Namespaces                         bool   `json:"namespaces"`
@@ -455,54 +453,54 @@ type ResourceDataComputerInventoryDataSubsetContentCachingCapabilities struct {
 }
 
 // ContentCachingLocalNetwork represents a local network in content caching details.
-type ResourceDataComputerInventoryDataSubsetContentCachingLocalNetwork struct {
+type ComputerInventorySubsetContentCachingLocalNetwork struct {
 	ContentCachingParentLocalNetworkId string `json:"contentCachingParentLocalNetworkId"`
 	Speed                              int    `json:"speed"`
 	Wired                              bool   `json:"wired"`
 }
 
 // ContentCachingCacheDetail represents cache details in content caching.
-type ResourceDataComputerInventoryDataSubsetContentCachingCacheDetail struct {
+type ComputerInventorySubsetContentCachingCacheDetail struct {
 	ComputerContentCachingCacheDetailsId string `json:"computerContentCachingCacheDetailsId"`
 	CategoryName                         string `json:"categoryName"`
 	DiskSpaceBytesUsed                   int64  `json:"diskSpaceBytesUsed"`
 }
 
 // ContentCachingDataMigrationError represents a data migration error in content caching.
-type ResourceDataComputerInventoryDataSubsetContentCachingDataMigrationError struct {
-	Code     int                                                             `json:"code"`
-	Domain   string                                                          `json:"domain"`
-	UserInfo []ResourceDataComputerInventoryDataSubsetContentCachingUserInfo `json:"userInfo"`
+type ComputerInventorySubsetContentCachingDataMigrationError struct {
+	Code     int                                             `json:"code"`
+	Domain   string                                          `json:"domain"`
+	UserInfo []ComputerInventorySubsetContentCachingUserInfo `json:"userInfo"`
 }
 
 // ContentCachingUserInfo represents user info in content caching data migration error.
-type ResourceDataComputerInventoryDataSubsetContentCachingUserInfo struct {
+type ComputerInventorySubsetContentCachingUserInfo struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
 // GroupMembership represents a group membership.
-type ResourceDataComputerInventoryDataSubsetGroupMembership struct {
+type ComputerInventorySubsetGroupMembership struct {
 	GroupId    string `json:"groupId"`
 	GroupName  string `json:"groupName"`
 	SmartGroup bool   `json:"smartGroup"`
 }
 
 // FileVaultInventoryList represents the paginated FileVault inventory response.
-type ResourceDataFileVaultInventoryList struct {
-	TotalCount int                              `json:"totalCount"`
-	Results    []ResourceDataFileVaultInventory `json:"results"`
+type FileVaultInventoryList struct {
+	TotalCount int                  `json:"totalCount"`
+	Results    []FileVaultInventory `json:"results"`
 }
 
 // FileVaultInventory represents the FileVault information for a single computer.
-type ResourceDataFileVaultInventory struct {
-	ComputerId                          string                                                                `json:"computerId"`
-	Name                                string                                                                `json:"name"`
-	PersonalRecoveryKey                 string                                                                `json:"personalRecoveryKey"`
-	BootPartitionEncryptionDetails      ResourceDataComputerInventoryDataSubsetBootPartitionEncryptionDetails `json:"bootPartitionEncryptionDetails"`
-	IndividualRecoveryKeyValidityStatus string                                                                `json:"individualRecoveryKeyValidityStatus"`
-	InstitutionalRecoveryKeyPresent     bool                                                                  `json:"institutionalRecoveryKeyPresent"`
-	DiskEncryptionConfigurationName     string                                                                `json:"diskEncryptionConfigurationName"`
+type FileVaultInventory struct {
+	ComputerId                          string                                                `json:"computerId"`
+	Name                                string                                                `json:"name"`
+	PersonalRecoveryKey                 string                                                `json:"personalRecoveryKey"`
+	BootPartitionEncryptionDetails      ComputerInventorySubsetBootPartitionEncryptionDetails `json:"bootPartitionEncryptionDetails"`
+	IndividualRecoveryKeyValidityStatus string                                                `json:"individualRecoveryKeyValidityStatus"`
+	InstitutionalRecoveryKeyPresent     bool                                                  `json:"institutionalRecoveryKeyPresent"`
+	DiskEncryptionConfigurationName     string                                                `json:"diskEncryptionConfigurationName"`
 }
 
 type ResponseRecoveryLockPassword struct {
@@ -608,61 +606,41 @@ func (c *Client) DeleteComputerInventoryByID(id string) error {
 	return nil
 }
 
-////////// PROGRESS TO HERE
-
 // GetComputersFileVaultInventory retrieves all computer inventory filevault information.
-func (c *Client) GetComputersFileVaultInventory() (*ResourceDataFileVaultInventoryList, error) {
-	var allInventories []ResourceDataFileVaultInventory
-
-	page := 0
-	for {
-		params := url.Values{
-			"page":      []string{strconv.Itoa(page)},
-			"page-size": []string{strconv.Itoa(maxPageSize)},
-		}
-
-		endpointWithParams := fmt.Sprintf("%s/filevault?%s", uriComputersInventory, params.Encode())
-
-		// Fetch the FileVault inventory for the current page
-		var responseInventories ResourceDataFileVaultInventoryList
-		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseInventories)
-		if err != nil {
-			return nil, fmt.Errorf("failed to fetch FileVault inventory: %v", err)
-		}
-
-		if resp != nil && resp.Body != nil {
-			defer resp.Body.Close()
-		}
-
-		// Add the fetched inventories to the total list
-		allInventories = append(allInventories, responseInventories.Results...)
-
-		// Check if all inventories have been fetched
-		if len(allInventories) >= responseInventories.TotalCount {
-			break
-		}
-
-		// Increment page number for the next iteration
-		page++
+func (c *Client) GetComputersFileVaultInventory(sort_filter string) (*FileVaultInventoryList, error) {
+	endpoint := fmt.Sprintf("%s/filevault", uriComputersInventory)
+	resp, err := c.DoPaginatedGet(
+		endpoint,
+		standardPageSize,
+		startingPageNumber,
+		sort_filter,
+	)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "filevault inventories", err)
 	}
 
-	// Return the combined list of all FileVault inventories
-	return &ResourceDataFileVaultInventoryList{
-		TotalCount: len(allInventories),
-		Results:    allInventories,
-	}, nil
+	var out FileVaultInventoryList
+	out.TotalCount = resp.Size
+	for _, value := range resp.Results {
+		var newObj FileVaultInventory
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "filevault inventory", err)
+		}
+		out.Results = append(out.Results, newObj)
+	}
+
+	return &out, nil
 }
 
 // GetComputerFileVaultInventoryByID returns file vault details by the computer ID.
-func (c *Client) GetComputerFileVaultInventoryByID(id string) (*ResourceDataFileVaultInventory, error) {
-	// Construct the endpoint URL using the provided ID
+func (c *Client) GetComputerFileVaultInventoryByID(id string) (*FileVaultInventory, error) {
 	endpoint := fmt.Sprintf("%s/%s/filevault", uriComputersInventory, id)
 
-	// Fetch the FileVault inventory by ID
-	var fileVaultInventory ResourceDataFileVaultInventory
+	var fileVaultInventory FileVaultInventory
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &fileVaultInventory)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch FileVault inventory by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "file value inventory", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -679,7 +657,7 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 	var recoveryLockPasswordResponse ResponseRecoveryLockPassword
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &recoveryLockPasswordResponse)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Recovery Lock password by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "recovery lock password", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -688,6 +666,8 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 
 	return &recoveryLockPasswordResponse, nil
 }
+
+/// COME BACK TO THIS LATER
 
 // UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
 func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*ResponseUploadAttachment, error) {

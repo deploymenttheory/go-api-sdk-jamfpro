@@ -12,12 +12,12 @@ import (
 const uriComputerInventoryCollectionSettings = "/api/v1/computer-inventory-collection-settings"
 
 type ResourceComputerInventoryCollectionSettings struct {
-	ComputerInventoryCollectionPreferences ResourceDataInventoryCollectionPreference `json:"computerInventoryCollectionPreferences"`
-	ApplicationPaths                       []ResourceDataPathItem                    `json:"applicationPaths"`
-	FontPaths                              []ResourceDataPathItem                    `json:"fontPaths"`
-	PluginPaths                            []ResourceDataPathItem                    `json:"pluginPaths"`
+	ComputerInventoryCollectionPreferences ComputerInventoryCollectionSettingsSubsetInventoryCollectionPreference `json:"computerInventoryCollectionPreferences"`
+	ApplicationPaths                       []ComputerInventoryCollectionSettingsSubsetPathItem                    `json:"applicationPaths"`
+	FontPaths                              []ComputerInventoryCollectionSettingsSubsetPathItem                    `json:"fontPaths"`
+	PluginPaths                            []ComputerInventoryCollectionSettingsSubsetPathItem                    `json:"pluginPaths"`
 }
-type ResourceDataInventoryCollectionPreference struct {
+type ComputerInventoryCollectionSettingsSubsetInventoryCollectionPreference struct {
 	MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
 	IncludeFonts                                 bool `json:"includeFonts"`
 	IncludePlugins                               bool `json:"includePlugins"`
@@ -37,7 +37,7 @@ type ResourceDataInventoryCollectionPreference struct {
 	CollectUnmanagedCertificates                 bool `json:"collectUnmanagedCertificates"`
 }
 
-type ResourceDataPathItem struct {
+type ComputerInventoryCollectionSettingsSubsetPathItem struct {
 	ID   string `json:"id"`
 	Path string `json:"path"`
 }
