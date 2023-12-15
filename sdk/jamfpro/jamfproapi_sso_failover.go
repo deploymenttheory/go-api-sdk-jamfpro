@@ -9,14 +9,14 @@ import "fmt"
 
 const uriSSOFailover = "/api/v1/sso/failover"
 
-type SSOFailoverResponse struct {
+type ResponseSSOFailover struct {
 	FailoverURL    string `json:"failoverUrl"`
 	GenerationTime int64  `json:"generationTime"`
 }
 
 // GetSSOFailoverSettings fetches SSO failover settings from Jamf Pro
-func (c *Client) GetSSOFailoverSettings() (*SSOFailoverResponse, error) {
-	var out SSOFailoverResponse
+func (c *Client) GetSSOFailoverSettings() (*ResponseSSOFailover, error) {
+	var out ResponseSSOFailover
 
 	resp, err := c.HTTP.DoRequest("GET", uriSSOFailover, nil, &out)
 
@@ -25,7 +25,7 @@ func (c *Client) GetSSOFailoverSettings() (*SSOFailoverResponse, error) {
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to fetch SSO failover settings: %v\n", err)
+		fmt.Printf(errMsgFailedGet, "sso failover settings", err)
 		return nil, err
 	}
 
@@ -33,10 +33,9 @@ func (c *Client) GetSSOFailoverSettings() (*SSOFailoverResponse, error) {
 }
 
 // UpdateFailoverUrl regenerates the failover URL by changing the failover key to a new one and returns the new failover settings.
-func (c *Client) UpdateFailoverUrl() (*SSOFailoverResponse, error) {
-	var out SSOFailoverResponse
+func (c *Client) UpdateFailoverUrl() (*ResponseSSOFailover, error) {
+	var out ResponseSSOFailover
 
-	// Extend the existing uriSSOFailover constant for the failover generation endpoint
 	endpoint := uriSSOFailover + "/generate"
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
@@ -46,7 +45,7 @@ func (c *Client) UpdateFailoverUrl() (*SSOFailoverResponse, error) {
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to regenerate the failover URL: %v\n", err)
+		fmt.Printf(errMsgFailedUpdate, "sso failover url", err)
 		return nil, err
 	}
 

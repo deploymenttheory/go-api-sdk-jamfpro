@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Building details to be created
-	newBuilding := &jamfpro.ResponseBuilding{
+	newBuilding := &jamfpro.ResourceBuilding{
 		Name:           "Apple Park",
 		StreetAddress1: "The McIntosh Tree",
 		StreetAddress2: "One Apple Park Way",

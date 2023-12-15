@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Resource history details to be updated
-	historyUpdate := &jamfpro.ResponseBuildingResourceHistory{
+	historyUpdate := &jamfpro.ResourceBuildingResourceHistory{
 		Note: "Sso settings update",
 	}
 

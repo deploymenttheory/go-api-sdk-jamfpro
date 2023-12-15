@@ -130,7 +130,6 @@ func (c *Client) GetVolumePurchasingLocationByID(id string) (*ResponseVolumePurc
 	// Construct the endpoint URL using the provided ID
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
 
-	// Fetch the volume purchasing location by ID
 	var responseLocation ResponseVolumePurchasingLocation
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseLocation)
 	if err != nil {

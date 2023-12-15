@@ -7,7 +7,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -16,8 +15,8 @@ const uriApiRoles = "/api/v1/api-roles"
 
 // ResponseApiRoles represents the structure of the response for fetching API roles
 type ResponseApiRolesList struct {
-	Size    int               `json:"totalCount"`
-	Results []ResourceAPIRole `json:"results"`
+	TotalCount int               `json:"totalCount"`
+	Results    []ResourceAPIRole `json:"results"`
 }
 
 // Role represents the details of an individual API role
@@ -28,19 +27,22 @@ type ResourceAPIRole struct {
 }
 
 // GetJamfAPIRoles fetches a list of Jamf API roles
-func (c *Client) GetJamfAPIRoles() (*ResponseApiRolesList, error) {
+func (c *Client) GetJamfAPIRoles(sort_filter string) (*ResponseApiRolesList, error) {
 	endpoint := uriApiRoles
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API roles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api roles", err)
 	}
 
 	var outStruct ResponseApiRolesList
-	outStruct.Size = resp.Size
+	outStruct.TotalCount = resp.Size
 	for _, value := range resp.Results {
 		var newObj ResourceAPIRole
-		mapstructure.Decode(value, &newObj)
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "api role", err)
+		}
 		outStruct.Results = append(outStruct.Results, newObj)
 	}
 
@@ -48,13 +50,13 @@ func (c *Client) GetJamfAPIRoles() (*ResponseApiRolesList, error) {
 }
 
 // GetJamfApiRolesByID fetches a Jamf API role by its ID.
-func (c *Client) GetJamfApiRolesByID(id int) (*ResourceAPIRole, error) {
-	endpoint := fmt.Sprintf(uriApiRoles+"/%d", id)
+func (c *Client) GetJamfApiRoleByID(id string) (*ResourceAPIRole, error) {
+	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
 
 	var ApiRole ResourceAPIRole
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ApiRole)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Jamf API role with ID %d: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "api role", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -64,39 +66,30 @@ func (c *Client) GetJamfApiRolesByID(id int) (*ResourceAPIRole, error) {
 	return &ApiRole, nil
 }
 
-/////// PROGRESS TO HERE
-
 // GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
-func (c *Client) GetJamfApiRolesNameById(name string) (*ResourceAPIRole, error) {
-	rolesList, err := c.GetJamfAPIRoles()
+func (c *Client) GetJamfApiRoleByName(name string) (*ResourceAPIRole, error) {
+	roles, err := c.GetJamfAPIRoles("")
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Jamf API roles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api role", err)
 	}
 
-	// Search for the role with the given name
-	for _, role := range rolesList.Results {
-		fmt.Printf("Comparing desired name '%s' with role name '%s'\n", name, role.DisplayName) // Debug log
-		if role.DisplayName == name {
-			// Convert the ID from string to int before passing it to GetJamfApiRolesByID
-			roleID, convErr := strconv.Atoi(role.ID)
-			if convErr != nil {
-				return nil, fmt.Errorf("failed to convert role ID '%s' to integer: %v", role.ID, convErr)
-			}
-			return c.GetJamfApiRolesByID(roleID)
+	for _, value := range roles.Results {
+		if value.DisplayName == name {
+			return &value, nil
 		}
 	}
 
-	return nil, fmt.Errorf("no Jamf API role found with the name %s", name)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "api role", name, err)
 }
 
 // CreateJamfApiRole creates a new Jamf API role
 func (c *Client) CreateJamfApiRole(role *ResourceAPIRole) (*ResourceAPIRole, error) {
 	endpoint := uriApiRoles
-
 	var response ResourceAPIRole
+
 	resp, err := c.HTTP.DoRequest("POST", endpoint, role, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Jamf API role: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "api role", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -108,13 +101,12 @@ func (c *Client) CreateJamfApiRole(role *ResourceAPIRole) (*ResourceAPIRole, err
 
 // UpdateJamfApiRoleByID updates a Jamf API role by its ID
 func (c *Client) UpdateJamfApiRoleByID(id string, roleUpdate *ResourceAPIRole) (*ResourceAPIRole, error) {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
 
 	var updatedRole ResourceAPIRole
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, roleUpdate, &updatedRole)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Jamf Api Role with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "api role", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -125,32 +117,30 @@ func (c *Client) UpdateJamfApiRoleByID(id string, roleUpdate *ResourceAPIRole) (
 }
 
 // UpdateJamfApiRoleByName updates a Jamf API role based on its display name
-func (c *Client) UpdateJamfApiRoleByName(name string, updatedRole *ResourceAPIRole) (*ResourceAPIRole, error) {
-	rolesList, err := c.GetJamfAPIRoles()
+func (c *Client) UpdateJamfApiRoleByName(name string, roleUpdate *ResourceAPIRole) (*ResourceAPIRole, error) {
+	target, err := c.GetJamfApiRoleByName(name)
+
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Jamf API roles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "api role", name, err)
 	}
 
-	// Search for the role with the given name
-	for _, role := range rolesList.Results {
-		if role.DisplayName == name {
-			// Update the role with the provided ID
-			return c.UpdateJamfApiRoleByID(role.ID, updatedRole)
-		}
+	target_id := target.ID
+	resp, err := c.UpdateJamfApiRoleByID(target_id, roleUpdate)
+
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api role", name, err)
 	}
 
-	return nil, fmt.Errorf("no Jamf API role found with the name %s", name)
+	return resp, nil
 }
 
 // DeleteJamfApiRoleByID deletes a Jamf API role by its ID
 func (c *Client) DeleteJamfApiRoleByID(id string) error {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
 
-	// Perform the DELETE request
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Jamf Api Role with ID %s: %v", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "api role", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -162,17 +152,18 @@ func (c *Client) DeleteJamfApiRoleByID(id string) error {
 
 // DeleteJamfApiRoleByName deletes a Jamf API role by its display name
 func (c *Client) DeleteJamfApiRoleByName(name string) error {
-	rolesList, err := c.GetJamfAPIRoles()
+	target, err := c.GetJamfApiRoleByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to fetch all Jamf API roles: %v", err)
+		return fmt.Errorf(errMsgFailedGetByName, "api role", name, err)
 	}
 
-	// Search for the role with the given name
-	for _, role := range rolesList.Results {
-		if role.DisplayName == name {
-			return c.DeleteJamfApiRoleByID(role.ID)
-		}
+	target_id := target.ID
+
+	err = c.DeleteJamfApiRoleByID(target_id)
+
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "api role", name, err)
 	}
 
-	return fmt.Errorf("no Jamf API role found with the name %s", name)
+	return nil
 }

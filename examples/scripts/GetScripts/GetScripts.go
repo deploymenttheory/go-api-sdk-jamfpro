@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Call GetScripts function
-	scripts, err := client.GetScripts()
+	scripts, err := client.GetScripts("")
 	if err != nil {
 		log.Fatalf("Error fetching scripts: %v", err)
 	}

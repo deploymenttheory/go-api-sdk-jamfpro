@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	customPath := &jamfpro.ComputerInventoryCollectionSettingsCustomPath{
+	customPath := &jamfpro.ResourceComputerInventoryCollectionSettingsCustomPath{
 		Scope: "PLUGIN", // APP / FONT / PLUGIN
 		Path:  "/Example/Path/",
 	}

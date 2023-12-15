@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Specify the updated details for the building
-	buildingUpdate := &jamfpro.ResponseBuilding{
+	buildingUpdate := &jamfpro.ResourceBuilding{
 		Name:           "Updated Building Name",
 		StreetAddress1: "Updated Address 1",
 		StreetAddress2: "Updated Address 2",
@@ -51,7 +51,7 @@ func main() {
 
 	// Update building by name
 	buildingName := "Apple Park" // Replace with the actual name
-	updatedBuilding, err := client.UpdateBuildingByNameByID(buildingName, buildingUpdate)
+	updatedBuilding, err := client.UpdateBuildingByName(buildingName, buildingUpdate)
 	if err != nil {
 		log.Fatalf("Error updating building: %v", err)
 	}

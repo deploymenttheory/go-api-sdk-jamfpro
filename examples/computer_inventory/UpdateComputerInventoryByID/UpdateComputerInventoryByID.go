@@ -54,7 +54,7 @@ func main() {
 		return
 	}
 
-	var payload jamfpro.ResponseComputerInventory
+	var payload jamfpro.ResourceComputerInventory
 	if err := json.Unmarshal(data, &payload); err != nil {
 		fmt.Fprintf(os.Stderr, "Error decoding payload: %v\n", err)
 		return

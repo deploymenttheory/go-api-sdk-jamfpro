@@ -41,7 +41,7 @@ func main() {
 	// Name of the building to be deleted
 	buildingName := "Apple Park" // Replace with the actual name of the building you want to delete
 
-	err = client.DeleteBuildingByNameByID(buildingName)
+	err = client.DeleteBuildingByName(buildingName)
 	if err != nil {
 		log.Fatalf("Error deleting building: %v", err)
 	}

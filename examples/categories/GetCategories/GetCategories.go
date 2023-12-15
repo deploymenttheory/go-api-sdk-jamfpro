@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -39,11 +39,9 @@ func main() {
 	}
 
 	// Define the sort and filter query parameters
-	sort := "id:asc"
-	filter := ""
-
+	// none
 	// Call the GetCategories function
-	categories, err := client.GetCategories(sort, filter) // Will return all results by default
+	categories, err := client.GetCategories("") // Will return all results by default
 	if err != nil {
 		fmt.Printf("Error fetching categories: %v\n", err)
 		return
