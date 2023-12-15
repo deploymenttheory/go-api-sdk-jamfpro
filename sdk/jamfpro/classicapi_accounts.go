@@ -13,58 +13,59 @@ const uriAPIAccounts = "/JSSResource/accounts"
 
 // ResponseAccountsList represents a serialized list of accounts
 type ResponseAccountsList struct {
-	Users  *AccountDataSubsetUsers  `xml:"users,omitempty"`
-	Groups *AccountDataSubsetGroups `xml:"groups,omitempty"`
+	Users  *AccountsListSubsetUsers  `xml:"users,omitempty"`
+	Groups *AccountsListSubsetGroups `xml:"groups,omitempty"`
 }
 
-type AccountDataSubsetUsers struct {
-	User []AccountDataSubsetUserItem `xml:"user,omitempty"`
+type AccountsListSubsetUsers struct {
+	User []AccountsListSubsetUserItem `xml:"user,omitempty"`
 }
 
-type AccountDataSubsetUserItem struct {
+type AccountsListSubsetGroups struct {
+	Group []AccountsListSubsetGroupItem `xml:"group,omitempty"`
+}
+
+type AccountsListSubsetUserItem struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type AccountDataSubsetGroups struct {
-	Group []AccountDataSubsetGroup `xml:"group,omitempty"`
+type AccountsListSubsetGroupItem struct {
+	ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
+	Name       string                  `json:"name" xml:"name"`
+	Site       AccountSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
+	Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
 // ResponseAccount represents an account object
-type ResponseAccount struct {
-	ID                  int                         `json:"id,omitempty" xml:"id,omitempty"`
-	Name                string                      `json:"name" xml:"name"`
-	DirectoryUser       bool                        `json:"directory_user,omitempty" xml:"directory_user,omitempty"`
-	FullName            string                      `json:"full_name,omitempty" xml:"full_name,omitempty"`
-	Email               string                      `json:"email,omitempty" xml:"email,omitempty"`
-	EmailAddress        string                      `json:"email_address,omitempty" xml:"email_address,omitempty"`
-	Enabled             string                      `json:"enabled,omitempty" xml:"enabled,omitempty"`
-	LdapServer          AccountDataSubsetLdapServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"` // Added this
-	ForcePasswordChange bool                        `json:"force_password_change,omitempty" xml:"force_password_change,omitempty"`
-	AccessLevel         string                      `json:"access_level,omitempty" xml:"access_level,omitempty"`
-	Password            string                      `json:"password" xml:"password"`
-	PrivilegeSet        string                      `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
-	Site                AccountDataSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
-	Privileges          AccountDataSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
+type ResourceAccount struct {
+	ID                  int                     `json:"id,omitempty" xml:"id,omitempty"`
+	Name                string                  `json:"name" xml:"name"`
+	DirectoryUser       bool                    `json:"directory_user,omitempty" xml:"directory_user,omitempty"`
+	FullName            string                  `json:"full_name,omitempty" xml:"full_name,omitempty"`
+	Email               string                  `json:"email,omitempty" xml:"email,omitempty"`
+	EmailAddress        string                  `json:"email_address,omitempty" xml:"email_address,omitempty"`
+	Enabled             string                  `json:"enabled,omitempty" xml:"enabled,omitempty"`
+	LdapServer          AccountSubsetLdapServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"` // Added this
+	ForcePasswordChange bool                    `json:"force_password_change,omitempty" xml:"force_password_change,omitempty"`
+	AccessLevel         string                  `json:"access_level,omitempty" xml:"access_level,omitempty"`
+	Password            string                  `json:"password" xml:"password"`
+	PrivilegeSet        string                  `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
+	Site                AccountSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
+	Privileges          AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
-type AccountDataSubsetLdapServer struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name" xml:"name"`
-}
-type AccountDataSubsetGroup struct {
-	ID         int                         `json:"id,omitempty" xml:"id,omitempty"`
-	Name       string                      `json:"name" xml:"name"`
-	Site       AccountDataSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
-	Privileges AccountDataSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
-}
-
-type AccountDataSubsetSite struct {
+type AccountSubsetLdapServer struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name" xml:"name"`
 }
 
-type AccountDataSubsetPrivileges struct {
+type AccountSubsetSite struct {
+	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name string `json:"name" xml:"name"`
+}
+
+type AccountSubsetPrivileges struct {
 	JSSObjects    []string `json:"jss_objects,omitempty" xml:"jss_objects>privilege"`
 	JSSSettings   []string `json:"jss_settings,omitempty" xml:"jss_settings>privilege"`
 	JSSActions    []string `json:"jss_actions,omitempty" xml:"jss_actions>privilege"`
