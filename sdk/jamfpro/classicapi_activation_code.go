@@ -13,16 +13,16 @@ import (
 const uriAPIActivationCode = "/JSSResource/activationcode"
 
 // ResponseActivationCode represents the structure of the response for an activation code.
-type ResponseActivationCode struct {
+type ResourceActivationCode struct {
 	OrganizationName string `xml:"organization_name"`
 	Code             string `xml:"code"`
 }
 
 // GetActivationCode retrieves the activation code.
-func (c *Client) GetActivationCode() (*ResponseActivationCode, error) {
+func (c *Client) GetActivationCode() (*ResourceActivationCode, error) {
 	endpoint := uriAPIActivationCode
 
-	var activationCode ResponseActivationCode
+	var activationCode ResourceActivationCode
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &activationCode)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch activation code: %v", err)
@@ -41,9 +41,9 @@ func (c *Client) UpdateActivationCode(organizationName, code string) error {
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"activation_code"`
-		ResponseActivationCode
+		ResourceActivationCode
 	}{
-		ResponseActivationCode: ResponseActivationCode{
+		ResourceActivationCode: ResourceActivationCode{
 			OrganizationName: organizationName,
 			Code:             code,
 		},

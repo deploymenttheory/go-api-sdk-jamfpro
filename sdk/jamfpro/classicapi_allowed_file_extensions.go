@@ -14,12 +14,12 @@ const uriAPIAllowedFileExtensions = "/JSSResource/allowedfileextensions"
 
 // Response structure for the list of allowed file extensions
 type ResponseAllowedFileExtensionsList struct {
-	XMLName               xml.Name                     `xml:"allowed_file_extensions"`
-	Size                  int                          `xml:"size"`
-	AllowedFileExtensions []AllowedFileExtensionDetail `xml:"allowed_file_extension"`
+	XMLName               xml.Name                       `xml:"allowed_file_extensions"`
+	Size                  int                            `xml:"size"`
+	AllowedFileExtensions []ResourceAllowedFileExtension `xml:"allowed_file_extension"`
 }
 
-type AllowedFileExtensionDetail struct {
+type ResourceAllowedFileExtension struct {
 	XMLName   xml.Name `xml:"allowed_file_extension"`
 	ID        int      `xml:"id"`
 	Extension string   `xml:"extension"`
@@ -43,10 +43,10 @@ func (c *Client) GetAllowedFileExtensions() (*ResponseAllowedFileExtensionsList,
 }
 
 // GetAllowedFileExtensionByID retrieves the allowed file extension by its ID
-func (c *Client) GetAllowedFileExtensionByID(id int) (*AllowedFileExtensionDetail, error) {
+func (c *Client) GetAllowedFileExtensionByID(id int) (*ResourceAllowedFileExtension, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAllowedFileExtensions, id)
 
-	var extension AllowedFileExtensionDetail
+	var extension ResourceAllowedFileExtension
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch allowed file extension by ID: %v", err)
@@ -60,10 +60,10 @@ func (c *Client) GetAllowedFileExtensionByID(id int) (*AllowedFileExtensionDetai
 }
 
 // GetAllowedFileExtensionByName retrieves the allowed file extension by its name
-func (c *Client) GetAllowedFileExtensionByName(extensionName string) (*AllowedFileExtensionDetail, error) {
+func (c *Client) GetAllowedFileExtensionByName(extensionName string) (*ResourceAllowedFileExtension, error) {
 	endpoint := fmt.Sprintf("%s/extension/%s", uriAPIAllowedFileExtensions, extensionName)
 
-	var extension AllowedFileExtensionDetail
+	var extension ResourceAllowedFileExtension
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch allowed file extension by name: %v", err)
@@ -77,10 +77,10 @@ func (c *Client) GetAllowedFileExtensionByName(extensionName string) (*AllowedFi
 }
 
 // CreateAllowedFileExtension creates a new allowed file extension
-func (c *Client) CreateAllowedFileExtension(extension *AllowedFileExtensionDetail) (*AllowedFileExtensionDetail, error) {
+func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtension) (*ResourceAllowedFileExtension, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriAPIAllowedFileExtensions) // Using 0 as placeholder for creation
 
-	var response AllowedFileExtensionDetail
+	var response ResourceAllowedFileExtension
 	resp, err := c.HTTP.DoRequest("POST", endpoint, extension, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create allowed file extension: %v", err)

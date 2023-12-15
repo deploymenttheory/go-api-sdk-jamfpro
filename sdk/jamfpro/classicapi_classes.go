@@ -15,78 +15,78 @@ const uriClasses = "/JSSResource/classes"
 
 // ResponseClassesList represents the XML response for a list of classes.
 type ResponseClassesList struct {
-	Size    int         `xml:"size"`
-	Classes []ClassItem `xml:"class"`
+	Size    int             `xml:"size"`
+	Classes []ClassListItem `xml:"class"`
 }
 
 // ClassItem represents a single class item in the list.
-type ClassItem struct {
+type ClassListItem struct {
 	ID          int    `xml:"id"`
 	Name        string `xml:"name"`
 	Description string `xml:"description"`
 }
 
 // Structs for the Class response by ID
-type ResponseClasses struct {
-	ID                  int                 `xml:"id,omitempty"`
-	Source              string              `xml:"source,omitempty"`
-	Name                string              `xml:"name"` // Required
-	Description         string              `xml:"description,omitempty"`
-	Site                ClassSite           `xml:"site"`
-	MobileDeviceGroup   ClassDeviceGroup    `xml:"mobile_device_group,omitempty"`
-	Students            []ClassStudent      `xml:"students>student,omitempty"`
-	Teachers            []ClassTeacher      `xml:"teachers>teacher,omitempty"`
-	TeacherIDs          []ClassTeacherID    `xml:"teacher_ids>id,omitempty"`
-	StudentGroupIDs     []ClassGroupID      `xml:"student_group_ids>id,omitempty"`
-	TeacherGroupIDs     []ClassGroupID      `xml:"teacher_group_ids>id,omitempty"`
-	MobileDevices       []ClassMobileDevice `xml:"mobile_devices>mobile_device,omitempty"`
-	MobileDeviceGroupID []ClassGroupID      `xml:"mobile_device_group_id>id,omitempty"`
-	MeetingTimes        ClassMeetingTimes   `xml:"meeting_times,omitempty"`
-	AppleTVs            []ClassAppleTV      `xml:"apple_tvs>apple_tv,omitempty"`
+type ResourceClass struct {
+	ID                  int                       `xml:"id,omitempty"`
+	Source              string                    `xml:"source,omitempty"`
+	Name                string                    `xml:"name"` // Required
+	Description         string                    `xml:"description,omitempty"`
+	Site                ClassSubsetSite           `xml:"site"`
+	MobileDeviceGroup   ClassSubsetDeviceGroup    `xml:"mobile_device_group,omitempty"`
+	Students            []ClassSubsetStudent      `xml:"students>student,omitempty"`
+	Teachers            []ClassSubsetTeacher      `xml:"teachers>teacher,omitempty"`
+	TeacherIDs          []ClassSubsetTeacherID    `xml:"teacher_ids>id,omitempty"`
+	StudentGroupIDs     []ClassSubsetGroupID      `xml:"student_group_ids>id,omitempty"`
+	TeacherGroupIDs     []ClassSubsetGroupID      `xml:"teacher_group_ids>id,omitempty"`
+	MobileDevices       []ClassSubsetMobileDevice `xml:"mobile_devices>mobile_device,omitempty"`
+	MobileDeviceGroupID []ClassSubsetGroupID      `xml:"mobile_device_group_id>id,omitempty"`
+	MeetingTimes        ClassSubsetMeetingTimes   `xml:"meeting_times,omitempty"`
+	AppleTVs            []ClassSubsetAppleTV      `xml:"apple_tvs>apple_tv,omitempty"`
 }
-type ClassSite struct {
+type ClassSubsetSite struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name"` // Required
 }
 
-type ClassDeviceGroup struct {
+type ClassSubsetDeviceGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type ClassStudent struct {
+type ClassSubsetStudent struct {
 	Student string `xml:"student,omitempty"`
 }
 
-type ClassTeacher struct {
+type ClassSubsetTeacher struct {
 	Teacher string `xml:"teacher,omitempty"`
 }
 
-type ClassTeacherID struct {
+type ClassSubsetTeacherID struct {
 	ID int `xml:"id,omitempty"`
 }
 
-type ClassGroupID struct {
+type ClassSubsetGroupID struct {
 	ID int `xml:"id,omitempty"`
 }
 
-type ClassMobileDevice struct {
+type ClassSubsetMobileDevice struct {
 	Name           string `xml:"name,omitempty"`
 	UDID           string `xml:"udid,omitempty"`
 	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
 }
 
-type ClassMeetingTimes struct {
-	MeetingTime ClassMeetingTime `xml:"meeting_time,omitempty"`
+type ClassSubsetMeetingTimes struct {
+	MeetingTime ClassSubsetMeetingTime `xml:"meeting_time,omitempty"`
 }
 
-type ClassMeetingTime struct {
+type ClassSubsetMeetingTime struct {
 	Days      string `xml:"days,omitempty"`
 	StartTime int    `xml:"start_time,omitempty"`
 	EndTime   int    `xml:"end_time,omitempty"`
 }
 
-type ClassAppleTV struct {
+type ClassSubsetAppleTV struct {
 	Name            string `xml:"name,omitempty"`
 	UDID            string `xml:"udid,omitempty"`
 	WifiMacAddress  string `xml:"wifi_mac_address,omitempty"`
@@ -112,10 +112,10 @@ func (c *Client) GetClasses() (*ResponseClassesList, error) {
 }
 
 // GetClassesByID retrieves a class by its ID.
-func (c *Client) GetClassesByID(id int) (*ResponseClasses, error) {
+func (c *Client) GetClassesByID(id int) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
 
-	var class ResponseClasses
+	var class ResourceClass
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Class by ID: %v", err)
@@ -129,10 +129,10 @@ func (c *Client) GetClassesByID(id int) (*ResponseClasses, error) {
 }
 
 // GetClassesByName retrieves a class by its name.
-func (c *Client) GetClassesByName(name string) (*ResponseClasses, error) {
+func (c *Client) GetClassesByName(name string) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriClasses, name)
 
-	var class ResponseClasses
+	var class ResourceClass
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Class by Name: %v", err)
@@ -146,12 +146,12 @@ func (c *Client) GetClassesByName(name string) (*ResponseClasses, error) {
 }
 
 // CreateClassesByID creates a new class with the given details.
-func (c *Client) CreateClassesByID(class *ResponseClasses) (*ResponseClasses, error) {
+func (c *Client) CreateClassesByID(class *ResourceClass) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriClasses) // Using ID 0 for creation as per API pattern
 
 	// If the site is not provided, set default values
 	if class.Site.ID == 0 && class.Site.Name == "" {
-		class.Site = ClassSite{
+		class.Site = ClassSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -160,12 +160,12 @@ func (c *Client) CreateClassesByID(class *ResponseClasses) (*ResponseClasses, er
 	// Wrap the class request with the desired XML structure using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
-		*ResponseClasses
+		*ResourceClass
 	}{
-		ResponseClasses: class,
+		ResourceClass: class,
 	}
 
-	var createdClass ResponseClasses
+	var createdClass ResourceClass
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdClass)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Class: %v", err)
@@ -179,15 +179,15 @@ func (c *Client) CreateClassesByID(class *ResponseClasses) (*ResponseClasses, er
 }
 
 // UpdateClassByID updates an existing class with the given ID.
-func (c *Client) UpdateClassesByID(id int, class *ResponseClasses) error {
+func (c *Client) UpdateClassesByID(id int, class *ResourceClass) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
 
 	// Wrap the class request with the desired XML structure using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
-		*ResponseClasses
+		*ResourceClass
 	}{
-		ResponseClasses: class,
+		ResourceClass: class,
 	}
 
 	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil)
@@ -199,15 +199,15 @@ func (c *Client) UpdateClassesByID(id int, class *ResponseClasses) error {
 }
 
 // UpdateClassByName updates an existing class with the given name.
-func (c *Client) UpdateClassesByName(name string, class *ResponseClasses) error {
+func (c *Client) UpdateClassesByName(name string, class *ResourceClass) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriClasses, name)
 
 	// Wrap the class request with the desired XML structure using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
-		*ResponseClasses
+		*ResourceClass
 	}{
-		ResponseClasses: class,
+		ResourceClass: class,
 	}
 
 	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil)

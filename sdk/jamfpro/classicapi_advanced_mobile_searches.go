@@ -12,40 +12,40 @@ import (
 
 const uriAPIAdvancedMobileDeviceSearches = "/JSSResource/advancedmobiledevicesearches"
 
-// ResponseAdvancedMobileDeviceSearchesList represents the structure for multiple advanced mobile device searches.
+// ResourceAdvancedMobileDeviceSearchesList represents the structure for multiple advanced mobile device searches.
 type ResponseAdvancedMobileDeviceSearchesList struct {
-	Size                         int                                `xml:"size"`
-	AdvancedMobileDeviceSearches []AdvancedMobileDeviceSearchDetail `xml:"advanced_mobile_device_search"`
+	Size                         int                                  `xml:"size"`
+	AdvancedMobileDeviceSearches []AdvancedMobileDeviceSearchListItem `xml:"advanced_mobile_device_search"`
 }
 
 // AdvancedMobileDeviceSearchDetail represents the details of an advanced mobile device search.
-type AdvancedMobileDeviceSearchDetail struct {
+type AdvancedMobileDeviceSearchListItem struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-// ResponseAdvancedMobileDeviceSearches represents the structure of the response for an advanced mobile device search.
-type ResponseAdvancedMobileDeviceSearches struct {
-	ID            int                                        `xml:"id"`                       // Unique identifier for the search
-	Name          string                                     `xml:"name"`                     // Name of the search
-	ViewAs        string                                     `xml:"view_as,omitempty"`        // The format in which the search results are viewed
-	Sort1         string                                     `xml:"sort_1,omitempty"`         // First sorting criteria
-	Sort2         string                                     `xml:"sort_2,omitempty"`         // Second sorting criteria
-	Sort3         string                                     `xml:"sort_3,omitempty"`         // Third sorting criteria
-	Criteria      []AdvancedMobileDeviceSearchesCriteria     `xml:"criteria,omitempty"`       // List of search criteria
-	DisplayFields []AdvancedMobileDeviceSearchesDisplayField `xml:"display_fields,omitempty"` // Fields to display in search results
-	MobileDevices []AdvancedMobileDeviceSearchesMobileDevice `xml:"mobile_devices,omitempty"` // List of mobile devices that match the search
-	Site          AdvancedMobileDeviceSearchesSite           `xml:"site,omitempty"`           // Information about the site associated with the search
+// ResourceAdvancedMobileDeviceSearches represents the structure of the response for an advanced mobile device search.
+type ResourceAdvancedMobileDeviceSearches struct {
+	ID            int                                              `xml:"id"`                       // Unique identifier for the search
+	Name          string                                           `xml:"name"`                     // Name of the search
+	ViewAs        string                                           `xml:"view_as,omitempty"`        // The format in which the search results are viewed
+	Sort1         string                                           `xml:"sort_1,omitempty"`         // First sorting criteria
+	Sort2         string                                           `xml:"sort_2,omitempty"`         // Second sorting criteria
+	Sort3         string                                           `xml:"sort_3,omitempty"`         // Third sorting criteria
+	Criteria      []AdvancedMobileDeviceSearchesSubsetCriteria     `xml:"criteria,omitempty"`       // List of search criteria
+	DisplayFields []AdvancedMobileDeviceSearchesSubsetDisplayField `xml:"display_fields,omitempty"` // Fields to display in search results
+	MobileDevices []AdvancedMobileDeviceSearchesSubsetMobileDevice `xml:"mobile_devices,omitempty"` // List of mobile devices that match the search
+	Site          AdvancedMobileDeviceSearchesSubsetSite           `xml:"site,omitempty"`           // Information about the site associated with the search
 }
 
 // CriteriaDetail represents a single search criterion.
-type AdvancedMobileDeviceSearchesCriteria struct {
-	Size      int       `xml:"size"`      // Number of criteria
-	Criterion Criterion `xml:"criterion"` // Detailed criterion
+type AdvancedMobileDeviceSearchesSubsetCriteria struct {
+	Size      int                                         `xml:"size"`      // Number of criteria
+	Criterion AdvancedMobileDeviceSearchesSubsetCriterion `xml:"criterion"` // Detailed criterion
 }
 
 // Criterion contains the details of a single criterion in the search.
-type Criterion struct {
+type AdvancedMobileDeviceSearchesSubsetCriterion struct {
 	Name         string `xml:"name"`                    // Name of the criterion
 	Priority     int    `xml:"priority"`                // Priority of the criterion
 	AndOr        string `xml:"and_or"`                  // Logical operator to combine criteria
@@ -56,24 +56,24 @@ type Criterion struct {
 }
 
 // DisplayFieldDetailWrapper wraps a display field with its size.
-type AdvancedMobileDeviceSearchesDisplayField struct {
-	Size         int                                          `xml:"size"`          // Number of display fields
-	DisplayField AdvancedMobileDeviceSearchesDisplayFieldItem `xml:"display_field"` // Detailed display field
+type AdvancedMobileDeviceSearchesSubsetDisplayField struct {
+	Size         int                                                `xml:"size"`          // Number of display fields
+	DisplayField AdvancedMobileDeviceSearchesSubsetDisplayFieldItem `xml:"display_field"` // Detailed display field
 }
 
 // DisplayField represents a field to display in the search results.
-type AdvancedMobileDeviceSearchesDisplayFieldItem struct {
+type AdvancedMobileDeviceSearchesSubsetDisplayFieldItem struct {
 	Name string `xml:"name"` // Name of the display field
 }
 
 // MobileDeviceDetailWrapper wraps a mobile device with its size.
-type AdvancedMobileDeviceSearchesMobileDevice struct {
-	Size         int              `xml:"size"`          // Number of mobile devices
-	MobileDevice MobileDeviceItem `xml:"mobile_device"` // Detailed mobile device
+type AdvancedMobileDeviceSearchesSubsetMobileDevice struct {
+	Size         int                                          `xml:"size"`          // Number of mobile devices
+	MobileDevice AdvancedMobileDeviceSearchesMobileDeviceItem `xml:"mobile_device"` // Detailed mobile device
 }
 
 // MobileDevice contains details about a single mobile device.
-type MobileDeviceItem struct {
+type AdvancedMobileDeviceSearchesMobileDeviceItem struct {
 	ID          int    `xml:"id"`           // Unique identifier for the mobile device
 	Name        string `xml:"name"`         // Name of the mobile device
 	UDID        string `xml:"udid"`         // Unique Device Identifier for the mobile device
@@ -81,7 +81,7 @@ type MobileDeviceItem struct {
 }
 
 // SiteDetail represents the details of a site associated with the search.
-type AdvancedMobileDeviceSearchesSite struct {
+type AdvancedMobileDeviceSearchesSubsetSite struct {
 	ID   int    `xml:"id"`   // Unique identifier for the site
 	Name string `xml:"name"` // Name of the site
 }
@@ -104,10 +104,10 @@ func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDevic
 }
 
 // GetAdvancedMobileDeviceSearchByID retrieves an advanced mobile device search by its ID.
-func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResponseAdvancedMobileDeviceSearches, error) {
+func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMobileDeviceSearches, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
-	var searchDetail ResponseAdvancedMobileDeviceSearches
+	var searchDetail ResourceAdvancedMobileDeviceSearches
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced mobile device search by ID: %v", err)
@@ -121,10 +121,10 @@ func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResponseAdvancedMob
 }
 
 // GetAdvancedMobileDeviceSearchByName retrieves an advanced mobile device search by its name.
-func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResponseAdvancedMobileDeviceSearches, error) {
+func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdvancedMobileDeviceSearches, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
-	var searchDetail ResponseAdvancedMobileDeviceSearches
+	var searchDetail ResourceAdvancedMobileDeviceSearches
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced mobile device search by name: %v", err)
@@ -138,12 +138,12 @@ func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResponseAdva
 }
 
 // CreateAdvancedMobileDeviceSearchByID creates a new advanced mobile device search with the given ID.
-func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResponseAdvancedMobileDeviceSearches) (*ResponseAdvancedMobileDeviceSearches, error) {
+func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
 	// Check if the Site field in the search struct is not provided and set default values if needed
 	if search.Site.ID == 0 && search.Site.Name == "" {
-		search.Site = AdvancedMobileDeviceSearchesSite{
+		search.Site = AdvancedMobileDeviceSearchesSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -152,12 +152,12 @@ func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResponseAd
 	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
-		*ResponseAdvancedMobileDeviceSearches
+		*ResourceAdvancedMobileDeviceSearches
 	}{
-		ResponseAdvancedMobileDeviceSearches: search,
+		ResourceAdvancedMobileDeviceSearches: search,
 	}
 
-	var createdSearch ResponseAdvancedMobileDeviceSearches
+	var createdSearch ResourceAdvancedMobileDeviceSearches
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create advanced mobile device search by ID: %v", err)
@@ -171,17 +171,17 @@ func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResponseAd
 }
 
 // UpdateAdvancedMobileDeviceSearchByID updates an existing advanced mobile device search by its ID.
-func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResponseAdvancedMobileDeviceSearches) (*ResponseAdvancedMobileDeviceSearches, error) {
+func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
-		*ResponseAdvancedMobileDeviceSearches
+		*ResourceAdvancedMobileDeviceSearches
 	}{
-		ResponseAdvancedMobileDeviceSearches: search,
+		ResourceAdvancedMobileDeviceSearches: search,
 	}
 
-	var updatedSearch ResponseAdvancedMobileDeviceSearches
+	var updatedSearch ResourceAdvancedMobileDeviceSearches
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced mobile device search by ID: %v", err)
@@ -195,17 +195,17 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResponseAd
 }
 
 // UpdateAdvancedMobileDeviceSearchByName updates an existing advanced mobile device search by its name.
-func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *ResponseAdvancedMobileDeviceSearches) (*ResponseAdvancedMobileDeviceSearches, error) {
+func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
-		*ResponseAdvancedMobileDeviceSearches
+		*ResourceAdvancedMobileDeviceSearches
 	}{
-		ResponseAdvancedMobileDeviceSearches: search,
+		ResourceAdvancedMobileDeviceSearches: search,
 	}
 
-	var updatedSearch ResponseAdvancedMobileDeviceSearches
+	var updatedSearch ResourceAdvancedMobileDeviceSearches
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced mobile device search by name: %v", err)

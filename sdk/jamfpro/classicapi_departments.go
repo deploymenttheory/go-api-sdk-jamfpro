@@ -15,15 +15,15 @@ const uriDepartments = "/JSSResource/departments"
 // Response structure for the list of departments
 
 type ResponseDepartmentsList struct {
-	TotalCount int              `xml:"size"`
-	Results    []DepartmentItem `xml:"department"`
+	TotalCount int                  `xml:"size"`
+	Results    []DepartmentListItem `xml:"department"`
 }
 
-type DepartmentItem struct {
+type DepartmentListItem struct {
 	Id   int    `xml:"id,omitempty" json:"id,omitempty"`
 	Name string `xml:"name" json:"name"`
 }
-type ResponseDepartment struct {
+type ResourceDepartment struct {
 	ID   int    `xml:"id,omitempty" json:"id,omitempty"`
 	Name string `xml:"name" json:"name"`
 }
@@ -46,10 +46,10 @@ func (c *Client) GetDepartments() (*ResponseDepartmentsList, error) {
 }
 
 // GetDepartmentByID retrieves the department by its ID
-func (c *Client) GetDepartmentByID(id int) (*ResponseDepartment, error) {
+func (c *Client) GetDepartmentByID(id int) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDepartments, id)
 
-	var department ResponseDepartment
+	var department ResourceDepartment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &department)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch department by ID: %v", err)
@@ -63,10 +63,10 @@ func (c *Client) GetDepartmentByID(id int) (*ResponseDepartment, error) {
 }
 
 // GetDepartmentByName retrieves the department by its name
-func (c *Client) GetDepartmentByName(name string) (*ResponseDepartment, error) {
+func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDepartments, name)
 
-	var department ResponseDepartment
+	var department ResourceDepartment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &department)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch department by name: %v", err)
@@ -95,20 +95,20 @@ func (c *Client) GetDepartmentIdByName(name string) (int, error) {
 }
 
 // CreateDepartment creates a new department
-func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartment, error) {
+func (c *Client) CreateDepartment(departmentName string) (*ResourceDepartment, error) {
 	endpoint := uriDepartments
 
 	// Wrap the department with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
-		ResponseDepartment
+		ResourceDepartment
 	}{
-		ResponseDepartment: ResponseDepartment{
+		ResourceDepartment: ResourceDepartment{
 			Name: departmentName,
 		},
 	}
 
-	var response ResponseDepartment
+	var response ResourceDepartment
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create department: %v", err)
@@ -122,19 +122,19 @@ func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartment, e
 }
 
 // UpdateDepartmentByID updates an existing department
-func (c *Client) UpdateDepartmentByID(id int, departmentName string) (*ResponseDepartment, error) {
+func (c *Client) UpdateDepartmentByID(id int, departmentName string) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDepartments, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
-		ResponseDepartment
+		ResourceDepartment
 	}{
-		ResponseDepartment: ResponseDepartment{
+		ResourceDepartment: ResourceDepartment{
 			Name: departmentName,
 		},
 	}
 
-	var updatedDepartment ResponseDepartment
+	var updatedDepartment ResourceDepartment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDepartment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update department: %v", err)
@@ -148,19 +148,19 @@ func (c *Client) UpdateDepartmentByID(id int, departmentName string) (*ResponseD
 }
 
 // UpdateDepartmentByName updates an existing department by its name
-func (c *Client) UpdateDepartmentByName(oldName string, newName string) (*ResponseDepartment, error) {
+func (c *Client) UpdateDepartmentByName(oldName string, newName string) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDepartments, oldName)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
-		ResponseDepartment
+		ResourceDepartment
 	}{
-		ResponseDepartment: ResponseDepartment{
+		ResourceDepartment: ResourceDepartment{
 			Name: newName,
 		},
 	}
 
-	var updatedDepartment ResponseDepartment
+	var updatedDepartment ResourceDepartment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDepartment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update department by name: %v", err)

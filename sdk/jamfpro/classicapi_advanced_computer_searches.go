@@ -14,38 +14,38 @@ const uriAPIAdvancedComputerSearches = "/JSSResource/advancedcomputersearches"
 
 // ResponseAdvancedComputerSearchesList represents the structure for multiple advanced computer searches.
 type ResponseAdvancedComputerSearchesList struct {
-	Size                     int                            `xml:"size"`
-	AdvancedComputerSearches []AdvancedComputerSearchDetail `xml:"advanced_computer_search"`
+	Size                     int                                    `xml:"size"`
+	AdvancedComputerSearches []AdvancedComputerSearchesSubsetDetail `xml:"advanced_computer_search"`
 }
 
 // AdvancedComputerSearchDetail represents the details of an advanced computer search.
-type AdvancedComputerSearchDetail struct {
+type AdvancedComputerSearchesSubsetDetail struct {
 	ID   int    `json:"id,omitempty" xml:"id"`
 	Name string `json:"name,omitempty" xml:"name"`
 }
 
-// ResponseAdvancedComputerSearch represents the structure of the response for an advanced computer search.
-type ResponseAdvancedComputerSearch struct {
-	ID            int                                        `xml:"id"`
-	Name          string                                     `xml:"name"`
-	ViewAs        string                                     `xml:"view_as,omitempty"`
-	Sort1         string                                     `xml:"sort_1,omitempty"`
-	Sort2         string                                     `xml:"sort_2,omitempty"`
-	Sort3         string                                     `xml:"sort_3,omitempty"`
-	Criteria      []AdvancedComputerSearchesCriteria         `xml:"criteria"`
-	DisplayFields []AdvancedComputerSearchesDisplayField     `xml:"display_fields"`
-	Computers     []AdvancedComputerSearchDataSubsetComputer `xml:"computers"`
-	Site          AdvancedComputerSearchesSiteDetail         `xml:"site"`
+// ResourceAdvancedComputerSearch represents the structure of the response for an advanced computer search.
+type ResourceAdvancedComputerSearch struct {
+	ID            int                                          `xml:"id"`
+	Name          string                                       `xml:"name"`
+	ViewAs        string                                       `xml:"view_as,omitempty"`
+	Sort1         string                                       `xml:"sort_1,omitempty"`
+	Sort2         string                                       `xml:"sort_2,omitempty"`
+	Sort3         string                                       `xml:"sort_3,omitempty"`
+	Criteria      []AdvancedComputerSearcheSubsetCriteria      `xml:"criteria"`
+	DisplayFields []AdvancedComputerSearchesSubsetDisplayField `xml:"display_fields"`
+	Computers     []AdvancedComputerSearchesDataSubsetComputer `xml:"computers"`
+	Site          AdvancedComputerSearchesSubsetSiteDetail     `xml:"site"`
 }
 
 // Criteria represents a criterion with its details.
-type AdvancedComputerSearchesCriteria struct {
-	Size      int             `xml:"size"`
-	Criterion CriterionDetail `xml:"criterion"`
+type AdvancedComputerSearcheSubsetCriteria struct {
+	Size      int                                         `xml:"size"`
+	Criterion AdvancedComputerSearchesSubsetCriteraDetail `xml:"criterion"`
 }
 
 // CriterionDetail represents the details of a criterion in a search.
-type CriterionDetail struct {
+type AdvancedComputerSearchesSubsetCriteraDetail struct {
 	Name         string `xml:"name"`
 	Priority     int    `xml:"priority,omitempty"`
 	AndOr        string `xml:"and_or,omitempty"`
@@ -56,24 +56,24 @@ type CriterionDetail struct {
 }
 
 // DisplayField represents a display field with its details.
-type AdvancedComputerSearchesDisplayField struct {
-	Size         int                `xml:"size"`
-	DisplayField DisplayFieldDetail `xml:"display_field"`
+type AdvancedComputerSearchesSubsetDisplayField struct {
+	Size         int                                              `xml:"size"`
+	DisplayField AdvancedComputerSearchesSubsetDisplayFieldDetail `xml:"display_field"`
 }
 
 // DisplayFieldDetail represents the details of a display field.
-type DisplayFieldDetail struct {
+type AdvancedComputerSearchesSubsetDisplayFieldDetail struct {
 	Name string `xml:"name"`
 }
 
 // Computer represents a computer with its details.
-type AdvancedComputerSearchDataSubsetComputer struct {
-	Size     int            `xml:"size"`
-	Computer ComputerDetail `xml:"computer"`
+type AdvancedComputerSearchesDataSubsetComputer struct {
+	Size     int                                          `xml:"size"`
+	Computer AdvancedComputerSearchesSubsetComputerDetail `xml:"computer"`
 }
 
 // ComputerDetail represents the details of a computer.
-type ComputerDetail struct {
+type AdvancedComputerSearchesSubsetComputerDetail struct {
 	ID           int    `xml:"id"`
 	Name         string `xml:"name"`
 	UDID         string `xml:"udid,omitempty"`
@@ -81,7 +81,7 @@ type ComputerDetail struct {
 }
 
 // SiteDetail represents the details of a site.
-type AdvancedComputerSearchesSiteDetail struct {
+type AdvancedComputerSearchesSubsetSiteDetail struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -104,10 +104,10 @@ func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearche
 }
 
 // GetAdvancedComputerSearchByID retrieves an advanced computer search by its ID
-func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResponseAdvancedComputerSearch, error) {
+func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
-	var search ResponseAdvancedComputerSearch
+	var search ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced computer search by ID: %v", err)
@@ -121,10 +121,10 @@ func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResponseAdvancedCompute
 }
 
 // GetAdvancedComputerSearchesByName retrieves advanced computer searches by their name
-func (c *Client) GetAdvancedComputerSearchesByName(name string) (*ResponseAdvancedComputerSearch, error) {
+func (c *Client) GetAdvancedComputerSearchesByName(name string) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
-	var search ResponseAdvancedComputerSearch
+	var search ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced computer search by name: %v", err)
@@ -138,7 +138,7 @@ func (c *Client) GetAdvancedComputerSearchesByName(name string) (*ResponseAdvanc
 }
 
 // CreateAdvancedComputerSearch creates a new advanced computer search.
-func (c *Client) CreateAdvancedComputerSearch(search *ResponseAdvancedComputerSearch) (*ResponseAdvancedComputerSearch, error) {
+func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
 	// Set default values for Site if not provided
@@ -150,12 +150,12 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResponseAdvancedComputerSe
 	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
-		*ResponseAdvancedComputerSearch
+		*ResourceAdvancedComputerSearch
 	}{
-		ResponseAdvancedComputerSearch: search,
+		ResourceAdvancedComputerSearch: search,
 	}
 
-	var createdSearch ResponseAdvancedComputerSearch
+	var createdSearch ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create advanced computer search: %v", err)
@@ -169,18 +169,18 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResponseAdvancedComputerSe
 }
 
 // UpdateAdvancedComputerSearchByID updates an existing advanced computer search by its ID.
-func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResponseAdvancedComputerSearch) (*ResponseAdvancedComputerSearch, error) {
+func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
 	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
-		*ResponseAdvancedComputerSearch
+		*ResourceAdvancedComputerSearch
 	}{
-		ResponseAdvancedComputerSearch: search,
+		ResourceAdvancedComputerSearch: search,
 	}
 
-	var updatedSearch ResponseAdvancedComputerSearch
+	var updatedSearch ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced computer search by ID: %v", err)
@@ -194,18 +194,18 @@ func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResponseAdvanc
 }
 
 // UpdateAdvancedComputerSearchByName updates an existing advanced computer search by its name.
-func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *ResponseAdvancedComputerSearch) (*ResponseAdvancedComputerSearch, error) {
+func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
 	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
-		*ResponseAdvancedComputerSearch
+		*ResourceAdvancedComputerSearch
 	}{
-		ResponseAdvancedComputerSearch: search,
+		ResourceAdvancedComputerSearch: search,
 	}
 
-	var updatedSearch ResponseAdvancedComputerSearch
+	var updatedSearch ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced computer search by name: %v", err)

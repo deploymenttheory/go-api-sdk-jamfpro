@@ -80,27 +80,27 @@ type AccountDataSubsetUser struct {
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
-type Users struct {
-	User []AccountUser `json:"user,omitempty" xml:"user,omitempty"`
-}
+// type Users struct {
+// 	User []AccountUser `json:"user,omitempty" xml:"user,omitempty"`
+// }
 
-type Groups struct {
-	Group []ResponseAccountGroup `json:"group,omitempty" xml:"group,omitempty"`
-}
+// type Groups struct {
+// 	Group []ResponseAccountGroup `json:"group,omitempty" xml:"group,omitempty"`
+// }
 
-type AccountUser struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name" xml:"name"`
-}
+// type AccountUser struct {
+// 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+// 	Name string `json:"name" xml:"name"`
+// }
 
 type ResponseAccountGroup struct {
-	ID           int                         `json:"id,omitempty" xml:"id"`
-	Name         string                      `json:"name" xml:"name"`
-	AccessLevel  string                      `json:"access_level" xml:"access_level"`
-	PrivilegeSet string                      `json:"privilege_set" xml:"privilege_set"`
-	Site         AccountDataSubsetSite       `json:"site" xml:"site"`
-	Privileges   AccountDataSubsetPrivileges `json:"privileges" xml:"privileges"`
-	Members      []AccountDataSubsetUser     `json:"members" xml:"members>user"`
+	ID           int                     `json:"id,omitempty" xml:"id"`
+	Name         string                  `json:"name" xml:"name"`
+	AccessLevel  string                  `json:"access_level" xml:"access_level"`
+	PrivilegeSet string                  `json:"privilege_set" xml:"privilege_set"`
+	Site         AccountSubsetSite       `json:"site" xml:"site"`
+	Privileges   AccountSubsetPrivileges `json:"privileges" xml:"privileges"`
+	Members      []AccountDataSubsetUser `json:"members" xml:"members>user"`
 }
 
 // GetAccounts retrieves a list of all accounts (both users and groups).
@@ -122,10 +122,10 @@ func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
 }
 
 // GetAccountByID retrieves the Account by its ID
-func (c *Client) GetAccountByID(id int) (*ResponseAccount, error) {
+func (c *Client) GetAccountByID(id int) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
-	var account ResponseAccount
+	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
 		fmt.Printf("Failed to execute request: %v\n", err)
@@ -140,10 +140,10 @@ func (c *Client) GetAccountByID(id int) (*ResponseAccount, error) {
 }
 
 // GetAccountByName retrieves the Account by its name
-func (c *Client) GetAccountByName(name string) (*ResponseAccount, error) {
+func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
-	var account ResponseAccount
+	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
 		fmt.Printf("Failed to execute request: %v\n", err)
@@ -176,10 +176,10 @@ func (c *Client) GetAccountGroupByID(id int) (*ResponseAccountGroup, error) {
 }
 
 // GetAccountByName retrieves the Account by its name
-func (c *Client) GetAccountGroupByName(name string) (*ResponseAccount, error) {
+func (c *Client) GetAccountGroupByName(name string) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
-	var account ResponseAccount
+	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
 		fmt.Printf("Failed to execute request: %v\n", err)
@@ -194,14 +194,14 @@ func (c *Client) GetAccountGroupByName(name string) (*ResponseAccount, error) {
 }
 
 // CreateAccountByID creates an Account using its ID
-func (c *Client) CreateAccountByID(account *ResponseAccount) (*ResponseAccount, error) {
+func (c *Client) CreateAccountByID(account *ResourceAccount) (*ResourceAccount, error) {
 	// Use a placeholder ID for creating a new account
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, placeholderID)
 
 	// Check if site is not provided and set default values
 	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = AccountDataSubsetSite{
+		account.Site = AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -210,12 +210,12 @@ func (c *Client) CreateAccountByID(account *ResponseAccount) (*ResponseAccount, 
 	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"account"`
-		*ResponseAccount
+		*ResourceAccount
 	}{
-		ResponseAccount: account,
+		ResourceAccount: account,
 	}
 
-	var returnedAccount ResponseAccount
+	var returnedAccount ResourceAccount
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccount)
 	if err != nil {
 		fmt.Printf("Failed to execute request: %v\n", err)
@@ -237,7 +237,7 @@ func (c *Client) CreateAccountGroupByID(accountGroup *ResponseAccountGroup) (*Re
 
 	// Check if site is not provided and set default values
 	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
-		accountGroup.Site = AccountDataSubsetSite{
+		accountGroup.Site = AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -266,27 +266,24 @@ func (c *Client) CreateAccountGroupByID(accountGroup *ResponseAccountGroup) (*Re
 }
 
 // UpdateAccountByID updates an Account using its ID
-func (c *Client) UpdateAccountByID(id int, account *ResponseAccount) (*ResponseAccount, error) {
-	// Construct the endpoint URL using the provided account ID
+func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
-	// Check if site is not provided and set default values
 	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = AccountDataSubsetSite{
+		account.Site = AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
 	}
 
-	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"account"`
-		*ResponseAccount
+		*ResourceAccount
 	}{
-		ResponseAccount: account,
+		ResourceAccount: account,
 	}
 
-	var updatedAccount ResponseAccount
+	var updatedAccount ResourceAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
 		fmt.Printf("Failed to execute request: %v\n", err)
@@ -301,27 +298,24 @@ func (c *Client) UpdateAccountByID(id int, account *ResponseAccount) (*ResponseA
 }
 
 // UpdateAccountByName updates an Account using its name.
-func (c *Client) UpdateAccountByName(name string, account *ResponseAccount) (*ResponseAccount, error) {
-	// Construct the endpoint URL using the provided account name
+func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
-	// Check if site is not provided and set default values
 	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = AccountDataSubsetSite{
+		account.Site = AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
 	}
 
-	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"account"`
-		*ResponseAccount
+		*ResourceAccount
 	}{
-		ResponseAccount: account,
+		ResourceAccount: account,
 	}
 
-	var updatedAccount ResponseAccount
+	var updatedAccount ResourceAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
 		fmt.Printf("Failed to execute request: %v\n", err)
@@ -337,18 +331,15 @@ func (c *Client) UpdateAccountByName(name string, account *ResponseAccount) (*Re
 
 // UpdateAccountGroupByID updates an Account Group using its ID
 func (c *Client) UpdateAccountGroupByID(id int, group *ResponseAccountGroup) (*ResponseAccountGroup, error) {
-	// Construct the endpoint URL using the provided group ID
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = AccountDataSubsetSite{
+		group.Site = AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
 	}
 
-	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`
 		*ResponseAccountGroup
@@ -372,18 +363,15 @@ func (c *Client) UpdateAccountGroupByID(id int, group *ResponseAccountGroup) (*R
 
 // UpdateAccountGroupByName updates an Account Group using its name.
 func (c *Client) UpdateAccountGroupByName(name string, group *ResponseAccountGroup) (*ResponseAccountGroup, error) {
-	// Construct the endpoint URL using the provided group name
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = AccountDataSubsetSite{
+		group.Site = AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		}
 	}
 
-	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`
 		*ResponseAccountGroup
@@ -407,7 +395,6 @@ func (c *Client) UpdateAccountGroupByName(name string, group *ResponseAccountGro
 
 // DeleteAccountByID deletes an Account using its ID
 func (c *Client) DeleteAccountByID(id int) error {
-	// Construct the endpoint URL using the provided account ID
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -425,7 +412,6 @@ func (c *Client) DeleteAccountByID(id int) error {
 
 // DeleteAccountByName deletes an Account using its name.
 func (c *Client) DeleteAccountByName(name string) error {
-	// Construct the endpoint URL using the provided account name
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -443,7 +429,6 @@ func (c *Client) DeleteAccountByName(name string) error {
 
 // DeleteAccountGroupByID deletes an Account Group using its ID.
 func (c *Client) DeleteAccountGroupByID(id int) error {
-	// Construct the endpoint URL using the provided group ID
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -461,7 +446,6 @@ func (c *Client) DeleteAccountGroupByID(id int) error {
 
 // DeleteAccountGroupByName deletes an Account Group using its name.
 func (c *Client) DeleteAccountGroupByName(name string) error {
-	// Construct the endpoint URL using the provided group name
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
