@@ -230,17 +230,13 @@ func (c *Client) UpdateComputerPrestageByName(name string, prestageUpdate *Resou
 	return resp, nil
 }
 
-/////////// PROGRESS
-
 // DeleteComputerPrestageByID deletes a computer prestage by its ID
 func (c *Client) DeleteComputerPrestageByID(id string) error {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
-	// Perform the DELETE request
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete computer prestage with ID %s: %v", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer prestage", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -251,31 +247,30 @@ func (c *Client) DeleteComputerPrestageByID(id string) error {
 }
 
 // DeleteComputerPrestageByNameByID deletes a computer prestage by its name.
-func (c *Client) DeleteComputerPrestageByNameByID(name string) error {
-	// Fetch all prestages to find the one with the given name.
-	response, err := c.GetComputerPrestages("") // Adjust sort as needed.
+func (c *Client) DeleteComputerPrestageByName(name string) error {
+	target, err := c.GetComputerPrestageByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to fetch computer prestages: %v", err)
+		return fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
 	}
 
-	// Find the prestage with the given name and delete it using its ID.
-	for _, prestage := range response.Results {
-		if prestage.DisplayName == name {
-			return c.DeleteComputerPrestageByID(prestage.ID)
-		}
+	target_id := target.ID
+
+	err = c.DeleteComputerPrestageByID(target_id)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "computer prestage", name, err)
 	}
 
-	return fmt.Errorf("no computer prestage found with the name %s", name)
+	return nil
 }
 
 // GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
-func (c *Client) GetDeviceScopeForComputerPrestage(id string) (*ResponseDeviceScope, error) {
+func (c *Client) GetDeviceScopeForComputerPrestageById(id string) (*ResponseDeviceScope, error) {
 	endpoint := fmt.Sprintf("%s/%s/scope", uriComputerPrestagesV2, id)
 
 	var deviceScope ResponseDeviceScope
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch device scope for computer prestage with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer prestage scope", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
