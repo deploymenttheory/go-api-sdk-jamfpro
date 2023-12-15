@@ -7,9 +7,8 @@ package jamfpro
 
 import (
 	"fmt"
-	"net/url"
-	"strconv"
-	"strings"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 const uriComputerPrestagesV2 = "/api/v2/computer-prestages"
@@ -17,63 +16,63 @@ const uriComputerPrestagesV3 = "/api/v3/computer-prestages"
 
 // ResponseDeviceScope represents the structure of the response for a specific computer prestage scope.
 type ResponseDeviceScope struct {
-	PrestageId  string           `json:"prestageId"`
-	Assignments []AssignmentItem `json:"assignments"`
-	VersionLock int              `json:"versionLock"`
+	PrestageId  string                            `json:"prestageId"`
+	Assignments []DeviceScopeSubsetAssignmentItem `json:"assignments"`
+	VersionLock int                               `json:"versionLock"`
 }
 
 // AssignmentItem represents the structure of each assignment within the prestage scope.
-type AssignmentItem struct {
+type DeviceScopeSubsetAssignmentItem struct {
 	SerialNumber   string `json:"serialNumber"`
 	AssignmentDate string `json:"assignmentDate"`
 	UserAssigned   string `json:"userAssigned"`
 }
 
-type ResponseComputerPrestagesV3 struct {
-	TotalCount *int                    `json:"totalCount"`
-	Results    []ComputerPrestagesItem `json:"results"`
+type ResponseComputerPrestagesList struct {
+	TotalCount *int                       `json:"totalCount"`
+	Results    []ResourceComputerPrestage `json:"results"`
 }
 
-type ComputerPrestagesItem struct {
-	DisplayName                       string                                 `json:"displayName"`
-	Mandatory                         bool                                   `json:"mandatory"`
-	MDMRemovable                      bool                                   `json:"mdmRemovable"`
-	SupportPhoneNumber                string                                 `json:"supportPhoneNumber"`
-	SupportEmailAddress               string                                 `json:"supportEmailAddress"`
-	Department                        string                                 `json:"department"`
-	DefaultPrestage                   bool                                   `json:"defaultPrestage"`
-	EnrollmentSiteId                  string                                 `json:"enrollmentSiteId"`
-	KeepExistingSiteMembership        bool                                   `json:"keepExistingSiteMembership"`
-	KeepExistingLocationInformation   bool                                   `json:"keepExistingLocationInformation"`
-	RequireAuthentication             bool                                   `json:"requireAuthentication"`
-	AuthenticationPrompt              string                                 `json:"authenticationPrompt"`
-	PreventActivationLock             bool                                   `json:"preventActivationLock"`
-	EnableDeviceBasedActivationLock   bool                                   `json:"enableDeviceBasedActivationLock"`
-	DeviceEnrollmentProgramInstanceId string                                 `json:"deviceEnrollmentProgramInstanceId"`
-	SkipSetupItems                    map[string]bool                        `json:"skipSetupItems"`
-	LocationInformation               ComputerPrestagesLocationInformation   `json:"locationInformation"`
-	PurchasingInformation             ComputerPrestagesPurchasingInformation `json:"purchasingInformation"`
-	AnchorCertificates                []string                               `json:"anchorCertificates"`
-	EnrollmentCustomizationId         string                                 `json:"enrollmentCustomizationId"`
-	Language                          string                                 `json:"language"`
-	Region                            string                                 `json:"region"`
-	AutoAdvanceSetup                  bool                                   `json:"autoAdvanceSetup"`
-	InstallProfilesDuringSetup        bool                                   `json:"installProfilesDuringSetup"`
-	PrestageInstalledProfileIds       []string                               `json:"prestageInstalledProfileIds"`
-	CustomPackageIds                  []string                               `json:"customPackageIds"`
-	CustomPackageDistributionPointId  string                                 `json:"customPackageDistributionPointId"`
-	EnableRecoveryLock                bool                                   `json:"enableRecoveryLock"`
-	RecoveryLockPasswordType          string                                 `json:"recoveryLockPasswordType"`
-	RecoveryLockPassword              string                                 `json:"recoveryLockPassword"`
-	RotateRecoveryLockPassword        bool                                   `json:"rotateRecoveryLockPassword"`
-	ID                                string                                 `json:"id"`
-	ProfileUuid                       string                                 `json:"profileUuid"`
-	SiteId                            string                                 `json:"siteId"`
-	VersionLock                       int                                    `json:"versionLock"`
-	AccountSettings                   ComputerPrestagesAccountSettings       `json:"accountSettings"`
+type ResourceComputerPrestage struct {
+	DisplayName                       string                                      `json:"displayName"`
+	Mandatory                         bool                                        `json:"mandatory"`
+	MDMRemovable                      bool                                        `json:"mdmRemovable"`
+	SupportPhoneNumber                string                                      `json:"supportPhoneNumber"`
+	SupportEmailAddress               string                                      `json:"supportEmailAddress"`
+	Department                        string                                      `json:"department"`
+	DefaultPrestage                   bool                                        `json:"defaultPrestage"`
+	EnrollmentSiteId                  string                                      `json:"enrollmentSiteId"`
+	KeepExistingSiteMembership        bool                                        `json:"keepExistingSiteMembership"`
+	KeepExistingLocationInformation   bool                                        `json:"keepExistingLocationInformation"`
+	RequireAuthentication             bool                                        `json:"requireAuthentication"`
+	AuthenticationPrompt              string                                      `json:"authenticationPrompt"`
+	PreventActivationLock             bool                                        `json:"preventActivationLock"`
+	EnableDeviceBasedActivationLock   bool                                        `json:"enableDeviceBasedActivationLock"`
+	DeviceEnrollmentProgramInstanceId string                                      `json:"deviceEnrollmentProgramInstanceId"`
+	SkipSetupItems                    map[string]bool                             `json:"skipSetupItems"`
+	LocationInformation               ComputerPrestageSubsetLocationInformation   `json:"locationInformation"`
+	PurchasingInformation             ComputerPrestageSubsetPurchasingInformation `json:"purchasingInformation"`
+	AnchorCertificates                []string                                    `json:"anchorCertificates"`
+	EnrollmentCustomizationId         string                                      `json:"enrollmentCustomizationId"`
+	Language                          string                                      `json:"language"`
+	Region                            string                                      `json:"region"`
+	AutoAdvanceSetup                  bool                                        `json:"autoAdvanceSetup"`
+	InstallProfilesDuringSetup        bool                                        `json:"installProfilesDuringSetup"`
+	PrestageInstalledProfileIds       []string                                    `json:"prestageInstalledProfileIds"`
+	CustomPackageIds                  []string                                    `json:"customPackageIds"`
+	CustomPackageDistributionPointId  string                                      `json:"customPackageDistributionPointId"`
+	EnableRecoveryLock                bool                                        `json:"enableRecoveryLock"`
+	RecoveryLockPasswordType          string                                      `json:"recoveryLockPasswordType"`
+	RecoveryLockPassword              string                                      `json:"recoveryLockPassword"`
+	RotateRecoveryLockPassword        bool                                        `json:"rotateRecoveryLockPassword"`
+	ID                                string                                      `json:"id"`
+	ProfileUuid                       string                                      `json:"profileUuid"`
+	SiteId                            string                                      `json:"siteId"`
+	VersionLock                       int                                         `json:"versionLock"`
+	AccountSettings                   ComputerPrestageSubsetAccountSettings       `json:"accountSettings"`
 }
 
-type ComputerPrestagesLocationInformation struct {
+type ComputerPrestageSubsetLocationInformation struct {
 	Username     string `json:"username"`
 	Realname     string `json:"realname"`
 	Phone        string `json:"phone"`
@@ -86,7 +85,7 @@ type ComputerPrestagesLocationInformation struct {
 	VersionLock  int    `json:"versionLock"`
 }
 
-type ComputerPrestagesPurchasingInformation struct {
+type ComputerPrestageSubsetPurchasingInformation struct {
 	ID                string `json:"id"`
 	Leased            bool   `json:"leased"`
 	Purchased         bool   `json:"purchased"`
@@ -103,7 +102,7 @@ type ComputerPrestagesPurchasingInformation struct {
 	VersionLock       int    `json:"versionLock"`
 }
 
-type ComputerPrestagesAccountSettings struct {
+type ComputerPrestageSubsetAccountSettings struct {
 	ID                                      string `json:"id"`
 	PayloadConfigured                       bool   `json:"payloadConfigured"`
 	LocalAdminAccountEnabled                bool   `json:"localAdminAccountEnabled"`
@@ -121,80 +120,40 @@ type ComputerPrestagesAccountSettings struct {
 }
 
 // GetComputerPrestagesV3 retrieves all computer prestage information with optional sorting.
-func (c *Client) GetComputerPrestagesV3(sort []string) (*ResponseComputerPrestagesV3, error) {
-	const maxPageSize = 2000 // Assuming 2000 is a suitable limit for this API
-	var allPrestages []ComputerPrestagesItem
+func (c *Client) GetComputerPrestages(sort_filter string) (*ResponseComputerPrestagesList, error) {
+	resp, err := c.DoPaginatedGet(
+		uriComputerPrestagesV3,
+		standardPageSize,
+		startingPageNumber,
+		sort_filter,
+	)
 
-	page := 0
-	for {
-		// Construct the endpoint with query parameters for the current page
-		params := url.Values{
-			"page":      []string{strconv.Itoa(page)},
-			"page-size": []string{strconv.Itoa(maxPageSize)},
-		}
-		if len(sort) > 0 {
-			params.Add("sort", url.QueryEscape(strings.Join(sort, ",")))
-		}
-		endpointWithParams := fmt.Sprintf("%s?%s", uriComputerPrestagesV3, params.Encode())
-
-		// Fetch the computer prestages for the current page
-		var responsePrestagesV3 ResponseComputerPrestagesV3
-		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responsePrestagesV3)
-		if err != nil {
-			return nil, fmt.Errorf("failed to fetch computer prestages v3: %v", err)
-		}
-
-		if resp != nil && resp.Body != nil {
-			defer resp.Body.Close()
-		}
-
-		// Add the fetched prestages to the total list
-		allPrestages = append(allPrestages, responsePrestagesV3.Results...)
-
-		// Check if all prestages have been fetched
-		if responsePrestagesV3.TotalCount == nil || len(allPrestages) >= *responsePrestagesV3.TotalCount {
-			break
-		}
-
-		// Increment page number for the next iteration
-		page++
-	}
-
-	// Create an int variable for the total count and assign its address to TotalCount
-	totalCount := len(allPrestages)
-
-	// Return the combined list of all computer prestages
-	return &ResponseComputerPrestagesV3{
-		TotalCount: &totalCount,
-		Results:    allPrestages,
-	}, nil
-}
-
-// GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
-func (c *Client) GetDeviceScopeForComputerPrestage(id string) (*ResponseDeviceScope, error) {
-	endpoint := fmt.Sprintf("%s/%s/scope", uriComputerPrestagesV2, id)
-
-	var deviceScope ResponseDeviceScope
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch device scope for computer prestage with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
 	}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
+	var out ResponseComputerPrestagesList
+	out.TotalCount = &resp.Size
+	for _, value := range resp.Results {
+		var newObj ResourceComputerPrestage
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "computer prestages", err)
+		}
+		out.Results = append(out.Results, newObj)
 	}
 
-	return &deviceScope, nil
+	return &out, nil
 }
 
 // GetComputerPrestageByID retrieves a specific computer prestage by its ID.
-func (c *Client) GetComputerPrestageByID(id string) (*ComputerPrestagesItem, error) {
+func (c *Client) GetComputerPrestageByID(id string) (*ResourceComputerPrestage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
-	var prestage ComputerPrestagesItem
+	var prestage ResourceComputerPrestage
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &prestage)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer prestage with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer prestage", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -205,38 +164,29 @@ func (c *Client) GetComputerPrestageByID(id string) (*ComputerPrestagesItem, err
 }
 
 // GetComputerPrestageByName retrieves a specific computer prestage by its name.
-func (c *Client) GetComputerPrestageByName(name string) (*ComputerPrestagesItem, error) {
-	// Fetch all prestages
-	response, err := c.GetComputerPrestagesV3([]string{}) // Adjust sort as needed
+func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPrestage, error) {
+	prestages, err := c.GetComputerPrestages("")
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer prestages: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
 	}
 
-	// Search for the prestage with the given name
-	var prestageID string
-	for _, prestage := range response.Results {
-		if prestage.DisplayName == name {
-			prestageID = prestage.ID
-			break
+	for _, value := range prestages.Results {
+		if value.DisplayName == name {
+			return &value, nil
 		}
 	}
 
-	if prestageID == "" {
-		return nil, fmt.Errorf("no computer prestage found with the name %s", name)
-	}
-
-	// Use the ID to get the full details of the prestage
-	return c.GetComputerPrestageByID(prestageID)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "computer prestage", name, err)
 }
 
 // CreateComputerPrestage creates a new computer prestage with the given details.
-func (c *Client) CreateComputerPrestage(prestage *ComputerPrestagesItem) (*ComputerPrestagesItem, error) {
+func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*ResourceComputerPrestage, error) {
 	endpoint := uriComputerPrestagesV3
 
-	var response ComputerPrestagesItem
+	var response ResourceComputerPrestage
 	resp, err := c.HTTP.DoRequest("POST", endpoint, prestage, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create computer prestage: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "computer prestage", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -247,11 +197,10 @@ func (c *Client) CreateComputerPrestage(prestage *ComputerPrestagesItem) (*Compu
 }
 
 // UpdateComputerPrestageByID updates a computer prestage by its ID.
-func (c *Client) UpdateComputerPrestageByID(id string, prestageUpdate *ComputerPrestagesItem) (*ComputerPrestagesItem, error) {
-	// Construct the URL with the provided ID
+func (c *Client) UpdateComputerPrestageByID(id string, prestageUpdate *ResourceComputerPrestage) (*ResourceComputerPrestage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
-	var updatedPrestage ComputerPrestagesItem
+	var updatedPrestage ResourceComputerPrestage
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, prestageUpdate, &updatedPrestage)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update computer prestage with ID %s: %v", id, err)
@@ -265,33 +214,29 @@ func (c *Client) UpdateComputerPrestageByID(id string, prestageUpdate *ComputerP
 }
 
 // UpdateComputerPrestageByNameByID updates a computer prestage based on its display name.
-func (c *Client) UpdateComputerPrestageByNameByID(name string, updatedPrestage *ComputerPrestagesItem) (*ComputerPrestagesItem, error) {
-	// Fetch all prestages
-	prestagesList, err := c.GetComputerPrestagesV3([]string{}) // Adjust sort as needed
+func (c *Client) UpdateComputerPrestageByName(name string, prestageUpdate *ResourceComputerPrestage) (*ResourceComputerPrestage, error) {
+	target, err := c.GetComputerPrestageByName(name)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all computer prestages: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "computer prestage", name, err)
 	}
 
-	// Search for the prestage with the given name
-	for _, prestage := range prestagesList.Results {
-		if prestage.DisplayName == name {
-			// Update the prestage using its ID
-			return c.UpdateComputerPrestageByID(prestage.ID, updatedPrestage)
-		}
+	target_id := target.ID
+	resp, err := c.UpdateComputerPrestageByID(target_id, prestageUpdate)
+
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer prestage", name, err)
 	}
 
-	return nil, fmt.Errorf("no computer prestage found with the name %s", name)
+	return resp, nil
 }
 
 // DeleteComputerPrestageByID deletes a computer prestage by its ID
 func (c *Client) DeleteComputerPrestageByID(id string) error {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
-	// Perform the DELETE request
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete computer prestage with ID %s: %v", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer prestage", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -302,19 +247,35 @@ func (c *Client) DeleteComputerPrestageByID(id string) error {
 }
 
 // DeleteComputerPrestageByNameByID deletes a computer prestage by its name.
-func (c *Client) DeleteComputerPrestageByNameByID(name string) error {
-	// Fetch all prestages to find the one with the given name.
-	response, err := c.GetComputerPrestagesV3([]string{}) // Adjust sort as needed.
+func (c *Client) DeleteComputerPrestageByName(name string) error {
+	target, err := c.GetComputerPrestageByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to fetch computer prestages: %v", err)
+		return fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
 	}
 
-	// Find the prestage with the given name and delete it using its ID.
-	for _, prestage := range response.Results {
-		if prestage.DisplayName == name {
-			return c.DeleteComputerPrestageByID(prestage.ID)
-		}
+	target_id := target.ID
+
+	err = c.DeleteComputerPrestageByID(target_id)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "computer prestage", name, err)
 	}
 
-	return fmt.Errorf("no computer prestage found with the name %s", name)
+	return nil
+}
+
+// GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
+func (c *Client) GetDeviceScopeForComputerPrestageById(id string) (*ResponseDeviceScope, error) {
+	endpoint := fmt.Sprintf("%s/%s/scope", uriComputerPrestagesV2, id)
+
+	var deviceScope ResponseDeviceScope
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer prestage scope", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &deviceScope, nil
 }

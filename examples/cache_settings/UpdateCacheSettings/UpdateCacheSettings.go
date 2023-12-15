@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Example cache settings to update
-	newSettings := &jamfpro.ResponseCacheSettings{
+	newSettings := &jamfpro.ResourceCacheSettings{
 		CacheType:                  "ehcache",
 		TimeToLiveSeconds:          180,
 		TimeToIdleSeconds:          180,
@@ -47,7 +47,7 @@ func main() {
 		EhcacheMaxBytesLocalHeap:   "1GB",
 		CacheUniqueId:              "24864549-94ea-4cc1-bb80-d7fb392c6556",
 		Elasticache:                false,
-		MemcachedEndpoints: []jamfpro.MemcachedEndpoint{
+		MemcachedEndpoints: []jamfpro.ResourceDataMemcachedEndpoint{
 			{
 				HostName: "localhost",
 				Port:     11211,

@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the new category you want to create
-	newCategory := &jamfpro.ResponseCategories{
+	newCategory := &jamfpro.ResourceCategory{
 		Name:     "Applications",
 		Priority: 9,
 	}

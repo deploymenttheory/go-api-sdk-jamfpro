@@ -40,8 +40,8 @@ func main() {
 	}
 
 	// Define the new settings
-	newSettings := &jamfpro.ResponseComputerInventoryCollectionSettings{
-		ComputerInventoryCollectionPreferences: jamfpro.InventoryCollectionPreference{
+	newSettings := &jamfpro.ResourceComputerInventoryCollectionSettings{
+		ComputerInventoryCollectionPreferences: jamfpro.ResourceDataInventoryCollectionPreference{
 			MonitorApplicationUsage:       false,
 			IncludeFonts:                  false,
 			IncludePlugins:                false,
@@ -60,19 +60,19 @@ func main() {
 			UseUnixUserPaths:             true,
 			CollectUnmanagedCertificates: true,
 		},
-		ApplicationPaths: []jamfpro.PathItem{
+		ApplicationPaths: []jamfpro.ResourceDataPathItem{
 			{
 				ID:   "1",
 				Path: "/Example/Path/To/App/",
 			},
 		},
-		FontPaths: []jamfpro.PathItem{
+		FontPaths: []jamfpro.ResourceDataPathItem{
 			{
 				ID:   "2",
 				Path: "/Example/Path/To/Font/",
 			},
 		},
-		PluginPaths: []jamfpro.PathItem{
+		PluginPaths: []jamfpro.ResourceDataPathItem{
 			{
 				ID:   "3",
 				Path: "/Example/Path/To/Plugin/",

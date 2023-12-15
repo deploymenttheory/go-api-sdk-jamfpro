@@ -10,15 +10,14 @@ type StandardPaginatedResponse struct {
 }
 
 func (c *Client) DoPaginatedGet(
-	endpoint string,
+	endpoint_root string,
 	maxPageSize, startingPageNumber int,
+	sort_filter string,
 ) (*StandardPaginatedResponse, error) {
 
 	if maxPageSize == 0 {
 		maxPageSize = 200
 	}
-
-	endpoint_template := endpoint + "?page=%d&page-size=%d"
 
 	var OutStruct StandardPaginatedResponse
 	var TargetObjectAccumulator StandardPaginatedResponse
@@ -26,7 +25,8 @@ func (c *Client) DoPaginatedGet(
 	var page = startingPageNumber
 
 	for {
-		endpoint := fmt.Sprintf(endpoint_template, page, maxPageSize)
+		endpoint := fmt.Sprintf("%s?page=%d&page-size=%d%s", endpoint_root, maxPageSize, startingPageNumber, sort_filter)
+		fmt.Println(endpoint)
 		resp, err := c.HTTP.DoRequest(
 			"GET",
 			endpoint,

@@ -39,8 +39,8 @@ func main() {
 	}
 
 	// Example: Fetch the resource history of a building by ID
-	buildingID := "1" // Replace with a real building ID
-	history, err := client.GetBuildingResourceHistoryByID(buildingID)
+	buildingID := "" // Replace with a real building ID
+	history, err := client.GetBuildingResourceHistoryByID(buildingID, "")
 	if err != nil {
 		log.Fatalf("Error fetching building resource history: %v", err)
 	}

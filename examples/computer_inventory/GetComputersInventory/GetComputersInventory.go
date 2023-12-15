@@ -52,11 +52,11 @@ func main() {
 	*/
 
 	// Define your sorting criteria and section filters if needed
-	sortCriteria := []string{"udid:desc,general.name:asc"}        // Example sort criteria
-	sections := []string{"GENERAL", "DISK_ENCRYPTION", "STORAGE"} // Example sections
+	// sortCriteria := []string{"udid:desc,general.name:asc"}        // Example sort criteria
+	// sections := []string{"GENERAL", "DISK_ENCRYPTION", "STORAGE"} // Example sections
 
 	// Call the GetComputersInventory function
-	inventoryList, err := client.GetComputersInventory(sortCriteria, sections)
+	inventoryList, err := client.GetComputersInventory("")
 	if err != nil {
 		log.Fatalf("Error fetching computer inventory: %v", err)
 	}

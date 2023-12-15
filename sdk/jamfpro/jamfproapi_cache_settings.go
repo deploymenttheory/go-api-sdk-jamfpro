@@ -13,21 +13,21 @@ import (
 const uriCacheSettings = "/api/v1/cache-settings"
 
 // ResponseCacheSettings represents the JSON response for cache settings.
-type ResponseCacheSettings struct {
-	ID                         string              `json:"id,omitempty"`
-	Name                       string              `json:"name,omitempty"`
-	CacheType                  string              `json:"cacheType"`
-	TimeToLiveSeconds          int                 `json:"timeToLiveSeconds"`
-	TimeToIdleSeconds          int                 `json:"timeToIdleSeconds"`
-	DirectoryTimeToLiveSeconds int                 `json:"directoryTimeToLiveSeconds,omitempty"`
-	EhcacheMaxBytesLocalHeap   string              `json:"ehcacheMaxBytesLocalHeap,omitempty"`
-	CacheUniqueId              string              `json:"cacheUniqueId"`
-	Elasticache                bool                `json:"elasticache,omitempty"`
-	MemcachedEndpoints         []MemcachedEndpoint `json:"memcachedEndpoints"`
+type ResourceCacheSettings struct {
+	ID                         string                                 `json:"id,omitempty"`
+	Name                       string                                 `json:"name,omitempty"`
+	CacheType                  string                                 `json:"cacheType"`
+	TimeToLiveSeconds          int                                    `json:"timeToLiveSeconds"`
+	TimeToIdleSeconds          int                                    `json:"timeToIdleSeconds"`
+	DirectoryTimeToLiveSeconds int                                    `json:"directoryTimeToLiveSeconds,omitempty"`
+	EhcacheMaxBytesLocalHeap   string                                 `json:"ehcacheMaxBytesLocalHeap,omitempty"`
+	CacheUniqueId              string                                 `json:"cacheUniqueId"`
+	Elasticache                bool                                   `json:"elasticache,omitempty"`
+	MemcachedEndpoints         []CacheSettingsSubsetMemcachedEndpoint `json:"memcachedEndpoints"`
 }
 
 // MemcachedEndpoint represents an individual memcached endpoint in the cache settings.
-type MemcachedEndpoint struct {
+type CacheSettingsSubsetMemcachedEndpoint struct {
 	ID                      string `json:"id,omitempty"`
 	Name                    string `json:"name,omitempty"`
 	HostName                string `json:"hostName,omitempty"`
@@ -37,13 +37,13 @@ type MemcachedEndpoint struct {
 }
 
 // GetCacheSettings gets the current cache settings.
-func (c *Client) GetCacheSettings() (*ResponseCacheSettings, error) {
+func (c *Client) GetCacheSettings() (*ResourceCacheSettings, error) {
 	endpoint := uriCacheSettings
 
-	var cacheSettings ResponseCacheSettings
+	var cacheSettings ResourceCacheSettings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cacheSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch cache settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "cache settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -54,18 +54,18 @@ func (c *Client) GetCacheSettings() (*ResponseCacheSettings, error) {
 }
 
 // UpdateCacheSettings updates the cache settings.
-func (c *Client) UpdateCacheSettings(settings *ResponseCacheSettings) (*ResponseCacheSettings, error) {
+func (c *Client) UpdateCacheSettings(cacheSettingsUpdate *ResourceCacheSettings) (*ResourceCacheSettings, error) {
 	endpoint := uriCacheSettings
 
-	requestBody, err := json.Marshal(settings)
+	requestBody, err := json.Marshal(cacheSettingsUpdate)
 	if err != nil {
-		return nil, fmt.Errorf("failed to marshal cache settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedJsonMarshal, "cache settings", err)
 	}
 
-	var updatedSettings ResponseCacheSettings
+	var updatedSettings ResourceCacheSettings
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update cache settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "cache settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {

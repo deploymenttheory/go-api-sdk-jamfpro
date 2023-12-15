@@ -42,7 +42,7 @@ func main() {
 	categoryName := "test" // Replace with the desired category name
 
 	// Call GetCategoryNameByID function
-	category, err := client.GetCategoryNameByID(categoryName)
+	category, err := client.GetCategoryByName(categoryName)
 	if err != nil {
 		log.Fatalf("Error fetching category by name: %v", err)
 	}

@@ -43,7 +43,7 @@ func main() {
 	buildingName := "test" // Change this value as needed
 
 	// Call GetBuildingByNameByID function
-	building, err := client.GetBuildingByNameByID(buildingName)
+	building, err := client.GetBuildingByName(buildingName)
 	if err != nil {
 		log.Fatalf("Error fetching building by Name: %v", err)
 	}

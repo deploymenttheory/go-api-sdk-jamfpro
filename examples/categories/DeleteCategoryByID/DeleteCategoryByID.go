@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	categoryID := 123 // Replace with the actual category ID you want to delete
+	categoryID := "123" // Replace with the actual category ID you want to delete
 
 	err = client.DeleteCategoryByID(categoryID)
 	if err != nil {

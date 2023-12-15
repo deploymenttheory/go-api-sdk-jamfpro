@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Building details to be updated
-	buildingUpdate := &jamfpro.ResponseBuilding{
+	buildingUpdate := &jamfpro.ResourceBuilding{
 		Name:           "Updated Building Name",
 		StreetAddress1: "Updated Address 1",
 		StreetAddress2: "Updated Address 2",

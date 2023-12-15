@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Fetch API roles
-	apiRoles, err := client.GetJamfAPIRoles()
+	apiRoles, err := client.GetJamfAPIRoles("")
 	if err != nil {
 		log.Fatalf("Error fetching API roles: %v", err)
 	}

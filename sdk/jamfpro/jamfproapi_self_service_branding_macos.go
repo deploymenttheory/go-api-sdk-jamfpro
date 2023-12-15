@@ -5,18 +5,22 @@
 
 package jamfpro
 
-import "fmt"
+import (
+	"fmt"
 
-const uriAPISelfServiceBrandingMacOS = "/api/v1/self-service/branding/macos"
+	"github.com/mitchellh/mapstructure"
+)
+
+const uriSelfServiceBrandingMacOS = "/api/v1/self-service/branding/macos"
 
 // ResponseSelfServiceBranding is the structure that holds the list of self-service branding configurations for macOS.
-type ResponseSelfServiceBranding struct {
-	TotalCount int                         `json:"totalCount"`
-	Results    []SelfServiceBrandingDetail `json:"results"`
+type ResponseSelfServiceBrandingList struct {
+	TotalCount int                                 `json:"totalCount"`
+	Results    []ResourceSelfServiceBrandingDetail `json:"results"`
 }
 
 // SelfServiceBrandingDetail represents the details of a self-service branding configuration.
-type SelfServiceBrandingDetail struct {
+type ResourceSelfServiceBrandingDetail struct {
 	ID                    string `json:"id"`
 	ApplicationName       string `json:"applicationName"`
 	BrandingName          string `json:"brandingName"`
@@ -26,28 +30,36 @@ type SelfServiceBrandingDetail struct {
 }
 
 // GetSelfServiceBrandingMacOS retrieves the list of self-service branding configurations for macOS.
-func (c *Client) GetSelfServiceBrandingMacOS() (*ResponseSelfServiceBranding, error) {
-	var out ResponseSelfServiceBranding
-
-	resp, err := c.HTTP.DoRequest("GET", uriAPISelfServiceBrandingMacOS, nil, &out)
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
+func (c *Client) GetSelfServiceBrandingMacOS(sort_filter string) (*ResponseSelfServiceBrandingList, error) {
+	resp, err := c.DoPaginatedGet(
+		uriSelfServiceBrandingMacOS,
+		standardPageSize,
+		startingPageNumber,
+		sort_filter,
+	)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "self service branding", err)
 	}
 
-	if err != nil {
-		fmt.Printf("Failed to fetch self-service branding for macOS: %v\n", err)
-		return nil, err
+	var out ResponseSelfServiceBrandingList
+	out.TotalCount = resp.Size
+
+	for _, value := range resp.Results {
+		var newObj ResourceSelfServiceBrandingDetail
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "self service branding", err)
+		}
+		out.Results = append(out.Results, newObj)
 	}
 
 	return &out, nil
 }
 
 // GetSelfServiceBrandingMacOSByID retrieves a specific self-service branding configuration for macOS by ID.
-func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*SelfServiceBrandingDetail, error) {
-	var out SelfServiceBrandingDetail
-	// Construct the URL with the ID
-	endpoint := fmt.Sprintf("%s/%s", uriAPISelfServiceBrandingMacOS, id)
+func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*ResourceSelfServiceBrandingDetail, error) {
+	var out ResourceSelfServiceBrandingDetail
+	endpoint := fmt.Sprintf("%s/%s", uriSelfServiceBrandingMacOS, id)
 
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 
@@ -56,7 +68,7 @@ func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*SelfServiceBrandin
 	}
 
 	if err != nil {
-		fmt.Printf("Failed to fetch self-service branding for macOS by ID: %v\n", err)
+		fmt.Printf(errMsgFailedGetByID, "self service branding", id, err)
 		return nil, err
 	}
 
@@ -64,29 +76,26 @@ func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*SelfServiceBrandin
 }
 
 // GetSelfServiceBrandingMacOSByNameByID retrieves a specific self-service branding configuration for macOS by its name.
-func (c *Client) GetSelfServiceBrandingMacOSByNameByID(name string) (*SelfServiceBrandingDetail, error) {
-	// First, get all branding configurations.
-	response, err := c.GetSelfServiceBrandingMacOS()
+func (c *Client) GetSelfServiceBrandingMacOSByName(name string) (*ResourceSelfServiceBrandingDetail, error) {
+	all_ssbrandings, err := c.GetSelfServiceBrandingMacOS("")
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch self-service branding for macOS: %v", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "self service brandings", err)
 	}
 
-	// Now, find the branding with the given name.
-	for _, branding := range response.Results {
-		if branding.BrandingName == name || branding.BrandingNameSecondary == name {
-			return &branding, nil
+	for _, value := range all_ssbrandings.Results {
+		if value.BrandingName == name {
+			return &value, nil
 		}
 	}
 
-	// If no branding is found with the given name, return an error.
-	return nil, fmt.Errorf("no self-service branding found with the name %s", name)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "self service branding", name, err)
 }
 
 // CreateSelfServiceBrandingMacOS creates a new self-service branding configuration for macOS.
-func (c *Client) CreateSelfServiceBrandingMacOS(branding *SelfServiceBrandingDetail) (*SelfServiceBrandingDetail, error) {
-	endpoint := uriAPISelfServiceBrandingMacOS
+func (c *Client) CreateSelfServiceBrandingMacOS(branding *ResourceSelfServiceBrandingDetail) (*ResourceSelfServiceBrandingDetail, error) {
+	endpoint := uriSelfServiceBrandingMacOS
 
-	var response SelfServiceBrandingDetail
+	var response ResourceSelfServiceBrandingDetail
 	resp, err := c.HTTP.DoRequest("POST", endpoint, branding, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create self-service branding: %v", err)
@@ -100,11 +109,11 @@ func (c *Client) CreateSelfServiceBrandingMacOS(branding *SelfServiceBrandingDet
 }
 
 // UpdateSelfServiceBrandingMacOSByID updates an existing self-service branding configuration for macOS.
-func (c *Client) UpdateSelfServiceBrandingMacOSByID(id string, branding *SelfServiceBrandingDetail) (*SelfServiceBrandingDetail, error) {
-	endpoint := fmt.Sprintf("%s/%s", uriAPISelfServiceBrandingMacOS, id)
+func (c *Client) UpdateSelfServiceBrandingMacOSByID(id string, brandingUpdate *ResourceSelfServiceBrandingDetail) (*ResourceSelfServiceBrandingDetail, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriSelfServiceBrandingMacOS, id)
 
-	var response SelfServiceBrandingDetail
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, branding, &response)
+	var response ResourceSelfServiceBrandingDetail
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, brandingUpdate, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update self-service branding: %v", err)
 	}
@@ -117,37 +126,29 @@ func (c *Client) UpdateSelfServiceBrandingMacOSByID(id string, branding *SelfSer
 }
 
 // UpdateSelfServiceBrandingMacOSByName updates a self-service branding configuration for macOS by name.
-func (c *Client) UpdateSelfServiceBrandingMacOSByName(name string, newBranding *SelfServiceBrandingDetail) (*SelfServiceBrandingDetail, error) {
-	// First, get all branding configurations.
-	response, err := c.GetSelfServiceBrandingMacOS()
+func (c *Client) UpdateSelfServiceBrandingMacOSByName(name string, brandingUpdate *ResourceSelfServiceBrandingDetail) (*ResourceSelfServiceBrandingDetail, error) {
+	target, err := c.GetSelfServiceBrandingMacOSByName(name)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch self-service branding for macOS: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "self service branding", name, err)
 	}
 
-	// Now, find the branding with the given name.
-	var existingBranding *SelfServiceBrandingDetail
-	for _, branding := range response.Results {
-		if branding.BrandingName == name || branding.BrandingNameSecondary == name {
-			existingBranding = &branding
-			break
-		}
+	target_id := target.ID
+	resp, err := c.UpdateSelfServiceBrandingMacOSByID(target_id, brandingUpdate)
+
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "self service branding", name, err)
 	}
 
-	if existingBranding == nil {
-		return nil, fmt.Errorf("no self-service branding found with the name %s", name)
-	}
-
-	// Call the update by ID function with the found ID and the new branding details
-	return c.UpdateSelfServiceBrandingMacOSByID(existingBranding.ID, newBranding)
+	return resp, nil
 }
 
 // DeleteSelfServiceBrandingMacOSByID deletes a self-service branding configuration for macOS by ID.
 func (c *Client) DeleteSelfServiceBrandingMacOSByID(id string) error {
-	endpoint := fmt.Sprintf("%s/%s", uriAPISelfServiceBrandingMacOS, id)
+	endpoint := fmt.Sprintf("%s/%s", uriSelfServiceBrandingMacOS, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete self-service branding: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "self service branding", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -159,17 +160,16 @@ func (c *Client) DeleteSelfServiceBrandingMacOSByID(id string) error {
 
 // DeleteSelfServiceBrandingMacOSByName deletes a self-service branding configuration for macOS by name.
 func (c *Client) DeleteSelfServiceBrandingMacOSByName(name string) error {
-	brandingList, err := c.GetSelfServiceBrandingMacOS()
+	target, err := c.GetSelfServiceBrandingMacOSByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to fetch all self-service branding configurations: %v", err)
+		return fmt.Errorf(errMsgFailedGetByName, "self service branding", name, err)
 	}
 
-	// Search for the branding with the given name
-	for _, branding := range brandingList.Results {
-		if branding.BrandingName == name || branding.BrandingNameSecondary == name {
-			return c.DeleteSelfServiceBrandingMacOSByID(branding.ID)
-		}
+	target_id := target.ID
+	err = c.DeleteSelfServiceBrandingMacOSByID(target_id)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "self service branding", name, err)
 	}
 
-	return fmt.Errorf("no self-service branding found with the name %s", name)
+	return nil
 }
