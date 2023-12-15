@@ -162,7 +162,7 @@ func (c *Client) UpdateBuildingByName(name string, buildingUpdate *ResourceBuild
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "building", name, err)
 	}
 
-	return resp, err
+	return resp, nil
 
 }
 

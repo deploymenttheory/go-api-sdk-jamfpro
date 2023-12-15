@@ -140,9 +140,7 @@ func (c *Client) UpdateScriptByID(id string, scriptUpdate *ResourceScript) (*Res
 
 // Leverages UpdateScriptByID and GetScripts to update script from provided ResourceScript
 func (c *Client) UpdateScriptByName(name string, scriptUpdate *ResourceScript) (*ResourceScript, error) {
-
 	target, err := c.GetScriptByName(name)
-
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "script", name, err)
 	}
