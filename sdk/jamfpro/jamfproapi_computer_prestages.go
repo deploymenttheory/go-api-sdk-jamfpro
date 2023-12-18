@@ -119,6 +119,12 @@ type ComputerPrestageSubsetAccountSettings struct {
 	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
 }
 
+// ResponseComputerPrestageCreate represents the response structure for creating a building.
+type ResponseComputerPrestageCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
 // GetComputerPrestagesV3 retrieves all computer prestage information with optional sorting.
 func (c *Client) GetComputerPrestages(sort_filter string) (*ResponseComputerPrestagesList, error) {
 	resp, err := c.DoPaginatedGet(
@@ -180,7 +186,7 @@ func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPresta
 }
 
 // CreateComputerPrestage creates a new computer prestage with the given details.
-func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*ResourceComputerPrestage, error) {
+func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*ResponseComputerPrestageCreate, error) {
 	endpoint := uriComputerPrestagesV3
 
 	var response ResourceComputerPrestage

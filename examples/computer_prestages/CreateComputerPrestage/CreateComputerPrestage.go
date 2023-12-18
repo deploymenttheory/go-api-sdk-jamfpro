@@ -57,10 +57,10 @@ func main() {
 			"email": "test@jamf.com",
 			"room": "room",
 			"position": "postion",
-			"departmentId": "1",
+			"departmentId": "-1",
 			"id": "-1",
 			"versionLock": 1,
-			"buildingId": "1",
+			"buildingId": "-1",
 			"username": "name",
 			"realname": "realName",
 			"phone": "123-456-7890"
