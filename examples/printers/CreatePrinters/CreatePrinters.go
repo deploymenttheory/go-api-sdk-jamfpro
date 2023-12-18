@@ -40,7 +40,7 @@ func main() {
 
 	// Printer details to create
 	newPrinter := &jamfpro.ResponsePrinters{
-		Name:        "HP 9th Floor",
+		Name:        "HP 9th Floor 2",
 		Category:    "",
 		URI:         "lpd://10.1.20.204/",
 		CUPSName:    "HP_9th_Floor",

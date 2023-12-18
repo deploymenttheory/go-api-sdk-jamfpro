@@ -42,7 +42,7 @@ func main() {
 	prestageID := "123" // Replace with the actual ID
 
 	// Fetch the device scope for the specified computer prestage
-	deviceScope, err := client.GetDeviceScopeForComputerPrestage(prestageID)
+	deviceScope, err := client.GetDeviceScopeForComputerPrestageByID(prestageID)
 	if err != nil {
 		log.Fatalf("Error fetching device scope for computer prestage: %v", err)
 	}

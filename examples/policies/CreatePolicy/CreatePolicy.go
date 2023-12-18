@@ -42,7 +42,7 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResponsePolicy{
 		General: jamfpro.PolicyGeneral{
-			Name:                       "firefox",
+			Name:                       "disk-encryption-sdk",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -81,7 +81,7 @@ func main() {
 		},
 		AccountMaintenance: jamfpro.PolicyAccountMaintenance{
 			ManagementAccount: jamfpro.PolicyManagementAccount{
-				Action:                "doNotChange",
+				Action:                "rotate",
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
@@ -118,13 +118,13 @@ func main() {
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		/*DiskEncryption: jamfpro.PolicyDiskEncryption{
-			Action:                        "none",
-			DiskEncryptionConfigurationID: 0,
-			AuthRestart:                   false,
+		DiskEncryption: jamfpro.PolicyDiskEncryption{
+			Action:                        "apply",
+			DiskEncryptionConfigurationID: 1,
+			AuthRestart:                   true,
 			//RemediateKeyType:                       "",
 			//RemediateDiskEncryptionConfigurationID: 0,
-		},*/
+		},
 		Reboot: jamfpro.PolicyReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",

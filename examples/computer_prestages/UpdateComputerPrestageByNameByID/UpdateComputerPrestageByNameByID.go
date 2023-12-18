@@ -45,7 +45,7 @@ func main() {
 	// Define the updated information for the computer prestage
 	// Here we are just creating a new instance for demonstration purposes.
 	// You would typically populate this struct with your updated data.
-	var update jamfpro.ComputerPrestagesItem
+	var update jamfpro.ResourceComputerPrestage
 	updateData := `{
 		"mandatory": true,
 		"mdmRemovable": true,
@@ -132,8 +132,8 @@ func main() {
 		log.Fatalf("Error unmarshaling update data: %v", err)
 	}
 
-	// Call UpdateComputerPrestageByID to update the prestage
-	updatedPrestage, err := client.UpdateComputerPrestageByNameByID(prestageName, &update)
+	// Call UpdateComputerPrestageByName to update the prestage
+	updatedPrestage, err := client.UpdateComputerPrestageByName(prestageName, &update)
 	if err != nil {
 		log.Fatalf("Error updating computer prestage: %v", err)
 	}
