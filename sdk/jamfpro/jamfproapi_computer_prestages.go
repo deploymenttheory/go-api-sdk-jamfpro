@@ -189,8 +189,8 @@ func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPresta
 func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*ResponseComputerPrestageCreate, error) {
 	endpoint := uriComputerPrestagesV3
 
-	var response ResourceComputerPrestage
-	resp, err := c.HTTP.DoRequest("POST", endpoint, prestage, &response)
+	var creationResponse ResponseComputerPrestageCreate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, prestage, &creationResponse)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer prestage", err)
 	}
@@ -199,7 +199,7 @@ func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*Re
 		defer resp.Body.Close()
 	}
 
-	return &response, nil
+	return &creationResponse, nil
 }
 
 // UpdateComputerPrestageByID updates a computer prestage by its ID.
