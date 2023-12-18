@@ -41,8 +41,8 @@ func main() {
 	// The name of the computer prestage you want to delete
 	prestageName := "YOUR_PRESTAGE_NAME_HERE"
 
-	// Call DeleteComputerPrestageByNameByID to delete the prestage by its name
-	err = client.DeleteComputerPrestageByNameByID(prestageName)
+	// Call DeleteComputerPrestageByName to delete the prestage by its name
+	err = client.DeleteComputerPrestageByName(prestageName)
 	if err != nil {
 		log.Fatalf("Error deleting computer prestage by name: %v", err)
 	}

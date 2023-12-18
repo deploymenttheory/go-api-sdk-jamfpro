@@ -264,7 +264,7 @@ func (c *Client) DeleteComputerPrestageByName(name string) error {
 }
 
 // GetDeviceScopeForComputerPrestage retrieves the device scope for a specific computer prestage by its ID.
-func (c *Client) GetDeviceScopeForComputerPrestageById(id string) (*ResponseDeviceScope, error) {
+func (c *Client) GetDeviceScopeForComputerPrestageByID(id string) (*ResponseDeviceScope, error) {
 	endpoint := fmt.Sprintf("%s/%s/scope", uriComputerPrestagesV2, id)
 
 	var deviceScope ResponseDeviceScope

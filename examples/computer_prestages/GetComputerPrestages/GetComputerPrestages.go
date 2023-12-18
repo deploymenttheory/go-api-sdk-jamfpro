@@ -39,10 +39,10 @@ func main() {
 	}
 
 	// Define sorting parameters
-	sort := []string{""} // Example: sort by name
+	sortFilter := "name" // Example: "name" for sorting by name
 
 	// Fetch computer prestages using the V3 API
-	prestages, err := client.GetComputerPrestagesV3(sort)
+	prestages, err := client.GetComputerPrestages(sortFilter)
 	if err != nil {
 		log.Fatalf("Error fetching computer prestages: %v", err)
 	}

@@ -45,7 +45,7 @@ func main() {
 	// Define the updated information for the computer prestage
 	// Here we are just creating a new instance for demonstration purposes.
 	// You would typically populate this struct with your updated data.
-	var update jamfpro.ComputerPrestagesItem
+	var update jamfpro.ResourceComputerPrestage
 	updateData := `{
 		"mandatory": true,
 		"mdmRemovable": true,
