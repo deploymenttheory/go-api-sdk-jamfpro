@@ -15,14 +15,13 @@ const uriDepartments = "/JSSResource/departments"
 // Response structure for the list of departments
 
 type ResponseDepartmentsList struct {
-	TotalCount int                  `xml:"size"`
-	Results    []DepartmentListItem `xml:"department"`
+	TotalCount int `xml:"size"`
+	Results    []struct {
+		Id   int    `xml:"id,omitempty" json:"id,omitempty"`
+		Name string `xml:"name" json:"name"`
+	} `xml:"department"`
 }
 
-type DepartmentListItem struct {
-	Id   int    `xml:"id,omitempty" json:"id,omitempty"`
-	Name string `xml:"name" json:"name"`
-}
 type ResourceDepartment struct {
 	ID   int    `xml:"id,omitempty" json:"id,omitempty"`
 	Name string `xml:"name" json:"name"`

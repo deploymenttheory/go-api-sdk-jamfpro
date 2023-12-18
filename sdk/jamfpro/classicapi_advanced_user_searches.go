@@ -14,62 +14,48 @@ const uriAPIAdvancedUserSearches = "/JSSResource/advancedusersearches"
 
 // Response structure for the list of advanced user searches
 type ResponseAdvancedUserSearchesList struct {
-	Size               int                                  `xml:"size"`
-	AdvancedUserSearch []AdvancedUserSearchListSubsetDetail `xml:"advanced_user_search"`
-}
-
-type AdvancedUserSearchListSubsetDetail struct {
-	XMLName xml.Name `xml:"advanced_user_search"`
-	ID      int      `xml:"id"`
-	Name    string   `xml:"name"`
+	Size               int `xml:"size"`
+	AdvancedUserSearch []struct {
+		XMLName xml.Name `xml:"advanced_user_search"`
+		ID      int      `xml:"id"`
+		Name    string   `xml:"name"`
+	} `xml:"advanced_user_search"`
 }
 
 // Structs for Advanced User Search details by ID
 type ResourceAdvancedUserSearch struct {
-	ID            int                                        `xml:"id"`
-	Name          string                                     `xml:"name"`
-	Criteria      []AdvancedUserSearchSubsetCriteria         `xml:"criteria"`
-	Users         []AdvancedUserSearchSubsetSiteUsers        `xml:"users"`
-	DisplayFields []AdvancedUserSearchSubsetSiteDisplayField `xml:"display_fields"`
-	Site          AdvancedUserSearchSubsetSite               `xml:"site"`
-}
-
-type AdvancedUserSearchSubsetCriteria struct {
-	Size      int                               `xml:"size"`
-	Criterion AdvancedUserSearchSubsetCriterion `xml:"criterion"`
-}
-
-type AdvancedUserSearchSubsetCriterion struct {
-	Name         string `xml:"name"`
-	Priority     int    `xml:"priority"`
-	AndOr        string `xml:"and_or"`
-	SearchType   string `xml:"search_type"`
-	Value        string `xml:"value"`
-	OpeningParen bool   `xml:"opening_paren"`
-	ClosingParen bool   `xml:"closing_paren"`
-}
-
-type AdvancedUserSearchSubsetSiteUsers struct {
-	Size int                              `xml:"size"`
-	User AdvancedUserSearchSiteUserDetail `xml:"user"`
-}
-
-type AdvancedUserSearchSiteUserDetail struct {
-	ID       int    `xml:"id,omitempty"`
-	Name     string `xml:"name,omitempty"`
-	Username string `xml:"Username,omitempty"`
-}
-
-type AdvancedUserSearchSubsetSiteDisplayField struct {
-	Size         int `xml:"size"`
-	DisplayField struct {
+	ID       int    `xml:"id"`
+	Name     string `xml:"name"`
+	Criteria []struct {
+		Size      int `xml:"size"`
+		Criterion struct {
+			Name         string `xml:"name"`
+			Priority     int    `xml:"priority"`
+			AndOr        string `xml:"and_or"`
+			SearchType   string `xml:"search_type"`
+			Value        string `xml:"value"`
+			OpeningParen bool   `xml:"opening_paren"`
+			ClosingParen bool   `xml:"closing_paren"`
+		} `xml:"criterion"`
+	} `xml:"criteria"`
+	Users []struct {
+		Size int `xml:"size"`
+		User struct {
+			ID       int    `xml:"id,omitempty"`
+			Name     string `xml:"name,omitempty"`
+			Username string `xml:"Username,omitempty"`
+		} `xml:"user"`
+	} `xml:"users"`
+	DisplayFields []struct {
+		Size         int `xml:"size"`
+		DisplayField struct {
+			Name string `xml:"name"`
+		} `xml:"display_field"`
+	} `xml:"display_fields"`
+	Site struct {
+		ID   int    `xml:"id"`
 		Name string `xml:"name"`
-	} `xml:"display_field"`
-}
-
-type AdvancedUserSearchSubsetSite struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	} `xml:"site"`
 }
 
 // GetAdvancedUserSearches retrieves all advanced user searches

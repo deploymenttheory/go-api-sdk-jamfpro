@@ -15,68 +15,54 @@ const uriVPPAssignments = "/JSSResource/vppassignments"
 
 // Struct for the list of VPP assignments
 type ResponseVPPAssignmentsList struct {
-	VPPAssignments []VPPAssignment `xml:"vpp_assignment"`
-}
-
-// Struct for a single VPP assignment
-type VPPAssignment struct {
-	ID                int    `xml:"id"`
-	VPPAdminAccountID int    `xml:"vpp_admin_account_id"`
-	Name              string `xml:"name"`
+	VPPAssignments []struct {
+		ID                int    `xml:"id"`
+		VPPAdminAccountID int    `xml:"vpp_admin_account_id"`
+		Name              string `xml:"name"`
+	} `xml:"vpp_assignment"`
 }
 
 // Structs for the detailed VPP assignment response
-type ResponseVPPAssignment struct {
-	General VPPAssignmentGeneral `xml:"general"`
-	IOSApps []VPPApp             `xml:"ios_apps>ios_app"`
-	MacApps []VPPApp             `xml:"mac_apps>mac_app"`
-	EBooks  []VPPApp             `xml:"ebooks>ebook"`
-	Scope   VPPAssignmentScope   `xml:"scope"`
+type ResourceVPPAssignment struct {
+	General struct {
+		ID                  int    `xml:"id"`
+		Name                string `xml:"name"`
+		VPPAdminAccountID   int    `xml:"vpp_admin_account_id"`
+		VPPAdminAccountName string `xml:"vpp_admin_account_name"`
+	} `xml:"general"`
+	IOSApps []ResourceVPPSubsetVPPApp `xml:"ios_apps>ios_app"`
+	MacApps []ResourceVPPSubsetVPPApp `xml:"mac_apps>mac_app"`
+	EBooks  []ResourceVPPSubsetVPPApp `xml:"ebooks>ebook"`
+	Scope   struct {
+		AllJSSUsers   bool                            `xml:"all_jss_users"`
+		JSSUsers      []ResourceVPPSubsetVPPUser      `xml:"jss_users>user"`
+		JSSUserGroups []ResourceVPPSubsetVPPUserGroup `xml:"jss_user_groups>user_group"`
+		Limitations   struct {
+			UserGroups []ResourceVPPSubsetVPPUserGroup `xml:"user_groups>user_group"`
+		} `xml:"limitations"`
+		Exclusions struct {
+			JSSUsers      []ResourceVPPSubsetVPPUser      `xml:"jss_users>user"`
+			UserGroups    []ResourceVPPSubsetVPPUserGroup `xml:"user_groups>user_group"`
+			JSSUserGroups []ResourceVPPSubsetVPPUserGroup `xml:"jss_user_groups>user_group"`
+		} `xml:"exclusions"`
+	} `xml:"scope"`
 }
 
-type VPPAssignmentGeneral struct {
-	ID                  int    `xml:"id"`
-	Name                string `xml:"name"`
-	VPPAdminAccountID   int    `xml:"vpp_admin_account_id"`
-	VPPAdminAccountName string `xml:"vpp_admin_account_name"`
-}
-
-type VPPApp struct {
+type ResourceVPPSubsetVPPApp struct {
 	AdamID int    `xml:"adam_id"`
 	Name   string `xml:"name"`
 }
 
-// Struct for VPP assignment scope
-type VPPAssignmentScope struct {
-	AllJSSUsers   bool           `xml:"all_jss_users"`
-	JSSUsers      []VPPUser      `xml:"jss_users>user"`
-	JSSUserGroups []VPPUserGroup `xml:"jss_user_groups>user_group"`
-	Limitations   VPPLimitations `xml:"limitations"`
-	Exclusions    VPPExclusions  `xml:"exclusions"`
-}
-
 // Struct for VPP user
-type VPPUser struct {
+type ResourceVPPSubsetVPPUser struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // Struct for VPP user group
-type VPPUserGroup struct {
+type ResourceVPPSubsetVPPUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
-}
-
-// Struct for VPP limitations
-type VPPLimitations struct {
-	UserGroups []VPPUserGroup `xml:"user_groups>user_group"`
-}
-
-// Struct for VPP exclusions
-type VPPExclusions struct {
-	JSSUsers      []VPPUser      `xml:"jss_users>user"`
-	UserGroups    []VPPUserGroup `xml:"user_groups>user_group"`
-	JSSUserGroups []VPPUserGroup `xml:"jss_user_groups>user_group"`
 }
 
 // GetVPPAssignments fetches a list of VPP assignments
@@ -97,10 +83,10 @@ func (c *Client) GetVPPAssignments() (*ResponseVPPAssignmentsList, error) {
 }
 
 // GetVPPAssignmentByID fetches a VPP assignment by its ID
-func (c *Client) GetVPPAssignmentByID(id int) (*ResponseVPPAssignment, error) {
+func (c *Client) GetVPPAssignmentByID(id int) (*ResourceVPPAssignment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
 
-	var assignment ResponseVPPAssignment
+	var assignment ResourceVPPAssignment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch VPP assignment by ID: %v", err)
@@ -114,15 +100,15 @@ func (c *Client) GetVPPAssignmentByID(id int) (*ResponseVPPAssignment, error) {
 }
 
 // CreateVPPAssignment creates a new VPP assignment
-func (c *Client) CreateVPPAssignment(assignment *ResponseVPPAssignment) error {
+func (c *Client) CreateVPPAssignment(assignment *ResourceVPPAssignment) error {
 	endpoint := fmt.Sprintf("%s/id/0", uriVPPAssignments) // '0' indicates creation
 
 	// Wrap the assignment with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_assignment"`
-		*ResponseVPPAssignment
+		*ResourceVPPAssignment
 	}{
-		ResponseVPPAssignment: assignment,
+		ResourceVPPAssignment: assignment,
 	}
 
 	// Create a dummy struct for the response
@@ -141,15 +127,15 @@ func (c *Client) CreateVPPAssignment(assignment *ResponseVPPAssignment) error {
 }
 
 // UpdateVPPAssignmentByID updates a VPP assignment by its ID
-func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResponseVPPAssignment) error {
+func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignment) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
 
 	// Wrap the assignment with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_assignment"`
-		*ResponseVPPAssignment
+		*ResourceVPPAssignment
 	}{
-		ResponseVPPAssignment: assignment,
+		ResourceVPPAssignment: assignment,
 	}
 
 	// Create a dummy struct for the response

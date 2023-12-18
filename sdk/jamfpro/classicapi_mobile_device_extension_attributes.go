@@ -14,29 +14,23 @@ const uriMobileDeviceExtensionAttributes = "/JSSResource/mobiledeviceextensionat
 
 // ResponseMobileDeviceExtensionAttributesList represents the response for a list of mobile device extension attributes.
 type ResponseMobileDeviceExtensionAttributesList struct {
-	Size                           int                                  `xml:"size"`
-	MobileDeviceExtensionAttribute []MobileDeviceExtensionAttributeItem `xml:"mobile_device_extension_attribute"`
+	Size                           int `xml:"size"`
+	MobileDeviceExtensionAttribute []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"mobile_device_extension_attribute"`
 }
 
-// MobileDeviceExtensionAttributeItem represents a single mobile device extension attribute item.
-type MobileDeviceExtensionAttributeItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// ResponseMobileExtensionAttributes represents the response structure for a mobile extension attribute.
-type ResponseMobileExtensionAttributes struct {
-	ID               int                               `xml:"id"`
-	Name             string                            `xml:"name"`
-	Description      string                            `xml:"description,omitempty"`
-	DataType         string                            `xml:"data_type,omitempty"`
-	InputType        MobileExtensionAttributeInputType `xml:"input_type,omitempty"`
-	InventoryDisplay string                            `xml:"inventory_display,omitempty"`
-}
-
-// MobileExtensionAttributeInputType represents the input type of the mobile extension attribute.
-type MobileExtensionAttributeInputType struct {
-	Type string `xml:"type,omitempty"`
+// ResourceMobileExtensionAttributes represents the response structure for a mobile extension attribute.
+type ResourceMobileExtensionAttributes struct {
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	Description string `xml:"description,omitempty"`
+	DataType    string `xml:"data_type,omitempty"`
+	InputType   struct {
+		Type string `xml:"type,omitempty"`
+	} `xml:"input_type,omitempty"`
+	InventoryDisplay string `xml:"inventory_display,omitempty"`
 }
 
 // GetMobileExtensionAttributes retrieves a serialized list of mobile device extension attributes.
@@ -57,10 +51,10 @@ func (c *Client) GetMobileExtensionAttributes() (*ResponseMobileDeviceExtensionA
 }
 
 // GetMobileExtensionAttributeByID fetches a specific mobile extension attribute by its ID.
-func (c *Client) GetMobileExtensionAttributeByID(id int) (*ResponseMobileExtensionAttributes, error) {
+func (c *Client) GetMobileExtensionAttributeByID(id int) (*ResourceMobileExtensionAttributes, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
 
-	var attribute ResponseMobileExtensionAttributes
+	var attribute ResourceMobileExtensionAttributes
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile extension attribute by ID: %v", err)
@@ -74,10 +68,10 @@ func (c *Client) GetMobileExtensionAttributeByID(id int) (*ResponseMobileExtensi
 }
 
 // GetMobileExtensionAttributeByName fetches a specific mobile extension attribute by its name.
-func (c *Client) GetMobileExtensionAttributeByName(name string) (*ResponseMobileExtensionAttributes, error) {
+func (c *Client) GetMobileExtensionAttributeByName(name string) (*ResourceMobileExtensionAttributes, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceExtensionAttributes, name)
 
-	var attribute ResponseMobileExtensionAttributes
+	var attribute ResourceMobileExtensionAttributes
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile extension attribute by name: %v", err)
@@ -91,18 +85,18 @@ func (c *Client) GetMobileExtensionAttributeByName(name string) (*ResponseMobile
 }
 
 // CreateMobileExtensionAttribute creates a new mobile device extension attribute.
-func (c *Client) CreateMobileExtensionAttribute(attribute *ResponseMobileExtensionAttributes) (*ResponseMobileExtensionAttributes, error) {
+func (c *Client) CreateMobileExtensionAttribute(attribute *ResourceMobileExtensionAttributes) (*ResourceMobileExtensionAttributes, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceExtensionAttributes)
 
 	// Wrap the attribute with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_extension_attribute"`
-		*ResponseMobileExtensionAttributes
+		*ResourceMobileExtensionAttributes
 	}{
-		ResponseMobileExtensionAttributes: attribute,
+		ResourceMobileExtensionAttributes: attribute,
 	}
 
-	var responseAttribute ResponseMobileExtensionAttributes
+	var responseAttribute ResourceMobileExtensionAttributes
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create mobile device extension attribute: %v", err)
@@ -116,17 +110,17 @@ func (c *Client) CreateMobileExtensionAttribute(attribute *ResponseMobileExtensi
 }
 
 // UpdateMobileExtensionAttributeByID updates a mobile extension attribute by its ID.
-func (c *Client) UpdateMobileExtensionAttributeByID(id int, attribute *ResponseMobileExtensionAttributes) (*ResponseMobileExtensionAttributes, error) {
+func (c *Client) UpdateMobileExtensionAttributeByID(id int, attribute *ResourceMobileExtensionAttributes) (*ResourceMobileExtensionAttributes, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_extension_attribute"`
-		*ResponseMobileExtensionAttributes
+		*ResourceMobileExtensionAttributes
 	}{
-		ResponseMobileExtensionAttributes: attribute,
+		ResourceMobileExtensionAttributes: attribute,
 	}
 
-	var responseAttribute ResponseMobileExtensionAttributes
+	var responseAttribute ResourceMobileExtensionAttributes
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile extension attribute by ID: %v", err)
@@ -140,17 +134,17 @@ func (c *Client) UpdateMobileExtensionAttributeByID(id int, attribute *ResponseM
 }
 
 // UpdateMobileExtensionAttributeByName updates a mobile extension attribute by its name.
-func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *ResponseMobileExtensionAttributes) (*ResponseMobileExtensionAttributes, error) {
+func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *ResourceMobileExtensionAttributes) (*ResourceMobileExtensionAttributes, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceExtensionAttributes, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_extension_attribute"`
-		*ResponseMobileExtensionAttributes
+		*ResourceMobileExtensionAttributes
 	}{
-		ResponseMobileExtensionAttributes: attribute,
+		ResourceMobileExtensionAttributes: attribute,
 	}
 
-	var responseAttribute ResponseMobileExtensionAttributes
+	var responseAttribute ResourceMobileExtensionAttributes
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile extension attribute by name: %v", err)

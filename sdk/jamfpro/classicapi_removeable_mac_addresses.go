@@ -14,17 +14,11 @@ const uriRemovableMacAddresses = "/JSSResource/removablemacaddresses"
 
 // Structs for Removable MAC Addresses List
 type ResponseRemovableMacAddressesList struct {
-	Size         int                   `xml:"size"`
-	RemovableMac []RemovableMacAddress `xml:"removable_mac_address"`
+	Size         int                           `xml:"size"`
+	RemovableMac []ResourceRemovableMacAddress `xml:"removable_mac_address"`
 }
 
-type RemovableMacAddress struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// Struct for individual Removable MAC Address
-type ResponseRemovableMACAddress struct {
+type ResourceRemovableMacAddress struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -47,10 +41,10 @@ func (c *Client) GetRemovableMACAddresses() (*ResponseRemovableMacAddressesList,
 }
 
 // GetRemovableMACAddressByID retrieves the details of a removable MAC address by its ID.
-func (c *Client) GetRemovableMACAddressByID(id int) (*ResponseRemovableMACAddress, error) {
+func (c *Client) GetRemovableMACAddressByID(id int) (*ResourceRemovableMacAddress, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
 
-	var macAddressDetails ResponseRemovableMACAddress
+	var macAddressDetails ResourceRemovableMacAddress
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch removable MAC address by ID: %v", err)
@@ -64,10 +58,10 @@ func (c *Client) GetRemovableMACAddressByID(id int) (*ResponseRemovableMACAddres
 }
 
 // GetRemovableMACAddressByName retrieves the details of a removable MAC address by its name.
-func (c *Client) GetRemovableMACAddressByName(name string) (*ResponseRemovableMACAddress, error) {
+func (c *Client) GetRemovableMACAddressByName(name string) (*ResourceRemovableMacAddress, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRemovableMacAddresses, name)
 
-	var macAddressDetails ResponseRemovableMACAddress
+	var macAddressDetails ResourceRemovableMacAddress
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch removable MAC address by name: %v", err)
@@ -81,18 +75,18 @@ func (c *Client) GetRemovableMACAddressByName(name string) (*ResponseRemovableMA
 }
 
 // CreateRemovableMACAddress creates a new removable MAC address.
-func (c *Client) CreateRemovableMACAddress(macAddress *RemovableMacAddress) (*RemovableMacAddress, error) {
+func (c *Client) CreateRemovableMACAddress(macAddress *ResourceRemovableMacAddress) (*ResourceRemovableMacAddress, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, macAddress.ID)
 
 	// Wrap the removable MAC address with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"removable_mac_address"`
-		*RemovableMacAddress
+		*ResourceRemovableMacAddress
 	}{
-		RemovableMacAddress: macAddress,
+		ResourceRemovableMacAddress: macAddress,
 	}
 
-	var responseMacAddress RemovableMacAddress
+	var responseMacAddress ResourceRemovableMacAddress
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseMacAddress)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create removable MAC address: %v", err)
@@ -106,17 +100,17 @@ func (c *Client) CreateRemovableMACAddress(macAddress *RemovableMacAddress) (*Re
 }
 
 // UpdateRemovableMACAddressByID updates an existing removable MAC address by its ID.
-func (c *Client) UpdateRemovableMACAddressByID(id int, macAddress *RemovableMacAddress) (*RemovableMacAddress, error) {
+func (c *Client) UpdateRemovableMACAddressByID(id int, macAddress *ResourceRemovableMacAddress) (*ResourceRemovableMacAddress, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"removable_mac_address"`
-		*RemovableMacAddress
+		*ResourceRemovableMacAddress
 	}{
-		RemovableMacAddress: macAddress,
+		ResourceRemovableMacAddress: macAddress,
 	}
 
-	var responseMacAddress RemovableMacAddress
+	var responseMacAddress ResourceRemovableMacAddress
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseMacAddress)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update removable MAC address by ID: %v", err)
@@ -130,17 +124,17 @@ func (c *Client) UpdateRemovableMACAddressByID(id int, macAddress *RemovableMacA
 }
 
 // UpdateRemovableMACAddressByName updates an existing removable MAC address by its name.
-func (c *Client) UpdateRemovableMACAddressByName(name string, macAddress *RemovableMacAddress) (*RemovableMacAddress, error) {
+func (c *Client) UpdateRemovableMACAddressByName(name string, macAddress *ResourceRemovableMacAddress) (*ResourceRemovableMacAddress, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRemovableMacAddresses, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"removable_mac_address"`
-		*RemovableMacAddress
+		*ResourceRemovableMacAddress
 	}{
-		RemovableMacAddress: macAddress,
+		ResourceRemovableMacAddress: macAddress,
 	}
 
-	var responseMacAddress RemovableMacAddress
+	var responseMacAddress ResourceRemovableMacAddress
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseMacAddress)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update removable MAC address by name: %v", err)

@@ -14,32 +14,28 @@ const uriComputerExtensionAttributes = "/JSSResource/computerextensionattributes
 // Structs for the computer extension attributes
 
 type ResponseComputerExtensionAttributesList struct {
-	Size    int                                  `xml:"size"`
-	Results []ComputerExtensionAttributeListItem `xml:"computer_extension_attribute"`
-}
-
-type ComputerExtensionAttributeListItem struct {
-	ID      int    `xml:"id,omitempty"`
-	Name    string `xml:"name,omitempty"`
-	Enabled bool   `xml:"enabled,omitempty"`
+	Size    int `xml:"size"`
+	Results []struct {
+		ID      int    `xml:"id,omitempty"`
+		Name    string `xml:"name,omitempty"`
+		Enabled bool   `xml:"enabled,omitempty"`
+	} `xml:"computer_extension_attribute"`
 }
 
 type ResourceComputerExtensionAttribute struct {
-	ID               int                                       `xml:"id"`
-	Name             string                                    `xml:"name"`
-	Enabled          bool                                      `xml:"enabled,omitempty"`
-	Description      string                                    `xml:"description,omitempty"`
-	DataType         string                                    `xml:"data_type,omitempty"`
-	InputType        ComputerExtensionAttributeSubsetInputType `xml:"input_type"`
-	InventoryDisplay string                                    `xml:"inventory_display,omitempty"`
-	ReconDisplay     string                                    `xml:"recon_display,omitempty"`
-}
-
-type ComputerExtensionAttributeSubsetInputType struct {
-	Type     string   `xml:"type"`
-	Platform string   `xml:"platform,omitempty"`
-	Script   string   `xml:"script,omitempty"`
-	Choices  []string `xml:"popup_choices>choice,omitempty"`
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	Enabled     bool   `xml:"enabled,omitempty"`
+	Description string `xml:"description,omitempty"`
+	DataType    string `xml:"data_type,omitempty"`
+	InputType   struct {
+		Type     string   `xml:"type"`
+		Platform string   `xml:"platform,omitempty"`
+		Script   string   `xml:"script,omitempty"`
+		Choices  []string `xml:"popup_choices>choice,omitempty"`
+	} `xml:"input_type"`
+	InventoryDisplay string `xml:"inventory_display,omitempty"`
+	ReconDisplay     string `xml:"recon_display,omitempty"`
 }
 
 // GetComputerExtensionAttributes gets a list of all computer extension attributes

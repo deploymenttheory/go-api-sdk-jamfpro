@@ -15,13 +15,11 @@ const uriDirectoryBindings = "/JSSResource/directorybindings"
 
 // Struct to capture the XML response for directory bindings
 type ResponseDirectoryBindingsList struct {
-	Size             int                      `xml:"size"`
-	DirectoryBinding []DirectoryBindingDetail `xml:"directory_binding"`
-}
-
-type DirectoryBindingDetail struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size             int `xml:"size"`
+	DirectoryBinding []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"directory_binding"`
 }
 
 // Struct to capture the XML response for a single directory binding

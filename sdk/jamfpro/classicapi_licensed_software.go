@@ -14,98 +14,76 @@ const uriLicensedSoftware = "/JSSResource/licensedsoftware"
 
 // ResponseLicensedSoftwareList represents the response for a list of licensed software.
 type ResponseLicensedSoftwareList struct {
-	LicensedSoftware []LicensedSoftwareItem `xml:"licensed_software"`
+	LicensedSoftware []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"licensed_software"`
 }
 
-// LicensedSoftwareItem represents a single licensed software item.
-type LicensedSoftwareItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// ResponseLicensedSoftware represents the structure of a single licensed software item.
-type ResponseLicensedSoftware struct {
-	General             LicensedSoftwareGeneral            `xml:"general"`
-	SoftwareDefinitions []SoftwareDefinition               `xml:"software_definitions>definition"`
-	FontDefinitions     []LicensedSoftwareFontDefinition   `xml:"font_definitions>definition"`
-	PluginDefinitions   []LicensedSoftwarePluginDefinition `xml:"plugin_definitions>definition"`
-	Licenses            []LicensedSoftwareLicense          `xml:"licenses>license"`
-}
-
-type LicensedSoftwareGeneral struct {
-	ID                                 int                  `xml:"id"`
-	Name                               string               `xml:"name"`
-	Publisher                          string               `xml:"publisher"`
-	Platform                           string               `xml:"platform"`
-	SendEmailOnViolation               bool                 `xml:"send_email_on_violation"`
-	RemoveTitlesFromInventoryReports   bool                 `xml:"remove_titles_from_inventory_reports"`
-	ExcludeTitlesPurchasedFromAppStore bool                 `xml:"exclude_titles_purchased_from_app_store"`
-	Notes                              string               `xml:"notes"`
-	Site                               LicensedSoftwareSite `xml:"site"`
-}
-
-type SoftwareDefinition struct {
-	CompareType string `xml:"compare_type"`
-	Name        string `xml:"name"`
-	Version     int    `xml:"version"`
-}
-
-type LicensedSoftwareFontDefinition struct {
-	CompareType string `xml:"compare_type"`
-	Name        string `xml:"name"`
-	Version     int    `xml:"version"`
-}
-
-type LicensedSoftwarePluginDefinition struct {
-	CompareType string `xml:"compare_type"`
-	Name        string `xml:"name"`
-	Version     int    `xml:"version"`
-}
-
-type LicensedSoftwareLicense struct {
-	Size    int           `xml:"size"`
-	License LicenseDetail `xml:"license"`
-}
-
-type LicenseDetail struct {
-	SerialNumber1    string                       `xml:"serial_number_1"`
-	SerialNumber2    string                       `xml:"serial_number_2"`
-	OrganizationName string                       `xml:"organization_name"`
-	RegisteredTo     string                       `xml:"registered_to"`
-	LicenseType      string                       `xml:"license_type"`
-	LicenseCount     int                          `xml:"license_count"`
-	Notes            string                       `xml:"notes"`
-	Purchasing       PurchasingDetail             `xml:"purchasing"`
-	Attachments      []LicensedSoftwareAttachment `xml:"attachments>attachment"`
-}
-
-type PurchasingDetail struct {
-	IsPerpetual         bool   `xml:"is_perpetual"`
-	IsAnnual            bool   `xml:"is_annual"`
-	PONumber            string `xml:"po_number"`
-	Vendor              string `xml:"vendor"`
-	PurchasePrice       string `xml:"purchase_price"`
-	PurchasingAccount   string `xml:"purchasing_account"`
-	PODate              string `xml:"po_date"`
-	PODateEpoch         int64  `xml:"po_date_epoch"`
-	PODateUTC           string `xml:"po_date_utc"`
-	LicenseExpires      string `xml:"license_expires"`
-	LicenseExpiresEpoch int64  `xml:"license_expires_epoch"`
-	LicenseExpiresUTC   string `xml:"license_expires_utc"`
-	LifeExpectancy      int    `xml:"life_expectancy"`
-	PurchasingContact   string `xml:"purchasing_contact"`
-	// Other relevant fields
-}
-
-type LicensedSoftwareAttachment struct {
-	ID       int    `xml:"id"`
-	Filename string `xml:"filename"`
-	URI      string `xml:"uri"`
-}
-
-type LicensedSoftwareSite struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+// ResourceLicensedSoftware represents the structure of a single licensed software item.
+type ResourceLicensedSoftware struct {
+	General struct {
+		ID                                 int    `xml:"id"`
+		Name                               string `xml:"name"`
+		Publisher                          string `xml:"publisher"`
+		Platform                           string `xml:"platform"`
+		SendEmailOnViolation               bool   `xml:"send_email_on_violation"`
+		RemoveTitlesFromInventoryReports   bool   `xml:"remove_titles_from_inventory_reports"`
+		ExcludeTitlesPurchasedFromAppStore bool   `xml:"exclude_titles_purchased_from_app_store"`
+		Notes                              string `xml:"notes"`
+		Site                               struct {
+			ID   int    `xml:"id"`
+			Name string `xml:"name"`
+		} `xml:"site"`
+	} `xml:"general"`
+	SoftwareDefinitions []struct {
+		CompareType string `xml:"compare_type"`
+		Name        string `xml:"name"`
+		Version     int    `xml:"version"`
+	} `xml:"software_definitions>definition"`
+	FontDefinitions []struct {
+		CompareType string `xml:"compare_type"`
+		Name        string `xml:"name"`
+		Version     int    `xml:"version"`
+	} `xml:"font_definitions>definition"`
+	PluginDefinitions []struct {
+		CompareType string `xml:"compare_type"`
+		Name        string `xml:"name"`
+		Version     int    `xml:"version"`
+	} `xml:"plugin_definitions>definition"`
+	Licenses []struct {
+		Size    int `xml:"size"`
+		License struct {
+			SerialNumber1    string `xml:"serial_number_1"`
+			SerialNumber2    string `xml:"serial_number_2"`
+			OrganizationName string `xml:"organization_name"`
+			RegisteredTo     string `xml:"registered_to"`
+			LicenseType      string `xml:"license_type"`
+			LicenseCount     int    `xml:"license_count"`
+			Notes            string `xml:"notes"`
+			Purchasing       struct {
+				IsPerpetual         bool   `xml:"is_perpetual"`
+				IsAnnual            bool   `xml:"is_annual"`
+				PONumber            string `xml:"po_number"`
+				Vendor              string `xml:"vendor"`
+				PurchasePrice       string `xml:"purchase_price"`
+				PurchasingAccount   string `xml:"purchasing_account"`
+				PODate              string `xml:"po_date"`
+				PODateEpoch         int64  `xml:"po_date_epoch"`
+				PODateUTC           string `xml:"po_date_utc"`
+				LicenseExpires      string `xml:"license_expires"`
+				LicenseExpiresEpoch int64  `xml:"license_expires_epoch"`
+				LicenseExpiresUTC   string `xml:"license_expires_utc"`
+				LifeExpectancy      int    `xml:"life_expectancy"`
+				PurchasingContact   string `xml:"purchasing_contact"`
+			} `xml:"purchasing"`
+			Attachments []struct {
+				ID       int    `xml:"id"`
+				Filename string `xml:"filename"`
+				URI      string `xml:"uri"`
+			} `xml:"attachments>attachment"`
+		} `xml:"license"`
+	} `xml:"licenses>license"`
 }
 
 // GetLicensedSoftware retrieves a serialized list of licensed software.
@@ -126,10 +104,10 @@ func (c *Client) GetLicensedSoftware() (*ResponseLicensedSoftwareList, error) {
 }
 
 // GetLicensedSoftwareByID retrieves details of a specific licensed software by its ID.
-func (c *Client) GetLicensedSoftwareByID(id int) (*ResponseLicensedSoftware, error) {
+func (c *Client) GetLicensedSoftwareByID(id int) (*ResourceLicensedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
 
-	var licensedSoftware ResponseLicensedSoftware
+	var licensedSoftware ResourceLicensedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch licensed software by ID: %v", err)
@@ -143,10 +121,10 @@ func (c *Client) GetLicensedSoftwareByID(id int) (*ResponseLicensedSoftware, err
 }
 
 // GetLicensedSoftwareByName retrieves details of a specific licensed software by its name.
-func (c *Client) GetLicensedSoftwareByName(name string) (*ResponseLicensedSoftware, error) {
+func (c *Client) GetLicensedSoftwareByName(name string) (*ResourceLicensedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriLicensedSoftware, name)
 
-	var licensedSoftware ResponseLicensedSoftware
+	var licensedSoftware ResourceLicensedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch licensed software by name: %v", err)
@@ -160,27 +138,25 @@ func (c *Client) GetLicensedSoftwareByName(name string) (*ResponseLicensedSoftwa
 }
 
 // CreateLicensedSoftware creates a new licensed software item in Jamf Pro.
-func (c *Client) CreateLicensedSoftware(licensedSoftware *ResponseLicensedSoftware) (*ResponseLicensedSoftware, error) {
+func (c *Client) CreateLicensedSoftware(licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriLicensedSoftware) // '0' typically used for creation in APIs
 
 	// Set default values for site if not included within request
 	if licensedSoftware.General.Site.ID == 0 && licensedSoftware.General.Site.Name == "" {
-		licensedSoftware.General.Site = LicensedSoftwareSite{
-			ID:   -1,
-			Name: "None",
-		}
+		licensedSoftware.General.Site.ID = -1
+		licensedSoftware.General.Site.Name = "none"
 	}
 
 	// Wrap licensedSoftware in an anonymous struct to match the expected XML structure
 	requestBody := struct {
 		XMLName xml.Name `xml:"licensed_software"`
-		*ResponseLicensedSoftware
+		*ResourceLicensedSoftware
 	}{
-		ResponseLicensedSoftware: licensedSoftware,
+		ResourceLicensedSoftware: licensedSoftware,
 	}
 
-	var responseLicensedSoftware ResponseLicensedSoftware
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseLicensedSoftware)
+	var ResourceLicensedSoftware ResourceLicensedSoftware
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceLicensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create licensed software: %v", err)
 	}
@@ -189,22 +165,22 @@ func (c *Client) CreateLicensedSoftware(licensedSoftware *ResponseLicensedSoftwa
 		defer resp.Body.Close()
 	}
 
-	return &responseLicensedSoftware, nil
+	return &ResourceLicensedSoftware, nil
 }
 
 // UpdateLicensedSoftwareByID updates an existing licensed software item by its ID.
-func (c *Client) UpdateLicensedSoftwareByID(id int, licensedSoftware *ResponseLicensedSoftware) (*ResponseLicensedSoftware, error) {
+func (c *Client) UpdateLicensedSoftwareByID(id int, licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"licensed_software"`
-		*ResponseLicensedSoftware
+		*ResourceLicensedSoftware
 	}{
-		ResponseLicensedSoftware: licensedSoftware,
+		ResourceLicensedSoftware: licensedSoftware,
 	}
 
-	var responseLicensedSoftware ResponseLicensedSoftware
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLicensedSoftware)
+	var ResourceLicensedSoftware ResourceLicensedSoftware
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &ResourceLicensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update licensed software by ID: %v", err)
 	}
@@ -213,22 +189,22 @@ func (c *Client) UpdateLicensedSoftwareByID(id int, licensedSoftware *ResponseLi
 		defer resp.Body.Close()
 	}
 
-	return &responseLicensedSoftware, nil
+	return &ResourceLicensedSoftware, nil
 }
 
 // UpdateLicensedSoftwareByName updates an existing licensed software item by its name.
-func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *ResponseLicensedSoftware) (*ResponseLicensedSoftware, error) {
+func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriLicensedSoftware, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"licensed_software"`
-		*ResponseLicensedSoftware
+		*ResourceLicensedSoftware
 	}{
-		ResponseLicensedSoftware: licensedSoftware,
+		ResourceLicensedSoftware: licensedSoftware,
 	}
 
-	var responseLicensedSoftware ResponseLicensedSoftware
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLicensedSoftware)
+	var ResourceLicensedSoftware ResourceLicensedSoftware
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &ResourceLicensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update licensed software by name: %v", err)
 	}
@@ -237,7 +213,7 @@ func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *Res
 		defer resp.Body.Close()
 	}
 
-	return &responseLicensedSoftware, nil
+	return &ResourceLicensedSoftware, nil
 }
 
 // DeleteLicensedSoftwareByID deletes a licensed software item by its ID.

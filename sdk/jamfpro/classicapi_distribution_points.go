@@ -15,13 +15,11 @@ const uriDistributionPoints = "/JSSResource/distributionpoints"
 
 // Struct to capture the XML response for distribution points list
 type ResponseDistributionPointsList struct {
-	Size              int                         `xml:"size"`
-	DistributionPoint DistributionPointListDetail `xml:"distribution_point"`
-}
-
-type DistributionPointListDetail struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size              int `xml:"size"`
+	DistributionPoint struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"distribution_point"`
 }
 
 // Struct for detailed Distribution Point data

@@ -14,78 +14,68 @@ const uriRestrictedSoftware = "/JSSResource/restrictedsoftware"
 
 // Structs for Restricted Software List
 type ResponseRestrictedSoftwaresList struct {
-	Size               int                      `xml:"size"`
-	RestrictedSoftware []RestrictedSoftwareItem `xml:"restricted_software_title"`
-}
-
-type RestrictedSoftwareItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size               int `xml:"size"`
+	RestrictedSoftware []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"restricted_software_title"`
 }
 
 // Structs for individual Restricted Software
-type ResponseRestrictedSoftware struct {
-	General RestrictedSoftwareDataSubsetGeneral `xml:"general"`
-	Scope   RestrictedSoftwareDataSubsetScope   `xml:"scope"`
+type ResourceRestrictedSoftware struct {
+	General struct {
+		ID                    int    `xml:"id"`
+		Name                  string `xml:"name"`
+		ProcessName           string `xml:"process_name"`
+		MatchExactProcessName bool   `xml:"match_exact_process_name"`
+		SendNotification      bool   `xml:"send_notification"`
+		KillProcess           bool   `xml:"kill_process"`
+		DeleteExecutable      bool   `xml:"delete_executable"`
+		DisplayMessage        string `xml:"display_message"`
+		Site                  struct {
+			ID   int    `xml:"id"`
+			Name string `xml:"name"`
+		} `xml:"site"`
+	} `xml:"general"`
+	Scope struct {
+		AllComputers   bool                                         `xml:"all_computers"`
+		Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
+		ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
+		Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
+		Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
+		Exclusions     struct {
+			Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
+			ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
+			Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
+			Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
+			Users          []RestrictedSoftwareSubsetScopeUser          `xml:"users>user"`
+		} `xml:"exclusions"`
+	} `xml:"scope"`
 }
 
-type RestrictedSoftwareDataSubsetGeneral struct {
-	ID                    int                              `xml:"id"`
-	Name                  string                           `xml:"name"`
-	ProcessName           string                           `xml:"process_name"`
-	MatchExactProcessName bool                             `xml:"match_exact_process_name"`
-	SendNotification      bool                             `xml:"send_notification"`
-	KillProcess           bool                             `xml:"kill_process"`
-	DeleteExecutable      bool                             `xml:"delete_executable"`
-	DisplayMessage        string                           `xml:"display_message"`
-	Site                  RestrictedSoftwareDataSubsetSite `xml:"site"`
-}
-
-type RestrictedSoftwareDataSubsetSite struct {
+type RestrictedSoftwareSubsetScopeComputer struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-type RestrictedSoftwareDataSubsetScope struct {
-	AllComputers   bool                                             `xml:"all_computers"`
-	Computers      []RestrictedSoftwareDataSubsetScopeComputer      `xml:"computers>computer"`
-	ComputerGroups []RestrictedSoftwareDataSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []RestrictedSoftwareDataSubsetScopeBuilding      `xml:"buildings>building"`
-	Departments    []RestrictedSoftwareDataSubsetScopeDepartment    `xml:"departments>department"`
-	Exclusions     RestrictedSoftwareExclusions                     `xml:"exclusions"`
-}
-
-type RestrictedSoftwareDataSubsetScopeComputer struct {
+type RestrictedSoftwareSubsetScopeComputerGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-type RestrictedSoftwareDataSubsetScopeComputerGroup struct {
+type RestrictedSoftwareSubsetScopeBuilding struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-type RestrictedSoftwareDataSubsetScopeBuilding struct {
+type RestrictedSoftwareSubsetScopeDepartment struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-type RestrictedSoftwareDataSubsetScopeDepartment struct {
+type RestrictedSoftwareSubsetScopeUser struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareDataSubsetScopeUser struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareExclusions struct {
-	Computers      []RestrictedSoftwareDataSubsetScopeComputer      `xml:"computers>computer"`
-	ComputerGroups []RestrictedSoftwareDataSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []RestrictedSoftwareDataSubsetScopeBuilding      `xml:"buildings>building"`
-	Departments    []RestrictedSoftwareDataSubsetScopeDepartment    `xml:"departments>department"`
-	Users          []RestrictedSoftwareDataSubsetScopeUser          `xml:"users>user"`
 }
 
 // GetRestrictedSoftwares retrieves a list of all restricted software.
@@ -106,10 +96,10 @@ func (c *Client) GetRestrictedSoftwares() (*ResponseRestrictedSoftwaresList, err
 }
 
 // GetRestrictedSoftwareByID fetches the details of a specific restricted software entry by its ID.
-func (c *Client) GetRestrictedSoftwareByID(id int) (*ResponseRestrictedSoftware, error) {
+func (c *Client) GetRestrictedSoftwareByID(id int) (*ResourceRestrictedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
-	var restrictedSoftware ResponseRestrictedSoftware
+	var restrictedSoftware ResourceRestrictedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch restricted software by ID: %v", err)
@@ -123,10 +113,10 @@ func (c *Client) GetRestrictedSoftwareByID(id int) (*ResponseRestrictedSoftware,
 }
 
 // GetRestrictedSoftwareByName retrieves the details of a specific restricted software entry by its name.
-func (c *Client) GetRestrictedSoftwareByName(name string) (*ResponseRestrictedSoftware, error) {
+func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRestrictedSoftware, name)
 
-	var restrictedSoftware ResponseRestrictedSoftware
+	var restrictedSoftware ResourceRestrictedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch restricted software by name: %v", err)
@@ -140,24 +130,26 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResponseRestrictedSo
 }
 
 // CreateRestrictedSoftware creates a new restricted software entry in Jamf Pro.
-func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResponseRestrictedSoftware) (*ResponseRestrictedSoftware, error) {
+func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResourceRestrictedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, restrictedSoftware.General.ID)
 
 	// Set default values for site if not included within request
 	if restrictedSoftware.General.Site.ID == 0 && restrictedSoftware.General.Site.Name == "" {
-		restrictedSoftware.General.Site = RestrictedSoftwareDataSubsetSite{ID: -1, Name: "None"}
+		restrictedSoftware.General.Site.ID = -1
+		restrictedSoftware.General.Site.Name = "none"
+
 	}
 
 	// Wrap the restricted software data with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
-		*ResponseRestrictedSoftware
+		*ResourceRestrictedSoftware
 	}{
-		ResponseRestrictedSoftware: restrictedSoftware,
+		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var responseRestrictedSoftware ResponseRestrictedSoftware
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseRestrictedSoftware)
+	var ResourceRestrictedSoftware ResourceRestrictedSoftware
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceRestrictedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create restricted software: %v", err)
 	}
@@ -166,22 +158,22 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResponseRestricted
 		defer resp.Body.Close()
 	}
 
-	return &responseRestrictedSoftware, nil
+	return &ResourceRestrictedSoftware, nil
 }
 
 // UpdateRestrictedSoftwareByID updates an existing restricted software entry by its ID.
-func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResponseRestrictedSoftware) error {
+func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
-		*ResponseRestrictedSoftware
+		*ResourceRestrictedSoftware
 	}{
-		ResponseRestrictedSoftware: restrictedSoftware,
+		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
 	// Prepare a variable to hold the response. This should be a pointer.
-	var response ResponseRestrictedSoftware
+	var response ResourceRestrictedSoftware
 
 	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response) // Note the &response
@@ -197,18 +189,18 @@ func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *Respon
 }
 
 // UpdateRestrictedSoftwareByName updates an existing restricted software entry by its name.
-func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware *ResponseRestrictedSoftware) error {
+func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware *ResourceRestrictedSoftware) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRestrictedSoftware, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
-		*ResponseRestrictedSoftware
+		*ResourceRestrictedSoftware
 	}{
-		ResponseRestrictedSoftware: restrictedSoftware,
+		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
 	// Prepare a variable to hold the response. This should be a pointer.
-	var response ResponseRestrictedSoftware
+	var response ResourceRestrictedSoftware
 
 	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response) // Note the &response

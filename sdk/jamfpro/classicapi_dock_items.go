@@ -15,13 +15,11 @@ const uriDockItems = "/JSSResource/dockitems"
 
 // Struct to capture the XML response for dock items list
 type ResponseDockItemsList struct {
-	Size     int        `xml:"size"`
-	DockItem []DockItem `xml:"dock_item"`
-}
-
-type DockItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size     int `xml:"size"`
+	DockItem []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"dock_item"`
 }
 
 // Struct to capture the response for a single Dock Item

@@ -14,34 +14,25 @@ const uriBYOProfiles = "/JSSResource/byoprofiles"
 
 // ResponseBYOProfilesList represents the XML response for a list of BYO profiles.
 type ResponseBYOProfilesList struct {
-	Size        int                          `xml:"size"`
-	BYOProfiles []ResourceBYOProfileListItem `xml:"byoprofile"`
-}
-
-// BYOProfileItem represents a single BYO profile item in the list.
-type ResourceBYOProfileListItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size        int `xml:"size"`
+	BYOProfiles []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"byoprofile"`
 }
 
 // BYOProfile represents the details of a BYO profile.
 type ResourceBYOProfile struct {
-	General BYOProfileSubsetGeneral `xml:"general"`
-}
-
-// GeneralInfo represents the general section of a BYO profile.
-type BYOProfileSubsetGeneral struct {
-	ID          int                  `xml:"id"`
-	Name        string               `xml:"name"`
-	Site        BYOProfileSubsetSite `xml:"site"`
-	Enabled     bool                 `xml:"enabled"`
-	Description string               `xml:"description"`
-}
-
-// SiteInfo represents the site information of a BYO profile.
-type BYOProfileSubsetSite struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	General struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+		Site struct {
+			ID   int    `xml:"id"`
+			Name string `xml:"name"`
+		} `xml:"site"`
+		Enabled     bool   `xml:"enabled"`
+		Description string `xml:"description"`
+	} `xml:"general"`
 }
 
 // GetBYOProfiles gets a list of all BYO profiles.

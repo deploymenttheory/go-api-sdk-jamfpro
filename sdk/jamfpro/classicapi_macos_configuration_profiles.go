@@ -15,160 +15,146 @@ const uriMacOSConfigurationProfiles = "/JSSResource/osxconfigurationprofiles"
 
 // ResponseMacOSConfigurationProfileList represents the response structure for a list of macOS configuration profiles.
 type ResponseMacOSConfigurationProfileList struct {
-	Size    int                                 `xml:"size,omitempty"`
-	Results []MacOSConfigurationProfileListItem `xml:"os_x_configuration_profile,omitempty"`
-}
-
-type MacOSConfigurationProfileListItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name" `
+	Size    int `xml:"size,omitempty"`
+	Results []struct {
+		ID   int    `xml:"id,omitempty"`
+		Name string `xml:"name"`
+	} `xml:"os_x_configuration_profile,omitempty"`
 }
 
 // ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
-type ResponseMacOSConfigurationProfileCreationAndUpdate struct {
+type ResponseMacOSConfigurationProfileCreationUpdate struct {
 	XMLName xml.Name `xml:"os_x_configuration_profile"`
 	ID      int      `xml:"id"`
 }
 
-// ResponseMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
-type ResponseMacOSConfigurationProfiles struct {
-	General     MacOSConfigurationProfilesDataSubsetGeneral     `xml:"general,omitempty"`
-	Scope       MacOSConfigurationProfilesDataSubsetScope       `xml:"scope,omitempty"`
-	SelfService MacOSConfigurationProfilesDataSubsetSelfService `xml:"self_service,omitempty"`
+// ResourceMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
+type ResourceMacOSConfigurationProfiles struct {
+	General struct {
+		ID          int    `xml:"id,omitempty"`
+		Name        string `xml:"name"`
+		Description string `xml:"description,omitempty"`
+		Site        struct {
+			ID   int    `xml:"id,omitempty"`
+			Name string `xml:"name,omitempty"`
+		} `xml:"site,omitempty"`
+		Category struct {
+			ID   int    `xml:"id,omitempty"`
+			Name string `xml:"name,omitempty"`
+		} `xml:"category,omitempty"`
+		DistributionMethod string `xml:"distribution_method,omitempty"`
+		UserRemovable      bool   `xml:"user_removable,omitempty"`
+		Level              string `xml:"level,omitempty"`
+		UUID               string `xml:"uuid,omitempty"`
+		RedeployOnUpdate   string `xml:"redeploy_on_update,omitempty"`
+		Payloads           string `xml:"payloads,omitempty"`
+	} `xml:"general,omitempty"`
+	Scope       MacOSConfigurationProfilesSubsetScope       `xml:"scope,omitempty"`
+	SelfService MacOSConfigurationProfilesSubsetSelfService `xml:"self_service,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetGeneral struct {
-	ID                 int                                          `xml:"id,omitempty"`
-	Name               string                                       `xml:"name"`
-	Description        string                                       `xml:"description,omitempty"`
-	Site               MacOSConfigurationProfilesDataSubsetSite     `xml:"site,omitempty"`
-	Category           MacOSConfigurationProfilesDataSubsetCategory `xml:"category,omitempty"`
-	DistributionMethod string                                       `xml:"distribution_method,omitempty"`
-	UserRemovable      bool                                         `xml:"user_removable,omitempty"`
-	Level              string                                       `xml:"level,omitempty"`
-	UUID               string                                       `xml:"uuid,omitempty"`
-	RedeployOnUpdate   string                                       `xml:"redeploy_on_update,omitempty"`
-	Payloads           string                                       `xml:"payloads,omitempty"`
+type MacOSConfigurationProfilesSubsetScope struct {
+	AllComputers   bool                                            `xml:"all_computers,omitempty"`
+	AllJSSUsers    bool                                            `xml:"all_jss_users,omitempty"`
+	Computers      []MacOSConfigurationProfilesSubsetComputer      `xml:"computers>computer,omitempty"`
+	ComputerGroups []MacOSConfigurationProfilesSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers       []MacOSConfigurationProfilesSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups  []MacOSConfigurationProfilesSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings      []MacOSConfigurationProfilesSubsetBuilding      `xml:"buildings>building,omitempty"`
+	Departments    []MacOSConfigurationProfilesSubsetDepartment    `xml:"departments>department,omitempty"`
+	Limitations    MacOSConfigurationProfilesSubsetLimitations     `xml:"limitations,omitempty"`
+	Exclusions     MacOSConfigurationProfilesSubsetExclusions      `xml:"exclusions,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetSite struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
+type MacOSConfigurationProfilesSubsetSelfService struct {
+	InstallButtonText           string `xml:"install_button_text,omitempty"`
+	SelfServiceDescription      string `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool   `xml:"force_users_to_view_description,omitempty"`
+	SelfServiceIcon             struct {
+		ID   int    `xml:"id,omitempty"`
+		URI  string `xml:"uri,omitempty"`
+		Data string `xml:"data,omitempty"`
+	} `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage     bool `xml:"feature_on_main_page,omitempty"`
+	SelfServiceCategories struct {
+		Category struct {
+			ID        int    `xml:"id,omitempty"`
+			Name      string `xml:"name,omitempty"`
+			DisplayIn bool   `xml:"display_in,omitempty"`
+			FeatureIn bool   `xml:"feature_in,omitempty"`
+		} `xml:"category,omitempty"`
+	} `xml:"self_service_categories,omitempty"`
+	Notification        string `xml:"notification,omitempty"`
+	NotificationSubject string `xml:"notification_subject,omitempty"`
+	NotificationMessage string `xml:"notification_message,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetCategory struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetScope struct {
-	AllComputers   bool                                                `xml:"all_computers,omitempty"`
-	AllJSSUsers    bool                                                `xml:"all_jss_users,omitempty"`
-	Computers      []MacOSConfigurationProfilesDataSubsetComputer      `xml:"computers>computer,omitempty"`
-	ComputerGroups []MacOSConfigurationProfilesDataSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	JSSUsers       []MacOSConfigurationProfilesDataSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
-	JSSUserGroups  []MacOSConfigurationProfilesDataSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
-	Buildings      []MacOSConfigurationProfilesDataSubsetBuilding      `xml:"buildings>building,omitempty"`
-	Departments    []MacOSConfigurationProfilesDataSubsetDepartment    `xml:"departments>department,omitempty"`
-	Limitations    MacOSConfigurationProfilesDataSubsetLimitations     `xml:"limitations,omitempty"`
-	Exclusions     MacOSConfigurationProfilesDataSubsetExclusions      `xml:"exclusions,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetComputer struct {
+type MacOSConfigurationProfilesSubsetComputer struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 	UDID string `xml:"udid,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetComputerGroup struct {
+type MacOSConfigurationProfilesSubsetComputerGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetJSSUser struct {
+type MacOSConfigurationProfilesSubsetJSSUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetJSSUserGroup struct {
+type MacOSConfigurationProfilesSubsetJSSUserGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetBuilding struct {
+type MacOSConfigurationProfilesSubsetBuilding struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetDepartment struct {
+type MacOSConfigurationProfilesSubsetDepartment struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type MacOSConfigurationProfilesDataSubsetLimitations struct {
-	Users           []MacOSConfigurationProfilesDataSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfilesDataSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
-	NetworkSegments []MacOSConfigurationProfilesDataSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	IBeacons        []MacOSConfigurationProfilesDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+type MacOSConfigurationProfilesSubsetLimitations struct {
+	Users           []MacOSConfigurationProfilesSubsetUser           `xml:"users>user,omitempty"`
+	UserGroups      []MacOSConfigurationProfilesSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	NetworkSegments []MacOSConfigurationProfilesSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	IBeacons        []MacOSConfigurationProfilesSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
-type MacOSConfigurationProfilesDataSubsetIBeacon struct {
+type MacOSConfigurationProfilesSubsetIBeacon struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type MacOSConfigurationProfilesDataSubsetNetworkSegment struct {
+type MacOSConfigurationProfilesSubsetNetworkSegment struct {
 	ID   int    `xml:"id,omitempty"`
 	UID  string `xml:"uid,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type MacOSConfigurationProfilesDataSubsetUserGroup struct {
+type MacOSConfigurationProfilesSubsetUserGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetUser struct {
+type MacOSConfigurationProfilesSubsetUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesDataSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfilesDataSubsetComputer       `xml:"computers,omitempty"`
-	ComputerGroups  []MacOSConfigurationProfilesDataSubsetComputerGroup  `xml:"computer_groups,omitempty"`
-	Users           []MacOSConfigurationProfilesDataSubsetUser           `xml:"users,omitempty"`
-	UserGroups      []MacOSConfigurationProfilesDataSubsetUserGroup      `xml:"user_groups,omitempty"`
-	Buildings       []MacOSConfigurationProfilesDataSubsetBuilding       `xml:"buildings,omitempty"`
-	Departments     []MacOSConfigurationProfilesDataSubsetDepartment     `xml:"departments,omitempty"`
-	NetworkSegments []MacOSConfigurationProfilesDataSubsetNetworkSegment `xml:"network_segments,omitempty"`
-	JSSUsers        []MacOSConfigurationProfilesDataSubsetJSSUser        `xml:"jss_users,omitempty"`
-	JSSUserGroups   []MacOSConfigurationProfilesDataSubsetJSSUserGroup   `xml:"jss_user_groups,omitempty"`
-	IBeacons        []MacOSConfigurationProfilesDataSubsetIBeacon        `xml:"ibeacons,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetSelfService struct {
-	InstallButtonText           string                                                    `xml:"install_button_text,omitempty"`
-	SelfServiceDescription      string                                                    `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool                                                      `xml:"force_users_to_view_description,omitempty"`
-	SelfServiceIcon             MacOSConfigurationProfilesDataSubsetSelfServiceIcon       `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                                                      `xml:"feature_on_main_page,omitempty"`
-	SelfServiceCategories       MacOSConfigurationProfilesDataSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
-	Notification                string                                                    `xml:"notification,omitempty"`
-	NotificationSubject         string                                                    `xml:"notification_subject,omitempty"`
-	NotificationMessage         string                                                    `xml:"notification_message,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetSelfServiceIcon struct {
-	ID   int    `xml:"id,omitempty"`
-	URI  string `xml:"uri,omitempty"`
-	Data string `xml:"data,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetSelfServiceCategories struct {
-	Category MacOSConfigurationProfilesDataSubsetSelfServiceCategory `xml:"category,omitempty"`
-}
-
-type MacOSConfigurationProfilesDataSubsetSelfServiceCategory struct {
-	ID        int    `xml:"id,omitempty"`
-	Name      string `xml:"name,omitempty"`
-	DisplayIn bool   `xml:"display_in,omitempty"`
-	FeatureIn bool   `xml:"feature_in,omitempty"`
+type MacOSConfigurationProfilesSubsetExclusions struct {
+	Computers       []MacOSConfigurationProfilesSubsetComputer       `xml:"computers,omitempty"`
+	ComputerGroups  []MacOSConfigurationProfilesSubsetComputerGroup  `xml:"computer_groups,omitempty"`
+	Users           []MacOSConfigurationProfilesSubsetUser           `xml:"users,omitempty"`
+	UserGroups      []MacOSConfigurationProfilesSubsetUserGroup      `xml:"user_groups,omitempty"`
+	Buildings       []MacOSConfigurationProfilesSubsetBuilding       `xml:"buildings,omitempty"`
+	Departments     []MacOSConfigurationProfilesSubsetDepartment     `xml:"departments,omitempty"`
+	NetworkSegments []MacOSConfigurationProfilesSubsetNetworkSegment `xml:"network_segments,omitempty"`
+	JSSUsers        []MacOSConfigurationProfilesSubsetJSSUser        `xml:"jss_users,omitempty"`
+	JSSUserGroups   []MacOSConfigurationProfilesSubsetJSSUserGroup   `xml:"jss_user_groups,omitempty"`
+	IBeacons        []MacOSConfigurationProfilesSubsetIBeacon        `xml:"ibeacons,omitempty"`
 }
 
 // GetMacOSConfigurationProfiles fetches a list of all macOS Configuration Profiles from the Jamf Pro server.
@@ -189,10 +175,10 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 }
 
 // GetMacOSConfigurationProfileByID fetches a specific macOS Configuration Profile by its ID from the Jamf Pro server.
-func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResponseMacOSConfigurationProfiles, error) {
+func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigurationProfiles, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
-	var profile ResponseMacOSConfigurationProfiles
+	var profile ResourceMacOSConfigurationProfiles
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch macOS Configuration Profile by ID: %v", err)
@@ -206,10 +192,10 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResponseMacOSConfigu
 }
 
 // GetMacOSConfigurationProfileByName fetches a specific macOS Configuration Profile by its name from the Jamf Pro server.
-func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResponseMacOSConfigurationProfiles, error) {
+func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOSConfigurationProfiles, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
-	var profile ResponseMacOSConfigurationProfiles
+	var profile ResourceMacOSConfigurationProfiles
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch macOS Configuration Profile by name: %v", err)
@@ -223,7 +209,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResponseMacOS
 }
 
 // GetMacOSConfigurationProfileByNameByID retrieves the details of a macOS Configuration Profile by its name.
-func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResponseMacOSConfigurationProfiles, error) {
+func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceMacOSConfigurationProfiles, error) {
 	// Fetch all macOS Configuration Profiles
 	profilesList, err := c.GetMacOSConfigurationProfiles()
 	if err != nil {
@@ -255,27 +241,30 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResponseM
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the profile with its ID updated.
 // It sends a POST request to the Jamf Pro server with the profile details and expects a response with the ID of the newly created profile.
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the ID of the newly created profile.
-func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigurationProfiles) (int, error) {
+func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigurationProfiles) (int, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMacOSConfigurationProfiles)
 
 	// Set default values for site and category if not included within request
 	if profile.General.Site.ID == 0 && profile.General.Site.Name == "" {
-		profile.General.Site = MacOSConfigurationProfilesDataSubsetSite{ID: -1, Name: "None"}
+		profile.General.Site.ID = -1
+		profile.General.Site.Name = "none"
+
 	}
 	if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
-		profile.General.Category = MacOSConfigurationProfilesDataSubsetCategory{ID: -1, Name: "No category assigned"}
+		profile.General.Category.ID = -1
+		profile.General.Category.Name = "No Category"
 	}
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
-		*ResponseMacOSConfigurationProfiles
+		*ResourceMacOSConfigurationProfiles
 	}{
-		ResponseMacOSConfigurationProfiles: profile,
+		ResourceMacOSConfigurationProfiles: profile,
 	}
 
 	// Use ResponseMacOSConfigurationProfileCreationAndUpdate struct to handle the API response
-	var response ResponseMacOSConfigurationProfileCreationAndUpdate
+	var response ResponseMacOSConfigurationProfileCreationUpdate
 
 	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
@@ -293,19 +282,19 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResponseMacOSConfigura
 
 // UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server
 // and returns the ID of the updated profile.
-func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResponseMacOSConfigurationProfiles) (int, error) {
+func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMacOSConfigurationProfiles) (int, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
-		*ResponseMacOSConfigurationProfiles
+		*ResourceMacOSConfigurationProfiles
 	}{
-		ResponseMacOSConfigurationProfiles: profile,
+		ResourceMacOSConfigurationProfiles: profile,
 	}
 
 	// Use ResponseMacOSConfigurationProfileCreationAndUpdate struct to handle the API response
-	var response ResponseMacOSConfigurationProfileCreationAndUpdate
+	var response ResponseMacOSConfigurationProfileCreationUpdate
 
 	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
@@ -323,19 +312,19 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResponseMa
 
 // UpdateMacOSConfigurationProfileByName updates an existing macOS Configuration Profile by its name on the Jamf Pro server
 // and returns the ID of the updated profile.
-func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *ResponseMacOSConfigurationProfiles) (int, error) {
+func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *ResourceMacOSConfigurationProfiles) (int, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
-		*ResponseMacOSConfigurationProfiles
+		*ResourceMacOSConfigurationProfiles
 	}{
-		ResponseMacOSConfigurationProfiles: profile,
+		ResourceMacOSConfigurationProfiles: profile,
 	}
 
 	// Use ResponseMacOSConfigurationProfileCreationAndUpdate struct to handle the API response
-	var response ResponseMacOSConfigurationProfileCreationAndUpdate
+	var response ResponseMacOSConfigurationProfileCreationUpdate
 
 	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)

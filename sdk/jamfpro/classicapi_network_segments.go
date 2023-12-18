@@ -14,19 +14,17 @@ const uriNetworkSegments = "/JSSResource/networksegments"
 
 // ResponseNetworkSegmentList represents the response for a list of Network Segments.
 type ResponseNetworkSegmentList struct {
-	Size    int                  `xml:"size"`
-	Results []NetworkSegmentItem `xml:"network_segment"`
+	Size    int `xml:"size"`
+	Results []struct {
+		ID              int    `xml:"id"`
+		Name            string `xml:"name"`
+		StartingAddress string `xml:"starting_address"`
+		EndingAddress   string `xml:"ending_address"`
+	} `xml:"network_segment"`
 }
 
-type NetworkSegmentItem struct {
-	ID              int    `xml:"id"`
-	Name            string `xml:"name"`
-	StartingAddress string `xml:"starting_address"`
-	EndingAddress   string `xml:"ending_address"`
-}
-
-// ResponseNetworkSegment represents the response structure for a Network Segment.
-type ResponseNetworkSegment struct {
+// ResourceNetworkSegment represents the response structure for a Network Segment.
+type ResourceNetworkSegment struct {
 	ID                  int    `json:"id" xml:"id"`
 	Name                string `json:"name" xml:"name"`
 	StartingAddress     string `json:"starting_address" xml:"starting_address"`
@@ -59,10 +57,10 @@ func (c *Client) GetNetworkSegments() (*ResponseNetworkSegmentList, error) {
 }
 
 // GetNetworkSegmentByID retrieves a specific network segment by its ID.
-func (c *Client) GetNetworkSegmentByID(id int) (*ResponseNetworkSegment, error) {
+func (c *Client) GetNetworkSegmentByID(id int) (*ResourceNetworkSegment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
 
-	var segment ResponseNetworkSegment
+	var segment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch network segment by ID: %v", err)
@@ -76,10 +74,10 @@ func (c *Client) GetNetworkSegmentByID(id int) (*ResponseNetworkSegment, error) 
 }
 
 // GetNetworkSegmentByName retrieves a specific network segment by its name.
-func (c *Client) GetNetworkSegmentByName(name string) (*ResponseNetworkSegment, error) {
+func (c *Client) GetNetworkSegmentByName(name string) (*ResourceNetworkSegment, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriNetworkSegments, name)
 
-	var segment ResponseNetworkSegment
+	var segment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch network segment by name: %v", err)
@@ -93,18 +91,18 @@ func (c *Client) GetNetworkSegmentByName(name string) (*ResponseNetworkSegment, 
 }
 
 // CreateNetworkSegment creates a new network segment on the Jamf Pro server.
-func (c *Client) CreateNetworkSegment(segment *ResponseNetworkSegment) (*ResponseNetworkSegment, error) {
+func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*ResourceNetworkSegment, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriNetworkSegments)
 
 	// Wrap the segment with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"network_segment"`
-		*ResponseNetworkSegment
+		*ResourceNetworkSegment
 	}{
-		ResponseNetworkSegment: segment,
+		ResourceNetworkSegment: segment,
 	}
 
-	var responseSegment ResponseNetworkSegment
+	var responseSegment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseSegment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create network segment: %v", err)
@@ -118,17 +116,17 @@ func (c *Client) CreateNetworkSegment(segment *ResponseNetworkSegment) (*Respons
 }
 
 // UpdateNetworkSegmentByID updates a specific network segment by its ID.
-func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResponseNetworkSegment) (*ResponseNetworkSegment, error) {
+func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegment) (*ResourceNetworkSegment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"network_segment"`
-		*ResponseNetworkSegment
+		*ResourceNetworkSegment
 	}{
-		ResponseNetworkSegment: segment,
+		ResourceNetworkSegment: segment,
 	}
 
-	var responseSegment ResponseNetworkSegment
+	var responseSegment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseSegment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update network segment by ID: %v", err)
@@ -142,17 +140,17 @@ func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResponseNetworkSegmen
 }
 
 // UpdateNetworkSegmentByName updates a specific network segment by its name.
-func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResponseNetworkSegment) (*ResponseNetworkSegment, error) {
+func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResourceNetworkSegment) (*ResourceNetworkSegment, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriNetworkSegments, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"network_segment"`
-		*ResponseNetworkSegment
+		*ResourceNetworkSegment
 	}{
-		ResponseNetworkSegment: segment,
+		ResourceNetworkSegment: segment,
 	}
 
-	var responseSegment ResponseNetworkSegment
+	var responseSegment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseSegment)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update network segment by name: %v", err)

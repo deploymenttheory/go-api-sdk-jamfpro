@@ -12,56 +12,41 @@ import (
 const uriComputerGroups = "/JSSResource/computergroups"
 
 type ResponseComputerGroupsList struct {
-	Size    int                     `xml:"size"`
-	Results []ComputerGroupListItem `xml:"computer_group"`
-}
-
-type ComputerGroupListItem struct {
-	ID      int    `xml:"id,omitempty"`
-	Name    string `xml:"name,omitempty"`
-	IsSmart bool   `xml:"is_smart,omitempty"`
+	Size    int `xml:"size"`
+	Results []struct {
+		ID      int    `xml:"id,omitempty"`
+		Name    string `xml:"name,omitempty"`
+		IsSmart bool   `xml:"is_smart,omitempty"`
+	} `xml:"computer_group"`
 }
 
 type ResourceComputerGroup struct {
-	ID        int                               `xml:"id"`
-	Name      string                            `xml:"name"`
-	IsSmart   bool                              `xml:"is_smart"`
-	Site      ComputerGroupSubsetSite           `xml:"site"`
-	Criteria  []ComputerGroupSubsetCriterion    `xml:"criteria>criterion"`
-	Computers []ComputerGroupSubsetComputerItem `xml:"computers>computer"`
-}
-
-type ComputerGroupSubsetCriterionContainer struct {
-	Size      int                          `xml:"size"`
-	Criterion ComputerGroupSubsetCriterion `xml:"criterion"`
-}
-
-type ComputerGroupSubsetComputerContainer struct {
-	Size     int                             `xml:"size"`
-	Computer ComputerGroupSubsetComputerItem `xml:"computer"`
-}
-
-type ComputerGroupSubsetSite struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
-}
-
-type ComputerGroupSubsetCriterion struct {
-	Name         string           `xml:"name"`
-	Priority     int              `xml:"priority"`
-	AndOr        DeviceGroupAndOr `xml:"and_or"`
-	SearchType   string           `xml:"search_type"`
-	SearchValue  string           `xml:"value"`
-	OpeningParen bool             `xml:"opening_paren"`
-	ClosingParen bool             `xml:"closing_paren"`
-}
-
-type ComputerGroupSubsetComputerItem struct {
-	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name          string `json:"name,omitempty" xml:"name,omitempty"`
-	SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
-	MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
-	AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
+	ID      int    `xml:"id"`
+	Name    string `xml:"name"`
+	IsSmart bool   `xml:"is_smart"`
+	Site    struct {
+		ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+		Name string `json:"name,omitempty" xml:"name,omitempty"`
+	} `xml:"site"`
+	Criteria []struct {
+		Size      int `xml:"size"`
+		Criterion struct {
+			Name         string           `xml:"name"`
+			Priority     int              `xml:"priority"`
+			AndOr        DeviceGroupAndOr `xml:"and_or"`
+			SearchType   string           `xml:"search_type"`
+			SearchValue  string           `xml:"value"`
+			OpeningParen bool             `xml:"opening_paren"`
+			ClosingParen bool             `xml:"closing_paren"`
+		} `xml:"criterion"`
+	} `xml:"criteria>criterion"`
+	Computers []struct {
+		ID            int    `json:"id,omitempty" xml:"id,omitempty"`
+		Name          string `json:"name,omitempty" xml:"name,omitempty"`
+		SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
+		MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
+		AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
+	} `xml:"computers>computer"`
 }
 
 type DeviceGroupAndOr string
@@ -128,10 +113,8 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 
 	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = ComputerGroupSubsetSite{
-			ID:   -1,
-			Name: "None",
-		}
+		group.Site.ID = -1
+		group.Site.Name = "none"
 	}
 
 	// Wrap the group request with the desired XML name using an anonymous struct
@@ -161,10 +144,8 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 
 	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = ComputerGroupSubsetSite{
-			ID:   -1,
-			Name: "None",
-		}
+		group.Site.ID = -1
+		group.Site.Name = "none"
 	}
 
 	// Wrap the group request with the desired XML name using an anonymous struct
@@ -194,10 +175,8 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 
 	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = ComputerGroupSubsetSite{
-			ID:   -1,
-			Name: "None",
-		}
+		group.Site.ID = -1
+		group.Site.Name = "none"
 	}
 
 	// Wrap the group request with the desired XML name using an anonymous struct

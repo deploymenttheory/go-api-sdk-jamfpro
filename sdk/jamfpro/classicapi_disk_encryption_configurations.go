@@ -15,13 +15,11 @@ const uriDiskEncryptionConfigurations = "/JSSResource/diskencryptionconfiguratio
 
 // Struct to capture the XML response for disk encryption configurations
 type ResponseDiskEncryptionConfigurationsList struct {
-	Size                        int                                 `xml:"size"`
-	DiskEncryptionConfiguration []DiskEncryptionConfigurationDetail `xml:"disk_encryption_configuration"`
-}
-
-type DiskEncryptionConfigurationDetail struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size                        int `xml:"size"`
+	DiskEncryptionConfiguration []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"disk_encryption_configuration"`
 }
 
 type ResponseDiskEncryptionConfiguration struct {
@@ -33,19 +31,16 @@ type ResponseDiskEncryptionConfiguration struct {
 
 // DiskEncryptionConfiguration represents the top-level XML structure for creating/updating a Disk Encryption Configuration.
 type DiskEncryptionConfiguration struct {
-	XMLName                  xml.Name                                                       `xml:"disk_encryption_configuration"`
-	Name                     string                                                         `xml:"name"`
-	KeyType                  string                                                         `xml:"key_type"`
-	FileVaultEnabledUsers    string                                                         `xml:"file_vault_enabled_users"`
-	InstitutionalRecoveryKey *DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey `xml:"institutional_recovery_key,omitempty"`
-}
-
-// DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey represents the XML structure for Institutional Recovery Key.
-type DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey struct {
-	Key             string `xml:"key"`
-	CertificateType string `xml:"certificate_type"`
-	Password        string `xml:"password"`
-	Data            string `xml:"data"`
+	XMLName                  xml.Name `xml:"disk_encryption_configuration"`
+	Name                     string   `xml:"name"`
+	KeyType                  string   `xml:"key_type"`
+	FileVaultEnabledUsers    string   `xml:"file_vault_enabled_users"`
+	InstitutionalRecoveryKey *struct {
+		Key             string `xml:"key"`
+		CertificateType string `xml:"certificate_type"`
+		Password        string `xml:"password"`
+		Data            string `xml:"data"`
+	} `xml:"institutional_recovery_key,omitempty"`
 }
 
 // GetDiskEncryptionConfigurations retrieves a serialized list of disk encryption configurations.

@@ -14,76 +14,52 @@ const uriAPIAdvancedMobileDeviceSearches = "/JSSResource/advancedmobiledevicesea
 
 // ResourceAdvancedMobileDeviceSearchesList represents the structure for multiple advanced mobile device searches.
 type ResponseAdvancedMobileDeviceSearchesList struct {
-	Size                         int                                  `xml:"size"`
-	AdvancedMobileDeviceSearches []AdvancedMobileDeviceSearchListItem `xml:"advanced_mobile_device_search"`
-}
-
-// AdvancedMobileDeviceSearchDetail represents the details of an advanced mobile device search.
-type AdvancedMobileDeviceSearchListItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size                         int `xml:"size"`
+	AdvancedMobileDeviceSearches []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"advanced_mobile_device_search"`
 }
 
 // ResourceAdvancedMobileDeviceSearches represents the structure of the response for an advanced mobile device search.
 type ResourceAdvancedMobileDeviceSearches struct {
-	ID            int                                              `xml:"id"`                       // Unique identifier for the search
-	Name          string                                           `xml:"name"`                     // Name of the search
-	ViewAs        string                                           `xml:"view_as,omitempty"`        // The format in which the search results are viewed
-	Sort1         string                                           `xml:"sort_1,omitempty"`         // First sorting criteria
-	Sort2         string                                           `xml:"sort_2,omitempty"`         // Second sorting criteria
-	Sort3         string                                           `xml:"sort_3,omitempty"`         // Third sorting criteria
-	Criteria      []AdvancedMobileDeviceSearchesSubsetCriteria     `xml:"criteria,omitempty"`       // List of search criteria
-	DisplayFields []AdvancedMobileDeviceSearchesSubsetDisplayField `xml:"display_fields,omitempty"` // Fields to display in search results
-	MobileDevices []AdvancedMobileDeviceSearchesSubsetMobileDevice `xml:"mobile_devices,omitempty"` // List of mobile devices that match the search
-	Site          AdvancedMobileDeviceSearchesSubsetSite           `xml:"site,omitempty"`           // Information about the site associated with the search
-}
-
-// CriteriaDetail represents a single search criterion.
-type AdvancedMobileDeviceSearchesSubsetCriteria struct {
-	Size      int                                         `xml:"size"`      // Number of criteria
-	Criterion AdvancedMobileDeviceSearchesSubsetCriterion `xml:"criterion"` // Detailed criterion
-}
-
-// Criterion contains the details of a single criterion in the search.
-type AdvancedMobileDeviceSearchesSubsetCriterion struct {
-	Name         string `xml:"name"`                    // Name of the criterion
-	Priority     int    `xml:"priority"`                // Priority of the criterion
-	AndOr        string `xml:"and_or"`                  // Logical operator to combine criteria
-	SearchType   string `xml:"search_type"`             // Type of search being performed
-	Value        int    `xml:"value"`                   // Value for the criterion
-	OpeningParen bool   `xml:"opening_paren,omitempty"` // Indicates if there is an opening parenthesis for grouping
-	ClosingParen bool   `xml:"closing_paren,omitempty"` // Indicates if there is a closing parenthesis for grouping
-}
-
-// DisplayFieldDetailWrapper wraps a display field with its size.
-type AdvancedMobileDeviceSearchesSubsetDisplayField struct {
-	Size         int                                                `xml:"size"`          // Number of display fields
-	DisplayField AdvancedMobileDeviceSearchesSubsetDisplayFieldItem `xml:"display_field"` // Detailed display field
-}
-
-// DisplayField represents a field to display in the search results.
-type AdvancedMobileDeviceSearchesSubsetDisplayFieldItem struct {
-	Name string `xml:"name"` // Name of the display field
-}
-
-// MobileDeviceDetailWrapper wraps a mobile device with its size.
-type AdvancedMobileDeviceSearchesSubsetMobileDevice struct {
-	Size         int                                          `xml:"size"`          // Number of mobile devices
-	MobileDevice AdvancedMobileDeviceSearchesMobileDeviceItem `xml:"mobile_device"` // Detailed mobile device
-}
-
-// MobileDevice contains details about a single mobile device.
-type AdvancedMobileDeviceSearchesMobileDeviceItem struct {
-	ID          int    `xml:"id"`           // Unique identifier for the mobile device
-	Name        string `xml:"name"`         // Name of the mobile device
-	UDID        string `xml:"udid"`         // Unique Device Identifier for the mobile device
-	DisplayName string `xml:"Display_Name"` // Display name of the mobile device
-}
-
-// SiteDetail represents the details of a site associated with the search.
-type AdvancedMobileDeviceSearchesSubsetSite struct {
-	ID   int    `xml:"id"`   // Unique identifier for the site
-	Name string `xml:"name"` // Name of the site
+	ID       int    `xml:"id"`                // Unique identifier for the search
+	Name     string `xml:"name"`              // Name of the search
+	ViewAs   string `xml:"view_as,omitempty"` // The format in which the search results are viewed
+	Sort1    string `xml:"sort_1,omitempty"`  // First sorting criteria
+	Sort2    string `xml:"sort_2,omitempty"`  // Second sorting criteria
+	Sort3    string `xml:"sort_3,omitempty"`  // Third sorting criteria
+	Criteria []struct {
+		Size      int `xml:"size"` // Number of criteria
+		Criterion struct {
+			Name         string `xml:"name"`                    // Name of the criterion
+			Priority     int    `xml:"priority"`                // Priority of the criterion
+			AndOr        string `xml:"and_or"`                  // Logical operator to combine criteria
+			SearchType   string `xml:"search_type"`             // Type of search being performed
+			Value        int    `xml:"value"`                   // Value for the criterion
+			OpeningParen bool   `xml:"opening_paren,omitempty"` // Indicates if there is an opening parenthesis for grouping
+			ClosingParen bool   `xml:"closing_paren,omitempty"` // Indicates if there is a closing parenthesis for grouping
+		} `xml:"criterion"` // Detailed criterion
+	} `xml:"criteria,omitempty"` // List of search criteria
+	DisplayFields []struct {
+		Size         int `xml:"size"` // Number of display fields
+		DisplayField struct {
+			Name string `xml:"name"` // Name of the display field
+		} `xml:"display_field"` // Detailed display field
+	} `xml:"display_fields,omitempty"` // Fields to display in search results
+	MobileDevices []struct {
+		Size         int `xml:"size"` // Number of mobile devices
+		MobileDevice struct {
+			ID          int    `xml:"id"`           // Unique identifier for the mobile device
+			Name        string `xml:"name"`         // Name of the mobile device
+			UDID        string `xml:"udid"`         // Unique Device Identifier for the mobile device
+			DisplayName string `xml:"Display_Name"` // Display name of the mobile device
+		} `xml:"mobile_device"` // Detailed mobile device
+	} `xml:"mobile_devices,omitempty"` // List of mobile devices that match the search
+	Site struct {
+		ID   int    `xml:"id"`   // Unique identifier for the site
+		Name string `xml:"name"` // Name of the site
+	} `xml:"site,omitempty"` // Information about the site associated with the search
 }
 
 // GetAdvancedMobileDeviceSearches retrieves all advanced mobile device searches.
@@ -143,10 +119,8 @@ func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResourceAd
 
 	// Check if the Site field in the search struct is not provided and set default values if needed
 	if search.Site.ID == 0 && search.Site.Name == "" {
-		search.Site = AdvancedMobileDeviceSearchesSubsetSite{
-			ID:   -1,
-			Name: "None",
-		}
+		search.Site.ID = -1
+		search.Site.Name = "none"
 	}
 
 	// Wrap the search request with the desired XML name using an anonymous struct

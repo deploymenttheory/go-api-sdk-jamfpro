@@ -13,40 +13,31 @@ const uriAPIAccounts = "/JSSResource/accounts"
 
 // ResponseAccountsList represents a serialized list of accounts
 type ResponseAccountsList struct {
-	Users  *AccountsListSubsetUsers  `xml:"users,omitempty"`
-	Groups *AccountsListSubsetGroups `xml:"groups,omitempty"`
-}
-
-type AccountsListSubsetUsers struct {
-	User []AccountsListSubsetUserItem `xml:"user,omitempty"`
-}
-
-type AccountsListSubsetGroups struct {
-	Group []AccountsListSubsetGroupItem `xml:"group,omitempty"`
-}
-
-type AccountsListSubsetUserItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type AccountsListSubsetGroupItem struct {
-	ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
-	Name       string                  `json:"name" xml:"name"`
-	Site       AccountSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
-	Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
+	Users struct {
+		ID   int    `xml:"id,omitempty"`
+		Name string `xml:"name,omitempty"`
+	} `xml:"users>user,omitempty"`
+	Groups struct {
+		ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
+		Name       string                  `json:"name" xml:"name"`
+		Site       AccountSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
+		Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
+	} `xml:"groups>group,omitempty"`
 }
 
 // ResponseAccount represents an account object
 type ResourceAccount struct {
-	ID                  int                     `json:"id,omitempty" xml:"id,omitempty"`
-	Name                string                  `json:"name" xml:"name"`
-	DirectoryUser       bool                    `json:"directory_user,omitempty" xml:"directory_user,omitempty"`
-	FullName            string                  `json:"full_name,omitempty" xml:"full_name,omitempty"`
-	Email               string                  `json:"email,omitempty" xml:"email,omitempty"`
-	EmailAddress        string                  `json:"email_address,omitempty" xml:"email_address,omitempty"`
-	Enabled             string                  `json:"enabled,omitempty" xml:"enabled,omitempty"`
-	LdapServer          AccountSubsetLdapServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"` // Added this
+	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name          string `json:"name" xml:"name"`
+	DirectoryUser bool   `json:"directory_user,omitempty" xml:"directory_user,omitempty"`
+	FullName      string `json:"full_name,omitempty" xml:"full_name,omitempty"`
+	Email         string `json:"email,omitempty" xml:"email,omitempty"`
+	EmailAddress  string `json:"email_address,omitempty" xml:"email_address,omitempty"`
+	Enabled       string `json:"enabled,omitempty" xml:"enabled,omitempty"`
+	LdapServer    struct {
+		ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+		Name string `json:"name" xml:"name"`
+	} `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
 	ForcePasswordChange bool                    `json:"force_password_change,omitempty" xml:"force_password_change,omitempty"`
 	AccessLevel         string                  `json:"access_level,omitempty" xml:"access_level,omitempty"`
 	Password            string                  `json:"password" xml:"password"`
@@ -55,9 +46,17 @@ type ResourceAccount struct {
 	Privileges          AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
-type AccountSubsetLdapServer struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name" xml:"name"`
+type ResponseAccountGroup struct {
+	ID           int                     `json:"id,omitempty" xml:"id"`
+	Name         string                  `json:"name" xml:"name"`
+	AccessLevel  string                  `json:"access_level" xml:"access_level"`
+	PrivilegeSet string                  `json:"privilege_set" xml:"privilege_set"`
+	Site         AccountSubsetSite       `json:"site" xml:"site"`
+	Privileges   AccountSubsetPrivileges `json:"privileges" xml:"privileges"`
+	Members      []struct {
+		ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+		Name string `json:"name,omitempty" xml:"name,omitempty"`
+	} `json:"members" xml:"members>user"`
 }
 
 type AccountSubsetSite struct {
@@ -75,11 +74,6 @@ type AccountSubsetPrivileges struct {
 	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege"`
 }
 
-type AccountDataSubsetUser struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
-}
-
 // type Users struct {
 // 	User []AccountUser `json:"user,omitempty" xml:"user,omitempty"`
 // }
@@ -92,16 +86,6 @@ type AccountDataSubsetUser struct {
 // 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 // 	Name string `json:"name" xml:"name"`
 // }
-
-type ResponseAccountGroup struct {
-	ID           int                     `json:"id,omitempty" xml:"id"`
-	Name         string                  `json:"name" xml:"name"`
-	AccessLevel  string                  `json:"access_level" xml:"access_level"`
-	PrivilegeSet string                  `json:"privilege_set" xml:"privilege_set"`
-	Site         AccountSubsetSite       `json:"site" xml:"site"`
-	Privileges   AccountSubsetPrivileges `json:"privileges" xml:"privileges"`
-	Members      []AccountDataSubsetUser `json:"members" xml:"members>user"`
-}
 
 // GetAccounts retrieves a list of all accounts (both users and groups).
 func (c *Client) GetAccounts() (*ResponseAccountsList, error) {

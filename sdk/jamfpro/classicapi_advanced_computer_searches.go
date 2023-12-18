@@ -14,76 +14,52 @@ const uriAPIAdvancedComputerSearches = "/JSSResource/advancedcomputersearches"
 
 // ResponseAdvancedComputerSearchesList represents the structure for multiple advanced computer searches.
 type ResponseAdvancedComputerSearchesList struct {
-	Size                     int                                    `xml:"size"`
-	AdvancedComputerSearches []AdvancedComputerSearchesSubsetDetail `xml:"advanced_computer_search"`
-}
-
-// AdvancedComputerSearchDetail represents the details of an advanced computer search.
-type AdvancedComputerSearchesSubsetDetail struct {
-	ID   int    `json:"id,omitempty" xml:"id"`
-	Name string `json:"name,omitempty" xml:"name"`
+	Size                     int `xml:"size"`
+	AdvancedComputerSearches []struct {
+		ID   int    `json:"id,omitempty" xml:"id"`
+		Name string `json:"name,omitempty" xml:"name"`
+	} `xml:"advanced_computer_search"`
 }
 
 // ResourceAdvancedComputerSearch represents the structure of the response for an advanced computer search.
 type ResourceAdvancedComputerSearch struct {
-	ID            int                                          `xml:"id"`
-	Name          string                                       `xml:"name"`
-	ViewAs        string                                       `xml:"view_as,omitempty"`
-	Sort1         string                                       `xml:"sort_1,omitempty"`
-	Sort2         string                                       `xml:"sort_2,omitempty"`
-	Sort3         string                                       `xml:"sort_3,omitempty"`
-	Criteria      []AdvancedComputerSearcheSubsetCriteria      `xml:"criteria"`
-	DisplayFields []AdvancedComputerSearchesSubsetDisplayField `xml:"display_fields"`
-	Computers     []AdvancedComputerSearchesDataSubsetComputer `xml:"computers"`
-	Site          AdvancedComputerSearchesSubsetSiteDetail     `xml:"site"`
-}
-
-// Criteria represents a criterion with its details.
-type AdvancedComputerSearcheSubsetCriteria struct {
-	Size      int                                         `xml:"size"`
-	Criterion AdvancedComputerSearchesSubsetCriteraDetail `xml:"criterion"`
-}
-
-// CriterionDetail represents the details of a criterion in a search.
-type AdvancedComputerSearchesSubsetCriteraDetail struct {
-	Name         string `xml:"name"`
-	Priority     int    `xml:"priority,omitempty"`
-	AndOr        string `xml:"and_or,omitempty"`
-	SearchType   string `xml:"search_type,omitempty"`
-	Value        string `xml:"value,omitempty"`
-	OpeningParen bool   `xml:"opening_paren,omitempty"`
-	ClosingParen bool   `xml:"closing_paren,omitempty"`
-}
-
-// DisplayField represents a display field with its details.
-type AdvancedComputerSearchesSubsetDisplayField struct {
-	Size         int                                              `xml:"size"`
-	DisplayField AdvancedComputerSearchesSubsetDisplayFieldDetail `xml:"display_field"`
-}
-
-// DisplayFieldDetail represents the details of a display field.
-type AdvancedComputerSearchesSubsetDisplayFieldDetail struct {
-	Name string `xml:"name"`
-}
-
-// Computer represents a computer with its details.
-type AdvancedComputerSearchesDataSubsetComputer struct {
-	Size     int                                          `xml:"size"`
-	Computer AdvancedComputerSearchesSubsetComputerDetail `xml:"computer"`
-}
-
-// ComputerDetail represents the details of a computer.
-type AdvancedComputerSearchesSubsetComputerDetail struct {
-	ID           int    `xml:"id"`
-	Name         string `xml:"name"`
-	UDID         string `xml:"udid,omitempty"`
-	ComputerName string `xml:"Computer_Name,omitempty"`
-}
-
-// SiteDetail represents the details of a site.
-type AdvancedComputerSearchesSubsetSiteDetail struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	ID       int    `xml:"id"`
+	Name     string `xml:"name"`
+	ViewAs   string `xml:"view_as,omitempty"`
+	Sort1    string `xml:"sort_1,omitempty"`
+	Sort2    string `xml:"sort_2,omitempty"`
+	Sort3    string `xml:"sort_3,omitempty"`
+	Criteria []struct {
+		Size      int `xml:"size"`
+		Criterion struct {
+			Name         string `xml:"name"`
+			Priority     int    `xml:"priority,omitempty"`
+			AndOr        string `xml:"and_or,omitempty"`
+			SearchType   string `xml:"search_type,omitempty"`
+			Value        string `xml:"value,omitempty"`
+			OpeningParen bool   `xml:"opening_paren,omitempty"`
+			ClosingParen bool   `xml:"closing_paren,omitempty"`
+		} `xml:"criterion"`
+	} `xml:"criteria"`
+	DisplayFields []struct {
+		Size         int `xml:"size"`
+		DisplayField struct {
+			Name string `xml:"name"`
+		} `xml:"display_field"`
+	} `xml:"display_fields"`
+	Computers []struct {
+		Size     int `xml:"size"`
+		Computer struct {
+			ID           int    `xml:"id"`
+			Name         string `xml:"name"`
+			UDID         string `xml:"udid,omitempty"`
+			ComputerName string `xml:"Computer_Name,omitempty"`
+		} `xml:"computer"`
+	} `xml:"computers"`
+	Site struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"site"`
 }
 
 // GetAdvancedComputerSearches retrieves all advanced computer searches.

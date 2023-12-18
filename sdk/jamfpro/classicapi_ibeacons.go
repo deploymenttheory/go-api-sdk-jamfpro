@@ -14,21 +14,12 @@ const uriIbeacons = "/JSSResource/ibeacons"
 
 // ResponseIBeaconsList represents the response structure for a list of iBeacons.
 type ResponseIBeaconsList struct {
-	Size     int           `xml:"size"`
-	IBeacons []IBeaconItem `xml:"ibeacon"`
-}
-
-// IBeaconItem represents the structure of an individual iBeacon.
-type IBeaconItem struct {
-	ID    int    `xml:"id"`
-	Name  string `xml:"name"`
-	UUID  string `xml:"uuid"`
-	Major int    `xml:"major,omitempty"`
-	Minor int    `xml:"minor,omitempty"`
+	Size     int                `xml:"size"`
+	IBeacons []ResourceIBeacons `xml:"ibeacon"`
 }
 
 // ResponseIBeacons represents the structure of an individual iBeacon.
-type ResponseIBeacons struct {
+type ResourceIBeacons struct {
 	ID    int    `xml:"id"`
 	Name  string `xml:"name"`
 	UUID  string `xml:"uuid"`
@@ -56,9 +47,9 @@ func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
 
 // GetIBeaconByID fetches the details of a specific iBeacon by its ID.
 // It returns the iBeacon's ID, name, UUID, major, and minor values.
-func (c *Client) GetIBeaconByID(id int) (*ResponseIBeacons, error) {
+func (c *Client) GetIBeaconByID(id int) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
-	var beacon ResponseIBeacons
+	var beacon ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch iBeacon by ID: %v", err)
@@ -73,9 +64,9 @@ func (c *Client) GetIBeaconByID(id int) (*ResponseIBeacons, error) {
 
 // GetIBeaconByName fetches the details of a specific iBeacon by its name.
 // It returns the iBeacon's ID, name, UUID, major, and minor values.
-func (c *Client) GetIBeaconByName(name string) (*ResponseIBeacons, error) {
+func (c *Client) GetIBeaconByName(name string) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
-	var beacon ResponseIBeacons
+	var beacon ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch iBeacon by Name: %v", err)
@@ -89,18 +80,18 @@ func (c *Client) GetIBeaconByName(name string) (*ResponseIBeacons, error) {
 }
 
 // CreateIBeacon creates a new iBeacon in Jamf Pro.
-func (c *Client) CreateIBeacon(beacon *ResponseIBeacons) (*ResponseIBeacons, error) {
+func (c *Client) CreateIBeacon(beacon *ResourceIBeacons) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriIbeacons) // '0' typically used for creation in APIs
 
 	// The requestBody struct should mirror the ResponseIBeacons struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"ibeacon"`
-		*ResponseIBeacons
+		*ResourceIBeacons
 	}{
-		ResponseIBeacons: beacon,
+		ResourceIBeacons: beacon,
 	}
 
-	var response ResponseIBeacons
+	var response ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create iBeacon: %v", err)
@@ -114,17 +105,17 @@ func (c *Client) CreateIBeacon(beacon *ResponseIBeacons) (*ResponseIBeacons, err
 }
 
 // UpdateIBeaconByID updates an existing iBeacon by its ID in Jamf Pro.
-func (c *Client) UpdateIBeaconByID(id int, beacon *ResponseIBeacons) (*ResponseIBeacons, error) {
+func (c *Client) UpdateIBeaconByID(id int, beacon *ResourceIBeacons) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ibeacon"`
-		*ResponseIBeacons
+		*ResourceIBeacons
 	}{
-		ResponseIBeacons: beacon,
+		ResourceIBeacons: beacon,
 	}
 
-	var response ResponseIBeacons
+	var response ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update iBeacon by ID: %v", err)
@@ -138,17 +129,17 @@ func (c *Client) UpdateIBeaconByID(id int, beacon *ResponseIBeacons) (*ResponseI
 }
 
 // UpdateIBeaconByName updates an existing iBeacon by its name in Jamf Pro.
-func (c *Client) UpdateIBeaconByName(name string, beacon *ResponseIBeacons) (*ResponseIBeacons, error) {
+func (c *Client) UpdateIBeaconByName(name string, beacon *ResourceIBeacons) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ibeacon"`
-		*ResponseIBeacons
+		*ResourceIBeacons
 	}{
-		ResponseIBeacons: beacon,
+		ResourceIBeacons: beacon,
 	}
 
-	var response ResponseIBeacons
+	var response ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update iBeacon by Name: %v", err)
