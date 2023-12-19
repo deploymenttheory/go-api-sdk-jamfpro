@@ -25,6 +25,10 @@ type ResponseAccountsList struct {
 	} `xml:"groups>group,omitempty"`
 }
 
+type responseAccountCreated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
+}
+
 // ResponseAccount represents an account object
 type ResourceAccount struct {
 	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
@@ -74,19 +78,6 @@ type AccountSubsetPrivileges struct {
 	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege"`
 }
 
-// type Users struct {
-// 	User []AccountUser `json:"user,omitempty" xml:"user,omitempty"`
-// }
-
-// type Groups struct {
-// 	Group []ResponseAccountGroup `json:"group,omitempty" xml:"group,omitempty"`
-// }
-
-// type AccountUser struct {
-// 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-// 	Name string `json:"name" xml:"name"`
-// }
-
 // GetAccounts retrieves a list of all accounts (both users and groups).
 func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
 	endpoint := uriAPIAccounts
@@ -94,8 +85,7 @@ func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
 	var accountsList ResponseAccountsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountsList)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedGet, "accounts", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -112,8 +102,7 @@ func (c *Client) GetAccountByID(id int) (*ResourceAccount, error) {
 	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedGetByID, "account", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -130,8 +119,7 @@ func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedGetByName, "account", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -148,8 +136,7 @@ func (c *Client) GetAccountGroupByID(id int) (*ResponseAccountGroup, error) {
 	var group ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedGetByID, "account group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -166,8 +153,7 @@ func (c *Client) GetAccountGroupByName(name string) (*ResourceAccount, error) {
 	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedGetByName, "account group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -178,7 +164,7 @@ func (c *Client) GetAccountGroupByName(name string) (*ResourceAccount, error) {
 }
 
 // CreateAccountByID creates an Account using its ID
-func (c *Client) CreateAccountByID(account *ResourceAccount) (*ResourceAccount, error) {
+func (c *Client) CreateAccount(account *ResourceAccount) (*responseAccountCreated, error) {
 	// Use a placeholder ID for creating a new account
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, placeholderID)
@@ -199,11 +185,10 @@ func (c *Client) CreateAccountByID(account *ResourceAccount) (*ResourceAccount, 
 		ResourceAccount: account,
 	}
 
-	var returnedAccount ResourceAccount
+	var returnedAccount responseAccountCreated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccount)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedCreate, "account", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -214,7 +199,7 @@ func (c *Client) CreateAccountByID(account *ResourceAccount) (*ResourceAccount, 
 }
 
 // CreateAccountGroupByID creates an Account Group using its ID
-func (c *Client) CreateAccountGroupByID(accountGroup *ResponseAccountGroup) (*ResponseAccountGroup, error) {
+func (c *Client) CreateAccountGroup(accountGroup *ResponseAccountGroup) (*ResponseAccountGroup, error) {
 	// Use a placeholder ID for creating a new account group
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, placeholderID)
@@ -238,8 +223,7 @@ func (c *Client) CreateAccountGroupByID(accountGroup *ResponseAccountGroup) (*Re
 	var returnedAccountGroup ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccountGroup)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedCreate, "account group", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -270,8 +254,7 @@ func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResourceA
 	var updatedAccount ResourceAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "account", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -302,8 +285,7 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 	var updatedAccount ResourceAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "account", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -334,8 +316,7 @@ func (c *Client) UpdateAccountGroupByID(id int, group *ResponseAccountGroup) (*R
 	var updatedGroup ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "account group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -366,8 +347,7 @@ func (c *Client) UpdateAccountGroupByName(name string, group *ResponseAccountGro
 	var updatedGroup ResponseAccountGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "account group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -383,8 +363,7 @@ func (c *Client) DeleteAccountByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return err
+		return fmt.Errorf(errMsgFailedDeleteByID, "account", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -400,8 +379,7 @@ func (c *Client) DeleteAccountByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return err
+		return fmt.Errorf(errMsgFailedDeleteByName, "account", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -417,8 +395,7 @@ func (c *Client) DeleteAccountGroupByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return err
+		return fmt.Errorf(errMsgFailedDeleteByID, "account group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -434,8 +411,7 @@ func (c *Client) DeleteAccountGroupByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		fmt.Printf("Failed to execute request: %v\n", err)
-		return err
+		return fmt.Errorf(errMsgFailedDeleteByName, "account group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
