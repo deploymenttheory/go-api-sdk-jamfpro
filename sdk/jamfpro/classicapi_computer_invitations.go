@@ -3,6 +3,11 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/computerinvitations
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+*/
+
 package jamfpro
 
 import (
@@ -12,43 +17,50 @@ import (
 
 const uriComputerInvitations = "/JSSResource/computerinvitations"
 
+/// List
+
 type ResponseComputerInvitationsList struct {
-	Size               int `xml:"size"`
-	ComputerInvitation []struct {
-		ID                  int    `xml:"id,omitempty"`
-		Invitation          int64  `xml:"invitation,omitempty"`
-		InvitationType      string `xml:"invitation_type,omitempty"`
-		ExpirationDate      string `xml:"expiration_date,omitempty"`
-		ExpirationDateUTC   string `xml:"expiration_date_utc,omitempty"`
-		ExpirationDateEpoch int64  `xml:"expiration_date_epoch,omitempty"`
-	} `xml:"computer_invitation"`
+	Size               int                          `xml:"size"`
+	ComputerInvitation []ComputerInvitationListItem `xml:"computer_invitation"`
 }
 
+type ComputerInvitationListItem struct {
+	ID                  int    `xml:"id,omitempty"`
+	Invitation          int64  `xml:"invitation,omitempty"`
+	InvitationType      string `xml:"invitation_type,omitempty"`
+	ExpirationDate      string `xml:"expiration_date,omitempty"`
+	ExpirationDateUTC   string `xml:"expiration_date_utc,omitempty"`
+	ExpirationDateEpoch int64  `xml:"expiration_date_epoch,omitempty"`
+}
+
+/// Resource
+
 type ResourceComputerInvitation struct {
-	ID                          int    `xml:"id,omitempty"`
-	Invitation                  string `xml:"invitation,omitempty"`
-	InvitationStatus            string `xml:"invitation_status,omitempty"`
-	InvitationType              string `xml:"invitation_type,omitempty"`
-	ExpirationDate              string `xml:"expiration_date,omitempty"`
-	ExpirationDateUTC           string `xml:"expiration_date_utc,omitempty"`
-	ExpirationDateEpoch         int64  `xml:"expiration_date_epoch,omitempty"`
-	SSHUsername                 string `xml:"ssh_username,omitempty"`
-	SSHPassword                 string `xml:"ssh_password,omitempty"`
-	MultipleUsersAllowed        bool   `xml:"multiple_users_allowed,omitempty"`
-	TimesUsed                   int    `xml:"times_used,omitempty"`
-	CreateAccountIfDoesNotExist bool   `xml:"create_account_if_does_not_exist,omitempty"`
-	HideAccount                 bool   `xml:"hide_account,omitempty"`
-	LockDownSSH                 bool   `xml:"lock_down_ssh,omitempty"`
-	InvitedUserUUID             string `xml:"invited_user_uuid,omitempty"`
-	EnrollIntoSite              struct {
-		ID   int    `xml:"id,omitempty"`
-		Name string `xml:"name,omitempty"`
-	} `xml:"enroll_into_site,omitempty"`
-	KeepExistingSiteMembership bool `xml:"keep_existing_site_membership,omitempty"`
-	Site                       struct {
-		ID   int    `xml:"id,omitempty"`
-		Name string `xml:"name,omitempty"`
-	} `xml:"site,omitempty"`
+	ID                          int                                     `xml:"id,omitempty"`
+	Invitation                  string                                  `xml:"invitation,omitempty"`
+	InvitationStatus            string                                  `xml:"invitation_status,omitempty"`
+	InvitationType              string                                  `xml:"invitation_type,omitempty"`
+	ExpirationDate              string                                  `xml:"expiration_date,omitempty"`
+	ExpirationDateUTC           string                                  `xml:"expiration_date_utc,omitempty"`
+	ExpirationDateEpoch         int64                                   `xml:"expiration_date_epoch,omitempty"`
+	SSHUsername                 string                                  `xml:"ssh_username,omitempty"`
+	SSHPassword                 string                                  `xml:"ssh_password,omitempty"`
+	MultipleUsersAllowed        bool                                    `xml:"multiple_users_allowed,omitempty"`
+	TimesUsed                   int                                     `xml:"times_used,omitempty"`
+	CreateAccountIfDoesNotExist bool                                    `xml:"create_account_if_does_not_exist,omitempty"`
+	HideAccount                 bool                                    `xml:"hide_account,omitempty"`
+	LockDownSSH                 bool                                    `xml:"lock_down_ssh,omitempty"`
+	InvitedUserUUID             string                                  `xml:"invited_user_uuid,omitempty"`
+	EnrollIntoSite              ComputerInvitationSubsetEnrollIntoState `xml:"enroll_into_site,omitempty"`
+	KeepExistingSiteMembership  bool                                    `xml:"keep_existing_site_membership,omitempty"`
+	Site                        SharedResourceSite                      `xml:"site,omitempty"`
+}
+
+/// Subsets & Containers
+
+type ComputerInvitationSubsetEnrollIntoState struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 // GetComputerInvitations retrieves a list of all computer invitations.

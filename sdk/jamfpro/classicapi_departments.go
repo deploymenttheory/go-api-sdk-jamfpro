@@ -14,18 +14,26 @@ const uriDepartments = "/JSSResource/departments"
 
 // Response structure for the list of departments
 
+/// List
+
 type ResponseDepartmentsList struct {
-	TotalCount int `xml:"size"`
-	Results    []struct {
-		Id   int    `xml:"id,omitempty" json:"id,omitempty"`
-		Name string `xml:"name" json:"name"`
-	} `xml:"department"`
+	TotalCount int                   `xml:"size"`
+	Results    []DepartmentsListItem `xml:"department"`
 }
+
+type DepartmentsListItem struct {
+	Id   int    `xml:"id,omitempty" json:"id,omitempty"`
+	Name string `xml:"name" json:"name"`
+}
+
+/// Resource
 
 type ResourceDepartment struct {
 	ID   int    `xml:"id,omitempty" json:"id,omitempty"`
 	Name string `xml:"name" json:"name"`
 }
+
+/// CRUD
 
 // GetDepartments retrieves all departments
 func (c *Client) GetDepartments() (*ResponseDepartmentsList, error) {

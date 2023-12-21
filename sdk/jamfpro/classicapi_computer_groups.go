@@ -2,6 +2,13 @@
 // Jamf Pro Classic Api - Computer Groups
 // api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+SharedContainerCriteria
+*/
+
 package jamfpro
 
 import (
@@ -11,50 +18,39 @@ import (
 
 const uriComputerGroups = "/JSSResource/computergroups"
 
+/// List
+
 type ResponseComputerGroupsList struct {
-	Size    int `xml:"size"`
-	Results []struct {
-		ID      int    `xml:"id,omitempty"`
-		Name    string `xml:"name,omitempty"`
-		IsSmart bool   `xml:"is_smart,omitempty"`
-	} `xml:"computer_group"`
+	Size    int                     `xml:"size"`
+	Results []ComputerGroupListItem `xml:"computer_group"`
 }
+
+type ComputerGroupListItem struct {
+	ID      int    `xml:"id,omitempty"`
+	Name    string `xml:"name,omitempty"`
+	IsSmart bool   `xml:"is_smart,omitempty"`
+}
+
+/// Resource
 
 type ResourceComputerGroup struct {
-	ID      int    `xml:"id"`
-	Name    string `xml:"name"`
-	IsSmart bool   `xml:"is_smart"`
-	Site    struct {
-		ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-		Name string `json:"name,omitempty" xml:"name,omitempty"`
-	} `xml:"site"`
-	Criteria []struct {
-		Size      int `xml:"size"`
-		Criterion struct {
-			Name         string           `xml:"name"`
-			Priority     int              `xml:"priority"`
-			AndOr        DeviceGroupAndOr `xml:"and_or"`
-			SearchType   string           `xml:"search_type"`
-			SearchValue  string           `xml:"value"`
-			OpeningParen bool             `xml:"opening_paren"`
-			ClosingParen bool             `xml:"closing_paren"`
-		} `xml:"criterion"`
-	} `xml:"criteria>criterion"`
-	Computers []struct {
-		ID            int    `json:"id,omitempty" xml:"id,omitempty"`
-		Name          string `json:"name,omitempty" xml:"name,omitempty"`
-		SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
-		MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
-		AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
-	} `xml:"computers>computer"`
+	ID        int                           `xml:"id"`
+	Name      string                        `xml:"name"`
+	IsSmart   bool                          `xml:"is_smart"`
+	Site      SharedResourceSite            `xml:"site"`
+	Criteria  []SharedContainerCriteria     `xml:"criteria>criterion"`
+	Computers []ComputerGroupSubsetComputer `xml:"computers>computer"`
 }
 
-type DeviceGroupAndOr string
+/// Subsets & Containers
 
-const (
-	And DeviceGroupAndOr = "and"
-	Or  DeviceGroupAndOr = "or"
-)
+type ComputerGroupSubsetComputer struct {
+	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name          string `json:"name,omitempty" xml:"name,omitempty"`
+	SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
+	MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
+	AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
+}
 
 // GetComputerGroups gets a list of all computer groups
 func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {

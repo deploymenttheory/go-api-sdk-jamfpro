@@ -20,12 +20,12 @@ type SharedAdvancedSearchSubsetDisplayField struct {
 
 // Advanced Search Criteria
 
-type SharedAdvancedSearchContainerCriteria struct {
+type SharedContainerCriteria struct {
 	Size     int
-	Criteria SharedAdvancedSearchSubsetCriteria
+	Criteria SharedSubsetCriteria
 }
 
-type SharedAdvancedSearchSubsetCriteria struct {
+type SharedSubsetCriteria struct {
 	Name         string `xml:"name"`
 	Priority     int    `xml:"priority"`
 	AndOr        string `xml:"and_or"`

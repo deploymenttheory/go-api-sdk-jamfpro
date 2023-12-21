@@ -3,6 +3,11 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/classes
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+*/
+
 package jamfpro
 
 import (

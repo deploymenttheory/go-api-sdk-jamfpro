@@ -13,17 +13,21 @@ import (
 // URI for Dock Items in Jamf Pro API
 const uriDockItems = "/JSSResource/dockitems"
 
+/// List
+
 // Struct to capture the XML response for dock items list
 type ResponseDockItemsList struct {
-	Size     int `xml:"size"`
-	DockItem []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"dock_item"`
+	Size      int                `xml:"size"`
+	DockItems []DockItemListItem `xml:"dock_item"`
+}
+
+type DockItemListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
 // Struct to capture the response for a single Dock Item
-type ResponseDockItem struct {
+type ResourceDockItem struct {
 	ID       int    `xml:"id" json:"id"`
 	Name     string `xml:"name" json:"name"`
 	Type     string `xml:"type" json:"type"`
@@ -49,10 +53,10 @@ func (c *Client) GetDockItems() (*ResponseDockItemsList, error) {
 }
 
 // GetDockItemsByID retrieves a single dock item by its ID.
-func (c *Client) GetDockItemsByID(id int) (*ResponseDockItem, error) {
+func (c *Client) GetDockItemsByID(id int) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
-	var dockItem ResponseDockItem
+	var dockItem ResourceDockItem
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Dock Item by ID: %v", err)
@@ -66,10 +70,10 @@ func (c *Client) GetDockItemsByID(id int) (*ResponseDockItem, error) {
 }
 
 // GetDockItemsByName retrieves a single dock item by its name.
-func (c *Client) GetDockItemsByName(name string) (*ResponseDockItem, error) {
+func (c *Client) GetDockItemsByName(name string) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
-	var dockItem ResponseDockItem
+	var dockItem ResourceDockItem
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Dock Item by Name: %v", err)
@@ -83,17 +87,17 @@ func (c *Client) GetDockItemsByName(name string) (*ResponseDockItem, error) {
 }
 
 // CreateDockItems creates a new dock item.
-func (c *Client) CreateDockItems(dockItem *ResponseDockItem) (*ResponseDockItem, error) {
+func (c *Client) CreateDockItems(dockItem *ResourceDockItem) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriDockItems) // Typically, APIs use '0' or a similar placeholder for creation endpoints
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"dock_item"`
-		*ResponseDockItem
+		*ResourceDockItem
 	}{
-		ResponseDockItem: dockItem,
+		ResourceDockItem: dockItem,
 	}
 
-	var createdDockItem ResponseDockItem
+	var createdDockItem ResourceDockItem
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDockItem)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Dock Item: %v", err)
@@ -107,17 +111,17 @@ func (c *Client) CreateDockItems(dockItem *ResponseDockItem) (*ResponseDockItem,
 }
 
 // UpdateDockItemByID updates a dock item by its ID.
-func (c *Client) UpdateDockItemsByID(id int, dockItem *ResponseDockItem) (*ResponseDockItem, error) {
+func (c *Client) UpdateDockItemsByID(id int, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"dock_item"`
-		*ResponseDockItem
+		*ResourceDockItem
 	}{
-		ResponseDockItem: dockItem,
+		ResourceDockItem: dockItem,
 	}
 
-	var updatedDockItem ResponseDockItem
+	var updatedDockItem ResourceDockItem
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDockItem)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Dock Item by ID: %v", err)
@@ -131,17 +135,17 @@ func (c *Client) UpdateDockItemsByID(id int, dockItem *ResponseDockItem) (*Respo
 }
 
 // UpdateDockItemByName updates a dock item by its name.
-func (c *Client) UpdateDockItemsByName(name string, dockItem *ResponseDockItem) (*ResponseDockItem, error) {
+func (c *Client) UpdateDockItemsByName(name string, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"dock_item"`
-		*ResponseDockItem
+		*ResourceDockItem
 	}{
-		ResponseDockItem: dockItem,
+		ResourceDockItem: dockItem,
 	}
 
-	var updatedDockItem ResponseDockItem
+	var updatedDockItem ResourceDockItem
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDockItem)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Dock Item by Name: %v", err)

@@ -33,7 +33,7 @@ type AdvancedUserSearchListItem struct {
 type ResourceAdvancedUserSearch struct {
 	ID            int                                       `xml:"id"`
 	Name          string                                    `xml:"name"`
-	Criteria      []SharedAdvancedSearchContainerCriteria   `xml:"criteria"`
+	Criteria      []SharedContainerCriteria                 `xml:"criteria"`
 	Users         []AdvancedUserSearchContainerUsers        `xml:"users"`
 	DisplayFields SharedAdvancedSearchContainerDisplayField `xml:"display_fields"`
 	Site          SharedResourceSite                        `xml:"site"`

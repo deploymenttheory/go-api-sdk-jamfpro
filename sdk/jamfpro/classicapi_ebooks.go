@@ -13,14 +13,20 @@ import (
 // URI for Ebooks in Jamf Pro API
 const uriEbooks = "/JSSResource/ebooks"
 
+/// List
+
 // Struct to capture the XML response for ebooks list
 type ResponseEbooksList struct {
-	Size  int `xml:"size"`
-	Ebook struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"ebook"`
+	Size   int           `xml:"size"`
+	Ebooks EBookListItem `xml:"ebook"`
 }
+
+type EBookListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+/// Resource
 
 // ResourceEbooks represents the detailed structure of an Ebook response.
 type ResourceEbooks struct {

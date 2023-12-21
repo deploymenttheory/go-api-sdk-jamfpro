@@ -13,30 +13,42 @@ const uriComputerExtensionAttributes = "/JSSResource/computerextensionattributes
 
 // Structs for the computer extension attributes
 
+/// List
+
 type ResponseComputerExtensionAttributesList struct {
-	Size    int `xml:"size"`
-	Results []struct {
-		ID      int    `xml:"id,omitempty"`
-		Name    string `xml:"name,omitempty"`
-		Enabled bool   `xml:"enabled,omitempty"`
-	} `xml:"computer_extension_attribute"`
+	Size    int                                   `xml:"size"`
+	Results []ComputerExtenstionAttributeListItem `xml:"computer_extension_attribute"`
 }
 
-type ResourceComputerExtensionAttribute struct {
-	ID          int    `xml:"id"`
-	Name        string `xml:"name"`
-	Enabled     bool   `xml:"enabled,omitempty"`
-	Description string `xml:"description,omitempty"`
-	DataType    string `xml:"data_type,omitempty"`
-	InputType   struct {
-		Type     string   `xml:"type"`
-		Platform string   `xml:"platform,omitempty"`
-		Script   string   `xml:"script,omitempty"`
-		Choices  []string `xml:"popup_choices>choice,omitempty"`
-	} `xml:"input_type"`
-	InventoryDisplay string `xml:"inventory_display,omitempty"`
-	ReconDisplay     string `xml:"recon_display,omitempty"`
+type ComputerExtenstionAttributeListItem struct {
+	ID      int    `xml:"id,omitempty"`
+	Name    string `xml:"name,omitempty"`
+	Enabled bool   `xml:"enabled,omitempty"`
 }
+
+/// Resource
+
+type ResourceComputerExtensionAttribute struct {
+	ID               int                                       `xml:"id"`
+	Name             string                                    `xml:"name"`
+	Enabled          bool                                      `xml:"enabled,omitempty"`
+	Description      string                                    `xml:"description,omitempty"`
+	DataType         string                                    `xml:"data_type,omitempty"`
+	InputType        ComputerExtensionAttributeSubsetInputType `xml:"input_type"`
+	InventoryDisplay string                                    `xml:"inventory_display,omitempty"`
+	ReconDisplay     string                                    `xml:"recon_display,omitempty"`
+}
+
+/// Subsets
+
+type ComputerExtensionAttributeSubsetInputType struct {
+	Type     string   `xml:"type"`
+	Platform string   `xml:"platform,omitempty"`
+	Script   string   `xml:"script,omitempty"`
+	Choices  []string `xml:"popup_choices>choice,omitempty"`
+}
+
+/// CRUD
 
 // GetComputerExtensionAttributes gets a list of all computer extension attributes
 func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAttributesList, error) {
