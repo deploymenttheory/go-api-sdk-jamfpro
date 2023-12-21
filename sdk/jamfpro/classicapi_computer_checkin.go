@@ -14,6 +14,8 @@ const uriComputerCheckin = "/JSSResource/computercheckin"
 
 // Struct for the computer check-in settings response
 
+/// Resrouce
+
 type ResourceComputerCheckin struct {
 	CheckInFrequency                 int  `xml:"check_in_frequency"`
 	CreateStartupScript              bool `xml:"create_startup_script"`

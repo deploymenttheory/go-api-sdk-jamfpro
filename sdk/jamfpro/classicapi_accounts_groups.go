@@ -1,3 +1,10 @@
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+
+
+*/
+
 package jamfpro
 
 import "fmt"
@@ -9,7 +16,7 @@ type ResourceAccountGroup struct {
 	Name         string                    `json:"name" xml:"name"`
 	AccessLevel  string                    `json:"access_level" xml:"access_level"`
 	PrivilegeSet string                    `json:"privilege_set" xml:"privilege_set"`
-	Site         AccountSubsetSite         `json:"site" xml:"site"`
+	Site         SharedResourceSite        `json:"site" xml:"site"`
 	Privileges   AccountSubsetPrivileges   `json:"privileges" xml:"privileges"`
 	Members      AccountGroupSubsetMembers `json:"members" xml:"members>user"`
 }
@@ -63,7 +70,7 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Resour
 
 	// Check if site is not provided and set default values
 	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
-		accountGroup.Site = AccountSubsetSite{
+		accountGroup.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -95,7 +102,7 @@ func (c *Client) UpdateAccountGroupByID(id int, group *ResourceAccountGroup) (*R
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = AccountSubsetSite{
+		group.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -126,7 +133,7 @@ func (c *Client) UpdateAccountGroupByName(name string, group *ResourceAccountGro
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = AccountSubsetSite{
+		group.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}

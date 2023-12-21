@@ -3,6 +3,13 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/accounts
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+
+
+*/
+
 package jamfpro
 
 import (
@@ -33,7 +40,7 @@ type ResourceAccount struct {
 	AccessLevel         string                  `json:"access_level,omitempty" xml:"access_level,omitempty"`
 	Password            string                  `json:"password" xml:"password"`
 	PrivilegeSet        string                  `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
-	Site                AccountSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
+	Site                SharedResourceSite      `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges          AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
@@ -53,13 +60,8 @@ type AccountsListSubsetUsers struct {
 type AccountsListSubsetGroups struct {
 	ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
 	Name       string                  `json:"name" xml:"name"`
-	Site       AccountSubsetSite       `json:"site,omitempty" xml:"site,omitempty"`
+	Site       SharedResourceSite      `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
-}
-
-type AccountSubsetSite struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name" xml:"name"`
 }
 
 type AccountSubsetLdapServer struct {
@@ -136,7 +138,7 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 
 	// Check if site is not provided and set default values
 	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = AccountSubsetSite{
+		account.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -168,7 +170,7 @@ func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResourceA
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
 	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = AccountSubsetSite{
+		account.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -199,7 +201,7 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
 	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = AccountSubsetSite{
+		account.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}

@@ -2,7 +2,11 @@
 // Jamf Pro Classic Api - Personal Device Profiles
 // api reference: https://developer.jamf.com/jamf-pro/reference/byoprofiles
 // Classic API requires the structs to support an XML data structure.
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
 
+*/
 package jamfpro
 
 import (
@@ -14,25 +18,26 @@ const uriBYOProfiles = "/JSSResource/byoprofiles"
 
 // ResponseBYOProfilesList represents the XML response for a list of BYO profiles.
 type ResponseBYOProfilesList struct {
-	Size        int `xml:"size"`
-	BYOProfiles []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"byoprofile"`
+	Size        int                  `xml:"size"`
+	BYOProfiles []BYOProfileListItem `xml:"byoprofile"`
+}
+
+type BYOProfileListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
 }
 
 // BYOProfile represents the details of a BYO profile.
 type ResourceBYOProfile struct {
-	General struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-		Site struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"site"`
-		Enabled     bool   `xml:"enabled"`
-		Description string `xml:"description"`
-	} `xml:"general"`
+	General BYOProfileSubsetGeneral `xml:"general"`
+}
+
+type BYOProfileSubsetGeneral struct {
+	ID          int                `xml:"id"`
+	Name        string             `xml:"name"`
+	Site        SharedResourceSite `xml:"site"`
+	Enabled     bool               `xml:"enabled"`
+	Description string             `xml:"description"`
 }
 
 // GetBYOProfiles gets a list of all BYO profiles.

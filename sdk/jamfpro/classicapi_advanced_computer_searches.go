@@ -3,6 +3,13 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedAdvancedSearchContainerCriteria
+SharedAdvancedSearchSubsetDisplayField
+*/
+
 package jamfpro
 
 import (
@@ -35,7 +42,7 @@ type ResourceAdvancedComputerSearch struct {
 	Sort1         string                                     `xml:"sort_1,omitempty"`
 	Sort2         string                                     `xml:"sort_2,omitempty"`
 	Sort3         string                                     `xml:"sort_3,omitempty"`
-	Criteria      SharedAdvancedSearchContainerCriteria      `xml:"criteria"`
+	Criteria      []SharedAdvancedSearchContainerCriteria    `xml:"criteria"`
 	DisplayFields []SharedAdvancedSearchSubsetDisplayField   `xml:"display_fields"`
 	Computers     []AdvancedComputerSearchContainerComputers `xml:"computer"`
 	Site          SharedResourceSite                         `xml:"site"`

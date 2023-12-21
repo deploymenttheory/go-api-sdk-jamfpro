@@ -2,7 +2,12 @@
 // Jamf Pro Classic Api - Advanced User Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
 // Classic API requires the structs to support an XML data structure.
-
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedAdvancedSearchContainerCriteria
+SharedAdvancedSearchSubsetDisplayField
+*/
 package jamfpro
 
 import (
@@ -14,48 +19,35 @@ const uriAPIAdvancedUserSearches = "/JSSResource/advancedusersearches"
 
 // Response structure for the list of advanced user searches
 type ResponseAdvancedUserSearchesList struct {
-	Size               int `xml:"size"`
-	AdvancedUserSearch []struct {
-		XMLName xml.Name `xml:"advanced_user_search"`
-		ID      int      `xml:"id"`
-		Name    string   `xml:"name"`
-	} `xml:"advanced_user_search"`
+	Size               int                          `xml:"size"`
+	AdvancedUserSearch []AdvancedUserSearchListItem `xml:"advanced_user_search"`
+}
+
+type AdvancedUserSearchListItem struct {
+	XMLName xml.Name `xml:"advanced_user_search"`
+	ID      int      `xml:"id"`
+	Name    string   `xml:"name"`
 }
 
 // Structs for Advanced User Search details by ID
 type ResourceAdvancedUserSearch struct {
-	ID       int    `xml:"id"`
-	Name     string `xml:"name"`
-	Criteria []struct {
-		Size      int `xml:"size"`
-		Criterion struct {
-			Name         string `xml:"name"`
-			Priority     int    `xml:"priority"`
-			AndOr        string `xml:"and_or"`
-			SearchType   string `xml:"search_type"`
-			Value        string `xml:"value"`
-			OpeningParen bool   `xml:"opening_paren"`
-			ClosingParen bool   `xml:"closing_paren"`
-		} `xml:"criterion"`
-	} `xml:"criteria"`
-	Users []struct {
-		Size int `xml:"size"`
-		User struct {
-			ID       int    `xml:"id,omitempty"`
-			Name     string `xml:"name,omitempty"`
-			Username string `xml:"Username,omitempty"`
-		} `xml:"user"`
-	} `xml:"users"`
-	DisplayFields []struct {
-		Size         int `xml:"size"`
-		DisplayField struct {
-			Name string `xml:"name"`
-		} `xml:"display_field"`
-	} `xml:"display_fields"`
-	Site struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"site"`
+	ID            int                                       `xml:"id"`
+	Name          string                                    `xml:"name"`
+	Criteria      []SharedAdvancedSearchContainerCriteria   `xml:"criteria"`
+	Users         []AdvancedUserSearchContainerUsers        `xml:"users"`
+	DisplayFields SharedAdvancedSearchContainerDisplayField `xml:"display_fields"`
+	Site          SharedResourceSite                        `xml:"site"`
+}
+
+type AdvancedUserSearchContainerUsers struct {
+	Size int                          `xml:"size"`
+	User AdvancedUserSearchSubsetUser `xml:"user"`
+}
+
+type AdvancedUserSearchSubsetUser struct {
+	ID       int    `xml:"id,omitempty"`
+	Name     string `xml:"name,omitempty"`
+	Username string `xml:"Username,omitempty"`
 }
 
 // GetAdvancedUserSearches retrieves all advanced user searches

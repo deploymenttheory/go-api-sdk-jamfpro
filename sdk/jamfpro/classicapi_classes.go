@@ -13,6 +13,8 @@ import (
 // Constants for the classes endpoint
 const uriClasses = "/JSSResource/classes"
 
+/// List
+
 // ResponseClassesList represents the XML response for a list of classes.
 type ResponseClassesList struct {
 	Size    int             `xml:"size"`
@@ -26,56 +28,99 @@ type ClassListItem struct {
 	Description string `xml:"description"`
 }
 
+/// Resource
+
 type ResourceClass struct {
-	ID          int    `xml:"id,omitempty"`
-	Source      string `xml:"source,omitempty"`
-	Name        string `xml:"name,omitempty"`
-	Description string `xml:"description,omitempty"`
-	Site        struct {
-		ID   int    `xml:"id,omitempty"`
-		Name string `xml:"name"`
-	} `xml:"site"`
-	MobileDeviceGroup struct {
-		ID   int    `xml:"id,omitempty"`
-		Name string `xml:"name,omitempty"`
-	} `xml:"mobile_device_group,omitempty"`
-	Students []struct {
-		Student string `xml:"student,omitempty"`
-	} `xml:"students>student"`
-	Teachers []struct {
-		Teacher string `xml:"teacher,omitempty"`
-	} `xml:"teachers>teacher,omitempty"`
-	TeacherIDs []struct {
-		ID int `xml:"id,omitempty"`
-	} `xml:"teacher_ids>id,omitempty"`
-	StudentGroupIDs []struct {
-		ID int `xml:"id,omitempty"`
-	} `xml:"student_group_ids>id"`
-	TeacherGroupIDs []struct {
-		ID int `xml:"id,omitempty"`
-	} `xml:"teacher_group_ids>id"`
-	MobileDevices []struct {
-		Name           string `xml:"name,omitempty"`
-		UDID           string `xml:"udid,omitempty"`
-		WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
-	} `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroupID []struct {
-		ID int `xml:"id,omitempty"`
-	} `xml:"mobile_device_group>id,omitempty"`
-	MeetingTimes struct {
-		MeetingTime struct {
-			Days      string `xml:"days,omitempty"`
-			StartTime int    `xml:"start_time,omitempty"`
-			EndTime   int    `xml:"end_time,omitempty"`
-		} `xml:"meeting_time,omitempty"`
-	} `xml:"meeting_times,omitempty"`
-	AppleTVs []struct {
-		Name            string `xml:"name,omitempty"`
-		UDID            string `xml:"udid,omitempty"`
-		WifiMacAddress  string `xml:"wifi_mac_address,omitempty"`
-		DeviceID        string `xml:"device_id,omitempty"`
-		AirplayPassword string `xml:"airplay_password,omitempty"`
-	} `xml:"apple_tvs>apple_tv,omitempty"`
+	ID                  int                              `xml:"id,omitempty"`
+	Source              string                           `xml:"source,omitempty"`
+	Name                string                           `xml:"name,omitempty"`
+	Description         string                           `xml:"description,omitempty"`
+	Site                SharedResourceSite               `xml:"site"`
+	MobileDeviceGroup   ClassSubsetMobileDeviceGroup     `xml:"mobile_device_group,omitempty"`
+	Students            []ClassSubsetStudent             `xml:"students>student"`
+	Teachers            []ClassSubsetTeacher             `xml:"teachers>teacher,omitempty"`
+	TeacherIDs          []ClassSubsetTeacherIDs          `xml:"teacher_ids>id,omitempty"`
+	StudentGroupIDs     []ClassSubsetStudentGroupIDs     `xml:"student_group_ids>id"`
+	TeacherGroupIDs     []ClassSubsetTeacherGroupIDs     `xml:"teacher_group_ids>id"`
+	MobileDevices       []ClassSubsetMobileDevices       `xml:"mobile_devices>mobile_device"`
+	MobileDeviceGroupID []ClassSubsetMobileDeviceGroupID `xml:"mobile_device_group>id,omitempty"`
+	MeetingTimes        ClassContainerMeetingTimes       `xml:"meeting_times,omitempty"`
+	AppleTVs            []ClassSubsetAppleTVs            `xml:"apple_tvs>apple_tv,omitempty"`
+}
+
+/// Subsets & Containers
+
+// Mobile Device Group
+
+type ClassSubsetMobileDeviceGroup struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+
+// Mobile Devices
+
+type ClassSubsetMobileDevices struct {
+	Name           string `xml:"name,omitempty"`
+	UDID           string `xml:"udid,omitempty"`
+	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
+}
+
+// Mobile Device Group ID
+
+type ClassSubsetMobileDeviceGroupID struct {
+	ID int `xml:"id,omitempty"`
+}
+
+// Student
+
+type ClassSubsetStudent struct {
+	Student string `xml:"student,omitempty"`
+}
+
+// Teacher
+
+type ClassSubsetTeacher struct {
+	Teacher string `xml:"teacher,omitempty"`
+}
+
+// Teacher IDs
+
+type ClassSubsetTeacherIDs struct {
+	ID int `xml:"id,omitempty"`
+}
+
+// Student Group IDs
+
+type ClassSubsetStudentGroupIDs struct {
+	ID int `xml:"id,omitempty"`
+}
+
+// Teacher Group IDs
+
+type ClassSubsetTeacherGroupIDs struct {
+	ID int `xml:"id,omitempty"`
+}
+
+// Meeting Times
+
+type ClassContainerMeetingTimes struct {
+	MeetingTime ClassSubsetMeetingTime `xml:"meeting_time,omitempty"`
+}
+
+type ClassSubsetMeetingTime struct {
+	Days      string `xml:"days,omitempty"`
+	StartTime int    `xml:"start_time,omitempty"`
+	EndTime   int    `xml:"end_time,omitempty"`
+}
+
+// Apple TVs
+
+type ClassSubsetAppleTVs struct {
+	Name            string `xml:"name,omitempty"`
+	UDID            string `xml:"udid,omitempty"`
+	WifiMacAddress  string `xml:"wifi_mac_address,omitempty"`
+	DeviceID        string `xml:"device_id,omitempty"`
+	AirplayPassword string `xml:"airplay_password,omitempty"`
 }
 
 // GetClasses gets a list of all classes.

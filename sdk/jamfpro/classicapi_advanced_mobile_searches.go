@@ -2,6 +2,12 @@
 // Jamf Pro Classic Api - Advanced Mobile Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
 // Classic API requires the structs to support an XML data structure.
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedAdvancedSearchContainerCriteria
+SharedAdvancedSearchSubsetDisplayField
+*/
 
 package jamfpro
 
@@ -35,7 +41,7 @@ type ResourceAdvancedMobileDeviceSearches struct {
 	Sort1         string                                   `xml:"sort_1,omitempty"`
 	Sort2         string                                   `xml:"sort_2,omitempty"`
 	Sort3         string                                   `xml:"sort_3,omitempty"`
-	Criteria      SharedAdvancedSearchContainerCriteria    `xml:"criteria,omitempty"`
+	Criteria      []SharedAdvancedSearchContainerCriteria  `xml:"criteria,omitempty"`
 	DisplayFields []SharedAdvancedSearchSubsetDisplayField `xml:"display_fields"`
 	MobileDevices []AdvancedMobileSearchContainerDevices   `xml:"mobile_devices,omitempty"`
 	Site          SharedResourceSite                       `xml:"site"`
