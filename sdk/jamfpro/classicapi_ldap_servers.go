@@ -13,78 +13,105 @@ import (
 const uriLDAPServers = "/JSSResource/ldapservers"
 
 // ResponseLDAPServersList represents the response structure for a list of LDAP servers.
+
+/// List
+
 type ResponseLDAPServersList struct {
-	Size        int `xml:"size"`
-	LDAPServers []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"ldap_server"`
+	Size        int                   `xml:"size"`
+	LDAPServers []LDAPServersListItem `xml:"ldap_server"`
 }
+
+type LDAPServersListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+/// Resource
 
 // ResourceLDAPServers represents the structure of an individual LDAP server.
 type ResourceLDAPServers struct {
-	Connection struct {
-		ID                 int    `xml:"id"`
-		Name               string `xml:"name"`
-		Hostname           string `xml:"hostname"`
-		ServerType         string `xml:"server_type"`
-		Port               int    `xml:"port"`
-		UseSSL             bool   `xml:"use_ssl"`
-		AuthenticationType string `xml:"authentication_type"`
-		Account            struct {
-			DistinguishedUsername string `xml:"distinguished_username"`
-			Password              string `xml:"password"`
-		} `xml:"account"`
-		OpenCloseTimeout int    `xml:"open_close_timeout"`
-		SearchTimeout    int    `xml:"search_timeout"`
-		ReferralResponse string `xml:"referral_response"`
-		UseWildcards     bool   `xml:"use_wildcards"`
-	} `xml:"connection"`
-	MappingsForUsers struct {
-		UserMappings struct {
-			MapObjectClassToAnyOrAll string `xml:"map_object_class_to_any_or_all"`
-			ObjectClasses            string `xml:"object_classes"`
-			SearchBase               string `xml:"search_base"`
-			SearchScope              string `xml:"search_scope"`
-			MapUserID                string `xml:"map_user_id"`
-			MapUsername              string `xml:"map_username"`
-			MapRealName              string `xml:"map_realname"`
-			MapEmailAddress          string `xml:"map_email_address"`
-			AppendToEmailResults     string `xml:"append_to_email_results"`
-			MapDepartment            string `xml:"map_department"`
-			MapBuilding              string `xml:"map_building"`
-			MapRoom                  string `xml:"map_room"`
-			MapTelephone             string `xml:"map_telephone"`
-			MapPosition              string `xml:"map_position"`
-			MapUserUUID              string `xml:"map_user_uuid"`
-		} `xml:"user_mappings"`
-		UserGroupMappings struct {
-			MapObjectClassToAnyOrAll string `xml:"map_object_class_to_any_or_all"`
-			ObjectClasses            string `xml:"object_classes"`
-			SearchBase               string `xml:"search_base"`
-			SearchScope              string `xml:"search_scope"`
-			MapGroupID               string `xml:"map_group_id"`
-			MapGroupName             string `xml:"map_group_name"`
-			MapGroupUUID             string `xml:"map_group_uuid"`
-		} `xml:"user_group_mappings"`
-		UserGroupMembershipMappings struct {
-			UserGroupMembershipStoredIn       string `xml:"user_group_membership_stored_in"`
-			MapGroupMembershipToUserField     string `xml:"map_group_membership_to_user_field"`
-			AppendToUsername                  string `xml:"append_to_username"`
-			UseDN                             bool   `xml:"use_dn"`
-			RecursiveLookups                  bool   `xml:"recursive_lookups"`
-			MapUserMembershipToGroupField     bool   `xml:"map_user_membership_to_group_field"`
-			MapUserMembershipUseDN            bool   `xml:"map_user_membership_use_dn"`
-			MapObjectClassToAnyOrAll          string `xml:"map_object_class_to_any_or_all"`
-			ObjectClasses                     string `xml:"object_classes"`
-			SearchBase                        string `xml:"search_base"`
-			SearchScope                       string `xml:"search_scope"`
-			Username                          string `xml:"username"`
-			GroupID                           string `xml:"group_id"`
-			UserGroupMembershipUseLDAPCompare bool   `xml:"user_group_membership_use_ldap_compare"`
-		} `xml:"user_group_membership_mappings"`
-	} `xml:"mappings_for_users"`
+	Connection       LDAPServerSubsetConnection `xml:"connection"`
+	MappingsForUsers LDAPServerContainerMapping `xml:"mappings_for_users"`
 }
+
+/// Subsets & Containers
+
+// Connection
+
+type LDAPServerSubsetConnection struct {
+	ID                 int                               `xml:"id"`
+	Name               string                            `xml:"name"`
+	Hostname           string                            `xml:"hostname"`
+	ServerType         string                            `xml:"server_type"`
+	Port               int                               `xml:"port"`
+	UseSSL             bool                              `xml:"use_ssl"`
+	AuthenticationType string                            `xml:"authentication_type"`
+	Account            LDAPServerSubsetConnectionAccount `xml:"account"`
+	OpenCloseTimeout   int                               `xml:"open_close_timeout"`
+	SearchTimeout      int                               `xml:"search_timeout"`
+	ReferralResponse   string                            `xml:"referral_response"`
+	UseWildcards       bool                              `xml:"use_wildcards"`
+}
+
+type LDAPServerSubsetConnectionAccount struct {
+	DistinguishedUsername string `xml:"distinguished_username"`
+	Password              string `xml:"password"`
+}
+
+// MappingsForUsers
+
+type LDAPServerContainerMapping struct {
+	UserMappings                LDAPServerSubsetMappingUsers                `xml:"user_mappings"`
+	UserGroupMappings           LDAPServerSubsetMappingUserGroups           `xml:"user_group_mappings"`
+	UserGroupMembershipMappings LDAPServerSubsetMappingUserGroupMemberships `xml:"user_group_membership_mappings"`
+}
+
+type LDAPServerSubsetMappingUsers struct {
+	MapObjectClassToAnyOrAll string `xml:"map_object_class_to_any_or_all"`
+	ObjectClasses            string `xml:"object_classes"`
+	SearchBase               string `xml:"search_base"`
+	SearchScope              string `xml:"search_scope"`
+	MapUserID                string `xml:"map_user_id"`
+	MapUsername              string `xml:"map_username"`
+	MapRealName              string `xml:"map_realname"`
+	MapEmailAddress          string `xml:"map_email_address"`
+	AppendToEmailResults     string `xml:"append_to_email_results"`
+	MapDepartment            string `xml:"map_department"`
+	MapBuilding              string `xml:"map_building"`
+	MapRoom                  string `xml:"map_room"`
+	MapTelephone             string `xml:"map_telephone"`
+	MapPosition              string `xml:"map_position"`
+	MapUserUUID              string `xml:"map_user_uuid"`
+}
+
+type LDAPServerSubsetMappingUserGroups struct {
+	MapObjectClassToAnyOrAll string `xml:"map_object_class_to_any_or_all"`
+	ObjectClasses            string `xml:"object_classes"`
+	SearchBase               string `xml:"search_base"`
+	SearchScope              string `xml:"search_scope"`
+	MapGroupID               string `xml:"map_group_id"`
+	MapGroupName             string `xml:"map_group_name"`
+	MapGroupUUID             string `xml:"map_group_uuid"`
+}
+
+type LDAPServerSubsetMappingUserGroupMemberships struct {
+	UserGroupMembershipStoredIn       string `xml:"user_group_membership_stored_in"`
+	MapGroupMembershipToUserField     string `xml:"map_group_membership_to_user_field"`
+	AppendToUsername                  string `xml:"append_to_username"`
+	UseDN                             bool   `xml:"use_dn"`
+	RecursiveLookups                  bool   `xml:"recursive_lookups"`
+	MapUserMembershipToGroupField     bool   `xml:"map_user_membership_to_group_field"`
+	MapUserMembershipUseDN            bool   `xml:"map_user_membership_use_dn"`
+	MapObjectClassToAnyOrAll          string `xml:"map_object_class_to_any_or_all"`
+	ObjectClasses                     string `xml:"object_classes"`
+	SearchBase                        string `xml:"search_base"`
+	SearchScope                       string `xml:"search_scope"`
+	Username                          string `xml:"username"`
+	GroupID                           string `xml:"group_id"`
+	UserGroupMembershipUseLDAPCompare bool   `xml:"user_group_membership_use_ldap_compare"`
+}
+
+/// CRUD
 
 // GetLDAPServers retrieves a serialized list of LDAP servers.
 func (c *Client) GetLDAPServers() (*ResponseLDAPServersList, error) {
