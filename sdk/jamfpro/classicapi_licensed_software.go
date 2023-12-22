@@ -3,6 +3,11 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/licensedsoftware
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+*/
+
 package jamfpro
 
 import (
@@ -12,79 +17,110 @@ import (
 
 const uriLicensedSoftware = "/JSSResource/licensedsoftware"
 
+/// List
+
 // ResponseLicensedSoftwareList represents the response for a list of licensed software.
 type ResponseLicensedSoftwareList struct {
-	LicensedSoftware []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"licensed_software"`
+	LicensedSoftware []LicensedSoftwareListItem `xml:"licensed_software"`
 }
+
+type LicensedSoftwareListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+/// Resource
 
 // ResourceLicensedSoftware represents the structure of a single licensed software item.
 type ResourceLicensedSoftware struct {
-	General struct {
-		ID                                 int    `xml:"id"`
-		Name                               string `xml:"name"`
-		Publisher                          string `xml:"publisher"`
-		Platform                           string `xml:"platform"`
-		SendEmailOnViolation               bool   `xml:"send_email_on_violation"`
-		RemoveTitlesFromInventoryReports   bool   `xml:"remove_titles_from_inventory_reports"`
-		ExcludeTitlesPurchasedFromAppStore bool   `xml:"exclude_titles_purchased_from_app_store"`
-		Notes                              string `xml:"notes"`
-		Site                               struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"site"`
-	} `xml:"general"`
-	SoftwareDefinitions []struct {
-		CompareType string `xml:"compare_type"`
-		Name        string `xml:"name"`
-		Version     int    `xml:"version"`
-	} `xml:"software_definitions>definition"`
-	FontDefinitions []struct {
-		CompareType string `xml:"compare_type"`
-		Name        string `xml:"name"`
-		Version     int    `xml:"version"`
-	} `xml:"font_definitions>definition"`
-	PluginDefinitions []struct {
-		CompareType string `xml:"compare_type"`
-		Name        string `xml:"name"`
-		Version     int    `xml:"version"`
-	} `xml:"plugin_definitions>definition"`
-	Licenses []struct {
-		Size    int `xml:"size"`
-		License struct {
-			SerialNumber1    string `xml:"serial_number_1"`
-			SerialNumber2    string `xml:"serial_number_2"`
-			OrganizationName string `xml:"organization_name"`
-			RegisteredTo     string `xml:"registered_to"`
-			LicenseType      string `xml:"license_type"`
-			LicenseCount     int    `xml:"license_count"`
-			Notes            string `xml:"notes"`
-			Purchasing       struct {
-				IsPerpetual         bool   `xml:"is_perpetual"`
-				IsAnnual            bool   `xml:"is_annual"`
-				PONumber            string `xml:"po_number"`
-				Vendor              string `xml:"vendor"`
-				PurchasePrice       string `xml:"purchase_price"`
-				PurchasingAccount   string `xml:"purchasing_account"`
-				PODate              string `xml:"po_date"`
-				PODateEpoch         int64  `xml:"po_date_epoch"`
-				PODateUTC           string `xml:"po_date_utc"`
-				LicenseExpires      string `xml:"license_expires"`
-				LicenseExpiresEpoch int64  `xml:"license_expires_epoch"`
-				LicenseExpiresUTC   string `xml:"license_expires_utc"`
-				LifeExpectancy      int    `xml:"life_expectancy"`
-				PurchasingContact   string `xml:"purchasing_contact"`
-			} `xml:"purchasing"`
-			Attachments []struct {
-				ID       int    `xml:"id"`
-				Filename string `xml:"filename"`
-				URI      string `xml:"uri"`
-			} `xml:"attachments>attachment"`
-		} `xml:"license"`
-	} `xml:"licenses>license"`
+	General             LicensedSoftwareSubsetGeneral             `xml:"general"`
+	SoftwareDefinitions []LicensedSoftwareSubsetDefinitions       `xml:"software_definitions>definition"`
+	FontDefinitions     []LicensedSoftwareSubsetFontDefinitions   `xml:"font_definitions>definition"`
+	PluginDefinitions   []LicensedSoftwareSubsetPluginDefinitions `xml:"plugin_definitions>definition"`
+	Licenses            []LicensedSoftwareSubsetLicenses          `xml:"licenses>license"`
 }
+
+// General
+
+type LicensedSoftwareSubsetGeneral struct {
+	ID                                 int                `xml:"id"`
+	Name                               string             `xml:"name"`
+	Publisher                          string             `xml:"publisher"`
+	Platform                           string             `xml:"platform"`
+	SendEmailOnViolation               bool               `xml:"send_email_on_violation"`
+	RemoveTitlesFromInventoryReports   bool               `xml:"remove_titles_from_inventory_reports"`
+	ExcludeTitlesPurchasedFromAppStore bool               `xml:"exclude_titles_purchased_from_app_store"`
+	Notes                              string             `xml:"notes"`
+	Site                               SharedResourceSite `xml:"site"`
+}
+
+// Software Definitions
+
+type LicensedSoftwareSubsetDefinitions struct {
+	CompareType string `xml:"compare_type"`
+	Name        string `xml:"name"`
+	Version     int    `xml:"version"`
+}
+
+// Font Definitions
+
+type LicensedSoftwareSubsetFontDefinitions struct {
+	CompareType string `xml:"compare_type"`
+	Name        string `xml:"name"`
+	Version     int    `xml:"version"`
+}
+
+// Plugin Definitions
+
+type LicensedSoftwareSubsetPluginDefinitions struct {
+	CompareType string `xml:"compare_type"`
+	Name        string `xml:"name"`
+	Version     int    `xml:"version"`
+}
+
+// Licences
+
+type LicensedSoftwareSubsetLicenses struct {
+	Size    int                           `xml:"size"`
+	License LicensedSoftwareSubsetLicense `xml:"license"`
+}
+
+type LicensedSoftwareSubsetLicense struct {
+	SerialNumber1    string                                     `xml:"serial_number_1"`
+	SerialNumber2    string                                     `xml:"serial_number_2"`
+	OrganizationName string                                     `xml:"organization_name"`
+	RegisteredTo     string                                     `xml:"registered_to"`
+	LicenseType      string                                     `xml:"license_type"`
+	LicenseCount     int                                        `xml:"license_count"`
+	Notes            string                                     `xml:"notes"`
+	Purchasing       LicensedSoftwareSubsetLicensePurchasing    `xml:"purchasing"`
+	Attachments      []LicensedSoftwareSubsetLicenseAttachments `xml:"attachments>attachment"`
+}
+
+type LicensedSoftwareSubsetLicensePurchasing struct {
+	IsPerpetual         bool   `xml:"is_perpetual"`
+	IsAnnual            bool   `xml:"is_annual"`
+	PONumber            string `xml:"po_number"`
+	Vendor              string `xml:"vendor"`
+	PurchasePrice       string `xml:"purchase_price"`
+	PurchasingAccount   string `xml:"purchasing_account"`
+	PODate              string `xml:"po_date"`
+	PODateEpoch         int64  `xml:"po_date_epoch"`
+	PODateUTC           string `xml:"po_date_utc"`
+	LicenseExpires      string `xml:"license_expires"`
+	LicenseExpiresEpoch int64  `xml:"license_expires_epoch"`
+	LicenseExpiresUTC   string `xml:"license_expires_utc"`
+	LifeExpectancy      int    `xml:"life_expectancy"`
+	PurchasingContact   string `xml:"purchasing_contact"`
+}
+
+type LicensedSoftwareSubsetLicenseAttachments struct {
+	ID       int    `xml:"id"`
+	Filename string `xml:"filename"`
+	URI      string `xml:"uri"`
+}
+
+/// CRUD
 
 // GetLicensedSoftware retrieves a serialized list of licensed software.
 func (c *Client) GetLicensedSoftware() (*ResponseLicensedSoftwareList, error) {

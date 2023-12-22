@@ -30,158 +30,150 @@ type EBookListItem struct {
 
 // ResourceEbooks represents the detailed structure of an Ebook response.
 type ResourceEbooks struct {
-	General struct {
-		ID              int    `xml:"id"`
-		Name            string `xml:"name"`
-		Author          string `xml:"author"`
-		Version         string `xml:"version"`
-		Free            bool   `xml:"free"`
-		URL             string `xml:"url"`
-		DeploymentType  string `xml:"deployment_type"`
-		FileType        string `xml:"file_type"`
-		DeployAsManaged bool   `xml:"deploy_as_managed"`
-		Category        struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"category"`
-		SelfServiceIcon struct {
-			ID   int    `xml:"id"`
-			URI  string `xml:"uri"`
-			Data string `xml:"data"`
-		} `xml:"self_service_icon"`
-		Site struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"site"`
-	} `xml:"general"`
-	Scope       EbooksSubsetScope       `xml:"scope"`
-	SelfService EbooksSubsetSelfService `xml:"self_service"`
+	General     EbookSubsetGeneral     `xml:"general"`
+	Scope       EbookSubsetScope       `xml:"scope"`
+	SelfService EbookSubsetSelfService `xml:"self_service"`
 }
 
-type EbooksSubsetScope struct {
-	AllComputers       bool                        `xml:"all_computers"`
-	AllMobileDevices   bool                        `xml:"all_mobile_devices"`
-	AllJSSUsers        bool                        `xml:"all_jss_users"`
-	Computers          []EbooksSubsetComputer      `xml:"computers>computer"`
-	ComputerGroups     []EbooksSubsetComputerGroup `xml:"computer_groups>computer_group"`
-	MobileDevices      []EbooksSubsetMobileDevice  `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroups []MobileDeviceGroup         `xml:"mobile_device_groups>mobile_device_group"`
-	Buildings          []EbooksSubsetBuilding      `xml:"buildings>building"`
-	Departments        []EbooksSubsetDepartment    `xml:"departments>department"`
-	JSSUsers           []EbooksSubsetUser          `xml:"jss_users>user"`
-	JSSUserGroups      []EbooksSubsetUserGroup     `xml:"jss_user_groups>user_group"`
-	Classes            []EbooksSubsetClass         `xml:"classes>class"`
-	Limitations        EbooksSubsetLimitations     `xml:"limitations"`
-	Exclusions         EbooksSubsetExclusions      `xml:"exclusions"`
+/// Subsets & Containers
+
+// General
+
+type EbookSubsetGeneral struct {
+	ID              int                           `xml:"id"`
+	Name            string                        `xml:"name"`
+	Author          string                        `xml:"author"`
+	Version         string                        `xml:"version"`
+	Free            bool                          `xml:"free"`
+	URL             string                        `xml:"url"`
+	DeploymentType  string                        `xml:"deployment_type"`
+	FileType        string                        `xml:"file_type"`
+	DeployAsManaged bool                          `xml:"deploy_as_managed"`
+	Category        SharedResourceCategory        `xml:"category"`
+	SelfServiceIcon SharedResourceSelfServiceIcon `xml:"self_service_icon"`
+	Site            SharedResourceSite            `xml:"site"`
 }
 
-// Exclusions represent any exclusions within the scope.
-type EbooksSubsetExclusions struct {
-	Computers          []EbooksSubsetComputer          `xml:"computers>computer"`
-	ComputerGroups     []EbooksSubsetComputerGroup     `xml:"computer_groups>computer_group"`
-	MobileDevices      []EbooksSubsetMobileDevice      `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroups []EbooksSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group"`
-	Buildings          []EbooksSubsetBuilding          `xml:"buildings>building"`
-	Departments        []EbooksSubsetDepartment        `xml:"departments>department"`
-	JSSUsers           []EbooksSubsetUser              `xml:"jss_users>user"`
-	JSSUserGroups      []EbooksSubsetUserGroup         `xml:"jss_user_groups>user_group"`
-}
+// Scope
 
-type EbooksSubsetSelfService struct {
-	SelfServiceDisplayName      string `xml:"self_service_display_name"`
-	InstallButtonText           string `xml:"install_button_text"`
-	SelfServiceDescription      string `xml:"self_service_description"`
-	ForceUsersToViewDescription bool   `xml:"force_users_to_view_description"`
-	SelfServiceIcon             struct {
-		ID   int    `xml:"id"`
-		URI  string `xml:"uri"`
-		Data string `xml:"data"`
-	} `xml:"self_service_icon"`
-	FeatureOnMainPage     bool                              `xml:"feature_on_main_page"`
-	SelfServiceCategories EbooksSubsetSelfServiceCategories `xml:"self_service_categories"`
-	Notification          bool                              `xml:"notification"`
-	NotificationSubject   string                            `xml:"notification_subject"`
-	NotificationMessage   string                            `xml:"notification_message"`
+type EbookSubsetScope struct {
+	AllComputers       bool                                `xml:"all_computers"`
+	AllMobileDevices   bool                                `xml:"all_mobile_devices"`
+	AllJSSUsers        bool                                `xml:"all_jss_users"`
+	Computers          []EbookSubsetScopeComputer          `xml:"computers>computer"`
+	ComputerGroups     []EbookSubsetScopeComputerGroup     `xml:"computer_groups>computer_group"`
+	MobileDevices      []EbookSubsetScopeMobileDevice      `xml:"mobile_devices>mobile_device"`
+	MobileDeviceGroups []EbookSubsetScopeMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group"`
+	Buildings          []EbookSubsetScopeBuilding          `xml:"buildings>building"`
+	Departments        []EbookSubsetScopeDepartment        `xml:"departments>department"`
+	JSSUsers           []EbookSubsetScopeUser              `xml:"jss_users>user"`
+	JSSUserGroups      []EbookSubsetScopeUserGroup         `xml:"jss_user_groups>user_group"`
+	Classes            []EbooksSubsetScopeClass            `xml:"classes>class"`
+	Limitations        EbookSubsetScopeLimitations         `xml:"limitations"`
+	Exclusions         EbookSubsetScopeExclusions          `xml:"exclusions"`
 }
 
 // EbooksSubsetLimitations represents any limitations within the scope.
-type EbooksSubsetLimitations struct {
+type EbookSubsetScopeLimitations struct {
 	NetworkSegments []struct {
 		ID   int    `xml:"id"`
 		UID  string `xml:"uid,omitempty"`
 		Name string `xml:"name"`
 	} `xml:"network_segments>network_segment"`
-	Users      []EbooksSubsetUser      `xml:"users>user"`
-	UserGroups []EbooksSubsetUserGroup `xml:"user_groups>user_group"`
+	Users      []EbookSubsetScopeUser      `xml:"users>user"`
+	UserGroups []EbookSubsetScopeUserGroup `xml:"user_groups>user_group"`
 }
 
-// Computer represents a single computer within the scope.
-type EbooksSubsetComputer struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-	UDID string `xml:"udid"`
-}
-
-// ComputerGroup represents a group of computers within the scope.
-type EbooksSubsetComputerGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// MobileDevice represents a single mobile device within the scope.
-type EbooksSubsetMobileDevice struct {
-	ID             int    `xml:"id"`
-	Name           string `xml:"name"`
-	UDID           string `xml:"udid"`
-	WiFiMacAddress string `xml:"wifi_mac_address"`
-}
-
-// MobileDeviceGroup represents a group of mobile devices within the scope.
-type MobileDeviceGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// Building represents a building within the scope.
-type EbooksSubsetBuilding struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// Department represents a department within the scope.
-type EbooksSubsetDepartment struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// User represents a user within the scope.
-type EbooksSubsetUser struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// UserGroup represents a group of users within the scope.
-type EbooksSubsetUserGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+// Exclusions represent any exclusions within the scope.
+type EbookSubsetScopeExclusions struct {
+	Computers          []EbookSubsetScopeComputer          `xml:"computers>computer"`
+	ComputerGroups     []EbookSubsetScopeComputerGroup     `xml:"computer_groups>computer_group"`
+	MobileDevices      []EbookSubsetScopeMobileDevice      `xml:"mobile_devices>mobile_device"`
+	MobileDeviceGroups []EbookSubsetScopeMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group"`
+	Buildings          []EbookSubsetScopeBuilding          `xml:"buildings>building"`
+	Departments        []EbookSubsetScopeDepartment        `xml:"departments>department"`
+	JSSUsers           []EbookSubsetScopeUser              `xml:"jss_users>user"`
+	JSSUserGroups      []EbookSubsetScopeUserGroup         `xml:"jss_user_groups>user_group"`
 }
 
 // Class represents a class within the scope.
-type EbooksSubsetClass struct {
+type EbooksSubsetScopeClass struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
+// Self Service
+
+type EbookSubsetSelfService struct {
+	SelfServiceDisplayName      string                           `xml:"self_service_display_name"`
+	InstallButtonText           string                           `xml:"install_button_text"`
+	SelfServiceDescription      string                           `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                             `xml:"force_users_to_view_description"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon    `xml:"self_service_icon"`
+	FeatureOnMainPage           bool                             `xml:"feature_on_main_page"`
+	SelfServiceCategories       EbookSubsetSelfServiceCategories `xml:"self_service_categories"`
+	Notification                bool                             `xml:"notification"`
+	NotificationSubject         string                           `xml:"notification_subject"`
+	NotificationMessage         string                           `xml:"notification_message"`
+}
+
 // SelfServiceCategories represent the categories within SelfService.
-type EbooksSubsetSelfServiceCategories struct {
+type EbookSubsetSelfServiceCategories struct {
 	Category []struct {
 		ID   int    `xml:"id"`
 		Name string `xml:"name"`
 	} `xml:"category"`
 }
 
+/// Shared In Resource
+
+// Computer represents a single computer within the scope.
+type EbookSubsetScopeComputer struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+	UDID string `xml:"udid"`
+}
+
+// ComputerGroup represents a group of computers within the scope.
+type EbookSubsetScopeComputerGroup struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// MobileDevice represents a single mobile device within the scope.
+type EbookSubsetScopeMobileDevice struct {
+	ID             int    `xml:"id"`
+	Name           string `xml:"name"`
+	UDID           string `xml:"udid"`
+	WiFiMacAddress string `xml:"wifi_mac_address"`
+}
+
 // EbooksSubsetMobileDeviceGroup represents a group of mobile devices within the scope.
-type EbooksSubsetMobileDeviceGroup struct {
+type EbookSubsetScopeMobileDeviceGroup struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Building represents a building within the scope.
+type EbookSubsetScopeBuilding struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Department represents a department within the scope.
+type EbookSubsetScopeDepartment struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// User represents a user within the scope.
+type EbookSubsetScopeUser struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// UserGroup represents a group of users within the scope.
+type EbookSubsetScopeUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }

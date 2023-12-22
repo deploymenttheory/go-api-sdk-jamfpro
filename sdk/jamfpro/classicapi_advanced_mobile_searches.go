@@ -5,7 +5,7 @@
 /*
 Shared Resources in this Endpoint
 SharedResourceSite
-SharedAdvancedSearchContainerCriteria
+SharedContainerCriteria
 SharedAdvancedSearchSubsetDisplayField
 */
 

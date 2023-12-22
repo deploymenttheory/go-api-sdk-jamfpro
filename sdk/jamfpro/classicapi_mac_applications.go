@@ -3,6 +3,12 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/macapplications
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+SharedResourceCategory
+*/
+
 package jamfpro
 
 import (
@@ -12,44 +18,52 @@ import (
 
 const uriVPPMacApplications = "/JSSResource/macapplications"
 
+/// List
+
 type ResponseMacApplicationsList struct {
-	MacApplications []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"mac_application"`
+	MacApplications []MacApplicationsListItem `xml:"mac_application"`
 }
+
+type MacApplicationsListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+/// Resource
 
 // ResourceMacApplications represents the detailed structure of a Mac Application response.
 type ResourceMacApplications struct {
-	General struct {
-		ID       int    `xml:"id"`
-		Name     string `xml:"name"`
-		Version  string `xml:"version"`
-		IsFree   bool   `xml:"is_free"`
-		BundleID string `xml:"bundle_id"`
-		URL      string `xml:"url"`
-		Category struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"category"`
-		Site struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"site"`
-	} `xml:"general"`
-	Scope struct {
-		AllComputers   bool                             `xml:"all_computers"`
-		AllJSSUsers    bool                             `xml:"all_jss_users"`
-		Buildings      []MacAppSubsetScopeBuilding      `xml:"buildings>building"`
-		Departments    []MacAppSubsetScopeDepartment    `xml:"departments>department"`
-		Computers      []MacAppSubsetScopeComputer      `xml:"computers>computer"`
-		ComputerGroups []MacAppSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-		JSSUsers       []MacAppSubsetScopeUser          `xml:"jss_users>user"`
-		JSSUserGroups  []MacAppSubsetScopeUserGroup     `xml:"jss_user_groups>user_group"`
-		Limitations    MacAppScopeLimitations           `xml:"limitations"`
-		Exclusions     MacAppScopeExclusions            `xml:"exclusions"`
-	} `xml:"scope"`
-	SelfService MacAppSubsetSelfService `xml:"self_service"`
+	General     MacApplicationsSubsetGeneral `xml:"general"`
+	Scope       MacApplicationsSubsetScope   `xml:"scope"`
+	SelfService MacAppSubsetSelfService      `xml:"self_service"`
+}
+
+// General
+
+type MacApplicationsSubsetGeneral struct {
+	ID       int                    `xml:"id"`
+	Name     string                 `xml:"name"`
+	Version  string                 `xml:"version"`
+	IsFree   bool                   `xml:"is_free"`
+	BundleID string                 `xml:"bundle_id"`
+	URL      string                 `xml:"url"`
+	Category SharedResourceCategory `xml:"category"`
+	Site     SharedResourceSite     `xml:"site"`
+}
+
+// Scope
+
+type MacApplicationsSubsetScope struct {
+	AllComputers   bool                             `xml:"all_computers"`
+	AllJSSUsers    bool                             `xml:"all_jss_users"`
+	Buildings      []MacAppSubsetScopeBuilding      `xml:"buildings>building"`
+	Departments    []MacAppSubsetScopeDepartment    `xml:"departments>department"`
+	Computers      []MacAppSubsetScopeComputer      `xml:"computers>computer"`
+	ComputerGroups []MacAppSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
+	JSSUsers       []MacAppSubsetScopeUser          `xml:"jss_users>user"`
+	JSSUserGroups  []MacAppSubsetScopeUserGroup     `xml:"jss_user_groups>user_group"`
+	Limitations    MacAppScopeLimitations           `xml:"limitations"`
+	Exclusions     MacAppScopeExclusions            `xml:"exclusions"`
 }
 
 type MacAppScopeLimitations struct {
@@ -70,60 +84,62 @@ type MacAppScopeExclusions struct {
 	JSSUserGroups   []MacAppSubsetScopeUserGroup      `xml:"jss_user_groups>user_group"`
 }
 
-// Define structs for each scope component (Building, Department, Computer, etc.)
-type MacAppSubsetScopeBuilding struct {
-	Building MacAppSubsetBuilding `xml:"building"`
+// Self Service
+
+type MacAppSubsetSelfService struct {
+	InstallButtonText           string                              `xml:"install_button_text"`
+	SelfServiceDescription      string                              `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                                `xml:"force_users_to_view_description"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon       `xml:"self_service_icon"`
+	FeatureOnMainPage           bool                                `xml:"feature_on_main_page"`
+	SelfServiceCategories       []MacAppSubsetSelfServiceCategories `xml:"self_service_categories>category"`
+	Notification                string                              `xml:"notification"`
+	NotificationSubject         string                              `xml:"notification_subject"`
+	NotificationMessage         string                              `xml:"notification_message"`
+	VPP                         MacAppSubsetSelfServiceVPP          `xml:"vpp"`
 }
 
-type MacAppSubsetBuilding struct {
+type MacAppSubsetSelfServiceCategories struct {
+	ID        int    `xml:"id"`
+	Name      string `xml:"name"`
+	DisplayIn bool   `xml:"display_in"`
+	FeatureIn bool   `xml:"feature_in"`
+}
+
+type MacAppSubsetSelfServiceVPP struct {
+	AssignVPPDeviceBasedLicenses bool `xml:"assign_vpp_device_based_licenses"`
+	VPPAdminAccountID            int  `xml:"vpp_admin_account_id"`
+}
+
+// Shared In Resource
+
+type MacAppSubsetScopeBuilding struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-// Struct definitions for Department, Computer, ComputerGroup, User, UserGroup
-
 type MacAppSubsetScopeDepartment struct {
-	Department MacAppSubsetDepartment `xml:"department"`
-}
-
-type MacAppSubsetDepartment struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 type MacAppSubsetScopeComputer struct {
-	Computer MacAppSubsetComputer `xml:"computer"`
-}
-
-type MacAppSubsetComputer struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 	UDID string `xml:"udid"`
 }
 
 type MacAppSubsetScopeComputerGroup struct {
-	ComputerGroup MacAppSubsetComputerGroup `xml:"computer_group"`
-}
-
-type MacAppSubsetComputerGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 type MacAppSubsetScopeUser struct {
-	User MacAppSubsetUser `xml:"user"`
-}
-
-type MacAppSubsetUser struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 type MacAppSubsetScopeUserGroup struct {
-	UserGroup MacAppSubsetUserGroup `xml:"user_group"`
-}
-
-type MacAppSubsetUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -132,31 +148,6 @@ type MacAppSubsetScopeNetworkSegment struct {
 	ID   int    `xml:"id"`
 	UID  string `xml:"uid,omitempty"`
 	Name string `xml:"name"`
-}
-
-type MacAppSubsetSelfService struct {
-	InstallButtonText           string `xml:"install_button_text"`
-	SelfServiceDescription      string `xml:"self_service_description"`
-	ForceUsersToViewDescription bool   `xml:"force_users_to_view_description"`
-	SelfServiceIcon             struct {
-		ID   int    `xml:"id"`
-		URI  string `xml:"uri"`
-		Data string `xml:"data"`
-	} `xml:"self_service_icon"`
-	FeatureOnMainPage     bool `xml:"feature_on_main_page"`
-	SelfServiceCategories []struct {
-		ID        int    `xml:"id"`
-		Name      string `xml:"name"`
-		DisplayIn bool   `xml:"display_in"`
-		FeatureIn bool   `xml:"feature_in"`
-	} `xml:"self_service_categories>category"`
-	Notification        string `xml:"notification"`
-	NotificationSubject string `xml:"notification_subject"`
-	NotificationMessage string `xml:"notification_message"`
-	VPP                 struct {
-		AssignVPPDeviceBasedLicenses bool `xml:"assign_vpp_device_based_licenses"`
-		VPPAdminAccountID            int  `xml:"vpp_admin_account_id"`
-	} `xml:"vpp"`
 }
 
 // GetDockItems retrieves a serialized list of vpp mac applications.
