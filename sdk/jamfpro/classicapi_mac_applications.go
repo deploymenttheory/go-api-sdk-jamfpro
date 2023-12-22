@@ -167,6 +167,8 @@ func (c *Client) GetMacApplications() (*ResponseMacApplicationsList, error) {
 	return &macApps, nil
 }
 
+/// CRUD
+
 // GetMacApplicationByID retrieves a single Mac application by its ID.
 func (c *Client) GetMacApplicationByID(id int) (*ResourceMacApplications, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
