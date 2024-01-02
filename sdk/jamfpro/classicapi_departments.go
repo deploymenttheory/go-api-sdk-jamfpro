@@ -14,7 +14,7 @@ const uriDepartments = "/JSSResource/departments"
 
 // Response structure for the list of departments
 
-/// List
+// List
 
 type ResponseDepartmentsList struct {
 	TotalCount int                   `xml:"size"`
@@ -26,14 +26,14 @@ type DepartmentsListItem struct {
 	Name string `xml:"name" json:"name"`
 }
 
-/// Resource
+// Resource
 
 type ResourceDepartment struct {
 	ID   int    `xml:"id,omitempty" json:"id,omitempty"`
 	Name string `xml:"name" json:"name"`
 }
 
-/// CRUD
+// CRUD
 
 // GetDepartments retrieves all departments
 func (c *Client) GetDepartments() (*ResponseDepartmentsList, error) {
@@ -105,7 +105,6 @@ func (c *Client) GetDepartmentIdByName(name string) (int, error) {
 func (c *Client) CreateDepartment(departmentName string) (*ResourceDepartment, error) {
 	endpoint := uriDepartments
 
-	// Wrap the department with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"department"`
 		ResourceDepartment

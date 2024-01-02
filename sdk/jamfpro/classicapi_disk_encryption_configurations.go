@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_disk_encryption_configurations.go
 // Jamf Pro Classic Api - Disk Encryption Configurations
 // api reference: https://developer.jamf.com/jamf-pro/reference/diskencryptionconfigurations
@@ -13,7 +15,7 @@ import (
 // URI for Disk Encryption Configurations in Jamf Pro API
 const uriDiskEncryptionConfigurations = "/JSSResource/diskencryptionconfigurations"
 
-/// List
+// Responses & Lists
 
 // Struct to capture the XML response for disk encryption configurations
 type ResponseDiskEncryptionConfigurationsList struct {
@@ -26,14 +28,14 @@ type DiskEncryptionConfigurationsListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Response/Resource
-
 type ResponseDiskEncryptionConfiguration struct {
 	ID                    int    `xml:"id"`
 	Name                  string `xml:"name"`
 	KeyType               string `xml:"key_type"`
 	FileVaultEnabledUsers string `xml:"file_vault_enabled_users"`
 }
+
+// Resource
 
 // DiskEncryptionConfiguration represents the top-level XML structure for creating/updating a Disk Encryption Configuration.
 type ResourceDiskEncryptionConfiguration struct {
@@ -44,7 +46,7 @@ type ResourceDiskEncryptionConfiguration struct {
 	InstitutionalRecoveryKey *DiskEncryptionConfigurationInstitutionalRecoveryKey `xml:"institutional_recovery_key,omitempty"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 type DiskEncryptionConfigurationInstitutionalRecoveryKey struct {
 	Key             string `xml:"key"`
@@ -52,6 +54,8 @@ type DiskEncryptionConfigurationInstitutionalRecoveryKey struct {
 	Password        string `xml:"password"`
 	Data            string `xml:"data"`
 }
+
+// CRUD
 
 // GetDiskEncryptionConfigurations retrieves a serialized list of disk encryption configurations.
 func (c *Client) GetDiskEncryptionConfigurations() (*ResponseDiskEncryptionConfigurationsList, error) {

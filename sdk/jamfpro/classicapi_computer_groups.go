@@ -1,13 +1,15 @@
-// classicapi_computer_groups.go
-// Jamf Pro Classic Api - Computer Groups
-// api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
 
 /*
 Shared Resources in this Endpoint:
 SharedResourceSite
 SharedContainerCriteria
 */
+
+// classicapi_computer_groups.go
+// Jamf Pro Classic Api - Computer Groups
+// api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
@@ -18,7 +20,7 @@ import (
 
 const uriComputerGroups = "/JSSResource/computergroups"
 
-/// List
+// List
 
 type ResponseComputerGroupsList struct {
 	Size    int                     `xml:"size"`
@@ -31,7 +33,7 @@ type ComputerGroupListItem struct {
 	IsSmart bool   `xml:"is_smart,omitempty"`
 }
 
-/// Resource
+// Resource
 
 type ResourceComputerGroup struct {
 	ID        int                           `xml:"id"`
@@ -42,7 +44,7 @@ type ResourceComputerGroup struct {
 	Computers []ComputerGroupSubsetComputer `xml:"computers>computer"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 type ComputerGroupSubsetComputer struct {
 	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
@@ -51,6 +53,8 @@ type ComputerGroupSubsetComputer struct {
 	MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
 	AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
 }
+
+// CRUD
 
 // GetComputerGroups gets a list of all computer groups
 func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {
@@ -107,13 +111,11 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriComputerGroups) // Using ID 0 for creation as per the pattern
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
 		group.Site.ID = -1
 		group.Site.Name = "none"
 	}
 
-	// Wrap the group request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
 		*ResourceComputerGroup
@@ -138,13 +140,11 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
 		group.Site.ID = -1
 		group.Site.Name = "none"
 	}
 
-	// Wrap the group request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
 		*ResourceComputerGroup
@@ -169,13 +169,11 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
 		group.Site.ID = -1
 		group.Site.Name = "none"
 	}
 
-	// Wrap the group request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
 		*ResourceComputerGroup

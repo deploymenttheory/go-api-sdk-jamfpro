@@ -1,3 +1,10 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+*/
+
 // classicapi_computers.go
 // Jamf Pro Classic Api - Computers
 // api reference: https://developer.jamf.com/jamf-pro/reference/computers
@@ -12,7 +19,7 @@ import (
 
 const uriComputers = "/JSSResource/computers"
 
-/// List
+// List
 
 // Response structure for the list of computers
 type ResponseComputersList struct {
@@ -25,7 +32,7 @@ type ComputersListItem struct {
 	Name string `xml:"name" json:"name"`
 }
 
-/// Resource
+// Resource
 
 // Response structure for computer resources
 type ResponseComputer struct {
@@ -42,7 +49,7 @@ type ResponseComputer struct {
 	ConfigurationProfiles []ComputerSubsetConfigurationProfiles `xml:"configuration_profiles>configuration_profile" json:"configuration_profiles"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 type ComputerSubsetGeneral struct {
 	ID                         int                                   `xml:"id" json:"id"`
@@ -377,7 +384,7 @@ type ComputerSubsetConfigurationProfiles struct {
 	IsRemovable bool   `xml:"is_removable" json:"is_removable"`
 }
 
-/// CRUD
+// CRUD
 
 // GetComputers retrieves all computers
 func (c *Client) GetComputers() (*ResponseComputersList, error) {

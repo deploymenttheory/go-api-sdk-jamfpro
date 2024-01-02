@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_dock_items.go
 // Jamf Pro Classic Api - Dock Items
 // api reference: https://developer.jamf.com/jamf-pro/reference/dockitems
@@ -13,7 +15,7 @@ import (
 // URI for Dock Items in Jamf Pro API
 const uriDockItems = "/JSSResource/dockitems"
 
-/// List
+// List
 
 // Struct to capture the XML response for dock items list
 type ResponseDockItemsList struct {
@@ -26,6 +28,8 @@ type DockItemListItem struct {
 	Name string `xml:"name"`
 }
 
+// Resource
+
 // Struct to capture the response for a single Dock Item
 type ResourceDockItem struct {
 	ID       int    `xml:"id" json:"id"`
@@ -34,6 +38,8 @@ type ResourceDockItem struct {
 	Path     string `xml:"path" json:"path"`
 	Contents string `xml:"contents" json:"contents"`
 }
+
+// CRUD
 
 // GetDockItems retrieves a serialized list of dock items.
 func (c *Client) GetDockItems() (*ResponseDockItemsList, error) {
@@ -53,7 +59,7 @@ func (c *Client) GetDockItems() (*ResponseDockItemsList, error) {
 }
 
 // GetDockItemsByID retrieves a single dock item by its ID.
-func (c *Client) GetDockItemsByID(id int) (*ResourceDockItem, error) {
+func (c *Client) GetDockItemByID(id int) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
 	var dockItem ResourceDockItem
@@ -70,7 +76,7 @@ func (c *Client) GetDockItemsByID(id int) (*ResourceDockItem, error) {
 }
 
 // GetDockItemsByName retrieves a single dock item by its name.
-func (c *Client) GetDockItemsByName(name string) (*ResourceDockItem, error) {
+func (c *Client) GetDockItemByName(name string) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
 	var dockItem ResourceDockItem
@@ -87,7 +93,7 @@ func (c *Client) GetDockItemsByName(name string) (*ResourceDockItem, error) {
 }
 
 // CreateDockItems creates a new dock item.
-func (c *Client) CreateDockItems(dockItem *ResourceDockItem) (*ResourceDockItem, error) {
+func (c *Client) CreateDockItem(dockItem *ResourceDockItem) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriDockItems) // Typically, APIs use '0' or a similar placeholder for creation endpoints
 
 	requestBody := struct {
@@ -111,7 +117,7 @@ func (c *Client) CreateDockItems(dockItem *ResourceDockItem) (*ResourceDockItem,
 }
 
 // UpdateDockItemByID updates a dock item by its ID.
-func (c *Client) UpdateDockItemsByID(id int, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
+func (c *Client) UpdateDockItemByID(id int, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
 	requestBody := struct {
@@ -135,7 +141,7 @@ func (c *Client) UpdateDockItemsByID(id int, dockItem *ResourceDockItem) (*Resou
 }
 
 // UpdateDockItemByName updates a dock item by its name.
-func (c *Client) UpdateDockItemsByName(name string, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
+func (c *Client) UpdateDockItemByName(name string, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
 	requestBody := struct {
@@ -159,7 +165,7 @@ func (c *Client) UpdateDockItemsByName(name string, dockItem *ResourceDockItem) 
 }
 
 // DeleteDockItemsByID deletes a dock item by its ID.
-func (c *Client) DeleteDockItemsByID(id int) error {
+func (c *Client) DeleteDockItemByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -175,7 +181,7 @@ func (c *Client) DeleteDockItemsByID(id int) error {
 }
 
 // DeleteDockItemsByName deletes a dock item by its name.
-func (c *Client) DeleteDockItemsByName(name string) error {
+func (c *Client) DeleteDockItemByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)

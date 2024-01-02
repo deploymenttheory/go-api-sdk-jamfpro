@@ -1,13 +1,17 @@
-// classicapi_advanced_user_searches.go
-// Jamf Pro Classic Api - Advanced User Searches
-// api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
+
 /*
 Shared Resources in this Endpoint
 SharedResourceSite
 SharedAdvancedSearchContainerCriteria
 SharedAdvancedSearchSubsetDisplayField
 */
+
+// classicapi_advanced_user_searches.go
+// Jamf Pro Classic Api - Advanced User Searches
+// api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
+// Classic API requires the structs to support an XML data structure.
+
 package jamfpro
 
 import (
@@ -16,6 +20,8 @@ import (
 )
 
 const uriAPIAdvancedUserSearches = "/JSSResource/advancedusersearches"
+
+// List
 
 // Response structure for the list of advanced user searches
 type ResponseAdvancedUserSearchesList struct {
@@ -29,6 +35,8 @@ type AdvancedUserSearchListItem struct {
 	Name    string   `xml:"name"`
 }
 
+// Resource
+
 // Structs for Advanced User Search details by ID
 type ResourceAdvancedUserSearch struct {
 	ID            int                                       `xml:"id"`
@@ -38,6 +46,8 @@ type ResourceAdvancedUserSearch struct {
 	DisplayFields SharedAdvancedSearchContainerDisplayField `xml:"display_fields"`
 	Site          SharedResourceSite                        `xml:"site"`
 }
+
+// Subsets & Containers
 
 type AdvancedUserSearchContainerUsers struct {
 	Size int                          `xml:"size"`
@@ -49,6 +59,8 @@ type AdvancedUserSearchSubsetUser struct {
 	Name     string `xml:"name,omitempty"`
 	Username string `xml:"Username,omitempty"`
 }
+
+// CRUD
 
 // GetAdvancedUserSearches retrieves all advanced user searches
 func (c *Client) GetAdvancedUserSearches() (*ResponseAdvancedUserSearchesList, error) {
@@ -136,7 +148,6 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`
 		*ResourceAdvancedUserSearch
@@ -161,7 +172,6 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`
 		*ResourceAdvancedUserSearch

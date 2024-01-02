@@ -1,13 +1,16 @@
-// classicapi_advanced_mobile_searches.go
-// Jamf Pro Classic Api - Advanced Mobile Searches
-// api reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
+
 /*
 Shared Resources in this Endpoint
 SharedResourceSite
 SharedAdvancedSearchContainerCriteria
 SharedAdvancedSearchSubsetDisplayField
 */
+
+// classicapi_advanced_mobile_searches.go
+// Jamf Pro Classic Api - Advanced Mobile Searches
+// api reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
@@ -18,7 +21,7 @@ import (
 
 const uriAPIAdvancedMobileDeviceSearches = "/JSSResource/advancedmobiledevicesearches"
 
-/// List
+// List
 
 // ResourceAdvancedMobileDeviceSearchesList represents the structure for multiple advanced mobile device searches.
 type ResponseAdvancedMobileDeviceSearchesList struct {
@@ -31,7 +34,7 @@ type AdvancedMobileSearchListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Resource
+// Resource
 
 // ResourceAdvancedMobileDeviceSearches represents the structure of the response for an advanced mobile device search.
 type ResourceAdvancedMobileDeviceSearches struct {
@@ -47,7 +50,7 @@ type ResourceAdvancedMobileDeviceSearches struct {
 	Site          SharedResourceSite                       `xml:"site"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 // Mobile Device
 
 type AdvancedMobileSearchContainerDevices struct {
@@ -61,6 +64,8 @@ type AdvancedMobileSearchSubsetDevice struct {
 	UDID        string `xml:"udid"`
 	DisplayName string `xml:"Display_Name"`
 }
+
+// CRUD
 
 // GetAdvancedMobileDeviceSearches retrieves all advanced mobile device searches.
 func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDeviceSearchesList, error) {
@@ -117,13 +122,11 @@ func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdva
 func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
-	// Check if the Site field in the search struct is not provided and set default values if needed
 	if search.Site.ID == 0 && search.Site.Name == "" {
 		search.Site.ID = -1
 		search.Site.Name = "none"
 	}
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
 		*ResourceAdvancedMobileDeviceSearches

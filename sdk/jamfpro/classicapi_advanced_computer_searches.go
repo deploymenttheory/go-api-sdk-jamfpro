@@ -1,7 +1,4 @@
-// classicapi_advanced_computer_searches.go
-// Jamf Pro Classic Api - Advanced Computer Searches
-// api reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
 
 /*
 Shared Resources in this Endpoint
@@ -9,6 +6,11 @@ SharedResourceSite
 SharedAdvancedSearchContainerCriteria
 SharedAdvancedSearchSubsetDisplayField
 */
+
+// classicapi_advanced_computer_searches.go
+// Jamf Pro Classic Api - Advanced Computer Searches
+// api reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
@@ -19,7 +21,7 @@ import (
 
 const uriAPIAdvancedComputerSearches = "/JSSResource/advancedcomputersearches"
 
-/// List
+// List
 
 // ResponseAdvancedComputerSearchesList represents the structure for multiple advanced computer searches.
 type ResponseAdvancedComputerSearchesList struct {
@@ -32,7 +34,7 @@ type AdvancedComputerSearchListItem struct {
 	Name string `json:"name,omitempty" xml:"name"`
 }
 
-/// Resource
+// Resource
 
 // ResourceAdvancedComputerSearch represents the structure of the response for an advanced computer search.
 type ResourceAdvancedComputerSearch struct {
@@ -48,7 +50,7 @@ type ResourceAdvancedComputerSearch struct {
 	Site          SharedResourceSite                         `xml:"site"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 // Computer
 
 type AdvancedComputerSearchContainerComputers struct {
@@ -98,7 +100,7 @@ func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedCompute
 }
 
 // GetAdvancedComputerSearchesByName retrieves advanced computer searches by their name
-func (c *Client) GetAdvancedComputerSearchesByName(name string) (*ResourceAdvancedComputerSearch, error) {
+func (c *Client) GetAdvancedComputerSearchByName(name string) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
 	var search ResourceAdvancedComputerSearch
@@ -118,13 +120,11 @@ func (c *Client) GetAdvancedComputerSearchesByName(name string) (*ResourceAdvanc
 func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
-	// Set default values for Site if not provided
 	if search.Site.ID == 0 && search.Site.Name == "" {
 		search.Site.ID = -1
 		search.Site.Name = "None"
 	}
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
 		*ResourceAdvancedComputerSearch
@@ -149,7 +149,6 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSe
 func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
 		*ResourceAdvancedComputerSearch
@@ -174,7 +173,6 @@ func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvanc
 func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
 		*ResourceAdvancedComputerSearch

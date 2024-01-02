@@ -12,7 +12,7 @@ import (
 
 const uriGSXConnection = "/JSSResource/gsxconnection"
 
-// Struct for the GSX connection response
+// Resource
 
 type ResourceGSXConnection struct {
 	Enabled       bool   `xml:"enabled"`
@@ -21,6 +21,8 @@ type ResourceGSXConnection struct {
 	Region        string `xml:"region"`
 	URI           string `xml:"uri"`
 }
+
+// CRUD
 
 // GetGSXConnectionInformation gets the GSX connection settings
 func (c *Client) GetGSXConnectionInformation() (*ResourceGSXConnection, error) {
@@ -43,7 +45,6 @@ func (c *Client) GetGSXConnectionInformation() (*ResourceGSXConnection, error) {
 func (c *Client) UpdateGSXConnectionInformation(settings *ResourceGSXConnection) error {
 	endpoint := uriGSXConnection
 
-	// Wrap the settings with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"gsx_connection"`
 		*ResourceGSXConnection
@@ -51,7 +52,6 @@ func (c *Client) UpdateGSXConnectionInformation(settings *ResourceGSXConnection)
 		ResourceGSXConnection: settings,
 	}
 
-	// Create a dummy struct for the response
 	var handleResponse struct{}
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)

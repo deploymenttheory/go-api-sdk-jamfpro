@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_ibeacons.go
 // Jamf Pro Classic Api - iBeacons
 // api reference: https://developer.jamf.com/jamf-pro/reference/ibeacons
@@ -12,11 +14,15 @@ import (
 
 const uriIbeacons = "/JSSResource/ibeacons"
 
+// List
+
 // ResponseIBeaconsList represents the response structure for a list of iBeacons.
 type ResponseIBeaconsList struct {
 	Size     int                `xml:"size"`
 	IBeacons []ResourceIBeacons `xml:"ibeacon"`
 }
+
+// Resource
 
 // ResponseIBeacons represents the structure of an individual iBeacon.
 type ResourceIBeacons struct {
@@ -27,8 +33,9 @@ type ResourceIBeacons struct {
 	Minor int    `xml:"minor,omitempty"`
 }
 
+// CRUD
+
 // GetIBeacons retrieves a list of all iBeacons registered in Jamf Pro.
-// It returns a serialized list of iBeacon details including ID, name, UUID, major, and minor values.
 func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
 	endpoint := uriIbeacons
 

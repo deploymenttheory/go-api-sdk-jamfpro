@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_allowed_file_extensions.go
 // Jamf Pro Classic Api - Allowed File Extensions
 // api reference: https://developer.jamf.com/jamf-pro/reference/allowedfileextensions
@@ -12,6 +14,8 @@ import (
 
 const uriAPIAllowedFileExtensions = "/JSSResource/allowedfileextensions"
 
+// List
+
 // Response structure for the list of allowed file extensions
 type ResponseAllowedFileExtensionsList struct {
 	XMLName               xml.Name                       `xml:"allowed_file_extensions"`
@@ -19,11 +23,15 @@ type ResponseAllowedFileExtensionsList struct {
 	AllowedFileExtensions []ResourceAllowedFileExtension `xml:"allowed_file_extension"`
 }
 
+// Resource
+
 type ResourceAllowedFileExtension struct {
 	XMLName   xml.Name `xml:"allowed_file_extension"`
 	ID        int      `xml:"id"`
 	Extension string   `xml:"extension"`
 }
+
+// CRUD
 
 // GetAllowedFileExtensions retrieves all allowed file extensions
 func (c *Client) GetAllowedFileExtensions() (*ResponseAllowedFileExtensionsList, error) {
@@ -93,8 +101,6 @@ func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtens
 	return &response, nil
 }
 
-// UpdateAllowedFileExtensionByID - doesn't exist. api doesn't support update
-
 // DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
 func (c *Client) DeleteAllowedFileExtensionByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAllowedFileExtensions, id)
@@ -118,6 +124,5 @@ func (c *Client) DeleteAllowedFileExtensionByName(extensionName string) error {
 		return fmt.Errorf("failed to resolve allowed file extension name to ID: %v", err)
 	}
 
-	// Now use the DeleteAllowedFileExtensionByID function
 	return c.DeleteAllowedFileExtensionByID(extensionDetail.ID)
 }

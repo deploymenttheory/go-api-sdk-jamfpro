@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_distribution_points.go
 // Jamf Pro Classic Api - Distribution Points
 // api reference: https://developer.jamf.com/jamf-pro/reference/distributionpoints
@@ -13,7 +15,7 @@ import (
 // URI for Distribution Points in Jamf Pro API
 const uriDistributionPoints = "/JSSResource/distributionpoints"
 
-/// List
+// List
 
 // Struct to capture the XML response for distribution points list
 type ResponseDistributionPointsList struct {
@@ -26,7 +28,7 @@ type DistributionPointListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Resource
+// Resource
 
 // Struct for detailed Distribution Point data
 type ResourceDistributionPoint struct {
@@ -59,7 +61,7 @@ type ResourceDistributionPoint struct {
 	HTTPPassword             string `xml:"http_password"`
 }
 
-/// CRUD
+// CRUD
 
 // GetDistributionPoints retrieves a serialized list of distribution points.
 func (c *Client) GetDistributionPoints() (*ResponseDistributionPointsList, error) {

@@ -1,7 +1,10 @@
+// Refactor Complete
+
 // classicapi_computer_extension_attributes.go
 // Jamf Pro Classic Api - Computer Extension Attributes
 // api reference: https://developer.jamf.com/jamf-pro/reference/computerextensionattributes
 // Classic API requires the structs to support an XML data structure.
+
 package jamfpro
 
 import (
@@ -13,7 +16,7 @@ const uriComputerExtensionAttributes = "/JSSResource/computerextensionattributes
 
 // Structs for the computer extension attributes
 
-/// List
+// List
 
 type ResponseComputerExtensionAttributesList struct {
 	Size    int                                   `xml:"size"`
@@ -26,7 +29,7 @@ type ComputerExtenstionAttributeListItem struct {
 	Enabled bool   `xml:"enabled,omitempty"`
 }
 
-/// Resource
+// Resource
 
 type ResourceComputerExtensionAttribute struct {
 	ID               int                                       `xml:"id"`
@@ -39,7 +42,7 @@ type ResourceComputerExtensionAttribute struct {
 	ReconDisplay     string                                    `xml:"recon_display,omitempty"`
 }
 
-/// Subsets
+// Subsets
 
 type ComputerExtensionAttributeSubsetInputType struct {
 	Type     string   `xml:"type"`
@@ -48,7 +51,7 @@ type ComputerExtensionAttributeSubsetInputType struct {
 	Choices  []string `xml:"popup_choices>choice,omitempty"`
 }
 
-/// CRUD
+// CRUD
 
 // GetComputerExtensionAttributes gets a list of all computer extension attributes
 func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAttributesList, error) {
@@ -103,9 +106,8 @@ func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResourceComp
 
 // CreateComputerExtensionAttribute creates a new computer extension attribute.
 func (c *Client) CreateComputerExtensionAttribute(attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriComputerExtensionAttributes) // Using ID 0 for creation as per the pattern
+	endpoint := fmt.Sprintf("%s/id/0", uriComputerExtensionAttributes)
 
-	// Wrap the attribute request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`
 		*ResourceComputerExtensionAttribute
@@ -130,7 +132,6 @@ func (c *Client) CreateComputerExtensionAttribute(attribute *ResourceComputerExt
 func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
 
-	// Wrap the attribute request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`
 		*ResourceComputerExtensionAttribute
@@ -155,7 +156,6 @@ func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *Resourc
 func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerExtensionAttributes, name)
 
-	// Wrap the attribute request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`
 		*ResourceComputerExtensionAttribute

@@ -1,12 +1,14 @@
-// classicapi_classes.go
-// Jamf Pro Classic Api - Classes
-// api reference: https://developer.jamf.com/jamf-pro/reference/classes
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
 
 /*
 Shared Resources in this Endpoint:
 SharedResourceSite
 */
+
+// classicapi_classes.go
+// Jamf Pro Classic Api - Classes
+// api reference: https://developer.jamf.com/jamf-pro/reference/classes
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
@@ -18,7 +20,7 @@ import (
 // Constants for the classes endpoint
 const uriClasses = "/JSSResource/classes"
 
-/// List
+// List
 
 // ResponseClassesList represents the XML response for a list of classes.
 type ResponseClassesList struct {
@@ -33,7 +35,7 @@ type ClassListItem struct {
 	Description string `xml:"description"`
 }
 
-/// Resource
+// Resource
 
 type ResourceClass struct {
 	ID                  int                              `xml:"id,omitempty"`
@@ -53,7 +55,7 @@ type ResourceClass struct {
 	AppleTVs            []ClassSubsetAppleTVs            `xml:"apple_tvs>apple_tv,omitempty"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 // Mobile Device Group
 
@@ -128,6 +130,8 @@ type ClassSubsetAppleTVs struct {
 	AirplayPassword string `xml:"airplay_password,omitempty"`
 }
 
+// CRUD
+
 // GetClasses gets a list of all classes.
 func (c *Client) GetClasses() (*ResponseClassesList, error) {
 	endpoint := uriClasses
@@ -146,7 +150,7 @@ func (c *Client) GetClasses() (*ResponseClassesList, error) {
 }
 
 // GetClassesByID retrieves a class by its ID.
-func (c *Client) GetClassesByID(id int) (*ResourceClass, error) {
+func (c *Client) GetClassByID(id int) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
 
 	var class ResourceClass
@@ -163,7 +167,7 @@ func (c *Client) GetClassesByID(id int) (*ResourceClass, error) {
 }
 
 // GetClassesByName retrieves a class by its name.
-func (c *Client) GetClassesByName(name string) (*ResourceClass, error) {
+func (c *Client) GetClassByName(name string) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriClasses, name)
 
 	var class ResourceClass
@@ -180,16 +184,14 @@ func (c *Client) GetClassesByName(name string) (*ResourceClass, error) {
 }
 
 // CreateClassesByID creates a new class with the given details.
-func (c *Client) CreateClassesByID(class *ResourceClass) (*ResourceClass, error) {
+func (c *Client) CreateClassByID(class *ResourceClass) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriClasses) // Using ID 0 for creation as per API pattern
 
-	// If the site is not provided, set default values
 	if class.Site.ID == 0 && class.Site.Name == "" {
 		class.Site.ID = -1
 		class.Site.Name = "none"
 	}
 
-	// Wrap the class request with the desired XML structure using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
 		*ResourceClass
@@ -211,10 +213,9 @@ func (c *Client) CreateClassesByID(class *ResourceClass) (*ResourceClass, error)
 }
 
 // UpdateClassByID updates an existing class with the given ID.
-func (c *Client) UpdateClassesByID(id int, class *ResourceClass) error {
+func (c *Client) UpdateClassByID(id int, class *ResourceClass) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
 
-	// Wrap the class request with the desired XML structure using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
 		*ResourceClass
@@ -231,10 +232,9 @@ func (c *Client) UpdateClassesByID(id int, class *ResourceClass) error {
 }
 
 // UpdateClassByName updates an existing class with the given name.
-func (c *Client) UpdateClassesByName(name string, class *ResourceClass) error {
+func (c *Client) UpdateClassByName(name string, class *ResourceClass) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriClasses, name)
 
-	// Wrap the class request with the desired XML structure using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
 		*ResourceClass

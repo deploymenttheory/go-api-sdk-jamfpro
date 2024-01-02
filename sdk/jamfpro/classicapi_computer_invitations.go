@@ -1,12 +1,12 @@
-// classicapi_computer_invitations.go
-// Jamf Pro Classic Api - Computer Invitations
-// api reference: https://developer.jamf.com/jamf-pro/reference/computerinvitations
-// Classic API requires the structs to support an XML data structure.
-
 /*
 Shared Resources in this Endpoint:
 SharedResourceSite
 */
+
+// classicapi_computer_invitations.go
+// Jamf Pro Classic Api - Computer Invitations
+// api reference: https://developer.jamf.com/jamf-pro/reference/computerinvitations
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
@@ -17,7 +17,7 @@ import (
 
 const uriComputerInvitations = "/JSSResource/computerinvitations"
 
-/// List
+// List
 
 type ResponseComputerInvitationsList struct {
 	Size               int                          `xml:"size"`
@@ -33,7 +33,7 @@ type ComputerInvitationListItem struct {
 	ExpirationDateEpoch int64  `xml:"expiration_date_epoch,omitempty"`
 }
 
-/// Resource
+// Resource
 
 type ResourceComputerInvitation struct {
 	ID                          int                                     `xml:"id,omitempty"`
@@ -56,12 +56,14 @@ type ResourceComputerInvitation struct {
 	Site                        SharedResourceSite                      `xml:"site,omitempty"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 type ComputerInvitationSubsetEnrollIntoState struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
+
+// CRUD
 
 // GetComputerInvitations retrieves a list of all computer invitations.
 func (c *Client) GetComputerInvitations() (*ResponseComputerInvitationsList, error) {
@@ -80,6 +82,7 @@ func (c *Client) GetComputerInvitations() (*ResponseComputerInvitationsList, err
 	return &invitations, nil
 }
 
+// Duplicate function ???
 // GetComputerInvitationByID retrieves a computer invitation by its ID.
 func (c *Client) GetComputerInvitationByID(invitationID int) (*ResourceComputerInvitation, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, invitationID)
@@ -98,7 +101,7 @@ func (c *Client) GetComputerInvitationByID(invitationID int) (*ResourceComputerI
 }
 
 // GetComputerInvitationsByName retrieves a computer invitation by its invitation Name.
-func (c *Client) GetComputerInvitationsByInvitationID(invitationID int) (*ResourceComputerInvitation, error) {
+func (c *Client) GetComputerInvitationByInvitationID(invitationID int) (*ResourceComputerInvitation, error) {
 	endpoint := fmt.Sprintf("%s/invitation/%d", uriComputerInvitations, invitationID)
 
 	var invitation ResourceComputerInvitation
@@ -118,13 +121,11 @@ func (c *Client) GetComputerInvitationsByInvitationID(invitationID int) (*Resour
 func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation) (*ResourceComputerInvitation, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriComputerInvitations)
 
-	// Check if site is not provided and set default values
 	if invitation.Site.ID == 0 && invitation.Site.Name == "" {
 		invitation.Site.ID = -1
 		invitation.Site.Name = "none"
 	}
 
-	// Wrap the invitation request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_invitation"`
 		*ResourceComputerInvitation

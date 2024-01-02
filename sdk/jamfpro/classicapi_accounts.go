@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_accounts.go
 // Jamf Pro Classic Api - Accounts
 // api reference: https://developer.jamf.com/jamf-pro/reference/accounts
@@ -6,7 +8,6 @@
 /*
 Shared Resources in this Endpoint
 SharedResourceSite
-
 
 */
 
@@ -18,14 +19,14 @@ import (
 
 const uriAPIAccounts = "/JSSResource/accounts"
 
-/// List
+// List
 
 type ResponseAccountsList struct {
 	Users  []AccountsListSubsetUsers  `xml:"users>user,omitempty"`
 	Groups []AccountsListSubsetGroups `xml:"groups>group,omitempty"`
 }
 
-/// Resource
+// Resource
 
 type ResourceAccount struct {
 	ID                  int                     `json:"id,omitempty" xml:"id,omitempty"`
@@ -44,13 +45,13 @@ type ResourceAccount struct {
 	Privileges          AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
-/// Responses
+// Responses
 
 type ResponseAccountCreated struct {
 	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
-/// Subsets
+// Subsets
 
 type AccountsListSubsetUsers struct {
 	ID   int    `xml:"id,omitempty"`
@@ -78,6 +79,8 @@ type AccountSubsetPrivileges struct {
 	CasperRemote  []string `json:"casper_remote,omitempty" xml:"casper_remote>privilege"`
 	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege"`
 }
+
+// CRUD
 
 // GetAccounts retrieves a list of all accounts (both users and groups).
 func (c *Client) GetAccounts() (*ResponseAccountsList, error) {

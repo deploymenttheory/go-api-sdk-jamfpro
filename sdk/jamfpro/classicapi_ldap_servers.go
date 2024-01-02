@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_ldap_servers.go
 // Jamf Pro Classic Api - LDAP Servers
 // api reference: https://developer.jamf.com/jamf-pro/reference/ldapservers
@@ -14,7 +16,7 @@ const uriLDAPServers = "/JSSResource/ldapservers"
 
 // ResponseLDAPServersList represents the response structure for a list of LDAP servers.
 
-/// List
+// List
 
 type ResponseLDAPServersList struct {
 	Size        int                   `xml:"size"`
@@ -26,7 +28,7 @@ type LDAPServersListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Resource
+// Resource
 
 // ResourceLDAPServers represents the structure of an individual LDAP server.
 type ResourceLDAPServers struct {
@@ -34,7 +36,7 @@ type ResourceLDAPServers struct {
 	MappingsForUsers LDAPServerContainerMapping `xml:"mappings_for_users"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 // Connection
 
@@ -111,7 +113,7 @@ type LDAPServerSubsetMappingUserGroupMemberships struct {
 	UserGroupMembershipUseLDAPCompare bool   `xml:"user_group_membership_use_ldap_compare"`
 }
 
-/// CRUD
+// CRUD
 
 // GetLDAPServers retrieves a serialized list of LDAP servers.
 func (c *Client) GetLDAPServers() (*ResponseLDAPServersList, error) {

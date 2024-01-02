@@ -12,11 +12,15 @@ import (
 
 const uriAPIActivationCode = "/JSSResource/activationcode"
 
+// Responses
+
 // ResponseActivationCode represents the structure of the response for an activation code.
 type ResourceActivationCode struct {
 	OrganizationName string `xml:"organization_name"`
 	Code             string `xml:"code"`
 }
+
+// CRUD
 
 // GetActivationCode retrieves the activation code.
 func (c *Client) GetActivationCode() (*ResourceActivationCode, error) {

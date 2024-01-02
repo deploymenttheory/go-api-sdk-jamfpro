@@ -1,12 +1,16 @@
-// classicapi_byoprofiles.go
-// Jamf Pro Classic Api - Personal Device Profiles
-// api reference: https://developer.jamf.com/jamf-pro/reference/byoprofiles
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
+
 /*
 Shared Resources in this Endpoint
 SharedResourceSite
 
 */
+
+// classicapi_byoprofiles.go
+// Jamf Pro Classic Api - Personal Device Profiles
+// api reference: https://developer.jamf.com/jamf-pro/reference/byoprofiles
+// Classic API requires the structs to support an XML data structure.
+
 package jamfpro
 
 import (
@@ -15,6 +19,8 @@ import (
 )
 
 const uriBYOProfiles = "/JSSResource/byoprofiles"
+
+// List
 
 // ResponseBYOProfilesList represents the XML response for a list of BYO profiles.
 type ResponseBYOProfilesList struct {
@@ -27,10 +33,14 @@ type BYOProfileListItem struct {
 	Name string `xml:"name"`
 }
 
+// Resource
+
 // BYOProfile represents the details of a BYO profile.
 type ResourceBYOProfile struct {
 	General BYOProfileSubsetGeneral `xml:"general"`
 }
+
+// Subsets
 
 type BYOProfileSubsetGeneral struct {
 	ID          int                `xml:"id"`
@@ -95,7 +105,6 @@ func (c *Client) GetBYOProfileByName(name string) (*ResourceBYOProfile, error) {
 func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriBYOProfiles)
 
-	// Wrap the profile request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
 		*ResourceBYOProfile
@@ -120,7 +129,6 @@ func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResourceBYOProf
 func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
 
-	// Wrap the profile request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
 		*ResourceBYOProfile
@@ -145,7 +153,6 @@ func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*Res
 func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriBYOProfiles, name)
 
-	// Wrap the profile request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
 		*ResourceBYOProfile

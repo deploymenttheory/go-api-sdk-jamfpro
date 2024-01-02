@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_computer_checkin.go
 // Jamf Pro Classic Api - Computer Checkin
 // api reference: https://developer.jamf.com/jamf-pro/reference/computercheckin
@@ -14,7 +16,7 @@ const uriComputerCheckin = "/JSSResource/computercheckin"
 
 // Struct for the computer check-in settings response
 
-/// Resrouce
+// Resource
 
 type ResourceComputerCheckin struct {
 	CheckInFrequency                 int  `xml:"check_in_frequency"`
@@ -31,6 +33,8 @@ type ResourceComputerCheckin struct {
 	PerformLoginActionsInBackground  bool `xml:"perform_login_actions_in_background"`
 	DisplayStatusToUser              bool `xml:"display_status_to_user"`
 }
+
+// CRUD
 
 // GetComputerCheckinInformation gets the jamf pro computer check-in settings
 func (c *Client) GetComputerCheckinInformation() (*ResourceComputerCheckin, error) {
@@ -53,7 +57,6 @@ func (c *Client) GetComputerCheckinInformation() (*ResourceComputerCheckin, erro
 func (c *Client) UpdateComputerCheckinInformation(settings *ResourceComputerCheckin) error {
 	endpoint := uriComputerCheckin
 
-	// Wrap the settings with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_check_in"`
 		*ResourceComputerCheckin
@@ -61,7 +64,6 @@ func (c *Client) UpdateComputerCheckinInformation(settings *ResourceComputerChec
 		ResourceComputerCheckin: settings,
 	}
 
-	// Create a dummy struct for the response
 	var handleResponse struct{}
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)

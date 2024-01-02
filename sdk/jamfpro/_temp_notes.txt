@@ -1,0 +1,32 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+*/
+
+Format:
+
+Shared Resources
+Comments
+Package
+Imports
+URI
+Structs
+- Responses & List
+- Resource
+- Subsets & Containers
+CRUD
+
+
+To Revisit:
+classicapi_computer_invitations.go
+- Line 85:119 dupe function?
+
+classicapi_departments.go
+- Line 90:90 correct architecture? Do we need this function or should it be replaced with full get by name?
+
+TO DO: 
+ebooks
+
+

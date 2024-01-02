@@ -1,15 +1,15 @@
+// Refactor Complete
+
 /*
 Shared Resources in this Endpoint
 SharedResourceSite
-
-
 */
 
 package jamfpro
 
 import "fmt"
 
-/// Resource
+// Resource
 
 type ResourceAccountGroup struct {
 	ID           int                       `json:"id,omitempty" xml:"id"`
@@ -21,12 +21,14 @@ type ResourceAccountGroup struct {
 	Members      AccountGroupSubsetMembers `json:"members" xml:"members>user"`
 }
 
-/// Subsets
+// Subsets
 
 type AccountGroupSubsetMembers struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
+
+// CRUD
 
 // GetAccountGroupByID gets an account group using its ID and returns a response.
 func (c *Client) GetAccountGroupByID(id int) (*ResourceAccountGroup, error) {

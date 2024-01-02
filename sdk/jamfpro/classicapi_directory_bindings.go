@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_directory_bindings.go
 // Jamf Pro Classic Api - Directory Bindings
 // api reference: https://developer.jamf.com/jamf-pro/reference/directorybindings
@@ -13,7 +15,7 @@ import (
 // Base URI for Directory Bindings in Jamf Pro API
 const uriDirectoryBindings = "/JSSResource/directorybindings"
 
-/// List
+// List
 
 // Struct to capture the XML response for directory bindings
 type ResponseDirectoryBindingsList struct {
@@ -26,7 +28,7 @@ type DirectoryBindingsListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Response
+// Response
 
 // Struct to capture the XML response for a single directory binding
 type ResponseDirectoryBinding struct {
@@ -40,7 +42,7 @@ type ResponseDirectoryBinding struct {
 	Type       string `xml:"type"`
 }
 
-/// CRUD
+// CRUD
 
 // GetDirectoryBindings retrieves a serialized list of directory bindings.
 func (c *Client) GetDirectoryBindings() (*ResponseDirectoryBindingsList, error) {
@@ -97,7 +99,6 @@ func (c *Client) GetDirectoryBindingByName(bindingName string) (*ResponseDirecto
 func (c *Client) CreateDirectoryBinding(binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriDirectoryBindings)
 
-	// Wrap the binding with the XML root element name
 	requestBody := struct {
 		XMLName xml.Name `xml:"directory_binding"`
 		*ResponseDirectoryBinding
