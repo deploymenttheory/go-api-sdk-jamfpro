@@ -7,6 +7,17 @@ type SharedResourceSite struct {
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
+type SharedResourceCategory struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+type SharedResourceSelfServiceIcon struct {
+	ID   int    `xml:"id"`
+	URI  string `xml:"uri"`
+	Data string `xml:"data"`
+}
+
 // Advanced Search DisplayField
 
 type SharedAdvancedSearchContainerDisplayField struct {
@@ -18,7 +29,7 @@ type SharedAdvancedSearchSubsetDisplayField struct {
 	Name string `xml:"name"`
 }
 
-// Advanced Search Criteria
+// Criteria
 
 type SharedContainerCriteria struct {
 	Size     int

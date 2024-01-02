@@ -8,6 +8,11 @@ SharedResourceSite
 // api reference: https://developer.jamf.com/jamf-pro/reference/licensedsoftware
 // Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+*/
+
 package jamfpro
 
 import (
@@ -21,6 +26,12 @@ const uriLicensedSoftware = "/JSSResource/licensedsoftware"
 
 // ResponseLicensedSoftwareList represents the response for a list of licensed software.
 type ResponseLicensedSoftwareList struct {
+	LicensedSoftware []LicensedSoftwareListItem `xml:"licensed_software"`
+}
+
+type LicensedSoftwareListItem struct {
+	ID               int                        `xml:"id"`
+	Name             string                     `xml:"name"`
 	LicensedSoftware []LicensedSoftwareListItem `xml:"licensed_software"`
 }
 
