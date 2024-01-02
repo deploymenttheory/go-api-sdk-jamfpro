@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_mobile_device_enrollment_profiles.go
 // Jamf Pro Classic Api - Mobile Device Enrollment Profiles
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceenrollmentprofiles
@@ -12,65 +14,85 @@ import (
 
 const uriMobileDeviceEnrollmentProfiles = "/JSSResource/mobiledeviceenrollmentprofiles"
 
+// List
+
 // ResponseMobileDeviceEnrollmentProfilesList represents the response for a list of mobile device enrollment profiles.
 type ResponseMobileDeviceEnrollmentProfilesList struct {
-	Size                          int `xml:"size"`
-	MobileDeviceEnrollmentProfile []struct {
-		ID         int     `xml:"id"`
-		Name       string  `xml:"name"`
-		Invitation float64 `xml:"invitation"`
-	} `xml:"mobile_device_enrollment_profile"`
+	Size                          int                                      `xml:"size"`
+	MobileDeviceEnrollmentProfile []MobileDeviceEnrollmentProfilesListItem `xml:"mobile_device_enrollment_profile"`
 }
+
+type MobileDeviceEnrollmentProfilesListItem struct {
+	ID         int     `xml:"id"`
+	Name       string  `xml:"name"`
+	Invitation float64 `xml:"invitation"`
+}
+
+// Resource
 
 // ResourceMobileDeviceEnrollmentProfile represents the response structure for a mobile device enrollment profile.
 type ResourceMobileDeviceEnrollmentProfile struct {
-	General struct {
-		ID          int    `xml:"id"`
-		Name        string `xml:"name"`
-		Invitation  string `xml:"invitation,omitempty"`
-		UDID        string `xml:"udid,omitempty"`
-		Description string `xml:"description,omitempty"`
-	} `xml:"general"`
-	Location struct {
-		Username     string `xml:"username,omitempty"`
-		Realname     string `xml:"realname,omitempty"`
-		RealName     string `xml:"real_name,omitempty"`
-		EmailAddress string `xml:"email_address,omitempty"`
-		Position     string `xml:"position,omitempty"`
-		Phone        string `xml:"phone,omitempty"`
-		PhoneNumber  string `xml:"phone_number,omitempty"`
-		Department   string `xml:"department,omitempty"`
-		Building     string `xml:"building,omitempty"`
-		Room         int    `xml:"room,omitempty"`
-	} `xml:"location,omitempty"`
-	Purchasing struct {
-		IsPurchased          bool   `xml:"is_purchased"`
-		IsLeased             bool   `xml:"is_leased"`
-		PONumber             string `xml:"po_number,omitempty"`
-		Vendor               string `xml:"vendor,omitempty"`
-		ApplecareID          string `xml:"applecare_id,omitempty"`
-		PurchasePrice        string `xml:"purchase_price,omitempty"`
-		PurchasingAccount    string `xml:"purchasing_account,omitempty"`
-		PODate               string `xml:"po_date,omitempty"`
-		PODateEpoch          int64  `xml:"po_date_epoch,omitempty"`
-		PODateUTC            string `xml:"po_date_utc,omitempty"`
-		WarrantyExpires      string `xml:"warranty_expires,omitempty"`
-		WarrantyExpiresEpoch int64  `xml:"warranty_expires_epoch,omitempty"`
-		WarrantyExpiresUTC   string `xml:"warranty_expires_utc,omitempty"`
-		LeaseExpires         string `xml:"lease_expires,omitempty"`
-		LeaseExpiresEpoch    int64  `xml:"lease_expires_epoch,omitempty"`
-		LeaseExpiresUTC      string `xml:"lease_expires_utc,omitempty"`
-		LifeExpectancy       int    `xml:"life_expectancy,omitempty"`
-		PurchasingContact    string `xml:"purchasing_contact,omitempty"`
-	} `xml:"purchasing,omitempty"`
-	Attachments []struct {
-		Attachment struct {
-			ID       int    `xml:"id"`
-			Filename string `xml:"filename"`
-			URI      string `xml:"uri"`
-		} `xml:"attachment"`
-	} `xml:"attachments,omitempty"`
+	General     MobileDeviceEnrollmentProfileSubsetGeneral          `xml:"general"`
+	Location    MobileDeviceEnrollmentProfileSubsetLocation         `xml:"location,omitempty"`
+	Purchasing  MobileDeviceEnrollmentProfileSubsetPurchasing       `xml:"purchasing,omitempty"`
+	Attachments []MobileDeviceEnrollmentProfileContainerAttachments `xml:"attachments,omitempty"`
 }
+
+// Subsets & Containers
+
+type MobileDeviceEnrollmentProfileSubsetGeneral struct {
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	Invitation  string `xml:"invitation,omitempty"`
+	UDID        string `xml:"udid,omitempty"`
+	Description string `xml:"description,omitempty"`
+}
+
+type MobileDeviceEnrollmentProfileSubsetLocation struct {
+	Username     string `xml:"username,omitempty"`
+	Realname     string `xml:"realname,omitempty"`
+	RealName     string `xml:"real_name,omitempty"`
+	EmailAddress string `xml:"email_address,omitempty"`
+	Position     string `xml:"position,omitempty"`
+	Phone        string `xml:"phone,omitempty"`
+	PhoneNumber  string `xml:"phone_number,omitempty"`
+	Department   string `xml:"department,omitempty"`
+	Building     string `xml:"building,omitempty"`
+	Room         int    `xml:"room,omitempty"`
+}
+
+type MobileDeviceEnrollmentProfileSubsetPurchasing struct {
+	IsPurchased          bool   `xml:"is_purchased"`
+	IsLeased             bool   `xml:"is_leased"`
+	PONumber             string `xml:"po_number,omitempty"`
+	Vendor               string `xml:"vendor,omitempty"`
+	ApplecareID          string `xml:"applecare_id,omitempty"`
+	PurchasePrice        string `xml:"purchase_price,omitempty"`
+	PurchasingAccount    string `xml:"purchasing_account,omitempty"`
+	PODate               string `xml:"po_date,omitempty"`
+	PODateEpoch          int64  `xml:"po_date_epoch,omitempty"`
+	PODateUTC            string `xml:"po_date_utc,omitempty"`
+	WarrantyExpires      string `xml:"warranty_expires,omitempty"`
+	WarrantyExpiresEpoch int64  `xml:"warranty_expires_epoch,omitempty"`
+	WarrantyExpiresUTC   string `xml:"warranty_expires_utc,omitempty"`
+	LeaseExpires         string `xml:"lease_expires,omitempty"`
+	LeaseExpiresEpoch    int64  `xml:"lease_expires_epoch,omitempty"`
+	LeaseExpiresUTC      string `xml:"lease_expires_utc,omitempty"`
+	LifeExpectancy       int    `xml:"life_expectancy,omitempty"`
+	PurchasingContact    string `xml:"purchasing_contact,omitempty"`
+}
+
+type MobileDeviceEnrollmentProfileContainerAttachments struct {
+	Attachment MobileDeviceEnrollmentProfileSubsetAttachments `xml:"attachment"`
+}
+
+type MobileDeviceEnrollmentProfileSubsetAttachments struct {
+	ID       int    `xml:"id"`
+	Filename string `xml:"filename"`
+	URI      string `xml:"uri"`
+}
+
+// CRUD
 
 // GetMobileDeviceEnrollmentProfiles retrieves a serialized list of mobile device enrollment profiles.
 func (c *Client) GetMobileDeviceEnrollmentProfiles() (*ResponseMobileDeviceEnrollmentProfilesList, error) {

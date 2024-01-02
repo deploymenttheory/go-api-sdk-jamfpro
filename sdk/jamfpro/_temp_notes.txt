@@ -16,6 +16,7 @@ Structs
 - Responses & List
 - Resource
 - Subsets & Containers
+- Shared in Resource
 CRUD
 
 
@@ -26,7 +27,9 @@ classicapi_computer_invitations.go
 classicapi_departments.go
 - Line 90:90 correct architecture? Do we need this function or should it be replaced with full get by name?
 
-TO DO: 
-ebooks
+Complete To:
+classicapi_mobile_device_provisioning_profiles.go
+
+
 
 

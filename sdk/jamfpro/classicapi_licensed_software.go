@@ -81,20 +81,15 @@ type LicensedSoftwareSubsetLicenses struct {
 }
 
 type LicensedSoftwareSubsetLicense struct {
-	SerialNumber1    string `xml:"serial_number_1"`
-	SerialNumber2    string `xml:"serial_number_2"`
-	OrganizationName string `xml:"organization_name"`
-	RegisteredTo     string `xml:"registered_to"`
-	LicenseType      string `xml:"license_type"`
-	LicenseCount     int    `xml:"license_count"`
-	Notes            string `xml:"notes"`
-	Purchasing       struct {
-	} `xml:"purchasing"`
-	Attachments []struct {
-		ID       int    `xml:"id"`
-		Filename string `xml:"filename"`
-		URI      string `xml:"uri"`
-	} `xml:"attachments>attachment"`
+	SerialNumber1    string                                     `xml:"serial_number_1"`
+	SerialNumber2    string                                     `xml:"serial_number_2"`
+	OrganizationName string                                     `xml:"organization_name"`
+	RegisteredTo     string                                     `xml:"registered_to"`
+	LicenseType      string                                     `xml:"license_type"`
+	LicenseCount     int                                        `xml:"license_count"`
+	Notes            string                                     `xml:"notes"`
+	Purchasing       LicensedSoftwareSubsetLicensePurchasing    `xml:"purchasing"`
+	Attachments      []LicensedSoftwareSubsetLicenseAttachments `xml:"attachments>attachment"`
 }
 
 type LicensedSoftwareSubsetLicensePurchasing struct {
@@ -112,6 +107,12 @@ type LicensedSoftwareSubsetLicensePurchasing struct {
 	LicenseExpiresUTC   string `xml:"license_expires_utc"`
 	LifeExpectancy      int    `xml:"life_expectancy"`
 	PurchasingContact   string `xml:"purchasing_contact"`
+}
+
+type LicensedSoftwareSubsetLicenseAttachments struct {
+	ID       int    `xml:"id"`
+	Filename string `xml:"filename"`
+	URI      string `xml:"uri"`
 }
 
 // CRUD

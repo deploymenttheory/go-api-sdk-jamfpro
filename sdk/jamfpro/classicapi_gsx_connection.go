@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_gsx_connection.go
 // Jamf Pro Classic Api - GSX Connection
 // api reference: https://developer.jamf.com/jamf-pro/reference/gsxconnection

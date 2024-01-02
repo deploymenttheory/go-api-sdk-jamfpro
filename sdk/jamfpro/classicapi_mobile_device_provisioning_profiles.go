@@ -12,26 +12,38 @@ import (
 
 const uriMobileDeviceProvisioningProfiles = "/JSSResource/mobiledeviceprovisioningprofiles"
 
+// List
+
 // ResponseMobileDeviceProvisioningProfilesList represents the response for a list of mobile device provisioning profiles.
 type ResponseMobileDeviceProvisioningProfilesList struct {
-	Size                            int `xml:"size"`
-	MobileDeviceProvisioningProfile []struct {
-		ID          int    `xml:"id"`
-		Name        string `xml:"name"`
-		DisplayName string `xml:"display_name"`
-		UUID        string `xml:"uuid"`
-	} `xml:"mobile_device_provisioning_profile"`
+	Size                            int                                        `xml:"size"`
+	MobileDeviceProvisioningProfile []MobileDeviceProvisioningProfilesListItem `xml:"mobile_device_provisioning_profile"`
 }
+
+type MobileDeviceProvisioningProfilesListItem struct {
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	DisplayName string `xml:"display_name"`
+	UUID        string `xml:"uuid"`
+}
+
+// Resource
 
 // ResourceMobileDeviceProvisioningProfile represents the detailed structure for a mobile device provisioning profile.
 type ResourceMobileDeviceProvisioningProfile struct {
-	General struct {
-		ID          int    `xml:"id"`
-		Name        string `xml:"name"`
-		DisplayName string `xml:"display_name"`
-		UUID        string `xml:"uuid"`
-	} `xml:"general"`
+	General MobileDeviceProvisioningProfileSubsetGeneral `xml:"general"`
 }
+
+// Subsets
+
+type MobileDeviceProvisioningProfileSubsetGeneral struct {
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	DisplayName string `xml:"display_name"`
+	UUID        string `xml:"uuid"`
+}
+
+// CRUD
 
 // GetMobileDeviceProvisioningProfiles retrieves a serialized list of mobile device provisioning profiles.
 func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDeviceProvisioningProfilesList, error) {

@@ -18,6 +18,16 @@ type SharedResourceSelfServiceIcon struct {
 	Data string `xml:"data"`
 }
 
+type SharedResourceSelfServiceCategories struct {
+	Category []SharedResourceSelfServiceCategory
+}
+
+type SharedResourceSelfServiceCategory struct {
+	ID       int    `xml:"id"`
+	Name     string `xml:"name"`
+	Priority int    `xml:"priority,omitempty"`
+}
+
 // Advanced Search DisplayField
 
 type SharedAdvancedSearchContainerDisplayField struct {

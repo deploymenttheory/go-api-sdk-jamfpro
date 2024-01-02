@@ -1,3 +1,11 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedSubsetCriteria
+*/
+
 // classicapi_mobile_device_enrollment_groups.go
 // Jamf Pro Classic Api - Mobile Device Groups
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledevicegroups
@@ -12,34 +20,29 @@ import (
 
 const uriMobileDeviceGroups = "/JSSResource/mobiledevicegroups"
 
+// List
+
 // ResponseMobileDeviceGroupsList represents the response for a list of mobile device groups.
 type ResponseMobileDeviceGroupsList struct {
-	Size              int `xml:"size"`
-	MobileDeviceGroup []struct {
-		ID      int    `xml:"id"`
-		Name    string `xml:"name"`
-		IsSmart bool   `xml:"is_smart"`
-	} `xml:"mobile_device_group"`
+	Size              int                          `xml:"size"`
+	MobileDeviceGroup []MobileDeviceGroupsListItem `xml:"mobile_device_group"`
 }
+
+type MobileDeviceGroupsListItem struct {
+	ID      int    `xml:"id"`
+	Name    string `xml:"name"`
+	IsSmart bool   `xml:"is_smart"`
+}
+
+// Resource
 
 // ResourceMobileDeviceGroup represents the response for a single mobile device group.
 type ResourceMobileDeviceGroup struct {
-	ID       int    `xml:"id"`
-	Name     string `xml:"name"`
-	IsSmart  bool   `xml:"is_smart"`
-	Criteria []struct {
-		Name         string `xml:"name"`
-		Priority     int    `xml:"priority"`
-		AndOr        string `xml:"and_or"`
-		SearchType   string `xml:"search_type"`
-		Value        string `xml:"value"`
-		OpeningParen bool   `xml:"opening_paren,omitempty"`
-		ClosingParen bool   `xml:"closing_paren,omitempty"`
-	} `xml:"criteria>criterion,omitempty"`
-	Site struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"site"`
+	ID                    int                                 `xml:"id"`
+	Name                  string                              `xml:"name"`
+	IsSmart               bool                                `xml:"is_smart"`
+	Criteria              []SharedSubsetCriteria              `xml:"criteria>criterion,omitempty"`
+	Site                  SharedResourceSite                  `xml:"site"`
 	MobileDevices         []MobileDeviceGroupSubsetDeviceItem `xml:"mobile_devices>mobile_device,omitempty"`
 	MobileDeviceAdditions []MobileDeviceGroupSubsetDeviceItem `xml:"mobile_device_additions>mobile_device,omitempty"`
 	MobileDeviceDeletions []MobileDeviceGroupSubsetDeviceItem `xml:"mobile_device_deletions>mobile_device,omitempty"`
@@ -54,6 +57,8 @@ type MobileDeviceGroupSubsetDeviceItem struct {
 	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
 	SerialNumber   string `xml:"serial_number,omitempty"`
 }
+
+// CRUD
 
 // GetMobileDeviceGroups retrieves a serialized list of mobile device groups.
 func (c *Client) GetMobileDeviceGroups() (*ResponseMobileDeviceGroupsList, error) {
@@ -73,7 +78,7 @@ func (c *Client) GetMobileDeviceGroups() (*ResponseMobileDeviceGroupsList, error
 }
 
 // GetMobileDeviceGroupsByID retrieves a single mobile device group by its ID.
-func (c *Client) GetMobileDeviceGroupsByID(id int) (*ResourceMobileDeviceGroup, error) {
+func (c *Client) GetMobileDeviceGroupByID(id int) (*ResourceMobileDeviceGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
 
 	var group ResourceMobileDeviceGroup
@@ -90,7 +95,7 @@ func (c *Client) GetMobileDeviceGroupsByID(id int) (*ResourceMobileDeviceGroup, 
 }
 
 // GetMobileDeviceGroupsByName retrieves a single mobile device group by its name.
-func (c *Client) GetMobileDeviceGroupsByName(name string) (*ResourceMobileDeviceGroup, error) {
+func (c *Client) GetMobileDeviceGroupByName(name string) (*ResourceMobileDeviceGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceGroups, name)
 
 	var group ResourceMobileDeviceGroup

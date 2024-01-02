@@ -1,3 +1,11 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedResourceCategory
+*/
+
 // classicapi_mobile_device_applications.go
 // Jamf Pro Classic Api - Mobile Device Applications
 // api reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceapplications
@@ -12,79 +20,88 @@ import (
 
 const uriMobileDeviceApplications = "/JSSResource/mobiledeviceapplications"
 
+// List
+
 // ResponseMobileDeviceApplicationsList represents the response for a list of mobile device applications.
 type ResponseMobileDeviceApplicationsList struct {
-	MobileDeviceApplications []struct {
-		ID          int    `xml:"id"`
-		Name        string `xml:"name"`
-		DisplayName string `xml:"display_name"`
-		BundleID    string `xml:"bundle_id"`
-		Version     string `xml:"version"`
-		InternalApp bool   `xml:"internal_app"`
-	} `xml:"mobile_device_application"`
+	MobileDeviceApplications []MobileDeviceApplicationsListItem `xml:"mobile_device_application"`
 }
+
+type MobileDeviceApplicationsListItem struct {
+	ID          int    `xml:"id"`
+	Name        string `xml:"name"`
+	DisplayName string `xml:"display_name"`
+	BundleID    string `xml:"bundle_id"`
+	Version     string `xml:"version"`
+	InternalApp bool   `xml:"internal_app"`
+}
+
+// Resource
 
 // ResourceMobileDeviceApplication represents the detailed structure of a single mobile device application.
 type ResourceMobileDeviceApplication struct {
-	General struct {
-		ID          int    `xml:"id,omitempty"`
-		Name        string `xml:"name"`
-		DisplayName string `xml:"display_name"`
-		Description string `xml:"description,omitempty"`
-		BundleID    string `xml:"bundle_id"`
-		Version     string `xml:"version"`
-		InternalApp bool   `xml:"internal_app,omitempty"`
-		OsType      string `xml:"os_type,omitempty"`
-		Category    struct {
-			ID   int    `xml:"id,omitempty"` // ID is optional
-			Name string `xml:"name"`         // Name is required
-		} `xml:"category"`
-		IPA struct {
-			Name string `xml:"name,omitempty"` // Optional fields
-			URI  string `xml:"uri,omitempty"`
-			Data string `xml:"data,omitempty"`
-		} `xml:"ipa,omitempty"`
-		Icon                             MobileDeviceApplicationSubsetIcon `xml:"icon"`
-		ProvisioningProfile              int                               `xml:"mobile_device_provisioning_profile,omitempty"`
-		ITunesStoreURL                   string                            `xml:"itunes_store_url,omitempty"`
-		MakeAvailableAfterInstall        bool                              `xml:"make_available_after_install,omitempty"`
-		ITunesCountryRegion              string                            `xml:"itunes_country_region,omitempty"`
-		ITunesSyncTime                   int                               `xml:"itunes_sync_time,omitempty"`
-		DeploymentType                   string                            `xml:"deployment_type,omitempty"`
-		DeployAutomatically              bool                              `xml:"deploy_automatically,omitempty"`
-		DeployAsManagedApp               bool                              `xml:"deploy_as_managed_app,omitempty"`
-		RemoveAppWhenMDMProfileIsRemoved bool                              `xml:"remove_app_when_mdm_profile_is_removed,omitempty"`
-		PreventBackupOfAppData           bool                              `xml:"prevent_backup_of_app_data,omitempty"`
-		KeepDescriptionAndIconUpToDate   bool                              `xml:"keep_description_and_icon_up_to_date,omitempty"`
-		Free                             bool                              `xml:"free,omitempty"`
-		TakeOverManagement               bool                              `xml:"take_over_management,omitempty"`
-		HostExternally                   bool                              `xml:"host_externally,omitempty"`
-		ExternalURL                      string                            `xml:"external_url,omitempty"`
-		Site                             struct {
-			ID   int    `xml:"id,omitempty"` // ID is optional
-			Name string `xml:"name"`         // Name is required
-		} `xml:"site"`
-	} `xml:"general"`
-	Scope       MobileDeviceApplicationSubsetScope `xml:"scope"`
-	SelfService struct {
-		SelfServiceDescription string                            `xml:"self_service_description,omitempty"` // Optional
-		SelfServiceIcon        MobileDeviceApplicationSubsetIcon `xml:"self_service_icon,omitempty"`        // Optional
-		FeatureOnMainPage      bool                              `xml:"feature_on_main_page,omitempty"`     // Optional
-		SelfServiceCategories  []struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"self_service_categories>category,omitempty"` // Optional
-		Notification        bool   `xml:"notification,omitempty"`         // Optional
-		NotificationSubject string `xml:"notification_subject,omitempty"` // Optional
-		NotificationMessage string `xml:"notification_message,omitempty"` // Optional
-	} `xml:"self_service"`
-	VPP struct {
-		AssignVPPDeviceBasedLicenses bool `xml:"assign_vpp_device_based_licenses,omitempty"` // Optional as per the documentation.
-		VPPAdminAccountID            int  `xml:"vpp_admin_account_id,omitempty"`             // Optional as per the documentation.
-	} `xml:"vpp,omitempty"`
-	AppConfiguration struct {
-		Preferences string `xml:"preferences,omitempty"` // Optional as per the documentation.
-	} `xml:"app_configuration,omitempty"`
+	General MobileDeviceApplicationSubsetGeneral `xml:"general"`
+}
+
+// Subsets and Containers
+
+type MobileDeviceApplicationSubsetGeneral struct {
+	ID                               int                                                  `xml:"id,omitempty"`
+	Name                             string                                               `xml:"name"`
+	DisplayName                      string                                               `xml:"display_name"`
+	Description                      string                                               `xml:"description,omitempty"`
+	BundleID                         string                                               `xml:"bundle_id"`
+	Version                          string                                               `xml:"version"`
+	InternalApp                      bool                                                 `xml:"internal_app,omitempty"`
+	OsType                           string                                               `xml:"os_type,omitempty"`
+	Category                         SharedResourceCategory                               `xml:"category"`
+	IPA                              MobileDeviceApplicationSubsetGeneralIPA              `xml:"ipa,omitempty"`
+	Icon                             MobileDeviceApplicationSubsetIcon                    `xml:"icon"`
+	ProvisioningProfile              int                                                  `xml:"mobile_device_provisioning_profile,omitempty"`
+	ITunesStoreURL                   string                                               `xml:"itunes_store_url,omitempty"`
+	MakeAvailableAfterInstall        bool                                                 `xml:"make_available_after_install,omitempty"`
+	ITunesCountryRegion              string                                               `xml:"itunes_country_region,omitempty"`
+	ITunesSyncTime                   int                                                  `xml:"itunes_sync_time,omitempty"`
+	DeploymentType                   string                                               `xml:"deployment_type,omitempty"`
+	DeployAutomatically              bool                                                 `xml:"deploy_automatically,omitempty"`
+	DeployAsManagedApp               bool                                                 `xml:"deploy_as_managed_app,omitempty"`
+	RemoveAppWhenMDMProfileIsRemoved bool                                                 `xml:"remove_app_when_mdm_profile_is_removed,omitempty"`
+	PreventBackupOfAppData           bool                                                 `xml:"prevent_backup_of_app_data,omitempty"`
+	KeepDescriptionAndIconUpToDate   bool                                                 `xml:"keep_description_and_icon_up_to_date,omitempty"`
+	Free                             bool                                                 `xml:"free,omitempty"`
+	TakeOverManagement               bool                                                 `xml:"take_over_management,omitempty"`
+	HostExternally                   bool                                                 `xml:"host_externally,omitempty"`
+	ExternalURL                      string                                               `xml:"external_url,omitempty"`
+	Site                             SharedResourceSite                                   `xml:"site"`
+	Scope                            MobileDeviceApplicationSubsetScope                   `xml:"scope"`
+	SelfService                      MobileDeviceApplicationSubsetGeneralSelfService      `xml:"self_service"`
+	VPP                              MobileDeviceApplicationSubsetGeneralVPP              `xml:"vpp,omitempty"`
+	AppConfiguration                 MobileDeviceApplicationSubsetGeneralAppConfiguration `xml:"app_configuration,omitempty"`
+}
+
+type MobileDeviceApplicationSubsetGeneralIPA struct {
+	Name string `xml:"name,omitempty"`
+	URI  string `xml:"uri,omitempty"`
+	Data string `xml:"data,omitempty"`
+}
+
+type MobileDeviceApplicationSubsetGeneralSelfService struct {
+	SelfServiceDescription string                              `xml:"self_service_description,omitempty"`
+	SelfServiceIcon        MobileDeviceApplicationSubsetIcon   `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage      bool                                `xml:"feature_on_main_page,omitempty"`
+	SelfServiceCategories  []SharedResourceSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
+	Notification           bool                                `xml:"notification,omitempty"`
+	NotificationSubject    string                              `xml:"notification_subject,omitempty"`
+	NotificationMessage    string                              `xml:"notification_message,omitempty"`
+}
+
+type MobileDeviceApplicationSubsetGeneralVPP struct {
+	AssignVPPDeviceBasedLicenses bool `xml:"assign_vpp_device_based_licenses,omitempty"`
+	VPPAdminAccountID            int  `xml:"vpp_admin_account_id,omitempty"`
+}
+
+type MobileDeviceApplicationSubsetGeneralAppConfiguration struct {
+	Preferences string `xml:"preferences,omitempty"`
 }
 
 // Shared Structs
@@ -103,73 +120,73 @@ type MobileDeviceApplicationSubsetScope struct {
 }
 
 type MobileDeviceApplicationSubsetLimitation struct {
-	Users           []MobileDeviceApplicationSubsetUser           `xml:"users>user,omitempty"`                       // Optional
-	UserGroups      []MobileDeviceApplicationSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`           // Optional
-	NetworkSegments []MobileDeviceApplicationSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"` // Optional
+	Users           []MobileDeviceApplicationSubsetUser           `xml:"users>user,omitempty"`
+	UserGroups      []MobileDeviceApplicationSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	NetworkSegments []MobileDeviceApplicationSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetExclusion struct {
-	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`             // Optional
-	Buildings          []MobileDeviceApplicationSubsetBuilding          `xml:"buildings>building,omitempty"`                       // Optional
-	Departments        []MobileDeviceApplicationSubsetDepartment        `xml:"departments>department,omitempty"`                   // Optional
-	MobileDeviceGroups []MobileDeviceApplicationSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group,omitempty"` // Optional
-	JSSUsers           []MobileDeviceApplicationSubsetJSSUser           `xml:"jss_users>user,omitempty"`                           // Optional
-	JSSUserGroups      []MobileDeviceApplicationSubsetJSSUserGroup      `xml:"jss_user_groups>user_group,omitempty"`               // Optional
+	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`
+	Buildings          []MobileDeviceApplicationSubsetBuilding          `xml:"buildings>building,omitempty"`
+	Departments        []MobileDeviceApplicationSubsetDepartment        `xml:"departments>department,omitempty"`
+	MobileDeviceGroups []MobileDeviceApplicationSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group,omitempty"`
+	JSSUsers           []MobileDeviceApplicationSubsetJSSUser           `xml:"jss_users>user,omitempty"`
+	JSSUserGroups      []MobileDeviceApplicationSubsetJSSUserGroup      `xml:"jss_user_groups>user_group,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetIcon struct {
-	ID   int    `xml:"id,omitempty"` // ID is optional
-	Name string `xml:"name"`         // Name is required
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name"`
 	URI  string `xml:"uri,omitempty"`
 	Data string `xml:"data,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetMobileDevice struct {
-	ID             int    `xml:"id,omitempty"`               // ID is optional
-	Name           string `xml:"name,omitempty"`             // Name is optional
-	UDID           string `xml:"udid,omitempty"`             // UDID is optional
-	WifiMacAddress string `xml:"wifi_mac_address,omitempty"` // WifiMacAddress is optional
+	ID             int    `xml:"id,omitempty"`
+	Name           string `xml:"name,omitempty"`
+	UDID           string `xml:"udid,omitempty"`
+	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetBuilding struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetDepartment struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetMobileDeviceGroup struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetJSSUser struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetJSSUserGroup struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetUser struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetUserGroup struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetNetworkSegment struct {
-	ID   int    `xml:"id,omitempty"`   // ID is optional
-	UID  string `xml:"uid,omitempty"`  // UID is optional
-	Name string `xml:"name,omitempty"` // Name is optional
+	ID   int    `xml:"id,omitempty"`
+	UID  string `xml:"uid,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 // GetMobileDeviceApplications retrieves a serialized list of mobile device applications.
@@ -188,6 +205,8 @@ func (c *Client) GetMobileDeviceApplications() (*ResponseMobileDeviceApplication
 
 	return &mobileDeviceApps, nil
 }
+
+// CRUD
 
 // GetMobileDeviceApplicationByID fetches a specific mobile device application by its ID from the Jamf Pro server.
 func (c *Client) GetMobileDeviceApplicationByID(id int) (*ResourceMobileDeviceApplication, error) {

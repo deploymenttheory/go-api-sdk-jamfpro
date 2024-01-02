@@ -1,3 +1,12 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedResourceCategory
+SharedResourceSelfServiceIcon
+*/
+
 // classicapi_ebooks.go
 // Jamf Pro Classic Api - Ebooks
 // api reference: https://developer.jamf.com/jamf-pro/reference/ebooks
@@ -13,7 +22,7 @@ import (
 // URI for Ebooks in Jamf Pro API
 const uriEbooks = "/JSSResource/ebooks"
 
-/// List
+// List
 
 // Struct to capture the XML response for ebooks list
 type ResponseEbooksList struct {
@@ -26,7 +35,7 @@ type EBookListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Resource
+// Resource
 
 // ResourceEbooks represents the detailed structure of an Ebook response.
 type ResourceEbooks struct {
@@ -35,7 +44,7 @@ type ResourceEbooks struct {
 	SelfService EbookSubsetSelfService `xml:"self_service"`
 }
 
-/// Subsets & Containers
+// Subsets & Containers
 
 // General
 
@@ -178,6 +187,8 @@ type EbookSubsetScopeUserGroup struct {
 	Name string `xml:"name"`
 }
 
+// CRUD
+
 // GetEbooks retrieves a serialized list of ebooks.
 func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
 	endpoint := uriEbooks
@@ -196,7 +207,7 @@ func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
 }
 
 // GetEbooksByID retrieves a single ebook by its ID.
-func (c *Client) GetEbooksByID(id int) (*ResourceEbooks, error) {
+func (c *Client) GetEbookByID(id int) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
 
 	var ebook ResourceEbooks
@@ -213,7 +224,7 @@ func (c *Client) GetEbooksByID(id int) (*ResourceEbooks, error) {
 }
 
 // GetEbooksByName retrieves a single ebook by its name.
-func (c *Client) GetEbooksByName(name string) (*ResourceEbooks, error) {
+func (c *Client) GetEbookByName(name string) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriEbooks, name)
 
 	var ebook ResourceEbooks
@@ -230,7 +241,7 @@ func (c *Client) GetEbooksByName(name string) (*ResourceEbooks, error) {
 }
 
 // GetEbooksByNameAndDataSubset retrieves a specific subset of an ebook by its name.
-func (c *Client) GetEbooksByNameAndDataSubset(name, subset string) (*ResourceEbooks, error) {
+func (c *Client) GetEbookByNameAndDataSubset(name, subset string) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriEbooks, name, subset)
 
 	var ebook ResourceEbooks

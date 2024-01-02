@@ -1,13 +1,16 @@
-// classicapi_mac_applications.go
-// Jamf Pro Classic Api - VPP Mac Applications
-// api reference: https://developer.jamf.com/jamf-pro/reference/macapplications
-// Classic API requires the structs to support an XML data structure.
+// Refactor Complete
 
 /*
 Shared Resources in this Endpoint:
 SharedResourceSite
 SharedResourceCategory
+SharedResourceSelfServiceIcon
 */
+
+// classicapi_mac_applications.go
+// Jamf Pro Classic Api - VPP Mac Applications
+// api reference: https://developer.jamf.com/jamf-pro/reference/macapplications
+// Classic API requires the structs to support an XML data structure.
 
 package jamfpro
 
@@ -18,7 +21,7 @@ import (
 
 const uriVPPMacApplications = "/JSSResource/macapplications"
 
-/// List
+// List
 
 type ResponseMacApplicationsList struct {
 	MacApplications []MacApplicationsListItem `xml:"mac_application"`
@@ -29,7 +32,7 @@ type MacApplicationsListItem struct {
 	Name string `xml:"name"`
 }
 
-/// Resource
+// Resource
 
 // ResourceMacApplications represents the detailed structure of a Mac Application response.
 type ResourceMacApplications struct {
@@ -167,7 +170,7 @@ func (c *Client) GetMacApplications() (*ResponseMacApplicationsList, error) {
 	return &macApps, nil
 }
 
-/// CRUD
+// CRUD
 
 // GetMacApplicationByID retrieves a single Mac application by its ID.
 func (c *Client) GetMacApplicationByID(id int) (*ResourceMacApplications, error) {
