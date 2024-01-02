@@ -30,14 +30,6 @@ type ResponseLicensedSoftwareList struct {
 }
 
 type LicensedSoftwareListItem struct {
-	ID               int                        `xml:"id"`
-	Name             string                     `xml:"name"`
-	LicensedSoftware []LicensedSoftwareListItem `xml:"licensed_software"`
-}
-
-type LicensedSoftwareListItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
 }
 
 // Resource
