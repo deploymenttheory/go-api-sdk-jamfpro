@@ -37,37 +37,41 @@ func main() {
 	newGroup := &jamfpro.ResourceMobileDeviceGroup{
 		Name:    "Sample Smart Group",
 		IsSmart: true,
-		Criteria: []jamfpro.MobileDeviceGroupCriteriaItem{
-			{
-				Name:         "Last Inventory Update",
-				Priority:     0,
-				AndOr:        "AND",
-				SearchType:   "more than x days ago",
-				Value:        "7",
-				OpeningParen: true,
-			},
-			{
-				Name:         "Department",
-				Priority:     1,
-				AndOr:        "and",
-				SearchType:   "is",
-				Value:        "marketing",
-				ClosingParen: true,
-			},
-			{
-				Name:         "Building",
-				Priority:     2,
-				AndOr:        "or",
-				SearchType:   "is",
-				Value:        "london wall",
-				OpeningParen: true,
-				ClosingParen: true,
+		Criteria: jamfpro.SharedContainerCriteria{
+			Size: 3, // The number of criteria
+			Criterion: []jamfpro.SharedSubsetCriteria{
+				{
+					Name:         "Last Inventory Update",
+					Priority:     0,
+					AndOr:        "AND",
+					SearchType:   "more than x days ago",
+					Value:        "7",
+					OpeningParen: true,
+				},
+				{
+					Name:         "Department",
+					Priority:     1,
+					AndOr:        "and",
+					SearchType:   "is",
+					Value:        "marketing",
+					ClosingParen: true,
+				},
+				{
+					Name:         "Building",
+					Priority:     2,
+					AndOr:        "or",
+					SearchType:   "is",
+					Value:        "london wall",
+					OpeningParen: true,
+					ClosingParen: true,
+				},
 			},
 		},
 		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
+		// other fields if necessary
 	}
 
 	createdGroup, err := client.CreateMobileDeviceGroup(newGroup)

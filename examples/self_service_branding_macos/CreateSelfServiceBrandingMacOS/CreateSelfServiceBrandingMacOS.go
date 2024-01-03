@@ -39,7 +39,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	newBranding := jamfpro.SelfServiceBrandingDetail{
+	newBranding := jamfpro.ResourceSelfServiceBrandingDetail{
 		ApplicationName:       "Self Service",
 		BrandingName:          "Self Service",
 		BrandingNameSecondary: "Self Service",

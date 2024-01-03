@@ -39,7 +39,7 @@ type ResourceMobileDeviceGroup struct {
 	ID                    int                                 `xml:"id"`
 	Name                  string                              `xml:"name"`
 	IsSmart               bool                                `xml:"is_smart"`
-	Criteria              SharedSubsetCriteria                `xml:"criteria>criterion,omitempty"`
+	Criteria              SharedSubsetCriteria                `xml:"criteria,omitempty"`
 	Site                  SharedResourceSite                  `xml:"site"`
 	MobileDevices         []MobileDeviceGroupSubsetDeviceItem `xml:"mobile_devices>mobile_device,omitempty"`
 	MobileDeviceAdditions []MobileDeviceGroupSubsetDeviceItem `xml:"mobile_device_additions>mobile_device,omitempty"`
