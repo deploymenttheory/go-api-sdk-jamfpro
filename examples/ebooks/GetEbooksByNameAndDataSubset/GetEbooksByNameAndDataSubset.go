@@ -36,7 +36,7 @@ func main() {
 	ebookName := "iPhone User Guide for iOS 10.3" // Replace with the desired ebook name
 	subset := "General"                           // Replace with "General", "Scope", or "SelfService"
 
-	ebook, err := client.GetEbooksByNameAndDataSubset(ebookName, subset)
+	ebook, err := client.GetEbookByNameAndDataSubset(ebookName, subset)
 	if err != nil {
 		log.Fatalf("Error fetching ebook by Name and Subset: %v", err)
 	}

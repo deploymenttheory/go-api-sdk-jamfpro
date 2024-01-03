@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the computers for the static group
-	computers := []jamfpro.ComputerGroupComputerItem{
+	computers := []jamfpro.ComputerGroupSubsetComputer{
 		{
 			ID:            2,
 			Name:          "MacBook Pro",
@@ -58,10 +58,10 @@ func main() {
 	}
 
 	// Create a new static computer group
-	newStaticGroup := &jamfpro.ResponseComputerGroup{
+	newStaticGroup := &jamfpro.ResourceComputerGroup{
 		Name:      "SDK Static Group Test",
 		IsSmart:   false,
-		Site:      jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
+		Site:      jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 		Computers: computers,
 	}
 

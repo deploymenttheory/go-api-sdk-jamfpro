@@ -43,7 +43,7 @@ func main() {
 	ebookName := "iPhone User Guide for iOS 10.3" // Replace with the desired ebook name
 
 	// Call GetEbooksByName function
-	ebook, err := client.GetEbooksByName(ebookName)
+	ebook, err := client.GetEbookByName(ebookName)
 	if err != nil {
 		log.Fatalf("Error fetching ebook by name: %v", err)
 	}

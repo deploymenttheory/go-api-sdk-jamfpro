@@ -42,7 +42,7 @@ func main() {
 	dockItemName := "Safari" // Replace with the actual name
 
 	// Call the DeleteDockItemsByName function
-	err = client.DeleteDockItemsByName(dockItemName)
+	err = client.DeleteDockItemByName(dockItemName)
 	if err != nil {
 		log.Fatalf("Error deleting dock item by name: %v", err)
 	}

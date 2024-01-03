@@ -1,15 +1,13 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint:
-SharedResourceSite
-SharedContainerCriteria
-*/
-
 // classicapi_computer_groups.go
 // Jamf Pro Classic Api - Computer Groups
 // api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedContainerCriteria
+*/
 
 package jamfpro
 
@@ -109,7 +107,7 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 
 // CreateComputerGroup creates a new computer group.
 func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriComputerGroups) // Using ID 0 for creation as per the pattern
+	endpoint := uriComputerGroups
 
 	if group.Site.ID == 0 && group.Site.Name == "" {
 		group.Site.ID = -1

@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Define the new iBeacon details
-	newBeacon := &jamfpro.ResponseIBeacons{
+	newBeacon := &jamfpro.ResourceIBeacons{
 		Name:  "Room 1 Beacon",
 		UUID:  "55900BDC-347C-58B1-D249-F32244B11D30",
 		Major: -1,

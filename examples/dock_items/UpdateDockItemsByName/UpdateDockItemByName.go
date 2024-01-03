@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -40,7 +41,7 @@ func main() {
 
 	// Define the name and details of the dock item to update
 	dockItemName := "Safari" // Replace with the actual name
-	updatedDockItem := &jamfpro.ResponseDockItem{
+	updatedDockItem := &jamfpro.ResourceDockItem{
 		// Set the fields you want to update
 		Name:     "Updated Safari",
 		Type:     "App",
@@ -49,11 +50,15 @@ func main() {
 	}
 
 	// Call the UpdateDockItemByName function
-	result, err := client.UpdateDockItemsByName(dockItemName, updatedDockItem)
+	dockItem, err := client.UpdateDockItemByName(dockItemName, updatedDockItem)
 	if err != nil {
 		log.Fatalf("Error updating dock item by Name: %v", err)
 	}
 
-	// Output the result
-	fmt.Printf("Updated Dock Item by Name: %+v\n", result)
+	// Pretty print the updated group in XML
+	groupXML, err := xml.MarshalIndent(dockItem, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling Computer Group data: %v", err)
+	}
+	fmt.Println("Updated Computer Group:\n", string(groupXML))
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -42,16 +43,15 @@ func main() {
 	dockItemID := 1 // Replace with the actual ID of the dock item
 
 	// Call the GetDockItemsByID function
-	dockItem, err := client.GetDockItemsByID(dockItemID)
+	dockItem, err := client.GetDockItemByID(dockItemID)
 	if err != nil {
 		log.Fatalf("Error fetching dock item by ID: %v", err)
 	}
 
-	// Output the details of the fetched dock item
-	fmt.Printf("Fetched Dock Item Details:\n")
-	fmt.Printf("ID: %d\n", dockItem.ID)
-	fmt.Printf("Name: %s\n", dockItem.Name)
-	fmt.Printf("Type: %s\n", dockItem.Type)
-	fmt.Printf("Path: %s\n", dockItem.Path)
-	fmt.Printf("Contents: %s\n", dockItem.Contents)
+	// Pretty print the updated group in XML
+	groupXML, err := xml.MarshalIndent(dockItem, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling Computer Group data: %v", err)
+	}
+	fmt.Println("Updated Computer Group:\n", string(groupXML))
 }

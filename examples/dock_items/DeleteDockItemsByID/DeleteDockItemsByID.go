@@ -42,7 +42,7 @@ func main() {
 	dockItemID := 505 // Replace with the actual ID
 
 	// Call the DeleteDockItemsByID function
-	err = client.DeleteDockItemsByID(dockItemID)
+	err = client.DeleteDockItemByID(dockItemID)
 	if err != nil {
 		log.Fatalf("Error deleting dock item by ID: %v", err)
 	}

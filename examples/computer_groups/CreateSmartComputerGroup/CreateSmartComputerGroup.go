@@ -40,24 +40,26 @@ func main() {
 	}
 
 	// Sample data for creating a new computer group (replace with actual data as needed)
-	newSmartGroup := &jamfpro.ResponseComputerGroup{
+	newSmartGroup := &jamfpro.ResourceComputerGroup{
 		Name:    "Operating System Version like 15",
 		IsSmart: true,
-		Site: jamfpro.ComputerGroupSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Criteria: []jamfpro.ComputerGroupCriterion{
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Name:        "Operating System Version",
-				Priority:    0,
-				AndOr:       "and",
-				SearchType:  "like",
-				SearchValue: "macOS 14",
-				//OpeningParen: false,
-				//ClosingParen: false,
+				Size: 1, // Assuming there is only one criterion
+				Criterion: jamfpro.SharedSubsetCriteria{ // Note the change from "Criteria" to "Criterion"
+					Name:       "Operating System Version",
+					Priority:   0,
+					AndOr:      "and",
+					SearchType: "like",
+					Value:      "macOS 14",
+				},
 			},
 		},
+		// Include other fields if necessary
 	}
 
 	// Call CreateComputerGroup function

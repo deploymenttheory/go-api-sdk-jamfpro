@@ -35,8 +35,8 @@ func main() {
 
 	// Define the ebook to be created
 	ebookID := 1 // Replace with the actual eBook ID
-	ebookToUpdate := jamfpro.ResponseEbooks{
-		General: jamfpro.EbooksDataSubsetGeneral{
+	ebookToUpdate := jamfpro.ResourceEbooks{
+		General: jamfpro.EbookSubsetGeneral{
 			Name:            "iPhone User Guide for iOS 10.3",
 			Author:          "Apple Inc.",
 			Version:         "1",
@@ -45,8 +45,8 @@ func main() {
 			DeploymentType:  "Install Automatically/Prompt Users to Install",
 			FileType:        "PDF",
 			DeployAsManaged: true,
-			Category:        jamfpro.EbooksDataSubsetCategory{ID: -1, Name: "Unknown"},
-			Site:            jamfpro.EbooksDataSubsetSite{ID: -1, Name: "None"},
+			Category:        jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
+			Site:            jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 		},
 		// Add Scope and SelfService if needed
 	}

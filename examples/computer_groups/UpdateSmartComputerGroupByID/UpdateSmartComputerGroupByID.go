@@ -40,10 +40,10 @@ func main() {
 	}
 
 	// Define the computer group details for update
-	groupUpdate := &jamfpro.ResponseComputerGroup{
+	groupUpdate := &jamfpro.ResourceComputerGroup{
 		Name:    "Group Name",
 		IsSmart: true,
-		Site: jamfpro.ComputerGroupSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

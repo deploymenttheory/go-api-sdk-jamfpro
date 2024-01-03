@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -44,9 +45,10 @@ func main() {
 		log.Fatalf("Error fetching dock items: %v", err)
 	}
 
-	// Output the fetched dock items
-	fmt.Println("Fetched Dock Items:")
-	for _, item := range dockItems.DockItem {
-		fmt.Printf("ID: %d, Name: %s\n", item.ID, item.Name)
+	// Pretty print the updated group in XML
+	groupXML, err := xml.MarshalIndent(dockItems, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling Computer Group data: %v", err)
 	}
+	fmt.Println("Updated Computer Group:\n", string(groupXML))
 }

@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Define new GSX Connection settings
-	newGSXSettings := &jamfpro.ResponseGSXConnection{
+	newGSXSettings := &jamfpro.ResourceGSXConnection{
 		Enabled:       false,
 		Username:      "", // Empty string to denote no username
 		AccountNumber: 0,  // Zero to denote no account number

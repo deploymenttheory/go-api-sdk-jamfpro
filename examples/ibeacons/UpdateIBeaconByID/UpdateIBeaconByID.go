@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	updatedBeacon := &jamfpro.ResponseIBeacons{
+	updatedBeacon := &jamfpro.ResourceIBeacons{
 		ID:    1, // The ID of the iBeacon to update
 		Name:  "Room 1 Beacon Updated",
 		UUID:  "55900BDC-347C-58B1-D249-F32244B11D30",

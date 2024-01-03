@@ -47,7 +47,7 @@ func main() {
 	}
 
 	// Call the CreateDockItem function
-	result, err := client.CreateDockItems(newDockItem)
+	result, err := client.CreateDockItem(newDockItem)
 	if err != nil {
 		log.Fatalf("Error creating dock item: %v", err)
 	}
