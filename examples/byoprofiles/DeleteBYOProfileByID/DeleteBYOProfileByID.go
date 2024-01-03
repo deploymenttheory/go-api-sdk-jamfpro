@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	profileID := 1 // Use the actual ID of the profile to be deleted
+	profileID := 3 // Use the actual ID of the profile to be deleted
 
 	err = client.DeleteBYOProfileByID(profileID)
 	if err != nil {

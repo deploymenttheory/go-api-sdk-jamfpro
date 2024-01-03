@@ -40,10 +40,10 @@ func main() {
 	}
 
 	// Create a BYOProfile structure to send
-	newProfile := jamfpro.ResponseBYOProfile{
-		General: jamfpro.BYOProfileGeneralInfo{
-			Name:        "Personal Device Profile",
-			Site:        jamfpro.BYOProfileSiteInfo{ID: -1, Name: "None"},
+	newProfile := jamfpro.ResourceBYOProfile{
+		General: jamfpro.BYOProfileSubsetGeneral{
+			Name:        "Personal Device Profile with jamf pro sdk",
+			Site:        jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 			Enabled:     true,
 			Description: "Used for Android or iOS BYO device enrollments",
 		},

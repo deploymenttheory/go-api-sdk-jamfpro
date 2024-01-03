@@ -40,16 +40,16 @@ func main() {
 	}
 
 	// Create a BYOProfile structure to send
-	updatedProfile := jamfpro.ResponseBYOProfile{
-		General: jamfpro.BYOProfileGeneralInfo{
-			Name:        "Personal Device Profile Updated",
-			Site:        jamfpro.BYOProfileSiteInfo{ID: -1, Name: "None"},
+	updatedProfile := jamfpro.ResourceBYOProfile{
+		General: jamfpro.BYOProfileSubsetGeneral{
+			Name:        "Personal Device Profile with jamf pro sdk",
+			Site:        jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 			Enabled:     true,
-			Description: "Updated description for BYO device enrollments",
+			Description: "Used for Android or iOS BYO device enrollments",
 		},
 	}
 
-	profileName := "Personal Device Profile" // Use the actual name of the profile to be updated
+	profileName := "Personal Device Profile with jamf pro sdk" // Use the actual name of the profile to be updated
 
 	// Convert the profile to XML to see the output (optional, for debug purposes)
 	xmlData, err := xml.MarshalIndent(updatedProfile, "", "  ")

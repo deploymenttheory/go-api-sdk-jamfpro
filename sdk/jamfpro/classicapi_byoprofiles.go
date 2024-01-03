@@ -1,15 +1,12 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-
-*/
-
 // classicapi_byoprofiles.go
 // Jamf Pro Classic Api - Personal Device Profiles
 // api reference: https://developer.jamf.com/jamf-pro/reference/byoprofiles
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+*/
 
 package jamfpro
 
@@ -48,6 +45,12 @@ type BYOProfileSubsetGeneral struct {
 	Site        SharedResourceSite `xml:"site"`
 	Enabled     bool               `xml:"enabled"`
 	Description string             `xml:"description"`
+}
+
+// Responses
+
+type ResponceBYOProfileCreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
 // GetBYOProfiles gets a list of all BYO profiles.
@@ -102,7 +105,7 @@ func (c *Client) GetBYOProfileByName(name string) (*ResourceBYOProfile, error) {
 }
 
 // CreateBYOProfile creates a new BYO profile.
-func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
+func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResponceBYOProfileCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriBYOProfiles)
 
 	requestBody := struct {
@@ -112,7 +115,7 @@ func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResourceBYOProf
 		ResourceBYOProfile: profile,
 	}
 
-	var createdProfile ResourceBYOProfile
+	var createdProfile ResponceBYOProfileCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create BYO Profile: %v", err)
@@ -126,7 +129,7 @@ func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResourceBYOProf
 }
 
 // UpdateBYOProfileByID updates an existing BYO profile by its ID.
-func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
+func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*ResponceBYOProfileCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
 
 	requestBody := struct {
@@ -136,7 +139,7 @@ func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*Res
 		ResourceBYOProfile: profile,
 	}
 
-	var updatedProfile ResourceBYOProfile
+	var updatedProfile ResponceBYOProfileCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update BYO Profile by ID: %v", err)
@@ -150,7 +153,7 @@ func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*Res
 }
 
 // UpdateBYOProfileByName updates a BYO profile by its name.
-func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
+func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile) (*ResponceBYOProfileCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriBYOProfiles, name)
 
 	requestBody := struct {
@@ -160,7 +163,7 @@ func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile
 		ResourceBYOProfile: profile,
 	}
 
-	var updatedProfile ResourceBYOProfile
+	var updatedProfile ResponceBYOProfileCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update BYO Profile by name: %v", err)

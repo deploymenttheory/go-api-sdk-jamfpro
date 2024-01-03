@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Replace with the actual ID you want to retrieve
-	profileID := 1
+	profileID := 3
 	profile, err := client.GetBYOProfileByID(profileID)
 	if err != nil {
 		log.Fatalf("Error fetching BYO Profile by ID: %v", err)
