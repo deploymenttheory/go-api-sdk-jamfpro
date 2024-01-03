@@ -43,7 +43,7 @@ func main() {
 	groupName := "Updated Static Group Name" // Replace with your actual group name
 
 	// Define the updated computers for the static group
-	updatedComputers := []jamfpro.ComputerGroupComputerItem{
+	updatedComputers := []jamfpro.ComputerGroupSubsetComputer{
 		{
 			ID:            2,
 			Name:          "MacBook Pro",
@@ -61,10 +61,10 @@ func main() {
 	}
 
 	// Create the updated static computer group data
-	updatedStaticGroup := &jamfpro.ResponseComputerGroup{
+	updatedStaticGroup := &jamfpro.ResourceComputerGroup{
 		Name:      "Static Group Name",
 		IsSmart:   false,
-		Site:      jamfpro.ComputerGroupSite{ID: -1, Name: "None"},
+		Site:      jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 		Computers: updatedComputers,
 	}
 
