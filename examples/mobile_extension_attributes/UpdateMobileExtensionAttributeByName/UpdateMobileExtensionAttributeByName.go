@@ -39,12 +39,12 @@ func main() {
 	}
 
 	// Define updated attributes
-	updatedAttribute := &jamfpro.ResponseMobileExtensionAttributes{
+	updatedAttribute := &jamfpro.ResourceMobileExtensionAttribute{
 		Name:             "New Attribute",
 		Description:      "This is a test attribute",
 		DataType:         "String",
 		InventoryDisplay: "General",
-		InputType: jamfpro.MobileExtensionAttributeInputType{
+		InputType: jamfpro.MobileExtensionAttributeSubsetInputType{
 			Type: "Text Field",
 		},
 	}

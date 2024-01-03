@@ -39,12 +39,12 @@ func main() {
 	}
 
 	// Define a new mobile device extension attribute
-	newAttribute := &jamfpro.ResponseMobileExtensionAttributes{
+	newAttribute := &jamfpro.ResourceMobileExtensionAttribute{
 		Name:             "New Attribute",
 		Description:      "This is a test attribute",
 		DataType:         "String",
 		InventoryDisplay: "General",
-		InputType: jamfpro.MobileExtensionAttributeInputType{
+		InputType: jamfpro.MobileExtensionAttributeSubsetInputType{
 			Type: "Text Field",
 		},
 	}
