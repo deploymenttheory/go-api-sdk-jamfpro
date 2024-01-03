@@ -40,16 +40,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define updated LDAP server details (adjust as needed)
-	updatedLDAPServer := &jamfpro.ResponseLDAPServers{
-		Connection: jamfpro.LDAPConnection{
+	// Define the LDAP server details
+	updatedLDAPServer := &jamfpro.ResourceLDAPServers{
+		Connection: jamfpro.LDAPServerSubsetConnection{
 			Name:               "Company Active Directory",
 			Hostname:           "company.ad.com",
 			ServerType:         "Active Directory",
 			Port:               389,
 			UseSSL:             true,
 			AuthenticationType: "simple",
-			Account: jamfpro.LDAPAccount{
+			Account: jamfpro.LDAPServerSubsetConnectionAccount{
 				DistinguishedUsername: "CN=Administrator,CN=Users,DC=Company,DC=com",
 				Password:              "password",
 			},
@@ -59,8 +59,8 @@ func main() {
 			UseWildcards:     true,
 			// Additional fields if necessary...
 		},
-		MappingsForUsers: jamfpro.LDAPMappingsForUsers{
-			UserMappings: jamfpro.LDAPUserMappings{
+		MappingsForUsers: jamfpro.LDAPServerContainerMapping{
+			UserMappings: jamfpro.LDAPServerSubsetMappingUsers{
 				MapObjectClassToAnyOrAll: "all",
 				ObjectClasses:            "organizationalPerson, user",
 				SearchBase:               "DC=Company,DC=com",
@@ -78,7 +78,7 @@ func main() {
 				MapUserUUID:              "objectGUID",
 				// Additional fields if necessary...
 			},
-			UserGroupMappings: jamfpro.LDAPUserGroupMappings{
+			UserGroupMappings: jamfpro.LDAPServerSubsetMappingUserGroups{
 				MapObjectClassToAnyOrAll: "all",
 				ObjectClasses:            "top, group",
 				SearchBase:               "DC=Company,DC=com",
@@ -88,7 +88,7 @@ func main() {
 				MapGroupUUID:             "objectGUID",
 				// Additional fields if necessary...
 			},
-			UserGroupMembershipMappings: jamfpro.LDAPGroupMembershipMappings{
+			UserGroupMembershipMappings: jamfpro.LDAPServerSubsetMappingUserGroupMemberships{
 				UserGroupMembershipStoredIn:       "user object",
 				MapGroupMembershipToUserField:     "memberOf",
 				AppendToUsername:                  "company.com",

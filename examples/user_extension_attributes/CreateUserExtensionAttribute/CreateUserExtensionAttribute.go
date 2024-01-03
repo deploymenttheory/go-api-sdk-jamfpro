@@ -39,7 +39,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 	// New user extension attribute details
-	newAttribute := &jamfpro.ResponseUserExtensionAttribute{
+	newAttribute := &jamfpro.ResourceUserExtensionAttribute{
 		Name:        "User Attributes",
 		Description: "Text field for logging custom data",
 		DataType:    "String",
