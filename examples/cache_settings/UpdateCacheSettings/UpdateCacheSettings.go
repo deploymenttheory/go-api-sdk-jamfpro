@@ -45,9 +45,16 @@ func main() {
 		TimeToIdleSeconds:          180,
 		DirectoryTimeToLiveSeconds: 180,
 		EhcacheMaxBytesLocalHeap:   "1GB",
-		CacheUniqueId:              "24864549-94ea-4cc1-bb80-d7fb392c6556",
+		CacheUniqueId:              "84a82a63eecf4213b05d4f7023c9083f",
 		Elasticache:                false,
-		MemcachedEndpoints: []jamfpro.ResourceDataMemcachedEndpoint{
+		MemcachedEndpoints: []struct {
+			ID                      string `json:"id,omitempty"`
+			Name                    string `json:"name,omitempty"`
+			HostName                string `json:"hostName,omitempty"`
+			Port                    int    `json:"port,omitempty"`
+			Enabled                 bool   `json:"enabled,omitempty"`
+			JSSCacheConfigurationID int    `json:"jssCacheConfigurationId,omitempty"`
+		}{
 			{
 				HostName: "localhost",
 				Port:     11211,
