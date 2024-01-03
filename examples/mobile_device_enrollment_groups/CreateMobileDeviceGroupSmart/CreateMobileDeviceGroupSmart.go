@@ -34,7 +34,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	newGroup := &jamfpro.ResponseMobileDeviceGroup{
+	newGroup := &jamfpro.ResourceMobileDeviceGroup{
 		Name:    "Sample Smart Group",
 		IsSmart: true,
 		Criteria: []jamfpro.MobileDeviceGroupCriteriaItem{
@@ -64,7 +64,7 @@ func main() {
 				ClosingParen: true,
 			},
 		},
-		Site: jamfpro.MobileDeviceGroupSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

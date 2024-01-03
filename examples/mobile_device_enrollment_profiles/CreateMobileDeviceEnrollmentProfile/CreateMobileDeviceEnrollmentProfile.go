@@ -38,12 +38,12 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	newProfile := jamfpro.ResponseMobileDeviceEnrollmentProfile{
-		General: jamfpro.MobileDeviceEnrollmentProfileGeneral{
+	newProfile := jamfpro.ResourceMobileDeviceEnrollmentProfile{
+		General: jamfpro.MobileDeviceEnrollmentProfileSubsetGeneral{
 			Name:        "Configurator Enrollment Profile",
 			Description: "string",
 		},
-		Location: jamfpro.MobileDeviceEnrollmentProfileLocation{
+		Location: jamfpro.MobileDeviceEnrollmentProfileSubsetLocation{
 			// Initialize with empty or specific values if required
 			Username:     "",
 			Realname:     "",
@@ -56,7 +56,7 @@ func main() {
 			Building:     "",
 			Room:         0, // or specific room number
 		},
-		Purchasing: jamfpro.MobileDeviceEnrollmentProfilePurchasing{
+		Purchasing: jamfpro.MobileDeviceEnrollmentProfileSubsetPurchasing{
 			IsPurchased:          true,
 			IsLeased:             false,
 			PONumber:             "",

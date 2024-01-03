@@ -39,12 +39,12 @@ func main() {
 	}
 
 	// Example profile to be updated
-	profileToUpdate := jamfpro.ResponseMobileDeviceEnrollmentProfile{
-		General: jamfpro.MobileDeviceEnrollmentProfileGeneral{
+	profileToUpdate := jamfpro.ResourceMobileDeviceEnrollmentProfile{
+		General: jamfpro.MobileDeviceEnrollmentProfileSubsetGeneral{
 			Name:        "Configurator Enrollment Profile",
 			Description: "string",
 		},
-		Location: jamfpro.MobileDeviceEnrollmentProfileLocation{
+		Location: jamfpro.MobileDeviceEnrollmentProfileSubsetLocation{
 			// Initialize with empty or specific values if required
 			Username:     "",
 			Realname:     "",
@@ -57,7 +57,7 @@ func main() {
 			Building:     "",
 			Room:         0, // or specific room number
 		},
-		Purchasing: jamfpro.MobileDeviceEnrollmentProfilePurchasing{
+		Purchasing: jamfpro.MobileDeviceEnrollmentProfileSubsetPurchasing{
 			IsPurchased:          true,
 			IsLeased:             false,
 			PONumber:             "",
