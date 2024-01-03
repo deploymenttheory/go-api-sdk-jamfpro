@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the new network segment
-	newSegment := &jamfpro.ResponseNetworkSegment{
+	newSegment := &jamfpro.ResourceNetworkSegment{
 		Name:                "NY Office",
 		StartingAddress:     "10.1.1.1",
 		EndingAddress:       "10.10.1.1",

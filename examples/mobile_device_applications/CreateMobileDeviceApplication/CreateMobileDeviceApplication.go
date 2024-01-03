@@ -39,8 +39,8 @@ func main() {
 	}
 
 	// Define a new mobile device application
-	newApp := &jamfpro.ResponseMobileDeviceApplication{
-		General: jamfpro.MobileDeviceApplicationGeneral{
+	newApp := &jamfpro.ResourceMobileDeviceApplication{
+		General: jamfpro.MobileDeviceApplicationSubsetGeneral{
 			Name:        "Jamf Self Service",
 			DisplayName: "Jamf Self Service",
 			Description: "Jamf Self Service empowers you to be more productive...",
@@ -48,14 +48,14 @@ func main() {
 			Version:     "10.10.6",
 			InternalApp: true,
 			OsType:      "iOS", // iOS or tvOS
-			Category: jamfpro.MobileDeviceApplicationCategory{
+			Category: jamfpro.SharedResourceCategory{
 				ID:   -1,
 				Name: "No category assigned",
 			},
-			IPA: jamfpro.MobileDeviceApplicationIPA{
+			IPA: jamfpro.MobileDeviceApplicationSubsetGeneralIPA{
 				// Set IPA details here
 			},
-			Icon: jamfpro.MobileDeviceApplicationIcon{
+			Icon: jamfpro.MobileDeviceApplicationSubsetIcon{
 				ID:   27,
 				Name: "1024x1024bb.png",
 				URI:  "string",
@@ -63,17 +63,17 @@ func main() {
 			},
 			// ... other fields ...
 		},
-		Scope: jamfpro.MobileDeviceApplicationScope{
-			// Populate the Scope details
+		Scope: jamfpro.MobileDeviceApplicationSubsetScope{
+			// Populate the Scope details here
 		},
-		SelfService: jamfpro.MobileDeviceApplicationSelfService{
+		SelfService: jamfpro.MobileDeviceApplicationSubsetGeneralSelfService{
 			SelfServiceDescription: "Jamf Self Service empowers you...",
 			// ... other fields ...
 		},
-		VPP: jamfpro.MobileDeviceApplicationVPP{
-			// Populate the VPP details
+		VPP: jamfpro.MobileDeviceApplicationSubsetGeneralVPP{
+			// Populate the VPP details here
 		},
-		AppConfiguration: jamfpro.MobileDeviceApplicationConfiguration{
+		AppConfiguration: jamfpro.MobileDeviceApplicationSubsetGeneralAppConfiguration{
 			Preferences: "",
 		},
 	}
