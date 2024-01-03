@@ -40,31 +40,31 @@ func main() {
 	}
 
 	// Define a new Mac Application
-	newMacApp := jamfpro.ResponseMacApplications{
-		General: jamfpro.MacAppDataSubsetGeneral{
+	newMacApp := jamfpro.ResourceMacApplications{
+		General: jamfpro.MacApplicationsSubsetGeneral{
 			Name:     "TextWrangler.app",
 			Version:  "5.5.2",
 			IsFree:   true,
 			BundleID: "com.barebones.textwrangler",
 			URL:      "https://itunes.apple.com/us/app/textwrangler/id404010395?mt=12&uo=4",
-			Category: jamfpro.MacAppCategory{ID: -1, Name: "Unknown"},
-			Site:     jamfpro.MacAppSite{ID: -1, Name: "None"},
+			Category: jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
+			Site:     jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 		},
-		Scope: jamfpro.MacAppDataSubsetScope{
+		Scope: jamfpro.MacApplicationsSubsetScope{
 			AllComputers: false,
 			AllJSSUsers:  false,
 		},
-		SelfService: jamfpro.MacAppDataSubsetSelfService{
+		SelfService: jamfpro.MacAppSubsetSelfService{
 			InstallButtonText:           "Install",
 			SelfServiceDescription:      "Installs the TextWrangler application",
 			ForceUsersToViewDescription: true,
-			SelfServiceIcon:             jamfpro.MacAppSelfServiceIcon{},
+			SelfServiceIcon:             jamfpro.SharedResourceSelfServiceIcon{},
 			FeatureOnMainPage:           true,
-			SelfServiceCategories:       []jamfpro.MacAppSelfServiceCategory{},
+			SelfServiceCategories:       []jamfpro.MacAppSubsetSelfServiceCategories{},
 			Notification:                "string",
 			NotificationSubject:         "TextWrangler is Available to Install",
 			NotificationMessage:         "You can install TextWrangler by clicking this link or going to Self Service",
-			VPP: jamfpro.MacAppVPP{
+			VPP: jamfpro.MacAppSubsetSelfServiceVPP{
 				AssignVPPDeviceBasedLicenses: false,
 				VPPAdminAccountID:            -1,
 			},
