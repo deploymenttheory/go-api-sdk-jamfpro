@@ -40,8 +40,8 @@ func main() {
 	}
 
 	// Assemble the request body for updating an account
-	accountToUpdate := &jamfpro.ResponseAccount{
-		Name:                "John Smith",
+	accountToUpdate := &jamfpro.ResourceAccount{
+		Name:                "John Smith updated by resource name",
 		DirectoryUser:       false,
 		FullName:            "John Smith Updated",
 		Email:               "john.smith.updated@company.com",
@@ -51,11 +51,11 @@ func main() {
 		AccessLevel:         "Full Access",
 		PrivilegeSet:        "Administrator",
 		Password:            "sampleUpdated",
-		Site: jamfpro.AccountDataSubsetSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Privileges: jamfpro.AccountDataSubsetPrivileges{
+		Privileges: jamfpro.AccountSubsetPrivileges{
 			JSSObjects:    []string{"updatedString"},
 			JSSSettings:   []string{"updatedString"},
 			JSSActions:    []string{"updatedString"},

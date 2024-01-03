@@ -1,8 +1,11 @@
-// Refactor Complete
+// classicapi_account_groups.go
+// Jamf Pro Classic Api - Account Groups
+// api reference: https://developer.jamf.com/jamf-pro/reference/accounts
+// Classic API requires the structs to support an XML data structure.
 
 /*
-Shared Resources in this Endpoint
-SharedResourceSite
+Shared Resources in this Endpoint:
+- SharedResourceSite
 */
 
 package jamfpro
@@ -21,9 +24,15 @@ type ResourceAccountGroup struct {
 	Members      AccountGroupSubsetMembers `json:"members" xml:"members>user"`
 }
 
+// Responses
+
+type ResponseAccountGroupCreated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
+}
+
 // Subsets
 
-type AccountGroupSubsetMembers struct {
+type AccountGroupSubsetMembers []struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
@@ -65,7 +74,7 @@ func (c *Client) GetAccountGroupByName(name string) (*ResourceAccount, error) {
 }
 
 // CreateAccountGroupByID creates an Account Group using its ID
-func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
+func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*ResponseAccountGroupCreated, error) {
 	// Use a placeholder ID for creating a new account group
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, placeholderID)
@@ -86,7 +95,7 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Resour
 		ResourceAccountGroup: accountGroup,
 	}
 
-	var returnedAccountGroup ResourceAccountGroup
+	var returnedAccountGroup ResponseAccountGroupCreated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccountGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "account group", err)
@@ -100,11 +109,11 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Resour
 }
 
 // UpdateAccountGroupByID updates an Account Group using its ID
-func (c *Client) UpdateAccountGroupByID(id int, group *ResourceAccountGroup) (*ResourceAccountGroup, error) {
+func (c *Client) UpdateAccountGroupByID(id int, accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
-	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = SharedResourceSite{
+	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
+		accountGroup.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -114,7 +123,7 @@ func (c *Client) UpdateAccountGroupByID(id int, group *ResourceAccountGroup) (*R
 		XMLName struct{} `xml:"group"`
 		*ResourceAccountGroup
 	}{
-		ResourceAccountGroup: group,
+		ResourceAccountGroup: accountGroup,
 	}
 
 	var updatedGroup ResourceAccountGroup
@@ -131,11 +140,11 @@ func (c *Client) UpdateAccountGroupByID(id int, group *ResourceAccountGroup) (*R
 }
 
 // UpdateAccountGroupByName updates an Account Group using its name.
-func (c *Client) UpdateAccountGroupByName(name string, group *ResourceAccountGroup) (*ResourceAccountGroup, error) {
+func (c *Client) UpdateAccountGroupByName(name string, accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
-	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = SharedResourceSite{
+	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
+		accountGroup.Site = SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		}
@@ -145,7 +154,7 @@ func (c *Client) UpdateAccountGroupByName(name string, group *ResourceAccountGro
 		XMLName struct{} `xml:"group"`
 		*ResourceAccountGroup
 	}{
-		ResourceAccountGroup: group,
+		ResourceAccountGroup: accountGroup,
 	}
 
 	var updatedGroup ResourceAccountGroup

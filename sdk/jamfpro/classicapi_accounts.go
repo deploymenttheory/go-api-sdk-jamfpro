@@ -1,14 +1,11 @@
-// Refactor Complete
-
 // classicapi_accounts.go
 // Jamf Pro Classic Api - Accounts
 // api reference: https://developer.jamf.com/jamf-pro/reference/accounts
 // Classic API requires the structs to support an XML data structure.
 
 /*
-Shared Resources in this Endpoint
-SharedResourceSite
-
+Shared Resources in this Endpoint:
+- SharedResourceSite
 */
 
 package jamfpro
@@ -47,7 +44,7 @@ type ResourceAccount struct {
 
 // Responses
 
-type ResponseAccountCreated struct {
+type ResponseAccountCreatedAndUpdated struct {
 	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
@@ -134,7 +131,7 @@ func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 }
 
 // CreateAccountByID creates an Account using its ID
-func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreated, error) {
+func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
 	// Use a placeholder ID for creating a new account
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, placeholderID)
@@ -155,7 +152,7 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 		ResourceAccount: account,
 	}
 
-	var returnedAccount ResponseAccountCreated
+	var returnedAccount ResponseAccountCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccount)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "account", err)
@@ -169,7 +166,7 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 }
 
 // UpdateAccountByID updates an Account using its ID
-func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResourceAccount, error) {
+func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
 	if account.Site.ID == 0 && account.Site.Name == "" {
@@ -186,7 +183,7 @@ func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResourceA
 		ResourceAccount: account,
 	}
 
-	var updatedAccount ResourceAccount
+	var updatedAccount ResponseAccountCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "account", id, err)
@@ -200,7 +197,7 @@ func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResourceA
 }
 
 // UpdateAccountByName updates an Account using its name.
-func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*ResourceAccount, error) {
+func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
 	if account.Site.ID == 0 && account.Site.Name == "" {
@@ -217,7 +214,7 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 		ResourceAccount: account,
 	}
 
-	var updatedAccount ResourceAccount
+	var updatedAccount ResponseAccountCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "account", name, err)

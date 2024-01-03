@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the variable for the group name
-	groupName := "UpdatedGroupName" // Change this value as needed
+	groupName := "Test Group" // Change this value as needed
 
 	// Call GetAccountGroupByName function
 	group, err := client.GetAccountGroupByName(groupName)

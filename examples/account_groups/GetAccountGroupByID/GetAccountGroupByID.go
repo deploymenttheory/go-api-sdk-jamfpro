@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the variable for the group ID
-	groupID := 2 // Change this value as needed
+	groupID := 1 // Change this value as needed
 
 	// Call GetGroupByID function
 	group, err := client.GetAccountGroupByID(groupID)

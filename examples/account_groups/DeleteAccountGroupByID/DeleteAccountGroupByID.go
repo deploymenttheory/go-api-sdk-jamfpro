@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Let's assume you want to delete an account group with ID 42.
-	accountGroupID := 14
+	accountGroupID := 1
 
 	// Call DeleteAccountGroupByID function
 	err = client.DeleteAccountGroupByID(accountGroupID)

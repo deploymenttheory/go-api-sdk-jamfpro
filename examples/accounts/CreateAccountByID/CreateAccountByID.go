@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "D:\\github\\go-api-sdk-jamfpro\\clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -51,7 +51,7 @@ func main() {
 		AccessLevel:         "Full Access",
 		PrivilegeSet:        "Administrator",
 		Password:            "this is a really secure password 390423049823409894382092348092348",
-		Site: jamfpro.AccountSubsetSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

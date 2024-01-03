@@ -40,11 +40,11 @@ func main() {
 	}
 
 	// Assemble the request body for creating an account group
-	accountGroup := &jamfpro.ResponseAccountGroup{
+	accountGroup := &jamfpro.ResourceAccountGroup{
 		Name:         "Test Group",
 		AccessLevel:  "Full Access",
 		PrivilegeSet: "Administrator",
-		Site: jamfpro.AccountSubsetSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
@@ -57,9 +57,9 @@ func main() {
 			CasperRemote:  []string{"string"},
 			CasperImaging: []string{"string"},
 		},
-		Members: []struct{
-			{1, "Member One"},
-			{2, "Member Two"},
+		Members: jamfpro.AccountGroupSubsetMembers{
+			{ID: 7, Name: "John  Doe"},
+			{ID: 2, Name: "dafydd.watkins"},
 		},
 	}
 
