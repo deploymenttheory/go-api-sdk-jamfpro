@@ -1,16 +1,14 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedContainerCriteria
-SharedAdvancedSearchSubsetDisplayField
-*/
-
 // classicapi_advanced_mobile_searches.go
 // Jamf Pro Classic Api - Advanced Mobile Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedContainerCriteria
+- SharedAdvancedSearchSubsetDisplayField
+*/
 
 package jamfpro
 
@@ -23,7 +21,7 @@ const uriAPIAdvancedMobileDeviceSearches = "/JSSResource/advancedmobiledevicesea
 
 // List
 
-// ResourceAdvancedMobileDeviceSearchesList represents the structure for multiple advanced mobile device searches.
+// ResourceAdvancedMobileDeviceSearchList represents the structure for multiple advanced mobile device searches.
 type ResponseAdvancedMobileDeviceSearchesList struct {
 	Size                         int                            `xml:"size"`
 	AdvancedMobileDeviceSearches []AdvancedMobileSearchListItem `xml:"advanced_mobile_device_search"`
@@ -36,8 +34,8 @@ type AdvancedMobileSearchListItem struct {
 
 // Resource
 
-// ResourceAdvancedMobileDeviceSearches represents the structure of the response for an advanced mobile device search.
-type ResourceAdvancedMobileDeviceSearches struct {
+// ResourceAdvancedMobileDeviceSearch represents the structure of the response for an advanced mobile device search.
+type ResourceAdvancedMobileDeviceSearch struct {
 	ID            int                                      `xml:"id"`
 	Name          string                                   `xml:"name"`
 	ViewAs        string                                   `xml:"view_as,omitempty"`
@@ -48,6 +46,12 @@ type ResourceAdvancedMobileDeviceSearches struct {
 	DisplayFields []SharedAdvancedSearchSubsetDisplayField `xml:"display_fields"`
 	MobileDevices []AdvancedMobileSearchContainerDevices   `xml:"mobile_devices,omitempty"`
 	Site          SharedResourceSite                       `xml:"site"`
+}
+
+// Responses
+
+type ResponseAdvancedMobileDeviceSearchCreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
 // Subsets & Containers
@@ -85,10 +89,10 @@ func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDevic
 }
 
 // GetAdvancedMobileDeviceSearchByID retrieves an advanced mobile device search by its ID.
-func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMobileDeviceSearches, error) {
+func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMobileDeviceSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
-	var searchDetail ResourceAdvancedMobileDeviceSearches
+	var searchDetail ResourceAdvancedMobileDeviceSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced mobile device search by ID: %v", err)
@@ -102,10 +106,10 @@ func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMob
 }
 
 // GetAdvancedMobileDeviceSearchByName retrieves an advanced mobile device search by its name.
-func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdvancedMobileDeviceSearches, error) {
+func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdvancedMobileDeviceSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
-	var searchDetail ResourceAdvancedMobileDeviceSearches
+	var searchDetail ResourceAdvancedMobileDeviceSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced mobile device search by name: %v", err)
@@ -118,9 +122,9 @@ func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdva
 	return &searchDetail, nil
 }
 
-// CreateAdvancedMobileDeviceSearchByID creates a new advanced mobile device search with the given ID.
-func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
+// CreateAdvancedMobileDeviceSearch creates a new advanced mobile device search with the given ID.
+func (c *Client) CreateAdvancedMobileDeviceSearch(search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
+	endpoint := uriAPIAdvancedMobileDeviceSearches
 
 	if search.Site.ID == 0 && search.Site.Name == "" {
 		search.Site.ID = -1
@@ -129,12 +133,12 @@ func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResourceAd
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
-		*ResourceAdvancedMobileDeviceSearches
+		*ResourceAdvancedMobileDeviceSearch
 	}{
-		ResourceAdvancedMobileDeviceSearches: search,
+		ResourceAdvancedMobileDeviceSearch: search,
 	}
 
-	var createdSearch ResourceAdvancedMobileDeviceSearches
+	var createdSearch ResponseAdvancedMobileDeviceSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create advanced mobile device search by ID: %v", err)
@@ -148,17 +152,17 @@ func (c *Client) CreateAdvancedMobileDeviceSearchByID(id int, search *ResourceAd
 }
 
 // UpdateAdvancedMobileDeviceSearchByID updates an existing advanced mobile device search by its ID.
-func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
+func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
-		*ResourceAdvancedMobileDeviceSearches
+		*ResourceAdvancedMobileDeviceSearch
 	}{
-		ResourceAdvancedMobileDeviceSearches: search,
+		ResourceAdvancedMobileDeviceSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedMobileDeviceSearches
+	var updatedSearch ResponseAdvancedMobileDeviceSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced mobile device search by ID: %v", err)
@@ -172,17 +176,17 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAd
 }
 
 // UpdateAdvancedMobileDeviceSearchByName updates an existing advanced mobile device search by its name.
-func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *ResourceAdvancedMobileDeviceSearches) (*ResourceAdvancedMobileDeviceSearches, error) {
+func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
-		*ResourceAdvancedMobileDeviceSearches
+		*ResourceAdvancedMobileDeviceSearch
 	}{
-		ResourceAdvancedMobileDeviceSearches: search,
+		ResourceAdvancedMobileDeviceSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedMobileDeviceSearches
+	var updatedSearch ResponseAdvancedMobileDeviceSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced mobile device search by name: %v", err)

@@ -39,14 +39,13 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Create a search struct with updated details
-	searchToUpdate := jamfpro.ResponseAdvancedMobileDeviceSearches{
-		Name:   "Advanced Search Name - Rename",
+	// Define the advanced mobile device search details
+	updatedSearch := &jamfpro.ResourceAdvancedMobileDeviceSearch{
+		Name:   "jamf api sdk advanced search",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedMobileDeviceSearchesCriteria{
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Size: 1,
-				Criterion: jamfpro.Criterion{
+				Criteria: jamfpro.SharedSubsetCriteria{
 					Name:         "Last Inventory Update",
 					Priority:     0,
 					AndOr:        "and",
@@ -57,30 +56,38 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedMobileDeviceSearchesDisplayField{
+		DisplayFields: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
 			{
-				Size: 1,
-				DisplayField: jamfpro.AdvancedMobileDeviceSearchesDisplayFieldItem{
-					Name: "IP Address",
-				},
+				Name: "IP Address",
 			},
 		},
-		Site: jamfpro.AdvancedMobileDeviceSearchesSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
 	}
 
-	// Use the struct we created above for the update
-	updatedSearch, err := client.UpdateAdvancedMobileDeviceSearchByName("Advanced Search Name", &searchToUpdate) // Replace with the actual search name
+	searchName := "Advanced Search Name"
+
+	// Convert the profile to XML to see the output (optional, for debug purposes)
+	xmlData, err := xml.MarshalIndent(updatedSearch, "", "  ")
 	if err != nil {
-		log.Fatalf("Error updating advanced mobile device search by name: %v", err)
+		log.Fatalf("Error marshaling XML: %v", err)
+	}
+	fmt.Printf("XML Request: %s\n", xmlData)
+
+	// Create the advanced mobile device search
+	updatedSearchResp, err := client.UpdateAdvancedMobileDeviceSearchByName(searchName, updatedSearch)
+	if err != nil {
+		fmt.Println("Error updating advanced mobile device search:", err)
+		return
 	}
 
-	// Output the updated search
-	output, err := xml.MarshalIndent(updatedSearch, "", "  ")
+	// Print the created advanced mobile device search details
+	createdSearchXML, err := xml.MarshalIndent(updatedSearchResp, "", "  ")
 	if err != nil {
-		log.Fatalf("Error marshaling updated search to XML: %v", err)
+		fmt.Println("Error marshaling created search to XML:", err)
+		return
 	}
-	fmt.Printf("Updated Advanced Mobile Device Search (Name: %s):\n%s\n", "Advanced Search Name", string(output))
+	fmt.Printf("updated Advanced mobile device Search:\n%s\n", string(createdSearchXML))
 }

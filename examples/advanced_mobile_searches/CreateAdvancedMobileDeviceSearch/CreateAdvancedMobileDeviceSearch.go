@@ -40,45 +40,45 @@ func main() {
 	}
 
 	// Define the advanced mobile device search request based on the provided XML
-	search := jamfpro.ResponseAdvancedMobileDeviceSearches{
+	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
 		Name:   "Advanced Search Name",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedMobileDeviceSearchesCriteria{
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Criterion: jamfpro.Criterion{
-					Name:       "Last Inventory Update",
-					Priority:   0,
-					AndOr:      "and",
-					SearchType: "more than x days ago",
-					Value:      7,
+				Criteria: jamfpro.SharedSubsetCriteria{
+					Name:         "Last Inventory Update",
+					Priority:     0,
+					AndOr:        "and",
+					SearchType:   "more than x days ago",
+					Value:        7,
+					OpeningParen: false,
+					ClosingParen: false,
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedMobileDeviceSearchesDisplayField{
+		DisplayFields: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
 			{
-				DisplayField: jamfpro.AdvancedMobileDeviceSearchesDisplayFieldItem{
-					Name: "IP Address",
-				},
+				Name: "IP Address",
 			},
 		},
-		Site: jamfpro.AdvancedMobileDeviceSearchesSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
 	}
 
-	// Create the new advanced mobile device search by ID
-	createdSearch, err := client.CreateAdvancedMobileDeviceSearchByID(1, &search)
+	// Create the advanced mobile search
+	createdSearch, err := client.CreateAdvancedMobileDeviceSearch(&newSearch)
 	if err != nil {
-		log.Fatalf("Failed to create advanced mobile device search by ID: %v", err)
+		fmt.Println("Error creating advanced mobile search:", err)
+		return
 	}
 
-	// Convert the created search into pretty XML for printing
-	output, err := xml.MarshalIndent(createdSearch, "", "  ")
+	// Print the created advanced mobile search details
+	createdSearchXML, err := xml.MarshalIndent(createdSearch, "", "  ")
 	if err != nil {
-		log.Fatalf("Error marshaling created search to XML: %v", err)
+		fmt.Println("Error marshaling created search to XML:", err)
+		return
 	}
-
-	// Print the pretty XML
-	fmt.Printf("Created Advanced Mobile Device Search:\n%s\n", string(output))
+	fmt.Printf("Created Advanced Mobile Device Search:\n%s\n", string(createdSearchXML))
 }
