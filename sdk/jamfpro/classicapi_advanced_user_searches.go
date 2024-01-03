@@ -1,16 +1,14 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedContainerCriteria
-SharedAdvancedSearchSubsetDisplayField
-*/
-
 // classicapi_advanced_user_searches.go
 // Jamf Pro Classic Api - Advanced User Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint
+- SharedResourceSite
+- SharedContainerCriteria
+- SharedAdvancedSearchSubsetDisplayField
+*/
 
 package jamfpro
 
@@ -45,6 +43,12 @@ type ResourceAdvancedUserSearch struct {
 	Users         []AdvancedUserSearchContainerUsers        `xml:"users"`
 	DisplayFields SharedAdvancedSearchContainerDisplayField `xml:"display_fields"`
 	Site          SharedResourceSite                        `xml:"site"`
+}
+
+// Responses
+
+type ResourceAdvancedUserSearchCreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
 // Subsets & Containers
@@ -114,7 +118,7 @@ func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUser
 }
 
 // CreateAdvancedUserSearch creates a new advanced user search.
-func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
+func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
 	// Set default values for Site if not provided
@@ -131,7 +135,7 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 		ResourceAdvancedUserSearch: search,
 	}
 
-	var createdSearch ResourceAdvancedUserSearch
+	var createdSearch ResourceAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create advanced user search: %v", err)
@@ -145,7 +149,7 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 }
 
 // UpdateAdvancedUserSearchByID updates an existing advanced user search by its ID.
-func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
+func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
 	requestBody := struct {
@@ -155,7 +159,7 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 		ResourceAdvancedUserSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedUserSearch
+	var updatedSearch ResourceAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced user search by ID: %v", err)
@@ -169,7 +173,7 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 }
 
 // UpdateAdvancedUserSearchByName updates an existing advanced user search by its name.
-func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
+func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
 	requestBody := struct {
@@ -179,7 +183,7 @@ func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdv
 		ResourceAdvancedUserSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedUserSearch
+	var updatedSearch ResourceAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced user search by name: %v", err)

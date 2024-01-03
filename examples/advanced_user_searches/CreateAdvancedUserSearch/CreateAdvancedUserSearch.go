@@ -40,11 +40,12 @@ func main() {
 	}
 
 	// Define the advanced user search to create
-	newAdvancedUserSearch := &jamfpro.AdvancedUserSearch{
-		Name: "Advanced User Search Name",
-		Criteria: []jamfpro.AdvancedUserSearchCriteriaDetail{
+	newAdvancedUserSearch := &jamfpro.ResourceAdvancedUserSearch{
+		Name: "Advanced User Search Name by jamf pro sdk",
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Criterion: jamfpro.AdvancedUserSearchCriterionDetail{
+				// Assuming SharedSubsetCriteria is the correct struct to use here
+				Criteria: jamfpro.SharedSubsetCriteria{
 					Name:         "Email Address",
 					Priority:     0,
 					AndOr:        "and",
@@ -55,14 +56,12 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedUserSearchSiteDisplayFieldDetail{
-			{
-				DisplayField: struct {
-					Name string `xml:"name"`
-				}{Name: "Email Address"},
+		DisplayFields: jamfpro.SharedAdvancedSearchContainerDisplayField{
+			DisplayField: jamfpro.SharedAdvancedSearchSubsetDisplayField{
+				Name: "Email Address",
 			},
 		},
-		Site: jamfpro.AdvancedUserSearchSiteDetail{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

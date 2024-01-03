@@ -51,7 +51,7 @@ type SharedSubsetCriteria struct {
 	Priority     int    `xml:"priority"`
 	AndOr        string `xml:"and_or"`
 	SearchType   string `xml:"search_type"`
-	Value        int    `xml:"value"`
+	Value        string `xml:"value"`
 	OpeningParen bool   `xml:"opening_paren,omitempty"`
 	ClosingParen bool   `xml:"closing_paren,omitempty"`
 }

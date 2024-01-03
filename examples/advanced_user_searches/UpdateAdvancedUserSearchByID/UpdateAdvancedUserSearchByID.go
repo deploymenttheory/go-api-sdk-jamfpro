@@ -40,36 +40,37 @@ func main() {
 	}
 
 	// Define the updated advanced user search details
-	updatedAdvancedUserSearch := &jamfpro.AdvancedUserSearch{
-		Name: "Updated Advanced User Search Name",
-		Criteria: []jamfpro.AdvancedUserSearchCriteriaDetail{
+	updatedAdvancedUserSearch := &jamfpro.ResourceAdvancedUserSearch{
+		Name: "Advanced User Search Name by jamf pro sdk",
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Criterion: jamfpro.AdvancedUserSearchCriterionDetail{
+				// Assuming SharedSubsetCriteria is the correct struct to use here
+				Criteria: jamfpro.SharedSubsetCriteria{
 					Name:         "Email Address",
 					Priority:     0,
 					AndOr:        "and",
 					SearchType:   "like",
-					Value:        "updatedcompany.com",
+					Value:        "company.com",
 					OpeningParen: false,
 					ClosingParen: false,
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedUserSearchSiteDisplayFieldDetail{
-			{
-				DisplayField: struct {
-					Name string `xml:"name"`
-				}{Name: "Email Address"},
+		DisplayFields: jamfpro.SharedAdvancedSearchContainerDisplayField{
+			DisplayField: jamfpro.SharedAdvancedSearchSubsetDisplayField{
+				Name: "Email Address",
 			},
 		},
-		Site: jamfpro.AdvancedUserSearchSiteDetail{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
 	}
 
+	searchID := 17 // Replace 123 with the actual ID
+
 	// Update by ID
-	updatedByID, err := client.UpdateAdvancedUserSearchByID(1, updatedAdvancedUserSearch) // Replace 123 with the actual ID
+	updatedByID, err := client.UpdateAdvancedUserSearchByID(searchID, updatedAdvancedUserSearch)
 	if err != nil {
 		log.Fatalf("Error updating advanced user search by ID: %v", err)
 	}
