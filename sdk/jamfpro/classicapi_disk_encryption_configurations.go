@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_disk_encryption_configurations.go
 // Jamf Pro Classic Api - Disk Encryption Configurations
 // api reference: https://developer.jamf.com/jamf-pro/reference/diskencryptionconfigurations
@@ -13,13 +15,15 @@ import (
 // URI for Disk Encryption Configurations in Jamf Pro API
 const uriDiskEncryptionConfigurations = "/JSSResource/diskencryptionconfigurations"
 
+// Responses & Lists
+
 // Struct to capture the XML response for disk encryption configurations
 type ResponseDiskEncryptionConfigurationsList struct {
-	Size                        int                                 `xml:"size"`
-	DiskEncryptionConfiguration []DiskEncryptionConfigurationDetail `xml:"disk_encryption_configuration"`
+	Size                        int                                    `xml:"size"`
+	DiskEncryptionConfiguration []DiskEncryptionConfigurationsListItem `xml:"disk_encryption_configuration"`
 }
 
-type DiskEncryptionConfigurationDetail struct {
+type DiskEncryptionConfigurationsListItem struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -31,22 +35,27 @@ type ResponseDiskEncryptionConfiguration struct {
 	FileVaultEnabledUsers string `xml:"file_vault_enabled_users"`
 }
 
+// Resource
+
 // DiskEncryptionConfiguration represents the top-level XML structure for creating/updating a Disk Encryption Configuration.
-type DiskEncryptionConfiguration struct {
-	XMLName                  xml.Name                                                       `xml:"disk_encryption_configuration"`
-	Name                     string                                                         `xml:"name"`
-	KeyType                  string                                                         `xml:"key_type"`
-	FileVaultEnabledUsers    string                                                         `xml:"file_vault_enabled_users"`
-	InstitutionalRecoveryKey *DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey `xml:"institutional_recovery_key,omitempty"`
+type ResourceDiskEncryptionConfiguration struct {
+	XMLName                  xml.Name                                             `xml:"disk_encryption_configuration"`
+	Name                     string                                               `xml:"name"`
+	KeyType                  string                                               `xml:"key_type"`
+	FileVaultEnabledUsers    string                                               `xml:"file_vault_enabled_users"`
+	InstitutionalRecoveryKey *DiskEncryptionConfigurationInstitutionalRecoveryKey `xml:"institutional_recovery_key,omitempty"`
 }
 
-// DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey represents the XML structure for Institutional Recovery Key.
-type DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey struct {
+// Subsets & Containers
+
+type DiskEncryptionConfigurationInstitutionalRecoveryKey struct {
 	Key             string `xml:"key"`
 	CertificateType string `xml:"certificate_type"`
 	Password        string `xml:"password"`
 	Data            string `xml:"data"`
 }
+
+// CRUD
 
 // GetDiskEncryptionConfigurations retrieves a serialized list of disk encryption configurations.
 func (c *Client) GetDiskEncryptionConfigurations() (*ResponseDiskEncryptionConfigurationsList, error) {
@@ -100,16 +109,16 @@ func (c *Client) GetDiskEncryptionConfigurationByName(configName string) (*Respo
 }
 
 // CreateDiskEncryptionConfiguration creates a new disk encryption configuration.
-func (c *Client) CreateDiskEncryptionConfiguration(config *DiskEncryptionConfiguration) (*ResponseDiskEncryptionConfiguration, error) {
+func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptionConfiguration) (*ResponseDiskEncryptionConfiguration, error) {
 	// When creating a new configuration, the ID in the URL should be 0
 	endpoint := fmt.Sprintf("%s/id/0", uriDiskEncryptionConfigurations)
 
 	// Wrap the configuration with the XML root element name
 	requestBody := struct {
 		XMLName xml.Name `xml:"disk_encryption_configuration"`
-		*DiskEncryptionConfiguration
+		*ResourceDiskEncryptionConfiguration
 	}{
-		DiskEncryptionConfiguration: config,
+		ResourceDiskEncryptionConfiguration: config,
 	}
 
 	var createdConfig ResponseDiskEncryptionConfiguration
@@ -126,17 +135,17 @@ func (c *Client) CreateDiskEncryptionConfiguration(config *DiskEncryptionConfigu
 }
 
 // UpdateDiskEncryptionConfigurationByID updates a disk encryption configuration by its ID.
-func (c *Client) UpdateDiskEncryptionConfigurationByID(configID int, config *DiskEncryptionConfiguration) (*DiskEncryptionConfiguration, error) {
+func (c *Client) UpdateDiskEncryptionConfigurationByID(configID int, config *ResourceDiskEncryptionConfiguration) (*ResourceDiskEncryptionConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, configID)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"disk_encryption_configuration"`
-		*DiskEncryptionConfiguration
+		*ResourceDiskEncryptionConfiguration
 	}{
-		DiskEncryptionConfiguration: config,
+		ResourceDiskEncryptionConfiguration: config,
 	}
 
-	var updatedConfig DiskEncryptionConfiguration
+	var updatedConfig ResourceDiskEncryptionConfiguration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Disk Encryption Configuration by ID: %v", err)
@@ -150,17 +159,17 @@ func (c *Client) UpdateDiskEncryptionConfigurationByID(configID int, config *Dis
 }
 
 // UpdateDiskEncryptionConfigurationByName updates a disk encryption configuration by its name.
-func (c *Client) UpdateDiskEncryptionConfigurationByName(configName string, config *DiskEncryptionConfiguration) (*DiskEncryptionConfiguration, error) {
+func (c *Client) UpdateDiskEncryptionConfigurationByName(configName string, config *ResourceDiskEncryptionConfiguration) (*ResourceDiskEncryptionConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDiskEncryptionConfigurations, configName)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"disk_encryption_configuration"`
-		*DiskEncryptionConfiguration
+		*ResourceDiskEncryptionConfiguration
 	}{
-		DiskEncryptionConfiguration: config,
+		ResourceDiskEncryptionConfiguration: config,
 	}
 
-	var updatedConfig DiskEncryptionConfiguration
+	var updatedConfig ResourceDiskEncryptionConfiguration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Disk Encryption Configuration by name: %v", err)

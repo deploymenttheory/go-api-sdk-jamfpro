@@ -14,18 +14,16 @@ const uriSoftwareUpdateServers = "/JSSResource/softwareupdateservers"
 
 // Structs for Software Update Servers Response
 type ResponseSoftwareUpdateServersList struct {
-	XMLName xml.Name                       `xml:"software_update_servers"`
-	Size    int                            `xml:"size"`
-	Servers []SoftwareUpdateServerListItem `xml:"software_update_server"`
-}
-
-type SoftwareUpdateServerListItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	XMLName xml.Name `xml:"software_update_servers"`
+	Size    int      `xml:"size"`
+	Servers []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"software_update_server"`
 }
 
 // Struct for individual Software Update Server
-type ResponseSoftwareUpdateServer struct {
+type ResourceSoftwareUpdateServer struct {
 	ID            int    `xml:"id"`
 	Name          string `xml:"name"`
 	IPAddress     string `xml:"ip_address"`
@@ -51,10 +49,10 @@ func (c *Client) GetSoftwareUpdateServers() (*ResponseSoftwareUpdateServersList,
 }
 
 // GetSoftwareUpdateServersByID retrieves a specific software update server by its ID.
-func (c *Client) GetSoftwareUpdateServersByID(id int) (*ResponseSoftwareUpdateServer, error) {
+func (c *Client) GetSoftwareUpdateServersByID(id int) (*ResourceSoftwareUpdateServer, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
 
-	var response ResponseSoftwareUpdateServer
+	var response ResourceSoftwareUpdateServer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch software update server by ID: %v", err)
@@ -68,10 +66,10 @@ func (c *Client) GetSoftwareUpdateServersByID(id int) (*ResponseSoftwareUpdateSe
 }
 
 // GetSoftwareUpdateServersByName retrieves a specific software update server by its name.
-func (c *Client) GetSoftwareUpdateServersByName(name string) (*ResponseSoftwareUpdateServer, error) {
+func (c *Client) GetSoftwareUpdateServersByName(name string) (*ResourceSoftwareUpdateServer, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSoftwareUpdateServers, name)
 
-	var response ResponseSoftwareUpdateServer
+	var response ResourceSoftwareUpdateServer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch software update server by name: %v", err)
@@ -85,17 +83,17 @@ func (c *Client) GetSoftwareUpdateServersByName(name string) (*ResponseSoftwareU
 }
 
 // CreateSoftwareUpdateServer creates a new software update server.
-func (c *Client) CreateSoftwareUpdateServer(server *ResponseSoftwareUpdateServer) (*ResponseSoftwareUpdateServer, error) {
+func (c *Client) CreateSoftwareUpdateServer(server *ResourceSoftwareUpdateServer) (*ResourceSoftwareUpdateServer, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriSoftwareUpdateServers) // '0' indicates creation
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"software_update_server"`
-		*ResponseSoftwareUpdateServer
+		*ResourceSoftwareUpdateServer
 	}{
-		ResponseSoftwareUpdateServer: server,
+		ResourceSoftwareUpdateServer: server,
 	}
 
-	var response ResponseSoftwareUpdateServer
+	var response ResourceSoftwareUpdateServer
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create software update server: %v", err)
@@ -109,17 +107,17 @@ func (c *Client) CreateSoftwareUpdateServer(server *ResponseSoftwareUpdateServer
 }
 
 // UpdateSoftwareUpdateServerByID updates a software update server by its ID.
-func (c *Client) UpdateSoftwareUpdateServerByID(id int, server *ResponseSoftwareUpdateServer) (*ResponseSoftwareUpdateServer, error) {
+func (c *Client) UpdateSoftwareUpdateServerByID(id int, server *ResourceSoftwareUpdateServer) (*ResourceSoftwareUpdateServer, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"software_update_server"`
-		*ResponseSoftwareUpdateServer
+		*ResourceSoftwareUpdateServer
 	}{
-		ResponseSoftwareUpdateServer: server,
+		ResourceSoftwareUpdateServer: server,
 	}
 
-	var response ResponseSoftwareUpdateServer
+	var response ResourceSoftwareUpdateServer
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update software update server by ID: %v", err)
@@ -133,17 +131,17 @@ func (c *Client) UpdateSoftwareUpdateServerByID(id int, server *ResponseSoftware
 }
 
 // UpdateSoftwareUpdateServerByName updates a software update server by its name.
-func (c *Client) UpdateSoftwareUpdateServerByName(name string, server *ResponseSoftwareUpdateServer) (*ResponseSoftwareUpdateServer, error) {
+func (c *Client) UpdateSoftwareUpdateServerByName(name string, server *ResourceSoftwareUpdateServer) (*ResourceSoftwareUpdateServer, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSoftwareUpdateServers, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"software_update_server"`
-		*ResponseSoftwareUpdateServer
+		*ResourceSoftwareUpdateServer
 	}{
-		ResponseSoftwareUpdateServer: server,
+		ResourceSoftwareUpdateServer: server,
 	}
 
-	var response ResponseSoftwareUpdateServer
+	var response ResourceSoftwareUpdateServer
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update software update server by name: %v", err)

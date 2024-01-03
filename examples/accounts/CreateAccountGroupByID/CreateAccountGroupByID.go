@@ -44,11 +44,11 @@ func main() {
 		Name:         "Test Group",
 		AccessLevel:  "Full Access",
 		PrivilegeSet: "Administrator",
-		Site: jamfpro.AccountDataSubsetSite{
+		Site: jamfpro.AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Privileges: jamfpro.AccountDataSubsetPrivileges{
+		Privileges: jamfpro.AccountSubsetPrivileges{
 			JSSObjects:    []string{"string"},
 			JSSSettings:   []string{"string"},
 			JSSActions:    []string{"string"},
@@ -57,16 +57,14 @@ func main() {
 			CasperRemote:  []string{"string"},
 			CasperImaging: []string{"string"},
 		},
-		Members: []jamfpro.AccountDataSubsetUser{
-			{
-				ID:   1,
-				Name: "string",
-			},
+		Members: []struct{
+			{1, "Member One"},
+			{2, "Member Two"},
 		},
 	}
 
 	// Call CreateAccountGroupByID function
-	createdAccountGroup, err := client.CreateAccountGroupByID(accountGroup)
+	createdAccountGroup, err := client.CreateAccountGroup(accountGroup)
 
 	if err != nil {
 		log.Fatalf("Error creating account group by ID: %v", err)

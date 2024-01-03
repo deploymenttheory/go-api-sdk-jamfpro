@@ -1,3 +1,12 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedResourceCategory
+SharedResourceSelfServiceIcon
+*/
+
 // classicapi_ebooks.go
 // Jamf Pro Classic Api - Ebooks
 // api reference: https://developer.jamf.com/jamf-pro/reference/ebooks
@@ -13,178 +22,172 @@ import (
 // URI for Ebooks in Jamf Pro API
 const uriEbooks = "/JSSResource/ebooks"
 
+// List
+
 // Struct to capture the XML response for ebooks list
 type ResponseEbooksList struct {
-	Size  int   `xml:"size"`
-	Ebook Ebook `xml:"ebook"`
+	Size   int           `xml:"size"`
+	Ebooks EBookListItem `xml:"ebook"`
 }
 
-type Ebook struct {
+type EBookListItem struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-// ResponseEbooks represents the detailed structure of an Ebook response.
-type ResponseEbooks struct {
-	General     EbooksDataSubsetGeneral     `xml:"general"`
-	Scope       EbooksDataSubsetScope       `xml:"scope"`
-	SelfService EbooksDataSubsetSelfService `xml:"self_service"`
+// Resource
+
+// ResourceEbooks represents the detailed structure of an Ebook response.
+type ResourceEbooks struct {
+	General     EbookSubsetGeneral     `xml:"general"`
+	Scope       EbookSubsetScope       `xml:"scope"`
+	SelfService EbookSubsetSelfService `xml:"self_service"`
 }
 
-type EbooksDataSubsetGeneral struct {
-	ID              int                             `xml:"id"`
-	Name            string                          `xml:"name"`
-	Author          string                          `xml:"author"`
-	Version         string                          `xml:"version"`
-	Free            bool                            `xml:"free"`
-	URL             string                          `xml:"url"`
-	DeploymentType  string                          `xml:"deployment_type"`
-	FileType        string                          `xml:"file_type"`
-	DeployAsManaged bool                            `xml:"deploy_as_managed"`
-	Category        EbooksDataSubsetCategory        `xml:"category"`
-	SelfServiceIcon EbooksDataSubsetSelfServiceIcon `xml:"self_service_icon"`
-	Site            EbooksDataSubsetSite            `xml:"site"`
+// Subsets & Containers
+
+// General
+
+type EbookSubsetGeneral struct {
+	ID              int                           `xml:"id"`
+	Name            string                        `xml:"name"`
+	Author          string                        `xml:"author"`
+	Version         string                        `xml:"version"`
+	Free            bool                          `xml:"free"`
+	URL             string                        `xml:"url"`
+	DeploymentType  string                        `xml:"deployment_type"`
+	FileType        string                        `xml:"file_type"`
+	DeployAsManaged bool                          `xml:"deploy_as_managed"`
+	Category        SharedResourceCategory        `xml:"category"`
+	SelfServiceIcon SharedResourceSelfServiceIcon `xml:"self_service_icon"`
+	Site            SharedResourceSite            `xml:"site"`
 }
 
-type EbooksDataSubsetCategory struct {
+// Scope
+
+type EbookSubsetScope struct {
+	AllComputers       bool                                `xml:"all_computers"`
+	AllMobileDevices   bool                                `xml:"all_mobile_devices"`
+	AllJSSUsers        bool                                `xml:"all_jss_users"`
+	Computers          []EbookSubsetScopeComputer          `xml:"computers>computer"`
+	ComputerGroups     []EbookSubsetScopeComputerGroup     `xml:"computer_groups>computer_group"`
+	MobileDevices      []EbookSubsetScopeMobileDevice      `xml:"mobile_devices>mobile_device"`
+	MobileDeviceGroups []EbookSubsetScopeMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group"`
+	Buildings          []EbookSubsetScopeBuilding          `xml:"buildings>building"`
+	Departments        []EbookSubsetScopeDepartment        `xml:"departments>department"`
+	JSSUsers           []EbookSubsetScopeUser              `xml:"jss_users>user"`
+	JSSUserGroups      []EbookSubsetScopeUserGroup         `xml:"jss_user_groups>user_group"`
+	Classes            []EbooksSubsetScopeClass            `xml:"classes>class"`
+	Limitations        EbookSubsetScopeLimitations         `xml:"limitations"`
+	Exclusions         EbookSubsetScopeExclusions          `xml:"exclusions"`
+}
+
+// EbooksSubsetLimitations represents any limitations within the scope.
+type EbookSubsetScopeLimitations struct {
+	NetworkSegments []struct {
+		ID   int    `xml:"id"`
+		UID  string `xml:"uid,omitempty"`
+		Name string `xml:"name"`
+	} `xml:"network_segments>network_segment"`
+	Users      []EbookSubsetScopeUser      `xml:"users>user"`
+	UserGroups []EbookSubsetScopeUserGroup `xml:"user_groups>user_group"`
+}
+
+// Exclusions represent any exclusions within the scope.
+type EbookSubsetScopeExclusions struct {
+	Computers          []EbookSubsetScopeComputer          `xml:"computers>computer"`
+	ComputerGroups     []EbookSubsetScopeComputerGroup     `xml:"computer_groups>computer_group"`
+	MobileDevices      []EbookSubsetScopeMobileDevice      `xml:"mobile_devices>mobile_device"`
+	MobileDeviceGroups []EbookSubsetScopeMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group"`
+	Buildings          []EbookSubsetScopeBuilding          `xml:"buildings>building"`
+	Departments        []EbookSubsetScopeDepartment        `xml:"departments>department"`
+	JSSUsers           []EbookSubsetScopeUser              `xml:"jss_users>user"`
+	JSSUserGroups      []EbookSubsetScopeUserGroup         `xml:"jss_user_groups>user_group"`
+}
+
+// Class represents a class within the scope.
+type EbooksSubsetScopeClass struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-type EbooksDataSubsetSelfServiceIcon struct {
-	ID   int    `xml:"id"`
-	URI  string `xml:"uri"`
-	Data string `xml:"data"`
+// Self Service
+
+type EbookSubsetSelfService struct {
+	SelfServiceDisplayName      string                           `xml:"self_service_display_name"`
+	InstallButtonText           string                           `xml:"install_button_text"`
+	SelfServiceDescription      string                           `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                             `xml:"force_users_to_view_description"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon    `xml:"self_service_icon"`
+	FeatureOnMainPage           bool                             `xml:"feature_on_main_page"`
+	SelfServiceCategories       EbookSubsetSelfServiceCategories `xml:"self_service_categories"`
+	Notification                bool                             `xml:"notification"`
+	NotificationSubject         string                           `xml:"notification_subject"`
+	NotificationMessage         string                           `xml:"notification_message"`
 }
 
-type EbooksDataSubsetSite struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+// SelfServiceCategories represent the categories within SelfService.
+type EbookSubsetSelfServiceCategories struct {
+	Category []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"category"`
 }
 
-type EbooksDataSubsetScope struct {
-	AllComputers       bool                            `xml:"all_computers"`
-	AllMobileDevices   bool                            `xml:"all_mobile_devices"`
-	AllJSSUsers        bool                            `xml:"all_jss_users"`
-	Computers          []EbooksDataSubsetComputer      `xml:"computers>computer"`
-	ComputerGroups     []EbooksDataSubsetComputerGroup `xml:"computer_groups>computer_group"`
-	MobileDevices      []EbooksDataSubsetMobileDevice  `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroups []MobileDeviceGroup             `xml:"mobile_device_groups>mobile_device_group"`
-	Buildings          []EbooksDataSubsetBuilding      `xml:"buildings>building"`
-	Departments        []EbooksDataSubsetDepartment    `xml:"departments>department"`
-	JSSUsers           []EbooksDataSubsetUser          `xml:"jss_users>user"`
-	JSSUserGroups      []EbooksDataSubsetUserGroup     `xml:"jss_user_groups>user_group"`
-	Classes            []EbooksDataSubsetClass         `xml:"classes>class"`
-	Limitations        EbooksDataSubsetLimitations     `xml:"limitations"`
-	Exclusions         EbooksDataSubsetExclusions      `xml:"exclusions"`
-}
+/// Shared In Resource
 
 // Computer represents a single computer within the scope.
-type EbooksDataSubsetComputer struct {
+type EbookSubsetScopeComputer struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 	UDID string `xml:"udid"`
 }
 
 // ComputerGroup represents a group of computers within the scope.
-type EbooksDataSubsetComputerGroup struct {
+type EbookSubsetScopeComputerGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // MobileDevice represents a single mobile device within the scope.
-type EbooksDataSubsetMobileDevice struct {
+type EbookSubsetScopeMobileDevice struct {
 	ID             int    `xml:"id"`
 	Name           string `xml:"name"`
 	UDID           string `xml:"udid"`
 	WiFiMacAddress string `xml:"wifi_mac_address"`
 }
 
-// MobileDeviceGroup represents a group of mobile devices within the scope.
-type MobileDeviceGroup struct {
+// EbooksSubsetMobileDeviceGroup represents a group of mobile devices within the scope.
+type EbookSubsetScopeMobileDeviceGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // Building represents a building within the scope.
-type EbooksDataSubsetBuilding struct {
+type EbookSubsetScopeBuilding struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // Department represents a department within the scope.
-type EbooksDataSubsetDepartment struct {
+type EbookSubsetScopeDepartment struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // User represents a user within the scope.
-type EbooksDataSubsetUser struct {
+type EbookSubsetScopeUser struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // UserGroup represents a group of users within the scope.
-type EbooksDataSubsetUserGroup struct {
+type EbookSubsetScopeUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-// Class represents a class within the scope.
-type EbooksDataSubsetClass struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// Exclusions represent any exclusions within the scope.
-type EbooksDataSubsetExclusions struct {
-	Computers          []EbooksDataSubsetComputer          `xml:"computers>computer"`
-	ComputerGroups     []EbooksDataSubsetComputerGroup     `xml:"computer_groups>computer_group"`
-	MobileDevices      []EbooksDataSubsetMobileDevice      `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroups []EbooksDataSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group"`
-	Buildings          []EbooksDataSubsetBuilding          `xml:"buildings>building"`
-	Departments        []EbooksDataSubsetDepartment        `xml:"departments>department"`
-	JSSUsers           []EbooksDataSubsetUser              `xml:"jss_users>user"`
-	JSSUserGroups      []EbooksDataSubsetUserGroup         `xml:"jss_user_groups>user_group"`
-}
-
-// SelfServiceCategories represent the categories within SelfService.
-type EbooksDataSubsetSelfServiceCategories struct {
-	Category []EbooksDataSubsetCategory `xml:"category"`
-}
-
-type EbooksDataSubsetSelfService struct {
-	SelfServiceDisplayName      string                                `xml:"self_service_display_name"`
-	InstallButtonText           string                                `xml:"install_button_text"`
-	SelfServiceDescription      string                                `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                                  `xml:"force_users_to_view_description"`
-	SelfServiceIcon             EbooksDataSubsetSelfServiceIcon       `xml:"self_service_icon"`
-	FeatureOnMainPage           bool                                  `xml:"feature_on_main_page"`
-	SelfServiceCategories       EbooksDataSubsetSelfServiceCategories `xml:"self_service_categories"`
-	Notification                bool                                  `xml:"notification"`
-	NotificationSubject         string                                `xml:"notification_subject"`
-	NotificationMessage         string                                `xml:"notification_message"`
-}
-
-// EbooksDataSubsetMobileDeviceGroup represents a group of mobile devices within the scope.
-type EbooksDataSubsetMobileDeviceGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// EbooksDataSubsetNetworkSegment represents a network segment within the limitations.
-type EbooksDataSubsetNetworkSegment struct {
-	ID   int    `xml:"id"`
-	UID  string `xml:"uid,omitempty"`
-	Name string `xml:"name"`
-}
-
-// EbooksDataSubsetLimitations represents any limitations within the scope.
-type EbooksDataSubsetLimitations struct {
-	NetworkSegments []EbooksDataSubsetNetworkSegment `xml:"network_segments>network_segment"`
-	Users           []EbooksDataSubsetUser           `xml:"users>user"`
-	UserGroups      []EbooksDataSubsetUserGroup      `xml:"user_groups>user_group"`
-}
+// CRUD
 
 // GetEbooks retrieves a serialized list of ebooks.
 func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
@@ -204,10 +207,10 @@ func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
 }
 
 // GetEbooksByID retrieves a single ebook by its ID.
-func (c *Client) GetEbooksByID(id int) (*ResponseEbooks, error) {
+func (c *Client) GetEbookByID(id int) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
 
-	var ebook ResponseEbooks
+	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Ebook by ID: %v", err)
@@ -221,10 +224,10 @@ func (c *Client) GetEbooksByID(id int) (*ResponseEbooks, error) {
 }
 
 // GetEbooksByName retrieves a single ebook by its name.
-func (c *Client) GetEbooksByName(name string) (*ResponseEbooks, error) {
+func (c *Client) GetEbookByName(name string) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriEbooks, name)
 
-	var ebook ResponseEbooks
+	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Ebook by Name: %v", err)
@@ -238,10 +241,10 @@ func (c *Client) GetEbooksByName(name string) (*ResponseEbooks, error) {
 }
 
 // GetEbooksByNameAndDataSubset retrieves a specific subset of an ebook by its name.
-func (c *Client) GetEbooksByNameAndDataSubset(name, subset string) (*ResponseEbooks, error) {
+func (c *Client) GetEbookByNameAndDataSubset(name, subset string) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriEbooks, name, subset)
 
-	var ebook ResponseEbooks
+	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Ebook by Name and Subset: %v", err)
@@ -255,26 +258,24 @@ func (c *Client) GetEbooksByNameAndDataSubset(name, subset string) (*ResponseEbo
 }
 
 // CreateEbook creates a new ebook.
-func (c *Client) CreateEbook(ebook ResponseEbooks) (*ResponseEbooks, error) {
+func (c *Client) CreateEbook(ebook ResourceEbooks) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriEbooks) // '0' typically used for creation in APIs
 
 	// Handle default values, especially for the Site ID if not provided
 	if ebook.General.Site.ID == 0 && ebook.General.Site.Name == "" {
-		ebook.General.Site = EbooksDataSubsetSite{
-			ID:   -1,
-			Name: "None",
-		}
+		ebook.General.Site.ID = -1
+		ebook.General.Site.Name = "none"
 	}
 
-	// The requestBody struct should mirror the ResponseEbooks struct, including all nested structs
+	// The requestBody struct should mirror the ResourceEbooks struct, including all nested structs
 	requestBody := struct {
 		XMLName xml.Name `xml:"ebook"`
-		ResponseEbooks
+		ResourceEbooks
 	}{
-		ResponseEbooks: ebook,
+		ResourceEbooks: ebook,
 	}
 
-	var response ResponseEbooks
+	var response ResourceEbooks
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create ebook: %v", err)
@@ -288,17 +289,17 @@ func (c *Client) CreateEbook(ebook ResponseEbooks) (*ResponseEbooks, error) {
 }
 
 // UpdateEbookByID updates an existing ebook by its ID.
-func (c *Client) UpdateEbookByID(id int, ebook ResponseEbooks) (*ResponseEbooks, error) {
+func (c *Client) UpdateEbookByID(id int, ebook ResourceEbooks) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ebook"`
-		ResponseEbooks
+		ResourceEbooks
 	}{
-		ResponseEbooks: ebook,
+		ResourceEbooks: ebook,
 	}
 
-	var updatedEbook ResponseEbooks
+	var updatedEbook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Ebook by ID: %v", err)
@@ -312,17 +313,17 @@ func (c *Client) UpdateEbookByID(id int, ebook ResponseEbooks) (*ResponseEbooks,
 }
 
 // UpdateEbookByName updates an existing ebook by its name.
-func (c *Client) UpdateEbookByName(name string, ebook ResponseEbooks) (*ResponseEbooks, error) {
+func (c *Client) UpdateEbookByName(name string, ebook ResourceEbooks) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriEbooks, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ebook"`
-		ResponseEbooks
+		ResourceEbooks
 	}{
-		ResponseEbooks: ebook,
+		ResourceEbooks: ebook,
 	}
 
-	var updatedEbook ResponseEbooks
+	var updatedEbook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Ebook by Name: %v", err)

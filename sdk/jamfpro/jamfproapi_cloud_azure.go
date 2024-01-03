@@ -12,13 +12,11 @@ import (
 const uriCloudIdentityProvider = "/api/v1/cloud-azure"
 
 type ResourceCloudIdp struct {
-	CloudIdPCommon ResourceDataCloudIdpCommon `json:"cloudIdPCommon"`
-	Server         ResourceCloudIdpServer     `json:"server"`
-}
-
-type ResourceDataCloudIdpCommon struct {
-	DisplayName  string `json:"displayName"`
-	ProviderName string `json:"providerName"`
+	CloudIdPCommon struct {
+		DisplayName  string `json:"displayName"`
+		ProviderName string `json:"providerName"`
+	} `json:"cloudIdPCommon"`
+	Server ResourceCloudIdpServer `json:"server"`
 }
 
 type ResourceCloudIdpServer struct {

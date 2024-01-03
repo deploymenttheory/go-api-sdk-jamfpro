@@ -1,3 +1,12 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+SharedContainerCriteria
+SharedAdvancedSearchSubsetDisplayField
+*/
+
 // classicapi_advanced_user_searches.go
 // Jamf Pro Classic Api - Advanced User Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
@@ -12,65 +21,46 @@ import (
 
 const uriAPIAdvancedUserSearches = "/JSSResource/advancedusersearches"
 
+// List
+
 // Response structure for the list of advanced user searches
 type ResponseAdvancedUserSearchesList struct {
-	Size               int                        `xml:"size"`
-	AdvancedUserSearch []AdvancedUserSearchDetail `xml:"advanced_user_search"`
+	Size               int                          `xml:"size"`
+	AdvancedUserSearch []AdvancedUserSearchListItem `xml:"advanced_user_search"`
 }
 
-type AdvancedUserSearchDetail struct {
+type AdvancedUserSearchListItem struct {
 	XMLName xml.Name `xml:"advanced_user_search"`
 	ID      int      `xml:"id"`
 	Name    string   `xml:"name"`
 }
 
+// Resource
+
 // Structs for Advanced User Search details by ID
-type AdvancedUserSearch struct {
-	ID            int                                        `xml:"id"`
-	Name          string                                     `xml:"name"`
-	Criteria      []AdvancedUserSearchCriteriaDetail         `xml:"criteria"`
-	Users         []AdvancedUserSearchSiteUsersDetail        `xml:"users"`
-	DisplayFields []AdvancedUserSearchSiteDisplayFieldDetail `xml:"display_fields"`
-	Site          AdvancedUserSearchSiteDetail               `xml:"site"`
+type ResourceAdvancedUserSearch struct {
+	ID            int                                       `xml:"id"`
+	Name          string                                    `xml:"name"`
+	Criteria      []SharedContainerCriteria                 `xml:"criteria"`
+	Users         []AdvancedUserSearchContainerUsers        `xml:"users"`
+	DisplayFields SharedAdvancedSearchContainerDisplayField `xml:"display_fields"`
+	Site          SharedResourceSite                        `xml:"site"`
 }
 
-type AdvancedUserSearchCriteriaDetail struct {
-	Size      int                               `xml:"size"`
-	Criterion AdvancedUserSearchCriterionDetail `xml:"criterion"`
+// Subsets & Containers
+
+type AdvancedUserSearchContainerUsers struct {
+	Size int                          `xml:"size"`
+	User AdvancedUserSearchSubsetUser `xml:"user"`
 }
 
-type AdvancedUserSearchCriterionDetail struct {
-	Name         string `xml:"name"`
-	Priority     int    `xml:"priority"`
-	AndOr        string `xml:"and_or"`
-	SearchType   string `xml:"search_type"`
-	Value        string `xml:"value"`
-	OpeningParen bool   `xml:"opening_paren"`
-	ClosingParen bool   `xml:"closing_paren"`
-}
-
-type AdvancedUserSearchSiteUsersDetail struct {
-	Size int                              `xml:"size"`
-	User AdvancedUserSearchSiteUserDetail `xml:"user"`
-}
-
-type AdvancedUserSearchSiteUserDetail struct {
+type AdvancedUserSearchSubsetUser struct {
 	ID       int    `xml:"id,omitempty"`
 	Name     string `xml:"name,omitempty"`
 	Username string `xml:"Username,omitempty"`
 }
 
-type AdvancedUserSearchSiteDisplayFieldDetail struct {
-	Size         int `xml:"size"`
-	DisplayField struct {
-		Name string `xml:"name"`
-	} `xml:"display_field"`
-}
-
-type AdvancedUserSearchSiteDetail struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
+// CRUD
 
 // GetAdvancedUserSearches retrieves all advanced user searches
 func (c *Client) GetAdvancedUserSearches() (*ResponseAdvancedUserSearchesList, error) {
@@ -90,10 +80,10 @@ func (c *Client) GetAdvancedUserSearches() (*ResponseAdvancedUserSearchesList, e
 }
 
 // GetAdvancedUserSearchByID retrieves an advanced user search by its ID
-func (c *Client) GetAdvancedUserSearchByID(id int) (*AdvancedUserSearch, error) {
+func (c *Client) GetAdvancedUserSearchByID(id int) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
-	var searchDetail AdvancedUserSearch
+	var searchDetail ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced user search by ID: %v", err)
@@ -107,10 +97,10 @@ func (c *Client) GetAdvancedUserSearchByID(id int) (*AdvancedUserSearch, error) 
 }
 
 // GetAdvancedUserSearchByName retrieves an advanced user search by its name
-func (c *Client) GetAdvancedUserSearchByName(name string) (*AdvancedUserSearch, error) {
+func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
-	var searchDetail AdvancedUserSearch
+	var searchDetail ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch advanced user search by name: %v", err)
@@ -124,7 +114,7 @@ func (c *Client) GetAdvancedUserSearchByName(name string) (*AdvancedUserSearch, 
 }
 
 // CreateAdvancedUserSearch creates a new advanced user search.
-func (c *Client) CreateAdvancedUserSearch(search *AdvancedUserSearch) (*AdvancedUserSearch, error) {
+func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
 	// Set default values for Site if not provided
@@ -136,12 +126,12 @@ func (c *Client) CreateAdvancedUserSearch(search *AdvancedUserSearch) (*Advanced
 	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`
-		*AdvancedUserSearch
+		*ResourceAdvancedUserSearch
 	}{
-		AdvancedUserSearch: search,
+		ResourceAdvancedUserSearch: search,
 	}
 
-	var createdSearch AdvancedUserSearch
+	var createdSearch ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create advanced user search: %v", err)
@@ -155,18 +145,17 @@ func (c *Client) CreateAdvancedUserSearch(search *AdvancedUserSearch) (*Advanced
 }
 
 // UpdateAdvancedUserSearchByID updates an existing advanced user search by its ID.
-func (c *Client) UpdateAdvancedUserSearchByID(id int, search *AdvancedUserSearch) (*AdvancedUserSearch, error) {
+func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`
-		*AdvancedUserSearch
+		*ResourceAdvancedUserSearch
 	}{
-		AdvancedUserSearch: search,
+		ResourceAdvancedUserSearch: search,
 	}
 
-	var updatedSearch AdvancedUserSearch
+	var updatedSearch ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced user search by ID: %v", err)
@@ -180,18 +169,17 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *AdvancedUserSearch
 }
 
 // UpdateAdvancedUserSearchByName updates an existing advanced user search by its name.
-func (c *Client) UpdateAdvancedUserSearchByName(name string, search *AdvancedUserSearch) (*AdvancedUserSearch, error) {
+func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`
-		*AdvancedUserSearch
+		*ResourceAdvancedUserSearch
 	}{
-		AdvancedUserSearch: search,
+		ResourceAdvancedUserSearch: search,
 	}
 
-	var updatedSearch AdvancedUserSearch
+	var updatedSearch ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced user search by name: %v", err)

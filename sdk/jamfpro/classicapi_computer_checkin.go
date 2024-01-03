@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_computer_checkin.go
 // Jamf Pro Classic Api - Computer Checkin
 // api reference: https://developer.jamf.com/jamf-pro/reference/computercheckin
@@ -14,7 +16,9 @@ const uriComputerCheckin = "/JSSResource/computercheckin"
 
 // Struct for the computer check-in settings response
 
-type ResponseComputerCheckin struct {
+// Resource
+
+type ResourceComputerCheckin struct {
 	CheckInFrequency                 int  `xml:"check_in_frequency"`
 	CreateStartupScript              bool `xml:"create_startup_script"`
 	LogStartupEvent                  bool `xml:"log_startup_event"`
@@ -30,11 +34,13 @@ type ResponseComputerCheckin struct {
 	DisplayStatusToUser              bool `xml:"display_status_to_user"`
 }
 
+// CRUD
+
 // GetComputerCheckinInformation gets the jamf pro computer check-in settings
-func (c *Client) GetComputerCheckinInformation() (*ResponseComputerCheckin, error) {
+func (c *Client) GetComputerCheckinInformation() (*ResourceComputerCheckin, error) {
 	endpoint := uriComputerCheckin
 
-	var checkinSettings ResponseComputerCheckin
+	var checkinSettings ResourceComputerCheckin
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &checkinSettings)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Computer Checkin settings: %v", err)
@@ -48,18 +54,16 @@ func (c *Client) GetComputerCheckinInformation() (*ResponseComputerCheckin, erro
 }
 
 // UpdateComputerCheckinInformation updates the jamf pro computer check-in settings
-func (c *Client) UpdateComputerCheckinInformation(settings *ResponseComputerCheckin) error {
+func (c *Client) UpdateComputerCheckinInformation(settings *ResourceComputerCheckin) error {
 	endpoint := uriComputerCheckin
 
-	// Wrap the settings with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_check_in"`
-		*ResponseComputerCheckin
+		*ResourceComputerCheckin
 	}{
-		ResponseComputerCheckin: settings,
+		ResourceComputerCheckin: settings,
 	}
 
-	// Create a dummy struct for the response
 	var handleResponse struct{}
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)

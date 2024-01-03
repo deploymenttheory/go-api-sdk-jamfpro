@@ -1,3 +1,11 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint
+SharedResourceSite
+
+*/
+
 // classicapi_byoprofiles.go
 // Jamf Pro Classic Api - Personal Device Profiles
 // api reference: https://developer.jamf.com/jamf-pro/reference/byoprofiles
@@ -12,36 +20,34 @@ import (
 
 const uriBYOProfiles = "/JSSResource/byoprofiles"
 
+// List
+
 // ResponseBYOProfilesList represents the XML response for a list of BYO profiles.
 type ResponseBYOProfilesList struct {
-	Size        int              `xml:"size"`
-	BYOProfiles []BYOProfileItem `xml:"byoprofile"`
+	Size        int                  `xml:"size"`
+	BYOProfiles []BYOProfileListItem `xml:"byoprofile"`
 }
 
-// BYOProfileItem represents a single BYO profile item in the list.
-type BYOProfileItem struct {
+type BYOProfileListItem struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
+
+// Resource
 
 // BYOProfile represents the details of a BYO profile.
-type ResponseBYOProfile struct {
-	General BYOProfileGeneralInfo `xml:"general"`
+type ResourceBYOProfile struct {
+	General BYOProfileSubsetGeneral `xml:"general"`
 }
 
-// GeneralInfo represents the general section of a BYO profile.
-type BYOProfileGeneralInfo struct {
+// Subsets
+
+type BYOProfileSubsetGeneral struct {
 	ID          int                `xml:"id"`
 	Name        string             `xml:"name"`
-	Site        BYOProfileSiteInfo `xml:"site"`
+	Site        SharedResourceSite `xml:"site"`
 	Enabled     bool               `xml:"enabled"`
 	Description string             `xml:"description"`
-}
-
-// SiteInfo represents the site information of a BYO profile.
-type BYOProfileSiteInfo struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
 }
 
 // GetBYOProfiles gets a list of all BYO profiles.
@@ -62,10 +68,10 @@ func (c *Client) GetBYOProfiles() (*ResponseBYOProfilesList, error) {
 }
 
 // GetBYOProfileByID retrieves a BYO profile by its ID.
-func (c *Client) GetBYOProfileByID(id int) (*ResponseBYOProfile, error) {
+func (c *Client) GetBYOProfileByID(id int) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
 
-	var profile ResponseBYOProfile
+	var profile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch BYO Profile by ID: %v", err)
@@ -79,10 +85,10 @@ func (c *Client) GetBYOProfileByID(id int) (*ResponseBYOProfile, error) {
 }
 
 // GetBYOProfileByName retrieves a BYO profile by its name.
-func (c *Client) GetBYOProfileByName(name string) (*ResponseBYOProfile, error) {
+func (c *Client) GetBYOProfileByName(name string) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriBYOProfiles, name)
 
-	var profile ResponseBYOProfile
+	var profile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch BYO Profile by name: %v", err)
@@ -96,18 +102,17 @@ func (c *Client) GetBYOProfileByName(name string) (*ResponseBYOProfile, error) {
 }
 
 // CreateBYOProfile creates a new BYO profile.
-func (c *Client) CreateBYOProfile(profile *ResponseBYOProfile) (*ResponseBYOProfile, error) {
+func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriBYOProfiles)
 
-	// Wrap the profile request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
-		*ResponseBYOProfile
+		*ResourceBYOProfile
 	}{
-		ResponseBYOProfile: profile,
+		ResourceBYOProfile: profile,
 	}
 
-	var createdProfile ResponseBYOProfile
+	var createdProfile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create BYO Profile: %v", err)
@@ -121,18 +126,17 @@ func (c *Client) CreateBYOProfile(profile *ResponseBYOProfile) (*ResponseBYOProf
 }
 
 // UpdateBYOProfileByID updates an existing BYO profile by its ID.
-func (c *Client) UpdateBYOProfileByID(id int, profile *ResponseBYOProfile) (*ResponseBYOProfile, error) {
+func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
 
-	// Wrap the profile request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
-		*ResponseBYOProfile
+		*ResourceBYOProfile
 	}{
-		ResponseBYOProfile: profile,
+		ResourceBYOProfile: profile,
 	}
 
-	var updatedProfile ResponseBYOProfile
+	var updatedProfile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update BYO Profile by ID: %v", err)
@@ -146,18 +150,17 @@ func (c *Client) UpdateBYOProfileByID(id int, profile *ResponseBYOProfile) (*Res
 }
 
 // UpdateBYOProfileByName updates a BYO profile by its name.
-func (c *Client) UpdateBYOProfileByName(name string, profile *ResponseBYOProfile) (*ResponseBYOProfile, error) {
+func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriBYOProfiles, name)
 
-	// Wrap the profile request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
-		*ResponseBYOProfile
+		*ResourceBYOProfile
 	}{
-		ResponseBYOProfile: profile,
+		ResourceBYOProfile: profile,
 	}
 
-	var updatedProfile ResponseBYOProfile
+	var updatedProfile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update BYO Profile by name: %v", err)

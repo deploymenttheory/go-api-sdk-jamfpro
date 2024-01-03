@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_gsx_connection.go
 // Jamf Pro Classic Api - GSX Connection
 // api reference: https://developer.jamf.com/jamf-pro/reference/gsxconnection
@@ -12,9 +14,9 @@ import (
 
 const uriGSXConnection = "/JSSResource/gsxconnection"
 
-// Struct for the GSX connection response
+// Resource
 
-type ResponseGSXConnection struct {
+type ResourceGSXConnection struct {
 	Enabled       bool   `xml:"enabled"`
 	Username      string `xml:"username"`
 	AccountNumber int    `xml:"account_number"`
@@ -22,11 +24,13 @@ type ResponseGSXConnection struct {
 	URI           string `xml:"uri"`
 }
 
+// CRUD
+
 // GetGSXConnectionInformation gets the GSX connection settings
-func (c *Client) GetGSXConnectionInformation() (*ResponseGSXConnection, error) {
+func (c *Client) GetGSXConnectionInformation() (*ResourceGSXConnection, error) {
 	endpoint := uriGSXConnection
 
-	var gsxConnectionSettings ResponseGSXConnection
+	var gsxConnectionSettings ResourceGSXConnection
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &gsxConnectionSettings)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch GSX Connection settings: %v", err)
@@ -40,18 +44,16 @@ func (c *Client) GetGSXConnectionInformation() (*ResponseGSXConnection, error) {
 }
 
 // UpdateGSXConnectionInformation updates the GSX connection settings
-func (c *Client) UpdateGSXConnectionInformation(settings *ResponseGSXConnection) error {
+func (c *Client) UpdateGSXConnectionInformation(settings *ResourceGSXConnection) error {
 	endpoint := uriGSXConnection
 
-	// Wrap the settings with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"gsx_connection"`
-		*ResponseGSXConnection
+		*ResourceGSXConnection
 	}{
-		ResponseGSXConnection: settings,
+		ResourceGSXConnection: settings,
 	}
 
-	// Create a dummy struct for the response
 	var handleResponse struct{}
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)

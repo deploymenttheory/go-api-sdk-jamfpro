@@ -14,16 +14,14 @@ const uriSites = "/JSSResource/sites"
 // Structs for the sites
 
 type ResponseSitesList struct {
-	Size int        `xml:"size"`
-	Site []SiteItem `xml:"site"`
+	Size int `xml:"size"`
+	Site []struct {
+		ID   int    `xml:"id,omitempty"`
+		Name string `xml:"name,omitempty"`
+	} `xml:"site"`
 }
 
-type SiteItem struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type ResponseSite struct {
+type ResourceSite struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -46,10 +44,10 @@ func (c *Client) GetSites() (*ResponseSitesList, error) {
 }
 
 // GetSiteByID retrieves a site by its ID.
-func (c *Client) GetSiteByID(id int) (*ResponseSite, error) {
+func (c *Client) GetSiteByID(id int) (*ResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
 
-	var site ResponseSite
+	var site ResourceSite
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Site by ID: %v", err)
@@ -63,10 +61,10 @@ func (c *Client) GetSiteByID(id int) (*ResponseSite, error) {
 }
 
 // GetSiteByName retrieves a site by its name.
-func (c *Client) GetSiteByName(name string) (*ResponseSite, error) {
+func (c *Client) GetSiteByName(name string) (*ResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSites, name)
 
-	var site ResponseSite
+	var site ResourceSite
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Site by name: %v", err)
@@ -80,17 +78,17 @@ func (c *Client) GetSiteByName(name string) (*ResponseSite, error) {
 }
 
 // CreateSite creates a new site.
-func (c *Client) CreateSite(site *ResponseSite) (*ResponseSite, error) {
+func (c *Client) CreateSite(site *ResourceSite) (*ResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriSites) // Using ID 0 for creation as per the pattern
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"site"`
-		*ResponseSite
+		*ResourceSite
 	}{
-		ResponseSite: site,
+		ResourceSite: site,
 	}
 
-	var createdSite ResponseSite
+	var createdSite ResourceSite
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSite)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Site: %v", err)
@@ -104,17 +102,17 @@ func (c *Client) CreateSite(site *ResponseSite) (*ResponseSite, error) {
 }
 
 // UpdateSiteByID updates an existing site by its ID.
-func (c *Client) UpdateSiteByID(id int, site *ResponseSite) (*ResponseSite, error) {
+func (c *Client) UpdateSiteByID(id int, site *ResourceSite) (*ResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"site"`
-		*ResponseSite
+		*ResourceSite
 	}{
-		ResponseSite: site,
+		ResourceSite: site,
 	}
 
-	var updatedSite ResponseSite
+	var updatedSite ResourceSite
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Site by ID: %v", err)
@@ -128,17 +126,17 @@ func (c *Client) UpdateSiteByID(id int, site *ResponseSite) (*ResponseSite, erro
 }
 
 // UpdateSiteByName updates an existing site by its name.
-func (c *Client) UpdateSiteByName(name string, site *ResponseSite) (*ResponseSite, error) {
+func (c *Client) UpdateSiteByName(name string, site *ResourceSite) (*ResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSites, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"site"`
-		*ResponseSite
+		*ResourceSite
 	}{
-		ResponseSite: site,
+		ResourceSite: site,
 	}
 
-	var updatedSite ResponseSite
+	var updatedSite ResourceSite
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Site by name: %v", err)
