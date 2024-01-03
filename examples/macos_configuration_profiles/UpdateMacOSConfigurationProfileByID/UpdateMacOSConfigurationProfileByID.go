@@ -43,23 +43,23 @@ func main() {
 
 	// General profile data
 	// Define the macOS Configuration Profile as per the given XML structure
-	profile := jamfpro.ResponseMacOSConfigurationProfiles{
-		General: jamfpro.MacOSConfigurationProfilesDataSubsetGeneral{
+	profile := jamfpro.ResourceMacOSConfigurationProfiles{
+		General: jamfpro.MacOSConfigurationProfilesSubsetGeneral{
 			Name:               "WiFi Test",
 			Description:        "",
-			Site:               jamfpro.MacOSConfigurationProfilesDataSubsetSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
-			Category:           jamfpro.MacOSConfigurationProfilesDataSubsetCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
+			Site:               jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
+			Category:           jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
 			DistributionMethod: "Install Automatically",
 			UserRemovable:      false,
 			Level:              "computer",
 			RedeployOnUpdate:   "Newly Assigned",
 			Payloads:           payloads,
 		},
-		Scope: jamfpro.MacOSConfigurationProfilesDataSubsetScope{
+		Scope: jamfpro.MacOSConfigurationProfilesSubsetScope{
 			AllComputers: false,
 			AllJSSUsers:  false,
 		},
-		SelfService: jamfpro.MacOSConfigurationProfilesDataSubsetSelfService{
+		SelfService: jamfpro.MacOSConfigurationProfilesSubsetSelfService{
 			InstallButtonText:           "Install",
 			SelfServiceDescription:      "null",
 			ForceUsersToViewDescription: false,

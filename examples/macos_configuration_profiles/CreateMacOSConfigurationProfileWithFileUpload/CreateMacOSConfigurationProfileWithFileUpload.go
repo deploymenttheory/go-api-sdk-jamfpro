@@ -76,18 +76,18 @@ func main() {
 	}
 
 	// Define a sample macOS Configuration Profile
-	profile := &jamfpro.ResponseMacOSConfigurationProfiles{
-		General: jamfpro.MacOSConfigurationProfilesDataSubsetGeneral{
+	profile := &jamfpro.ResourceMacOSConfigurationProfiles{
+		General: jamfpro.MacOSConfigurationProfilesSubsetGeneral{
 			Name:               "accessibility-formatted-test",
-			Site:               jamfpro.MacOSConfigurationProfilesDataSubsetSite{Name: "None"},
-			Category:           jamfpro.MacOSConfigurationProfilesDataSubsetCategory{Name: "No category assigned"},
+			Site:               jamfpro.SharedResourceSite{Name: "None"},
+			Category:           jamfpro.SharedResourceCategory{Name: "No category assigned"},
 			DistributionMethod: "Install Automatically",
 			Level:              "computer",
 			RedeployOnUpdate:   "Newly Assigned",
 			Payloads:           payload,
 		},
-		Scope: jamfpro.MacOSConfigurationProfilesDataSubsetScope{},
-		SelfService: jamfpro.MacOSConfigurationProfilesDataSubsetSelfService{
+		Scope: jamfpro.MacOSConfigurationProfilesSubsetScope{},
+		SelfService: jamfpro.MacOSConfigurationProfilesSubsetSelfService{
 			InstallButtonText: "Install",
 		},
 	}
