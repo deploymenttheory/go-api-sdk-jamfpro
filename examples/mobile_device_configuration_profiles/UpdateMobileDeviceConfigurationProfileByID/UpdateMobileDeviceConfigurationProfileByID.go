@@ -39,25 +39,25 @@ func main() {
 	}
 
 	// Define a new profile
-	newProfile := jamfpro.ResponseMobileDeviceConfigurationProfile{
-		General: jamfpro.MobileDeviceConfigurationProfileGeneral{
+	newProfile := jamfpro.ResourceMobileDeviceConfigurationProfile{
+		General: jamfpro.MobileDeviceConfigurationProfileSubsetGeneral{
 			Name: "WiFi",
-			Site: jamfpro.MobileDeviceConfigurationProfileSite{
+			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
-			Category: jamfpro.MobileDeviceConfigurationProfileCategory{
+			Category: jamfpro.SharedResourceCategory{
 				ID:   -1,
 				Name: "No category assigned",
 			},
 			DeploymentMethod: "Install Automatically",
 			Payloads:         "<plist version=\"1\"><dict>...</dict></plist>", // Replace with actual XML payload
 		},
-		Scope: jamfpro.MobileDeviceConfigurationProfileScope{
+		Scope: jamfpro.MobileDeviceConfigurationProfileSubsetScope{
 			AllMobileDevices: false,
 			AllJSSUsers:      false,
 		},
-		SelfService: jamfpro.MobileDeviceConfigurationProfileSelfService{
+		SelfService: jamfpro.MobileDeviceConfigurationProfileSubsetSelfService{
 			// Fill in self service details if needed
 		},
 	}
