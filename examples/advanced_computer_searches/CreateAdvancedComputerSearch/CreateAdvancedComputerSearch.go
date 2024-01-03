@@ -53,7 +53,7 @@ func main() {
 					Priority:     0,
 					AndOr:        "and",
 					SearchType:   "more than x days ago",
-					Value:        7,
+					Value:        "7",
 					OpeningParen: false,
 					ClosingParen: false,
 				},
