@@ -39,22 +39,22 @@ func main() {
 
 	// Create a new computer configuration
 	newComputer := jamfpro.ResponseComputer{
-		General: jamfpro.General{
-			Name:         "MAPGWFYKTF",
-			SerialNumber: "MAPGWFYKTF",                           // Must be Unique
-			UDID:         "MAPFF74D-C6B7-5589-93A9-19E8BDFEDKTF", // Must be Unique
-			RemoteManagement: jamfpro.RemoteManagement{
+		General: jamfpro.ComputerSubsetGeneral{
+			Name:         "APIGWFYKTF",
+			SerialNumber: "APIGWFYKTF",                           // Must be Unique
+			UDID:         "APIFF74D-C6B7-5589-93A9-19E8BDFEDKTF", // Must be Unique
+			RemoteManagement: jamfpro.ComputerSubsetGeneralRemoteManagement{
 				Managed: true,
 			},
-			Site: jamfpro.Site{
+			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
 		},
-		Location: jamfpro.Location{
+		Location: jamfpro.ComputerSubsetLocation{
 			// Populate location fields if necessary
 		},
-		Purchasing: jamfpro.Purchasing{
+		Purchasing: jamfpro.ComputerSubsetPurchasing{
 			IsPurchased:          true,
 			IsLeased:             false,
 			PoNumber:             "PO123ABC",
@@ -74,13 +74,13 @@ func main() {
 			LifeExpectancy:       4,
 			PurchasingContact:    "Jane Smith",
 		},
-		ExtensionAttributes: []jamfpro.ExtensionAttribute{
+		ExtensionAttributes: []jamfpro.ComputerSubsetExtensionAttributes{
 			{
 				ID:    2,
 				Value: "", // Set value if necessary
 			},
 		},
-		Hardware: jamfpro.Hardware{
+		Hardware: jamfpro.ComputerSubsetHardware{
 			Make:                        "Apple",
 			Model:                       "MacBook Pro",
 			ModelIdentifier:             "MacBookPro11,4",
@@ -117,8 +117,8 @@ func main() {
 			SoftwareUpdateDeviceID:      "ExampleDeviceID",
 			IsAppleSilicon:              false,
 			SupportsIosAppInstalls:      false,
-			Filevault2Users:             []jamfpro.Filevault2User{{User: "testuser"}},
-			Storage: []jamfpro.StorageDevice{
+			Filevault2Users:             []jamfpro.ComputerSubsetHardwareFileVault2Users{{User: "testuser"}},
+			Storage: []jamfpro.ComputerSubsetHardwareStorage{
 				{
 					Disk:            "disk0",
 					Model:           "APPLE SSD AP0256",
@@ -128,7 +128,7 @@ func main() {
 					DriveCapacityMb: 256000,
 					ConnectionType:  "PCI",
 					SmartStatus:     "Verified",
-					Partitions: []jamfpro.Partition{
+					Partitions: []jamfpro.ComputerSubsetHardwareStoragePartitions{
 						{
 							Name:                "Macintosh HD",
 							Size:                256,
@@ -147,7 +147,7 @@ func main() {
 					},
 				},
 			},
-			MappedPrinters: []jamfpro.Printer{
+			MappedPrinters: []jamfpro.ComputerSubsetHardwareMappedPrinters{
 				{
 					Name:     "Office Printer",
 					URI:      "lpd://192.168.1.100",

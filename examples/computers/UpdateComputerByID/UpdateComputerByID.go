@@ -44,14 +44,14 @@ func main() {
 	// Define the computer configuration to be updated
 	updatedComputer := jamfpro.ResponseComputer{
 		// Populate with the updated fields
-		General: jamfpro.General{
+		General: jamfpro.ComputerSubsetGeneral{
 			Name:         "Steve Job's iMac",
 			SerialNumber: "XXXQ7KHTGXXX",                         // Must be Unique
 			UDID:         "EBBFF74D-C6B7-5589-93A9-19E8BDXXXXXX", // Must be Unique
-			RemoteManagement: jamfpro.RemoteManagement{
+			RemoteManagement: jamfpro.ComputerSubsetGeneralRemoteManagement{
 				Managed: true,
 			},
-			Site: jamfpro.Site{
+			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
