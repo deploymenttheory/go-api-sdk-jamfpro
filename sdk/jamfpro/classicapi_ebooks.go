@@ -1,16 +1,14 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedResourceCategory
-SharedResourceSelfServiceIcon
-*/
-
 // classicapi_ebooks.go
 // Jamf Pro Classic Api - Ebooks
 // api reference: https://developer.jamf.com/jamf-pro/reference/ebooks
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedResourceCategory
+- SharedResourceSelfServiceIcon
+*/
 
 package jamfpro
 

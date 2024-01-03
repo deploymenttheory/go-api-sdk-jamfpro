@@ -1,12 +1,12 @@
-/*
-Shared Resources in this Endpoint:
-SharedResourceSite
-*/
-
 // classicapi_computer_invitations.go
 // Jamf Pro Classic Api - Computer Invitations
 // api reference: https://developer.jamf.com/jamf-pro/reference/computerinvitations
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+*/
 
 package jamfpro
 

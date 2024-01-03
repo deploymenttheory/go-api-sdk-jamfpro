@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_distribution_points.go
 // Jamf Pro Classic Api - Distribution Points
 // api reference: https://developer.jamf.com/jamf-pro/reference/distributionpoints

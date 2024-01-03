@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_disk_encryption_configurations.go
 // Jamf Pro Classic Api - Disk Encryption Configurations
 // api reference: https://developer.jamf.com/jamf-pro/reference/diskencryptionconfigurations

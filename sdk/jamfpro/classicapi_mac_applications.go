@@ -1,16 +1,14 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint:
-SharedResourceSite
-SharedResourceCategory
-SharedResourceSelfServiceIcon
-*/
-
 // classicapi_mac_applications.go
 // Jamf Pro Classic Api - VPP Mac Applications
 // api reference: https://developer.jamf.com/jamf-pro/reference/macapplications
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedResourceCategory
+- SharedResourceSelfServiceIcon
+*/
 
 package jamfpro
 

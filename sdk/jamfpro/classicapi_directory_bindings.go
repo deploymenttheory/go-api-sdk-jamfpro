@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_directory_bindings.go
 // Jamf Pro Classic Api - Directory Bindings
 // api reference: https://developer.jamf.com/jamf-pro/reference/directorybindings

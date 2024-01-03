@@ -1,8 +1,3 @@
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-*/
-
 // classicapi_licensed_software.go
 // Jamf Pro Classic Api - Licensed Software
 // api reference: https://developer.jamf.com/jamf-pro/reference/licensedsoftware
@@ -10,7 +5,7 @@ SharedResourceSite
 
 /*
 Shared Resources in this Endpoint:
-SharedResourceSite
+- SharedResourceSite
 */
 
 package jamfpro

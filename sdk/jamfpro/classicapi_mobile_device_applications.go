@@ -1,15 +1,13 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedResourceCategory
-*/
-
 // classicapi_mobile_device_applications.go
 // Jamf Pro Classic Api - Mobile Device Applications
 // api reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceapplications
 // Jamf Pro Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedResourceCategory
+*/
 
 package jamfpro
 

@@ -1,10 +1,3 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-*/
-
 // classicapi_computers.go
 // Jamf Pro Classic Api - Computers
 // api reference: https://developer.jamf.com/jamf-pro/reference/computers
@@ -12,7 +5,7 @@ SharedResourceSite
 
 /*
 Shared Resources in this Endpoint:
-SharedResourceSite
+- SharedResourceSite
 
 */
 

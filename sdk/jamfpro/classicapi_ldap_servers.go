@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_ldap_servers.go
 // Jamf Pro Classic Api - LDAP Servers
 // api reference: https://developer.jamf.com/jamf-pro/reference/ldapservers

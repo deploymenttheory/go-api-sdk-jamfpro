@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_computer_extension_attributes.go
 // Jamf Pro Classic Api - Computer Extension Attributes
 // api reference: https://developer.jamf.com/jamf-pro/reference/computerextensionattributes

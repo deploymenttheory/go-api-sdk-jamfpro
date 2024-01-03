@@ -1,17 +1,15 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedResourceCategory
-SharedResourceSelfServiceIcon
-SharedResourceSelfServiceCategories
-*/
-
 // classicapi_mobile_device_configuration_profiles.go
 // Jamf Pro Classic Api - Mobile Device Configuration Profiles
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceconfigurationprofiles
 // Jamf Pro Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedResourceCategory
+- SharedResourceSelfServiceIcon
+- SharedResourceSelfServiceCategories
+*/
 
 package jamfpro
 

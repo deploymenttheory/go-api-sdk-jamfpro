@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_ibeacons.go
 // Jamf Pro Classic Api - iBeacons
 // api reference: https://developer.jamf.com/jamf-pro/reference/ibeacons

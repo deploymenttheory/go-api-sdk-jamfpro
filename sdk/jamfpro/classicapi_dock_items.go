@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_dock_items.go
 // Jamf Pro Classic Api - Dock Items
 // api reference: https://developer.jamf.com/jamf-pro/reference/dockitems

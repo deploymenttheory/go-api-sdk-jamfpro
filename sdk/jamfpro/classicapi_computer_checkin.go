@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_computer_checkin.go
 // Jamf Pro Classic Api - Computer Checkin
 // api reference: https://developer.jamf.com/jamf-pro/reference/computercheckin
