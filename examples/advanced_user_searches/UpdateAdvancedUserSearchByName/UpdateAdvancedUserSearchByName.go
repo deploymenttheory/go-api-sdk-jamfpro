@@ -42,10 +42,9 @@ func main() {
 	// Define the updated advanced user search details
 	updatedAdvancedUserSearch := &jamfpro.ResourceAdvancedUserSearch{
 		Name: "Advanced User Search Name by jamf pro sdk",
-		Criteria: []jamfpro.SharedContainerCriteria{
-			{
-				// Assuming SharedSubsetCriteria is the correct struct to use here
-				Criteria: jamfpro.SharedSubsetCriteria{
+		Criteria: jamfpro.SharedContainerCriteria{
+			Criterion: []jamfpro.SharedSubsetCriteria{
+				{
 					Name:         "Email Address",
 					Priority:     0,
 					AndOr:        "and",

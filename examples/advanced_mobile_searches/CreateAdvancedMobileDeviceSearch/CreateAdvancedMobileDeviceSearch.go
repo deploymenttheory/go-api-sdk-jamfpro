@@ -43,9 +43,10 @@ func main() {
 	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
 		Name:   "Advanced Search Name",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.SharedContainerCriteria{
-			{
-				Criteria: jamfpro.SharedSubsetCriteria{
+		Criteria: jamfpro.SharedContainerCriteria{
+			Size: 1,
+			Criterion: []jamfpro.SharedSubsetCriteria{
+				{
 					Name:         "Last Inventory Update",
 					Priority:     0,
 					AndOr:        "and",

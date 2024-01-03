@@ -42,7 +42,7 @@ type ResourceAdvancedMobileDeviceSearch struct {
 	Sort1         string                                   `xml:"sort_1,omitempty"`
 	Sort2         string                                   `xml:"sort_2,omitempty"`
 	Sort3         string                                   `xml:"sort_3,omitempty"`
-	Criteria      []SharedContainerCriteria                `xml:"criteria,omitempty"`
+	Criteria      SharedContainerCriteria                  `xml:"criteria,omitempty"`
 	DisplayFields []SharedAdvancedSearchSubsetDisplayField `xml:"display_fields"`
 	MobileDevices []AdvancedMobileSearchContainerDevices   `xml:"mobile_devices,omitempty"`
 	Site          SharedResourceSite                       `xml:"site"`

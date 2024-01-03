@@ -46,9 +46,10 @@ func main() {
 	newSearch := &jamfpro.ResourceAdvancedComputerSearch{
 		Name:   "Advanced Search Name",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.SharedContainerCriteria{
-			{
-				Criterion: jamfpro.SharedSubsetCriteria{
+		Criteria: jamfpro.SharedContainerCriteria{
+			Size: 1,
+			Criterion: []jamfpro.SharedSubsetCriteria{
+				{
 					Name:         "Last Inventory Update",
 					Priority:     0,
 					AndOr:        "and",

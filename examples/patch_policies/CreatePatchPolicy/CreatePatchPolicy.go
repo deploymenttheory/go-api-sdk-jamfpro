@@ -40,7 +40,7 @@ func main() {
 
 	softwareTitleConfigID := 1 // Replace with actual Software Title Configuration ID
 
-	newPatchPolicy := &jamfpro.ResponsePatchPolicies{
+	newPatchPolicy := &jamfpro.ResourcePatchPolicies{
 		General: jamfpro.PatchPoliciesDataSubsetGeneral{
 			Name:               "Google Chrome - 66.0.3359.117",
 			Enabled:            true,
