@@ -39,11 +39,11 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	institutionalConfig := &jamfpro.DiskEncryptionConfiguration{
+	institutionalConfig := &jamfpro.ResourceDiskEncryptionConfiguration{
 		Name:                  "Corporate Encryption",
 		KeyType:               "Institutional",
 		FileVaultEnabledUsers: "Management Account",
-		InstitutionalRecoveryKey: &jamfpro.DiskEncryptionConfigurationDataSubsetInstitutionalRecoveryKey{
+		InstitutionalRecoveryKey: &jamfpro.DiskEncryptionConfigurationInstitutionalRecoveryKey{
 			Key:             "OID.2.5.4.13=admins-MacBook-Pro.local, CN=FileVault Recovery Key",
 			CertificateType: "PKCS12",
 			Password:        "PKCS12Password",

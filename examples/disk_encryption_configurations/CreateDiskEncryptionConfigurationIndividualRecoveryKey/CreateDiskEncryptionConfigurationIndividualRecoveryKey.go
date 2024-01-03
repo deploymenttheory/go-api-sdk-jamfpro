@@ -39,7 +39,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	individualConfig := &jamfpro.DiskEncryptionConfiguration{
+	individualConfig := &jamfpro.ResourceDiskEncryptionConfiguration{
 		Name:                  "Corporate Encryption",
 		KeyType:               "Individual",
 		FileVaultEnabledUsers: "Management Account",
