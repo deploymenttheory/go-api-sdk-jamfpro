@@ -43,7 +43,7 @@ func main() {
 	}
 
 	// Define the updated site data
-	updatedSite := &jamfpro.ResponseSite{
+	updatedSite := &jamfpro.ResourceSite{
 		Name: updatedSiteName,
 	}
 

@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Example payload for creating a new software update server
-	newServer := &jamfpro.ResponseSoftwareUpdateServer{
+	newServer := &jamfpro.ResourceSoftwareUpdateServer{
 		Name:          "New York SUS",
 		IPAddress:     "10.10.51.248",
 		Port:          8088,

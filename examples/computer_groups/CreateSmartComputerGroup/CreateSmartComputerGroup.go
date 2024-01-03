@@ -47,10 +47,10 @@ func main() {
 			ID:   -1,
 			Name: "None",
 		},
-		Criteria: []jamfpro.SharedContainerCriteria{
-			{
-				Size: 1, // Assuming there is only one criterion
-				Criterion: jamfpro.SharedSubsetCriteria{ // Note the change from "Criteria" to "Criterion"
+		Criteria: jamfpro.SharedContainerCriteria{
+			Size: 1, // Assuming there is only one criterion
+			Criterion: []jamfpro.SharedSubsetCriteria{
+				{
 					Name:       "Operating System Version",
 					Priority:   0,
 					AndOr:      "and",

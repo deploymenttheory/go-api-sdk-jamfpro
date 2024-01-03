@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define new SMTP server settings
-	newSMTPSettings := &jamfpro.ResponseSMTPServer{
+	newSMTPSettings := &jamfpro.ResourceSMTPServer{
 		Enabled:               true,
 		Host:                  "smtp.sendgrid.net",
 		Port:                  587,

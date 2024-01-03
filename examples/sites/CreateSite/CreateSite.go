@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Define the site to be created
-	newSite := &jamfpro.ResponseSite{
+	newSite := &jamfpro.ResourceSite{
 		Name: "NewSiteName", // Replace "NewSiteName" with the actual name for the new site
 	}
 

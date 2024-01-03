@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Construct the update data
-	serverToUpdate := &jamfpro.ResponseSoftwareUpdateServer{
+	serverToUpdate := &jamfpro.ResourceSoftwareUpdateServer{
 		Name:          "New York SUS", // The original name
 		IPAddress:     "10.10.51.250",
 		Port:          8088,

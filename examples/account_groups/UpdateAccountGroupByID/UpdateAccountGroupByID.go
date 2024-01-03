@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Assemble the request body for updating an account group
-	groupDetail := &jamfpro.ResponseAccountGroup{
+	groupDetail := &jamfpro.ResourceAccountGroup{
 		ID:           15,
 		Name:         "Administrators",
 		AccessLevel:  "Full Access",
@@ -49,7 +49,7 @@ func main() {
 			ID:   -1,
 			Name: "None",
 		},
-		Privileges: jamfpro.AccountDataSubsetPrivileges{
+		Privileges: jamfpro.AccountSubsetPrivileges{
 			JSSObjects:    []string{"string"},
 			JSSSettings:   []string{"string"},
 			JSSActions:    []string{"string"},

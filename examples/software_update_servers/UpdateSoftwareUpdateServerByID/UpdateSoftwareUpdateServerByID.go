@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Construct the update data
-	serverToUpdate := &jamfpro.ResponseSoftwareUpdateServer{
+	serverToUpdate := &jamfpro.ResourceSoftwareUpdateServer{
 		ID:            1, // Set the ID of the server to update
 		Name:          "Updated New York SUS",
 		IPAddress:     "10.10.51.249",
