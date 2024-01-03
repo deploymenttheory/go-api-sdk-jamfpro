@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_allowed_file_extensions.go
 // Jamf Pro Classic Api - Allowed File Extensions
 // api reference: https://developer.jamf.com/jamf-pro/reference/allowedfileextensions

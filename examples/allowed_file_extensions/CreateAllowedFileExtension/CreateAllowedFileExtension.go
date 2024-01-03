@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Define the allowed file extension you want to create
-	newExtension := &jamfpro.AllowedFileExtensionDetail{
+	newExtension := &jamfpro.ResourceAllowedFileExtension{
 		Extension: "qwerty3", // Replace with the desired extension name
 	}
 
