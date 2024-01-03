@@ -40,8 +40,8 @@ func main() {
 	}
 
 	profileName := "in-house app profile creation by name" // Replace with the actual profile name
-	newProfile := &jamfpro.ResponseMobileDeviceProvisioningProfile{
-		General: jamfpro.MobileDeviceProvisioningProfileGeneral{
+	newProfile := &jamfpro.ResourceMobileDeviceProvisioningProfile{
+		General: jamfpro.MobileDeviceProvisioningProfileSubsetGeneral{
 			Name:        "in-house app profile creation by name",
 			DisplayName: "in-house app profile",
 			UUID:        "116AF1E6-7EB5-4335-B598-276CDE5E015B",
