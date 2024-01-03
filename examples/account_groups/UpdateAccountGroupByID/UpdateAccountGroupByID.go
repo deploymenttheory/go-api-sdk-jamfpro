@@ -39,13 +39,12 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Assemble the request body for updating an account group
-	groupDetail := &jamfpro.ResourceAccountGroup{
-		ID:           15,
-		Name:         "Administrators",
+	// Assemble the request body for creating an account group
+	updatedAccountGroup := &jamfpro.ResourceAccountGroup{
+		Name:         "Test Group",
 		AccessLevel:  "Full Access",
 		PrivilegeSet: "Administrator",
-		Site: jamfpro.AccountDataSubsetSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
@@ -58,16 +57,16 @@ func main() {
 			CasperRemote:  []string{"string"},
 			CasperImaging: []string{"string"},
 		},
-		Members: []jamfpro.AccountDataSubsetUser{
-			{
-				ID:   1,
-				Name: "string",
-			},
+		Members: jamfpro.AccountGroupSubsetMembers{
+			{ID: 7, Name: "John  Doe"},
+			{ID: 2, Name: "dafydd.watkins"},
 		},
 	}
 
+	accountGroupID := 2
+
 	// Call UpdateAccountGroupByID function
-	updatedGroup, err := client.UpdateAccountGroupByID(groupDetail.ID, groupDetail)
+	updatedGroup, err := client.UpdateAccountGroupByID(accountGroupID, updatedAccountGroup)
 
 	if err != nil {
 		log.Fatalf("Error updating account group by ID: %v", err)

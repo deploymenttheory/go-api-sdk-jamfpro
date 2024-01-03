@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define a new policy with all required fields
-	newPolicy := &jamfpro.ResponsePolicy{
+	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicyGeneral{
 			Name:                       "disk-encryption-sdk",
 			Enabled:                    false,
