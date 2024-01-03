@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_mobile_device_extension_attributes.go
 // Jamf Pro Classic Api - Mobile Extension Attributes
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceextensionattributes

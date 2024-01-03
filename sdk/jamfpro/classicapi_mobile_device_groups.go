@@ -1,15 +1,13 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedSubsetCriteria
-*/
-
 // classicapi_mobile_device_enrollment_groups.go
 // Jamf Pro Classic Api - Mobile Device Groups
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledevicegroups
 // Jamf Pro Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedSubsetCriteria
+*/
 
 package jamfpro
 

@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_mobile_devices.go
 // Jamf Pro Classic Api - Mobile Devices
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledevices

@@ -1,5 +1,3 @@
-// Refactor Complete
-
 // classicapi_mobile_device_enrollment_profiles.go
 // Jamf Pro Classic Api - Mobile Device Enrollment Profiles
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceenrollmentprofiles
