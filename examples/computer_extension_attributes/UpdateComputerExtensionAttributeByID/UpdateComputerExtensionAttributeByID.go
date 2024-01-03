@@ -36,11 +36,11 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	attributeToUpdate := &jamfpro.ResponseComputerExtensionAttribute{
+	attributeToUpdate := &jamfpro.ResourceComputerExtensionAttribute{
 		Name:             "Battery Cycle Count - Updated",
 		Description:      "Number of charge cycles logged on the current battery",
 		DataType:         "String",
-		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Text Field"},
+		InputType:        jamfpro.ComputerExtensionAttributeSubsetInputType{Type: "Text Field"},
 		InventoryDisplay: "General",
 		ReconDisplay:     "Extension Attributes",
 	}

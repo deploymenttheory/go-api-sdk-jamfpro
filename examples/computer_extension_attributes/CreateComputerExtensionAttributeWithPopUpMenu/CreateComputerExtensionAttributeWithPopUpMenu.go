@@ -43,12 +43,12 @@ func main() {
 	choices := []string{"Choice 1", "Choice 2", "Choice 3"}
 
 	// Define the new computer extension attribute
-	attribute := &jamfpro.ResponseComputerExtensionAttribute{
+	attribute := &jamfpro.ResourceComputerExtensionAttribute{
 		Name:             "Pop Up Menu Test",
 		Description:      "Pop Up Menu Test",
-		DataType:         "String",                                                                           // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
-		InputType:        jamfpro.ComputerExtensionAttributeInputType{Type: "Pop Up Menu", Choices: choices}, //  Text Field / Pop Up Menu / Script
-		InventoryDisplay: "General",                                                                          // General / Hardware / Operating System / User and Location / Purchasing / Extension Attribute
+		DataType:         "String",                                                                                 // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
+		InputType:        jamfpro.ComputerExtensionAttributeSubsetInputType{Type: "Pop Up Menu", Choices: choices}, //  Text Field / Pop Up Menu / Script
+		InventoryDisplay: "General",                                                                                // General / Hardware / Operating System / User and Location / Purchasing / Extension Attribute
 		ReconDisplay:     "Extension Attributes",
 	}
 

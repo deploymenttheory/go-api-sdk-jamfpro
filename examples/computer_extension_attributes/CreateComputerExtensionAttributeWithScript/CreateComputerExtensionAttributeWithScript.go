@@ -56,11 +56,11 @@ func main() {
 	}
 
 	// Define the new computer extension attribute
-	attribute := &jamfpro.ResponseComputerExtensionAttribute{
+	attribute := &jamfpro.ResourceComputerExtensionAttribute{
 		Name:        "Computer Extension Attribute Script Test",
 		Description: "Computer Extension Attribute SCript Test",
 		DataType:    "String", // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
-		InputType: jamfpro.ComputerExtensionAttributeInputType{
+		InputType: jamfpro.ComputerExtensionAttributeSubsetInputType{
 			Type:     "Script",
 			Script:   scriptContent,
 			Platform: "Mac", // Set this to the desired platform: "Mac" or "Windows".
