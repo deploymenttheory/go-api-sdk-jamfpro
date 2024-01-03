@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Set up new settings
-	newSettings := jamfpro.ResponseComputerCheckin{
+	newSettings := jamfpro.ResourceComputerCheckin{
 		CheckInFrequency:                 15, // Values can be 60, 30, 15 and  5
 		CreateStartupScript:              true,
 		LogStartupEvent:                  true,
