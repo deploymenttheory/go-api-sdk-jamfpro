@@ -39,7 +39,7 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	newRestrictedSoftware := &jamfpro.ResponseRestrictedSoftware{
+	newRestrictedSoftware := &jamfpro.ResourceRestrictedSoftware{
 		General: jamfpro.RestrictedSoftwareDataSubsetGeneral{
 			Name:                  "Restrict High Sierra",
 			ProcessName:           "Install macOS High Sierra.app",

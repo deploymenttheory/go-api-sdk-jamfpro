@@ -40,7 +40,7 @@ func main() {
 	}
 
 	macAddressID := 1 // Replace with the actual MAC address ID
-	updatedMACAddress := &jamfpro.RemovableMacAddress{
+	updatedMACAddress := &jamfpro.ResourceRemovableMacAddress{
 		ID:   macAddressID,
 		Name: "New_Name", // Replace with the new name
 	}

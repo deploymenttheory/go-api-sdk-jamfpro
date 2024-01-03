@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Construct the invitation object based on the example XML provided
-	invitation := &jamfpro.ResponseComputerInvitation{
+	invitation := &jamfpro.ResourceComputerInvitation{
 		InvitationType:              "DEFAULT",
 		ExpirationDate:              "2024-12-07 11:13:35",
 		SSHUsername:                 "jamfadmin",
@@ -48,12 +48,12 @@ func main() {
 		CreateAccountIfDoesNotExist: false,
 		HideAccount:                 false,
 		LockDownSSH:                 false,
-		EnrollIntoSite: jamfpro.ComputerInvitationSite{
+		EnrollIntoSite: jamfpro.ComputerInvitationSubsetEnrollIntoState{
 			ID:   -1,
 			Name: "None",
 		},
 		KeepExistingSiteMembership: false,
-		Site: jamfpro.ComputerInvitationSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

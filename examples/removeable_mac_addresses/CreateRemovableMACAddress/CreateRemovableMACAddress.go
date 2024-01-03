@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Create a new Removable MAC Address
-	newMACAddress := &jamfpro.RemovableMacAddress{
+	newMACAddress := &jamfpro.ResourceRemovableMacAddress{
 		Name: "E0:AC:CB:97:36:G4", // Replace with the actual MAC address name
 		// ID: [set the ID if necessary]
 	}
