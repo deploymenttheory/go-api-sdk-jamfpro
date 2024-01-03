@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_mobile_devices.go
 // Jamf Pro Classic Api - Mobile Devices
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledevices
@@ -12,13 +14,14 @@ import (
 
 const uriMobileDevices = "/JSSResource/mobiledevices"
 
+// List
+
 // ResponseMobileDevicesList represents the structure for a list of mobile devices.
-type ResponseMobileDevicesList struct {
-	MobileDevices []MobileDevicesListItem `xml:"mobile_device"`
+type ResponseMobileDeviceList struct {
+	MobileDevices []MobileDeviceListItem `xml:"mobile_device"`
 }
 
-// MobileDeviceItem represents a single mobile device.
-type MobileDevicesListItem struct {
+type MobileDeviceListItem struct {
 	ID              int    `xml:"id"`
 	Name            string `xml:"name"`
 	DeviceName      string `xml:"device_name"`
@@ -34,22 +37,26 @@ type MobileDevicesListItem struct {
 	Username        string `xml:"username"`
 }
 
-// ResponseMobileDevice represents the structure for a of a mobile device.
-type ResponseMobileDevice struct {
-	General               MobileDevicesDataSubsetGeneral                `xml:"general"`
-	Location              MobileDevicesDataSubsetLocation               `xml:"location"`
-	Purchasing            MobileDevicesDataSubsetPurchasing             `xml:"purchasing"`
-	Applications          []MobileDevicesDataSubsetApplication          `xml:"applications>application"`
-	SecurityObject        MobileDevicesDataSubsetSecurityObject         `xml:"security_object"`
-	Network               MobileDevicesDataSubsetNetwork                `xml:"network"`
-	Certificates          []MobileDevicesDataSubsetCertificate          `xml:"certificates>certificate"`
-	ConfigurationProfiles []MobileDevicesDataSubsetConfigurationProfile `xml:"configuration_profiles>configuration_profile"`
-	ProvisioningProfiles  []MobileDevicesDataSubsetProvisioningProfile  `xml:"provisioning_profiles>mobile_device_provisioning_profile"`
-	MobileDeviceGroups    []MobileDevicesDataSubsetMobileDeviceGroup    `xml:"mobile_device_groups>mobile_device_group"`
-	ExtensionAttributes   []MobileDevicesDataSubsetExtensionAttribute   `xml:"extension_attributes>extension_attribute"`
+// Resource
+
+// ResourceMobileDevice represents the structure for a of a mobile device.
+type ResourceMobileDevice struct {
+	General               MobileDeviceSubsetGeneral                `xml:"general"`
+	Location              MobileDeviceSubsetLocation               `xml:"location"`
+	Purchasing            MobileDeviceSubsetPurchasing             `xml:"purchasing"`
+	Applications          []MobileDeviceSubsetApplication          `xml:"applications>application"`
+	SecurityObject        MobileDeviceSubsetSecurity               `xml:"security_object"`
+	Network               MobileDeviceSubsetNetwork                `xml:"network"`
+	Certificates          []MobileDeviceSubsetCertificate          `xml:"certificates>certificate"`
+	ConfigurationProfiles []MobileDeviceSubsetConfigurationProfile `xml:"configuration_profiles>configuration_profile"`
+	ProvisioningProfiles  []MobileDeviceSubsetProvisioningProfile  `xml:"provisioning_profiles>mobile_device_provisioning_profile"`
+	MobileDeviceGroups    []MobileDeviceSubsetGroup                `xml:"mobile_device_groups>mobile_device_group"`
+	ExtensionAttributes   []MobileDeviceSubsetExtensionAttribute   `xml:"extension_attributes>extension_attribute"`
 }
 
-type MobileDevicesDataSubsetGeneral struct {
+// Subsets & Containers
+
+type MobileDeviceSubsetGeneral struct {
 	ID                                 int    `xml:"id"`
 	DisplayName                        string `xml:"display_name"`
 	DeviceName                         string `xml:"device_name"`
@@ -100,7 +107,7 @@ type MobileDevicesDataSubsetGeneral struct {
 	LastBackupTimeUTC                  string `xml:"last_backup_time_utc"`
 }
 
-type MobileDevicesDataSubsetLocation struct {
+type MobileDeviceSubsetLocation struct {
 	Username     string `xml:"username"`
 	RealName     string `xml:"realname"`
 	EmailAddress string `xml:"email_address"`
@@ -112,7 +119,7 @@ type MobileDevicesDataSubsetLocation struct {
 	Room         int    `xml:"room"`
 }
 
-type MobileDevicesDataSubsetPurchasing struct {
+type MobileDeviceSubsetPurchasing struct {
 	IsPurchased          bool   `xml:"is_purchased"`
 	IsLeased             bool   `xml:"is_leased"`
 	PONumber             string `xml:"po_number"`
@@ -133,15 +140,13 @@ type MobileDevicesDataSubsetPurchasing struct {
 	PurchasingContact    string `xml:"purchasing_contact"`
 }
 
-// Struct for Application
-type MobileDevicesDataSubsetApplication struct {
+type MobileDeviceSubsetApplication struct {
 	ApplicationName    string `xml:"application_name"`
 	ApplicationVersion string `xml:"application_version"`
 	Identifier         string `xml:"identifier"`
 }
 
-// Struct for SecurityObject
-type MobileDevicesDataSubsetSecurityObject struct {
+type MobileDeviceSubsetSecurity struct {
 	DataProtection                  bool    `xml:"data_protection"`
 	BlockLevelEncryptionCapable     bool    `xml:"block_level_encryption_capable"`
 	FileLevelEncryptionCapable      bool    `xml:"file_level_encryption_capable"`
@@ -170,8 +175,7 @@ type MobileDevicesDataSubsetSecurityObject struct {
 	LostLocationVerticalAccuracy    float64 `xml:"lost_location_vertical_accuracy"`
 }
 
-// Struct for Network
-type MobileDevicesDataSubsetNetwork struct {
+type MobileDeviceSubsetNetwork struct {
 	HomeCarrierNetwork       string `xml:"home_carrier_network"`
 	CellularTechnology       string `xml:"cellular_technology"`
 	VoiceRoamingEnabled      string `xml:"voice_roaming_enabled"`
@@ -187,22 +191,19 @@ type MobileDevicesDataSubsetNetwork struct {
 	PhoneNumber              string `xml:"phone_number"`
 }
 
-// Struct for Certificate
-type MobileDevicesDataSubsetCertificate struct {
+type MobileDeviceSubsetCertificate struct {
 	CommonName string `xml:"common_name"`
 	Identity   bool   `xml:"identity"`
 }
 
-// Struct for ConfigurationProfile
-type MobileDevicesDataSubsetConfigurationProfile struct {
+type MobileDeviceSubsetConfigurationProfile struct {
 	DisplayName string `xml:"display_name"`
 	Version     int    `xml:"version"`
 	Identifier  string `xml:"identifier"`
 	UUID        string `xml:"uuid"`
 }
 
-// Struct for ProvisioningProfile
-type MobileDevicesDataSubsetProvisioningProfile struct {
+type MobileDeviceSubsetProvisioningProfile struct {
 	DisplayName         string `xml:"display_name"`
 	ExpirationDate      string `xml:"expiration_date"`
 	ExpirationDateEpoch int64  `xml:"expiration_date_epoch"`
@@ -210,25 +211,25 @@ type MobileDevicesDataSubsetProvisioningProfile struct {
 	UUID                string `xml:"uuid"`
 }
 
-// Struct for MobileDeviceGroup
-type MobileDevicesDataSubsetMobileDeviceGroup struct {
+type MobileDeviceSubsetGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-// Struct for ExtensionAttribute
-type MobileDevicesDataSubsetExtensionAttribute struct {
+type MobileDeviceSubsetExtensionAttribute struct {
 	ID    int    `xml:"id"`
 	Name  string `xml:"name"`
 	Type  string `xml:"type"`
 	Value string `xml:"value"`
 }
 
+// CRUD
+
 // GetMobileDevices retrieves a list of all mobile devices.
-func (c *Client) GetMobileDevices() (*ResponseMobileDevicesList, error) {
+func (c *Client) GetMobileDevices() (*ResponseMobileDeviceList, error) {
 	endpoint := uriMobileDevices
 
-	var mobileDevices ResponseMobileDevicesList
+	var mobileDevices ResponseMobileDeviceList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &mobileDevices)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile devices: %v", err)
@@ -242,10 +243,10 @@ func (c *Client) GetMobileDevices() (*ResponseMobileDevicesList, error) {
 }
 
 // GetMobileDeviceByID retrieves a specific mobile device by its ID.
-func (c *Client) GetMobileDeviceByID(id int) (*ResponseMobileDevice, error) {
+func (c *Client) GetMobileDeviceByID(id int) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
 
-	var device ResponseMobileDevice
+	var device ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &device)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device by ID: %v", err)
@@ -259,10 +260,10 @@ func (c *Client) GetMobileDeviceByID(id int) (*ResponseMobileDevice, error) {
 }
 
 // GetMobileDeviceByName retrieves a specific mobile device by its name.
-func (c *Client) GetMobileDeviceByName(name string) (*ResponseMobileDevice, error) {
+func (c *Client) GetMobileDeviceByName(name string) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDevices, name)
 
-	var device ResponseMobileDevice
+	var device ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &device)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device by name: %v", err)
@@ -276,10 +277,10 @@ func (c *Client) GetMobileDeviceByName(name string) (*ResponseMobileDevice, erro
 }
 
 // GetMobileDeviceByIDAndDataSubset retrieves a specific subset of data for a mobile device by its ID.
-func (c *Client) GetMobileDeviceByIDAndDataSubset(id int, subset string) (*ResponseMobileDevice, error) {
+func (c *Client) GetMobileDeviceByIDAndDataSubset(id int, subset string) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDevices, id, subset)
 
-	var deviceSubset ResponseMobileDevice
+	var deviceSubset ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceSubset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device subset by ID: %v", err)
@@ -293,10 +294,10 @@ func (c *Client) GetMobileDeviceByIDAndDataSubset(id int, subset string) (*Respo
 }
 
 // GetMobileDeviceByNameAndDataSubset retrieves a specific subset of data for a mobile device by its name.
-func (c *Client) GetMobileDeviceByNameAndDataSubset(name, subset string) (*ResponseMobileDevice, error) {
+func (c *Client) GetMobileDeviceByNameAndDataSubset(name, subset string) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDevices, name, subset)
 
-	var deviceSubset ResponseMobileDevice
+	var deviceSubset ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceSubset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device subset by name: %v", err)
@@ -310,18 +311,18 @@ func (c *Client) GetMobileDeviceByNameAndDataSubset(name, subset string) (*Respo
 }
 
 // CreateMobileDevice creates a new mobile device device.
-func (c *Client) CreateMobileDevice(attribute *ResponseMobileDevice) (*ResponseMobileDevice, error) {
+func (c *Client) CreateMobileDevice(attribute *ResourceMobileDevice) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDevices)
 
 	// Wrap the attribute with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device"`
-		*ResponseMobileDevice
+		*ResourceMobileDevice
 	}{
-		ResponseMobileDevice: attribute,
+		ResourceMobileDevice: attribute,
 	}
 
-	var responseAttribute ResponseMobileDevice
+	var responseAttribute ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create mobile device: %v", err)
@@ -335,17 +336,17 @@ func (c *Client) CreateMobileDevice(attribute *ResponseMobileDevice) (*ResponseM
 }
 
 // UpdateMobileDeviceByID updates a mobile device by its ID.
-func (c *Client) UpdateMobileDeviceByID(id int, attribute *ResponseMobileDevice) (*ResponseMobileDevice, error) {
+func (c *Client) UpdateMobileDeviceByID(id int, attribute *ResourceMobileDevice) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device"`
-		*ResponseMobileDevice
+		*ResourceMobileDevice
 	}{
-		ResponseMobileDevice: attribute,
+		ResourceMobileDevice: attribute,
 	}
 
-	var responseAttribute ResponseMobileDevice
+	var responseAttribute ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device: %v", err)
@@ -359,17 +360,17 @@ func (c *Client) UpdateMobileDeviceByID(id int, attribute *ResponseMobileDevice)
 }
 
 // UpdateMobileDeviceByName updates a mobile device by its name.
-func (c *Client) UpdateMobileDeviceByName(name string, attribute *ResponseMobileDevice) (*ResponseMobileDevice, error) {
+func (c *Client) UpdateMobileDeviceByName(name string, attribute *ResourceMobileDevice) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDevices, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device"`
-		*ResponseMobileDevice
+		*ResourceMobileDevice
 	}{
-		ResponseMobileDevice: attribute,
+		ResourceMobileDevice: attribute,
 	}
 
-	var responseAttribute ResponseMobileDevice
+	var responseAttribute ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device by name: %v", err)

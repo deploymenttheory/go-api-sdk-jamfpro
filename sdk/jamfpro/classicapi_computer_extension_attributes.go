@@ -1,7 +1,10 @@
+// Refactor Complete
+
 // classicapi_computer_extension_attributes.go
 // Jamf Pro Classic Api - Computer Extension Attributes
 // api reference: https://developer.jamf.com/jamf-pro/reference/computerextensionattributes
 // Classic API requires the structs to support an XML data structure.
+
 package jamfpro
 
 import (
@@ -13,34 +16,42 @@ const uriComputerExtensionAttributes = "/JSSResource/computerextensionattributes
 
 // Structs for the computer extension attributes
 
+// List
+
 type ResponseComputerExtensionAttributesList struct {
-	Size    int                              `xml:"size"`
-	Results []ComputerExtensionAttributeItem `xml:"computer_extension_attribute"`
+	Size    int                                   `xml:"size"`
+	Results []ComputerExtenstionAttributeListItem `xml:"computer_extension_attribute"`
 }
 
-type ComputerExtensionAttributeItem struct {
+type ComputerExtenstionAttributeListItem struct {
 	ID      int    `xml:"id,omitempty"`
 	Name    string `xml:"name,omitempty"`
 	Enabled bool   `xml:"enabled,omitempty"`
 }
 
-type ResponseComputerExtensionAttribute struct {
-	ID               int                                 `xml:"id"`
-	Name             string                              `xml:"name"`
-	Enabled          bool                                `xml:"enabled,omitempty"`
-	Description      string                              `xml:"description,omitempty"`
-	DataType         string                              `xml:"data_type,omitempty"`
-	InputType        ComputerExtensionAttributeInputType `xml:"input_type"`
-	InventoryDisplay string                              `xml:"inventory_display,omitempty"`
-	ReconDisplay     string                              `xml:"recon_display,omitempty"`
+// Resource
+
+type ResourceComputerExtensionAttribute struct {
+	ID               int                                       `xml:"id"`
+	Name             string                                    `xml:"name"`
+	Enabled          bool                                      `xml:"enabled,omitempty"`
+	Description      string                                    `xml:"description,omitempty"`
+	DataType         string                                    `xml:"data_type,omitempty"`
+	InputType        ComputerExtensionAttributeSubsetInputType `xml:"input_type"`
+	InventoryDisplay string                                    `xml:"inventory_display,omitempty"`
+	ReconDisplay     string                                    `xml:"recon_display,omitempty"`
 }
 
-type ComputerExtensionAttributeInputType struct {
+// Subsets
+
+type ComputerExtensionAttributeSubsetInputType struct {
 	Type     string   `xml:"type"`
 	Platform string   `xml:"platform,omitempty"`
 	Script   string   `xml:"script,omitempty"`
 	Choices  []string `xml:"popup_choices>choice,omitempty"`
 }
+
+// CRUD
 
 // GetComputerExtensionAttributes gets a list of all computer extension attributes
 func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAttributesList, error) {
@@ -60,10 +71,10 @@ func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAtt
 }
 
 // GetComputerExtensionAttributeByID retrieves a computer extension attribute by its ID.
-func (c *Client) GetComputerExtensionAttributeByID(id int) (*ResponseComputerExtensionAttribute, error) {
+func (c *Client) GetComputerExtensionAttributeByID(id int) (*ResourceComputerExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
 
-	var attribute ResponseComputerExtensionAttribute
+	var attribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Computer Extension Attribute by ID: %v", err)
@@ -77,10 +88,10 @@ func (c *Client) GetComputerExtensionAttributeByID(id int) (*ResponseComputerExt
 }
 
 // GetComputerExtensionAttributeByName retrieves a computer extension attribute by its name.
-func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResponseComputerExtensionAttribute, error) {
+func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResourceComputerExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerExtensionAttributes, name)
 
-	var attribute ResponseComputerExtensionAttribute
+	var attribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Computer Extension Attribute by name: %v", err)
@@ -94,18 +105,17 @@ func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResponseComp
 }
 
 // CreateComputerExtensionAttribute creates a new computer extension attribute.
-func (c *Client) CreateComputerExtensionAttribute(attribute *ResponseComputerExtensionAttribute) (*ResponseComputerExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriComputerExtensionAttributes) // Using ID 0 for creation as per the pattern
+func (c *Client) CreateComputerExtensionAttribute(attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/0", uriComputerExtensionAttributes)
 
-	// Wrap the attribute request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`
-		*ResponseComputerExtensionAttribute
+		*ResourceComputerExtensionAttribute
 	}{
-		ResponseComputerExtensionAttribute: attribute,
+		ResourceComputerExtensionAttribute: attribute,
 	}
 
-	var createdAttribute ResponseComputerExtensionAttribute
+	var createdAttribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Computer Extension Attribute: %v", err)
@@ -119,18 +129,17 @@ func (c *Client) CreateComputerExtensionAttribute(attribute *ResponseComputerExt
 }
 
 // UpdateComputerExtensionAttributeByID updates an existing computer extension attribute by its ID.
-func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *ResponseComputerExtensionAttribute) (*ResponseComputerExtensionAttribute, error) {
+func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
 
-	// Wrap the attribute request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`
-		*ResponseComputerExtensionAttribute
+		*ResourceComputerExtensionAttribute
 	}{
-		ResponseComputerExtensionAttribute: attribute,
+		ResourceComputerExtensionAttribute: attribute,
 	}
 
-	var updatedAttribute ResponseComputerExtensionAttribute
+	var updatedAttribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Computer Extension Attribute by ID: %v", err)
@@ -144,18 +153,17 @@ func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *Respons
 }
 
 // UpdateComputerExtensionAttributeByName updates a computer extension attribute by its name.
-func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *ResponseComputerExtensionAttribute) (*ResponseComputerExtensionAttribute, error) {
+func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerExtensionAttributes, name)
 
-	// Wrap the attribute request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`
-		*ResponseComputerExtensionAttribute
+		*ResourceComputerExtensionAttribute
 	}{
-		ResponseComputerExtensionAttribute: attribute,
+		ResourceComputerExtensionAttribute: attribute,
 	}
 
-	var updatedAttribute ResponseComputerExtensionAttribute
+	var updatedAttribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Computer Extension Attribute by name: %v", err)

@@ -15,29 +15,24 @@ const uriUserExtensionAttributes = "/JSSResource/userextensionattributes"
 // Structs for User Extension Attributes
 
 type ResponseUserExtensionAttributesList struct {
-	XMLName                 xml.Name                     `xml:"user_extension_attributes"`
-	Size                    int                          `xml:"size"`
-	UserExtensionAttributes []UserExtensionAttributeItem `xml:"user_extension_attribute"`
-}
-
-type UserExtensionAttributeItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	XMLName                 xml.Name `xml:"user_extension_attributes"`
+	Size                    int      `xml:"size"`
+	UserExtensionAttributes []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"user_extension_attribute"`
 }
 
 // ResponseUserExtensionAttributerepresents a single user extension attribute.
-type ResponseUserExtensionAttribute struct {
-	XMLName     xml.Name               `xml:"user_extension_attribute"`
-	ID          int                    `xml:"id,omitempty"`
-	Name        string                 `xml:"name"`
-	Description string                 `xml:"description"`
-	DataType    string                 `xml:"data_type"`
-	InputType   UserExtensionInputType `xml:"input_type"`
-}
-
-// UserExtensionInputType represents the input type of a user extension attribute.
-type UserExtensionInputType struct {
-	Type string `xml:"type"`
+type ResourceUserExtensionAttribute struct {
+	XMLName     xml.Name `xml:"user_extension_attribute"`
+	ID          int      `xml:"id,omitempty"`
+	Name        string   `xml:"name"`
+	Description string   `xml:"description"`
+	DataType    string   `xml:"data_type"`
+	InputType   struct {
+		Type string `xml:"type"`
+	} `xml:"input_type"`
 }
 
 // GetUserExtensionAttributes retrieves a list of all user extension attributes.
@@ -58,10 +53,10 @@ func (c *Client) GetUserExtensionAttributes() (*ResponseUserExtensionAttributesL
 }
 
 // GetUserExtensionAttributeByID retrieves a user extension attribute by its ID.
-func (c *Client) GetUserExtensionAttributeByID(id int) (*ResponseUserExtensionAttribute, error) {
+func (c *Client) GetUserExtensionAttributeByID(id int) (*ResourceUserExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
 
-	var userExtAttr ResponseUserExtensionAttribute
+	var userExtAttr ResourceUserExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch user extension attribute by ID: %v", err)
@@ -75,10 +70,10 @@ func (c *Client) GetUserExtensionAttributeByID(id int) (*ResponseUserExtensionAt
 }
 
 // GetUserExtensionAttributeByName retrieves a user extension attribute by its name.
-func (c *Client) GetUserExtensionAttributeByName(name string) (*ResponseUserExtensionAttribute, error) {
+func (c *Client) GetUserExtensionAttributeByName(name string) (*ResourceUserExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserExtensionAttributes, name)
 
-	var userExtAttr ResponseUserExtensionAttribute
+	var userExtAttr ResourceUserExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch user extension attribute by name: %v", err)
@@ -92,17 +87,17 @@ func (c *Client) GetUserExtensionAttributeByName(name string) (*ResponseUserExte
 }
 
 // CreateUserExtensionAttribute creates a new user extension attribute.
-func (c *Client) CreateUserExtensionAttribute(attribute *ResponseUserExtensionAttribute) (*ResponseUserExtensionAttribute, error) {
+func (c *Client) CreateUserExtensionAttribute(attribute *ResourceUserExtensionAttribute) (*ResourceUserExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriUserExtensionAttributes) // Using ID 0 for creation
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"user_extension_attribute"`
-		*ResponseUserExtensionAttribute
+		*ResourceUserExtensionAttribute
 	}{
-		ResponseUserExtensionAttribute: attribute,
+		ResourceUserExtensionAttribute: attribute,
 	}
 
-	var createdAttribute ResponseUserExtensionAttribute
+	var createdAttribute ResourceUserExtensionAttribute
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create user extension attribute: %v", err)
@@ -116,17 +111,17 @@ func (c *Client) CreateUserExtensionAttribute(attribute *ResponseUserExtensionAt
 }
 
 // UpdateUserExtensionAttributeByID updates a user extension attribute by its ID.
-func (c *Client) UpdateUserExtensionAttributeByID(id int, attribute *ResponseUserExtensionAttribute) (*ResponseUserExtensionAttribute, error) {
+func (c *Client) UpdateUserExtensionAttributeByID(id int, attribute *ResourceUserExtensionAttribute) (*ResourceUserExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"user_extension_attribute"`
-		*ResponseUserExtensionAttribute
+		*ResourceUserExtensionAttribute
 	}{
-		ResponseUserExtensionAttribute: attribute,
+		ResourceUserExtensionAttribute: attribute,
 	}
 
-	var updatedAttribute ResponseUserExtensionAttribute
+	var updatedAttribute ResourceUserExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update user extension attribute by ID: %v", err)
@@ -140,17 +135,17 @@ func (c *Client) UpdateUserExtensionAttributeByID(id int, attribute *ResponseUse
 }
 
 // UpdateUserExtensionAttributeByName updates a user extension attribute by its name.
-func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *ResponseUserExtensionAttribute) (*ResponseUserExtensionAttribute, error) {
+func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *ResourceUserExtensionAttribute) (*ResourceUserExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserExtensionAttributes, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"user_extension_attribute"`
-		*ResponseUserExtensionAttribute
+		*ResourceUserExtensionAttribute
 	}{
-		ResponseUserExtensionAttribute: attribute,
+		ResourceUserExtensionAttribute: attribute,
 	}
 
-	var updatedAttribute ResponseUserExtensionAttribute
+	var updatedAttribute ResourceUserExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update user extension attribute by name: %v", err)

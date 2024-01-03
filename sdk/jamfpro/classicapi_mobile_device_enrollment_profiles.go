@@ -1,3 +1,5 @@
+// Refactor Complete
+
 // classicapi_mobile_device_enrollment_profiles.go
 // Jamf Pro Classic Api - Mobile Device Enrollment Profiles
 // API reference: https://developer.jamf.com/jamf-pro/reference/mobiledeviceenrollmentprofiles
@@ -12,29 +14,33 @@ import (
 
 const uriMobileDeviceEnrollmentProfiles = "/JSSResource/mobiledeviceenrollmentprofiles"
 
+// List
+
 // ResponseMobileDeviceEnrollmentProfilesList represents the response for a list of mobile device enrollment profiles.
 type ResponseMobileDeviceEnrollmentProfilesList struct {
-	Size                          int                                 `xml:"size"`
-	MobileDeviceEnrollmentProfile []MobileDeviceEnrollmentProfileItem `xml:"mobile_device_enrollment_profile"`
+	Size                          int                                      `xml:"size"`
+	MobileDeviceEnrollmentProfile []MobileDeviceEnrollmentProfilesListItem `xml:"mobile_device_enrollment_profile"`
 }
 
-// MobileDeviceEnrollmentProfileItem represents a single mobile device enrollment profile item.
-type MobileDeviceEnrollmentProfileItem struct {
+type MobileDeviceEnrollmentProfilesListItem struct {
 	ID         int     `xml:"id"`
 	Name       string  `xml:"name"`
 	Invitation float64 `xml:"invitation"`
 }
 
-// ResponseMobileDeviceEnrollmentProfile represents the response structure for a mobile device enrollment profile.
-type ResponseMobileDeviceEnrollmentProfile struct {
-	General     MobileDeviceEnrollmentProfileGeneral      `xml:"general"`
-	Location    MobileDeviceEnrollmentProfileLocation     `xml:"location,omitempty"`
-	Purchasing  MobileDeviceEnrollmentProfilePurchasing   `xml:"purchasing,omitempty"`
-	Attachments []MobileDeviceEnrollmentProfileAttachment `xml:"attachments,omitempty"`
+// Resource
+
+// ResourceMobileDeviceEnrollmentProfile represents the response structure for a mobile device enrollment profile.
+type ResourceMobileDeviceEnrollmentProfile struct {
+	General     MobileDeviceEnrollmentProfileSubsetGeneral          `xml:"general"`
+	Location    MobileDeviceEnrollmentProfileSubsetLocation         `xml:"location,omitempty"`
+	Purchasing  MobileDeviceEnrollmentProfileSubsetPurchasing       `xml:"purchasing,omitempty"`
+	Attachments []MobileDeviceEnrollmentProfileContainerAttachments `xml:"attachments,omitempty"`
 }
 
-// MobileDeviceEnrollmentProfileGeneral contains general information about the enrollment profile.
-type MobileDeviceEnrollmentProfileGeneral struct {
+// Subsets & Containers
+
+type MobileDeviceEnrollmentProfileSubsetGeneral struct {
 	ID          int    `xml:"id"`
 	Name        string `xml:"name"`
 	Invitation  string `xml:"invitation,omitempty"`
@@ -42,8 +48,7 @@ type MobileDeviceEnrollmentProfileGeneral struct {
 	Description string `xml:"description,omitempty"`
 }
 
-// MobileDeviceEnrollmentProfileLocation contains location information of the enrollment profile.
-type MobileDeviceEnrollmentProfileLocation struct {
+type MobileDeviceEnrollmentProfileSubsetLocation struct {
 	Username     string `xml:"username,omitempty"`
 	Realname     string `xml:"realname,omitempty"`
 	RealName     string `xml:"real_name,omitempty"`
@@ -56,8 +61,7 @@ type MobileDeviceEnrollmentProfileLocation struct {
 	Room         int    `xml:"room,omitempty"`
 }
 
-// MobileDeviceEnrollmentProfilePurchasing contains purchasing information of the enrollment profile.
-type MobileDeviceEnrollmentProfilePurchasing struct {
+type MobileDeviceEnrollmentProfileSubsetPurchasing struct {
 	IsPurchased          bool   `xml:"is_purchased"`
 	IsLeased             bool   `xml:"is_leased"`
 	PONumber             string `xml:"po_number,omitempty"`
@@ -78,17 +82,17 @@ type MobileDeviceEnrollmentProfilePurchasing struct {
 	PurchasingContact    string `xml:"purchasing_contact,omitempty"`
 }
 
-// MobileDeviceEnrollmentProfileAttachment represents an attachment in the enrollment profile.
-type MobileDeviceEnrollmentProfileAttachment struct {
-	Attachment MobileDeviceEnrollmentProfileAttachmentItem `xml:"attachment"`
+type MobileDeviceEnrollmentProfileContainerAttachments struct {
+	Attachment MobileDeviceEnrollmentProfileSubsetAttachments `xml:"attachment"`
 }
 
-// MobileDeviceEnrollmentProfileAttachmentItem contains details of an attachment.
-type MobileDeviceEnrollmentProfileAttachmentItem struct {
+type MobileDeviceEnrollmentProfileSubsetAttachments struct {
 	ID       int    `xml:"id"`
 	Filename string `xml:"filename"`
 	URI      string `xml:"uri"`
 }
+
+// CRUD
 
 // GetMobileDeviceEnrollmentProfiles retrieves a serialized list of mobile device enrollment profiles.
 func (c *Client) GetMobileDeviceEnrollmentProfiles() (*ResponseMobileDeviceEnrollmentProfilesList, error) {
@@ -108,10 +112,10 @@ func (c *Client) GetMobileDeviceEnrollmentProfiles() (*ResponseMobileDeviceEnrol
 }
 
 // GetMobileDeviceEnrollmentProfileByID fetches a specific mobile device enrollment profile by its ID.
-func (c *Client) GetMobileDeviceEnrollmentProfileByID(id int) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetMobileDeviceEnrollmentProfileByID(id int) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
 
-	var profile ResponseMobileDeviceEnrollmentProfile
+	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device enrollment profile by ID: %v", err)
@@ -125,10 +129,10 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByID(id int) (*ResponseMobileDe
 }
 
 // GetMobileDeviceEnrollmentProfileByName fetches a specific mobile device enrollment profile by its name.
-func (c *Client) GetMobileDeviceEnrollmentProfileByName(name string) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetMobileDeviceEnrollmentProfileByName(name string) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceEnrollmentProfiles, name)
 
-	var profile ResponseMobileDeviceEnrollmentProfile
+	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device enrollment profile by name: %v", err)
@@ -142,10 +146,10 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByName(name string) (*ResponseM
 }
 
 // GetProfileByInvitation fetches a specific mobile device enrollment profile by its invitation.
-func (c *Client) GetProfileByInvitation(invitation string) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetProfileByInvitation(invitation string) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/invitation/%s", uriMobileDeviceEnrollmentProfiles, invitation)
 
-	var profile ResponseMobileDeviceEnrollmentProfile
+	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device enrollment profile by invitation: %v", err)
@@ -159,10 +163,10 @@ func (c *Client) GetProfileByInvitation(invitation string) (*ResponseMobileDevic
 }
 
 // GetMobileDeviceEnrollmentProfileByIDBySubset fetches a specific mobile device configuration profile by its ID and a specified subset.
-func (c *Client) GetMobileDeviceEnrollmentProfileByIDBySubset(id int, subset string) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetMobileDeviceEnrollmentProfileByIDBySubset(id int, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceEnrollmentProfiles, id, subset)
 
-	var profile ResponseMobileDeviceEnrollmentProfile
+	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by ID and subset: %v", err)
@@ -176,10 +180,10 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByIDBySubset(id int, subset str
 }
 
 // GetMobileDeviceEnrollmentProfileByNameBySubset fetches a specific mobile device configuration profile by its name and a specified subset.
-func (c *Client) GetMobileDeviceEnrollmentProfileByNameBySubset(name string, subset string) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetMobileDeviceEnrollmentProfileByNameBySubset(name string, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDeviceEnrollmentProfiles, name, subset)
 
-	var profile ResponseMobileDeviceEnrollmentProfile
+	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by name and subset: %v", err)
@@ -193,18 +197,18 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByNameBySubset(name string, sub
 }
 
 // CreateMobileDeviceEnrollmentProfile creates a new mobile device enrollment profile on the Jamf Pro server.
-func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResponseMobileDeviceEnrollmentProfile) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceEnrollmentProfiles)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_enrollment_profile"`
-		*ResponseMobileDeviceEnrollmentProfile
+		*ResourceMobileDeviceEnrollmentProfile
 	}{
-		ResponseMobileDeviceEnrollmentProfile: profile,
+		ResourceMobileDeviceEnrollmentProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceEnrollmentProfile
+	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create mobile device enrollment profile: %v", err)
@@ -218,17 +222,17 @@ func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResponseMobileDevi
 }
 
 // UpdateMobileDeviceEnrollmentProfileByID updates a mobile device enrollment profile by its ID.
-func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id int, profile *ResponseMobileDeviceEnrollmentProfile) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id int, profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_enrollment_profile"`
-		*ResponseMobileDeviceEnrollmentProfile
+		*ResourceMobileDeviceEnrollmentProfile
 	}{
-		ResponseMobileDeviceEnrollmentProfile: profile,
+		ResourceMobileDeviceEnrollmentProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceEnrollmentProfile
+	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device enrollment profile by ID: %v", err)
@@ -242,17 +246,17 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id int, profile *Respon
 }
 
 // UpdateMobileDeviceEnrollmentProfileByName updates a mobile device enrollment profile by its name.
-func (c *Client) UpdateMobileDeviceEnrollmentProfileByName(name string, profile *ResponseMobileDeviceEnrollmentProfile) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) UpdateMobileDeviceEnrollmentProfileByName(name string, profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceEnrollmentProfiles, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_enrollment_profile"`
-		*ResponseMobileDeviceEnrollmentProfile
+		*ResourceMobileDeviceEnrollmentProfile
 	}{
-		ResponseMobileDeviceEnrollmentProfile: profile,
+		ResourceMobileDeviceEnrollmentProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceEnrollmentProfile
+	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device enrollment profile by name: %v", err)
@@ -266,17 +270,17 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByName(name string, profile 
 }
 
 // UpdateMobileDeviceEnrollmentProfileByInvitation updates a mobile device enrollment profile by its invitation.
-func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation string, profile *ResponseMobileDeviceEnrollmentProfile) (*ResponseMobileDeviceEnrollmentProfile, error) {
+func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation string, profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/invitation/%s", uriMobileDeviceEnrollmentProfiles, invitation)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_enrollment_profile"`
-		*ResponseMobileDeviceEnrollmentProfile
+		*ResourceMobileDeviceEnrollmentProfile
 	}{
-		ResponseMobileDeviceEnrollmentProfile: profile,
+		ResourceMobileDeviceEnrollmentProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceEnrollmentProfile
+	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device enrollment profile by invitation: %v", err)

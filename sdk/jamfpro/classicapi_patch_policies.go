@@ -13,162 +13,123 @@ import (
 // Constant for the Patch Policies endpoint
 const uriPatchPolicies = "/JSSResource/patchpolicies"
 
-// ResponsePatchPolicies represents the root element of the patch policy XML.
-type ResponsePatchPolicies struct {
-	General                      PatchPoliciesDataSubsetGeneral         `xml:"general"`
-	Scope                        PatchPoliciesDataSubsetScope           `xml:"scope"`
-	UserInteraction              PatchPoliciesDataSubsetUserInteraction `xml:"user_interaction"`
-	SoftwareTitleConfigurationID int                                    `xml:"software_title_configuration_id"`
+// ResourcePatchPolicies represents the root element of the patch policy XML.
+type ResourcePatchPolicies struct {
+	General struct {
+		ID                 int    `xml:"id"`
+		Name               string `xml:"name"`
+		Enabled            bool   `xml:"enabled"`
+		TargetVersion      string `xml:"target_version"`
+		ReleaseDate        string `xml:"release_date"`
+		IncrementalUpdates bool   `xml:"incremental_updates"`
+		Reboot             bool   `xml:"reboot"`
+		MinimumOS          string `xml:"minimum_os"`
+		KillApps           []struct {
+			KillApp struct {
+				KillAppName     string `xml:"kill_app_name"`
+				KillAppBundleID string `xml:"kill_app_bundle_id"`
+			} `xml:"kill_app"`
+		} `xml:"kill_apps>kill_app"`
+		DistributionMethod string `xml:"distribution_method"`
+		AllowDowngrade     bool   `xml:"allow_downgrade"`
+		PatchUnknown       bool   `xml:"patch_unknown"`
+	} `xml:"general"`
+	Scope struct {
+		AllComputers   bool                               `xml:"all_computers"`
+		Computers      []PatchPoliciesSubsetComputerItem  `xml:"computers>computer"`
+		ComputerGroups []PatchPoliciesSubsetComputerGroup `xml:"computer_groups>computer_group"`
+		Buildings      []PatchPoliciesSubsetBuilding      `xml:"buildings>building"`
+		Departments    []PatchPoliciesSubsetDepartment    `xml:"departments>department"`
+		Limitations    struct {
+			NetworkSegments []PatchPoliciesSubsetNetworkSegmentItem `xml:"network_segments>network_segment"`
+			IBeacons        []PatchPoliciesSubsetIBeaconItem        `xml:"ibeacons>ibeacon"`
+		} `xml:"limitations"`
+		Exclusions struct {
+			Computers       []PatchPoliciesSubsetComputerItem       `xml:"computers>computer"`
+			ComputerGroups  []PatchPoliciesSubsetComputerGroup      `xml:"computer_groups>computer_group"`
+			Buildings       []PatchPoliciesSubsetBuilding           `xml:"buildings>building"`
+			Departments     []PatchPoliciesSubsetDepartment         `xml:"departments>department"`
+			NetworkSegments []PatchPoliciesSubsetNetworkSegmentItem `xml:"network_segments>network_segment"`
+			IBeacons        []PatchPoliciesSubsetIBeaconItem        `xml:"ibeacons>ibeacon"`
+		} `xml:"exclusions"`
+	} `xml:"scope"`
+	UserInteraction struct {
+		InstallButtonText      string `xml:"install_button_text"`
+		SelfServiceDescription string `xml:"self_service_description"`
+		SelfServiceIcon        struct {
+			ID       int    `xml:"id"`
+			Filename string `xml:"filename"`
+			URI      string `xml:"uri"`
+		} `xml:"self_service_icon"`
+		Notifications struct {
+			NotificationEnabled bool   `xml:"notification_enabled"`
+			NotificationType    string `xml:"notification_type"`
+			NotificationSubject string `xml:"notification_subject"`
+			NotificationMessage string `xml:"notification_message"`
+			Reminders           struct {
+				NotificationRemindersEnabled  bool `xml:"notification_reminders_enabled"`
+				NotificationReminderFrequency int  `xml:"notification_reminder_frequency"`
+			} `xml:"reminders"`
+		} `xml:"notifications"`
+		Deadlines struct {
+			DeadlineEnabled bool `xml:"deadline_enabled"`
+			DeadlinePeriod  int  `xml:"deadline_period"`
+		} `xml:"deadlines"`
+		GracePeriod struct {
+			GracePeriodDuration       int    `xml:"grace_period_duration"`
+			NotificationCenterSubject string `xml:"notification_center_subject"`
+			Message                   string `xml:"message"`
+		} `xml:"grace_period"`
+	} `xml:"user_interaction"`
+	SoftwareTitleConfigurationID int `xml:"software_title_configuration_id"`
 }
 
-// PatchPoliciesDataSubsetGeneral contains general information about the patch.
-type PatchPoliciesDataSubsetGeneral struct {
-	ID                 int                                  `xml:"id"`
-	Name               string                               `xml:"name"`
-	Enabled            bool                                 `xml:"enabled"`
-	TargetVersion      string                               `xml:"target_version"`
-	ReleaseDate        string                               `xml:"release_date"`
-	IncrementalUpdates bool                                 `xml:"incremental_updates"`
-	Reboot             bool                                 `xml:"reboot"`
-	MinimumOS          string                               `xml:"minimum_os"`
-	KillApps           []PatchPoliciesDataSubsetKillAppItem `xml:"kill_apps>kill_app"`
-	DistributionMethod string                               `xml:"distribution_method"`
-	AllowDowngrade     bool                                 `xml:"allow_downgrade"`
-	PatchUnknown       bool                                 `xml:"patch_unknown"`
+// PatchPoliciesSubsetComputerItem represents a computer in the scope.
+type PatchPoliciesSubsetComputerItem struct {
+	Computer struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+		UDID string `xml:"udid"`
+	} `xml:"computer"`
 }
 
-// PatchPoliciesDataSubsetKillAppItem represents an item in the KillApps array.
-type PatchPoliciesDataSubsetKillAppItem struct {
-	KillApp PatchPoliciesDataSubsetKillApp `xml:"kill_app"`
+// PatchPoliciesSubsetComputerGroup represents a computer group in the scope.
+type PatchPoliciesSubsetComputerGroup struct {
+	ComputerGroup PatchPoliciesSubsetGroup `xml:"computer_group"`
 }
 
-// PatchPoliciesDataSubsetKillApp contains the details of an app to kill during patching.
-type PatchPoliciesDataSubsetKillApp struct {
-	KillAppName     string `xml:"kill_app_name"`
-	KillAppBundleID string `xml:"kill_app_bundle_id"`
+// PatchPoliciesSubsetBuilding represents a building in the scope.
+type PatchPoliciesSubsetBuilding struct {
+	Building PatchPoliciesSubsetGroup `xml:"building"`
 }
 
-// PatchPoliciesDataSubsetScope represents the scope of the patch policy.
-type PatchPoliciesDataSubsetScope struct {
-	AllComputers   bool                                   `xml:"all_computers"`
-	Computers      []PatchPoliciesDataSubsetComputerItem  `xml:"computers>computer"`
-	ComputerGroups []PatchPoliciesDataSubsetComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []PatchPoliciesDataSubsetBuilding      `xml:"buildings>building"`
-	Departments    []PatchPoliciesDataSubsetDepartment    `xml:"departments>department"`
-	Limitations    PatchPoliciesDataSubsetLimitations     `xml:"limitations"`
-	Exclusions     PatchPoliciesDataSubsetExclusions      `xml:"exclusions"`
+// PatchPoliciesSubsetDepartment represents a department in the scope.
+type PatchPoliciesSubsetDepartment struct {
+	Department PatchPoliciesSubsetGroup `xml:"department"`
 }
 
-// PatchPoliciesDataSubsetComputerItem represents a computer in the scope.
-type PatchPoliciesDataSubsetComputerItem struct {
-	Computer PatchPoliciesDataSubsetComputer `xml:"computer"`
-}
-
-// PatchPoliciesDataSubsetComputer contains computer details.
-type PatchPoliciesDataSubsetComputer struct {
+// PatchPoliciesSubsetGroup is a general struct for group elements.
+type PatchPoliciesSubsetGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
-	UDID string `xml:"udid"`
 }
 
-// PatchPoliciesDataSubsetComputerGroup represents a computer group in the scope.
-type PatchPoliciesDataSubsetComputerGroup struct {
-	ComputerGroup PatchPoliciesDataSubsetGroup `xml:"computer_group"`
+// PatchPoliciesSubsetNetworkSegmentItem represents a network segment in limitations.
+type PatchPoliciesSubsetNetworkSegmentItem struct {
+	NetworkSegment PatchPoliciesSubsetGroup `xml:"network_segment"`
 }
 
-// PatchPoliciesDataSubsetBuilding represents a building in the scope.
-type PatchPoliciesDataSubsetBuilding struct {
-	Building PatchPoliciesDataSubsetGroup `xml:"building"`
-}
-
-// PatchPoliciesDataSubsetDepartment represents a department in the scope.
-type PatchPoliciesDataSubsetDepartment struct {
-	Department PatchPoliciesDataSubsetGroup `xml:"department"`
-}
-
-// PatchPoliciesDataSubsetGroup is a general struct for group elements.
-type PatchPoliciesDataSubsetGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// PatchPoliciesDataSubsetLimitations represents limitations in the scope.
-type PatchPoliciesDataSubsetLimitations struct {
-	NetworkSegments []PatchPoliciesDataSubsetNetworkSegmentItem `xml:"network_segments>network_segment"`
-	IBeacons        []PatchPoliciesDataSubsetIBeaconItem        `xml:"ibeacons>ibeacon"`
-}
-
-// PatchPoliciesDataSubsetNetworkSegmentItem represents a network segment in limitations.
-type PatchPoliciesDataSubsetNetworkSegmentItem struct {
-	NetworkSegment PatchPoliciesDataSubsetGroup `xml:"network_segment"`
-}
-
-// PatchPoliciesDataSubsetIBeaconItem represents an iBeacon in limitations.
-type PatchPoliciesDataSubsetIBeaconItem struct {
-	IBeacon PatchPoliciesDataSubsetGroup `xml:"ibeacon"`
-}
-
-// PatchPoliciesDataSubsetExclusions represents exclusions in the scope.
-type PatchPoliciesDataSubsetExclusions struct {
-	Computers       []PatchPoliciesDataSubsetComputerItem       `xml:"computers>computer"`
-	ComputerGroups  []PatchPoliciesDataSubsetComputerGroup      `xml:"computer_groups>computer_group"`
-	Buildings       []PatchPoliciesDataSubsetBuilding           `xml:"buildings>building"`
-	Departments     []PatchPoliciesDataSubsetDepartment         `xml:"departments>department"`
-	NetworkSegments []PatchPoliciesDataSubsetNetworkSegmentItem `xml:"network_segments>network_segment"`
-	IBeacons        []PatchPoliciesDataSubsetIBeaconItem        `xml:"ibeacons>ibeacon"`
-}
-
-// PatchPoliciesDataSubsetUserInteraction contains user interaction information.
-type PatchPoliciesDataSubsetUserInteraction struct {
-	InstallButtonText      string                                 `xml:"install_button_text"`
-	SelfServiceDescription string                                 `xml:"self_service_description"`
-	SelfServiceIcon        PatchPoliciesDataSubsetSelfServiceIcon `xml:"self_service_icon"`
-	Notifications          PatchPoliciesDataSubsetNotifications   `xml:"notifications"`
-	Deadlines              PatchPoliciesDataSubsetDeadlines       `xml:"deadlines"`
-	GracePeriod            PatchPoliciesDataSubsetGracePeriod     `xml:"grace_period"`
-}
-
-// PatchPoliciesDataSubsetSelfServiceIcon represents an icon in self-service.
-type PatchPoliciesDataSubsetSelfServiceIcon struct {
-	ID       int    `xml:"id"`
-	Filename string `xml:"filename"`
-	URI      string `xml:"uri"`
-}
-
-// PatchPoliciesDataSubsetNotifications represents notifications settings.
-type PatchPoliciesDataSubsetNotifications struct {
-	NotificationEnabled bool                             `xml:"notification_enabled"`
-	NotificationType    string                           `xml:"notification_type"`
-	NotificationSubject string                           `xml:"notification_subject"`
-	NotificationMessage string                           `xml:"notification_message"`
-	Reminders           PatchPoliciesDataSubsetReminders `xml:"reminders"`
-}
-
-// PatchPoliciesDataSubsetReminders represents reminder settings.
-type PatchPoliciesDataSubsetReminders struct {
-	NotificationRemindersEnabled  bool `xml:"notification_reminders_enabled"`
-	NotificationReminderFrequency int  `xml:"notification_reminder_frequency"`
-}
-
-// PatchPoliciesDataSubsetDeadlines represents deadline settings.
-type PatchPoliciesDataSubsetDeadlines struct {
-	DeadlineEnabled bool `xml:"deadline_enabled"`
-	DeadlinePeriod  int  `xml:"deadline_period"`
-}
-
-// PatchPoliciesDataSubsetGracePeriod represents grace period settings.
-type PatchPoliciesDataSubsetGracePeriod struct {
-	GracePeriodDuration       int    `xml:"grace_period_duration"`
-	NotificationCenterSubject string `xml:"notification_center_subject"`
-	Message                   string `xml:"message"`
+// PatchPoliciesSubsetIBeaconItem represents an iBeacon in limitations.
+type PatchPoliciesSubsetIBeaconItem struct {
+	IBeacon PatchPoliciesSubsetGroup `xml:"ibeacon"`
 }
 
 // GetPatchPoliciesByID retrieves the details of a patch policy by its ID.
-func (c *Client) GetPatchPoliciesByID(id int) (*ResponsePatchPolicies, error) {
+func (c *Client) GetPatchPoliciesByID(id int) (*ResourcePatchPolicies, error) {
 	// Construct the endpoint URL using the constant and the provided ID
 	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
 
-	var patchPolicyDetails ResponsePatchPolicies
+	var patchPolicyDetails ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicyDetails)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch patch policy by ID: %v", err)
@@ -182,10 +143,10 @@ func (c *Client) GetPatchPoliciesByID(id int) (*ResponsePatchPolicies, error) {
 }
 
 // GetPatchPolicyByIDAndDataSubset retrieves a specific subset of data for a patch policy by its ID.
-func (c *Client) GetPatchPolicyByIDAndDataSubset(id int, subset string) (*ResponsePatchPolicies, error) {
+func (c *Client) GetPatchPolicyByIDAndDataSubset(id int, subset string) (*ResourcePatchPolicies, error) {
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriPatchPolicies, id, subset)
 
-	var patchPolicySubset ResponsePatchPolicies
+	var patchPolicySubset ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicySubset)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch patch policy subset by ID: %v", err)
@@ -199,17 +160,17 @@ func (c *Client) GetPatchPolicyByIDAndDataSubset(id int, subset string) (*Respon
 }
 
 // CreatePatchPolicy creates a new patch policy.
-func (c *Client) CreatePatchPolicy(policy *ResponsePatchPolicies, softwareTitleConfigID int) (*ResponsePatchPolicies, error) {
+func (c *Client) CreatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleConfigID int) (*ResourcePatchPolicies, error) {
 	endpoint := fmt.Sprintf("%s/softwaretitleconfig/id/%d", uriPatchPolicies, softwareTitleConfigID)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"patch_policy"`
-		*ResponsePatchPolicies
+		*ResourcePatchPolicies
 	}{
-		ResponsePatchPolicies: policy,
+		ResourcePatchPolicies: policy,
 	}
 
-	var responsePolicy ResponsePatchPolicies
+	var responsePolicy ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create patch policy: %v", err)
@@ -223,17 +184,17 @@ func (c *Client) CreatePatchPolicy(policy *ResponsePatchPolicies, softwareTitleC
 }
 
 // UpdatePatchPolicy creates a new patch policy.
-func (c *Client) UpdatePatchPolicy(policy *ResponsePatchPolicies, softwareTitleConfigID int) (*ResponsePatchPolicies, error) {
+func (c *Client) UpdatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleConfigID int) (*ResourcePatchPolicies, error) {
 	endpoint := fmt.Sprintf("%s/softwaretitleconfig/id/%d", uriPatchPolicies, softwareTitleConfigID)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"patch_policy"`
-		*ResponsePatchPolicies
+		*ResourcePatchPolicies
 	}{
-		ResponsePatchPolicies: policy,
+		ResourcePatchPolicies: policy,
 	}
 
-	var responsePolicy ResponsePatchPolicies
+	var responsePolicy ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create patch policy: %v", err)

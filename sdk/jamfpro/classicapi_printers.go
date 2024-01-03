@@ -14,18 +14,15 @@ const uriPrinters = "/JSSResource/printers"
 
 // ResponsePrintersList represents the response for a list of printers.
 type ResponsePrintersList struct {
-	Size    int           `xml:"size"`
-	Printer []PrinterItem `xml:"printer"`
+	Size    int `xml:"size"`
+	Printer []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"printer"`
 }
 
-// PrinterItem represents a single printer item.
-type PrinterItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// ResponsePrinters represents the detailed structure of a single printer.
-type ResponsePrinters struct {
+// ResourcePrinter represents the detailed structure of a single printer.
+type ResourcePrinter struct {
 	ID          int    `xml:"id"`
 	Name        string `xml:"name"`
 	Category    string `xml:"category"`
@@ -60,10 +57,10 @@ func (c *Client) GetPrinters() (*ResponsePrintersList, error) {
 }
 
 // GetPrinterByID fetches a specific printer by its ID.
-func (c *Client) GetPrinterByID(id int) (*ResponsePrinters, error) {
+func (c *Client) GetPrinterByID(id int) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
-	var printer ResponsePrinters
+	var printer ResourcePrinter
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch printer by ID: %v", err)
@@ -77,10 +74,10 @@ func (c *Client) GetPrinterByID(id int) (*ResponsePrinters, error) {
 }
 
 // GetPrinterByName fetches a specific printer by its name.
-func (c *Client) GetPrinterByName(name string) (*ResponsePrinters, error) {
+func (c *Client) GetPrinterByName(name string) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
-	var printer ResponsePrinters
+	var printer ResourcePrinter
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch printer by name: %v", err)
@@ -94,18 +91,18 @@ func (c *Client) GetPrinterByName(name string) (*ResponsePrinters, error) {
 }
 
 // CreatePrinters creates a new printer on the Jamf Pro server.
-func (c *Client) CreatePrinters(printer *ResponsePrinters) (*ResponsePrinters, error) {
+func (c *Client) CreatePrinters(printer *ResourcePrinter) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriPrinters)
 
 	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`
-		*ResponsePrinters
+		*ResourcePrinter
 	}{
-		ResponsePrinters: printer,
+		ResourcePrinter: printer,
 	}
 
-	var responsePrinter ResponsePrinters
+	var responsePrinter ResourcePrinter
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create printer: %v", err)
@@ -119,18 +116,18 @@ func (c *Client) CreatePrinters(printer *ResponsePrinters) (*ResponsePrinters, e
 }
 
 // UpdatePrinterByID updates a printer by its ID.
-func (c *Client) UpdatePrinterByID(id int, printer *ResponsePrinters) (*ResponsePrinters, error) {
+func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
 	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`
-		*ResponsePrinters
+		*ResourcePrinter
 	}{
-		ResponsePrinters: printer,
+		ResourcePrinter: printer,
 	}
 
-	var responsePrinter ResponsePrinters
+	var responsePrinter ResourcePrinter
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update printer by ID: %v", err)
@@ -144,18 +141,18 @@ func (c *Client) UpdatePrinterByID(id int, printer *ResponsePrinters) (*Response
 }
 
 // UpdatePrinterByName updates a printer by its name.
-func (c *Client) UpdatePrinterByName(name string, printer *ResponsePrinters) (*ResponsePrinters, error) {
+func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
 	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`
-		*ResponsePrinters
+		*ResourcePrinter
 	}{
-		ResponsePrinters: printer,
+		ResourcePrinter: printer,
 	}
 
-	var responsePrinter ResponsePrinters
+	var responsePrinter ResourcePrinter
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update printer by name: %v", err)

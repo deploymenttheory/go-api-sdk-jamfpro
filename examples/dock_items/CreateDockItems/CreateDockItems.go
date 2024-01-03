@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file for OAuth credentials
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "D:\\github\\go-api-sdk-jamfpro\\go-api-sdk-jamfpro\\clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -20,7 +20,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -39,8 +39,8 @@ func main() {
 	}
 
 	// Define the details of the dock item to create
-	newDockItem := &jamfpro.ResponseDockItem{
-		Name:     "Safari",
+	newDockItem := &jamfpro.ResourceDockItem{
+		Name:     "Safari6",
 		Type:     "App",
 		Path:     "file://localhost/Applications/Safari.app/",
 		Contents: "string",

@@ -14,7 +14,7 @@ const uriSMTPServer = "/JSSResource/smtpserver"
 
 // Struct for the SMTP server settings response
 
-type ResponseSMTPServer struct {
+type ResourceSMTPServer struct {
 	Enabled               bool   `xml:"enabled"`
 	Host                  string `xml:"host"`
 	Port                  int    `xml:"port"`
@@ -29,10 +29,10 @@ type ResponseSMTPServer struct {
 }
 
 // GetSMTPServerInformation gets the SMTP server settings
-func (c *Client) GetSMTPServerInformation() (*ResponseSMTPServer, error) {
+func (c *Client) GetSMTPServerInformation() (*ResourceSMTPServer, error) {
 	endpoint := uriSMTPServer
 
-	var smtpSettings ResponseSMTPServer
+	var smtpSettings ResourceSMTPServer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &smtpSettings)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch SMTP server settings: %v", err)
@@ -46,15 +46,15 @@ func (c *Client) GetSMTPServerInformation() (*ResponseSMTPServer, error) {
 }
 
 // UpdateSMTPServerInformation updates the SMTP server settings
-func (c *Client) UpdateSMTPServerInformation(settings *ResponseSMTPServer) error {
+func (c *Client) UpdateSMTPServerInformation(settings *ResourceSMTPServer) error {
 	endpoint := uriSMTPServer
 
 	// Wrap the settings with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"smtp_server"`
-		*ResponseSMTPServer
+		*ResourceSMTPServer
 	}{
-		ResponseSMTPServer: settings,
+		ResourceSMTPServer: settings,
 	}
 
 	// Create a dummy struct for the response

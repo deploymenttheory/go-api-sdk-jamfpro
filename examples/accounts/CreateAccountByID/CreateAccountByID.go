@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "D:\\github\\go-api-sdk-jamfpro\\clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -21,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -40,22 +40,22 @@ func main() {
 	}
 
 	// Assemble the request body for creating an account
-	accountDetail := &jamfpro.ResponseAccount{
-		Name:                "John Smith",
+	accountDetail := &jamfpro.ResourceAccount{
+		Name:                "John James",
 		DirectoryUser:       false,
-		FullName:            "John Smith",
-		Email:               "john.smith@company.com",
-		EmailAddress:        "john.smith@company.com",
+		FullName:            "John James",
+		Email:               "john.James@company.com",
+		EmailAddress:        "john.James@company.com",
 		Enabled:             "Enabled",
 		ForcePasswordChange: true,
 		AccessLevel:         "Full Access",
 		PrivilegeSet:        "Administrator",
-		Password:            "sample",
-		Site: jamfpro.AccountDataSubsetSite{
+		Password:            "this is a really secure password 390423049823409894382092348092348",
+		Site: jamfpro.AccountSubsetSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Privileges: jamfpro.AccountDataSubsetPrivileges{
+		Privileges: jamfpro.AccountSubsetPrivileges{
 			JSSObjects:    []string{"string"},
 			JSSSettings:   []string{"string"},
 			JSSActions:    []string{"string"},
@@ -67,10 +67,10 @@ func main() {
 	}
 
 	// Call CreateAccountByID function
-	createdAccount, err := client.CreateAccountByID(accountDetail)
+	createdAccount, err := client.CreateAccount(accountDetail)
 
 	if err != nil {
-		log.Fatalf("Error creating account by ID: %v", err)
+		log.Fatal(err)
 	}
 
 	// Pretty print the created account details

@@ -12,32 +12,38 @@ import (
 
 const uriMobileDeviceProvisioningProfiles = "/JSSResource/mobiledeviceprovisioningprofiles"
 
+// List
+
 // ResponseMobileDeviceProvisioningProfilesList represents the response for a list of mobile device provisioning profiles.
 type ResponseMobileDeviceProvisioningProfilesList struct {
-	Size                            int                                   `xml:"size"`
-	MobileDeviceProvisioningProfile []MobileDeviceProvisioningProfileItem `xml:"mobile_device_provisioning_profile"`
+	Size                            int                                        `xml:"size"`
+	MobileDeviceProvisioningProfile []MobileDeviceProvisioningProfilesListItem `xml:"mobile_device_provisioning_profile"`
 }
 
-// MobileDeviceProvisioningProfileItem represents a single mobile device provisioning profile item.
-type MobileDeviceProvisioningProfileItem struct {
+type MobileDeviceProvisioningProfilesListItem struct {
 	ID          int    `xml:"id"`
 	Name        string `xml:"name"`
 	DisplayName string `xml:"display_name"`
 	UUID        string `xml:"uuid"`
 }
 
-// ResponseMobileDeviceProvisioningProfile represents the detailed structure for a mobile device provisioning profile.
-type ResponseMobileDeviceProvisioningProfile struct {
-	General MobileDeviceProvisioningProfileGeneral `xml:"general"`
+// Resource
+
+// ResourceMobileDeviceProvisioningProfile represents the detailed structure for a mobile device provisioning profile.
+type ResourceMobileDeviceProvisioningProfile struct {
+	General MobileDeviceProvisioningProfileSubsetGeneral `xml:"general"`
 }
 
-// MobileDeviceProvisioningProfileGeneral contains general information about the provisioning profile.
-type MobileDeviceProvisioningProfileGeneral struct {
+// Subsets
+
+type MobileDeviceProvisioningProfileSubsetGeneral struct {
 	ID          int    `xml:"id"`
 	Name        string `xml:"name"`
 	DisplayName string `xml:"display_name"`
 	UUID        string `xml:"uuid"`
 }
+
+// CRUD
 
 // GetMobileDeviceProvisioningProfiles retrieves a serialized list of mobile device provisioning profiles.
 func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDeviceProvisioningProfilesList, error) {
@@ -57,10 +63,10 @@ func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDevicePro
 }
 
 // GetMobileDeviceProvisioningProfileByID fetches a specific mobile device provisioning profile by its ID.
-func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
-	var profile ResponseMobileDeviceProvisioningProfile
+	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device provisioning profile by ID: %v", err)
@@ -74,10 +80,10 @@ func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResponseMobile
 }
 
 // GetMobileDeviceProvisioningProfileByName fetches a specific mobile device provisioning profile by its name.
-func (c *Client) GetMobileDeviceProvisioningProfileByName(name string) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) GetMobileDeviceProvisioningProfileByName(name string) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
-	var profile ResponseMobileDeviceProvisioningProfile
+	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device provisioning profile by name: %v", err)
@@ -91,10 +97,10 @@ func (c *Client) GetMobileDeviceProvisioningProfileByName(name string) (*Respons
 }
 
 // GetMobileDeviceProvisioningProfileByUUID fetches a specific mobile device provisioning profile by its UUID.
-func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
-	var profile ResponseMobileDeviceProvisioningProfile
+	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch mobile device provisioning profile by UUID: %v", err)
@@ -108,17 +114,17 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Respons
 }
 
 // CreateMobileDeviceProvisioningProfileByID creates a new mobile device provisioning profile by its ID.
-func (c *Client) CreateMobileDeviceProvisioningProfileByID(id int, profile *ResponseMobileDeviceProvisioningProfile) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) CreateMobileDeviceProvisioningProfileByID(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
-		*ResponseMobileDeviceProvisioningProfile
+		*ResourceMobileDeviceProvisioningProfile
 	}{
-		ResponseMobileDeviceProvisioningProfile: profile,
+		ResourceMobileDeviceProvisioningProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceProvisioningProfile
+	var responseProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create mobile device provisioning profile by ID: %v", err)
@@ -132,17 +138,17 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByID(id int, profile *Resp
 }
 
 // CreateMobileDeviceProvisioningProfileByName creates a new mobile device provisioning profile by its name.
-func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profile *ResponseMobileDeviceProvisioningProfile) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
-		*ResponseMobileDeviceProvisioningProfile
+		*ResourceMobileDeviceProvisioningProfile
 	}{
-		ResponseMobileDeviceProvisioningProfile: profile,
+		ResourceMobileDeviceProvisioningProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceProvisioningProfile
+	var responseProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create mobile device provisioning profile by name: %v", err)
@@ -156,17 +162,17 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 }
 
 // CreateMobileDeviceProvisioningProfileByUUID creates a new mobile device provisioning profile by its UUID.
-func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResponseMobileDeviceProvisioningProfile) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
-		*ResponseMobileDeviceProvisioningProfile
+		*ResourceMobileDeviceProvisioningProfile
 	}{
-		ResponseMobileDeviceProvisioningProfile: profile,
+		ResourceMobileDeviceProvisioningProfile: profile,
 	}
 
-	var responseProfile ResponseMobileDeviceProvisioningProfile
+	var responseProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create mobile device provisioning profile by UUID: %v", err)
@@ -180,17 +186,17 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 }
 
 // UpdateMobileDeviceProvisioningProfileByID updates a mobile device provisioning profile by its ID.
-func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *ResponseMobileDeviceProvisioningProfile) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
-		*ResponseMobileDeviceProvisioningProfile
+		*ResourceMobileDeviceProvisioningProfile
 	}{
-		ResponseMobileDeviceProvisioningProfile: profile,
+		ResourceMobileDeviceProvisioningProfile: profile,
 	}
 
-	var updatedProfile ResponseMobileDeviceProvisioningProfile
+	var updatedProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device provisioning profile by ID: %v", err)
@@ -204,17 +210,17 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *Resp
 }
 
 // UpdateMobileDeviceProvisioningProfileByName updates a mobile device provisioning profile by its name.
-func (c *Client) UpdateMobileDeviceProvisioningProfileByName(name string, profile *ResponseMobileDeviceProvisioningProfile) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) UpdateMobileDeviceProvisioningProfileByName(name string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
-		*ResponseMobileDeviceProvisioningProfile
+		*ResourceMobileDeviceProvisioningProfile
 	}{
-		ResponseMobileDeviceProvisioningProfile: profile,
+		ResourceMobileDeviceProvisioningProfile: profile,
 	}
 
-	var updatedProfile ResponseMobileDeviceProvisioningProfile
+	var updatedProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device provisioning profile by name: %v", err)
@@ -228,17 +234,17 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByName(name string, profil
 }
 
 // UpdateMobileDeviceProvisioningProfileByUUID updates a mobile device provisioning profile by its UUID.
-func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResponseMobileDeviceProvisioningProfile) (*ResponseMobileDeviceProvisioningProfile, error) {
+func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
-		*ResponseMobileDeviceProvisioningProfile
+		*ResourceMobileDeviceProvisioningProfile
 	}{
-		ResponseMobileDeviceProvisioningProfile: profile,
+		ResourceMobileDeviceProvisioningProfile: profile,
 	}
 
-	var updatedProfile ResponseMobileDeviceProvisioningProfile
+	var updatedProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device provisioning profile by UUID: %v", err)

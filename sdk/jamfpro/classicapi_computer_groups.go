@@ -1,7 +1,16 @@
+// Refactor Complete
+
+/*
+Shared Resources in this Endpoint:
+SharedResourceSite
+SharedContainerCriteria
+*/
+
 // classicapi_computer_groups.go
 // Jamf Pro Classic Api - Computer Groups
 // api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
 // Classic API requires the structs to support an XML data structure.
+
 package jamfpro
 
 import (
@@ -10,6 +19,8 @@ import (
 )
 
 const uriComputerGroups = "/JSSResource/computergroups"
+
+// List
 
 type ResponseComputerGroupsList struct {
 	Size    int                     `xml:"size"`
@@ -22,41 +33,20 @@ type ComputerGroupListItem struct {
 	IsSmart bool   `xml:"is_smart,omitempty"`
 }
 
-type ResponseComputerGroup struct {
-	ID        int                         `xml:"id"`
-	Name      string                      `xml:"name"`
-	IsSmart   bool                        `xml:"is_smart"`
-	Site      ComputerGroupSite           `xml:"site"`
-	Criteria  []ComputerGroupCriterion    `xml:"criteria>criterion"`
-	Computers []ComputerGroupComputerItem `xml:"computers>computer"`
+// Resource
+
+type ResourceComputerGroup struct {
+	ID        int                           `xml:"id"`
+	Name      string                        `xml:"name"`
+	IsSmart   bool                          `xml:"is_smart"`
+	Site      SharedResourceSite            `xml:"site"`
+	Criteria  []SharedContainerCriteria     `xml:"criteria>criterion"`
+	Computers []ComputerGroupSubsetComputer `xml:"computers>computer"`
 }
 
-type CriterionContainer struct {
-	Size      int                    `xml:"size"`
-	Criterion ComputerGroupCriterion `xml:"criterion"`
-}
+// Subsets & Containers
 
-type ComputerContainer struct {
-	Size     int                       `xml:"size"`
-	Computer ComputerGroupComputerItem `xml:"computer"`
-}
-
-type ComputerGroupSite struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
-}
-
-type ComputerGroupCriterion struct {
-	Name         string           `xml:"name"`
-	Priority     int              `xml:"priority"`
-	AndOr        DeviceGroupAndOr `xml:"and_or"`
-	SearchType   string           `xml:"search_type"`
-	SearchValue  string           `xml:"value"`
-	OpeningParen bool             `xml:"opening_paren"`
-	ClosingParen bool             `xml:"closing_paren"`
-}
-
-type ComputerGroupComputerItem struct {
+type ComputerGroupSubsetComputer struct {
 	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name          string `json:"name,omitempty" xml:"name,omitempty"`
 	SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
@@ -64,12 +54,7 @@ type ComputerGroupComputerItem struct {
 	AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
 }
 
-type DeviceGroupAndOr string
-
-const (
-	And DeviceGroupAndOr = "and"
-	Or  DeviceGroupAndOr = "or"
-)
+// CRUD
 
 // GetComputerGroups gets a list of all computer groups
 func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {
@@ -89,10 +74,10 @@ func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {
 }
 
 // GetComputerGroupByID retrieves a computer group by its ID.
-func (c *Client) GetComputerGroupByID(id int) (*ResponseComputerGroup, error) {
+func (c *Client) GetComputerGroupByID(id int) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
-	var group ResponseComputerGroup
+	var group ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Computer Group by ID: %v", err)
@@ -106,10 +91,10 @@ func (c *Client) GetComputerGroupByID(id int) (*ResponseComputerGroup, error) {
 }
 
 // GetComputerGroupByName retrieves a computer group by its name.
-func (c *Client) GetComputerGroupByName(name string) (*ResponseComputerGroup, error) {
+func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
 
-	var group ResponseComputerGroup
+	var group ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Computer Group by name: %v", err)
@@ -123,26 +108,22 @@ func (c *Client) GetComputerGroupByName(name string) (*ResponseComputerGroup, er
 }
 
 // CreateComputerGroup creates a new computer group.
-func (c *Client) CreateComputerGroup(group *ResponseComputerGroup) (*ResponseComputerGroup, error) {
+func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriComputerGroups) // Using ID 0 for creation as per the pattern
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = ComputerGroupSite{
-			ID:   -1,
-			Name: "None",
-		}
+		group.Site.ID = -1
+		group.Site.Name = "none"
 	}
 
-	// Wrap the group request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
-		*ResponseComputerGroup
+		*ResourceComputerGroup
 	}{
-		ResponseComputerGroup: group,
+		ResourceComputerGroup: group,
 	}
 
-	var createdGroup ResponseComputerGroup
+	var createdGroup ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdGroup)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Computer Group: %v", err)
@@ -156,26 +137,22 @@ func (c *Client) CreateComputerGroup(group *ResponseComputerGroup) (*ResponseCom
 }
 
 // UpdateComputerGroupByID updates an existing computer group by its ID.
-func (c *Client) UpdateComputerGroupByID(id int, group *ResponseComputerGroup) (*ResponseComputerGroup, error) {
+func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = ComputerGroupSite{
-			ID:   -1,
-			Name: "None",
-		}
+		group.Site.ID = -1
+		group.Site.Name = "none"
 	}
 
-	// Wrap the group request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
-		*ResponseComputerGroup
+		*ResourceComputerGroup
 	}{
-		ResponseComputerGroup: group,
+		ResourceComputerGroup: group,
 	}
 
-	var updatedGroup ResponseComputerGroup
+	var updatedGroup ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Computer Group by ID: %v", err)
@@ -189,26 +166,22 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResponseComputerGroup) (
 }
 
 // UpdateComputerGroupByName updates a computer group by its name.
-func (c *Client) UpdateComputerGroupByName(name string, group *ResponseComputerGroup) (*ResponseComputerGroup, error) {
+func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
 
-	// Check if site is not provided and set default values
 	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site = ComputerGroupSite{
-			ID:   -1,
-			Name: "None",
-		}
+		group.Site.ID = -1
+		group.Site.Name = "none"
 	}
 
-	// Wrap the group request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
-		*ResponseComputerGroup
+		*ResourceComputerGroup
 	}{
-		ResponseComputerGroup: group,
+		ResourceComputerGroup: group,
 	}
 
-	var updatedGroup ResponseComputerGroup
+	var updatedGroup ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Computer Group by name: %v", err)

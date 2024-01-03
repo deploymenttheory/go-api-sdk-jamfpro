@@ -14,40 +14,34 @@ const uriWebhooks = "/JSSResource/webhooks"
 
 // Structs for Webhooks Response
 type ResponseWebhooksList struct {
-	Size     int               `xml:"size"`
-	Webhooks []WebhookListItem `xml:"webhook"`
-}
-
-type WebhookListItem struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Size     int `xml:"size"`
+	Webhooks []struct {
+		ID   int    `xml:"id"`
+		Name string `xml:"name"`
+	} `xml:"webhook"`
 }
 
 // Struct for individual Webhook
-type ResponseWebhook struct {
-	ID                          int                                     `xml:"id"`
-	Name                        string                                  `xml:"name"`
-	Enabled                     bool                                    `xml:"enabled"`
-	URL                         string                                  `xml:"url"`
-	ContentType                 string                                  `xml:"content_type"`
-	Event                       string                                  `xml:"event"`
-	ConnectionTimeout           int                                     `xml:"connection_timeout"`
-	ReadTimeout                 int                                     `xml:"read_timeout"`
-	AuthenticationType          string                                  `xml:"authentication_type"`
-	Username                    string                                  `xml:"username"`
-	Password                    string                                  `xml:"password"`
-	EnableDisplayFieldsForGroup bool                                    `xml:"enable_display_fields_for_group_object"`
-	DisplayFields               []ResponseWebhookDataSubsetDisplayField `xml:"display_fields>display_field"`
-	SmartGroupID                int                                     `xml:"smart_group_id"`
-}
-
-type ResponseWebhookDataSubsetDisplayField struct {
-	Size         int                                       `xml:"size"`
-	DisplayField ResponseWebhookDataSubsetDisplayFieldItem `xml:"display_field"`
-}
-
-type ResponseWebhookDataSubsetDisplayFieldItem struct {
-	Name string `xml:"name"`
+type ResourceWebhook struct {
+	ID                          int    `xml:"id"`
+	Name                        string `xml:"name"`
+	Enabled                     bool   `xml:"enabled"`
+	URL                         string `xml:"url"`
+	ContentType                 string `xml:"content_type"`
+	Event                       string `xml:"event"`
+	ConnectionTimeout           int    `xml:"connection_timeout"`
+	ReadTimeout                 int    `xml:"read_timeout"`
+	AuthenticationType          string `xml:"authentication_type"`
+	Username                    string `xml:"username"`
+	Password                    string `xml:"password"`
+	EnableDisplayFieldsForGroup bool   `xml:"enable_display_fields_for_group_object"`
+	DisplayFields               []struct {
+		Size         int `xml:"size"`
+		DisplayField struct {
+			Name string `xml:"name"`
+		} `xml:"display_field"`
+	} `xml:"display_fields>display_field"`
+	SmartGroupID int `xml:"smart_group_id"`
 }
 
 // GetWebhooks retrieves a list of all webhooks.
@@ -68,10 +62,10 @@ func (c *Client) GetWebhooks() (*ResponseWebhooksList, error) {
 }
 
 // GetWebhookByID retrieves a specific webhook by its ID.
-func (c *Client) GetWebhookByID(id int) (*ResponseWebhook, error) {
+func (c *Client) GetWebhookByID(id int) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
-	var response ResponseWebhook
+	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch webhook by ID: %v", err)
@@ -85,10 +79,10 @@ func (c *Client) GetWebhookByID(id int) (*ResponseWebhook, error) {
 }
 
 // GetWebhookByName retrieves a specific webhook by its name.
-func (c *Client) GetWebhookByName(name string) (*ResponseWebhook, error) {
+func (c *Client) GetWebhookByName(name string) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
-	var response ResponseWebhook
+	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch webhook by name: %v", err)
@@ -102,18 +96,18 @@ func (c *Client) GetWebhookByName(name string) (*ResponseWebhook, error) {
 }
 
 // CreateWebhook creates a new webhook.
-func (c *Client) CreateWebhook(webhook *ResponseWebhook) (*ResponseWebhook, error) {
+func (c *Client) CreateWebhook(webhook *ResourceWebhook) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriWebhooks) // '0' indicates creation
 
 	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
-		*ResponseWebhook
+		*ResourceWebhook
 	}{
-		ResponseWebhook: webhook,
+		ResourceWebhook: webhook,
 	}
 
-	var response ResponseWebhook
+	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create webhook: %v", err)
@@ -127,18 +121,18 @@ func (c *Client) CreateWebhook(webhook *ResponseWebhook) (*ResponseWebhook, erro
 }
 
 // UpdateWebhookByID updates a specific webhook by its ID.
-func (c *Client) UpdateWebhookByID(id int, webhook *ResponseWebhook) (*ResponseWebhook, error) {
+func (c *Client) UpdateWebhookByID(id int, webhook *ResourceWebhook) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
 	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
-		*ResponseWebhook
+		*ResourceWebhook
 	}{
-		ResponseWebhook: webhook,
+		ResourceWebhook: webhook,
 	}
 
-	var response ResponseWebhook
+	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update webhook by ID: %v", err)
@@ -152,18 +146,18 @@ func (c *Client) UpdateWebhookByID(id int, webhook *ResponseWebhook) (*ResponseW
 }
 
 // UpdateWebhookByName updates a specific webhook by its name.
-func (c *Client) UpdateWebhookByName(name string, webhook *ResponseWebhook) (*ResponseWebhook, error) {
+func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
 	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
-		*ResponseWebhook
+		*ResourceWebhook
 	}{
-		ResponseWebhook: webhook,
+		ResourceWebhook: webhook,
 	}
 
-	var response ResponseWebhook
+	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update webhook by name: %v", err)
