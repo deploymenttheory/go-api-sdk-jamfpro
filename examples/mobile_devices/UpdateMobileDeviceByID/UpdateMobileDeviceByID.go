@@ -39,8 +39,8 @@ func main() {
 	}
 
 	// Construct the mobile device object
-	mobileDevice := &jamfpro.ResponseMobileDevice{
-		General: jamfpro.MobileDevicesDataSubsetGeneral{
+	mobileDevice := &jamfpro.ResourceMobileDevice{
+		General: jamfpro.MobileDeviceSubsetGeneral{
 			DisplayName:  "iPad",
 			DeviceName:   "iPad",
 			Name:         "iPad",
