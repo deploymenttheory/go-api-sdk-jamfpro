@@ -23,57 +23,63 @@ func main() {
 	logger := http_client.NewDefaultLogger()
 	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
-	// Configuration for the Jamf Pro API client
+	// Configuration for the jamfpro
 	config := jamfpro.Config{
-		InstanceName: authConfig.InstanceName,
-		LogLevel:     logLevel,
-		Logger:       logger,
-		ClientID:     authConfig.ClientID,
-		ClientSecret: authConfig.ClientSecret,
+		InstanceName:       authConfig.InstanceName,
+		OverrideBaseDomain: authConfig.OverrideBaseDomain,
+		LogLevel:           logLevel,
+		Logger:             logger,
+		ClientID:           authConfig.ClientID,
+		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new Jamf Pro API client instance
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the class details you want to update by its name.
-	classToUpdate := &jamfpro.ResponseClasses{
-		Name:        "Math 101", // The name of the class you want to update.
-		Description: "Introduction to advanced algebra",
-		Site: jamfpro.ClassSite{
+	// Define the new class details
+	updatedClass := &jamfpro.ResourceClass{
+		Source:      "N/A",
+		Name:        "Math 101",
+		Description: "Introduction to basic mathematics",
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Teachers: []jamfpro.ClassTeacher{
-			{Teacher: "John Doe"},
-			{Teacher: "Jane Smith"},
+		MobileDeviceGroup: jamfpro.ClassSubsetMobileDeviceGroup{
+			ID:   3,
+			Name: "All Managed iPod touches",
 		},
-		TeacherIDs: []jamfpro.ClassTeacherID{
-			{ID: 123}, // Assume 123 is the ID of John Doe
-			{ID: 456}, // Assume 456 is the ID of Jane Smith
+		MobileDeviceGroupID: []jamfpro.ClassSubsetMobileDeviceGroupID{
+			{
+				ID: 3,
+			},
 		},
-		// ... include other fields as necessary ...
+		TeacherIDs: []jamfpro.ClassSubsetTeacherIDs{
+			{ID: 1},
+			{ID: 2},
+		},
+		MeetingTimes: jamfpro.ClassContainerMeetingTimes{
+			MeetingTime: jamfpro.ClassSubsetMeetingTime{
+				Days:      "M W F",
+				StartTime: 1300,
+				EndTime:   1345,
+			},
+		},
+		// Ensure other fields are aligned with the ResourceClass struct definition
 	}
 
-	// Call the update function with the class name and the new details.
-	err = client.UpdateClassesByName(classToUpdate.Name, classToUpdate)
+	className := "name-of-class"
+
+	// Call the update function with the class ID and the new details.
+	err = client.UpdateClassByName(className, updatedClass)
 	if err != nil {
-		log.Fatalf("Error updating class by name: %v", err)
-	} else {
-		fmt.Println("Class updated successfully by name.")
+		log.Fatalf("Error updating class: %s\n", err)
 	}
 
-	// If you need to check the updated details, perform a GetClassesByName call here and print or log the results.
-	// For example:
-	updatedClass, err := client.GetClassesByName(classToUpdate.Name)
-	if err != nil {
-		log.Fatalf("Error retrieving updated class by name: %v", err)
-	}
-	classXML, err := xml.MarshalIndent(updatedClass, "", "  ")
-	if err != nil {
-		log.Fatalf("Error marshalling updated class to XML: %v", err)
-	}
-	fmt.Printf("Updated Class Details by Name:\n%s\n", classXML)
+	// Print the XML structure of the created class for verification
+	classXML, _ := xml.MarshalIndent(updatedClass, "", "  ")
+	fmt.Printf("Created Class:\n%s\n", classXML)
 }

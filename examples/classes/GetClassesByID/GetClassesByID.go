@@ -41,7 +41,7 @@ func main() {
 	classID := 1 // Replace with the actual ID of the class you want to fetch
 
 	// Get class by ID
-	class, err := client.GetClassesByID(classID)
+	class, err := client.GetClassByID(classID)
 	if err != nil {
 		log.Fatalf("Error fetching class by ID: %s\n", err)
 	}

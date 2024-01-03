@@ -38,37 +38,48 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-	// Define the class details you want to update.
-	classToUpdate := &jamfpro.ResponseClasses{
-		ID:          1, // The ID of the class you want to update.
+
+	// Define the new class details
+	updatedClass := &jamfpro.ResourceClass{
 		Source:      "N/A",
 		Name:        "Math 101",
-		Description: "Introduction to advanced algebra",
-		Site: jamfpro.ClassSite{
+		Description: "Introduction to basic mathematics",
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Teachers: []jamfpro.ClassTeacher{
-			{Teacher: "John Doe"},
-			{Teacher: "Jane Smith"},
+		MobileDeviceGroup: jamfpro.ClassSubsetMobileDeviceGroup{
+			ID:   3,
+			Name: "All Managed iPod touches",
 		},
-		// ... include other fields as necessary ...
+		MobileDeviceGroupID: []jamfpro.ClassSubsetMobileDeviceGroupID{
+			{
+				ID: 3,
+			},
+		},
+		TeacherIDs: []jamfpro.ClassSubsetTeacherIDs{
+			{ID: 1},
+			{ID: 2},
+		},
+		MeetingTimes: jamfpro.ClassContainerMeetingTimes{
+			MeetingTime: jamfpro.ClassSubsetMeetingTime{
+				Days:      "M W F",
+				StartTime: 1300,
+				EndTime:   1345,
+			},
+		},
+		// Ensure other fields are aligned with the ResourceClass struct definition
 	}
+
+	classID := 7
 
 	// Call the update function with the class ID and the new details.
-	err = client.UpdateClassesByID(classToUpdate.ID, classToUpdate)
+	err = client.UpdateClassByID(classID, updatedClass)
 	if err != nil {
-		log.Fatalf("Error updating class: %v", err)
-	} else {
-		fmt.Println("Class updated successfully.")
+		log.Fatalf("Error updating class: %s\n", err)
 	}
 
-	// If you need to check the updated details, perform a GetClassByID call here and print or log the results.
-	// For example:
-	updatedClass, err := client.GetClassesByID(classToUpdate.ID)
-	if err != nil {
-		log.Fatalf("Error retrieving updated class: %v", err)
-	}
+	// Print the XML structure of the created class for verification
 	classXML, _ := xml.MarshalIndent(updatedClass, "", "  ")
-	fmt.Printf("Updated Class Details:\n%s\n", classXML)
+	fmt.Printf("Created Class:\n%s\n", classXML)
 }

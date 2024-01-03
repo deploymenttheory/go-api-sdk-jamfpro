@@ -40,39 +40,39 @@ func main() {
 	}
 
 	// Define the new class details
-	newClass := &jamfpro.ResponseClasses{
+	newClass := &jamfpro.ResourceClass{
 		Source:      "N/A",
 		Name:        "Math 101",
 		Description: "Introduction to basic mathematics",
-		Site: jamfpro.ClassSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		MeetingTimes: jamfpro.ClassMeetingTimes{
-			MeetingTime: jamfpro.ClassMeetingTime{
+		MobileDeviceGroup: jamfpro.ClassSubsetMobileDeviceGroup{
+			ID:   3,
+			Name: "All Managed iPod touches",
+		},
+		MobileDeviceGroupID: []jamfpro.ClassSubsetMobileDeviceGroupID{
+			{
+				ID: 3,
+			},
+		},
+		TeacherIDs: []jamfpro.ClassSubsetTeacherIDs{
+			{ID: 1},
+			{ID: 2},
+		},
+		MeetingTimes: jamfpro.ClassContainerMeetingTimes{
+			MeetingTime: jamfpro.ClassSubsetMeetingTime{
 				Days:      "M W F",
 				StartTime: 1300,
 				EndTime:   1345,
 			},
 		},
-		MobileDeviceGroup: jamfpro.ClassDeviceGroup{
-			ID:   3,
-			Name: "All Managed iPod touches",
-		},
-		MobileDeviceGroupID: []jamfpro.ClassGroupID{
-			{
-				ID: 3,
-			},
-		},
-		TeacherIDs: []jamfpro.ClassTeacherID{
-			{ID: 1},
-			{ID: 2},
-		},
-		// Do not include TeacherIDs if Teachers is set
+		// Ensure other fields are aligned with the ResourceClass struct definition
 	}
 
 	// Create class
-	createdClass, err := client.CreateClassesByID(newClass)
+	createdClass, err := client.CreateClass(newClass)
 	if err != nil {
 		log.Fatalf("Error creating class: %s\n", err)
 	}

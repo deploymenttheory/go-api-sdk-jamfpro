@@ -41,7 +41,7 @@ func main() {
 	className := "Math 101" // Replace with the actual name of the class you want to fetch
 
 	// Get class by name
-	class, err := client.GetClassesByName(className)
+	class, err := client.GetClassByName(className)
 	if err != nil {
 		log.Fatalf("Error fetching class by name: %s\n", err)
 	}

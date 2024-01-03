@@ -1,14 +1,12 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint:
-SharedResourceSite
-*/
-
 // classicapi_classes.go
 // Jamf Pro Classic Api - Classes
 // api reference: https://developer.jamf.com/jamf-pro/reference/classes
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+*/
 
 package jamfpro
 
@@ -50,7 +48,7 @@ type ResourceClass struct {
 	StudentGroupIDs     []ClassSubsetStudentGroupIDs     `xml:"student_group_ids>id"`
 	TeacherGroupIDs     []ClassSubsetTeacherGroupIDs     `xml:"teacher_group_ids>id"`
 	MobileDevices       []ClassSubsetMobileDevices       `xml:"mobile_devices>mobile_device"`
-	MobileDeviceGroupID []ClassSubsetMobileDeviceGroupID `xml:"mobile_device_group>id,omitempty"`
+	MobileDeviceGroupID []ClassSubsetMobileDeviceGroupID `xml:"mobile_device_group_id>id,omitempty"`
 	MeetingTimes        ClassContainerMeetingTimes       `xml:"meeting_times,omitempty"`
 	AppleTVs            []ClassSubsetAppleTVs            `xml:"apple_tvs>apple_tv,omitempty"`
 }
@@ -184,8 +182,8 @@ func (c *Client) GetClassByName(name string) (*ResourceClass, error) {
 }
 
 // CreateClassesByID creates a new class with the given details.
-func (c *Client) CreateClassByID(class *ResourceClass) (*ResourceClass, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriClasses) // Using ID 0 for creation as per API pattern
+func (c *Client) CreateClass(class *ResourceClass) (*ResourceClass, error) {
+	endpoint := uriClasses
 
 	if class.Site.ID == 0 && class.Site.Name == "" {
 		class.Site.ID = -1
