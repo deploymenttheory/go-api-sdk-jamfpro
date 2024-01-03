@@ -1,15 +1,13 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
-
-// Define the name of the advanced computer search
-const advancedComputerSearchName = "Advanced Search Name" // Replace with the actual name
 
 func main() {
 	// Define the path to the JSON configuration file
@@ -35,46 +33,60 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new Jamf Pro client instance
+	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	updatedSearch, err := client.UpdateAdvancedComputerSearchByName(advancedComputerSearchName, &jamfpro.ResponseAdvancedComputerSearch{
-		Name:   "Advanced Search Name Updated",
+	// Define the advanced computer search details
+	updatedSearch := &jamfpro.ResourceAdvancedComputerSearch{
+		Name:   "jamf api sdk advanced search",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Size: 1,
-				Criterion: jamfpro.CriterionDetail{
+				Criteria: jamfpro.SharedSubsetCriteria{
 					Name:         "Last Inventory Update",
 					Priority:     0,
 					AndOr:        "and",
 					SearchType:   "more than x days ago",
-					Value:        "7",
+					Value:        7,
 					OpeningParen: false,
 					ClosingParen: false,
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
+		DisplayFields: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
 			{
-				Size: 1,
-				DisplayField: jamfpro.DisplayFieldDetail{
-					Name: "IP Address",
-				},
+				Name: "IP Address",
 			},
 		},
-		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-	})
-	if err != nil {
-		fmt.Println("Error updating advanced computer search by name:", err)
-		return
 	}
 
-	fmt.Println("Updated advanced computer Search object:", updatedSearch)
+	searchName := "jamf api sdk advanced search"
+
+	// Convert the profile to XML to see the output (optional, for debug purposes)
+	xmlData, err := xml.MarshalIndent(updatedSearch, "", "  ")
+	if err != nil {
+		log.Fatalf("Error marshaling XML: %v", err)
+	}
+	fmt.Printf("XML Request: %s\n", xmlData)
+
+	// Create the advanced computer search
+	updatedSearchResp, err := client.UpdateAdvancedComputerSearchByName(searchName, updatedSearch)
+	if err != nil {
+		fmt.Println("Error creating advanced computer search:", err)
+		return
+	}
+	// Print the created advanced computer search details
+	createdSearchXML, err := xml.MarshalIndent(updatedSearchResp, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshaling created search to XML:", err)
+		return
+	}
+	fmt.Printf("Created Advanced Computer Search:\n%s\n", string(createdSearchXML))
 }

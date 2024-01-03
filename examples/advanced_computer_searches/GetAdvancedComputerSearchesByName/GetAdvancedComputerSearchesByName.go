@@ -43,7 +43,7 @@ func main() {
 	}
 
 	// Call GetAdvancedComputerSearchesByName function using the constant name
-	advancedComputerSearchByName, err := client.GetAdvancedComputerSearchesByName(advancedComputerSearchName)
+	advancedComputerSearchByName, err := client.GetAdvancedComputerSearchByName(advancedComputerSearchName)
 	if err != nil {
 		log.Fatalf("Error fetching advanced computer search by name: %v", err)
 	}

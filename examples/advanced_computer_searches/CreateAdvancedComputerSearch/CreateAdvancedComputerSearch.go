@@ -43,30 +43,28 @@ func main() {
 	}
 
 	// Define the advanced computer search details
-	newSearch := &jamfpro.ResponseAdvancedComputerSearch{
+	newSearch := &jamfpro.ResourceAdvancedComputerSearch{
 		Name:   "Advanced Search Name",
 		ViewAs: "Standard Web Page",
-		Criteria: []jamfpro.AdvancedComputerSearchesCriteria{
+		Criteria: []jamfpro.SharedContainerCriteria{
 			{
-				Criterion: jamfpro.CriterionDetail{
+				Criteria: jamfpro.SharedSubsetCriteria{
 					Name:         "Last Inventory Update",
 					Priority:     0,
 					AndOr:        "and",
 					SearchType:   "more than x days ago",
-					Value:        "7",
+					Value:        7,
 					OpeningParen: false,
 					ClosingParen: false,
 				},
 			},
 		},
-		DisplayFields: []jamfpro.AdvancedComputerSearchesDisplayField{
+		DisplayFields: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
 			{
-				DisplayField: jamfpro.DisplayFieldDetail{
-					Name: "IP Address",
-				},
+				Name: "IP Address",
 			},
 		},
-		Site: jamfpro.AdvancedComputerSearchesSiteDetail{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

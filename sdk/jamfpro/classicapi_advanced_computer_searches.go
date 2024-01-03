@@ -1,16 +1,14 @@
-// Refactor Complete
-
-/*
-Shared Resources in this Endpoint
-SharedResourceSite
-SharedContainerCriteria
-SharedAdvancedSearchSubsetDisplayField
-*/
-
 // classicapi_advanced_computer_searches.go
 // Jamf Pro Classic Api - Advanced Computer Searches
 // api reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
 // Classic API requires the structs to support an XML data structure.
+
+/*
+Shared Resources in this Endpoint :
+- SharedResourceSite
+- SharedContainerCriteria
+- SharedAdvancedSearchSubsetDisplayField
+*/
 
 package jamfpro
 
@@ -48,6 +46,12 @@ type ResourceAdvancedComputerSearch struct {
 	DisplayFields []SharedAdvancedSearchSubsetDisplayField   `xml:"display_fields"`
 	Computers     []AdvancedComputerSearchContainerComputers `xml:"computer"`
 	Site          SharedResourceSite                         `xml:"site"`
+}
+
+// Responses
+
+type ResponseAdvancedComputerSearchCreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
 // Subsets & Containers
@@ -117,7 +121,7 @@ func (c *Client) GetAdvancedComputerSearchByName(name string) (*ResourceAdvanced
 }
 
 // CreateAdvancedComputerSearch creates a new advanced computer search.
-func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
+func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
 	if search.Site.ID == 0 && search.Site.Name == "" {
@@ -132,7 +136,7 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSe
 		ResourceAdvancedComputerSearch: search,
 	}
 
-	var createdSearch ResourceAdvancedComputerSearch
+	var createdSearch ResponseAdvancedComputerSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create advanced computer search: %v", err)
@@ -146,7 +150,7 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSe
 }
 
 // UpdateAdvancedComputerSearchByID updates an existing advanced computer search by its ID.
-func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
+func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
 	requestBody := struct {
@@ -156,7 +160,7 @@ func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvanc
 		ResourceAdvancedComputerSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedComputerSearch
+	var updatedSearch ResponseAdvancedComputerSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced computer search by ID: %v", err)
@@ -170,7 +174,7 @@ func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvanc
 }
 
 // UpdateAdvancedComputerSearchByName updates an existing advanced computer search by its name.
-func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *ResourceAdvancedComputerSearch) (*ResourceAdvancedComputerSearch, error) {
+func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
 	requestBody := struct {
@@ -180,7 +184,7 @@ func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *Resourc
 		ResourceAdvancedComputerSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedComputerSearch
+	var updatedSearch ResponseAdvancedComputerSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update advanced computer search by name: %v", err)
