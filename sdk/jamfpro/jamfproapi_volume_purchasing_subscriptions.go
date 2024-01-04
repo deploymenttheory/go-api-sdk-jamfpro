@@ -2,6 +2,7 @@
 // Jamf Pro Api - Volume Purchasing Subscriptions
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-volume-purchasing-subscriptions
 // Jamf Pro API requires the structs to support an JSON data structure.
+
 package jamfpro
 
 import (
@@ -11,34 +12,43 @@ import (
 
 const uriVolumePurchasingSubscriptions = "/api/v1/volume-purchasing-subscriptions"
 
+// List
 type ResponseVolumePurchasingSubscriptionsList struct {
-	TotalCount *int                           `json:"totalCount,omitempty"`
-	Results    []VolumePurchasingSubscription `json:"results,omitempty"`
+	TotalCount *int                                   `json:"totalCount,omitempty"`
+	Results    []ResourceVolumePurchasingSubscription `json:"results,omitempty"`
 }
 
-type VolumePurchasingSubscription struct {
-	Id                 string   `json:"id,omitempty"`
-	Name               string   `json:"name"`
-	Enabled            bool     `json:"enabled,omitempty"`
-	Triggers           []string `json:"triggers,omitempty"`
-	LocationIds        []string `json:"locationIds,omitempty"`
-	InternalRecipients []struct {
-		AccountId string `json:"accountId,omitempty"`
-		Frequency string `json:"frequency,omitempty"`
-	} `json:"internalRecipients,omitempty"`
-	ExternalRecipients []struct {
-		Name  string `json:"name,omitempty"`
-		Email string `json:"email,omitempty"`
-	} `json:"externalRecipients,omitempty"`
-	SiteId string `json:"siteId,omitempty"`
+// Resource
+type ResourceVolumePurchasingSubscription struct {
+	Id                 string                                                 `json:"id,omitempty"`
+	Name               string                                                 `json:"name"`
+	Enabled            bool                                                   `json:"enabled,omitempty"`
+	Triggers           []string                                               `json:"triggers,omitempty"`
+	LocationIds        []string                                               `json:"locationIds,omitempty"`
+	InternalRecipients []VolumePurchasingSubscriptionSubsetInternalRecipients `json:"internalRecipients,omitempty"`
+	ExternalRecipients []VolumePurchasingSubscriptionSubsetExternalRecipients `json:"externalRecipients,omitempty"`
+	SiteId             string                                                 `json:"siteId,omitempty"`
 }
+
+// Subsets
+type VolumePurchasingSubscriptionSubsetInternalRecipients struct {
+	AccountId string `json:"accountId,omitempty"`
+	Frequency string `json:"frequency,omitempty"`
+}
+
+type VolumePurchasingSubscriptionSubsetExternalRecipients struct {
+	Name  string `json:"name,omitempty"`
+	Email string `json:"email,omitempty"`
+}
+
+// CRUD
 
 // GetVolumePurchasingSubscriptions retrieves all volume purchasing subscriptions
 func (c *Client) GetVolumePurchasingSubscriptions() (*ResponseVolumePurchasingSubscriptionsList, error) {
 	var subscriptionsList ResponseVolumePurchasingSubscriptionsList
 	resp, err := c.HTTP.DoRequest("GET", uriVolumePurchasingSubscriptions, nil, &subscriptionsList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch volume purchasing subscriptions: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "volume purchasing subscriptions", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -49,14 +59,14 @@ func (c *Client) GetVolumePurchasingSubscriptions() (*ResponseVolumePurchasingSu
 }
 
 // GetVolumePurchasingSubscriptionByID retrieves a single volume purchasing subscription by its ID
-func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*VolumePurchasingSubscription, error) {
+func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolumePurchasingSubscription, error) {
 	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingSubscriptions, id)
 
-	var subscription VolumePurchasingSubscription
+	var subscription ResourceVolumePurchasingSubscription
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &subscription)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch volume purchasing subscription with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "volume purchasing subscription", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -67,10 +77,10 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*VolumePurchasi
 }
 
 // GetVolumePurchasingSubscriptionByNameByID fetches a volume purchasing subscription by its display name and retrieves its details using its ID.
-func (c *Client) GetVolumePurchasingSubscriptionByNameByID(name string) (*VolumePurchasingSubscription, error) {
+func (c *Client) GetVolumePurchasingSubscriptionByNameByID(name string) (*ResourceVolumePurchasingSubscription, error) {
 	subscriptionsList, err := c.GetVolumePurchasingSubscriptions()
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all volume purchasing subscriptions: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "volume purchasing subscription", name, err)
 	}
 
 	// Search for the subscription with the given name
@@ -89,7 +99,7 @@ func (c *Client) GetVolumePurchasingSubscriptionByNameByID(name string) (*Volume
 }
 
 // CreateVolumePurchasingSubscription creates a new volume purchasing subscription
-func (c *Client) CreateVolumePurchasingSubscription(subscription *VolumePurchasingSubscription) (*VolumePurchasingSubscription, error) {
+func (c *Client) CreateVolumePurchasingSubscription(subscription *ResourceVolumePurchasingSubscription) (*ResourceVolumePurchasingSubscription, error) {
 	endpoint := uriVolumePurchasingSubscriptions
 
 	// Default the SiteId to "-1" if not provided
@@ -97,7 +107,7 @@ func (c *Client) CreateVolumePurchasingSubscription(subscription *VolumePurchasi
 		subscription.SiteId = "-1"
 	}
 
-	var createdSubscription VolumePurchasingSubscription
+	var createdSubscription ResourceVolumePurchasingSubscription
 	resp, err := c.HTTP.DoRequest("POST", endpoint, subscription, &createdSubscription)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create volume purchasing subscription: %v", err)
@@ -111,10 +121,10 @@ func (c *Client) CreateVolumePurchasingSubscription(subscription *VolumePurchasi
 }
 
 // UpdateVolumePurchasingSubscriptionByID updates a volume purchasing subscription by its ID
-func (c *Client) UpdateVolumePurchasingSubscriptionByID(id string, subscription *VolumePurchasingSubscription) (*VolumePurchasingSubscription, error) {
+func (c *Client) UpdateVolumePurchasingSubscriptionByID(id string, subscription *ResourceVolumePurchasingSubscription) (*ResourceVolumePurchasingSubscription, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingSubscriptions, id)
 
-	var updatedSubscription VolumePurchasingSubscription
+	var updatedSubscription ResourceVolumePurchasingSubscription
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, subscription, &updatedSubscription)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update volume purchasing subscription with ID %s: %v", id, err)
@@ -128,7 +138,7 @@ func (c *Client) UpdateVolumePurchasingSubscriptionByID(id string, subscription 
 }
 
 // UpdateVolumePurchasingSubscriptionByNameByID updates a volume purchasing subscription by its display name
-func (c *Client) UpdateVolumePurchasingSubscriptionByNameByID(name string, updateData *VolumePurchasingSubscription) (*VolumePurchasingSubscription, error) {
+func (c *Client) UpdateVolumePurchasingSubscriptionByNameByID(name string, updateData *ResourceVolumePurchasingSubscription) (*ResourceVolumePurchasingSubscription, error) {
 	subscriptionsList, err := c.GetVolumePurchasingSubscriptions()
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all volume purchasing subscriptions: %v", err)
