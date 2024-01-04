@@ -5,4 +5,6 @@
 
 package jamfpro
 
-// TODO
+// WIP
+
+const UriClientCheckin = "/"
