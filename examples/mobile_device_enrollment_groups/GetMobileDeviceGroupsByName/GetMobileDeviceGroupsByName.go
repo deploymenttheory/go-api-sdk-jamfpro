@@ -42,7 +42,7 @@ func main() {
 	// Fetching a single mobile device group by name
 	groupName := "GroupName" // Replace with the actual group name
 
-	mobileGroup, err := client.GetMobileDeviceGroupsByName(groupName)
+	mobileGroup, err := client.GetMobileDeviceGroupByName(groupName)
 	if err != nil {
 		log.Fatalf("Error fetching mobile device group by name: %s\n", err)
 	}
