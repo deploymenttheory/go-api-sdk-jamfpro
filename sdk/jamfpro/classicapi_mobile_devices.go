@@ -230,7 +230,7 @@ func (c *Client) GetMobileDevices() (*ResponseMobileDeviceList, error) {
 	var mobileDevices ResponseMobileDeviceList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &mobileDevices)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile devices: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile devices", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -247,7 +247,7 @@ func (c *Client) GetMobileDeviceByID(id int) (*ResourceMobileDevice, error) {
 	var device ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &device)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -264,7 +264,7 @@ func (c *Client) GetMobileDeviceByName(name string) (*ResourceMobileDevice, erro
 	var device ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &device)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -281,7 +281,7 @@ func (c *Client) GetMobileDeviceByIDAndDataSubset(id int, subset string) (*Resou
 	var deviceSubset ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceSubset)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device subset by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device with data subset", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -298,7 +298,7 @@ func (c *Client) GetMobileDeviceByNameAndDataSubset(name, subset string) (*Resou
 	var deviceSubset ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceSubset)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device subset by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device with data subset", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -312,7 +312,6 @@ func (c *Client) GetMobileDeviceByNameAndDataSubset(name, subset string) (*Resou
 func (c *Client) CreateMobileDevice(attribute *ResourceMobileDevice) (*ResourceMobileDevice, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDevices)
 
-	// Wrap the attribute with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device"`
 		*ResourceMobileDevice
@@ -323,7 +322,7 @@ func (c *Client) CreateMobileDevice(attribute *ResourceMobileDevice) (*ResourceM
 	var responseAttribute ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -347,7 +346,7 @@ func (c *Client) UpdateMobileDeviceByID(id int, attribute *ResourceMobileDevice)
 	var responseAttribute ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -371,7 +370,7 @@ func (c *Client) UpdateMobileDeviceByName(name string, attribute *ResourceMobile
 	var responseAttribute ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -387,7 +386,7 @@ func (c *Client) DeleteMobileDeviceByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -403,7 +402,7 @@ func (c *Client) DeleteMobileDeviceByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

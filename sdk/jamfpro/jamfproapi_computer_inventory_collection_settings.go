@@ -11,12 +11,16 @@ import (
 
 const uriComputerInventoryCollectionSettings = "/api/v1/computer-inventory-collection-settings"
 
+// Resource
+
 type ResourceComputerInventoryCollectionSettings struct {
 	ComputerInventoryCollectionPreferences ComputerInventoryCollectionSettingsSubsetPreferences `json:"computerInventoryCollectionPreferences"`
 	ApplicationPaths                       []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"applicationPaths"`
 	FontPaths                              []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"fontPaths"`
 	PluginPaths                            []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"pluginPaths"`
 }
+
+// Subsets
 
 type ComputerInventoryCollectionSettingsSubsetPreferences struct {
 	MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
@@ -48,6 +52,8 @@ type ResourceComputerInventoryCollectionSettingsCustomPath struct {
 	Scope string `json:"scope"`
 	Path  string `json:"path"`
 }
+
+// CRUD
 
 // GetComputerInventoryCollectionSettingss retrives a computer inventory collection list.
 func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInventoryCollectionSettings, error) {

@@ -77,7 +77,7 @@ func (c *Client) GetBYOProfileByID(id int) (*ResourceBYOProfile, error) {
 	var profile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch BYO Profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "byo profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -118,7 +118,7 @@ func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResponceBYOProf
 	var createdProfile ResponceBYOProfileCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create BYO Profile: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "byo profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -142,7 +142,7 @@ func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*Res
 	var updatedProfile ResponceBYOProfileCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update BYO Profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "byo profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -166,7 +166,7 @@ func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile
 	var updatedProfile ResponceBYOProfileCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update BYO Profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "byo profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -182,7 +182,7 @@ func (c *Client) DeleteBYOProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete BYO Profile by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "byo profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -198,7 +198,7 @@ func (c *Client) DeleteBYOProfileByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete BYO Profile by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "byo profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

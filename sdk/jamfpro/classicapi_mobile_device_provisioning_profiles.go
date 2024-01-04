@@ -52,7 +52,7 @@ func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDevicePro
 	var profiles ResponseMobileDeviceProvisioningProfilesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device provisioning profiles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device provisioning profiles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -69,7 +69,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResourceMobile
 	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device provisioning profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device provisioning profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -86,7 +86,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByName(name string) (*Resourc
 	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device provisioning profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device provisioning profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -103,7 +103,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device provisioning profile by UUID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -113,8 +113,9 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 	return &profile, nil
 }
 
+// TODO Is this really creating by ID?
 // CreateMobileDeviceProvisioningProfileByID creates a new mobile device provisioning profile by its ID.
-func (c *Client) CreateMobileDeviceProvisioningProfileByID(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
+func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
 	requestBody := struct {
@@ -127,7 +128,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByID(id int, profile *Reso
 	var responseProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device provisioning profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "id", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -137,6 +138,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByID(id int, profile *Reso
 	return &responseProfile, nil
 }
 
+// TODO Is this creating by name?
 // CreateMobileDeviceProvisioningProfileByName creates a new mobile device provisioning profile by its name.
 func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
@@ -151,7 +153,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 	var responseProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device provisioning profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "name", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -161,6 +163,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 	return &responseProfile, nil
 }
 
+// TODO is this creating by a UUID?
 // CreateMobileDeviceProvisioningProfileByUUID creates a new mobile device provisioning profile by its UUID.
 func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
@@ -175,7 +178,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 	var responseProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device provisioning profile by UUID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "uuid", uuid, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -199,7 +202,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *Reso
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device provisioning profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device provisioning profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -223,7 +226,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByName(name string, profil
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device provisioning profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device provisioning profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -247,7 +250,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device provisioning profile by UUID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -263,7 +266,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device provisioning profile by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device provisioning profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -279,7 +282,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByName(name string) error 
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device provisioning profile by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device provisioning profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -295,7 +298,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByUUID(uuid string) error 
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device provisioning profile by UUID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}
 
 	if resp != nil && resp.Body != nil {

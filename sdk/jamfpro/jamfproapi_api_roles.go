@@ -13,11 +13,15 @@ import (
 
 const uriApiRoles = "/api/v1/api-roles"
 
+// List
+
 // ResponseApiRoles represents the structure of the response for fetching API roles
 type ResponseApiRolesList struct {
 	TotalCount int               `json:"totalCount"`
 	Results    []ResourceAPIRole `json:"results"`
 }
+
+// Resource
 
 // Role represents the details of an individual API role
 type ResourceAPIRole struct {
@@ -25,6 +29,8 @@ type ResourceAPIRole struct {
 	DisplayName string   `json:"displayName,omitempty"`
 	Privileges  []string `json:"privileges,omitempty"`
 }
+
+// CRUD
 
 // GetJamfAPIRoles fetches a list of Jamf API roles
 func (c *Client) GetJamfAPIRoles(sort_filter string) (*ResponseApiRolesList, error) {

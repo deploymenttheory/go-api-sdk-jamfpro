@@ -39,6 +39,8 @@ type CacheSettingsSubsetMemcachedEndpoints struct {
 	JSSCacheConfigurationID int    `json:"jssCacheConfigurationId,omitempty"`
 }
 
+// CRUD
+
 // GetCacheSettings gets the current cache settings.
 func (c *Client) GetCacheSettings() (*ResourceCacheSettings, error) {
 	endpoint := uriCacheSettings

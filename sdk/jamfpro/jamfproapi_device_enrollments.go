@@ -13,11 +13,15 @@ import (
 
 const uriDeviceEnrollments = "/api/v1/device-enrollments"
 
+// List
+
 // ResponseDeviceEnrollmentList represents the response for device enrollments list.
 type ResponseDeviceEnrollmentsList struct {
 	TotalCount int                        `json:"totalCount"`
 	Results    []ResourceDeviceEnrollment `json:"results"`
 }
+
+// Resource
 
 // DeviceEnrollment represents a single device enrollment instance.
 type ResourceDeviceEnrollment struct {
@@ -34,6 +38,8 @@ type ResourceDeviceEnrollment struct {
 	OrgAddress            string `json:"orgAddress"`
 	TokenExpirationDate   string `json:"tokenExpirationDate"`
 }
+
+// CRUD
 
 // GetDeviceEnrollments retrieves a paginated list of device enrollments.
 func (c *Client) GetDeviceEnrollments(sort_filter string) (*ResponseDeviceEnrollmentsList, error) {

@@ -40,7 +40,7 @@ func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
 	var iBeacons ResponseIBeaconsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &iBeacons)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch iBeacons: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "ibeacons", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -57,7 +57,7 @@ func (c *Client) GetIBeaconByID(id int) (*ResourceIBeacons, error) {
 	var beacon ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch iBeacon by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "ibeacon", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -74,7 +74,7 @@ func (c *Client) GetIBeaconByName(name string) (*ResourceIBeacons, error) {
 	var beacon ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch iBeacon by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ibeacon", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -86,9 +86,8 @@ func (c *Client) GetIBeaconByName(name string) (*ResourceIBeacons, error) {
 
 // CreateIBeacon creates a new iBeacon in Jamf Pro.
 func (c *Client) CreateIBeacon(beacon *ResourceIBeacons) (*ResourceIBeacons, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriIbeacons) // '0' typically used for creation in APIs
+	endpoint := fmt.Sprintf("%s/id/0", uriIbeacons)
 
-	// The requestBody struct should mirror the ResponseIBeacons struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"ibeacon"`
 		*ResourceIBeacons
@@ -99,7 +98,7 @@ func (c *Client) CreateIBeacon(beacon *ResourceIBeacons) (*ResourceIBeacons, err
 	var response ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create iBeacon: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "ibeacon", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -123,7 +122,7 @@ func (c *Client) UpdateIBeaconByID(id int, beacon *ResourceIBeacons) (*ResourceI
 	var response ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update iBeacon by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ibeacon", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -147,7 +146,7 @@ func (c *Client) UpdateIBeaconByName(name string, beacon *ResourceIBeacons) (*Re
 	var response ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update iBeacon by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ibeacon", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -163,7 +162,7 @@ func (c *Client) DeleteIBeaconByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete iBeacon by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "ibeacon", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -179,7 +178,7 @@ func (c *Client) DeleteIBeaconByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete iBeacon by Name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "ibeacon", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

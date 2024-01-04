@@ -37,7 +37,7 @@ func (c *Client) GetSites() (*ResponseSitesList, error) {
 	var sites ResponseSitesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &sites)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Sites: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "sites", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -54,7 +54,7 @@ func (c *Client) GetSiteByID(id int) (*SharedResourceSite, error) {
 	var site SharedResourceSite
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Site by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "site", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -71,7 +71,7 @@ func (c *Client) GetSiteByName(name string) (*SharedResourceSite, error) {
 	var site SharedResourceSite
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Site by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "site", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -83,7 +83,7 @@ func (c *Client) GetSiteByName(name string) (*SharedResourceSite, error) {
 
 // CreateSite creates a new site.
 func (c *Client) CreateSite(site *SharedResourceSite) (*SharedResourceSite, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriSites) // Using ID 0 for creation as per the pattern
+	endpoint := fmt.Sprintf("%s/id/0", uriSites)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"site"`
@@ -95,7 +95,7 @@ func (c *Client) CreateSite(site *SharedResourceSite) (*SharedResourceSite, erro
 	var createdSite SharedResourceSite
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSite)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Site: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "site", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -119,7 +119,7 @@ func (c *Client) UpdateSiteByID(id int, site *SharedResourceSite) (*SharedResour
 	var updatedSite SharedResourceSite
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Site by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "site", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -143,7 +143,7 @@ func (c *Client) UpdateSiteByName(name string, site *SharedResourceSite) (*Share
 	var updatedSite SharedResourceSite
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Site by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "site", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -159,7 +159,7 @@ func (c *Client) DeleteSiteByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Site by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "site", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -175,7 +175,7 @@ func (c *Client) DeleteSiteByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Site by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "site", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

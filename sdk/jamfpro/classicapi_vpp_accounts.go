@@ -49,6 +49,7 @@ type ResourceVPPAccount struct {
 }
 
 // CRUD
+
 // GetVPPAccounts retrieves a list of all VPP accounts.
 func (c *Client) GetVPPAccounts() (*ResponseVPPAccountsList, error) {
 	endpoint := uriVPPAccounts
@@ -56,7 +57,7 @@ func (c *Client) GetVPPAccounts() (*ResponseVPPAccountsList, error) {
 	var response ResponseVPPAccountsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch VPP accounts: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "vpp accounts", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -73,7 +74,7 @@ func (c *Client) GetVPPAccountByID(id int) (*ResourceVPPAccount, error) {
 	var response ResourceVPPAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch VPP account by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp account", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -85,16 +86,14 @@ func (c *Client) GetVPPAccountByID(id int) (*ResourceVPPAccount, error) {
 
 // CreateVPPAccount creates a new VPP account.
 func (c *Client) CreateVPPAccount(account *ResourceVPPAccount) (*ResourceVPPAccount, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriVPPAccounts) // '0' indicates creation
+	endpoint := fmt.Sprintf("%s/id/0", uriVPPAccounts)
 
-	// Setting default values for Site if not supplied
 	if account.Site.ID == 0 && account.Site.Name == "" {
 		account.Site.ID = -1
 		account.Site.Name = "none"
 
 	}
 
-	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_account"`
 		*ResourceVPPAccount
@@ -105,7 +104,7 @@ func (c *Client) CreateVPPAccount(account *ResourceVPPAccount) (*ResourceVPPAcco
 	var response ResourceVPPAccount
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create VPP account: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "vpp account", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -116,10 +115,9 @@ func (c *Client) CreateVPPAccount(account *ResourceVPPAccount) (*ResourceVPPAcco
 }
 
 // UpdateVPPAccount updates an existing VPP account.
-func (c *Client) UpdateVPPAccount(id int, account *ResourceVPPAccount) (*ResourceVPPAccount, error) {
+func (c *Client) UpdateVPPAccountByID(id int, account *ResourceVPPAccount) (*ResourceVPPAccount, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
 
-	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_account"`
 		*ResourceVPPAccount
@@ -130,7 +128,7 @@ func (c *Client) UpdateVPPAccount(id int, account *ResourceVPPAccount) (*Resourc
 	var response ResourceVPPAccount
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update VPP account: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "vpp account", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -146,7 +144,7 @@ func (c *Client) DeleteVPPAccountByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete VPP account by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "vpp account", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

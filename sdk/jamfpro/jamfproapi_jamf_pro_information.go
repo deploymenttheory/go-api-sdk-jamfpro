@@ -11,6 +11,8 @@ import (
 
 const uriJamfProInformation = "/api/v2/jamf-pro-information"
 
+// Response
+
 type ResponseJamfProInformation struct {
 	VppTokenEnabled         *bool `json:"vppTokenEnabled,omitempty"`
 	DepAccountEnabled       *bool `json:"depAccountEnabled,omitempty"`
@@ -21,6 +23,8 @@ type ResponseJamfProInformation struct {
 	SsoSamlEnabled          *bool `json:"ssoSamlEnabled,omitempty"`
 	SmtpEnabled             *bool `json:"smtpEnabled,omitempty"`
 }
+
+// CRUD
 
 func (c *Client) GetJamfProInformation() (*ResponseJamfProInformation, error) {
 	endpoint := uriJamfProInformation

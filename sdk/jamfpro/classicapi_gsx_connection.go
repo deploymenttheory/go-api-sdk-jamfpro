@@ -31,7 +31,7 @@ func (c *Client) GetGSXConnectionInformation() (*ResourceGSXConnection, error) {
 	var gsxConnectionSettings ResourceGSXConnection
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &gsxConnectionSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch GSX Connection settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "gsx connection information", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -56,7 +56,7 @@ func (c *Client) UpdateGSXConnectionInformation(settings *ResourceGSXConnection)
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)
 	if err != nil {
-		return fmt.Errorf("failed to update GSX Connection settings: %v", err)
+		return fmt.Errorf(errMsgFailedUpdate, "gsx connection information", err)
 	}
 
 	if resp != nil && resp.Body != nil {

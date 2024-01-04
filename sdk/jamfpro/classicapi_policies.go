@@ -411,7 +411,7 @@ func (c *Client) GetPolicies() (*ResponsePoliciesList, error) {
 	var policiesList ResponsePoliciesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all policies: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "policies", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -428,7 +428,7 @@ func (c *Client) GetPolicyByID(id int) (*ResourcePolicy, error) {
 	var policyDetails ResourcePolicy
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch policy by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "policy", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -445,7 +445,7 @@ func (c *Client) GetPolicyByName(name string) (*ResourcePolicy, error) {
 	var policyDetails ResourcePolicy
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch policy by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "policy", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -462,7 +462,7 @@ func (c *Client) GetPolicyByCategory(category string) (*ResponsePoliciesList, er
 	var policiesList ResponsePoliciesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch policies by category: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByCategory, "policies", category, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -480,7 +480,7 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 	var policiesList ResponsePoliciesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch policies by type: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByType, "policies", createdBy, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -491,10 +491,9 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 }
 
 // CreatePolicy creates a new policy.
-func (c *Client) CreatePolicyByID(policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
+func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, policy.General.ID)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy
@@ -505,14 +504,13 @@ func (c *Client) CreatePolicyByID(policy *ResourcePolicy) (*ResponsePolicyCreate
 	var responsePolicy ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create policy: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "policy", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	// Return the ID of the newly created policy
 	return &responsePolicy, nil
 }
 
@@ -520,7 +518,6 @@ func (c *Client) CreatePolicyByID(policy *ResourcePolicy) (*ResponsePolicyCreate
 func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy
@@ -531,7 +528,7 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePoli
 	var response ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update policy: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "policy", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -545,7 +542,6 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePoli
 func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy
@@ -556,7 +552,7 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Respo
 	var response ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update policy: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "policy", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -571,7 +567,7 @@ func (c *Client) DeletePolicyByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete policy: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "policy", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -586,7 +582,7 @@ func (c *Client) DeletePolicyByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete policy: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "policy", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

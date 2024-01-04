@@ -9,10 +9,14 @@ import "fmt"
 
 const uriSSOFailover = "/api/v1/sso/failover"
 
+// Response
+
 type ResponseSSOFailover struct {
 	FailoverURL    string `json:"failoverUrl"`
 	GenerationTime int64  `json:"generationTime"`
 }
+
+// CRUD
 
 // GetSSOFailoverSettings fetches SSO failover settings from Jamf Pro
 func (c *Client) GetSSOFailoverSettings() (*ResponseSSOFailover, error) {

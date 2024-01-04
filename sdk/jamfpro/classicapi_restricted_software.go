@@ -109,7 +109,7 @@ func (c *Client) GetRestrictedSoftwares() (*ResponseRestrictedSoftwaresList, err
 	var restrictedSoftwaresList ResponseRestrictedSoftwaresList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftwaresList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch restricted software: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "restricted softwares", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -126,7 +126,7 @@ func (c *Client) GetRestrictedSoftwareByID(id int) (*ResourceRestrictedSoftware,
 	var restrictedSoftware ResourceRestrictedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch restricted software by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "restricted software", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -143,7 +143,7 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 	var restrictedSoftware ResourceRestrictedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch restricted software by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "restricted software", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -157,14 +157,12 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResourceRestrictedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, restrictedSoftware.General.ID)
 
-	// Set default values for site if not included within request
 	if restrictedSoftware.General.Site.ID == 0 && restrictedSoftware.General.Site.Name == "" {
 		restrictedSoftware.General.Site.ID = -1
 		restrictedSoftware.General.Site.Name = "none"
 
 	}
 
-	// Wrap the restricted software data with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
 		*ResourceRestrictedSoftware
@@ -175,7 +173,7 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 	var ResourceRestrictedSoftware ResourceRestrictedSoftware
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceRestrictedSoftware)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create restricted software: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "restricted software", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -196,13 +194,11 @@ func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *Resour
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	// Prepare a variable to hold the response. This should be a pointer.
 	var response ResourceRestrictedSoftware
 
-	// Send the request and capture the response
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response) // Note the &response
 	if err != nil {
-		return fmt.Errorf("failed to update restricted software by ID: %v", err)
+		return fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -223,13 +219,11 @@ func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware 
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	// Prepare a variable to hold the response. This should be a pointer.
 	var response ResourceRestrictedSoftware
 
-	// Send the request and capture the response
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response) // Note the &response
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return fmt.Errorf("failed to update restricted software by name: %v", err)
+		return fmt.Errorf(errMsgFailedUpdateByName, "restricted software", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -245,7 +239,7 @@ func (c *Client) DeleteRestrictedSoftwareByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete restricted software by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "restricted software", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -261,7 +255,7 @@ func (c *Client) DeleteRestrictedSoftwareByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete restricted software by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "restricted software", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

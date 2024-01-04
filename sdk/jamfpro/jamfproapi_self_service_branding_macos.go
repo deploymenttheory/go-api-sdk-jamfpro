@@ -13,11 +13,15 @@ import (
 
 const uriSelfServiceBrandingMacOS = "/api/v1/self-service/branding/macos"
 
+// Response
+
 // ResponseSelfServiceBranding is the structure that holds the list of self-service branding configurations for macOS.
 type ResponseSelfServiceBrandingList struct {
 	TotalCount int                                 `json:"totalCount"`
 	Results    []ResourceSelfServiceBrandingDetail `json:"results"`
 }
+
+// Resource
 
 // SelfServiceBrandingDetail represents the details of a self-service branding configuration.
 type ResourceSelfServiceBrandingDetail struct {
@@ -28,6 +32,8 @@ type ResourceSelfServiceBrandingDetail struct {
 	IconId                int    `json:"iconId"`
 	BrandingHeaderImageId int    `json:"brandingHeaderImageId"`
 }
+
+// CRUD
 
 // GetSelfServiceBrandingMacOS retrieves the list of self-service branding configurations for macOS.
 func (c *Client) GetSelfServiceBrandingMacOS(sort_filter string) (*ResponseSelfServiceBrandingList, error) {

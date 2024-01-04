@@ -13,10 +13,14 @@ import (
 
 const uriCategories = "/api/v1/categories"
 
+// List
+
 type ResponseCategoriesList struct {
 	TotalCount int                `json:"totalCount"`
 	Results    []ResourceCategory `json:"results"`
 }
+
+// Resource
 
 type ResourceCategory struct {
 	Id       string `json:"id"`
@@ -24,6 +28,9 @@ type ResourceCategory struct {
 	Priority int    `json:"priority"`
 }
 
+// CRUD
+
+// TODO Do we need these comments?
 // GetCategories retrieves all categories from the Jamf Pro API, handling pagination automatically.
 // This function makes multiple API calls to fetch each page of category data and aggregates the results.
 // It uses a loop to iterate through all available pages of categories.

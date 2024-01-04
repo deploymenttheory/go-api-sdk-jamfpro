@@ -73,7 +73,7 @@ func (c *Client) GetAdvancedUserSearches() (*ResponseAdvancedUserSearchesList, e
 	var advancedUserSearchesList ResponseAdvancedUserSearchesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &advancedUserSearchesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch advanced user searches: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "advanced user searches", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -90,7 +90,7 @@ func (c *Client) GetAdvancedUserSearchByID(id int) (*ResourceAdvancedUserSearch,
 	var searchDetail ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch advanced user search by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "advanced user search", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -107,7 +107,7 @@ func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUser
 	var searchDetail ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch advanced user search by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "advanced user search", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -138,7 +138,7 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 	var createdSearch ResourceAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create advanced user search: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "advanced user search", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -162,7 +162,7 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 	var updatedSearch ResourceAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update advanced user search by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "advanced user search", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -186,7 +186,7 @@ func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdv
 	var updatedSearch ResourceAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update advanced user search by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "advanced user search", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -201,7 +201,7 @@ func (c *Client) DeleteAdvancedUserSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete advanced user search by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "advanced user search", id, err)
 	}
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
@@ -214,7 +214,7 @@ func (c *Client) DeleteAdvancedUserSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete advanced user search by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "advanced user search", name, err)
 	}
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()

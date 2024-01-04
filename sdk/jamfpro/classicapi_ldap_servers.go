@@ -120,7 +120,7 @@ func (c *Client) GetLDAPServers() (*ResponseLDAPServersList, error) {
 	var ldapServers ResponseLDAPServersList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServers)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP servers: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "ldap servers", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -137,7 +137,7 @@ func (c *Client) GetLDAPServerByID(id int) (*ResourceLDAPServers, error) {
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -154,7 +154,7 @@ func (c *Client) GetLDAPServerByName(name string) (*ResourceLDAPServers, error) 
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -171,7 +171,7 @@ func (c *Client) GetLDAPServerByIDAndUserDataSubset(id int, user string) (*Resou
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by ID and User Data Subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server and user data", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -188,7 +188,7 @@ func (c *Client) GetLDAPServerByIDAndGroupDataSubset(id int, group string) (*Res
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by ID and Group Data Subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server and group data", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -205,7 +205,7 @@ func (c *Client) GetLDAPServerByIDAndUserMembershipInGroupDataSubset(id int, gro
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server user membership in group data: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server and user membership", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -222,7 +222,7 @@ func (c *Client) GetLDAPServerByNameAndUserDataSubset(name, user string) (*Resou
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by name and user data subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server and user data", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -239,7 +239,7 @@ func (c *Client) GetLDAPServerByNameAndGroupDataSubset(name, group string) (*Res
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by name and group data subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server and group data", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -256,7 +256,7 @@ func (c *Client) GetLDAPServerByNameAndUserMembershipInGroupDataSubset(name, gro
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch LDAP server by name and user membership in group data subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server and user membership data", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -268,9 +268,8 @@ func (c *Client) GetLDAPServerByNameAndUserMembershipInGroupDataSubset(name, gro
 
 // CreateLDAPServer creates a new LDAP server in Jamf Pro.
 func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDAPServers, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriLDAPServers) // '0' typically used for creation in APIs
+	endpoint := fmt.Sprintf("%s/id/0", uriLDAPServers)
 
-	// Wrap ldapServer in an anonymous struct to match the expected XML structure
 	requestBody := struct {
 		XMLName xml.Name `xml:"ldap_server"`
 		*ResourceLDAPServers
@@ -281,7 +280,7 @@ func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDA
 	var responseLDAPServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseLDAPServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create LDAP server: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "ldap server", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -305,7 +304,7 @@ func (c *Client) UpdateLDAPServerByID(id int, ldapServer *ResourceLDAPServers) (
 	var responseLDAPServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update LDAP server by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ldap server", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -329,7 +328,7 @@ func (c *Client) UpdateLDAPServerByName(name string, ldapServer *ResourceLDAPSer
 	var responseLDAPServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update LDAP server by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ldap server", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -345,7 +344,7 @@ func (c *Client) DeleteLDAPServerByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete LDAP server by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "ldap server", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -361,7 +360,7 @@ func (c *Client) DeleteLDAPServerByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete LDAP server by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "ldap server", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

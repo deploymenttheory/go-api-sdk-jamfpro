@@ -13,11 +13,29 @@ import (
 
 const uriBuildings = "/api/v1/buildings"
 
+// List
+
 // ResponseBuildings represents the structure of the response for the buildings list.
 type ResponseBuildingsList struct {
 	TotalCount int                `json:"totalCount"`
 	Results    []ResourceBuilding `json:"results"`
 }
+
+// Responses
+
+// ResponseBuildingResourceHistoryList represents the structure of the response for the building resource history list.
+type ResponseBuildingResourceHistoryList struct {
+	Size    int                               `json:"totalCount"`
+	Results []ResourceBuildingResourceHistory `json:"results"`
+}
+
+// ResponseBuildingCreate represents the response structure for creating a building.
+type ResponseBuildingCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// Resource
 
 // ResponseBuilding represents the structure of each building item in the response.
 type ResourceBuilding struct {
@@ -31,18 +49,6 @@ type ResourceBuilding struct {
 	Country        string `json:"country"`
 }
 
-// ResponseBuildingCreate represents the response structure for creating a building.
-type ResponseBuildingCreate struct {
-	ID   string `json:"id"`
-	Href string `json:"href"`
-}
-
-// ResponseBuildingResourceHistoryList represents the structure of the response for the building resource history list.
-type ResponseBuildingResourceHistoryList struct {
-	Size    int                               `json:"totalCount"`
-	Results []ResourceBuildingResourceHistory `json:"results"`
-}
-
 // ResponseBuildingResourceHistory represents the structure of each resource history item in the response.
 type ResourceBuildingResourceHistory struct {
 	ID       int    `json:"id"`
@@ -51,6 +57,8 @@ type ResourceBuildingResourceHistory struct {
 	Note     string `json:"note"`
 	Details  string `json:"details"`
 }
+
+// CRUD
 
 // GetBuildings retrieves all building information with optional sorting.
 func (c *Client) GetBuildings(sort_filter string) (*ResponseBuildingsList, error) {

@@ -11,18 +11,24 @@ import (
 
 const uriJCDS2 = "/api/v1/jcds/files"
 
+// List
+
 type ResponseJCDS2List struct {
-	Files []JCDSFile `json:"files" xml:"files"`
+	Files []JCDSFileListItem `json:"files" xml:"files"`
 }
 
-type JCDSFile struct {
+type JCDSFileListItem struct {
 	FileName string `json:"fileName" xml:"fileName"`
 	MD5      string `json:"md5" xml:"md5"`
 }
 
+// Response
+
 type JCDSUploadResponse struct {
 	Credentials JCDSUploadCredentials `json:"Credentials"`
 }
+
+// Other
 
 type JCDSUploadCredentials struct {
 	AccessKeyID     string `json:"accessKeyID"`
@@ -39,6 +45,8 @@ type UploadProgressPercentage struct {
 	TotalSize int64
 	SeenSoFar int64
 }
+
+// CRUD
 
 // GetJCDS2Files fetches a file list from Jamf Cloud Distribution Service
 func (c *Client) GetJCDS2Files() (*ResponseJCDS2List, error) {

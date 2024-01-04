@@ -392,7 +392,7 @@ func (c *Client) GetComputers() (*ResponseComputersList, error) {
 	var computersList ResponseComputersList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computersList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computers: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "computers", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -409,7 +409,7 @@ func (c *Client) GetComputerByID(id int) (*ResponseComputer, error) {
 	var computer ResponseComputer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -426,7 +426,7 @@ func (c *Client) GetComputerByName(name string) (*ResponseComputer, error) {
 	var computer ResponseComputer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch computer by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "computer", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -440,13 +440,11 @@ func (c *Client) GetComputerByName(name string) (*ResponseComputer, error) {
 func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, error) {
 	endpoint := uriComputers
 
-	// Check if site is not provided in the General subset and set default values
 	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
 		computer.General.Site.ID = -1
 		computer.General.Site.Name = "none"
 	}
 
-	// The requestBody struct should mirror the Computer struct, including all nested structs
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer"`
 		ResponseComputer
@@ -457,7 +455,7 @@ func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, e
 	var response ResponseComputer
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create computer: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "computer", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -488,7 +486,7 @@ func (c *Client) UpdateComputerByID(id int, computer ResponseComputer) (*Respons
 	var response ResponseComputer
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update computer by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -519,7 +517,7 @@ func (c *Client) UpdateComputerByName(name string, computer ResponseComputer) (*
 	var response ResponseComputer
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update computer by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -535,7 +533,7 @@ func (c *Client) DeleteComputerByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete computer by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -551,7 +549,7 @@ func (c *Client) DeleteComputerByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete computer by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "computer", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

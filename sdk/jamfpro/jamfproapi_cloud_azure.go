@@ -11,6 +11,8 @@ import (
 
 const uriCloudIdentityProvider = "/api/v1/cloud-azure"
 
+// Resource - Exception structure
+
 type ResourceCloudIdp struct {
 	CloudIdPCommon CloudIdpListItem       `json:"cloudIdPCommon"`
 	Server         ResourceCloudIdpServer `json:"server"`
