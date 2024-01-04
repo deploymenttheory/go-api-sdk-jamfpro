@@ -40,8 +40,8 @@ func main() {
 	}
 
 	// Define the updated licensed software details
-	licensedSoftware := &jamfpro.ResponseLicensedSoftware{
-		General: jamfpro.LicensedSoftwareGeneral{
+	licensedSoftware := &jamfpro.ResourceLicensedSoftware{
+		General: jamfpro.LicensedSoftwareSubsetGeneral{
 			Name:                               "Adobe Creative Suite",
 			Publisher:                          "Adobe Systems Incorporated",
 			Platform:                           "Mac",
@@ -49,36 +49,36 @@ func main() {
 			RemoveTitlesFromInventoryReports:   false,
 			ExcludeTitlesPurchasedFromAppStore: false,
 			Notes:                              "string",
-			Site: jamfpro.LicensedSoftwareSite{
+			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
 		},
-		SoftwareDefinitions: []jamfpro.SoftwareDefinition{
+		SoftwareDefinitions: []jamfpro.LicensedSoftwareSubsetSoftwareDefinitions{
 			{
 				CompareType: "like",
 				Name:        "string",
 				Version:     14,
 			},
 		},
-		FontDefinitions: []jamfpro.LicensedSoftwareFontDefinition{
+		FontDefinitions: []jamfpro.LicensedSoftwareSubsetFontDefinitions{
 			{
 				CompareType: "like",
 				Name:        "string",
 				Version:     14,
 			},
 		},
-		PluginDefinitions: []jamfpro.LicensedSoftwarePluginDefinition{
+		PluginDefinitions: []jamfpro.LicensedSoftwareSubsetPluginDefinitions{
 			{
 				CompareType: "like",
 				Name:        "string",
 				Version:     14,
 			},
 		},
-		Licenses: []jamfpro.LicensedSoftwareLicense{
+		Licenses: []jamfpro.LicensedSoftwareSubsetLicenses{
 			{
 				Size: 1,
-				License: jamfpro.LicenseDetail{
+				License: jamfpro.LicensedSoftwareSubsetLicense{
 					SerialNumber1:    "string",
 					SerialNumber2:    "string",
 					OrganizationName: "string",
@@ -86,7 +86,7 @@ func main() {
 					LicenseType:      "Standard",
 					LicenseCount:     500,
 					Notes:            "string",
-					Purchasing: jamfpro.PurchasingDetail{
+					Purchasing: jamfpro.LicensedSoftwareSubsetLicensePurchasing{
 						IsPerpetual:       true,
 						IsAnnual:          false,
 						PONumber:          "string",
@@ -98,7 +98,7 @@ func main() {
 						LifeExpectancy:    0,
 						PurchasingContact: "string",
 					},
-					Attachments: []jamfpro.LicensedSoftwareAttachment{
+					Attachments: []jamfpro.LicensedSoftwareSubsetLicenseAttachments{
 						{
 							ID:       1,
 							Filename: "icon.png",

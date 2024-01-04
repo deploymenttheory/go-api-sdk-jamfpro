@@ -48,7 +48,7 @@ func main() {
 		},
 	}
 
-	createdProfile, err := client.CreateMobileDeviceProvisioningProfileByID(profileID, newProfile)
+	createdProfile, err := client.CreateMobileDeviceProvisioningProfile(profileID, newProfile)
 	if err != nil {
 		log.Fatalf("Error creating mobile device provisioning profile: %s\n", err)
 	}
