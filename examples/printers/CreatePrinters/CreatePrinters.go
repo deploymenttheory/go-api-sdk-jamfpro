@@ -55,7 +55,7 @@ func main() {
 		PPDContents: "string",
 	}
 
-	createdPrinter, err := client.CreatePrinters(newPrinter)
+	createdPrinter, err := client.CreatePrinter(newPrinter)
 	if err != nil {
 		fmt.Println("Error creating printer:", err)
 		return
