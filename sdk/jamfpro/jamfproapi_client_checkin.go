@@ -49,7 +49,7 @@ func (c *Client) UpdateClientCheckinSettings(settingsUpdate ResourceClientChecki
 	var out ResourceClientCheckinSettings
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, settingsUpdate, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "client checkin settings", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "client checkin settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
