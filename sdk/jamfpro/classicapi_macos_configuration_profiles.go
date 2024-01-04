@@ -179,7 +179,7 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 	var profilesList ResponseMacOSConfigurationProfileList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all OS X Configuration Profiles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -196,7 +196,7 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigu
 	var profile ResourceMacOSConfigurationProfiles
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch macOS Configuration Profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mac os config profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -213,7 +213,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	var profile ResourceMacOSConfigurationProfiles
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch macOS Configuration Profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -223,12 +223,14 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	return &profile, nil
 }
 
+// TODO Review this structure
+
 // GetMacOSConfigurationProfileByNameByID retrieves the details of a macOS Configuration Profile by its name.
 func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceMacOSConfigurationProfiles, error) {
 
 	profilesList, err := c.GetMacOSConfigurationProfiles()
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch macOS Configuration Profiles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
 	}
 
 	var profileID int
@@ -240,12 +242,12 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 	}
 
 	if profileID == 0 {
-		return nil, fmt.Errorf("no macOS Configuration Profile found with the name %s", name)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
 	}
 
 	detailedProfile, err := c.GetMacOSConfigurationProfileByID(profileID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch macOS Configuration Profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
 	}
 
 	return detailedProfile, nil
@@ -278,7 +280,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf("failed to create macOS Configuration Profile: %v", err)
+		return 0, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -304,7 +306,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMa
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf("failed to update macOS Configuration Profile: %v", err)
+		return 0, fmt.Errorf(errMsgFailedUpdateByID, "mac os config profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -330,7 +332,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf("failed to update macOS Configuration Profile by name: %v", err)
+		return 0, fmt.Errorf(errMsgFailedUpdateByName, "mac os config profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -346,7 +348,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete macOS Configuration Profile by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mac os config profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -362,7 +364,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete macOS Configuration Profile by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mac os config profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

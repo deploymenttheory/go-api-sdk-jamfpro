@@ -72,7 +72,7 @@ func (c *Client) GetComputerInvitations() (*ResponseComputerInvitationsList, err
 	var invitations ResponseComputerInvitationsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitations)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Computer Invitations: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "computer invitations", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -84,13 +84,13 @@ func (c *Client) GetComputerInvitations() (*ResponseComputerInvitationsList, err
 
 // Duplicate function ???
 // GetComputerInvitationByID retrieves a computer invitation by its ID.
-func (c *Client) GetComputerInvitationByID(invitationID int) (*ResourceComputerInvitation, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, invitationID)
+func (c *Client) GetComputerInvitationByID(id int) (*ResourceComputerInvitation, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
 
 	var invitation ResourceComputerInvitation
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Invitation by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer invitation", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -101,13 +101,13 @@ func (c *Client) GetComputerInvitationByID(invitationID int) (*ResourceComputerI
 }
 
 // GetComputerInvitationsByName retrieves a computer invitation by its invitation Name.
-func (c *Client) GetComputerInvitationByInvitationID(invitationID int) (*ResourceComputerInvitation, error) {
-	endpoint := fmt.Sprintf("%s/invitation/%d", uriComputerInvitations, invitationID)
+func (c *Client) GetComputerInvitationByInvitationID(id int) (*ResourceComputerInvitation, error) {
+	endpoint := fmt.Sprintf("%s/invitation/%d", uriComputerInvitations, id)
 
 	var invitation ResourceComputerInvitation
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Invitation by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer invitation", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -136,7 +136,7 @@ func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation
 	var createdInvitation ResourceComputerInvitation
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdInvitation)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Computer Invitation: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "computer invitation", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -147,12 +147,12 @@ func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation
 }
 
 // DeleteComputerInvitationByID deletes a computer invitation by its ID.
-func (c *Client) DeleteComputerInvitationByID(invitationID int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, invitationID)
+func (c *Client) DeleteComputerInvitationByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Computer Invitation by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer invitation", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

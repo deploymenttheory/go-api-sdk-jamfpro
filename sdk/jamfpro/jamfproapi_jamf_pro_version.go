@@ -11,9 +11,13 @@ import (
 
 const uriJamfProVersion = "/api/v1/jamf-pro-version"
 
+// Response
+
 type ResponseJamfProVersion struct {
 	Version *string `json:"Version,omitempty"`
 }
+
+// CRUD
 
 func (c *Client) GetJamfProVersion() (*ResponseJamfProVersion, error) {
 	endpoint := uriJamfProVersion

@@ -18,11 +18,15 @@ import (
 
 const uriComputersInventory = "/api/v1/computers-inventory" // Define the constant for the computers inventory endpoint
 
+// List
+
 // ResponseComputerInventoryList represents the top-level JSON response structure.
 type ResponseComputerInventoryList struct {
 	TotalCount int                         `json:"totalCount"`
 	Results    []ResourceComputerInventory `json:"results"`
 }
+
+// Resource
 
 // ResponseComputerInventory represents an individual computer from the inventory.
 type ResourceComputerInventory struct {

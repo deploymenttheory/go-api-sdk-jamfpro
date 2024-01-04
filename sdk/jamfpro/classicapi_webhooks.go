@@ -61,7 +61,7 @@ func (c *Client) GetWebhooks() (*ResponseWebhooksList, error) {
 	var response ResponseWebhooksList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch webhooks: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "webhooks", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -78,7 +78,7 @@ func (c *Client) GetWebhookByID(id int) (*ResourceWebhook, error) {
 	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch webhook by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "webhook", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -95,7 +95,7 @@ func (c *Client) GetWebhookByName(name string) (*ResourceWebhook, error) {
 	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch webhook by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "webhook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -107,9 +107,8 @@ func (c *Client) GetWebhookByName(name string) (*ResourceWebhook, error) {
 
 // CreateWebhook creates a new webhook.
 func (c *Client) CreateWebhook(webhook *ResourceWebhook) (*ResourceWebhook, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriWebhooks) // '0' indicates creation
+	endpoint := fmt.Sprintf("%s/id/0", uriWebhooks)
 
-	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
 		*ResourceWebhook
@@ -120,7 +119,7 @@ func (c *Client) CreateWebhook(webhook *ResourceWebhook) (*ResourceWebhook, erro
 	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create webhook: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "webhook", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -134,7 +133,6 @@ func (c *Client) CreateWebhook(webhook *ResourceWebhook) (*ResourceWebhook, erro
 func (c *Client) UpdateWebhookByID(id int, webhook *ResourceWebhook) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
-	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
 		*ResourceWebhook
@@ -145,7 +143,7 @@ func (c *Client) UpdateWebhookByID(id int, webhook *ResourceWebhook) (*ResourceW
 	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update webhook by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "webhook", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -159,7 +157,6 @@ func (c *Client) UpdateWebhookByID(id int, webhook *ResourceWebhook) (*ResourceW
 func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
-	// Using an anonymous struct for the request body
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
 		*ResourceWebhook
@@ -170,7 +167,7 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update webhook by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "webhook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -180,13 +177,12 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 	return &response, nil
 }
 
-// DeleteWebhookByID deletes a specific webhook by its ID.
 func (c *Client) DeleteWebhookByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete webhook by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "webhook", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -194,19 +190,18 @@ func (c *Client) DeleteWebhookByID(id int) error {
 	}
 
 	if resp.StatusCode != 204 {
-		return fmt.Errorf("failed to delete webhook by ID, status code: %d", resp.StatusCode)
+		return fmt.Errorf(errMsgFailedDeleteByID, "webhook", id, err)
 	}
 
 	return nil
 }
 
-// DeleteWebhookByName deletes a specific webhook by its name.
 func (c *Client) DeleteWebhookByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete webhook by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "webhook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -214,7 +209,7 @@ func (c *Client) DeleteWebhookByName(name string) error {
 	}
 
 	if resp.StatusCode != 204 {
-		return fmt.Errorf("failed to delete webhook by name, status code: %d", resp.StatusCode)
+		return fmt.Errorf(errMsgFailedDeleteByName, "webhook", name, err)
 	}
 
 	return nil

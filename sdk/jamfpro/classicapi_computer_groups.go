@@ -61,7 +61,7 @@ func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {
 	var computerGroups ResponseComputerGroupsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computerGroups)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Computer Groups: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "computer groups", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -78,7 +78,7 @@ func (c *Client) GetComputerGroupByID(id int) (*ResourceComputerGroup, error) {
 	var group ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Group by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -95,7 +95,7 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 	var group ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Group by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "computer group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -124,7 +124,7 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 	var createdGroup ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdGroup)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Computer Group: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "computer group", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -153,7 +153,7 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 	var updatedGroup ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Computer Group by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -182,7 +182,7 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 	var updatedGroup ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Computer Group by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -198,7 +198,7 @@ func (c *Client) DeleteComputerGroupByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Computer Group by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -214,7 +214,7 @@ func (c *Client) DeleteComputerGroupByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Computer Group by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "computer group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

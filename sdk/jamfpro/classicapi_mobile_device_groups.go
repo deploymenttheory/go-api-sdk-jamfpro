@@ -65,7 +65,7 @@ func (c *Client) GetMobileDeviceGroups() (*ResponseMobileDeviceGroupsList, error
 	var groups ResponseMobileDeviceGroupsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &groups)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device groups: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device groups", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -82,7 +82,7 @@ func (c *Client) GetMobileDeviceGroupByID(id int) (*ResourceMobileDeviceGroup, e
 	var group ResourceMobileDeviceGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device group by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -99,7 +99,7 @@ func (c *Client) GetMobileDeviceGroupByName(name string) (*ResourceMobileDeviceG
 	var group ResourceMobileDeviceGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device group by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -113,13 +113,11 @@ func (c *Client) GetMobileDeviceGroupByName(name string) (*ResourceMobileDeviceG
 func (c *Client) CreateMobileDeviceGroup(group *ResourceMobileDeviceGroup) (*ResourceMobileDeviceGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceGroups)
 
-	// Set default values for site if not included within request
 	if group.Site.ID == 0 && group.Site.Name == "" {
 		group.Site.ID = -1
 		group.Site.Name = "none"
 	}
 
-	// Wrap the group with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_group"`
 		*ResourceMobileDeviceGroup
@@ -130,7 +128,7 @@ func (c *Client) CreateMobileDeviceGroup(group *ResourceMobileDeviceGroup) (*Res
 	var responseGroup ResourceMobileDeviceGroup
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseGroup)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device group: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device group", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -144,7 +142,6 @@ func (c *Client) CreateMobileDeviceGroup(group *ResourceMobileDeviceGroup) (*Res
 func (c *Client) UpdateMobileDeviceGroupByID(id int, group *ResourceMobileDeviceGroup) (*ResourceMobileDeviceGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
 
-	// Wrap the group with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_group"`
 		*ResourceMobileDeviceGroup
@@ -155,7 +152,7 @@ func (c *Client) UpdateMobileDeviceGroupByID(id int, group *ResourceMobileDevice
 	var updatedGroup ResourceMobileDeviceGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device group by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -169,7 +166,6 @@ func (c *Client) UpdateMobileDeviceGroupByID(id int, group *ResourceMobileDevice
 func (c *Client) UpdateMobileDeviceGroupByName(name string, group *ResourceMobileDeviceGroup) (*ResourceMobileDeviceGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceGroups, name)
 
-	// Wrap the group with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_group"`
 		*ResourceMobileDeviceGroup
@@ -180,7 +176,7 @@ func (c *Client) UpdateMobileDeviceGroupByName(name string, group *ResourceMobil
 	var updatedGroup ResourceMobileDeviceGroup
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device group by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -196,7 +192,7 @@ func (c *Client) DeleteMobileDeviceGroupByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device group by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device group", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -212,7 +208,7 @@ func (c *Client) DeleteMobileDeviceGroupByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device group by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device group", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

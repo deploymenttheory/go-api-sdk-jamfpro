@@ -14,12 +14,7 @@ import (
 const uriComputerPrestagesV2 = "/api/v2/computer-prestages"
 const uriComputerPrestagesV3 = "/api/v3/computer-prestages"
 
-// ResponseDeviceScope represents the structure of the response for a specific computer prestage scope.
-type ResponseDeviceScope struct {
-	PrestageId  string                            `json:"prestageId"`
-	Assignments []DeviceScopeSubsetAssignmentItem `json:"assignments"`
-	VersionLock int                               `json:"versionLock"`
-}
+// List
 
 // AssignmentItem represents the structure of each assignment within the prestage scope.
 type DeviceScopeSubsetAssignmentItem struct {
@@ -32,6 +27,23 @@ type ResponseComputerPrestagesList struct {
 	TotalCount *int                       `json:"totalCount"`
 	Results    []ResourceComputerPrestage `json:"results"`
 }
+
+// Responses
+
+// ResponseDeviceScope represents the structure of the response for a specific computer prestage scope.
+type ResponseDeviceScope struct {
+	PrestageId  string                            `json:"prestageId"`
+	Assignments []DeviceScopeSubsetAssignmentItem `json:"assignments"`
+	VersionLock int                               `json:"versionLock"`
+}
+
+// ResponseComputerPrestageCreate represents the response structure for creating a building.
+type ResponseComputerPrestageCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// Resource
 
 type ResourceComputerPrestage struct {
 	DisplayName                       string                                      `json:"displayName"`
@@ -71,6 +83,8 @@ type ResourceComputerPrestage struct {
 	VersionLock                       int                                         `json:"versionLock"`
 	AccountSettings                   ComputerPrestageSubsetAccountSettings       `json:"accountSettings"`
 }
+
+// Subsets & Containers
 
 type ComputerPrestageSubsetLocationInformation struct {
 	Username     string `json:"username"`
@@ -119,11 +133,7 @@ type ComputerPrestageSubsetAccountSettings struct {
 	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
 }
 
-// ResponseComputerPrestageCreate represents the response structure for creating a building.
-type ResponseComputerPrestageCreate struct {
-	ID   string `json:"id"`
-	Href string `json:"href"`
-}
+// CRUD
 
 // GetComputerPrestagesV3 retrieves all computer prestage information with optional sorting.
 func (c *Client) GetComputerPrestages(sort_filter string) (*ResponseComputerPrestagesList, error) {

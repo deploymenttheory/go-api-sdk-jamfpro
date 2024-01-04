@@ -200,7 +200,7 @@ func (c *Client) GetMobileDeviceConfigurationProfiles() (*ResponseMobileDeviceCo
 	var profiles ResponseMobileDeviceConfigurationProfilesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profiles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device configuration profiles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -217,7 +217,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByID(id int) (*ResourceMobil
 	var profile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -234,7 +234,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByName(name string) (*Resour
 	var profile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -245,13 +245,13 @@ func (c *Client) GetMobileDeviceConfigurationProfileByName(name string) (*Resour
 }
 
 // GetMobileDeviceConfigurationProfileByIDBySubset fetches a specific mobile device configuration profile by its ID and a specified subset.
-func (c *Client) GetMobileDeviceConfigurationProfileByIDBySubset(id int, subset string) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) GetMobileDeviceConfigurationProfileByIDWithSubset(id int, subset string) (*ResourceMobileDeviceConfigurationProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceConfigurationProfiles, id, subset)
 
 	var profile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by ID and subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device configuration profile with data subset", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -262,13 +262,13 @@ func (c *Client) GetMobileDeviceConfigurationProfileByIDBySubset(id int, subset 
 }
 
 // GetMobileDeviceConfigurationProfileByNameBySubset fetches a specific mobile device configuration profile by its name and a specified subset.
-func (c *Client) GetMobileDeviceConfigurationProfileByNameBySubset(name string, subset string) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) GetMobileDeviceConfigurationProfileByNameWithSubset(name string, subset string) (*ResourceMobileDeviceConfigurationProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDeviceConfigurationProfiles, name, subset)
 
 	var profile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by name and subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device configuration profile with data subset", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -304,7 +304,7 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 	var responseProfile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device configuration profile: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device configuration profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -329,7 +329,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *Res
 	var responseProfile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device configuration profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -353,7 +353,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 	var responseProfile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device configuration profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -369,7 +369,7 @@ func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device configuration profile by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -385,7 +385,7 @@ func (c *Client) DeleteMobileDeviceConfigurationProfileByName(name string) error
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device configuration profile by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

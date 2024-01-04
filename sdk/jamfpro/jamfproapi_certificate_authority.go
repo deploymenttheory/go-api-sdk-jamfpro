@@ -11,6 +11,8 @@ import (
 
 const uriCertificateAuthority = "/api/v1/pki/certificate-authority"
 
+// Response
+
 // ResponseActiveCertificateAuthority represents the JSON response for the active certificate authority.
 type ResponseActiveCertificateAuthority struct {
 	SubjectX500Principal string                                    `json:"subjectX500Principal"`
@@ -26,11 +28,15 @@ type ResponseActiveCertificateAuthority struct {
 	SHA256Fingerprint    string                                    `json:"sha256Fingerprint"`
 }
 
+// Subsets
+
 type ActiveCertificateAuthoritySubsetSignature struct {
 	Algorithm    string `json:"algorithm"`
 	AlgorithmOID string `json:"algorithmOid"`
 	Value        string `json:"value"`
 }
+
+// CRUD
 
 // GetActiveCertificateAuthority retrieves the active certificate authority details.
 func (c *Client) GetActiveCertificateAuthority() (*ResponseActiveCertificateAuthority, error) {

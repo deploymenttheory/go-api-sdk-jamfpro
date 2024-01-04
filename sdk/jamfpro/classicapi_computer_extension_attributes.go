@@ -58,7 +58,7 @@ func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAtt
 	var attributes ResponseComputerExtensionAttributesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attributes)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Computer Extension Attributes: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "computer extension attributes", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -75,7 +75,7 @@ func (c *Client) GetComputerExtensionAttributeByID(id int) (*ResourceComputerExt
 	var attribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Extension Attribute by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "computer extension attribute", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -92,7 +92,7 @@ func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResourceComp
 	var attribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Extension Attribute by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "computer extension attribute", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -116,7 +116,7 @@ func (c *Client) CreateComputerExtensionAttribute(attribute *ResourceComputerExt
 	var createdAttribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Computer Extension Attribute: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "computer extension attribute", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -140,7 +140,7 @@ func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *Resourc
 	var updatedAttribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Computer Extension Attribute by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer extension attribute", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -164,7 +164,7 @@ func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *
 	var updatedAttribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Computer Extension Attribute by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer extension attribute", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -180,7 +180,7 @@ func (c *Client) DeleteComputerExtensionAttributeByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Computer Extension Attribute by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "computer extension attribute", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -191,12 +191,10 @@ func (c *Client) DeleteComputerExtensionAttributeByID(id int) error {
 }
 
 // DeleteComputerExtensionAttributeByNameByID deletes a computer extension attribute by its name.
-// there is no url directly for deletion by resource name. so it is resolved in a two step process.
 func (c *Client) DeleteComputerExtensionAttributeByNameByID(name string) error {
-	// Step 1: Fetch all extension attributes to find the ID for the given name
 	attributes, err := c.GetComputerExtensionAttributes()
 	if err != nil {
-		return fmt.Errorf("failed to fetch Computer Extension Attributes: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
 	}
 
 	var attributeID int
@@ -208,7 +206,7 @@ func (c *Client) DeleteComputerExtensionAttributeByNameByID(name string) error {
 	}
 
 	if attributeID == 0 {
-		return fmt.Errorf("no Computer Extension Attribute found with name: %s", name)
+		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
 	}
 
 	// Step 2: Use the discovered ID to delete the attribute

@@ -194,7 +194,7 @@ func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
 	var ebooks ResponseEbooksList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebooks)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Ebooks: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "ebooks", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -211,7 +211,7 @@ func (c *Client) GetEbookByID(id int) (*ResourceEbooks, error) {
 	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Ebook by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "ebook", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -228,7 +228,7 @@ func (c *Client) GetEbookByName(name string) (*ResourceEbooks, error) {
 	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Ebook by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ebook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -245,7 +245,7 @@ func (c *Client) GetEbookByNameAndDataSubset(name, subset string) (*ResourceEboo
 	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Ebook by Name and Subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "ebook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -257,15 +257,13 @@ func (c *Client) GetEbookByNameAndDataSubset(name, subset string) (*ResourceEboo
 
 // CreateEbook creates a new ebook.
 func (c *Client) CreateEbook(ebook ResourceEbooks) (*ResourceEbooks, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriEbooks) // '0' typically used for creation in APIs
+	endpoint := fmt.Sprintf("%s/id/0", uriEbooks)
 
-	// Handle default values, especially for the Site ID if not provided
 	if ebook.General.Site.ID == 0 && ebook.General.Site.Name == "" {
 		ebook.General.Site.ID = -1
 		ebook.General.Site.Name = "none"
 	}
 
-	// The requestBody struct should mirror the ResourceEbooks struct, including all nested structs
 	requestBody := struct {
 		XMLName xml.Name `xml:"ebook"`
 		ResourceEbooks
@@ -276,7 +274,7 @@ func (c *Client) CreateEbook(ebook ResourceEbooks) (*ResourceEbooks, error) {
 	var response ResourceEbooks
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create ebook: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "ebook", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -300,7 +298,7 @@ func (c *Client) UpdateEbookByID(id int, ebook ResourceEbooks) (*ResourceEbooks,
 	var updatedEbook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Ebook by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ebook", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -324,7 +322,7 @@ func (c *Client) UpdateEbookByName(name string, ebook ResourceEbooks) (*Resource
 	var updatedEbook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Ebook by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ebook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -340,7 +338,7 @@ func (c *Client) DeleteEbookByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Ebook Item by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "ebook", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -356,7 +354,7 @@ func (c *Client) DeleteEbookByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Ebook Item by Name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "ebook", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

@@ -68,7 +68,7 @@ func (c *Client) GetDistributionPoints() (*ResponseDistributionPointsList, error
 	var distributionPoints ResponseDistributionPointsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoints)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Distribution Points: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "distribution points", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -85,7 +85,7 @@ func (c *Client) GetDistributionPointByID(id int) (*ResourceDistributionPoint, e
 	var distributionPoint ResourceDistributionPoint
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Distribution Point by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "distribution point", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -102,7 +102,7 @@ func (c *Client) GetDistributionPointByName(name string) (*ResourceDistributionP
 	var distributionPoint ResourceDistributionPoint
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Distribution Point by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "distribution point", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -127,7 +127,7 @@ func (c *Client) CreateDistributionPoint(dp *ResourceDistributionPoint) (*Resour
 	var createdDistributionPoint ResourceDistributionPoint
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDistributionPoint)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Distribution Point: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "distribution point", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -151,7 +151,7 @@ func (c *Client) UpdateDistributionPointByID(id int, dp *ResourceDistributionPoi
 	var updatedDistributionPoint ResourceDistributionPoint
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Distribution Point by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "distribution point", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -175,7 +175,7 @@ func (c *Client) UpdateDistributionPointByName(name string, dp *ResourceDistribu
 	var updatedDistributionPoint ResourceDistributionPoint
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Distribution Point by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "distribution point", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -191,7 +191,7 @@ func (c *Client) DeleteDistributionPointByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Distribution Point by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "distribution point", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -207,7 +207,7 @@ func (c *Client) DeleteDistributionPointByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Distribution Point by Name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "distribution point", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

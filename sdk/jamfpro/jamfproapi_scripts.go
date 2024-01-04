@@ -8,6 +8,24 @@ import (
 
 const uriScripts = "/api/v1/scripts"
 
+// List
+
+// Struct for paginated response for scripts
+type ResponseScriptsList struct {
+	Size    int              `json:"totalCount"`
+	Results []ResourceScript `json:"results"`
+}
+
+// Response
+
+// Response format struct for create function
+type ResponseScriptCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// Resource
+
 // Struct which represents Script object JSON from Pro API
 type ResourceScript struct {
 	ID             string `json:"id"`
@@ -29,17 +47,7 @@ type ResourceScript struct {
 	Parameter11    string `json:"parameter11,omitempty"`
 }
 
-// Struct for paginated response for scripts
-type ResponseScriptsList struct {
-	Size    int              `json:"totalCount"`
-	Results []ResourceScript `json:"results"`
-}
-
-// Response format struct for create function
-type ResponseScriptCreate struct {
-	ID   string `json:"id"`
-	Href string `json:"href"`
-}
+// CRUD
 
 // Gets full list of scripts & handles pagination
 func (c *Client) GetScripts(sort_filter string) (*ResponseScriptsList, error) {

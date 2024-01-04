@@ -162,13 +162,12 @@ type PatchPoliciesSubsetIBeaconItem struct {
 
 // GetPatchPoliciesByID retrieves the details of a patch policy by its ID.
 func (c *Client) GetPatchPoliciesByID(id int) (*ResourcePatchPolicies, error) {
-	// Construct the endpoint URL using the constant and the provided ID
 	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
 
 	var patchPolicyDetails ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicyDetails)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch patch policy by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "patch policy", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -185,7 +184,7 @@ func (c *Client) GetPatchPolicyByIDAndDataSubset(id int, subset string) (*Resour
 	var patchPolicySubset ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicySubset)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch patch policy subset by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "patch policy", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -209,7 +208,7 @@ func (c *Client) CreatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 	var responsePolicy ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create patch policy: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "patch policy", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -233,7 +232,7 @@ func (c *Client) UpdatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 	var responsePolicy ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create patch policy: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "patch policy", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -249,7 +248,7 @@ func (c *Client) DeletePatchPolicyByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete patch policy by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "patch policy", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

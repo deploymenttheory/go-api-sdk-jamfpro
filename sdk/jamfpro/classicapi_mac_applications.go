@@ -158,7 +158,7 @@ func (c *Client) GetMacApplications() (*ResponseMacApplicationsList, error) {
 	var macApps ResponseMacApplicationsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApps)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Mac Applications: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mac applications", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -177,7 +177,7 @@ func (c *Client) GetMacApplicationByID(id int) (*ResourceMacApplications, error)
 	var macApp ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Mac Application by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mac application", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -194,7 +194,7 @@ func (c *Client) GetMacApplicationByName(name string) (*ResourceMacApplications,
 	var macApp ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Mac Application by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mac application", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -212,7 +212,7 @@ func (c *Client) GetMacApplicationByIDAndDataSubset(id int, subset string) (*Res
 	var macApp ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Mac Application by Name and Subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mac application and data subset", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -230,7 +230,7 @@ func (c *Client) GetMacApplicationByNameAndDataSubset(name, subset string) (*Res
 	var macApp ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Mac Application by Name and Subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mac application and data subset", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -242,15 +242,13 @@ func (c *Client) GetMacApplicationByNameAndDataSubset(name, subset string) (*Res
 
 // CreateMacApplication creates a new Mac Application.
 func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*ResourceMacApplications, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriVPPMacApplications) // '0' typically used for creation in APIs
+	endpoint := fmt.Sprintf("%s/id/0", uriVPPMacApplications)
 
-	// Set default values for site if not included within request
 	if macApp.General.Site.ID == 0 && macApp.General.Site.Name == "" {
 		macApp.General.Site.ID = -1
 		macApp.General.Site.Name = "none"
 	}
 
-	// The requestBody struct should mirror the ResourceMacApplications struct, including all nested structs
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`
 		ResourceMacApplications
@@ -261,7 +259,7 @@ func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*Resource
 	var response ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Mac Application: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mac application", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -285,7 +283,7 @@ func (c *Client) UpdateMacApplicationByID(id int, macApp ResourceMacApplications
 	var response ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Mac Application by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mac application", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -309,7 +307,7 @@ func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacAppli
 	var response ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Mac Application by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mac application", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -325,7 +323,7 @@ func (c *Client) DeleteMacApplicationByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete VPP Mac Application Item by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mac application", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -341,7 +339,7 @@ func (c *Client) DeleteMacApplicationByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete VPP Mac Application Item by Name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mac application", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

@@ -96,7 +96,7 @@ func (c *Client) GetVPPAssignments() (*ResponseVPPAssignmentsList, error) {
 	var assignments ResponseVPPAssignmentsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignments)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch VPP assignments: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "vpp assignments", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -113,7 +113,7 @@ func (c *Client) GetVPPAssignmentByID(id int) (*ResourceVPPAssignment, error) {
 	var assignment ResourceVPPAssignment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignment)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch VPP assignment by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp assignment", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -125,9 +125,8 @@ func (c *Client) GetVPPAssignmentByID(id int) (*ResourceVPPAssignment, error) {
 
 // CreateVPPAssignment creates a new VPP assignment
 func (c *Client) CreateVPPAssignment(assignment *ResourceVPPAssignment) error {
-	endpoint := fmt.Sprintf("%s/id/0", uriVPPAssignments) // '0' indicates creation
+	endpoint := fmt.Sprintf("%s/id/0", uriVPPAssignments)
 
-	// Wrap the assignment with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_assignment"`
 		*ResourceVPPAssignment
@@ -135,12 +134,11 @@ func (c *Client) CreateVPPAssignment(assignment *ResourceVPPAssignment) error {
 		ResourceVPPAssignment: assignment,
 	}
 
-	// Create a dummy struct for the response
 	var handleResponse struct{}
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &handleResponse)
 	if err != nil {
-		return fmt.Errorf("failed to create VPP assignment: %v", err)
+		return fmt.Errorf(errMsgFailedCreate, "vpp assignment", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -154,7 +152,6 @@ func (c *Client) CreateVPPAssignment(assignment *ResourceVPPAssignment) error {
 func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignment) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
 
-	// Wrap the assignment with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_assignment"`
 		*ResourceVPPAssignment
@@ -162,12 +159,11 @@ func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignme
 		ResourceVPPAssignment: assignment,
 	}
 
-	// Create a dummy struct for the response
 	var handleResponse struct{}
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)
 	if err != nil {
-		return fmt.Errorf("failed to update VPP assignment by ID: %v", err)
+		return fmt.Errorf(errMsgFailedUpdateByID, "vpp assignment", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -183,7 +179,7 @@ func (c *Client) DeleteVPPAssignmentByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete VPP assignment by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "vpp assignment", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {

@@ -49,7 +49,7 @@ func (c *Client) GetDirectoryBindings() (*ResponseDirectoryBindingsList, error) 
 	var bindings ResponseDirectoryBindingsList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &bindings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Directory Bindings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "directory bindings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -60,13 +60,13 @@ func (c *Client) GetDirectoryBindings() (*ResponseDirectoryBindingsList, error) 
 }
 
 // GetDirectoryBindingByID retrieves a single directory binding by its ID.
-func (c *Client) GetDirectoryBindingByID(bindingID int) (*ResponseDirectoryBinding, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, bindingID)
+func (c *Client) GetDirectoryBindingByID(id int) (*ResponseDirectoryBinding, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
 
 	var binding ResponseDirectoryBinding
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Directory Binding by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "directory binding", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -77,13 +77,13 @@ func (c *Client) GetDirectoryBindingByID(bindingID int) (*ResponseDirectoryBindi
 }
 
 // GetDirectoryBindingByName retrieves a single directory binding by its name.
-func (c *Client) GetDirectoryBindingByName(bindingName string) (*ResponseDirectoryBinding, error) {
-	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, bindingName)
+func (c *Client) GetDirectoryBindingByName(name string) (*ResponseDirectoryBinding, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, name)
 
 	var binding ResponseDirectoryBinding
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Directory Binding by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "directory binding", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -107,7 +107,7 @@ func (c *Client) CreateDirectoryBinding(binding *ResponseDirectoryBinding) (*Res
 	var createdBinding ResponseDirectoryBinding
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdBinding)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Directory Binding: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "directory binding", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -118,8 +118,8 @@ func (c *Client) CreateDirectoryBinding(binding *ResponseDirectoryBinding) (*Res
 }
 
 // UpdateDirectoryBindingByID updates a directory binding by its ID.
-func (c *Client) UpdateDirectoryBindingByID(bindingID int, binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, bindingID)
+func (c *Client) UpdateDirectoryBindingByID(id int, binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"directory_binding"`
@@ -131,7 +131,7 @@ func (c *Client) UpdateDirectoryBindingByID(bindingID int, binding *ResponseDire
 	var updatedBinding ResponseDirectoryBinding
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBinding)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Directory Binding by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "directory binding", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -142,8 +142,8 @@ func (c *Client) UpdateDirectoryBindingByID(bindingID int, binding *ResponseDire
 }
 
 // UpdateDirectoryBindingByName updates a directory binding by its name.
-func (c *Client) UpdateDirectoryBindingByName(bindingName string, binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
-	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, bindingName)
+func (c *Client) UpdateDirectoryBindingByName(name string, binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"directory_binding"`
@@ -155,7 +155,7 @@ func (c *Client) UpdateDirectoryBindingByName(bindingName string, binding *Respo
 	var updatedBinding ResponseDirectoryBinding
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBinding)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update Directory Binding by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "directory binding", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -166,12 +166,12 @@ func (c *Client) UpdateDirectoryBindingByName(bindingName string, binding *Respo
 }
 
 // DeleteDirectoryBindingByID deletes a directory binding by its ID.
-func (c *Client) DeleteDirectoryBindingByID(bindingID int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, bindingID)
+func (c *Client) DeleteDirectoryBindingByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Directory Binding by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "directory binding", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -182,12 +182,12 @@ func (c *Client) DeleteDirectoryBindingByID(bindingID int) error {
 }
 
 // DeleteDirectoryBindingByName deletes a directory binding by its name.
-func (c *Client) DeleteDirectoryBindingByName(bindingName string) error {
-	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, bindingName)
+func (c *Client) DeleteDirectoryBindingByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, name)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Directory Binding by Name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "directory binding", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

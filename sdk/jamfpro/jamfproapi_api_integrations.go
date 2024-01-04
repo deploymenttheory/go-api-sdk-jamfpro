@@ -13,11 +13,15 @@ import (
 
 const uriApiIntegrations = "/api/v1/api-integrations"
 
+// List
+
 // ResponseApiIntegrations represents the structure of the response for fetching API integrations
 type ResponseApiIntegrationsList struct {
 	TotalCount int                      `json:"totalCount"`
 	Results    []ResourceApiIntegration `json:"results"`
 }
+
+// Resource
 
 // Integration represents the details of an individual API integration
 type ResourceApiIntegration struct {
@@ -35,6 +39,8 @@ type ResourceClientCredentials struct {
 	ClientID     string `json:"clientId"`
 	ClientSecret string `json:"clientSecret"`
 }
+
+// CRUD
 
 // GetApiIntegrations fetches all API integrations
 func (c *Client) GetApiIntegrations(sort_filter string) (*ResponseApiIntegrationsList, error) {

@@ -50,7 +50,7 @@ func (c *Client) GetMobileExtensionAttributes() (*ResponseMobileDeviceExtensionA
 	var extensionAttributes ResponseMobileDeviceExtensionAttributesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extensionAttributes)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device extension attributes: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device extension attributes", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -67,7 +67,7 @@ func (c *Client) GetMobileExtensionAttributeByID(id int) (*ResourceMobileExtensi
 	var attribute ResourceMobileExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile extension attribute by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device extension attribute", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -84,7 +84,7 @@ func (c *Client) GetMobileExtensionAttributeByName(name string) (*ResourceMobile
 	var attribute ResourceMobileExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile extension attribute by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device extension attribute", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -98,7 +98,6 @@ func (c *Client) GetMobileExtensionAttributeByName(name string) (*ResourceMobile
 func (c *Client) CreateMobileExtensionAttribute(attribute *ResourceMobileExtensionAttribute) (*ResourceMobileExtensionAttribute, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceExtensionAttributes)
 
-	// Wrap the attribute with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_extension_attribute"`
 		*ResourceMobileExtensionAttribute
@@ -109,7 +108,7 @@ func (c *Client) CreateMobileExtensionAttribute(attribute *ResourceMobileExtensi
 	var responseAttribute ResourceMobileExtensionAttribute
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device extension attribute: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device extension attribute", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -133,7 +132,7 @@ func (c *Client) UpdateMobileExtensionAttributeByID(id int, attribute *ResourceM
 	var responseAttribute ResourceMobileExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile extension attribute by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device extension attribute", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -157,7 +156,7 @@ func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *Re
 	var responseAttribute ResourceMobileExtensionAttribute
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile extension attribute by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device extension attribute", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -173,7 +172,7 @@ func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile extension attribute by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device extension attribute", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -189,7 +188,7 @@ func (c *Client) DeleteMobileExtensionAttributeByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile extension attribute by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device extension attribute", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

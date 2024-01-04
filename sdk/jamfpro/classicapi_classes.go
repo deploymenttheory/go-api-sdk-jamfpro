@@ -137,7 +137,7 @@ func (c *Client) GetClasses() (*ResponseClassesList, error) {
 	var classes ResponseClassesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &classes)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all Classes: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "classes", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -154,7 +154,7 @@ func (c *Client) GetClassByID(id int) (*ResourceClass, error) {
 	var class ResourceClass
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Class by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "class", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -171,7 +171,7 @@ func (c *Client) GetClassByName(name string) (*ResourceClass, error) {
 	var class ResourceClass
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Class by Name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "class", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -200,7 +200,7 @@ func (c *Client) CreateClass(class *ResourceClass) (*ResourceClass, error) {
 	var createdClass ResourceClass
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdClass)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create Class: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "class", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -223,7 +223,7 @@ func (c *Client) UpdateClassByID(id int, class *ResourceClass) error {
 
 	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil)
 	if err != nil {
-		return fmt.Errorf("failed to update Class by ID: %v", err)
+		return fmt.Errorf(errMsgFailedUpdateByID, "class", id, err)
 	}
 
 	return nil
@@ -242,7 +242,7 @@ func (c *Client) UpdateClassByName(name string, class *ResourceClass) error {
 
 	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil)
 	if err != nil {
-		return fmt.Errorf("failed to update Class by Name: %v", err)
+		return fmt.Errorf(errMsgFailedUpdateByName, "class", name, err)
 	}
 
 	return nil
@@ -254,7 +254,7 @@ func (c *Client) DeleteClassByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Class by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "class", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -270,7 +270,7 @@ func (c *Client) DeleteClassByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete Class by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "class", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

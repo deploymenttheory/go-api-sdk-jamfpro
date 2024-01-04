@@ -99,7 +99,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfiles() (*ResponseMobileDeviceEnrol
 	var enrollmentProfiles ResponseMobileDeviceEnrollmentProfilesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &enrollmentProfiles)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device enrollment profiles: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device enrollment profiles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -116,7 +116,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByID(id int) (*ResourceMobileDe
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device enrollment profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device enrollment profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -133,7 +133,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByName(name string) (*ResourceM
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device enrollment profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device enrollment profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -150,7 +150,7 @@ func (c *Client) GetProfileByInvitation(invitation string) (*ResourceMobileDevic
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device enrollment profile by invitation: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByString, "mobile device enrollment profile", "invitation", invitation, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -161,13 +161,13 @@ func (c *Client) GetProfileByInvitation(invitation string) (*ResourceMobileDevic
 }
 
 // GetMobileDeviceEnrollmentProfileByIDBySubset fetches a specific mobile device configuration profile by its ID and a specified subset.
-func (c *Client) GetMobileDeviceEnrollmentProfileByIDBySubset(id int, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetMobileDeviceEnrollmentProfileByIDWithSubset(id int, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceEnrollmentProfiles, id, subset)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by ID and subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device enrollment profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -178,13 +178,13 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByIDBySubset(id int, subset str
 }
 
 // GetMobileDeviceEnrollmentProfileByNameBySubset fetches a specific mobile device configuration profile by its name and a specified subset.
-func (c *Client) GetMobileDeviceEnrollmentProfileByNameBySubset(name string, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
+func (c *Client) GetMobileDeviceEnrollmentProfileByNameWithSubset(name string, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDeviceEnrollmentProfiles, name, subset)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch mobile device configuration profile by name and subset: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device enrollment profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -198,7 +198,6 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByNameBySubset(name string, sub
 func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceEnrollmentProfiles)
 
-	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_enrollment_profile"`
 		*ResourceMobileDeviceEnrollmentProfile
@@ -209,7 +208,7 @@ func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResourceMobileDevi
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create mobile device enrollment profile: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device enrollment profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -233,7 +232,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id int, profile *Resour
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device enrollment profile by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device enrollment profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -257,7 +256,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByName(name string, profile 
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device enrollment profile by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device enrollment profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -281,7 +280,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation stri
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update mobile device enrollment profile by invitation: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByString, "mobile device enrollment profile", "invitation", invitation, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -297,7 +296,7 @@ func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device enrollment profile by ID: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device enrollment profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -313,7 +312,7 @@ func (c *Client) DeleteMobileDeviceEnrollmentProfileByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device enrollment profile by name: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device enrollment profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -329,7 +328,7 @@ func (c *Client) DeleteMobileDeviceEnrollmentProfileByInvitation(invitation stri
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete mobile device enrollment profile by invitation: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByString, "mobile device enrollment profile", "invitation", invitation, err)
 	}
 
 	if resp != nil && resp.Body != nil {

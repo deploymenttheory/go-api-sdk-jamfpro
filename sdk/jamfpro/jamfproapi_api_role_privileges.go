@@ -12,10 +12,14 @@ import (
 
 const uriApiRolePrivileges = "/api/v1/api-role-privileges"
 
+// Resource
+
 // ResponseApiRolePrivileges represents the structure of the response for fetching API role privileges
 type ResourceApiRolePrivilegesList struct {
 	Privileges []string `json:"privileges"`
 }
+
+// CRUD
 
 // GetJamfAPIPrivileges fetches a list of Jamf API role privileges
 func (c *Client) GetJamfAPIPrivileges() (*ResourceApiRolePrivilegesList, error) {

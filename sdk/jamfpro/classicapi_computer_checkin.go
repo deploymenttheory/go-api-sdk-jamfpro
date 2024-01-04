@@ -41,7 +41,7 @@ func (c *Client) GetComputerCheckinInformation() (*ResourceComputerCheckin, erro
 	var checkinSettings ResourceComputerCheckin
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &checkinSettings)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch Computer Checkin settings: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "computer checkin information", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -66,7 +66,7 @@ func (c *Client) UpdateComputerCheckinInformation(settings *ResourceComputerChec
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)
 	if err != nil {
-		return fmt.Errorf("failed to update Computer Checkin settings: %v", err)
+		return fmt.Errorf(errMsgFailedUpdate, "computer checkin information", err)
 	}
 
 	if resp != nil && resp.Body != nil {

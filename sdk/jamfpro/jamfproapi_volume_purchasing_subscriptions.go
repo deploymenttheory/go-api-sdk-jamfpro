@@ -13,12 +13,14 @@ import (
 const uriVolumePurchasingSubscriptions = "/api/v1/volume-purchasing-subscriptions"
 
 // List
+
 type ResponseVolumePurchasingSubscriptionsList struct {
 	TotalCount *int                                   `json:"totalCount,omitempty"`
 	Results    []ResourceVolumePurchasingSubscription `json:"results,omitempty"`
 }
 
 // Resource
+
 type ResourceVolumePurchasingSubscription struct {
 	Id                 string                                                 `json:"id,omitempty"`
 	Name               string                                                 `json:"name"`
@@ -31,6 +33,7 @@ type ResourceVolumePurchasingSubscription struct {
 }
 
 // Subsets
+
 type VolumePurchasingSubscriptionSubsetInternalRecipients struct {
 	AccountId string `json:"accountId,omitempty"`
 	Frequency string `json:"frequency,omitempty"`

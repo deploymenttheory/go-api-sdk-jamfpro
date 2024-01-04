@@ -43,6 +43,8 @@ type ResourceNetworkSegment struct {
 	OverrideDepartments bool   `json:"override_departments" xml:"override_departments"`
 }
 
+// CRUD
+
 // GetNetworkSegments retrieves a list of network segments.
 func (c *Client) GetNetworkSegments() (*ResponseNetworkSegmentList, error) {
 	endpoint := uriNetworkSegments
@@ -50,7 +52,7 @@ func (c *Client) GetNetworkSegments() (*ResponseNetworkSegmentList, error) {
 	var segments ResponseNetworkSegmentList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segments)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch network segments: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "network segments", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -67,7 +69,7 @@ func (c *Client) GetNetworkSegmentByID(id int) (*ResourceNetworkSegment, error) 
 	var segment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segment)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch network segment by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "network segment", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -84,7 +86,7 @@ func (c *Client) GetNetworkSegmentByName(name string) (*ResourceNetworkSegment, 
 	var segment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segment)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch network segment by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "network segment", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -109,7 +111,7 @@ func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*Resourc
 	var responseSegment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseSegment)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create network segment: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "network segment", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -133,7 +135,7 @@ func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegmen
 	var responseSegment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseSegment)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update network segment by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "network segment", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -157,7 +159,7 @@ func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResourceNetwor
 	var responseSegment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseSegment)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update network segment by name: %v", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "network segment", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -172,7 +174,7 @@ func (c *Client) DeleteNetworkSegmentByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete policy: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "network segment", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -187,7 +189,7 @@ func (c *Client) DeleteNetworkSegmentByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriNetworkSegments, name)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete policy: %v", err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "network segment", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
