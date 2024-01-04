@@ -43,7 +43,7 @@ func main() {
 		Name:        "User Attributes",
 		Description: "Text field for logging custom data",
 		DataType:    "String",
-		InputType: jamfpro.UserExtensionInputType{
+		InputType: jamfpro.ResourceUserExtensionAttributeSubsetInputType{
 			Type: "Text Field",
 		},
 	}

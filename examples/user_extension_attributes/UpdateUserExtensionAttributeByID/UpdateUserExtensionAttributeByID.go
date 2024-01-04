@@ -39,11 +39,11 @@ func main() {
 	}
 
 	// Prepare the attribute to update
-	attributeToUpdate := &jamfpro.ResponseUserExtensionAttribute{
+	attributeToUpdate := &jamfpro.ResourceUserExtensionAttribute{
 		Name:        "User Attributes",                    // Updated name
 		Description: "Text field for logging custom data", // Updated description
 		DataType:    "String",                             // Updated data type
-		InputType: jamfpro.UserExtensionInputType{
+		InputType: jamfpro.ResourceUserExtensionAttributeSubsetInputType{
 			Type: "Text Field", // Updated input type
 		},
 	}
