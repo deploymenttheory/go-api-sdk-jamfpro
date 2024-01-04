@@ -40,8 +40,8 @@ func main() {
 	}
 
 	// Define a new policy with all required fields
-	newPolicy := &jamfpro.ResponsePolicy{
-		General: jamfpro.PolicyGeneral{
+	newPolicy := &jamfpro.ResourcePolicy{
+		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "policy-creation-test",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
@@ -59,7 +59,7 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		SelfService: jamfpro.PolicySelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           false,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
@@ -68,7 +68,7 @@ func main() {
 			ForceUsersToViewDescription: false,
 			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySelfServiceCategory{
+			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategories{
 				{
 					Category: jamfpro.PolicyCategory{
 						//ID:        "-1",
@@ -79,19 +79,19 @@ func main() {
 				},
 			},
 		},
-		AccountMaintenance: jamfpro.PolicyAccountMaintenance{
-			ManagementAccount: jamfpro.PolicyManagementAccount{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
+			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
 				Action:                "doNotChange",
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
-			OpenFirmwareEfiPassword: jamfpro.PolicyOpenFirmwareEfiPassword{
+			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
 				OfMode:           "none",
 				OfPassword:       "",
 				OfPasswordSHA256: "",
 			},
 		},
-		Maintenance: jamfpro.PolicyMaintenance{
+		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
 			ResetName:                false,
 			InstallAllCachedPackages: false,
@@ -103,7 +103,7 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		FilesProcesses: jamfpro.PolicyFilesProcesses{
+		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
 			SpotlightSearch:      "",
@@ -111,14 +111,14 @@ func main() {
 			KillProcess:          false,
 			RunCommand:           "",
 		},
-		UserInteraction: jamfpro.PolicyUserInteraction{
+		UserInteraction: jamfpro.PolicySubsetUserInteraction{
 			MessageStart:          "",
 			AllowUserToDefer:      false,
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		Reboot: jamfpro.PolicyReboot{
+		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",
@@ -137,7 +137,7 @@ func main() {
 	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
 
 	// Call CreatePolicy function
-	createdPolicy, err := client.CreatePolicyByID(newPolicy)
+	createdPolicy, err := client.CreatePolicy(newPolicy)
 	if err != nil {
 		log.Fatalf("Error creating policy: %v", err)
 	}
