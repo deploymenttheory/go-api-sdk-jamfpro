@@ -3,6 +3,12 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/usergroups
 // Jamf Pro Classic Api requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+- SharedSubsetCriteria
+*/
+
 package jamfpro
 
 import (
@@ -12,49 +18,48 @@ import (
 
 const uriUserGroups = "/JSSResource/usergroups"
 
+// List
+
 // ResponseUserGroupsList represents the structure for a list of user groups.
 type ResponseUserGroupsList struct {
-	Size      int `xml:"size"`
-	UserGroup []struct {
-		ID               int    `xml:"id"`
-		Name             string `xml:"name"`
-		IsSmart          bool   `xml:"is_smart"`
-		IsNotifyOnChange bool   `xml:"is_notify_on_change"`
-	} `xml:"user_group"`
+	Size      int                  `xml:"size"`
+	UserGroup []UserGroupsListItem `xml:"user_group"`
 }
 
-// ResourceUserGroup represents the detailed information of a user group.
-type ResourceUserGroup struct {
+type UserGroupsListItem struct {
 	ID               int    `xml:"id"`
 	Name             string `xml:"name"`
 	IsSmart          bool   `xml:"is_smart"`
 	IsNotifyOnChange bool   `xml:"is_notify_on_change"`
-	Site             struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"site"`
-	Criteria []struct {
-		Name         string `xml:"name"`
-		Priority     int    `xml:"priority"`
-		AndOr        string `xml:"and_or"`
-		SearchType   string `xml:"search_type"`
-		Value        string `xml:"value"`
-		OpeningParen bool   `xml:"opening_paren,omitempty"`
-		ClosingParen bool   `xml:"closing_paren,omitempty"`
-	} `xml:"criteria>criterion"`
-	Users         []UserGroupUserItem `xml:"users>user"`
-	UserAdditions []UserGroupUserItem `xml:"user_additions>user"`
-	UserDeletions []UserGroupUserItem `xml:"user_deletions>user"`
 }
 
+// Resource
+
+// ResourceUserGroup represents the detailed information of a user group.
+type ResourceUserGroup struct {
+	ID               int                       `xml:"id"`
+	Name             string                    `xml:"name"`
+	IsSmart          bool                      `xml:"is_smart"`
+	IsNotifyOnChange bool                      `xml:"is_notify_on_change"`
+	Site             SharedResourceSite        `xml:"site"`
+	Criteria         []SharedSubsetCriteria    `xml:"criteria>criterion"`
+	Users            []UserGroupSubsetUserItem `xml:"users>user"`
+	UserAdditions    []UserGroupSubsetUserItem `xml:"user_additions>user"`
+	UserDeletions    []UserGroupSubsetUserItem `xml:"user_deletions>user"`
+}
+
+// Shared
+
 // UserGroupUserItem represents a user of a user group.
-type UserGroupUserItem struct {
+type UserGroupSubsetUserItem struct {
 	ID           int    `xml:"id"`
 	Username     string `xml:"username"`
 	FullName     string `xml:"full_name"`
 	PhoneNumber  string `xml:"phone_number,omitempty"`
 	EmailAddress string `xml:"email_address"`
 }
+
+// CRUD
 
 // GetUserGroups retrieves a list of all user groups.
 func (c *Client) GetUserGroups() (*ResponseUserGroupsList, error) {

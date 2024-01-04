@@ -14,26 +14,38 @@ const uriUserExtensionAttributes = "/JSSResource/userextensionattributes"
 
 // Structs for User Extension Attributes
 
+// List
+
 type ResponseUserExtensionAttributesList struct {
-	XMLName                 xml.Name `xml:"user_extension_attributes"`
-	Size                    int      `xml:"size"`
-	UserExtensionAttributes []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"user_extension_attribute"`
+	XMLName                 xml.Name                          `xml:"user_extension_attributes"`
+	Size                    int                               `xml:"size"`
+	UserExtensionAttributes []UserExtensionAttributesListItem `xml:"user_extension_attribute"`
 }
+
+type UserExtensionAttributesListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 // ResponseUserExtensionAttributerepresents a single user extension attribute.
 type ResourceUserExtensionAttribute struct {
-	XMLName     xml.Name `xml:"user_extension_attribute"`
-	ID          int      `xml:"id,omitempty"`
-	Name        string   `xml:"name"`
-	Description string   `xml:"description"`
-	DataType    string   `xml:"data_type"`
-	InputType   struct {
-		Type string `xml:"type"`
-	} `xml:"input_type"`
+	XMLName     xml.Name                                      `xml:"user_extension_attribute"`
+	ID          int                                           `xml:"id,omitempty"`
+	Name        string                                        `xml:"name"`
+	Description string                                        `xml:"description"`
+	DataType    string                                        `xml:"data_type"`
+	InputType   ResourceUserExtensionAttributeSubsetInputType `xml:"input_type"`
 }
+
+// Subsets
+
+type ResourceUserExtensionAttributeSubsetInputType struct {
+	Type string `xml:"type"`
+}
+
+// CRUD
 
 // GetUserExtensionAttributes retrieves a list of all user extension attributes.
 func (c *Client) GetUserExtensionAttributes() (*ResponseUserExtensionAttributesList, error) {

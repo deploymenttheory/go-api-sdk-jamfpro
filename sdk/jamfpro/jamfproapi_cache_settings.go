@@ -12,25 +12,31 @@ import (
 
 const uriCacheSettings = "/api/v1/cache-settings"
 
+// Resource
+
 // ResponseCacheSettings represents the JSON response for cache settings.
 type ResourceCacheSettings struct {
-	ID                         string `json:"id,omitempty"`
-	Name                       string `json:"name,omitempty"`
-	CacheType                  string `json:"cacheType"`
-	TimeToLiveSeconds          int    `json:"timeToLiveSeconds"`
-	TimeToIdleSeconds          int    `json:"timeToIdleSeconds"`
-	DirectoryTimeToLiveSeconds int    `json:"directoryTimeToLiveSeconds,omitempty"`
-	EhcacheMaxBytesLocalHeap   string `json:"ehcacheMaxBytesLocalHeap,omitempty"`
-	CacheUniqueId              string `json:"cacheUniqueId"`
-	Elasticache                bool   `json:"elasticache,omitempty"`
-	MemcachedEndpoints         []struct {
-		ID                      string `json:"id,omitempty"`
-		Name                    string `json:"name,omitempty"`
-		HostName                string `json:"hostName,omitempty"`
-		Port                    int    `json:"port,omitempty"`
-		Enabled                 bool   `json:"enabled,omitempty"`
-		JSSCacheConfigurationID int    `json:"jssCacheConfigurationId,omitempty"`
-	} `json:"memcachedEndpoints"`
+	ID                         string                                  `json:"id,omitempty"`
+	Name                       string                                  `json:"name,omitempty"`
+	CacheType                  string                                  `json:"cacheType"`
+	TimeToLiveSeconds          int                                     `json:"timeToLiveSeconds"`
+	TimeToIdleSeconds          int                                     `json:"timeToIdleSeconds"`
+	DirectoryTimeToLiveSeconds int                                     `json:"directoryTimeToLiveSeconds,omitempty"`
+	EhcacheMaxBytesLocalHeap   string                                  `json:"ehcacheMaxBytesLocalHeap,omitempty"`
+	CacheUniqueId              string                                  `json:"cacheUniqueId"`
+	Elasticache                bool                                    `json:"elasticache,omitempty"`
+	MemcachedEndpoints         []CacheSettingsSubsetMemcachedEndpoints `json:"memcachedEndpoints"`
+}
+
+// Subsets
+
+type CacheSettingsSubsetMemcachedEndpoints struct {
+	ID                      string `json:"id,omitempty"`
+	Name                    string `json:"name,omitempty"`
+	HostName                string `json:"hostName,omitempty"`
+	Port                    int    `json:"port,omitempty"`
+	Enabled                 bool   `json:"enabled,omitempty"`
+	JSSCacheConfigurationID int    `json:"jssCacheConfigurationId,omitempty"`
 }
 
 // GetCacheSettings gets the current cache settings.

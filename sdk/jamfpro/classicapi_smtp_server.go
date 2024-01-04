@@ -14,6 +14,8 @@ const uriSMTPServer = "/JSSResource/smtpserver"
 
 // Struct for the SMTP server settings response
 
+// Resource
+
 type ResourceSMTPServer struct {
 	Enabled               bool   `xml:"enabled"`
 	Host                  string `xml:"host"`
@@ -28,6 +30,7 @@ type ResourceSMTPServer struct {
 	SendFromEmail         string `xml:"send_from_email"`
 }
 
+// CRUD
 // GetSMTPServerInformation gets the SMTP server settings
 func (c *Client) GetSMTPServerInformation() (*ResourceSMTPServer, error) {
 	endpoint := uriSMTPServer

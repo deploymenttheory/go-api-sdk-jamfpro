@@ -3,6 +3,11 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/vppaccounts
 // Jamf Pro Classic Api requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+*/
+
 package jamfpro
 
 import (
@@ -12,34 +17,38 @@ import (
 
 const uriVPPAccounts = "/JSSResource/vppaccounts"
 
+// List
+
 // Structs for VPP Accounts Response
 type ResponseVPPAccountsList struct {
-	Size     int `xml:"size"`
-	Accounts []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"vpp_account"`
+	Size     int                   `xml:"size"`
+	Accounts []VPPAccountsListItem `xml:"vpp_account"`
 }
+
+type VPPAccountsListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 // Struct for individual VPP Account
 type ResourceVPPAccount struct {
-	ID             int    `xml:"id"`
-	Name           string `xml:"name"`
-	Contact        string `xml:"contact"`
-	ServiceToken   string `xml:"service_token"`
-	AccountName    string `xml:"account_name"`
-	ExpirationDate string `xml:"expiration_date"`
-	Country        string `xml:"country"`
-	AppleID        string `xml:"apple_id"`
-	Site           struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"site"`
-	PopulateCatalogFromVPPContent bool `xml:"populate_catalog_from_vpp_content"`
-	NotifyDisassociation          bool `xml:"notify_disassociation"`
-	AutoRegisterManagedUsers      bool `xml:"auto_register_managed_users"`
+	ID                            int                `xml:"id"`
+	Name                          string             `xml:"name"`
+	Contact                       string             `xml:"contact"`
+	ServiceToken                  string             `xml:"service_token"`
+	AccountName                   string             `xml:"account_name"`
+	ExpirationDate                string             `xml:"expiration_date"`
+	Country                       string             `xml:"country"`
+	AppleID                       string             `xml:"apple_id"`
+	Site                          SharedResourceSite `xml:"site"`
+	PopulateCatalogFromVPPContent bool               `xml:"populate_catalog_from_vpp_content"`
+	NotifyDisassociation          bool               `xml:"notify_disassociation"`
+	AutoRegisterManagedUsers      bool               `xml:"auto_register_managed_users"`
 }
 
+// CRUD
 // GetVPPAccounts retrieves a list of all VPP accounts.
 func (c *Client) GetVPPAccounts() (*ResponseVPPAccountsList, error) {
 	endpoint := uriVPPAccounts
