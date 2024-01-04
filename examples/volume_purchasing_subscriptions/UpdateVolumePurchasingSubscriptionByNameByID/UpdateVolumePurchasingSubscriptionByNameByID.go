@@ -42,22 +42,16 @@ func main() {
 	subscriptionName := "Example Volume Purchasing Subscription"
 
 	// Example update data
-	updateData := jamfpro.VolumePurchasingSubscription{
+	updateData := jamfpro.ResourceVolumePurchasingSubscription{
 		Enabled:  true,
 		SiteId:   "-1",
-		Name:     "Updated Volume Purchasing Subscription",
+		Name:     "Example Volume Purchasing Subscription",
 		Triggers: []string{"NO_MORE_LICENSES", "REMOVED_FROM_APP_STORE"},
-		InternalRecipients: []struct {
-			AccountId string `json:"accountId,omitempty"`
-			Frequency string `json:"frequency,omitempty"`
-		}{
+		InternalRecipients: []jamfpro.VolumePurchasingSubscriptionSubsetInternalRecipients{
 			{Frequency: "DAILY", AccountId: "1"},
 		},
-		ExternalRecipients: []struct {
-			Name  string `json:"name,omitempty"`
-			Email string `json:"email,omitempty"`
-		}{
-			{Name: "Alice Examplewoman", Email: "alice@example.com"}, // New external recipient
+		ExternalRecipients: []jamfpro.VolumePurchasingSubscriptionSubsetExternalRecipients{
+			{Name: "Bob Exampleman", Email: "bob@example.com"},
 		},
 	}
 
