@@ -40,7 +40,7 @@ func main() {
 	}
 
 	newRestrictedSoftware := &jamfpro.ResourceRestrictedSoftware{
-		General: jamfpro.RestrictedSoftwareDataSubsetGeneral{
+		General: jamfpro.RestrictedSoftwareSubsetGeneral{
 			Name:                  "Restrict High Sierra",
 			ProcessName:           "Install macOS High Sierra.app",
 			MatchExactProcessName: true,
@@ -48,23 +48,23 @@ func main() {
 			KillProcess:           true,
 			DeleteExecutable:      true,
 			DisplayMessage:        "High Sierra is not yet supported, check Self Service after public release.",
-			Site: jamfpro.RestrictedSoftwareDataSubsetSite{
+			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
 		},
-		Scope: jamfpro.RestrictedSoftwareDataSubsetScope{
+		Scope: jamfpro.RestrictedSoftwareSubsetScope{
 			AllComputers:   false,
-			Computers:      []jamfpro.RestrictedSoftwareDataSubsetScopeComputer{},
-			ComputerGroups: []jamfpro.RestrictedSoftwareDataSubsetScopeComputerGroup{},
-			Buildings:      []jamfpro.RestrictedSoftwareDataSubsetScopeBuilding{},
-			Departments:    []jamfpro.RestrictedSoftwareDataSubsetScopeDepartment{},
-			Exclusions: jamfpro.RestrictedSoftwareExclusions{
-				Computers:      []jamfpro.RestrictedSoftwareDataSubsetScopeComputer{},
-				ComputerGroups: []jamfpro.RestrictedSoftwareDataSubsetScopeComputerGroup{},
-				Buildings:      []jamfpro.RestrictedSoftwareDataSubsetScopeBuilding{},
-				Departments:    []jamfpro.RestrictedSoftwareDataSubsetScopeDepartment{},
-				Users:          []jamfpro.RestrictedSoftwareDataSubsetScopeUser{},
+			Computers:      []jamfpro.RestrictedSoftwareSubsetScopeComputer{},
+			ComputerGroups: []jamfpro.RestrictedSoftwareSubsetScopeComputerGroup{},
+			Buildings:      []jamfpro.RestrictedSoftwareSubsetScopeBuilding{},
+			Departments:    []jamfpro.RestrictedSoftwareSubsetScopeDepartment{},
+			Exclusions: jamfpro.RestrictedSoftwareSubsetScopeExclusions{
+				Computers:      []jamfpro.RestrictedSoftwareSubsetScopeComputer{},
+				ComputerGroups: []jamfpro.RestrictedSoftwareSubsetScopeComputerGroup{},
+				Buildings:      []jamfpro.RestrictedSoftwareSubsetScopeBuilding{},
+				Departments:    []jamfpro.RestrictedSoftwareSubsetScopeDepartment{},
+				Users:          []jamfpro.RestrictedSoftwareSubsetScopeUser{},
 			},
 		},
 	}
