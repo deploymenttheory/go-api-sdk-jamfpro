@@ -48,7 +48,7 @@ func (c *Client) GetVolumePurchasingSubscriptions() (*ResponseVolumePurchasingSu
 	var subscriptionsList ResponseVolumePurchasingSubscriptionsList
 	resp, err := c.HTTP.DoRequest("GET", uriVolumePurchasingSubscriptions, nil, &subscriptionsList)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch volume purchasing subscriptions: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "volume purchasing subscriptions", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -66,7 +66,7 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolume
 	var subscription ResourceVolumePurchasingSubscription
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &subscription)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch volume purchasing subscription with ID %s: %v", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "volume purchasing subscription", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -80,7 +80,7 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolume
 func (c *Client) GetVolumePurchasingSubscriptionByNameByID(name string) (*ResourceVolumePurchasingSubscription, error) {
 	subscriptionsList, err := c.GetVolumePurchasingSubscriptions()
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all volume purchasing subscriptions: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "volume purchasing subscription", name, err)
 	}
 
 	// Search for the subscription with the given name
