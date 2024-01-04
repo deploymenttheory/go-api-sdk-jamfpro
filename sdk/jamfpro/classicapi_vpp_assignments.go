@@ -13,57 +13,81 @@ import (
 
 const uriVPPAssignments = "/JSSResource/vppassignments"
 
+// List
+
 // Struct for the list of VPP assignments
 type ResponseVPPAssignmentsList struct {
-	VPPAssignments []struct {
-		ID                int    `xml:"id"`
-		VPPAdminAccountID int    `xml:"vpp_admin_account_id"`
-		Name              string `xml:"name"`
-	} `xml:"vpp_assignment"`
+	VPPAssignments []VPPAssignmentsListItem `xml:"vpp_assignment"`
 }
+
+type VPPAssignmentsListItem struct {
+	ID                int    `xml:"id"`
+	VPPAdminAccountID int    `xml:"vpp_admin_account_id"`
+	Name              string `xml:"name"`
+}
+
+// Resource
 
 // Structs for the detailed VPP assignment response
 type ResourceVPPAssignment struct {
-	General struct {
-		ID                  int    `xml:"id"`
-		Name                string `xml:"name"`
-		VPPAdminAccountID   int    `xml:"vpp_admin_account_id"`
-		VPPAdminAccountName string `xml:"vpp_admin_account_name"`
-	} `xml:"general"`
-	IOSApps []ResourceVPPSubsetVPPApp `xml:"ios_apps>ios_app"`
-	MacApps []ResourceVPPSubsetVPPApp `xml:"mac_apps>mac_app"`
-	EBooks  []ResourceVPPSubsetVPPApp `xml:"ebooks>ebook"`
-	Scope   struct {
-		AllJSSUsers   bool                            `xml:"all_jss_users"`
-		JSSUsers      []ResourceVPPSubsetVPPUser      `xml:"jss_users>user"`
-		JSSUserGroups []ResourceVPPSubsetVPPUserGroup `xml:"jss_user_groups>user_group"`
-		Limitations   struct {
-			UserGroups []ResourceVPPSubsetVPPUserGroup `xml:"user_groups>user_group"`
-		} `xml:"limitations"`
-		Exclusions struct {
-			JSSUsers      []ResourceVPPSubsetVPPUser      `xml:"jss_users>user"`
-			UserGroups    []ResourceVPPSubsetVPPUserGroup `xml:"user_groups>user_group"`
-			JSSUserGroups []ResourceVPPSubsetVPPUserGroup `xml:"jss_user_groups>user_group"`
-		} `xml:"exclusions"`
-	} `xml:"scope"`
+	General VPPAssignmentSubsetGeneral `xml:"general"`
+	IOSApps []VPPSubsetVPPApp          `xml:"ios_apps>ios_app"`
+	MacApps []VPPSubsetVPPApp          `xml:"mac_apps>mac_app"`
+	EBooks  []VPPSubsetVPPApp          `xml:"ebooks>ebook"`
+	Scope   VPPAssignmentSubsetScope   `xml:"scope"`
 }
 
-type ResourceVPPSubsetVPPApp struct {
+// Subsets & Containers
+
+// General
+
+type VPPAssignmentSubsetGeneral struct {
+	ID                  int    `xml:"id"`
+	Name                string `xml:"name"`
+	VPPAdminAccountID   int    `xml:"vpp_admin_account_id"`
+	VPPAdminAccountName string `xml:"vpp_admin_account_name"`
+}
+
+// Scope
+
+type VPPAssignmentSubsetScope struct {
+	AllJSSUsers   bool                                `xml:"all_jss_users"`
+	JSSUsers      []VPPSubsetVPPUser                  `xml:"jss_users>user"`
+	JSSUserGroups []VPPSubsetVPPUserGroup             `xml:"jss_user_groups>user_group"`
+	Limitations   VPPAssignmentSubsetScopeLimitations `xml:"limitations"`
+	Exclusions    VPPAssignmentSubsetScopeExclusions  `xml:"exclusions"`
+}
+
+type VPPAssignmentSubsetScopeLimitations struct {
+	UserGroups []VPPSubsetVPPUserGroup `xml:"user_groups>user_group"`
+}
+
+type VPPAssignmentSubsetScopeExclusions struct {
+	JSSUsers      []VPPSubsetVPPUser      `xml:"jss_users>user"`
+	UserGroups    []VPPSubsetVPPUserGroup `xml:"user_groups>user_group"`
+	JSSUserGroups []VPPSubsetVPPUserGroup `xml:"jss_user_groups>user_group"`
+}
+
+// Shared
+
+type VPPSubsetVPPApp struct {
 	AdamID int    `xml:"adam_id"`
 	Name   string `xml:"name"`
 }
 
 // Struct for VPP user
-type ResourceVPPSubsetVPPUser struct {
+type VPPSubsetVPPUser struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
 // Struct for VPP user group
-type ResourceVPPSubsetVPPUserGroup struct {
+type VPPSubsetVPPUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
+
+// CRUD
 
 // GetVPPAssignments fetches a list of VPP assignments
 func (c *Client) GetVPPAssignments() (*ResponseVPPAssignmentsList, error) {

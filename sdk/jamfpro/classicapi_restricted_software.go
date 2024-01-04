@@ -3,6 +3,11 @@
 // API reference: https://developer.jamf.com/jamf-pro/reference/restrictedsoftware
 // Jamf Pro Classic API requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+*/
+
 package jamfpro
 
 import (
@@ -12,46 +17,63 @@ import (
 
 const uriRestrictedSoftware = "/JSSResource/restrictedsoftware"
 
+// List
+
 // Structs for Restricted Software List
 type ResponseRestrictedSoftwaresList struct {
-	Size               int `xml:"size"`
-	RestrictedSoftware []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"restricted_software_title"`
+	Size               int                          `xml:"size"`
+	RestrictedSoftware []RestrictedSoftwareListItem `xml:"restricted_software_title"`
 }
+
+type RestrictedSoftwareListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 // Structs for individual Restricted Software
 type ResourceRestrictedSoftware struct {
-	General struct {
-		ID                    int    `xml:"id"`
-		Name                  string `xml:"name"`
-		ProcessName           string `xml:"process_name"`
-		MatchExactProcessName bool   `xml:"match_exact_process_name"`
-		SendNotification      bool   `xml:"send_notification"`
-		KillProcess           bool   `xml:"kill_process"`
-		DeleteExecutable      bool   `xml:"delete_executable"`
-		DisplayMessage        string `xml:"display_message"`
-		Site                  struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"site"`
-	} `xml:"general"`
-	Scope struct {
-		AllComputers   bool                                         `xml:"all_computers"`
-		Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
-		ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-		Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
-		Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
-		Exclusions     struct {
-			Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
-			ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-			Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
-			Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
-			Users          []RestrictedSoftwareSubsetScopeUser          `xml:"users>user"`
-		} `xml:"exclusions"`
-	} `xml:"scope"`
+	General RestrictedSoftwareSubsetGeneral `xml:"general"`
+	Scope   RestrictedSoftwareSubsetScope   `xml:"scope"`
 }
+
+// Subsets & Containers
+
+// General
+
+type RestrictedSoftwareSubsetGeneral struct {
+	ID                    int                `xml:"id"`
+	Name                  string             `xml:"name"`
+	ProcessName           string             `xml:"process_name"`
+	MatchExactProcessName bool               `xml:"match_exact_process_name"`
+	SendNotification      bool               `xml:"send_notification"`
+	KillProcess           bool               `xml:"kill_process"`
+	DeleteExecutable      bool               `xml:"delete_executable"`
+	DisplayMessage        string             `xml:"display_message"`
+	Site                  SharedResourceSite `xml:"site"`
+}
+
+// Scope
+
+type RestrictedSoftwareSubsetScope struct {
+	AllComputers   bool                                         `xml:"all_computers"`
+	Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
+	ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
+	Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
+	Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
+	Exclusions     RestrictedSoftwareSubsetScopeExclusions      `xml:"exclusions"`
+}
+
+type RestrictedSoftwareSubsetScopeExclusions struct {
+	Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
+	ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
+	Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
+	Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
+	Users          []RestrictedSoftwareSubsetScopeUser          `xml:"users>user"`
+}
+
+// Shared
 
 type RestrictedSoftwareSubsetScopeComputer struct {
 	ID   int    `xml:"id"`
@@ -77,6 +99,8 @@ type RestrictedSoftwareSubsetScopeUser struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
+
+// CRUD
 
 // GetRestrictedSoftwares retrieves a list of all restricted software.
 func (c *Client) GetRestrictedSoftwares() (*ResponseRestrictedSoftwaresList, error) {

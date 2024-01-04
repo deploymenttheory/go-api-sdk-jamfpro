@@ -3,6 +3,11 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/webhooks
 // Jamf Pro Classic Api requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+- SharedAdvancedSearchContainerDisplayField
+*/
+
 package jamfpro
 
 import (
@@ -12,37 +17,42 @@ import (
 
 const uriWebhooks = "/JSSResource/webhooks"
 
+// List
+
 // Structs for Webhooks Response
 type ResponseWebhooksList struct {
-	Size     int `xml:"size"`
-	Webhooks []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"webhook"`
+	Size     int                `xml:"size"`
+	Webhooks []WebhooksListItem `xml:"webhook"`
 }
+
+type WebhooksListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 // Struct for individual Webhook
 type ResourceWebhook struct {
-	ID                          int    `xml:"id"`
-	Name                        string `xml:"name"`
-	Enabled                     bool   `xml:"enabled"`
-	URL                         string `xml:"url"`
-	ContentType                 string `xml:"content_type"`
-	Event                       string `xml:"event"`
-	ConnectionTimeout           int    `xml:"connection_timeout"`
-	ReadTimeout                 int    `xml:"read_timeout"`
-	AuthenticationType          string `xml:"authentication_type"`
-	Username                    string `xml:"username"`
-	Password                    string `xml:"password"`
-	EnableDisplayFieldsForGroup bool   `xml:"enable_display_fields_for_group_object"`
-	DisplayFields               []struct {
-		Size         int `xml:"size"`
-		DisplayField struct {
-			Name string `xml:"name"`
-		} `xml:"display_field"`
-	} `xml:"display_fields>display_field"`
-	SmartGroupID int `xml:"smart_group_id"`
+	ID                          int                                         `xml:"id"`
+	Name                        string                                      `xml:"name"`
+	Enabled                     bool                                        `xml:"enabled"`
+	URL                         string                                      `xml:"url"`
+	ContentType                 string                                      `xml:"content_type"`
+	Event                       string                                      `xml:"event"`
+	ConnectionTimeout           int                                         `xml:"connection_timeout"`
+	ReadTimeout                 int                                         `xml:"read_timeout"`
+	AuthenticationType          string                                      `xml:"authentication_type"`
+	Username                    string                                      `xml:"username"`
+	Password                    string                                      `xml:"password"`
+	EnableDisplayFieldsForGroup bool                                        `xml:"enable_display_fields_for_group_object"`
+	DisplayFields               []SharedAdvancedSearchContainerDisplayField `xml:"display_fields>display_field"`
+	SmartGroupID                int                                         `xml:"smart_group_id"`
 }
+
+// Subsets & Containers
+
+// CRUD
 
 // GetWebhooks retrieves a list of all webhooks.
 func (c *Client) GetWebhooks() (*ResponseWebhooksList, error) {

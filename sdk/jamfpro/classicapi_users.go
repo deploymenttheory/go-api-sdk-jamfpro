@@ -3,6 +3,11 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/users
 // Jamf Pro Classic Api requires the structs to support an XML data structure.
 
+/*
+Shared Resources in this Endpoint:
+- SharedResourceSite
+*/
+
 package jamfpro
 
 import (
@@ -12,61 +17,74 @@ import (
 
 const uriUsers = "/JSSResource/users"
 
+// List
+
 type ResponseUsersList struct {
-	Size  int `xml:"size"`
-	Users []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"user"`
+	Size  int             `xml:"size"`
+	Users []UsersListItem `xml:"user"`
 }
+
+type UsersListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 type ResourceUser struct {
-	ID                int    `xml:"id"`
-	Name              string `xml:"name"`
-	FullName          string `xml:"full_name"`
-	Email             string `xml:"email"`
-	EmailAddress      string `xml:"email_address"`
-	PhoneNumber       string `xml:"phone_number"`
-	Position          string `xml:"position"`
-	EnableCustomPhoto bool   `xml:"enable_custom_photo_url"`
-	CustomPhotoURL    string `xml:"custom_photo_url"`
-	LDAPServer        struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"ldap_server"`
-	ExtensionAttributes struct {
-		Attributes []struct {
-			ID    int    `xml:"id"`
-			Name  string `xml:"name"`
-			Type  string `xml:"type"`
-			Value string `xml:"value"`
-		} `xml:"extension_attribute"`
-	} `xml:"extension_attributes"`
-	Sites []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"sites>site"`
-	Links struct {
-		Computers []struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"computers>computer"`
-		Peripherals []struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"peripherals>peripheral"`
-		MobileDevices []struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"mobile_devices>mobile_device"`
-		VPPAssignments []struct {
-			ID   int    `xml:"id"`
-			Name string `xml:"name"`
-		} `xml:"vpp_assignments>vpp_assignment"`
-		TotalVPPCodeCount int `xml:"total_vpp_code_count"`
-	} `xml:"links"`
+	ID                  int                           `xml:"id"`
+	Name                string                        `xml:"name"`
+	FullName            string                        `xml:"full_name"`
+	Email               string                        `xml:"email"`
+	EmailAddress        string                        `xml:"email_address"`
+	PhoneNumber         string                        `xml:"phone_number"`
+	Position            string                        `xml:"position"`
+	EnableCustomPhoto   bool                          `xml:"enable_custom_photo_url"`
+	CustomPhotoURL      string                        `xml:"custom_photo_url"`
+	LDAPServer          UserSubsetLDAPServer          `xml:"ldap_server"`
+	ExtensionAttributes UserSubsetExtensionAttributes `xml:"extension_attributes"`
+	Sites               []SharedResourceSite          `xml:"sites>site"`
+	Links               UserSubsetLinks               `xml:"links"`
 }
 
+// Subsets & Containers
+
+// LDAP
+
+type UserSubsetLDAPServer struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Extension Attributes
+
+type UserSubsetExtensionAttributes struct {
+	Attributes []UserSubsetExtensionAttribute `xml:"extension_attribute"`
+}
+
+type UserSubsetExtensionAttribute struct {
+	ID    int    `xml:"id"`
+	Name  string `xml:"name"`
+	Type  string `xml:"type"`
+	Value string `xml:"value"`
+}
+
+// Links
+
+type UserSubsetLinks struct {
+	Computers         []UserSubsetLinksListItem `xml:"computers>computer"`
+	Peripherals       []UserSubsetLinksListItem `xml:"peripherals>peripheral"`
+	MobileDevices     []UserSubsetLinksListItem `xml:"mobile_devices>mobile_device"`
+	VPPAssignments    []UserSubsetLinksListItem `xml:"vpp_assignments>vpp_assignment"`
+	TotalVPPCodeCount int                       `xml:"total_vpp_code_count"`
+}
+
+type UserSubsetLinksListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// CRUD
 // GetUsers retrieves a list of all users.
 func (c *Client) GetUsers() (*ResponseUsersList, error) {
 	endpoint := uriUsers

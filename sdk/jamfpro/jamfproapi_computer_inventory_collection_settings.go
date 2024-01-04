@@ -12,28 +12,30 @@ import (
 const uriComputerInventoryCollectionSettings = "/api/v1/computer-inventory-collection-settings"
 
 type ResourceComputerInventoryCollectionSettings struct {
-	ComputerInventoryCollectionPreferences struct {
-		MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
-		IncludeFonts                                 bool `json:"includeFonts"`
-		IncludePlugins                               bool `json:"includePlugins"`
-		IncludePackages                              bool `json:"includePackages"`
-		IncludeSoftwareUpdates                       bool `json:"includeSoftwareUpdates"`
-		IncludeSoftwareId                            bool `json:"includeSoftwareId"`
-		IncludeAccounts                              bool `json:"includeAccounts"`
-		CalculateSizes                               bool `json:"calculateSizes"`
-		IncludeHiddenAccounts                        bool `json:"includeHiddenAccounts"`
-		IncludePrinters                              bool `json:"includePrinters"`
-		IncludeServices                              bool `json:"includeServices"`
-		CollectSyncedMobileDeviceInfo                bool `json:"collectSyncedMobileDeviceInfo"`
-		UpdateLdapInfoOnComputerInventorySubmissions bool `json:"updateLdapInfoOnComputerInventorySubmissions"`
-		MonitorBeacons                               bool `json:"monitorBeacons"`
-		AllowChangingUserAndLocation                 bool `json:"allowChangingUserAndLocation"`
-		UseUnixUserPaths                             bool `json:"useUnixUserPaths"`
-		CollectUnmanagedCertificates                 bool `json:"collectUnmanagedCertificates"`
-	} `json:"computerInventoryCollectionPreferences"`
-	ApplicationPaths []ComputerInventoryCollectionSettingsSubsetPathItem `json:"applicationPaths"`
-	FontPaths        []ComputerInventoryCollectionSettingsSubsetPathItem `json:"fontPaths"`
-	PluginPaths      []ComputerInventoryCollectionSettingsSubsetPathItem `json:"pluginPaths"`
+	ComputerInventoryCollectionPreferences ComputerInventoryCollectionSettingsSubsetPreferences `json:"computerInventoryCollectionPreferences"`
+	ApplicationPaths                       []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"applicationPaths"`
+	FontPaths                              []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"fontPaths"`
+	PluginPaths                            []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"pluginPaths"`
+}
+
+type ComputerInventoryCollectionSettingsSubsetPreferences struct {
+	MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
+	IncludeFonts                                 bool `json:"includeFonts"`
+	IncludePlugins                               bool `json:"includePlugins"`
+	IncludePackages                              bool `json:"includePackages"`
+	IncludeSoftwareUpdates                       bool `json:"includeSoftwareUpdates"`
+	IncludeSoftwareId                            bool `json:"includeSoftwareId"`
+	IncludeAccounts                              bool `json:"includeAccounts"`
+	CalculateSizes                               bool `json:"calculateSizes"`
+	IncludeHiddenAccounts                        bool `json:"includeHiddenAccounts"`
+	IncludePrinters                              bool `json:"includePrinters"`
+	IncludeServices                              bool `json:"includeServices"`
+	CollectSyncedMobileDeviceInfo                bool `json:"collectSyncedMobileDeviceInfo"`
+	UpdateLdapInfoOnComputerInventorySubmissions bool `json:"updateLdapInfoOnComputerInventorySubmissions"`
+	MonitorBeacons                               bool `json:"monitorBeacons"`
+	AllowChangingUserAndLocation                 bool `json:"allowChangingUserAndLocation"`
+	UseUnixUserPaths                             bool `json:"useUnixUserPaths"`
+	CollectUnmanagedCertificates                 bool `json:"collectUnmanagedCertificates"`
 }
 
 type ComputerInventoryCollectionSettingsSubsetPathItem struct {
@@ -47,6 +49,7 @@ type ResourceComputerInventoryCollectionSettingsCustomPath struct {
 	Path  string `json:"path"`
 }
 
+// GetComputerInventoryCollectionSettingss retrives a computer inventory collection list.
 func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInventoryCollectionSettings, error) {
 	endpoint := uriComputerInventoryCollectionSettings
 

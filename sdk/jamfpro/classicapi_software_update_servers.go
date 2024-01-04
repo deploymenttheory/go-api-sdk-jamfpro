@@ -12,15 +12,21 @@ import (
 
 const uriSoftwareUpdateServers = "/JSSResource/softwareupdateservers"
 
+// List
+
 // Structs for Software Update Servers Response
 type ResponseSoftwareUpdateServersList struct {
-	XMLName xml.Name `xml:"software_update_servers"`
-	Size    int      `xml:"size"`
-	Servers []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"software_update_server"`
+	XMLName xml.Name                        `xml:"software_update_servers"`
+	Size    int                             `xml:"size"`
+	Servers []SoftwareUpdateServersListItem `xml:"software_update_server"`
 }
+
+type SoftwareUpdateServersListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 // Struct for individual Software Update Server
 type ResourceSoftwareUpdateServer struct {
@@ -30,6 +36,8 @@ type ResourceSoftwareUpdateServer struct {
 	Port          int    `xml:"port"`
 	SetSystemWide bool   `xml:"set_system_wide"`
 }
+
+// CRUD
 
 // GetSoftwareUpdateServers retrieves a list of all software update servers.
 func (c *Client) GetSoftwareUpdateServers() (*ResponseSoftwareUpdateServersList, error) {

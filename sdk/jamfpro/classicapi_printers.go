@@ -12,14 +12,20 @@ import (
 
 const uriPrinters = "/JSSResource/printers"
 
+// List
+
 // ResponsePrintersList represents the response for a list of printers.
 type ResponsePrintersList struct {
-	Size    int `xml:"size"`
-	Printer []struct {
-		ID   int    `xml:"id"`
-		Name string `xml:"name"`
-	} `xml:"printer"`
+	Size    int                `xml:"size"`
+	Printer []PrintersListItem `xml:"printer"`
 }
+
+type PrintersListItem struct {
+	ID   int    `xml:"id"`
+	Name string `xml:"name"`
+}
+
+// Resource
 
 // ResourcePrinter represents the detailed structure of a single printer.
 type ResourcePrinter struct {
@@ -38,6 +44,8 @@ type ResourcePrinter struct {
 	PPDPath     string `xml:"ppd_path"`
 	PPDContents string `xml:"ppd_contents"`
 }
+
+// CRUD
 
 // GetPrinters retrieves a serialized list of printers.
 func (c *Client) GetPrinters() (*ResponsePrintersList, error) {
