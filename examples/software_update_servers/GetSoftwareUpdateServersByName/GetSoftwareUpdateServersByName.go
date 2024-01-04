@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Replace with the correct name
-	softwareUpdateServerByName, err := client.GetSoftwareUpdateServersByName("New York SUS") // Example name
+	softwareUpdateServerByName, err := client.GetSoftwareUpdateServerByName("New York SUS") // Example name
 	if err != nil {
 		log.Fatalf("Error fetching software update server by name: %v", err)
 	}

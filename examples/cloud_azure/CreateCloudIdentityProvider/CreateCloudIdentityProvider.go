@@ -41,7 +41,7 @@ func main() {
 
 	// Define the Cloud Identity Provider data
 	cloudIdPData := jamfpro.ResourceCloudIdp{
-		CloudIdPCommon: jamfpro.ResourceDataCloudIdpCommon{
+		CloudIdPCommon: jamfpro.CloudIdpListItem{
 			DisplayName:  "Cloud Identity Provider",
 			ProviderName: "AZURE",
 		},
@@ -49,7 +49,7 @@ func main() {
 			TenantId: "db65d325-0350-4a17-9af9-b302d0fc386b",
 			Enabled:  true,
 			Migrated: true, // Note: Ensure this field is required as per your API's specification
-			Mappings: jamfpro.ResourceDataCloudIdpServerMappings{
+			Mappings: jamfpro.CloudIdpServerSubsetCloudIdpServerMappings{
 				UserId:     "id",
 				UserName:   "userPrincipalName",
 				RealName:   "displayName",

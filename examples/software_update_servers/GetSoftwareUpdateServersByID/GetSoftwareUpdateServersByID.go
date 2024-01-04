@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Replace with the correct ID
-	softwareUpdateServerByID, err := client.GetSoftwareUpdateServersByID(1) // Example ID
+	softwareUpdateServerByID, err := client.GetSoftwareUpdateServerByID(1) // Example ID
 	if err != nil {
 		log.Fatalf("Error fetching software update server by ID: %v", err)
 	}

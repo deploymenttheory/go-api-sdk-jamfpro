@@ -41,7 +41,7 @@ func main() {
 	softwareTitleConfigID := 1 // Replace with actual Software Title Configuration ID
 
 	newPatchPolicy := &jamfpro.ResourcePatchPolicies{
-		General: jamfpro.PatchPoliciesDataSubsetGeneral{
+		General: jamfpro.PatchPoliciesSubsetGeneral{
 			Name:               "Google Chrome - 66.0.3359.117",
 			Enabled:            true,
 			TargetVersion:      "66.0.3359.117",
@@ -49,9 +49,9 @@ func main() {
 			IncrementalUpdates: false,
 			Reboot:             true,
 			MinimumOS:          "10.9",
-			KillApps: []jamfpro.PatchPoliciesDataSubsetKillAppItem{
+			KillApps: []jamfpro.PatchPoliciesContainerGeneralKillApps{
 				{
-					KillApp: jamfpro.PatchPoliciesDataSubsetKillApp{
+					KillApp: jamfpro.PatchPoliciesSubsetGeneralKillApp{
 						KillAppName:     "Google Chrome.app",
 						KillAppBundleID: "com.google.Chrome",
 					},
@@ -61,28 +61,28 @@ func main() {
 			AllowDowngrade:     true,
 			PatchUnknown:       true,
 		},
-		Scope: jamfpro.PatchPoliciesDataSubsetScope{
+		Scope: jamfpro.PatchPoliciesSubsetScope{
 			AllComputers: true,
 			// Include other fields as necessary
 		},
-		UserInteraction: jamfpro.PatchPoliciesDataSubsetUserInteraction{
+		UserInteraction: jamfpro.PatchPoliciesSubsetUserInteraction{
 			InstallButtonText:      "Update",
 			SelfServiceDescription: "Latest update for Google Chrome",
-			Notifications: jamfpro.PatchPoliciesDataSubsetNotifications{
+			Notifications: jamfpro.PatchPoliciesSubsetUserInteractionNotifications{
 				NotificationEnabled: true,
 				NotificationType:    "Self Service",
 				NotificationSubject: "Google Chrome Update Available",
 				NotificationMessage: "An update for Google Chrome is available within Self Service",
-				Reminders: jamfpro.PatchPoliciesDataSubsetReminders{
+				Reminders: jamfpro.PatchPoliciesSubsetUserInteractionNotificationsReminders{
 					NotificationRemindersEnabled:  true,
 					NotificationReminderFrequency: 1,
 				},
 			},
-			Deadlines: jamfpro.PatchPoliciesDataSubsetDeadlines{
+			Deadlines: jamfpro.PatchPoliciesSubsetUserInteractionDeadlines{
 				DeadlineEnabled: true,
 				DeadlinePeriod:  7,
 			},
-			GracePeriod: jamfpro.PatchPoliciesDataSubsetGracePeriod{
+			GracePeriod: jamfpro.PatchPoliciesSubsetUserInteractionGracePeriod{
 				GracePeriodDuration:       15,
 				NotificationCenterSubject: "Important",
 				Message:                   "$APP_NAMES will quit in $DELAY_MINUTES minutes so that $SOFTWARE_TITLE can be updated. Save anything you are working on and quit the app(s)",
