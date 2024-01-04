@@ -1,5 +1,5 @@
-// jamfproapi_sso_failover.go
-// Jamf Pro Api - SSO Failover URL
+// jamfproapi_jamf_sso_failover.go
+// Jamf Pro Api - JAMF SSO Failover URL
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-sso-failover
 // Jamf Pro API requires the structs to support an JSON data structure.
 

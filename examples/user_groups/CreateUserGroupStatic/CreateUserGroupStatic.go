@@ -40,15 +40,15 @@ func main() {
 	}
 
 	// Example user group to be created
-	newUserGroup := &jamfpro.ResponseUserGroup{
+	newUserGroup := &jamfpro.ResourceUserGroup{
 		Name:             "Static Group",
 		IsSmart:          false,
 		IsNotifyOnChange: false,
-		Site: jamfpro.UserGroupSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Users: []jamfpro.UserGroupUserItem{
+		Users: []jamfpro.UserGroupSubsetUserItem{
 			{
 				ID:           1938,
 				Username:     "Mercy",

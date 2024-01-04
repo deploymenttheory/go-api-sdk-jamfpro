@@ -1,11 +1,11 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -21,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // Adjust log level as needed
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -38,26 +38,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-	// New user extension attribute details
-	newAttribute := &jamfpro.ResourceUserExtensionAttribute{
-		Name:        "User Attributes",
-		Description: "Text field for logging custom data",
-		DataType:    "String",
-		InputType: jamfpro.ResourceUserExtensionAttributeSubsetInputType{
-			Type: "Text Field",
-		},
+
+	// Call GetJamfProVersion function
+	JCDS2Files, err := client.GetJCDS2Files()
+	if err != nil {
+		log.Fatalf("Error fetching JCDS 2 files: %v", err)
 	}
 
-	// Create the new user extension attribute
-	createdAttribute, err := client.CreateUserExtensionAttribute(newAttribute)
+	// Pretty print the JCDS 2 files in XML
+	response, err := json.MarshalIndent(JCDS2Files, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error creating user extension attribute: %v", err)
+		log.Fatalf("Error marshaling JCDS 2 files data: %v", err)
 	}
-
-	// Print the created attribute details in XML
-	attributeXML, err := xml.MarshalIndent(createdAttribute, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling created attribute data: %v", err)
-	}
-	fmt.Println("Created User Extension Attribute Details:\n", string(attributeXML))
+	fmt.Println("Fetched JCDS 2 files:\n", string(response))
 }

@@ -39,22 +39,15 @@ func main() {
 	}
 
 	// Define a new subscription to create.
-	newSubscription := jamfpro.VolumePurchasingSubscription{
+	newSubscription := jamfpro.ResourceVolumePurchasingSubscription{
 		Enabled:  true,
 		SiteId:   "-1",
 		Name:     "Example Volume Purchasing Subscription",
 		Triggers: []string{"NO_MORE_LICENSES", "REMOVED_FROM_APP_STORE"},
-		//LocationIds: []string{"1"},
-		InternalRecipients: []struct {
-			AccountId string `json:"accountId,omitempty"`
-			Frequency string `json:"frequency,omitempty"`
-		}{
+		InternalRecipients: []jamfpro.VolumePurchasingSubscriptionSubsetInternalRecipients{
 			{Frequency: "DAILY", AccountId: "1"},
 		},
-		ExternalRecipients: []struct {
-			Name  string `json:"name,omitempty"`
-			Email string `json:"email,omitempty"`
-		}{
+		ExternalRecipients: []jamfpro.VolumePurchasingSubscriptionSubsetExternalRecipients{
 			{Name: "Bob Exampleman", Email: "bob@example.com"},
 		},
 	}
