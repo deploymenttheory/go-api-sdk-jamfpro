@@ -8,7 +8,7 @@
         "TODO",
         "XXX",
         "[ ]",
-        "[x]",
+        "[X]",
         "NOTE",
         "SUGGESTION",
         "QUERY"
@@ -30,7 +30,7 @@
         "[ ]": {
             "icon": "issue-draft"
         },
-        "[x]": {
+        "[X]": {
             "icon": "issue-closed"
         },
         "NOTE": {
