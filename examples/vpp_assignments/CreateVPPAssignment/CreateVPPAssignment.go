@@ -39,30 +39,30 @@ func main() {
 	}
 
 	// Define new VPP assignment details
-	newVPPAssignment := &jamfpro.ResponseVPPAssignment{
-		General: jamfpro.VPPAssignmentGeneral{
+	newVPPAssignment := &jamfpro.ResourceVPPAssignment{
+		General: jamfpro.VPPAssignmentSubsetGeneral{
 			Name:              "Sample Assignment",
 			VPPAdminAccountID: 1,
 		},
-		IOSApps: []jamfpro.VPPApp{
+		IOSApps: []jamfpro.VPPSubsetVPPApp{
 			{AdamID: 767319014, Name: "Angry Birds Epic RPG"},
 			{AdamID: 923394341, Name: "Alien Blue for iPad - reddit official client"},
 		},
-		MacApps: []jamfpro.VPPApp{}, // Empty as per the example
-		EBooks: []jamfpro.VPPApp{
+		MacApps: []jamfpro.VPPSubsetVPPApp{}, // Empty as per the example
+		EBooks: []jamfpro.VPPSubsetVPPApp{
 			{AdamID: 1058120411, Name: "Transforming Healthcare"},
 		},
-		Scope: jamfpro.VPPAssignmentScope{
+		Scope: jamfpro.VPPAssignmentSubsetScope{
 			AllJSSUsers:   false,
-			JSSUsers:      []jamfpro.VPPUser{},      // Empty as per the example
-			JSSUserGroups: []jamfpro.VPPUserGroup{}, // Empty as per the example
-			Limitations: jamfpro.VPPLimitations{
-				UserGroups: []jamfpro.VPPUserGroup{}, // Empty as per the example
+			JSSUsers:      []jamfpro.VPPSubsetVPPUser{},      // Empty as per the example
+			JSSUserGroups: []jamfpro.VPPSubsetVPPUserGroup{}, // Empty as per the example
+			Limitations: jamfpro.VPPAssignmentSubsetScopeLimitations{
+				UserGroups: []jamfpro.VPPSubsetVPPUserGroup{}, // Empty as per the example
 			},
-			Exclusions: jamfpro.VPPExclusions{
-				JSSUsers:      []jamfpro.VPPUser{},      // Empty as per the example
-				UserGroups:    []jamfpro.VPPUserGroup{}, // Empty as per the example
-				JSSUserGroups: []jamfpro.VPPUserGroup{}, // Empty as per the example
+			Exclusions: jamfpro.VPPAssignmentSubsetScopeExclusions{
+				JSSUsers:      []jamfpro.VPPSubsetVPPUser{},      // Empty as per the example
+				UserGroups:    []jamfpro.VPPSubsetVPPUserGroup{}, // Empty as per the example
+				JSSUserGroups: []jamfpro.VPPSubsetVPPUserGroup{}, // Empty as per the example
 			},
 		},
 	}
