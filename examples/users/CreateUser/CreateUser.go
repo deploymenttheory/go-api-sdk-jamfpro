@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Create a sample user to be created
-	newUser := &jamfpro.ResponseUser{
+	newUser := &jamfpro.ResourceUser{
 		ID:           1,
 		Name:         "AHarrison",
 		FullName:     "Ashley Harrison",
@@ -47,7 +47,7 @@ func main() {
 		EmailAddress: "aharrison@company.com",
 		PhoneNumber:  "123-555-6789",
 		Position:     "Teacher",
-		Sites: []jamfpro.UserDataSubsetSite{
+		Sites: []jamfpro.SharedResourceSite{
 			{
 				ID:   -1,
 				Name: "None",
