@@ -40,8 +40,8 @@ func main() {
 	}
 
 	// Example user group to be updated with user additions
-	updatedUserGroup := &jamfpro.ResponseUserGroup{
-		UserDeletions: []jamfpro.UserGroupUserItem{
+	updatedUserGroup := &jamfpro.ResourceUserGroup{
+		UserDeletions: []jamfpro.UserGroupSubsetUserItem{
 			{ID: 1938}, // User to be deleted
 			{ID: 1939}, // User to be deleted
 		},
