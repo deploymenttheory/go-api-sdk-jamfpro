@@ -39,6 +39,7 @@ func main() {
 	}
 
 	// Define a new mobile device application
+	// Define a new mobile device application
 	newApp := &jamfpro.ResourceMobileDeviceApplication{
 		General: jamfpro.MobileDeviceApplicationSubsetGeneral{
 			Name:        "Jamf Self Service",
@@ -53,28 +54,30 @@ func main() {
 				Name: "No category assigned",
 			},
 			IPA: jamfpro.MobileDeviceApplicationSubsetGeneralIPA{
-				// Set IPA details here
+				Name: "IPAName",
+				URI:  "http://example.com/ipa",
+				Data: "Base64EncodedString",
 			},
 			Icon: jamfpro.MobileDeviceApplicationSubsetIcon{
 				ID:   27,
 				Name: "1024x1024bb.png",
-				URI:  "string",
+				URI:  "http://example.com/icon.png",
 				Data: "Base64EncodedString",
 			},
-			// ... other fields ...
+			// Populate other fields as necessary...
 		},
 		Scope: jamfpro.MobileDeviceApplicationSubsetScope{
 			// Populate the Scope details here
 		},
 		SelfService: jamfpro.MobileDeviceApplicationSubsetGeneralSelfService{
 			SelfServiceDescription: "Jamf Self Service empowers you...",
-			// ... other fields ...
+			// Populate other fields as necessary...
 		},
 		VPP: jamfpro.MobileDeviceApplicationSubsetGeneralVPP{
 			// Populate the VPP details here
 		},
 		AppConfiguration: jamfpro.MobileDeviceApplicationSubsetGeneralAppConfiguration{
-			Preferences: "",
+			Preferences: "YourPreferencesHere",
 		},
 	}
 

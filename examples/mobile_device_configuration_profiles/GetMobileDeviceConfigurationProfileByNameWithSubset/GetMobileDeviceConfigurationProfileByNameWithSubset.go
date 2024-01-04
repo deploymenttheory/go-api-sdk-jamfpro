@@ -40,7 +40,7 @@ func main() {
 
 	profileName := "Corporate Wireless" // Replace with the actual profile name
 	subset := "desired_subset"          // Replace with the desired subset
-	profile, err := client.GetMobileDeviceConfigurationProfileByNameBySubset(profileName, subset)
+	profile, err := client.GetMobileDeviceConfigurationProfileByNameWithSubset(profileName, subset)
 	if err != nil {
 		log.Fatalf("Error fetching mobile device configuration profile by name and subset: %v", err)
 	}
