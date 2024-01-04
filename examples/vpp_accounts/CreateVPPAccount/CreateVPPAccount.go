@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Create a new VPP account
-	newAccount := &jamfpro.ResponseVPPAccount{
+	newAccount := &jamfpro.ResourceVPPAccount{
 		Name:         "Company VPP Account",
 		Contact:      "Company Admin",
 		ServiceToken: "eyJvcmdOYWadveaz40d2FyZSIsImV4cERhdGUiOiIyMDE3LTA5LTEzVDA5OjQ5OjA5LTA3MDAiLCJ0b2tlbiI6Ik5yVUtPK1RXeityUXQyWFpIeENtd0xxby8ydUFmSFU1NW40V1FTZU8wR1E5eFh4UUZTckVJQjlzbGdYei95WkpaeVZ3SklJbW0rWEhJdGtKM1BEZGRRPT0ifQ==",
