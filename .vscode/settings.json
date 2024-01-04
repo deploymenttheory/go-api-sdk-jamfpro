@@ -11,7 +11,8 @@
         "[X]",
         "NOTE",
         "SUGGESTION",
-        "QUERY"
+        "QUERY",
+        "WIP"
     ],
 
     "todo-tree.highlights.customHighlight": {
@@ -41,6 +42,9 @@
         },
         "QUERY": {
             "icon": "question"
+        },
+        "WIP": {
+            "icon": "gear"
         }
     }
 }
