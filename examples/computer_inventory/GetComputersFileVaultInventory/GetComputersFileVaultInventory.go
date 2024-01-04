@@ -38,8 +38,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+	// Sort filter
+	sortFilter := "sort=id:desc"
+
 	// Call the GetComputersFileVaultInventory function
-	fileVaultInventory, err := client.GetComputersFileVaultInventory()
+	fileVaultInventory, err := client.GetComputersFileVaultInventory(sortFilter)
 	if err != nil {
 		log.Fatalf("Error fetching FileVault inventory: %v", err)
 	}
