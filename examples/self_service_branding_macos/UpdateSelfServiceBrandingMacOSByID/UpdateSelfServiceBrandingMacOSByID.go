@@ -44,7 +44,7 @@ func main() {
 	brandingID := "2" // Replace with your actual branding ID
 
 	// Define the updated branding details
-	updatedBranding := &jamfpro.SelfServiceBrandingDetail{
+	updatedBranding := &jamfpro.ResourceSelfServiceBrandingDetail{
 		ApplicationName:       "Updated App Name",
 		BrandingName:          "Updated Branding Name",
 		BrandingNameSecondary: "Updated Branding Secondary Name",

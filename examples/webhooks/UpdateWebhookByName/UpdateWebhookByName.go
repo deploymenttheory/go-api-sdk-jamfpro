@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Example usage of CreateWebhook
-	newWebhook := &jamfpro.ResponseWebhook{
+	newWebhook := &jamfpro.ResourceWebhook{
 		Name:               "Sample",
 		Enabled:            true,
 		URL:                "https://server.com",

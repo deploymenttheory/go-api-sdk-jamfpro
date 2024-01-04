@@ -39,8 +39,11 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
+	// Sort filter
+	sortFilter := "sort=id:desc"
+
 	// Call the GetSelfServiceBrandingMacOS function and handle any errors
-	branding, err := client.GetSelfServiceBrandingMacOS()
+	branding, err := client.GetSelfServiceBrandingMacOS(sortFilter)
 	if err != nil {
 		// If there's an error, log it to stderr and exit with a non-zero status code
 		fmt.Fprintf(os.Stderr, "Error fetching self-service branding for macOS: %v\n", err)

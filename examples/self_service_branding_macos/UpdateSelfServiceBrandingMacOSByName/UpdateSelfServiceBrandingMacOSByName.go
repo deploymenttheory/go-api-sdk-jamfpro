@@ -41,7 +41,8 @@ func main() {
 
 	// Assume we have a name and the new details for the branding we want to update
 	brandingName := "Self Service" // Branding is always called Self Service. there is only 1 as well
-	newBrandingDetails := &jamfpro.SelfServiceBrandingDetail{
+
+	newBrandingDetails := &jamfpro.ResourceSelfServiceBrandingDetail{
 		// Set the new details for the branding
 		ApplicationName:       "Updated Self Service",
 		BrandingName:          "Updated Self Service",

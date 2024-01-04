@@ -1,3 +1,4 @@
+// shared_models.go
 package jamfpro
 
 // Shared Standalone Resources
