@@ -78,7 +78,7 @@ func TestJamfProIntegration_CreateDepartments(t *testing.T) {
 
 	// Create and assert departments using the loaded create test data
 	for _, departmentConfig := range []DepartmentConfig{createTestData.MinimumConfiguration, createTestData.MaximumConfiguration} {
-		department := jamfpro.DepartmentItem{Name: departmentConfig.Name}
+		department := jamfpro.ResourceDepartment{Name: departmentConfig.Name}
 		createdDepartment, err := intTestClient.CreateDepartment(department.Name)
 		if err != nil {
 			t.Fatalf("Error creating department '%s': %v", department.Name, err)

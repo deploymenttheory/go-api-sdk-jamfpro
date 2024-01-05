@@ -35,14 +35,14 @@ func main() {
 	}
 
 	// Define the updated group data for a static group
-	newGroup := &jamfpro.ResponseMobileDeviceGroup{
+	newGroup := &jamfpro.ResourceMobileDeviceGroup{
 		Name:    "Static Group",
 		IsSmart: false,
-		Site: jamfpro.MobileDeviceGroupSite{
+		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		MobileDevices: []jamfpro.MobileDeviceGroupDeviceItem{
+		MobileDevices: []jamfpro.MobileDeviceGroupSubsetDeviceItem{
 			{
 				ID:             38,
 				Name:           "Test Device",

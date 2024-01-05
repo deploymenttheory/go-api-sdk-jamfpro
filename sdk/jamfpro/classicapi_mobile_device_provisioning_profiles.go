@@ -113,7 +113,9 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 	return &profile, nil
 }
 
+
 // QUERY Is this really creating by ID?
+
 // CreateMobileDeviceProvisioningProfileByID creates a new mobile device provisioning profile by its ID.
 func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
@@ -138,7 +140,9 @@ func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *Resource
 	return &responseProfile, nil
 }
 
+
 // QUERY Is this creating by name?
+
 // CreateMobileDeviceProvisioningProfileByName creates a new mobile device provisioning profile by its name.
 func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
@@ -163,7 +167,9 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 	return &responseProfile, nil
 }
 
+
 // QUERY is this creating by a UUID?
+
 // CreateMobileDeviceProvisioningProfileByUUID creates a new mobile device provisioning profile by its UUID.
 func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)

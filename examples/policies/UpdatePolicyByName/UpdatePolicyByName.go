@@ -40,9 +40,9 @@ func main() {
 	}
 
 	// Define a new policy with all required fields
-	updatedPolicy := &jamfpro.ResponsePolicy{
-		General: jamfpro.PolicyGeneral{
-			Name:                       "firefox",
+	updatedPolicy := &jamfpro.ResourcePolicy{
+		General: jamfpro.PolicySubsetGeneral{
+			Name:                       "disk-encryption-sdk",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -59,16 +59,16 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		SelfService: jamfpro.PolicySelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           false,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
 			ReinstallButtonText:         "",
 			SelfServiceDescription:      "",
 			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
+			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySelfServiceCategory{
+			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategories{
 				{
 					Category: jamfpro.PolicyCategory{
 						//ID:        "-1",
@@ -79,19 +79,19 @@ func main() {
 				},
 			},
 		},
-		AccountMaintenance: jamfpro.PolicyAccountMaintenance{
-			ManagementAccount: jamfpro.PolicyManagementAccount{
-				Action:                "doNotChange",
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
+			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
+				Action:                "rotate",
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
-			OpenFirmwareEfiPassword: jamfpro.PolicyOpenFirmwareEfiPassword{
+			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
 				OfMode:           "none",
 				OfPassword:       "",
 				OfPasswordSHA256: "",
 			},
 		},
-		Maintenance: jamfpro.PolicyMaintenance{
+		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
 			ResetName:                false,
 			InstallAllCachedPackages: false,
@@ -103,7 +103,7 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		FilesProcesses: jamfpro.PolicyFilesProcesses{
+		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
 			SpotlightSearch:      "",
@@ -111,14 +111,21 @@ func main() {
 			KillProcess:          false,
 			RunCommand:           "",
 		},
-		UserInteraction: jamfpro.PolicyUserInteraction{
+		UserInteraction: jamfpro.PolicySubsetUserInteraction{
 			MessageStart:          "",
 			AllowUserToDefer:      false,
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		Reboot: jamfpro.PolicyReboot{
+		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
+			Action:                        "apply",
+			DiskEncryptionConfigurationID: 1,
+			AuthRestart:                   true,
+			//RemediateKeyType:                       "",
+			//RemediateDiskEncryptionConfigurationID: 0,
+		},
+		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",

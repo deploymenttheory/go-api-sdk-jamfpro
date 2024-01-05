@@ -38,11 +38,13 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	profileName := "Corporate Wireless" // Replace with the actual profile name
-	subset := "desired_subset"          // Replace with the desired subset
-	profile, err := client.GetMobileDeviceConfigurationProfileByNameBySubset(profileName, subset)
+	profileID := 1      // Replace with the actual profile ID
+	subset := "general" // Replace with the actual subset (e.g., "general")
+
+	profile, err := client.GetMobileDeviceEnrollmentProfileByIDWithSubset(profileID, subset)
 	if err != nil {
-		log.Fatalf("Error fetching mobile device configuration profile by name and subset: %v", err)
+		fmt.Println("Error fetching profile by name and subset:", err)
+		return
 	}
 
 	fmt.Printf("Profile: %+v\n", profile)

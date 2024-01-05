@@ -43,8 +43,8 @@ func main() {
 	groupID := 1 // Replace with the actual group name
 
 	// Define the updated group data with mobile device additions
-	updatedGroup := &jamfpro.ResponseMobileDeviceGroup{
-		MobileDeviceAdditions: []jamfpro.MobileDeviceGroupDeviceItem{
+	updatedGroup := &jamfpro.ResourceMobileDeviceGroup{
+		MobileDeviceAdditions: []jamfpro.MobileDeviceGroupSubsetDeviceItem{
 			{
 				ID:             38,
 				Name:           "Test Device",
