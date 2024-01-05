@@ -43,4 +43,7 @@ const (
 
 	// Client Credentials
 	errMsgFailedRefreshClientCreds = "failed to refresh client credentials at id: %s, error :%v"
+
+	// Cloud LDAP Verify Keystore
+	errMsgFailedValidateCloudLdapKeystore = "failed to validate keystore, error: %v"
 )

@@ -46,5 +46,12 @@
         "WIP": {
             "icon": "gear"
         }
-    }
+    },
+
+    "todo-tree.general.statusBar": "tags",
+    // "todo-tree.general.statusBarClickBehaviour": "reveal",
+    "todo-tree.general.showIconsInsteadOfTagsInStatusBar": false,
+    "todo-tree.regex.regex": "(//)\\s*($TAGS).*(\\n\\s*//\\s{2,}.*)*",
+    "todo-tree.tree.groupedByTag": true,
+    "todo-tree.tree.scanMode": "workspace only"
 }

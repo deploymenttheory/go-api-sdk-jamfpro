@@ -223,7 +223,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	return &profile, nil
 }
 
-// TODO Review this structure
+// QUERY Review this structure
 
 // GetMacOSConfigurationProfileByNameByID retrieves the details of a macOS Configuration Profile by its name.
 func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceMacOSConfigurationProfiles, error) {

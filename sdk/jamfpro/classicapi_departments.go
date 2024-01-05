@@ -87,7 +87,7 @@ func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
 }
 
 // Different structure
-// TODO review this structure
+// QUERY review this structure
 // GetDepartmentIdByName retrieves the department ID by its name
 func (c *Client) GetDepartmentIdByName(name string) (int, error) {
 	departmentsList, err := c.GetDepartments()
