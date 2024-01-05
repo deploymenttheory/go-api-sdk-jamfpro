@@ -2,7 +2,7 @@
 // Jamf Pro API
 // Jamf Pro API requires the structs to support JSON.
 // Introduced in Jamf Pro 10.50
-// WIP - Currently Incomplete
+// WIP - Currently Incomplete - why?
 
 package jamfpro
 
