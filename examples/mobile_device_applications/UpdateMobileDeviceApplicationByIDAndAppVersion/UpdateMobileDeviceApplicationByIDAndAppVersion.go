@@ -42,42 +42,31 @@ func main() {
 	appVersion := "10.10.7" // Replace with the actual version
 
 	// Define the mobile device application data for update
-	updateApp := &jamfpro.ResponseMobileDeviceApplication{
-		General: jamfpro.MobileDeviceApplicationGeneral{
+	updateApp := &jamfpro.ResourceMobileDeviceApplication{
+		General: jamfpro.MobileDeviceApplicationSubsetGeneral{
 			Name:        "Jamf Self Service",
 			DisplayName: "Jamf Self Service",
 			Description: "Jamf Self Service empowers you to be more productive...",
 			BundleID:    "com.jamfsoftware.selfservice",
 			Version:     "10.10.6",
-			InternalApp: false,
+			InternalApp: true,
 			OsType:      "iOS", // iOS or tvOS
-			Category: jamfpro.MobileDeviceApplicationCategory{
+			Category: jamfpro.SharedResourceCategory{
 				ID:   -1,
 				Name: "No category assigned",
 			},
-			IPA: jamfpro.MobileDeviceApplicationIPA{
-				// Set IPA details here
-			},
-			Icon: jamfpro.MobileDeviceApplicationIcon{
-				ID:   27,
-				Name: "1024x1024bb.png",
-				URI:  "string",
+			IPA: jamfpro.MobileDeviceApplicationSubsetGeneralIPA{
+				Name: "IPAName",
+				URI:  "http://example.com/ipa",
 				Data: "Base64EncodedString",
 			},
-			// ... other fields ...
-		},
-		Scope: jamfpro.MobileDeviceApplicationScope{
-			// Populate the Scope details
-		},
-		SelfService: jamfpro.MobileDeviceApplicationSelfService{
-			SelfServiceDescription: "Jamf Self Service empowers you...",
-			// ... other fields ...
-		},
-		VPP: jamfpro.MobileDeviceApplicationVPP{
-			// Populate the VPP details
-		},
-		AppConfiguration: jamfpro.MobileDeviceApplicationConfiguration{
-			Preferences: "",
+			Icon: jamfpro.MobileDeviceApplicationSubsetIcon{
+				ID:   27,
+				Name: "1024x1024bb.png",
+				URI:  "http://example.com/icon.png",
+				Data: "Base64EncodedString",
+			},
+			// Populate other fields as necessary...
 		},
 	}
 

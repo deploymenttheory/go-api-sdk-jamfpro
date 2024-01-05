@@ -43,7 +43,7 @@ func main() {
 	userGroupName := "Teachers"
 
 	// Call GetUserGroupsByName to fetch details of a specific user group
-	userGroupDetail, err := client.GetUserGroupsByName(userGroupName)
+	userGroupDetail, err := client.GetUserGroupByName(userGroupName)
 	if err != nil {
 		fmt.Println("Error fetching user group details:", err)
 		return
