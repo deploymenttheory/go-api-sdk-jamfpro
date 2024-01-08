@@ -9,7 +9,7 @@ import "fmt"
 
 // TODO
 
-const uriCSAToken = "/api/v1/csa/token"
+const uriCSATokenExchange = "/api/v1/csa/token"
 
 // Structs
 
@@ -21,7 +21,7 @@ type ResourceCSATokenExchange struct {
 // CRUD
 
 func (c *Client) GetCSATokenExchangeInfo() (*ResourceCSATokenExchange, error) {
-	endpoint := uriCSAToken
+	endpoint := uriCSATokenExchange
 	var out ResourceCSATokenExchange
 
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
@@ -37,7 +37,7 @@ func (c *Client) GetCSATokenExchangeInfo() (*ResourceCSATokenExchange, error) {
 }
 
 func (c *Client) RefreshCSATokenExchange(username, password string) (*ResourceCSATokenExchange, error) {
-	endpoint := uriCSAToken
+	endpoint := uriCSATokenExchange
 	var out ResourceCSATokenExchange
 
 	payload := struct {
@@ -61,7 +61,7 @@ func (c *Client) RefreshCSATokenExchange(username, password string) (*ResourceCS
 }
 
 func (c *Client) InitializeCSATokenExchange(username, password string) (*ResourceCSATokenExchange, error) {
-	endpoint := uriCSAToken
+	endpoint := uriCSATokenExchange
 	var out ResourceCSATokenExchange
 
 	payload := struct {
@@ -85,7 +85,7 @@ func (c *Client) InitializeCSATokenExchange(username, password string) (*Resourc
 }
 
 func (c *Client) DeleteCSATokenExchange() error {
-	endpoint := uriCSAToken
+	endpoint := uriCSATokenExchange
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
