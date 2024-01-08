@@ -52,7 +52,7 @@
     "todo-tree.general.showIconsInsteadOfTagsInStatusBar": false,
     "todo-tree.regex.regex": "(//)\\s*($TAGS).*(\\n\\s*//\\s{2,}.*)*",
     "todo-tree.tree.groupedByTag": true,
-    "todo-tree.tree.scanMode": "workspace",
+    "todo-tree.tree.scanMode": "workspace only",
 
 
     "gopls": {
