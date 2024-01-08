@@ -7,8 +7,6 @@ package jamfpro
 
 import "fmt"
 
-// TODO
-
 const uriCSATokenExchange = "/api/v1/csa/token"
 
 // Structs
