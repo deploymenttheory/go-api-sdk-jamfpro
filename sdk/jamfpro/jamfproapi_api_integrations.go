@@ -94,7 +94,7 @@ func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, 
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "api integration", name, errMsgNoName)
 }
 
 // CreateApiIntegration creates a new API integration
