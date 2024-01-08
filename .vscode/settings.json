@@ -55,5 +55,9 @@
     "todo-tree.tree.groupedByTag": true,
     "todo-tree.tree.scanMode": "workspace only",
 
-
+    "gopls": {
+        "build.directoryFilters": [
+            "-migration"
+        ]
+    }
 }
