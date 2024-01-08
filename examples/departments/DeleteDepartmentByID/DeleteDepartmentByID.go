@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Let's assume you want to delete a department with ID 123.
-	departmentID := 123
+	departmentID := "23513"
 
 	// Call DeleteDepartmentByID function
 	err = client.DeleteDepartmentByID(departmentID)
