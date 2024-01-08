@@ -1,7 +1,6 @@
 // clientCheckIn.go
 // Jamf Pro Api
 // API requires the structs to support JSON.
-//go:build ignore
 
 package jamfpro
 
