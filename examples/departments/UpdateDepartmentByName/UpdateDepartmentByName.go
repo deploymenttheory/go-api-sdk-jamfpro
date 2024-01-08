@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -40,8 +40,8 @@ func main() {
 	}
 
 	// Define the department's current name and the new name you want to update to
-	currentDepartmentName := "UpdatedDepartmentNameBySDK"
-	newDepartmentName := "UpdatedDepartmentNameBySDKAgain"
+	currentDepartmentName := "JLtestDept"
+	newDepartmentName := "TestNewName2"
 
 	// Update the department's name using the UpdateDepartmentByName function
 	_, err = client.UpdateDepartmentByName(currentDepartmentName, newDepartmentName)
@@ -55,10 +55,10 @@ func main() {
 		log.Fatalf("Error fetching updated department by name: %v", err)
 	}
 
-	// Pretty print the fetched department in XML
-	fetchedDepartmentXML, err := xml.MarshalIndent(fetchedDepartment, "", "    ") // Indent with 4 spaces
+	// Pretty print the fetched department in JSON
+	fetchedDepartmentJSON, err := json.MarshalIndent(fetchedDepartment, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling fetched department data: %v", err)
 	}
-	fmt.Println("Fetched Updated Department:\n", string(fetchedDepartmentXML))
+	fmt.Println("Fetched Updated Department:\n", string(fetchedDepartmentJSON))
 }

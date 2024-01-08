@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -40,15 +40,15 @@ func main() {
 	}
 
 	// Call GetDepartments function
-	departments, err := client.GetDepartments()
+	departments, err := client.GetDepartments("")
 	if err != nil {
 		log.Fatalf("Error fetching departments: %v", err)
 	}
 
-	// Pretty print the departments in XML
-	departmentsXML, err := xml.MarshalIndent(departments, "", "    ") // Indent with 4 spaces
+	// Pretty print the departments in JSON
+	departmentsJSON, err := json.MarshalIndent(departments, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling departments data: %v", err)
 	}
-	fmt.Println("Fetched Departments:\n", string(departmentsXML))
+	fmt.Println("Fetched Departments:\n", string(departmentsJSON))
 }
