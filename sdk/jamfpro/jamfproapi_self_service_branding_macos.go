@@ -94,7 +94,7 @@ func (c *Client) GetSelfServiceBrandingMacOSByName(name string) (*ResourceSelfSe
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "self service branding", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "self service branding", name, errMsgNoName)
 }
 
 // CreateSelfServiceBrandingMacOS creates a new self-service branding configuration for macOS.

@@ -89,7 +89,7 @@ func (c *Client) GetCategoryByName(name string) (*ResourceCategory, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, errMsgNoName)
 }
 
 // CreateCategory creates a new category

@@ -108,7 +108,7 @@ func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "script", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "script", name, errMsgNoName)
 }
 
 // Creates script from ResourceScript struct
