@@ -29,6 +29,7 @@ const (
 	errMsgFailedUpdateByString = "failed to update %s by %s: %s, error: %v"
 
 	// Delete
+	errMsgFailedDelete         = "failed to delete %s, error %v"
 	errMsgFailedDeleteByID     = "failed to delete %s by id: %v, error: %v"
 	errMsgFailedDeleteByName   = "failed to delete %s by name: %s, error: %v"
 	errMsgFailedDeleteByEmail  = "failed to delete %s by Email: %s, error: %v"
