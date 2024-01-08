@@ -5,6 +5,7 @@ package jamfpro
 const (
 	// Pagination - type: string, error: any
 	errMsgFailedPaginatedGet = "failed to get paginated %s, error: %v"
+	errMsgNoName             = "resource with name does not exist"
 
 	// CRUD - format always type: string, id/name: any, error: any
 

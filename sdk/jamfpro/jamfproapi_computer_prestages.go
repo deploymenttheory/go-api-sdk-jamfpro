@@ -192,7 +192,7 @@ func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPresta
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "computer prestage", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "computer prestage", name, errMsgNoName)
 }
 
 // CreateComputerPrestage creates a new computer prestage with the given details.

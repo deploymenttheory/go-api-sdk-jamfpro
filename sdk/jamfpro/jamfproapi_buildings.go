@@ -118,7 +118,7 @@ func (c *Client) GetBuildingByName(name string) (*ResourceBuilding, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "building", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "building", name, errMsgNoName)
 }
 
 // CreateBuilding creates a new building in Jamf Pro

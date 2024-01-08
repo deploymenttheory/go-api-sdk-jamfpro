@@ -90,7 +90,7 @@ func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "department", name, "resource does not exist")
+	return nil, fmt.Errorf(errMsgFailedGetByName, "department", name, errMsgNoName)
 }
 
 // Creates a new department, returns ResponseDepartmentCreate
