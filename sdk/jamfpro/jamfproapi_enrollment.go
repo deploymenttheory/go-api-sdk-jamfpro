@@ -5,4 +5,51 @@
 
 package jamfpro
 
-// TODO
+import "fmt"
+
+// WIP
+
+const uriUserEnrollmentTokenSettings = "/api/v1/adue-session-token-settings"
+
+// structs
+
+type ResourceADUETokenSettings struct {
+	Enabled                   bool `json:"enabled"`
+	ExpirationIntervalDays    int  `json:"expirationIntervalDays,omitempty"`
+	ExpirationIntervalSeconds int  `json:"expirationIntervalSeconds,omitempty"`
+}
+
+// CRUD
+
+func (c *Client) GetADUESessionTokenSettings() (*ResourceADUETokenSettings, error) {
+	endpoint := uriUserEnrollmentTokenSettings
+	var out ResourceADUETokenSettings
+
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "ADUE token settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+
+}
+
+func (c *Client) UpdateADUESessionTokenSettings(updatedSettings ResourceADUETokenSettings) (*ResourceADUETokenSettings, error) {
+	endpoint := uriUserEnrollmentTokenSettings
+	var out ResourceADUETokenSettings
+
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdate, "ADUE token settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}

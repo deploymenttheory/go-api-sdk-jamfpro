@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "D:\\github\\go-api-sdk-jamfpro\\clientauth.json"
 
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
 	if err != nil {
@@ -28,10 +28,17 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
+	updatedSettings := jamfpro.ResourceADUETokenSettings{
+		Enabled:                false,
+		ExpirationIntervalDays: 0, // NOTE this needs either seconds or days. The omitempty means it only sends the one you fill however, if you set it to 0, that also counts as empty and therefore you get failed to supply error.
+	}
+
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
+	adueSettings, err := client.UpdateADUESessionTokenSettings(updatedSettings)
 
 	jsonData, err := json.MarshalIndent(adueSettings, "", "    ") // Indent with 4 spaces
 	if err != nil {
