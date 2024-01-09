@@ -58,8 +58,8 @@ func main() {
 			CasperImaging: []string{"string"},
 		},
 		Members: jamfpro.AccountGroupSubsetMembers{
-			{ID: 7, Name: "John  Doe"},
-			{ID: 2, Name: "dafydd.watkins"},
+			{User: jamfpro.MemberUser{ID: 12, Name: "Barry White"}},
+			{User: jamfpro.MemberUser{ID: 2, Name: "dafydd.watkins"}},
 		},
 	}
 

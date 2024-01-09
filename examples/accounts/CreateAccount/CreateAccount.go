@@ -41,15 +41,15 @@ func main() {
 
 	// Assemble the request body for creating an account
 	accountDetail := &jamfpro.ResourceAccount{
-		Name:                "John James",
+		Name:                "Barry White",
 		DirectoryUser:       false,
-		FullName:            "John James",
-		Email:               "john.James@company.com",
-		EmailAddress:        "john.James@company.com",
+		FullName:            "Barry White",
+		Email:               "Barry.White@company.com",
+		EmailAddress:        "Barry.White@company.com",
 		Enabled:             "Enabled",
 		ForcePasswordChange: true,
 		AccessLevel:         "Full Access",
-		PrivilegeSet:        "Administrator", // Administrator
+		PrivilegeSet:        "Custom", // Administrator / Auditor / Enrollment Only / Custom
 		Password:            "this is a really secure password 390423049823409894382092348092348",
 		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
