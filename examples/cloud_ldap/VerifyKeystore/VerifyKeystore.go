@@ -1,7 +1,8 @@
 package main
 
+// NOTE not sure we can test this yet?
+
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,20 +11,15 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file
 	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
-	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
-
-	// Configuration for the jamfpro
+	logLevel := http_client.LogLevelInfo
 	config := jamfpro.Config{
 		InstanceName:       authConfig.InstanceName,
 		OverrideBaseDomain: authConfig.OverrideBaseDomain,
@@ -33,22 +29,11 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetDepartments function
-	departments, err := client.GetDepartments("")
-	if err != nil {
-		log.Fatalf("Error fetching departments: %v", err)
-	}
+	fmt.Println(client.HTTP.InstanceName) // Placeholder to stop it moaning
 
-	// Pretty print the departments in JSON
-	departmentsJSON, err := json.MarshalIndent(departments, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling departments data: %v", err)
-	}
-	fmt.Println("Fetched Departments:\n", string(departmentsJSON))
 }

@@ -3,11 +3,14 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-volume-purchasing-subscriptions
 // Jamf Pro API requires the structs to support an JSON data structure.
 
+// TODO Refactor this - pagination etc
+
 package jamfpro
 
 import (
 	"fmt"
-	"strconv"
+
+	"github.com/mitchellh/mapstructure"
 )
 
 const uriVolumePurchasingSubscriptions = "/api/v1/volume-purchasing-subscriptions"
@@ -47,23 +50,34 @@ type VolumePurchasingSubscriptionSubsetExternalRecipients struct {
 // CRUD
 
 // GetVolumePurchasingSubscriptions retrieves all volume purchasing subscriptions
-func (c *Client) GetVolumePurchasingSubscriptions() (*ResponseVolumePurchasingSubscriptionsList, error) {
-	var subscriptionsList ResponseVolumePurchasingSubscriptionsList
-	resp, err := c.HTTP.DoRequest("GET", uriVolumePurchasingSubscriptions, nil, &subscriptionsList)
+func (c *Client) GetVolumePurchasingSubscriptions(sort_filter string) (*ResponseVolumePurchasingSubscriptionsList, error) {
+	resp, err := c.DoPaginatedGet(
+		uriVolumePurchasingSubscriptions,
+		maxPageSize,
+		startingPageNumber,
+		sort_filter,
+	)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "volume purchasing subscriptions", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "volume purchasing subscriptions", err)
 	}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
+	var out ResponseVolumePurchasingSubscriptionsList
+	out.TotalCount = &resp.Size
+
+	for _, value := range resp.Results {
+		var newObj ResourceVolumePurchasingSubscription
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "volume purchasing subscription", err)
+		}
+		out.Results = append(out.Results, newObj)
 	}
 
-	return &subscriptionsList, nil
+	return &out, nil
 }
 
 // GetVolumePurchasingSubscriptionByID retrieves a single volume purchasing subscription by its ID
 func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolumePurchasingSubscription, error) {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingSubscriptions, id)
 
 	var subscription ResourceVolumePurchasingSubscription
@@ -80,25 +94,20 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolume
 }
 
 // GetVolumePurchasingSubscriptionByNameByID fetches a volume purchasing subscription by its display name and retrieves its details using its ID.
-func (c *Client) GetVolumePurchasingSubscriptionByNameByID(name string) (*ResourceVolumePurchasingSubscription, error) {
-	subscriptionsList, err := c.GetVolumePurchasingSubscriptions()
+func (c *Client) GetVolumePurchasingSubscriptionByName(name string) (*ResourceVolumePurchasingSubscription, error) {
+	vpSubcriptions, err := c.GetVolumePurchasingSubscriptions("")
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "volume purchasing subscription", name, err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "volume purchasing subscriptions", err)
 	}
 
-	// Search for the subscription with the given name
-	for _, subscription := range subscriptionsList.Results {
-		if subscription.Name == name {
-			// Assuming the ID in the struct is a string and needs to be converted to int
-			subscriptionID, convErr := strconv.Atoi(subscription.Id)
-			if convErr != nil {
-				return nil, fmt.Errorf("failed to convert subscription ID '%s' to integer: %v", subscription.Id, convErr)
-			}
-			return c.GetVolumePurchasingSubscriptionByID(strconv.Itoa(subscriptionID))
+	for _, value := range vpSubcriptions.Results {
+		if value.Name == name {
+			return &value, nil
 		}
 	}
 
-	return nil, fmt.Errorf("no volume purchasing subscription found with the name '%s'", name)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "volume purchasing subscription", name, errMsgNoName)
+
 }
 
 // CreateVolumePurchasingSubscription creates a new volume purchasing subscription
@@ -141,19 +150,18 @@ func (c *Client) UpdateVolumePurchasingSubscriptionByID(id string, subscription 
 }
 
 // UpdateVolumePurchasingSubscriptionByNameByID updates a volume purchasing subscription by its display name
-func (c *Client) UpdateVolumePurchasingSubscriptionByNameByID(name string, updateData *ResourceVolumePurchasingSubscription) (*ResourceVolumePurchasingSubscription, error) {
-	subscriptionsList, err := c.GetVolumePurchasingSubscriptions()
+func (c *Client) UpdateVolumePurchasingSubscriptionByName(name string, updateData *ResourceVolumePurchasingSubscription) (*ResourceVolumePurchasingSubscription, error) {
+	target, err := c.GetVolumePurchasingSubscriptionByName(name)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch all volume purchasing subscriptions: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "volume purchasing subscription", name, err)
 	}
 
-	for _, subscription := range subscriptionsList.Results {
-		if subscription.Name == name {
-			return c.UpdateVolumePurchasingSubscriptionByID(subscription.Id, updateData)
-		}
+	target_id := target.Id
+	resp, err := c.UpdateVolumePurchasingSubscriptionByID(target_id, updateData)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "volume purchasing subscription", name, err)
 	}
-
-	return nil, fmt.Errorf("no volume purchasing subscription found with the name '%s'", name)
+	return resp, nil
 }
 
 // DeleteVolumePurchasingSubscriptionByID deletes a volume purchasing subscription by its ID
@@ -174,16 +182,17 @@ func (c *Client) DeleteVolumePurchasingSubscriptionByID(id string) error {
 
 // DeleteVolumePurchasingSubscriptionByName finds a subscription by name and deletes it by its ID
 func (c *Client) DeleteVolumePurchasingSubscriptionByName(name string) error {
-	subscriptionsList, err := c.GetVolumePurchasingSubscriptions()
+	target, err := c.GetVolumePurchasingSubscriptionByName(name)
 	if err != nil {
-		return fmt.Errorf("failed to fetch all volume purchasing subscriptions: %v", err)
+		return fmt.Errorf(errMsgFailedGetByName, "volume purchasing subscription", name, err)
 	}
 
-	for _, subscription := range subscriptionsList.Results {
-		if subscription.Name == name {
-			return c.DeleteVolumePurchasingSubscriptionByID(subscription.Id)
-		}
+	target_id := target.Id
+	err = c.DeleteVolumePurchasingSubscriptionByID(target_id)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "volume purchasing subscription", name, err)
 	}
 
-	return fmt.Errorf("no volume purchasing subscription found with the name '%s'", name)
+	return nil
+
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -21,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the department name you want to create
-	departmentName := "NewDepartment2"
+	departmentName := "JLtestDept3"
 
 	// Call CreateDepartment function using the department name
 	createdDepartment, err := client.CreateDepartment(departmentName)
@@ -48,10 +48,10 @@ func main() {
 		log.Fatalf("Error creating department: %v", err)
 	}
 
-	// Pretty print the created department in XML
-	createdDepartmentXML, err := xml.MarshalIndent(createdDepartment, "", "    ") // Indent with 4 spaces
+	// Pretty print the created department in JSON
+	createdDepartmentJSON, err := json.MarshalIndent(createdDepartment, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling created department data: %v", err)
 	}
-	fmt.Println("Created Department:\n", string(createdDepartmentXML))
+	fmt.Println("Created Department:\n", string(createdDepartmentJSON))
 }

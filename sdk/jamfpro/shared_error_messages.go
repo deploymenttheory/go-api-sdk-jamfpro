@@ -5,6 +5,7 @@ package jamfpro
 const (
 	// Pagination - type: string, error: any
 	errMsgFailedPaginatedGet = "failed to get paginated %s, error: %v"
+	errMsgNoName             = "resource with name does not exist"
 
 	// CRUD - format always type: string, id/name: any, error: any
 
@@ -29,6 +30,7 @@ const (
 	errMsgFailedUpdateByString = "failed to update %s by %s: %s, error: %v"
 
 	// Delete
+	errMsgFailedDelete         = "failed to delete %s, error %v"
 	errMsgFailedDeleteByID     = "failed to delete %s by id: %v, error: %v"
 	errMsgFailedDeleteByName   = "failed to delete %s by name: %s, error: %v"
 	errMsgFailedDeleteByEmail  = "failed to delete %s by Email: %s, error: %v"
@@ -43,4 +45,7 @@ const (
 
 	// Client Credentials
 	errMsgFailedRefreshClientCreds = "failed to refresh client credentials at id: %s, error :%v"
+
+	// Cloud LDAP Verify Keystore
+	errMsgFailedValidateCloudLdapKeystore = "failed to validate keystore, error: %v"
 )

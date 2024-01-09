@@ -85,7 +85,7 @@ func (c *Client) GetJamfApiRoleByName(name string) (*ResourceAPIRole, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "api role", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "api role", name, errMsgNoName)
 }
 
 // CreateJamfApiRole creates a new Jamf API role

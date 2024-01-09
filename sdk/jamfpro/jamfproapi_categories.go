@@ -30,7 +30,7 @@ type ResourceCategory struct {
 
 // CRUD
 
-// TODO Do we need these comments?
+// QUERY Do we need these comments?
 // GetCategories retrieves all categories from the Jamf Pro API, handling pagination automatically.
 // This function makes multiple API calls to fetch each page of category data and aggregates the results.
 // It uses a loop to iterate through all available pages of categories.
@@ -89,7 +89,7 @@ func (c *Client) GetCategoryByName(name string) (*ResourceCategory, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, errMsgNoName)
 }
 
 // CreateCategory creates a new category

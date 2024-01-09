@@ -69,7 +69,7 @@ func (c *Client) GetScripts(sort_filter string) (*ResponseScriptsList, error) {
 		var newObj ResourceScript
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
-			return nil, fmt.Errorf(errMsgFailedMapstruct, "scripts", err)
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "script", err)
 		}
 		out.Results = append(out.Results, newObj)
 	}
@@ -108,7 +108,7 @@ func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "script", name, err)
+	return nil, fmt.Errorf(errMsgFailedGetByName, "script", name, errMsgNoName)
 }
 
 // Creates script from ResourceScript struct
