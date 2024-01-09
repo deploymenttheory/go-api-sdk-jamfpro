@@ -14,9 +14,10 @@ type SharedResourceCategory struct {
 }
 
 type SharedResourceSelfServiceIcon struct {
-	ID   int    `xml:"id"`
-	URI  string `xml:"uri"`
-	Data string `xml:"data"`
+	ID       int    `xml:"id"`
+	URI      string `xml:"uri"`
+	Data     string `xml:"data"`
+	Filename string `xml:"filename"`
 }
 
 type SharedResourceSelfServiceCategories struct {

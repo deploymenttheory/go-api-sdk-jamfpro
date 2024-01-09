@@ -31,8 +31,12 @@ type ResponseAccountGroupCreated struct {
 }
 
 // Subsets
-
 type AccountGroupSubsetMembers []struct {
+	User MemberUser `json:"user" xml:"user"`
+}
+
+// New MemberUser struct
+type MemberUser struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }

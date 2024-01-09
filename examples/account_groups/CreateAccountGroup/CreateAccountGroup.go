@@ -41,25 +41,25 @@ func main() {
 
 	// Assemble the request body for creating an account group
 	accountGroup := &jamfpro.ResourceAccountGroup{
-		Name:         "Test Group",
-		AccessLevel:  "Full Access",
-		PrivilegeSet: "Administrator",
+		Name:         "jamf sdk test group",
+		AccessLevel:  "Full Access", // Full Access / Site Access
+		PrivilegeSet: "Custom",      // Administrator / Auditor / Enrollment Only / Custom
 		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
 		Privileges: jamfpro.AccountSubsetPrivileges{
-			JSSObjects:    []string{"string"},
-			JSSSettings:   []string{"string"},
-			JSSActions:    []string{"string"},
+			JSSObjects:    []string{"Update Webhooks", "Delete Webhooks"},
+			JSSSettings:   []string{"Read SSO Settings", "Update User-Initiated Enrollment"},
+			JSSActions:    []string{"Send Computer Bluetooth Command", "Computer Delete User Account Command"},
 			Recon:         []string{"string"},
-			CasperAdmin:   []string{"string"},
+			CasperAdmin:   []string{"Use Casper Admin", "Save With Casper Admin"},
 			CasperRemote:  []string{"string"},
 			CasperImaging: []string{"string"},
 		},
 		Members: jamfpro.AccountGroupSubsetMembers{
-			{ID: 7, Name: "John  Doe"},
-			{ID: 2, Name: "dafydd.watkins"},
+			{User: jamfpro.MemberUser{ID: 12, Name: "Barry White"}},
+			{User: jamfpro.MemberUser{ID: 2, Name: "dafydd.watkins"}},
 		},
 	}
 

@@ -41,26 +41,26 @@ func main() {
 
 	// Assemble the request body for creating an account
 	accountDetail := &jamfpro.ResourceAccount{
-		Name:                "John James",
+		Name:                "Barry White",
 		DirectoryUser:       false,
-		FullName:            "John James",
-		Email:               "john.James@company.com",
-		EmailAddress:        "john.James@company.com",
+		FullName:            "Barry White",
+		Email:               "Barry.White@company.com",
+		EmailAddress:        "Barry.White@company.com",
 		Enabled:             "Enabled",
 		ForcePasswordChange: true,
-		AccessLevel:         "Full Access",
-		PrivilegeSet:        "Administrator",
+		AccessLevel:         "Full Access", // Full Access / Site Access
+		PrivilegeSet:        "Custom",      // Administrator / Auditor / Enrollment Only / Custom
 		Password:            "this is a really secure password 390423049823409894382092348092348",
 		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
 		Privileges: jamfpro.AccountSubsetPrivileges{
-			JSSObjects:    []string{"string"},
-			JSSSettings:   []string{"string"},
-			JSSActions:    []string{"string"},
+			JSSObjects:    []string{"Update Webhooks", "Delete Webhooks"},
+			JSSSettings:   []string{"Read SSO Settings", "Update User-Initiated Enrollment"},
+			JSSActions:    []string{"Send Computer Bluetooth Command", "Computer Delete User Account Command"},
 			Recon:         []string{"string"},
-			CasperAdmin:   []string{"string"},
+			CasperAdmin:   []string{"Use Casper Admin", "Save With Casper Admin"},
 			CasperRemote:  []string{"string"},
 			CasperImaging: []string{"string"},
 		},
