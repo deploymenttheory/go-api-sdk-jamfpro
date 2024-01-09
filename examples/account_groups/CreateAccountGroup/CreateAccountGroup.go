@@ -42,8 +42,8 @@ func main() {
 	// Assemble the request body for creating an account group
 	accountGroup := &jamfpro.ResourceAccountGroup{
 		Name:         "jamf sdk test group",
-		AccessLevel:  "Full Access",
-		PrivilegeSet: "Custom", // Administrator / Auditor / Enrollment Only / Custom
+		AccessLevel:  "Full Access", // Full Access / Site Access
+		PrivilegeSet: "Custom",      // Administrator / Auditor / Enrollment Only / Custom
 		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",

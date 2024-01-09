@@ -48,8 +48,8 @@ func main() {
 		EmailAddress:        "Barry.White@company.com",
 		Enabled:             "Enabled",
 		ForcePasswordChange: true,
-		AccessLevel:         "Full Access",
-		PrivilegeSet:        "Custom", // Administrator / Auditor / Enrollment Only / Custom
+		AccessLevel:         "Full Access", // Full Access / Site Access
+		PrivilegeSet:        "Custom",      // Administrator / Auditor / Enrollment Only / Custom
 		Password:            "this is a really secure password 390423049823409894382092348092348",
 		Site: jamfpro.SharedResourceSite{
 			ID:   -1,
