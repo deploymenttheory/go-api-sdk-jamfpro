@@ -7,8 +7,6 @@ package jamfpro
 
 import "fmt"
 
-// WIP
-
 const uriUserEnrollmentTokenSettings = "/api/v1/adue-session-token-settings"
 
 // structs
