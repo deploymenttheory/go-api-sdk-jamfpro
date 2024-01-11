@@ -61,10 +61,10 @@ func (c *Client) GetAccountGroupByID(id int) (*ResourceAccountGroup, error) {
 }
 
 // GetAccountByName retrieves the Account by its name
-func (c *Client) GetAccountGroupByName(name string) (*ResourceAccount, error) {
+func (c *Client) GetAccountGroupByName(name string) (*ResourceAccountGroup, error) {
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
-	var account ResourceAccount
+	var account ResourceAccountGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "account group", name, err)
