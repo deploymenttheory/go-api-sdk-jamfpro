@@ -5,4 +5,4 @@
 
 package jamfpro
 
-// TODO
+// QUERY - Classic endpoint looks way more usable than this. Any reason you wanted this one?
