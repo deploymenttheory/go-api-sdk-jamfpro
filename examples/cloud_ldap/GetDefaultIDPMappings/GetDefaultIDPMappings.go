@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
@@ -31,6 +33,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
+	// Call GetComputerExtensionAttributes function
 	resp, err := client.GetDefaultCloudIdentityProviderDefaultMappings("")
+	if err != nil {
+		log.Fatalf("Error fetching default cloud identity provider mappings: %v", err)
+	}
 
+	// Pretty print the attributes in XML
+	attributesXML, err := json.MarshalIndent(resp, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling default cloud identity provider mappings data: %v", err)
+	}
+	fmt.Println("Fetched Computer default cloud identity provider mappings:\n", string(attributesXML))
 }
