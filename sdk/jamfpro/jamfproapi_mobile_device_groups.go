@@ -5,4 +5,5 @@
 
 package jamfpro
 
-// QUERY - Classic endpoint looks way more usable than this. Any reason you wanted this one?
+// TODO - This will be completed once jamf fully round off this endpoint. presently only covers static
+// account groups and doesn't smart groups.
