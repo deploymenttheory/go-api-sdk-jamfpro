@@ -30,7 +30,8 @@ type ResourceCategory struct {
 
 // CRUD
 
-// QUERY Do we need these comments?
+// QUERY Do we need these comments? - no we can align to the comment style from out endpoints
+
 // GetCategories retrieves all categories from the Jamf Pro API, handling pagination automatically.
 // This function makes multiple API calls to fetch each page of category data and aggregates the results.
 // It uses a loop to iterate through all available pages of categories.
