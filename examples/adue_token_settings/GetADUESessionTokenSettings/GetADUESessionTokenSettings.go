@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "D:\\github\\go-api-sdk-jamfpro\\clientauth.json"
 
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
 	if err != nil {
@@ -32,6 +32,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
+	adueSettings, err := client.GetADUESessionTokenSettings()
 
 	jsonData, err := json.MarshalIndent(adueSettings, "", "    ") // Indent with 4 spaces
 	if err != nil {

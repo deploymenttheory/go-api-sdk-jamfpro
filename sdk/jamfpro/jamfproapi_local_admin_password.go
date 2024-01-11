@@ -5,4 +5,5 @@
 
 package jamfpro
 
-//TODO
+// TODO
+// QUERY - Can you tell me which endpoints you think are relevant here?
