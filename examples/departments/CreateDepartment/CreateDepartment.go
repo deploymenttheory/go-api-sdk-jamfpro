@@ -40,7 +40,9 @@ func main() {
 	}
 
 	// Define the department name you want to create
-	departmentName := "JLtestDept3"
+	departmentName := &jamfpro.ResourceDepartment{
+		Name: "jamf pro go sdk Department",
+	}
 
 	// Call CreateDepartment function using the department name
 	createdDepartment, err := client.CreateDepartment(departmentName)
