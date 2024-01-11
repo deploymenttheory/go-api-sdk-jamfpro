@@ -6,3 +6,5 @@
 package jamfpro
 
 // TODO
+
+const uriJamfPackage = "/api/v1/jamf-package"
