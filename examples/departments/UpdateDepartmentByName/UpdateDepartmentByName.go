@@ -41,10 +41,15 @@ func main() {
 
 	// Define the department's current name and the new name you want to update to
 	currentDepartmentName := "JLtestDept"
-	newDepartmentName := "TestNewName2"
+	newDepartmentName := "jamf pro go sdk Department"
+
+	// New name for the department you want to update
+	updatedDepartment := &jamfpro.ResourceDepartment{
+		Name: newDepartmentName,
+	}
 
 	// Update the department's name using the UpdateDepartmentByName function
-	_, err = client.UpdateDepartmentByName(currentDepartmentName, newDepartmentName)
+	_, err = client.UpdateDepartmentByName(currentDepartmentName, updatedDepartment)
 	if err != nil {
 		log.Fatalf("Error updating department by name: %v", err)
 	}

@@ -32,7 +32,7 @@ type ResourceDepartment struct {
 	Name string `json:"name"`
 }
 
-// Returns all departments in list
+// GetDepartments retrieves a list of all departments in list
 func (c *Client) GetDepartments(sort_filter string) (*ResponseDepartmentsList, error) {
 	endpoint := uriDepartments
 	resp, err := c.DoPaginatedGet(
@@ -60,7 +60,7 @@ func (c *Client) GetDepartments(sort_filter string) (*ResponseDepartmentsList, e
 	return &out, nil
 }
 
-// Returns ResourceDepartment with supplied id
+// GetDepartmentByID retrieves a department by ID.
 func (c *Client) GetDepartmentByID(id string) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/%v", uriDepartments, id)
 	var out ResourceDepartment
@@ -77,7 +77,7 @@ func (c *Client) GetDepartmentByID(id string) (*ResourceDepartment, error) {
 	return &out, nil
 }
 
-// Returns ResourceDepartment with supplied name, leverages GetDepartments
+// GetDepartmentByName retrieves a department by Name.
 func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
 	depts, err := c.GetDepartments("")
 	if err != nil {
@@ -93,18 +93,12 @@ func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
 	return nil, fmt.Errorf(errMsgFailedGetByName, "department", name, errMsgNoName)
 }
 
-// Creates a new department, returns ResponseDepartmentCreate
-func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartmentCreate, error) {
+// CreateDepartment creates a new department.
+func (c *Client) CreateDepartment(department *ResourceDepartment) (*ResponseDepartmentCreate, error) {
 	endpoint := uriDepartments
 	var out ResponseDepartmentCreate
 
-	payload := struct {
-		Name string `json:"name"`
-	}{
-		Name: departmentName,
-	}
-
-	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &out)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, department, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "department", err)
 	}
@@ -117,16 +111,12 @@ func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartmentCre
 
 }
 
-// Updates department name (only attr it has besides id) with given id
-func (c *Client) UpdateDepartmentByID(id string, newName string) (*ResourceDepartment, error) {
+// UpdateDepartmentByID Updates department by resource ID
+func (c *Client) UpdateDepartmentByID(id string, departmentUpdate *ResourceDepartment) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriDepartments, id)
 	var out ResourceDepartment
-	payload := struct {
-		Name string `json:"name"`
-	}{
-		Name: newName,
-	}
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &out)
+
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, departmentUpdate, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "department", id, err)
 	}
@@ -138,15 +128,17 @@ func (c *Client) UpdateDepartmentByID(id string, newName string) (*ResourceDepar
 	return &out, nil
 }
 
-// Updates department name (only attr it has besides id) with given name, leverages GetDepartmentByName, UpdateDepartmentByID
-func (c *Client) UpdateDepartmentByName(targetName, newName string) (*ResourceDepartment, error) {
+// UpdateDepartmentByName Updates department by resource name
+func (c *Client) UpdateDepartmentByName(targetName string, departmentUpdate *ResourceDepartment) (*ResourceDepartment, error) {
 	target, err := c.GetDepartmentByName(targetName)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "department", targetName, err)
 	}
 
 	target_id := target.ID
-	resp, err := c.UpdateDepartmentByID(target_id, newName)
+
+	resp, err := c.UpdateDepartmentByID(target_id, departmentUpdate)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "department", targetName, err)
 	}
@@ -155,7 +147,7 @@ func (c *Client) UpdateDepartmentByName(targetName, newName string) (*ResourceDe
 
 }
 
-// Deletes department with given id
+// DeleteDepartmentByID Deletes department with given id
 func (c *Client) DeleteDepartmentByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriDepartments, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -171,7 +163,7 @@ func (c *Client) DeleteDepartmentByID(id string) error {
 	return nil
 }
 
-// Deletes department with given name, leverages GetDepartmentByName
+// DeleteDepartmentByName deletes a department with given name, leverages GetDepartmentByName
 func (c *Client) DeleteDepartmentByName(targetName string) error {
 	target, err := c.GetDepartmentByName(targetName)
 	if err != nil {

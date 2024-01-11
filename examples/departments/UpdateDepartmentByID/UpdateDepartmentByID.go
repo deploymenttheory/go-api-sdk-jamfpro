@@ -41,17 +41,20 @@ func main() {
 
 	// ID of the department you want to update
 	departmentID := "23514" // Placeholder ID, replace with the correct ID you want to update
+
 	// New name for the department you want to update
-	newDepartmentName := "TestNewName" // Replace with the desired updated department name
+	updatedDepartment := &jamfpro.ResourceDepartment{
+		Name: "jamf pro go sdk Department",
+	}
 
 	// Call UpdateDepartmentByID function
-	updatedDepartment, err := client.UpdateDepartmentByID(departmentID, newDepartmentName)
+	departmentItem, err := client.UpdateDepartmentByID(departmentID, updatedDepartment)
 	if err != nil {
 		log.Fatalf("Error updating department: %v", err)
 	}
 
 	// Fetch the updated department's details
-	fetchedDepartment, err := client.GetDepartmentByID(updatedDepartment.ID)
+	fetchedDepartment, err := client.GetDepartmentByID(departmentItem.ID)
 	if err != nil {
 		log.Fatalf("Error fetching updated department: %v", err)
 	}
