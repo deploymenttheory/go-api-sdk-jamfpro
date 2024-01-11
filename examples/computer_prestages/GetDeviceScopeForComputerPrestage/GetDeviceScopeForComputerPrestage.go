@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -47,14 +48,10 @@ func main() {
 		log.Fatalf("Error fetching device scope for computer prestage: %v", err)
 	}
 
-	// Print out the fetched device scope
-	fmt.Printf("Device Scope for Prestage ID: %s\n", prestageID)
-	for _, assignment := range deviceScope.Assignments {
-		fmt.Printf("Serial Number: %s, Assigned Date: %s, User Assigned: %s\n",
-			assignment.SerialNumber,
-			assignment.AssignmentDate,
-			assignment.UserAssigned,
-		)
-		// Add more details to print as needed
+	// Pretty print the computer prestage in JSON
+	prestageJSON, err := json.MarshalIndent(deviceScope, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling computer prestage data: %v", err)
 	}
+	fmt.Println("Fetched computer prestage:\n", string(prestageJSON))
 }
