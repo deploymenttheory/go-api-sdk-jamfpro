@@ -56,7 +56,7 @@ func main() {
 	}
 
 	// Call the update function with the subscription name and update data
-	updatedSubscription, err := client.UpdateVolumePurchasingSubscriptionByNameByID(subscriptionName, &updateData)
+	updatedSubscription, err := client.UpdateVolumePurchasingSubscriptionByName(subscriptionName, &updateData)
 	if err != nil {
 		fmt.Printf("Error updating volume purchasing subscription with name '%s': %s\n", subscriptionName, err)
 		return

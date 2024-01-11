@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Call the function with desired parameters
-	subscriptions, err := client.GetVolumePurchasingSubscriptions()
+	subscriptions, err := client.GetVolumePurchasingSubscriptions("")
 	if err != nil {
 		fmt.Printf("Error fetching volume purchasing subscriptions: %s\n", err)
 		return
