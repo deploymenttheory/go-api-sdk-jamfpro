@@ -75,4 +75,4 @@ func (c *Client) DeleteJamfProtectIntegration() error {
 	return nil
 }
 
-// QUERY are we bothered about the rest of the operations at this endpoint?
+// QUERY are we bothered about the rest of the operations at this endpoint? - no i dont thinik so at this stage

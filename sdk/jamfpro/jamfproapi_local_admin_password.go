@@ -6,3 +6,8 @@
 package jamfpro
 
 // QUERY - Can you tell me which endpoints you think are relevant here?
+- Get the current LAPS settings.
+- Update settings for LAPS.
+- Get current LAPS password for specified username on a client.
+- Get the LAPS capable admin accounts for a device.
+- Set the LAPS password for a device.
