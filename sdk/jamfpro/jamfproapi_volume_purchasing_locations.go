@@ -38,8 +38,8 @@ type ResponseVolumePurchasingLocationCreate struct {
 
 // ResponseVolumePurchasingLocation represents the response structure for a single volume purchasing location.
 type ResourceVolumePurchasingLocation struct {
-	VolumePurchasingLocationSubsetBody
-	Content []VolumePurchasingSubsetContent `json:"content"`
+	VolumePurchasingLocationSubsetBody                                 // I don't think this works. See exmaples/volume_purchase_locations/CreateVolumePurchasingLocation.go
+	Content                            []VolumePurchasingSubsetContent `json:"content"`
 }
 
 // Subsets
