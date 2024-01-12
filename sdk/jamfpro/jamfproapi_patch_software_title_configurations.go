@@ -54,6 +54,7 @@ type PatchSoftwareTitleConfigurationSubsetPackage struct {
 
 // CRUD
 
+// GetPatchSoftwareTitleConfigurations retrieves list of PatchSoftwareTitleConfigurations
 func (c *Client) GetPatchSoftwareTitleConfigurations() (*ResponsePatchSoftwareTitleConfigurationList, error) {
 	endpoint := uriPatchSoftwareTitleConfigurations
 	var out ResponsePatchSoftwareTitleConfigurationList
@@ -70,6 +71,7 @@ func (c *Client) GetPatchSoftwareTitleConfigurations() (*ResponsePatchSoftwareTi
 
 }
 
+// GetPatchSoftwareTitleConfigurationById retrieves a singular PatchSoftwareTitleConfiguration from a given ID
 func (c *Client) GetPatchSoftwareTitleConfigurationById(id string) (*ResourcePatchSoftwareTitleConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
 	var out ResourcePatchSoftwareTitleConfiguration
@@ -85,6 +87,7 @@ func (c *Client) GetPatchSoftwareTitleConfigurationById(id string) (*ResourcePat
 	return &out, nil
 }
 
+// CreatePatchSoftwareTitleConfiguration Creates a new PatchSoftwareTitleConfiguration
 func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
 	endpoint := uriPatchSoftwareTitleConfigurations
 	var out ResponsePatchSoftwareTitleConfigurationCreate
@@ -100,6 +103,7 @@ func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePat
 	return &out, nil
 }
 
+// UpdatePatchSoftwareTitleConfigurationById Updates a single PatchSoftwareTitleConfiguration with given ID
 func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedConfiguration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
 	var out ResponsePatchSoftwareTitleConfigurationCreate
@@ -115,6 +119,7 @@ func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedCon
 	return &out, nil
 }
 
+// DeletePatchSoftwareTitleConfigurationById deletes a PatchSoftwareTitleConfiguration with given ID
 func (c *Client) DeletePatchSoftwareTitleConfigurationById(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)

@@ -64,6 +64,7 @@ type SsoSubsetSubsetEnrollmentCustomizationDependency struct {
 
 // CRUD
 
+// GetSsoSettings retrieves current Jamf Sso settings
 func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
@@ -79,6 +80,7 @@ func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	return &out, nil
 }
 
+// UpdateSsoSettings Updates SSO Settings with ResourceSsoSettings struct data
 func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
@@ -94,6 +96,7 @@ func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*Resour
 	return &out, nil
 }
 
+// GetSsoEnrollmentCustomizationDependencies shows which enrollment customizations are dependent on which sso settings // NOTE I think?
 func (c *Client) GetSsoEnrollmentCustomizationDependencies() (*ResponseSsoSubsetEnrollmentCustomizationDependencyList, error) {
 	endpoint := uriSsoDependencies
 	var out ResponseSsoSubsetEnrollmentCustomizationDependencyList
