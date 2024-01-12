@@ -3,7 +3,7 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-volume-purchasing-locations
 // Jamf Pro API requires the structs to support an JSON data structure.
 
-// TODO Refactor this - pagination etc
+// WIP Refactor this - pagination etc
 
 package jamfpro
 
@@ -11,21 +11,41 @@ import (
 	"fmt"
 	"net/url"
 	"strconv"
+
+	"github.com/mitchellh/mapstructure"
 )
 
-const (
-	uriVolumePurchasingLocations         = "/api/v1/volume-purchasing-locations" // Endpoint for volume purchasing locations
-	volumePurchasingLocationsMaxPageSize = 2000                                  // Maximum number of items per page
-)
+const uriVolumePurchasingLocations = "/api/v1/volume-purchasing-locations"
+
+// List
 
 // ResponseVolumePurchasingList represents the paginated response for volume purchasing locations.
 type ResponseVolumePurchasingList struct {
-	TotalCount int                        `json:"totalCount"`
-	Results    []VolumePurchasingLocation `json:"results"`
+	TotalCount int                                `json:"totalCount"`
+	Results    []ResourceVolumePurchasingLocation `json:"results"`
 }
 
+type ResponseVolumePurchasingContentList struct {
+	TotalCount int                             `json:"totalCount"`
+	Results    []VolumePurchasingSubsetContent `json:"results"`
+}
+
+// VolumePurchasingLocationCreateResponse represents the response for creating a volume purchasing location.
+type ResponseVolumePurchasingLocationCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// ResponseVolumePurchasingLocation represents the response structure for a single volume purchasing location.
+type ResourceVolumePurchasingLocation struct {
+	VolumePurchasingLocationSubsetBody
+	Content []VolumePurchasingSubsetContent `json:"content"`
+}
+
+// Subsets
+
 // VolumePurchasingLocation represents an individual volume purchasing location.
-type VolumePurchasingLocation struct {
+type VolumePurchasingLocationSubsetBody struct {
 	ID                                    string `json:"id,omitempty"`
 	Name                                  string `json:"name,omitempty"`
 	AppleID                               string `json:"appleId,omitempty"`
@@ -44,14 +64,8 @@ type VolumePurchasingLocation struct {
 	ServiceToken                          string `json:"serviceToken,omitempty"`
 }
 
-// ResponseVolumePurchasingLocation represents the response structure for a single volume purchasing location.
-type ResponseVolumePurchasingLocation struct {
-	VolumePurchasingLocation
-	Content []VolumePurchasingContent `json:"content"`
-}
-
 // VolumePurchasingContent represents the content associated with a volume purchasing location.
-type VolumePurchasingContent struct {
+type VolumePurchasingSubsetContent struct {
 	Name                 string   `json:"name"`
 	LicenseCountTotal    int      `json:"licenseCountTotal"`
 	LicenseCountInUse    int      `json:"licenseCountInUse"`
@@ -63,80 +77,38 @@ type VolumePurchasingContent struct {
 	AdamId               string   `json:"adamId"`
 }
 
-// ResponseVolumePurchasingContentList represents the paginated response for volume purchasing content.
-type ResponseVolumePurchasingContentList struct {
-	TotalCount int                       `json:"totalCount"`
-	Results    []VolumePurchasingContent `json:"results"`
-}
-
-// VolumePurchasingLocationCreateResponse represents the response for creating a volume purchasing location.
-type VolumePurchasingLocationCreateResponse struct {
-	ID   string `json:"id"`
-	Href string `json:"href"`
-}
+// CRUD
+// VPP Locations
 
 // GetVolumePurchaseLocations retrieves all volume purchasing locations with optional sorting and filtering.
-func (c *Client) GetVolumePurchaseLocations(sort []string, filter string) (*ResponseVolumePurchasingList, error) {
-	var allLocations []VolumePurchasingLocation
-
-	page := 1 // Pagination starts from page 1
-	for {
-		params := url.Values{
-			"page":      []string{strconv.Itoa(page)},
-			"page-size": []string{strconv.Itoa(volumePurchasingLocationsMaxPageSize)},
-		}
-
-		// Append sort parameters
-		for _, s := range sort {
-			params.Add("sort", s)
-		}
-
-		// Append filter parameter if provided
-		if filter != "" {
-			params.Add("filter", filter)
-		}
-
-		endpointWithParams := fmt.Sprintf("%s?%s", uriVolumePurchasingLocations, params.Encode())
-
-		// Fetch the volume purchasing locations for the current page
-		var responseLocations ResponseVolumePurchasingList
-		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseLocations)
-		if err != nil {
-			return nil, fmt.Errorf("failed to fetch volume purchasing locations: %v", err)
-		}
-
-		if resp != nil && resp.Body != nil {
-			defer resp.Body.Close()
-		}
-
-		// Add the fetched locations to the total list
-		allLocations = append(allLocations, responseLocations.Results...)
-
-		// Check if all locations have been fetched
-		if len(allLocations) >= responseLocations.TotalCount {
-			break
-		}
-
-		// Increment page number for the next iteration
-		page++
+func (c *Client) GetVolumePurchaseLocations(sort_filter string) (*ResponseVolumePurchasingList, error) {
+	resp, err := c.DoPaginatedGet(uriVolumePurchasingLocations, standardPageSize, startingPageNumber, sort_filter)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "vpp locations", err)
 	}
 
-	// Return the combined list of all volume purchasing locations
-	return &ResponseVolumePurchasingList{
-		TotalCount: len(allLocations),
-		Results:    allLocations,
-	}, nil
+	var out ResponseVolumePurchasingList
+	out.TotalCount = resp.Size
+
+	for _, value := range resp.Results {
+		var newObj ResourceVolumePurchasingLocation
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "vpp location", err)
+		}
+		out.Results = append(out.Results, newObj)
+	}
+
+	return &out, nil
 }
 
 // GetVolumePurchasingLocationByID retrieves a specific volume purchasing location by its ID.
-func (c *Client) GetVolumePurchasingLocationByID(id string) (*ResponseVolumePurchasingLocation, error) {
-	// Construct the endpoint URL using the provided ID
+func (c *Client) GetVolumePurchasingLocationByID(id string) (*ResourceVolumePurchasingLocation, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
-
-	var responseLocation ResponseVolumePurchasingLocation
+	var responseLocation ResourceVolumePurchasingLocation
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseLocation)
 	if err != nil {
-		return nil, fmt.Errorf("failed to fetch volume purchasing location by ID: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp locations", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -146,9 +118,59 @@ func (c *Client) GetVolumePurchasingLocationByID(id string) (*ResponseVolumePurc
 	return &responseLocation, nil
 }
 
+// CreateVolumePurchasingLocation creates a new volume purchasing location.
+func (c *Client) CreateVolumePurchasingLocation(request *ResourceVolumePurchasingLocation) (*ResponseVolumePurchasingLocationCreate, error) {
+	endpoint := uriVolumePurchasingLocations
+
+	var response ResponseVolumePurchasingLocationCreate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create volume purchasing location: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// UpdateVolumePurchasingLocationByID updates a specific volume purchasing location by its ID.
+func (c *Client) UpdateVolumePurchasingLocationByID(id string) (*ResourceVolumePurchasingLocation, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
+	var responseLocation ResourceVolumePurchasingLocation
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, nil, &responseLocation)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp locations", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseLocation, nil
+}
+
+// DeleteVolumePurchasingLocationByID deletes a specific volume purchasing location by its ID.
+func (c *Client) DeleteVolumePurchasingLocationByID(id string) error {
+	endpoint := uriVolumePurchasingLocations
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "vpp location", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// QUERY do we need the stuff below here?
+
 // GetVolumePurchasingContentForLocationByID retrieves the content for a specific volume purchasing location by its ID.
 func (c *Client) GetVolumePurchasingContentForLocationByID(id string, sort []string, filter string) (*ResponseVolumePurchasingContentList, error) {
-	var allContent []VolumePurchasingContent
+	var allContent []VolumePurchasingSubsetContent
 
 	page := 1
 	for {
@@ -197,21 +219,4 @@ func (c *Client) GetVolumePurchasingContentForLocationByID(id string, sort []str
 		TotalCount: len(allContent),
 		Results:    allContent,
 	}, nil
-}
-
-// CreateVolumePurchasingLocation creates a new volume purchasing location.
-func (c *Client) CreateVolumePurchasingLocation(request *VolumePurchasingLocation) (*VolumePurchasingLocationCreateResponse, error) {
-	endpoint := uriVolumePurchasingLocations
-
-	var response VolumePurchasingLocationCreateResponse
-	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create volume purchasing location: %v", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &response, nil
 }

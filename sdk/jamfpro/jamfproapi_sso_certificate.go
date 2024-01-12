@@ -5,4 +5,5 @@
 
 package jamfpro
 
-// TODO
+// TODO - Awaiting some investigation around what this endpoint actually returns (json or cert or ???)
+// QUERY - Do we need to do teamviewer?
