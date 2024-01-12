@@ -39,13 +39,8 @@ func main() {
 	}
 
 	// Create the payload
-	newVPL := jamfpro.VolumePurchasingLocation{
-		Name:                                  "Example Location",
-		AutomaticallyPopulatePurchasedContent: true,
-		SendNotificationWhenNoLongerAssigned:  true,
-		AutoRegisterManagedUsers:              true,
-		SiteID:                                "-1",
-		ServiceToken:                          "eyJleHBEYXRlIjoiMjAyMi0wMy0yOVQxNTozNjoyNiswMDAwIiwidG9rZW4iOiJWR2hwY3lCcGN5QnViM1FnWVNCMGIydGxiaTRnU0c5d1pXWjFiR3g1SUdsMElHeHZiMnR6SUd4cGEyVWdZU0IwYjJ0bGJpd2dZblYwSUdsMEozTWdibTkwTGc9PSIsIm9yZ05hbWUiOiJFeGFtcGxlIE9yZyJ9",
+	newVPL := jamfpro.ResourceVolumePurchasingLocation{
+		// TODO I've messed something up here
 	}
 
 	// Call the CreateVolumePurchasingLocation function
