@@ -11,8 +11,6 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-// TODO Func comments
-
 const uriMobileDevicePrestages = "/api/v2/mobile-device-prestages"
 
 // Structs
@@ -131,6 +129,7 @@ type MobileDevicePrestageSubsetNamesName struct {
 
 // CRUD
 
+// GetMobileDevicePrestages retrieves a list of all mobile prestages
 func (c *Client) GetMobileDevicePrestages(sort_filter string) (*ResponseMobileDevicePrestagesList, error) {
 	endpoint := uriMobileDevicePrestages
 	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sort_filter)
@@ -153,6 +152,7 @@ func (c *Client) GetMobileDevicePrestages(sort_filter string) (*ResponseMobileDe
 	return &out, nil
 }
 
+// GetMobileDevicePrestageByID retrieves a single mobile prestage from the supplied ID
 func (c *Client) GetMobileDevicePrestageByID(id string) (*ResourceMobileDevicePrestage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
 	var out ResourceMobileDevicePrestage
@@ -169,6 +169,7 @@ func (c *Client) GetMobileDevicePrestageByID(id string) (*ResourceMobileDevicePr
 	return &out, nil
 }
 
+// CreateMobileDevicePrestage creates a new mobile prestage and returns the id
 func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePrestage) (*ResponseMobileDevicePrestageCreate, error) {
 	endpoint := uriMobileDevicePrestages
 	var out ResponseMobileDevicePrestageCreate
@@ -184,6 +185,7 @@ func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePres
 	return &out, nil
 }
 
+// DeleteMobileDevicePrestageByID a mobile prestage at the given id
 func (c *Client) DeleteMobileDevicePrestageByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)

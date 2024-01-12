@@ -5,4 +5,4 @@
 
 package jamfpro
 
-// TODO
+// QUERY Do we need this? What is it? Seems something like SSO
