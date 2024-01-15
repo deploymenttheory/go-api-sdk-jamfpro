@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -39,7 +40,7 @@ func main() {
 	}
 
 	// ID of the computer prestage you want to retrieve
-	prestageID := "2" // Replace with the actual ID
+	prestageID := "1" // Replace with the actual ID
 
 	// Call the GetComputerPrestageByID function
 	prestage, err := client.GetComputerPrestageByID(prestageID)
@@ -47,6 +48,10 @@ func main() {
 		log.Fatalf("Error fetching computer prestage by ID: %v", err)
 	}
 
-	// Output the retrieved prestage
-	fmt.Printf("Computer Prestage: %+v\n", prestage)
+	// Pretty print the computer prestage in JSON
+	prestageJSON, err := json.MarshalIndent(prestage, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling computer prestage data: %v", err)
+	}
+	fmt.Println("Fetched computer prestage:\n", string(prestageJSON))
 }
