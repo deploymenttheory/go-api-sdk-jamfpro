@@ -15,13 +15,13 @@ import "fmt"
 // Resource
 
 type ResourceAccountGroup struct {
-	ID           int                       `json:"id,omitempty" xml:"id"`
-	Name         string                    `json:"name" xml:"name"`
-	AccessLevel  string                    `json:"access_level" xml:"access_level"`
-	PrivilegeSet string                    `json:"privilege_set" xml:"privilege_set"`
-	Site         SharedResourceSite        `json:"site" xml:"site"`
-	Privileges   AccountSubsetPrivileges   `json:"privileges" xml:"privileges"`
-	Members      AccountGroupSubsetMembers `json:"members" xml:"members>user"`
+	ID           int                       `json:"id,omitempty" xml:"id,omitempty"`
+	Name         string                    `json:"name,omitempty" xml:"name,omitempty"`
+	AccessLevel  string                    `json:"access_level,omitempty" xml:"access_level,omitempty"`
+	PrivilegeSet string                    `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
+	Site         SharedResourceSite        `json:"site,omitempty" xml:"site,omitempty"`
+	Privileges   AccountSubsetPrivileges   `json:"privileges,omitempty" xml:"privileges,omitempty"`
+	Members      AccountGroupSubsetMembers `json:"members,omitempty" xml:"members>user,omitempty"`
 }
 
 // Responses
@@ -32,7 +32,7 @@ type ResponseAccountGroupCreated struct {
 
 // Subsets
 type AccountGroupSubsetMembers []struct {
-	User MemberUser `json:"user" xml:"user"`
+	User MemberUser `json:"user,omitempty" xml:"user,omitempty"`
 }
 
 // New MemberUser struct
