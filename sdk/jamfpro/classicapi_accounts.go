@@ -27,7 +27,7 @@ type ResponseAccountsList struct {
 
 type ResourceAccount struct {
 	ID                  int                     `json:"id,omitempty" xml:"id,omitempty"`
-	Name                string                  `json:"name" xml:"name"`
+	Name                string                  `json:"name,omitempty" xml:"name,omitempty"`
 	DirectoryUser       bool                    `json:"directory_user,omitempty" xml:"directory_user,omitempty"`
 	FullName            string                  `json:"full_name,omitempty" xml:"full_name,omitempty"`
 	Email               string                  `json:"email,omitempty" xml:"email,omitempty"`
@@ -36,7 +36,7 @@ type ResourceAccount struct {
 	LdapServer          AccountSubsetLdapServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
 	ForcePasswordChange bool                    `json:"force_password_change,omitempty" xml:"force_password_change,omitempty"`
 	AccessLevel         string                  `json:"access_level,omitempty" xml:"access_level,omitempty"`
-	Password            string                  `json:"password" xml:"password"`
+	Password            string                  `json:"password,omitempty" xml:"password,omitempty"`
 	PrivilegeSet        string                  `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
 	Site                SharedResourceSite      `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges          AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
@@ -57,14 +57,14 @@ type AccountsListSubsetUsers struct {
 
 type AccountsListSubsetGroups struct {
 	ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
-	Name       string                  `json:"name" xml:"name"`
+	Name       string                  `json:"name,omitempty" xml:"name,omitempty"`
 	Site       SharedResourceSite      `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
 type AccountSubsetLdapServer struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name" xml:"name"`
+	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
 type AccountSubsetPrivileges struct {
