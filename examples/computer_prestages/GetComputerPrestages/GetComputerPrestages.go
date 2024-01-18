@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -47,9 +48,10 @@ func main() {
 		log.Fatalf("Error fetching computer prestages: %v", err)
 	}
 
-	// Print out the fetched computer prestages
-	for _, prestage := range prestages.Results {
-		fmt.Printf("Prestage Name: %s\n", prestage.DisplayName)
-		// Add more details to print as needed
+	// Pretty print the computer prestage in JSON
+	prestageJSON, err := json.MarshalIndent(prestages, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling computer prestage data: %v", err)
 	}
+	fmt.Println("Fetched computer prestage:\n", string(prestageJSON))
 }

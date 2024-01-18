@@ -138,6 +138,10 @@ func main() {
 		log.Fatalf("Error updating computer prestage: %v", err)
 	}
 
-	// Print the updated prestage
-	fmt.Printf("Updated Computer Prestage: %+v\n", updatedPrestage)
+	// Pretty print the computer prestage in JSON
+	prestageJSON, err := json.MarshalIndent(updatedPrestage, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling computer prestage data: %v", err)
+	}
+	fmt.Println("Fetched computer prestage:\n", string(prestageJSON))
 }
