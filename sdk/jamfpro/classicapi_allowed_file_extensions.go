@@ -16,7 +16,6 @@ const uriAPIAllowedFileExtensions = "/JSSResource/allowedfileextensions"
 
 // Response structure for the list of allowed file extensions
 type ResponseAllowedFileExtensionsList struct {
-	XMLName               xml.Name                       `xml:"allowed_file_extensions"`
 	Size                  int                            `xml:"size"`
 	AllowedFileExtensions []ResourceAllowedFileExtension `xml:"allowed_file_extension"`
 }
@@ -24,9 +23,8 @@ type ResponseAllowedFileExtensionsList struct {
 // Resource
 
 type ResourceAllowedFileExtension struct {
-	XMLName   xml.Name `xml:"allowed_file_extension"`
-	ID        int      `xml:"id"`
-	Extension string   `xml:"extension"`
+	ID        int    `xml:"id"`
+	Extension string `xml:"extension"`
 }
 
 // CRUD
@@ -82,12 +80,20 @@ func (c *Client) GetAllowedFileExtensionByName(name string) (*ResourceAllowedFil
 	return &extension, nil
 }
 
-// CreateAllowedFileExtension creates a new allowed file extension
+// CreateAllowedFileExtension creates a new allowed file extension on the Jamf Pro server.
 func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtension) (*ResourceAllowedFileExtension, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriAPIAllowedFileExtensions) // Using 0 as placeholder for creation
+	endpoint := fmt.Sprintf("%s/id/0", uriAPIAllowedFileExtensions)
 
-	var response ResourceAllowedFileExtension
-	resp, err := c.HTTP.DoRequest("POST", endpoint, extension, &response)
+	// Wrap the extension with the desired XML name using an anonymous struct
+	requestBody := struct {
+		XMLName xml.Name `xml:"allowed_file_extension"`
+		*ResourceAllowedFileExtension
+	}{
+		ResourceAllowedFileExtension: extension,
+	}
+
+	var responseExtension ResourceAllowedFileExtension
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseExtension)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "allowed file extension", err)
 	}
@@ -96,7 +102,7 @@ func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtens
 		defer resp.Body.Close()
 	}
 
-	return &response, nil
+	return &responseExtension, nil
 }
 
 // DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
