@@ -36,16 +36,16 @@ type AdvancedMobileSearchListItem struct {
 
 // ResourceAdvancedMobileDeviceSearch represents the structure of the response for an advanced mobile device search.
 type ResourceAdvancedMobileDeviceSearch struct {
-	ID            int                                      `xml:"id"`
-	Name          string                                   `xml:"name"`
-	ViewAs        string                                   `xml:"view_as,omitempty"`
-	Sort1         string                                   `xml:"sort_1,omitempty"`
-	Sort2         string                                   `xml:"sort_2,omitempty"`
-	Sort3         string                                   `xml:"sort_3,omitempty"`
-	Criteria      SharedContainerCriteria                  `xml:"criteria,omitempty"`
-	DisplayFields []SharedAdvancedSearchSubsetDisplayField `xml:"display_fields"`
-	MobileDevices []AdvancedMobileSearchContainerDevices   `xml:"mobile_devices,omitempty"`
-	Site          SharedResourceSite                       `xml:"site"`
+	ID            int                                         `xml:"id"`
+	Name          string                                      `xml:"name"`
+	ViewAs        string                                      `xml:"view_as,omitempty"`
+	Sort1         string                                      `xml:"sort_1,omitempty"`
+	Sort2         string                                      `xml:"sort_2,omitempty"`
+	Sort3         string                                      `xml:"sort_3,omitempty"`
+	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
+	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
+	MobileDevices []AdvancedMobileSearchContainerDevices      `xml:"mobile_devices,omitempty"`
+	Site          SharedResourceSite                          `xml:"site,omitempty"`
 }
 
 // Responses
@@ -58,15 +58,15 @@ type ResponseAdvancedMobileDeviceSearchCreatedAndUpdated struct {
 // Mobile Device
 
 type AdvancedMobileSearchContainerDevices struct {
-	Size   int                              `xml:"size"`
-	Device AdvancedMobileSearchSubsetDevice `xml:"mobile_device"`
+	Size   int                              `xml:"size,omitempty"`
+	Device AdvancedMobileSearchSubsetDevice `xml:"mobile_device,omitempty"`
 }
 
 type AdvancedMobileSearchSubsetDevice struct {
-	ID          int    `xml:"id"`
-	Name        string `xml:"name"`
-	UDID        string `xml:"udid"`
-	DisplayName string `xml:"Display_Name"`
+	ID          int    `xml:"id,omitempty"`
+	Name        string `xml:"name,omitempty"`
+	UDID        string `xml:"udid,omitempty"`
+	DisplayName string `xml:"Display_Name,omitempty"`
 }
 
 // CRUD

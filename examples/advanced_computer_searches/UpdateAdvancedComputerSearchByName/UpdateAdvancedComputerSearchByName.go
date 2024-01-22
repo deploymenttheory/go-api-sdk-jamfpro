@@ -57,9 +57,22 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
+		DisplayFields: []jamfpro.SharedAdvancedSearchContainerDisplayField{
 			{
-				Name: "IP Address",
+				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
+					{
+						Name: "Activation Lock Manageable",
+					},
+					{
+						Name: "Apple Silicon",
+					},
+					{
+						Name: "Architecture Type",
+					},
+					{
+						Name: "Available RAM Slots",
+					},
+				},
 			},
 		},
 		Site: jamfpro.SharedResourceSite{
