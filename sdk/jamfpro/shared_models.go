@@ -33,8 +33,8 @@ type SharedResourceSelfServiceCategory struct {
 // Advanced Search DisplayField
 
 type SharedAdvancedSearchContainerDisplayField struct {
-	Size         int                                    `xml:"size"`
-	DisplayField SharedAdvancedSearchSubsetDisplayField `xml:"display_field"`
+	Size         int                                      `xml:"size"`
+	DisplayField []SharedAdvancedSearchSubsetDisplayField `xml:"display_field"`
 }
 
 type SharedAdvancedSearchSubsetDisplayField struct {
