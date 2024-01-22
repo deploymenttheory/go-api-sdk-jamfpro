@@ -10,7 +10,7 @@ import (
 func main() {
 	target_filepath := "examples/util_configuration_profile_sanitize/payload.mobileconfig"
 
-	configProfile, err := utils.ConfigurationFilePlistToStruct(target_filepath)
+	configProfile, err := utils.ConfigurationFilePlistToStructFromFile(target_filepath)
 	if err != nil {
 		fmt.Println(err)
 	}

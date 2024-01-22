@@ -31,7 +31,7 @@ type PayloadContentListItem struct {
 }
 
 // ConfigurationFilePlistToStruct takes filepath of MacOS Configuration Profile .plist file and returns &ConfigurationProfile
-func ConfigurationFilePlistToStruct(filepath string) (*ConfigurationProfile, error) {
+func ConfigurationFilePlistToStructFromFile(filepath string) (*ConfigurationProfile, error) {
 	plistFile, err := os.Open(filepath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %v", err)
@@ -43,8 +43,18 @@ func ConfigurationFilePlistToStruct(filepath string) (*ConfigurationProfile, err
 		return nil, fmt.Errorf("failed to read plist/xml file: %v", err)
 	}
 
+	return plistDataToStruct(xmlData)
+}
+
+// ConfigurationProfilePlistToStructFromString takes xml of MacOS Configuration Profile .plist file and returns &ConfigurationProfile
+func ConfigurationProfilePlistToStructFromString(plistData string) (*ConfigurationProfile, error) {
+	return plistDataToStruct([]byte(plistData))
+}
+
+// plistDataToStruct takes xml .plist bytes data and returns ConfigurationProfile
+func plistDataToStruct(plistBytes []byte) (*ConfigurationProfile, error) {
 	var unmarshalledPlist map[string]interface{}
-	_, err = plist.Unmarshal(xmlData, &unmarshalledPlist)
+	_, err := plist.Unmarshal(plistBytes, &unmarshalledPlist)
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal plist/xml: %v", err)
 	}
