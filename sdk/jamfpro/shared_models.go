@@ -9,15 +9,15 @@ type SharedResourceSite struct {
 }
 
 type SharedResourceCategory struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
 type SharedResourceSelfServiceIcon struct {
-	ID       int    `xml:"id"`
-	URI      string `xml:"uri"`
-	Data     string `xml:"data"`
-	Filename string `xml:"filename"`
+	ID       int    `json:"id,omitempty" xml:"id,omitempty"`
+	URI      string `json:"uri,omitempty" xml:"uri,omitempty"`
+	Data     string `json:"data,omitempty" xml:"data,omitempty"`
+	Filename string `json:"filename,omitempty" xml:"filename,omitempty"`
 }
 
 type SharedResourceSelfServiceCategories struct {
@@ -25,9 +25,9 @@ type SharedResourceSelfServiceCategories struct {
 }
 
 type SharedResourceSelfServiceCategory struct {
-	ID       int    `xml:"id"`
-	Name     string `xml:"name"`
-	Priority int    `xml:"priority,omitempty"`
+	ID       int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name     string `json:"name,omitempty" xml:"name,omitempty"`
+	Priority int    `json:"priority,omitempty" xml:"priority,omitempty"`
 }
 
 // Advanced Search DisplayField
@@ -38,22 +38,22 @@ type SharedAdvancedSearchContainerDisplayField struct {
 }
 
 type SharedAdvancedSearchSubsetDisplayField struct {
-	Name string `xml:"name"`
+	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
 // Criteria
 
 type SharedContainerCriteria struct {
-	Size      int                    `xml:"size"`
-	Criterion []SharedSubsetCriteria `xml:"criterion"`
+	Size      int                    `json:"size,omitempty" xml:"size,omitempty"`
+	Criterion []SharedSubsetCriteria `json:"criterion,omitempty" xml:"criterion,omitempty"`
 }
 
 type SharedSubsetCriteria struct {
-	Name         string `xml:"name"`
-	Priority     int    `xml:"priority"`
-	AndOr        string `xml:"and_or"`
-	SearchType   string `xml:"search_type"`
-	Value        string `xml:"value"`
-	OpeningParen bool   `xml:"opening_paren,omitempty"`
-	ClosingParen bool   `xml:"closing_paren,omitempty"`
+	Name         string `json:"name,omitempty" xml:"name,omitempty"`
+	Priority     int    `json:"priority,omitempty" xml:"priority,omitempty"`
+	AndOr        string `json:"and_or,omitempty" xml:"and_or,omitempty"`
+	SearchType   string `json:"search_type,omitempty" xml:"search_type,omitempty"`
+	Value        string `json:"value,omitempty" xml:"value,omitempty"`
+	OpeningParen bool   `json:"opening_paren,omitempty" xml:"opening_paren,omitempty"`
+	ClosingParen bool   `json:"closing_paren,omitempty" xml:"closing_paren,omitempty"`
 }
