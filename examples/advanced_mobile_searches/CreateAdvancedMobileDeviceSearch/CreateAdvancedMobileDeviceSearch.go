@@ -57,9 +57,14 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
+		DisplayFields: []jamfpro.SharedAdvancedSearchContainerDisplayField{
 			{
-				Name: "IP Address",
+				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
+					{
+						Name: "IP Address",
+					},
+					// Add more display fields as needed
+				},
 			},
 		},
 		Site: jamfpro.SharedResourceSite{
