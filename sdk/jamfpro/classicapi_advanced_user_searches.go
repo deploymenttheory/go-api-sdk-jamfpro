@@ -54,8 +54,8 @@ type ResourceAdvancedUserSearchCreatedAndUpdated struct {
 // Subsets & Containers
 
 type AdvancedUserSearchContainerUsers struct {
-	Size int                          `xml:"size,omitempty"`
-	User AdvancedUserSearchSubsetUser `xml:"user,omitempty"`
+	Size int                            `xml:"size,omitempty"`
+	User []AdvancedUserSearchSubsetUser `xml:"user,omitempty"`
 }
 
 type AdvancedUserSearchSubsetUser struct {
