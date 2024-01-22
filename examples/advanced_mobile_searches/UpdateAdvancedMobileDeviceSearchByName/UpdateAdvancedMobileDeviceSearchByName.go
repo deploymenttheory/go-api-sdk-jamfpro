@@ -61,7 +61,10 @@ func main() {
 			{
 				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
 					{
-						Name: "IP Address",
+						Name: "AirPlay Password",
+					},
+					{
+						Name: "App Analytics Enabled",
 					},
 					// Add more display fields as needed
 				},
