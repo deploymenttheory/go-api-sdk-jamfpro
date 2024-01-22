@@ -98,6 +98,14 @@ func main() {
 		},
 	}
 
+	// Marshal the newSearch object into XML for logging
+	newSearchJSON, err := xml.MarshalIndent(newSearch, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshaling new search to XML:", err)
+		return
+	}
+	fmt.Printf("New Advanced Computer Search Request:\n%s\n", string(newSearchJSON))
+
 	// Create the advanced computer search
 	createdSearch, err := client.CreateAdvancedComputerSearch(newSearch)
 	if err != nil {
