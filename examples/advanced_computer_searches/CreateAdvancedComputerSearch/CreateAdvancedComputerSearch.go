@@ -44,19 +44,46 @@ func main() {
 
 	// Define the advanced computer search details
 	newSearch := &jamfpro.ResourceAdvancedComputerSearch{
-		Name:   "Advanced Search Name",
+		Name:   "jamf pro SDK - Advanced Search Name",
 		ViewAs: "Standard Web Page",
 		Criteria: jamfpro.SharedContainerCriteria{
-			Size: 1,
+			Size: 4,
 			Criterion: []jamfpro.SharedSubsetCriteria{
 				{
-					Name:         "Last Inventory Update",
+					Name:         "Building",
 					Priority:     0,
 					AndOr:        "and",
-					SearchType:   "more than x days ago",
-					Value:        "7",
-					OpeningParen: false,
+					SearchType:   "is",
+					Value:        "square",
+					OpeningParen: true,
 					ClosingParen: false,
+				},
+				{
+					Name:         "Model",
+					Priority:     1,
+					AndOr:        "and",
+					SearchType:   "is",
+					Value:        "macbook air",
+					OpeningParen: false,
+					ClosingParen: true,
+				},
+				{
+					Name:         "Computer Name",
+					Priority:     2,
+					AndOr:        "or",
+					SearchType:   "matches regex",
+					Value:        "thing",
+					OpeningParen: true,
+					ClosingParen: false,
+				},
+				{
+					Name:         "Licensed Software",
+					Priority:     3,
+					AndOr:        "and",
+					SearchType:   "has",
+					Value:        "office",
+					OpeningParen: false,
+					ClosingParen: true,
 				},
 			},
 		},

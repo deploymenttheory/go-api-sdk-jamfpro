@@ -8,7 +8,7 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const advancedComputerSearchID = 123 // Replace with the actual ID
+const advancedComputerSearchID = 20 // Replace with the actual ID
 
 func main() {
 	// Define the path to the JSON configuration file
