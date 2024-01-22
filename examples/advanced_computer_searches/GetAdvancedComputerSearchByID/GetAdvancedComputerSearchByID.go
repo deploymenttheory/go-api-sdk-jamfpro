@@ -10,7 +10,7 @@ import (
 )
 
 // Define the ID of the advanced computer search
-const advancedComputerSearchID = 24 // Replace 123 with the actual ID
+const advancedComputerSearchID = 25 // Replace 123 with the actual ID
 
 func main() {
 	// Define the path to the JSON configuration file
