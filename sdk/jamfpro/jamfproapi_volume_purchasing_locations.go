@@ -3,8 +3,6 @@
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-volume-purchasing-locations
 // Jamf Pro API requires the structs to support an JSON data structure.
 
-// WIP Refactor this - pagination etc
-
 package jamfpro
 
 import (

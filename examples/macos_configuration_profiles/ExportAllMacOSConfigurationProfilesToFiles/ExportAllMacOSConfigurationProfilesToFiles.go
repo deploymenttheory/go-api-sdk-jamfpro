@@ -33,7 +33,7 @@ func extractPayloads(xmlData string) string {
 }
 
 func main() {
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/client_auth.json"
 
 	authConfig, err := http_client.LoadClientAuthConfig(configFilePath)
 	if err != nil {
@@ -71,7 +71,7 @@ func main() {
 	}
 	fmt.Println("These profiles will be exported.")
 
-	exportDir := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/configprofile_export"
+	exportDir := "/Users/joseph/github/go-api-sdk-jamfpro"
 	if err := os.MkdirAll(exportDir, 0755); err != nil {
 		log.Fatalf("Failed to create export directory: %v", err)
 	}
