@@ -37,12 +37,12 @@ type AdvancedUserSearchListItem struct {
 
 // Structs for Advanced User Search details by ID
 type ResourceAdvancedUserSearch struct {
-	ID            int                                       `xml:"id"`
-	Name          string                                    `xml:"name"`
-	Criteria      SharedContainerCriteria                   `xml:"criteria"`
-	Users         []AdvancedUserSearchContainerUsers        `xml:"users"`
-	DisplayFields SharedAdvancedSearchContainerDisplayField `xml:"display_fields"`
-	Site          SharedResourceSite                        `xml:"site"`
+	ID            int                                         `xml:"id"`
+	Name          string                                      `xml:"name,omitempty"`
+	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
+	Users         []AdvancedUserSearchContainerUsers          `xml:"users,omitempty"`
+	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
+	Site          SharedResourceSite                          `xml:"site,omitempty"`
 }
 
 // Responses
@@ -54,8 +54,8 @@ type ResourceAdvancedUserSearchCreatedAndUpdated struct {
 // Subsets & Containers
 
 type AdvancedUserSearchContainerUsers struct {
-	Size int                          `xml:"size"`
-	User AdvancedUserSearchSubsetUser `xml:"user"`
+	Size int                            `xml:"size,omitempty"`
+	User []AdvancedUserSearchSubsetUser `xml:"user,omitempty"`
 }
 
 type AdvancedUserSearchSubsetUser struct {

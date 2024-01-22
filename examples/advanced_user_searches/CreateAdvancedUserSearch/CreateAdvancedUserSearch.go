@@ -55,9 +55,20 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: jamfpro.SharedAdvancedSearchContainerDisplayField{
-			DisplayField: jamfpro.SharedAdvancedSearchSubsetDisplayField{
-				Name: "Email Address",
+		DisplayFields: []jamfpro.SharedAdvancedSearchContainerDisplayField{
+			{
+				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
+					{
+						Name: "Computers",
+					},
+					{
+						Name: "Content Name",
+					},
+					{
+						Name: "Roster Course Source",
+					},
+					// Additional display fields can be added here
+				},
 			},
 		},
 		Site: jamfpro.SharedResourceSite{
