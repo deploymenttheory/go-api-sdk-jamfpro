@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist
+    version="1">
+    <dict>
+        <key>PayloadUUID</key>
+        <string>87725951-028E-486B-857B-64EB7E060268</string>
+        <key>PayloadType</key>
+        <string>Configuration</string>
+        <key>PayloadOrganization</key>
+        <string>Lloyds Bank</string>
+        <key>PayloadIdentifier</key>
+        <string>87725951-028E-486B-857B-64EB7E060268</string>
+        <key>PayloadDisplayName</key>
+        <string>SCEP Test Profile 1 Jan 21</string>
+        <key>PayloadDescription</key>
+        <string />
+        <key>PayloadVersion</key>
+        <integer>1</integer>
+        <key>PayloadEnabled</key>
+        <true />
+        <key>PayloadRemovalDisallowed</key>
+        <true />
+        <key>PayloadScope</key>
+        <string>System</string>
+        <key>PayloadContent</key>
+        <array>
+            <dict>
+                <key>PayloadUUID</key>
+                <string>81A44E37-6EC4-4203-841B-76F3FDF0CF91</string>
+                <key>PayloadType</key>
+                <string>com.apple.security.scep</string>
+                <key>PayloadOrganization</key>
+                <string>Lloyds Bank</string>
+                <key>PayloadIdentifier</key>
+                <string>81A44E37-6EC4-4203-841B-76F3FDF0CF91</string>
+                <key>PayloadDisplayName</key>
+                <string>SCEP (Scep profile)</string>
+                <key>PayloadDescription</key>
+                <string />
+                <key>PayloadVersion</key>
+                <integer>1</integer>
+                <key>PayloadEnabled</key>
+                <true />
+                <key>PayloadContent</key>
+                <dict>
+                    <key>Name</key>
+                    <string>Scep profile</string>
+                    <key>URL</key>
+                    <string>https://scepurl.com</string>
+                    <key>Challenge</key>
+                    <string>$MSSCEPCHALLENGE</string>
+                    <key>Key Type</key>
+                    <string>RSA</string>
+                    <key>Key Usage</key>
+                    <integer>5</integer>
+                    <key>Keysize</key>
+                    <integer>1024</integer>
+                    <key>Subject</key>
+                    <array>
+                        <array>
+                            <array>
+                                <string>"O</string>
+                                <string>CompanyName</string>
+                            </array>
+                        </array>
+                        <array>
+                            <array>
+                                <string>CN</string>
+                                <string>Foo"</string>
+                            </array>
+                        </array>
+                    </array>
+                    <key>SubjectAltName</key>
+                    <dict>
+                        <key>ntPrincipalName</key>
+                        <string>No John</string>
+                        <key>dNSName</key>
+                        <string>John</string>
+                    </dict>
+                    <key>Retries</key>
+                    <integer>1</integer>
+                    <key>RetryDelay</key>
+                    <integer>10</integer>
+                    <key>CertificateRenewalTimeInterval</key>
+                    <integer>14</integer>
+                    <key>KeyIsExtractable</key>
+                    <true />
+                    <key>AllowAllAppsAccess</key>
+                    <false />
+                </dict>
+            </dict>
+        </array>
+    </dict>
+</plist>

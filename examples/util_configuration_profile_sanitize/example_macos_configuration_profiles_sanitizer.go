@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/utils"
@@ -9,11 +10,16 @@ import (
 func main() {
 	target_filepath := "examples/util_configuration_profile_sanitize/payload.mobileconfig"
 
-	plist, err := utils.SanitiseMacOsConfigurationProfile(target_filepath)
-
+	configProfile, err := utils.ConfigurationFilePlistToStruct(target_filepath)
 	if err != nil {
-		fmt.Printf("problem: %v", err)
+		fmt.Println(err)
 	}
 
-	fmt.Println(plist)
+	jsonData, err := json.MarshalIndent(configProfile, "", "	")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(string(jsonData))
+
 }
