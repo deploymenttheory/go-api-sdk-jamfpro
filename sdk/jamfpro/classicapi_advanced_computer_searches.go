@@ -42,10 +42,10 @@ type ResourceAdvancedComputerSearch struct {
 	Sort1         string                                     `xml:"sort_1,omitempty"`
 	Sort2         string                                     `xml:"sort_2,omitempty"`
 	Sort3         string                                     `xml:"sort_3,omitempty"`
-	Criteria      SharedContainerCriteria                    `xml:"criteria"`
-	DisplayFields []SharedAdvancedSearchSubsetDisplayField   `xml:"display_fields"`
-	Computers     []AdvancedComputerSearchContainerComputers `xml:"computer"`
-	Site          SharedResourceSite                         `xml:"site"`
+	Criteria      SharedContainerCriteria                    `xml:"criteria,omitempty"`
+	DisplayFields []SharedAdvancedSearchSubsetDisplayField   `xml:"display_fields,omitempty"`
+	Computers     []AdvancedComputerSearchContainerComputers `xml:"computer,omitempty"`
+	Site          SharedResourceSite                         `xml:"site,omitempty"`
 }
 
 // Responses
