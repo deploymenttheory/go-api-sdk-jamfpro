@@ -61,9 +61,17 @@ func main() {
 			{
 				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
 					{
-						Name: "IP Address",
+						Name: "Activation Lock Manageable",
 					},
-					// Add more display fields as needed
+					{
+						Name: "Apple Silicon",
+					},
+					{
+						Name: "Architecture Type",
+					},
+					{
+						Name: "Available RAM Slots",
+					},
 				},
 			},
 		},
