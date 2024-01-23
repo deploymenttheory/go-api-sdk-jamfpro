@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -43,7 +44,10 @@ func main() {
 		log.Fatalf("Error fetching Mac Applications: %v", err)
 	}
 
-	for _, app := range macApps.MacApplications {
-		fmt.Printf("ID: %d, Name: %s\n", app.ID, app.Name)
+	// Pretty print the account details
+	byoprofileXML, err := xml.MarshalIndent(macApps, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling account data: %v", err)
 	}
+	fmt.Println("Fetched mac applications Details:", string(byoprofileXML))
 }

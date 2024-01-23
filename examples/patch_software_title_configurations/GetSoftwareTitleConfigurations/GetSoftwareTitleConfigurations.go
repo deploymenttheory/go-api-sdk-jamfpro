@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -21,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelInfo // Adjust log level as needed
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -39,19 +39,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Example device ID
-	deviceID := 1 // Replace with an actual device name
-
-	// Get mobile device by ID
-	deviceByID, err := client.GetMobileDeviceByID(deviceID)
+	// Call GetPatchSoftwareTitleConfigurations function
+	profiles, err := client.GetPatchSoftwareTitleConfigurations()
 	if err != nil {
-		log.Fatalf("Error fetching mobile device by name: %v", err)
+		log.Fatalf("Error fetching patch Software Title Configurations: %v", err)
 	}
 
-	// Pretty print the network segments in XML
-	mobileDeviceXML, err := xml.MarshalIndent(deviceByID, "", "    ") // Indent with 4 spaces
+	// Pretty print the profiles in XML
+	profilesXML, err := xml.MarshalIndent(profiles, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling network segments data: %v", err)
+		log.Fatalf("Error marshaling patch Software Title Configurations data: %v", err)
 	}
-	fmt.Println("Network Segments:\n", string(mobileDeviceXML))
+	fmt.Println("Fetched patch Software Title Configurations:\n", string(profilesXML))
 }

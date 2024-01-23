@@ -39,13 +39,13 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Example device ID
-	deviceID := 1 // Replace with an actual device name
+	// Example PatchSoftwareTitleConfigurationID
+	PatchSoftwareTitleConfigurationID := "1" // Replace with an patch software title id
 
-	// Get mobile device by ID
-	deviceByID, err := client.GetMobileDeviceByID(deviceID)
+	// Get Patch Software Title Configuration By ID
+	deviceByID, err := client.GetPatchSoftwareTitleConfigurationByID(PatchSoftwareTitleConfigurationID)
 	if err != nil {
-		log.Fatalf("Error fetching mobile device by name: %v", err)
+		log.Fatalf("Error fetching patch software title configuration by ID: %v", err)
 	}
 
 	// Pretty print the network segments in XML

@@ -39,17 +39,17 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Example device ID
-	deviceID := 1 // Replace with an actual device name
+	// Example display name
+	patchSoftwareTitleConfigurationName := "Google Chrome" // Replace with an actual device name
 
-	// Get mobile device by ID
-	deviceByID, err := client.GetMobileDeviceByID(deviceID)
+	// Get patch software title configuration by name
+	patchTitle, err := client.GetPatchSoftwareTitleConfigurationByName(patchSoftwareTitleConfigurationName)
 	if err != nil {
-		log.Fatalf("Error fetching mobile device by name: %v", err)
+		log.Fatalf("Error fetching patch software title configuration by name: %v", err)
 	}
 
 	// Pretty print the network segments in XML
-	mobileDeviceXML, err := xml.MarshalIndent(deviceByID, "", "    ") // Indent with 4 spaces
+	mobileDeviceXML, err := xml.MarshalIndent(patchTitle, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling network segments data: %v", err)
 	}

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,19 +38,29 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Example device ID
-	deviceID := 1 // Replace with an actual device name
-
-	// Get mobile device by ID
-	deviceByID, err := client.GetMobileDeviceByID(deviceID)
-	if err != nil {
-		log.Fatalf("Error fetching mobile device by name: %v", err)
+	// Create a new PatchSoftwareTitleConfiguration
+	newConfig := &jamfpro.ResourcePatchSoftwareTitleConfiguration{
+		DisplayName:        "CCleaner",
+		CategoryId:         "-1",
+		SiteId:             "-1",
+		UINotifications:    true,
+		EmailNotifications: true,
+		SoftwareTitleId:    "10",
+		ExtensionAttributes: []jamfpro.SoftwareTitleConfigurationsSubsetExtensionAttribute{
+			{
+				Accepted: true,
+				EaId:     "CCleaner-ea",
+			},
+		},
 	}
 
-	// Pretty print the network segments in XML
-	mobileDeviceXML, err := xml.MarshalIndent(deviceByID, "", "    ") // Indent with 4 spaces
+	// Call the CreatePatchSoftwareTitleConfiguration method
+	response, err := client.CreatePatchSoftwareTitleConfiguration(newConfig)
 	if err != nil {
-		log.Fatalf("Error marshaling network segments data: %v", err)
+		fmt.Println("Error creating Patch Software Title Configuration:", err)
+		return
 	}
-	fmt.Println("Network Segments:\n", string(mobileDeviceXML))
+
+	// Print the response
+	fmt.Printf("Created Patch Software Title Configuration with ID: %s, Href: %s\n", response.ID, response.Href)
 }
