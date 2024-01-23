@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -40,9 +41,16 @@ func main() {
 
 	// Replace with the actual name you want to retrieve
 	profileName := "Personal Device Profile"
+
 	profile, err := client.GetBYOProfileByName(profileName)
 	if err != nil {
 		log.Fatalf("Error fetching BYO Profile by name: %v", err)
 	}
-	fmt.Printf("Fetched BYO Profile: %+v\n", profile)
+
+	// Pretty print the account details
+	byoprofileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling account data: %v", err)
+	}
+	fmt.Println("Fetched BYO Profile Details:", string(byoprofileXML))
 }

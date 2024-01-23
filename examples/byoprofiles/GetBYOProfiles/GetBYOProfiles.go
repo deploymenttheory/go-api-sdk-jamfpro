@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -44,9 +45,10 @@ func main() {
 		log.Fatalf("Failed to get BYO Profiles: %v", err)
 	}
 
-	// Print out the profiles
-	fmt.Printf("Total BYO Profiles: %d\n", profiles.Size)
-	for _, profile := range profiles.BYOProfiles {
-		fmt.Printf("ID: %d, Name: %s\n", profile.ID, profile.Name)
+	// Pretty print the account details
+	byoprofileXML, err := xml.MarshalIndent(profiles, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling account data: %v", err)
 	}
+	fmt.Println("Fetched BYO Profile Details:", string(byoprofileXML))
 }
