@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
@@ -30,5 +32,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
+	jsonData, err := json.MarshalIndent(adueSettings, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling data: %v", err)
+	}
+	fmt.Println("Fetched data:\n", string(jsonData))
 
 }

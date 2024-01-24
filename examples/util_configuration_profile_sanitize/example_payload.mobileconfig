@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>IfLostReturnToMessage</key>
+			<string>If lost make this script work before returning</string>
+			<key>LockScreenFootnote</key>
+			<string>Look up</string>
+			<key>PayloadDisplayName</key>
+			<string>Lock Screen Message</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.shareddeviceconfiguration.2F65D244-8BFC-46CE-8FC3-8222EE47F57D</string>
+			<key>PayloadType</key>
+			<string>com.apple.shareddeviceconfiguration</string>
+			<key>PayloadUUID</key>
+			<string>2F65D244-8BFC-46CE-8FC3-8222EE47F57D</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Test Profile From iMazing Friday 19</string>
+	<key>PayloadIdentifier</key>
+	<string>IDENTIFIERGOESHERE101</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>D951FECB-CCDE-4298-958D-EF76E294A79C</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

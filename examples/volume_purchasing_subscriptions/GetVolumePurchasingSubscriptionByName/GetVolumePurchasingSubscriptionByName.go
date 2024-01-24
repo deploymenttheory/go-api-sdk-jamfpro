@@ -42,7 +42,7 @@ func main() {
 	subscriptionName := "Example"
 
 	// Call the GetVolumePurchasingSubscriptionByName function with the subscription name.
-	subscription, err := client.GetVolumePurchasingSubscriptionByNameByID(subscriptionName)
+	subscription, err := client.GetVolumePurchasingSubscriptionByName(subscriptionName)
 	if err != nil {
 		fmt.Printf("Error fetching volume purchasing subscription with name '%s': %s\n", subscriptionName, err)
 		return

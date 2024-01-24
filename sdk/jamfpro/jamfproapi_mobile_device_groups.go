@@ -5,4 +5,5 @@
 
 package jamfpro
 
-// TODO
+// NOTE - This will be completed once jamf fully round off this endpoint. presently only covers static
+// account groups and doesn't smart groups.
