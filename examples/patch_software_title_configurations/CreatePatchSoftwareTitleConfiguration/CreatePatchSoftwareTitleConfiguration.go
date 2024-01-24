@@ -41,21 +41,21 @@ func main() {
 	// Create a new PatchSoftwareTitleConfiguration
 	newConfig := &jamfpro.ResourcePatchSoftwareTitleConfiguration{
 		DisplayName:        "CCleaner",
-		CategoryId:         "-1",
-		SiteId:             "-1",
-		UINotifications:    true,
+		CategoryID:         "-1",
+		SiteID:             "-1",
+		UiNotifications:    true,
 		EmailNotifications: true,
-		SoftwareTitleId:    "10",
-		ExtensionAttributes: []jamfpro.SoftwareTitleConfigurationsSubsetExtensionAttribute{
+		SoftwareTitleID:    "10",
+		ExtensionAttributes: []jamfpro.PatchSoftwareTitleConfigurationSubsetExtensionAttribute{
 			{
 				Accepted: true,
-				EaId:     "CCleaner-ea",
+				EaID:     "CCleaner-ea",
 			},
 		},
 	}
 
 	// Call the CreatePatchSoftwareTitleConfiguration method
-	response, err := client.CreatePatchSoftwareTitleConfiguration(newConfig)
+	response, err := client.CreatePatchSoftwareTitleConfiguration(*newConfig)
 	if err != nil {
 		fmt.Println("Error creating Patch Software Title Configuration:", err)
 		return
