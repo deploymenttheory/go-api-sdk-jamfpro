@@ -70,7 +70,7 @@ type PolicySubsetGeneral struct {
 	TriggerLogin               bool                                       `xml:"trigger_login"`
 	TriggerLogout              bool                                       `xml:"trigger_logout"`
 	TriggerNetworkStateChanged bool                                       `xml:"trigger_network_state_changed"`
-	TriggerStartup             bool                                       `xml:"trigger_startup,omitempty"`
+	TriggerStartup             bool                                       `xml:"trigger_startup"`
 	TriggerOther               string                                     `xml:"trigger_other"`
 	Frequency                  string                                     `xml:"frequency,omitempty"`
 	RetryEvent                 string                                     `xml:"retry_event,omitempty"`
@@ -153,25 +153,22 @@ type PolicySubsetScopeExclusions struct {
 	IBeacons        []PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
 
-// Self Service
-
+// PolicySubsetSelfService updated to include a slice of PolicySubsetSelfServiceCategory
 type PolicySubsetSelfService struct {
-	UseForSelfService           bool                                `xml:"use_for_self_service"`
-	SelfServiceDisplayName      string                              `xml:"self_service_display_name,omitempty"`
-	InstallButtonText           string                              `xml:"install_button_text,omitempty"`
-	ReinstallButtonText         string                              `xml:"re_install_button_text,omitempty"`
-	SelfServiceDescription      string                              `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool                                `xml:"force_users_to_view_description"`
-	SelfServiceIcon             SharedResourceSelfServiceIcon       `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                                `xml:"feature_on_main_page"`
-	SelfServiceCategories       []PolicySubsetSelfServiceCategories `xml:"self_service_categories>category,omitempty"`
+	UseForSelfService           bool                              `xml:"use_for_self_service"`
+	SelfServiceDisplayName      string                            `xml:"self_service_display_name,omitempty"`
+	InstallButtonText           string                            `xml:"install_button_text,omitempty"`
+	ReinstallButtonText         string                            `xml:"re_install_button_text,omitempty"`
+	SelfServiceDescription      string                            `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool                              `xml:"force_users_to_view_description"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon     `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage           bool                              `xml:"feature_on_main_page"`
+	SelfServiceCategories       []PolicySubsetSelfServiceCategory `xml:"self_service_categories"`
 }
 
-type PolicySubsetSelfServiceCategories struct {
-	ID        int    `xml:"id,omitempty"`
-	Name      string `xml:"name,omitempty"`
-	DisplayIn bool   `xml:"display_in,omitempty"`
-	FeatureIn bool   `xml:"feature_in,omitempty"`
+// PolicySubsetSelfServiceCategory now contains a PolicyCategory
+type PolicySubsetSelfServiceCategory struct {
+	Category PolicyCategory `xml:"category"`
 }
 
 // Package Configuration
@@ -346,8 +343,8 @@ type PolicySubsetReboot struct {
 type PolicyCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
-	DisplayIn bool   `xml:"display_in,omitempty"`
-	FeatureIn bool   `xml:"feature_in,omitempty"`
+	DisplayIn bool   `xml:"display_in"`
+	FeatureIn bool   `xml:"feature_in"`
 }
 
 type PolicyDataSubsetComputer struct {

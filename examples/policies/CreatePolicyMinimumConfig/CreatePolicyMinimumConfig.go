@@ -68,7 +68,7 @@ func main() {
 			ForceUsersToViewDescription: false,
 			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategories{
+			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
 				{
 					Category: jamfpro.PolicyCategory{
 						//ID:        "-1",
