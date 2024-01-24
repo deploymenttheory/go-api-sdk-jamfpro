@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -39,10 +40,17 @@ func main() {
 	}
 
 	// Replace with the actual ID you want to retrieve
-	profileID := 3
+	profileID := 4
+
 	profile, err := client.GetBYOProfileByID(profileID)
 	if err != nil {
 		log.Fatalf("Error fetching BYO Profile by ID: %v", err)
 	}
-	fmt.Printf("Fetched BYO Profile: %+v\n", profile)
+
+	// Pretty print the account details
+	byoprofileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling account data: %v", err)
+	}
+	fmt.Println("Fetched BYO Profile Details:", string(byoprofileXML))
 }

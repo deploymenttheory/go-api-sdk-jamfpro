@@ -39,16 +39,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetBYOProfiles function
-	profiles, err := client.GetBYOProfiles()
+	// Call GetPatchSoftwareTitleConfigurations function
+	profiles, err := client.GetPatchSoftwareTitleConfigurations()
 	if err != nil {
-		log.Fatalf("Failed to get BYO Profiles: %v", err)
+		log.Fatalf("Error fetching patch Software Title Configurations: %v", err)
 	}
 
-	// Pretty print the account details
-	byoprofileXML, err := xml.MarshalIndent(profiles, "", "    ") // Indent with 4 spaces
+	// Pretty print the profiles in XML
+	profilesXML, err := xml.MarshalIndent(profiles, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling account data: %v", err)
+		log.Fatalf("Error marshaling patch Software Title Configurations data: %v", err)
 	}
-	fmt.Println("Fetched BYO Profile Details:", string(byoprofileXML))
+	fmt.Println("Fetched patch Software Title Configurations:\n", string(profilesXML))
 }

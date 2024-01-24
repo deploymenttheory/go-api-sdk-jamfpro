@@ -43,13 +43,13 @@ func main() {
 	deviceID := 1 // Replace with an actual device name
 
 	// Get mobile device by ID
-	deviceByName, err := client.GetMobileDeviceByID(deviceID)
+	deviceByID, err := client.GetMobileDeviceByID(deviceID)
 	if err != nil {
 		log.Fatalf("Error fetching mobile device by name: %v", err)
 	}
 
 	// Pretty print the network segments in XML
-	mobileDeviceXML, err := xml.MarshalIndent(deviceByName, "", "    ") // Indent with 4 spaces
+	mobileDeviceXML, err := xml.MarshalIndent(deviceByID, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling network segments data: %v", err)
 	}

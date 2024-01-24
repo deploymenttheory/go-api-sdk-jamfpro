@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -21,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelInfo // Adjust log level as needed
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -39,16 +39,19 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call GetBYOProfiles function
-	profiles, err := client.GetBYOProfiles()
+	// Example display name
+	patchSoftwareTitleConfigurationName := "Google Chrome" // Replace with an actual device name
+
+	// Get patch software title configuration by name
+	patchTitle, err := client.GetPatchSoftwareTitleConfigurationByName(patchSoftwareTitleConfigurationName)
 	if err != nil {
-		log.Fatalf("Failed to get BYO Profiles: %v", err)
+		log.Fatalf("Error fetching patch software title configuration by name: %v", err)
 	}
 
-	// Pretty print the account details
-	byoprofileXML, err := xml.MarshalIndent(profiles, "", "    ") // Indent with 4 spaces
+	// Pretty print the network segments in XML
+	mobileDeviceXML, err := xml.MarshalIndent(patchTitle, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling account data: %v", err)
+		log.Fatalf("Error marshaling network segments data: %v", err)
 	}
-	fmt.Println("Fetched BYO Profile Details:", string(byoprofileXML))
+	fmt.Println("Network Segments:\n", string(mobileDeviceXML))
 }
