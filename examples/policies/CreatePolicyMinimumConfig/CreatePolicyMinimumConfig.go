@@ -42,7 +42,7 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "policy-creation-test",
+			Name:                       "jamfpro-sdk-minimum-policy-config",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
