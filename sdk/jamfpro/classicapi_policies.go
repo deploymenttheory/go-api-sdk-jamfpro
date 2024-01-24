@@ -100,7 +100,7 @@ type PolicySubsetGeneralDateTimeLimitations struct {
 }
 
 type PolicySubsetGeneralDateTimeLimitationsNoExecuteOn struct {
-	Day string `xml:",chardata,omitempty"`
+	Day string `xml:",chardata"`
 }
 
 type PolicySubsetGeneralNetworkLimitations struct {
