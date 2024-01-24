@@ -43,7 +43,7 @@ func main() {
 	PatchSoftwareTitleConfigurationID := "1" // Replace with an patch software title id
 
 	// Get Patch Software Title Configuration By ID
-	deviceByID, err := client.GetPatchSoftwareTitleConfigurationByID(PatchSoftwareTitleConfigurationID)
+	deviceByID, err := client.GetPatchSoftwareTitleConfigurationById(PatchSoftwareTitleConfigurationID)
 	if err != nil {
 		log.Fatalf("Error fetching patch software title configuration by ID: %v", err)
 	}

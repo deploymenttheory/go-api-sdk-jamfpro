@@ -87,6 +87,22 @@ func (c *Client) GetPatchSoftwareTitleConfigurationById(id string) (*ResourcePat
 	return &out, nil
 }
 
+// GetPatchSoftwareTitleConfigurationByName retrieves a department by Name.
+func (c *Client) GetPatchSoftwareTitleConfigurationByName(name string) (*ResourcePatchSoftwareTitleConfiguration, error) {
+	patchSoftwareTitle, err := c.GetPatchSoftwareTitleConfigurations()
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch software title configuration", err)
+	}
+
+	for _, value := range patchSoftwareTitle.Results {
+		if value.DisplayName == name {
+			return &value, nil
+		}
+	}
+
+	return nil, fmt.Errorf(errMsgFailedGetByName, "patch software title configuration", name, errMsgNoName)
+}
+
 // CreatePatchSoftwareTitleConfiguration Creates a new PatchSoftwareTitleConfiguration
 func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
 	endpoint := uriPatchSoftwareTitleConfigurations
