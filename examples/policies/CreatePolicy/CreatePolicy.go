@@ -42,7 +42,7 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-disk-encryption",
+			Name:                       "jamfpro-sdk-disk-encryption-2",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
