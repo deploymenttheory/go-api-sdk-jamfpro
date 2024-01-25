@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -60,11 +61,15 @@ func main() {
 	}
 
 	// Call UpdateComputerByID function
-	response, err := client.UpdateComputerByID(computerID, updatedComputer)
+	computer, err := client.UpdateComputerByID(computerID, updatedComputer)
 	if err != nil {
 		log.Fatalf("Error updating computer: %v", err)
 	}
 
-	// Output the result
-	fmt.Printf("Updated Computer: %+v\n", response)
+	// Pretty print the created department in JSON
+	computerJSON, err := xml.MarshalIndent(computer, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling created computer data: %v", err)
+	}
+	fmt.Println("Created Computer:\n", string(computerJSON))
 }

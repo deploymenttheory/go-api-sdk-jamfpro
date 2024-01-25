@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -40,9 +41,9 @@ func main() {
 	// Create a new computer configuration
 	newComputer := jamfpro.ResponseComputer{
 		General: jamfpro.ComputerSubsetGeneral{
-			Name:         "APIGWFYKTF",
-			SerialNumber: "APIGWFYKTF",                           // Must be Unique
-			UDID:         "APIFF74D-C6B7-5589-93A9-19E8BDFEDKTF", // Must be Unique
+			Name:         "APIGWFYFGH",
+			SerialNumber: "APIGWFYFGH",                           // Must be Unique
+			UDID:         "APIFF74D-C6B7-5589-93A9-19E8BDFEDFGH", // Must be Unique
 			RemoteManagement: jamfpro.ComputerSubsetGeneralRemoteManagement{
 				Managed: true,
 			},
@@ -164,6 +165,10 @@ func main() {
 		log.Fatalf("Error creating computer: %v", err)
 	}
 
-	// Output the result
-	fmt.Printf("Created Computer: %+v\n", createdComputer)
+	// Pretty print the created department in JSON
+	createdComputerJSON, err := xml.MarshalIndent(createdComputer, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling created computer data: %v", err)
+	}
+	fmt.Println("Created Computer:\n", string(createdComputerJSON))
 }

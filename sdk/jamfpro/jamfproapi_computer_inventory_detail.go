@@ -1,4 +1,4 @@
-// jamfproapi_computer_inventory.go
+// jamfproapi_computer_inventory_detail.go
 // Jamf Pro Api - Computer Inventory
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-computers-inventory
 // Jamf Pro API requires the structs to support a JSON data structure.
@@ -16,7 +16,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-const uriComputersInventory = "/api/v1/computers-inventory" // Define the constant for the computers inventory endpoint
+const uriComputersInventory = "/api/v1/computers-inventory-detail" // Define the constant for the computers inventory endpoint
 
 // List
 
