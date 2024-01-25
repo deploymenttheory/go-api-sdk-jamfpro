@@ -1,6 +1,6 @@
 // jamfproapi_cloud_distribution_point.go
 // Jamf Pro Api - Cloud Distribution Point
-// api reference:
+// api reference: undocumented
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
@@ -11,12 +11,7 @@ import (
 
 // Responses
 
-const uriCloudDistributionPoint = "/v1/cloud-distribution-point"
-
-type ResponseCloudDistributionPointList struct {
-	TotalCount int                              `json:"totalCount"`
-	Results    []ResourceCloudDistributionPoint `json:"results"`
-}
+const uriCloudDistributionPoint = "/api/v1/cloud-distribution-point"
 
 type ResponseCloudDistributionPointCreate struct {
 	ID   string `json:"id"`
@@ -25,16 +20,16 @@ type ResponseCloudDistributionPointCreate struct {
 
 // Resource
 
-type ResourceCloudDistributionPoint struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type ResourceCloudDistributionPointUploadCapability struct {
+	ID   bool `json:"principalDistributionTechnology"`
+	Name bool `json:"directUploadCapable"`
 }
 
 // GetCloudDistributionPointUploadCapability retrieves the default server configuration for the Cloud Identity Provider.
-func (c *Client) GetCloudDistributionPointUploadCapability() (*ResourceCloudDistributionPoint, error) {
+func (c *Client) GetCloudDistributionPointUploadCapability() (*ResourceCloudDistributionPointUploadCapability, error) {
 	endpoint := uriCloudDistributionPoint + "/upload-capability"
 
-	var cloudDistributionPointUploadCapability ResourceCloudDistributionPoint
+	var cloudDistributionPointUploadCapability ResourceCloudDistributionPointUploadCapability
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cloudDistributionPointUploadCapability)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Cloud Distribution Point", err)

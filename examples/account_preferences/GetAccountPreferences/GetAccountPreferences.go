@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -45,10 +45,10 @@ func main() {
 		log.Fatalf("Error fetching Account Preferences: %v", err)
 	}
 
-	// Pretty print the groups in XML
-	groupsXML, err := xml.MarshalIndent(groups, "", "    ") // Indent with 4 spaces
+	// Pretty print the groups in JSON
+	accountPreferencesJSON, err := json.MarshalIndent(groups, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling Account Preferences data: %v", err)
 	}
-	fmt.Println("Fetched Account Preferences:\n", string(groupsXML))
+	fmt.Println("Fetched Account Preferences:\n", string(accountPreferencesJSON))
 }
