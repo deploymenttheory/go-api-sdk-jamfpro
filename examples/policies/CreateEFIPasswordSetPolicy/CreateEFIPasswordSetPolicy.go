@@ -41,9 +41,8 @@ func main() {
 
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
-		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-diskencryptionWithIntuitionalKey-policy-config",
+			Name:                       "jamfpro-sdk-example-setefipassword-policy-config",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -73,32 +72,27 @@ func main() {
 				AnyIPAddress:             true,
 				NetworkSegments:          "",
 			},
+			OverrideDefaultSettings: jamfpro.PolicySubsetGeneralOverrideSettings{
+				TargetDrive:       "/",
+				DistributionPoint: "default",
+				ForceAfpSmb:       false,
+				SUS:               "default",
+			},
 			NetworkRequirements: "Any",
 			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
 		},
-		// Disk Encryption
-		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
-			Action:                        "apply",
-			DiskEncryptionConfigurationID: 3,
-			AuthRestart:                   false,
-		},
-		// Self Service
 		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
-			ReinstallButtonText:         "Reinstall",
+			ReinstallButtonText:         "",
 			SelfServiceDescription:      "",
 			ForceUsersToViewDescription: false,
 			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-		},
-		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
-			DistributionPoint: "default",
 		},
 		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
@@ -106,9 +100,10 @@ func main() {
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
+			// Set efi password
 			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
-				OfMode:           "none",
-				OfPassword:       "",
+				OfMode:           "command",
+				OfPassword:       "secretThing",
 				OfPasswordSHA256: "",
 			},
 		},
