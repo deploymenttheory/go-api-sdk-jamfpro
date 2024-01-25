@@ -5,7 +5,7 @@
 
 /*
 Shared Resources in this Endpoint:
-- SharedResourceSite
+- SharedResourceSiteProAPI
 */
 
 package jamfpro
@@ -82,7 +82,7 @@ type ComputerInventorySubsetGeneral struct {
 	InitialEntryDate                     string                                         `json:"initialEntryDate"`
 	DistributionPoint                    string                                         `json:"distributionPoint"`
 	EnrollmentMethod                     ComputerInventorySubsetGeneralEnrollmentMethod `json:"enrollmentMethod"`
-	Site                                 SharedResourceSite                             `json:"site"`
+	Site                                 SharedResourceSiteProAPI                       `json:"site"`
 	ItunesStoreAccountActive             bool                                           `json:"itunesStoreAccountActive"`
 	EnrolledViaAutomatedDeviceEnrollment bool                                           `json:"enrolledViaAutomatedDeviceEnrollment"`
 	UserApprovedMdm                      bool                                           `json:"userApprovedMdm"`

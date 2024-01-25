@@ -8,6 +8,11 @@ type SharedResourceSite struct {
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
+type SharedResourceSiteProAPI struct {
+	ID   string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
 type SharedResourceCategory struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`

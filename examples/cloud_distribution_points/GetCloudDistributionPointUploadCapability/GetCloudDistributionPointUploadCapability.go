@@ -1,15 +1,16 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 func main() {
-	// Define the path to the JSON configuration file for OAuth credentials
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
@@ -20,7 +21,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -38,20 +39,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the details of the dock item to create
-	newDockItem := &jamfpro.ResourceDockItem{
-		Name:     "Safari6",
-		Type:     "App",
-		Path:     "file://localhost/Applications/Safari.app/",
-		Contents: "string",
-	}
-
-	// Call the CreateDockItem function
-	result, err := client.CreateDockItem(newDockItem)
+	// Call GetCloudDistributionPoints function
+	groups, err := client.GetCloudDistributionPointUploadCapability()
 	if err != nil {
-		log.Fatalf("Error creating dock item: %v", err)
+		log.Fatalf("Error fetching CloudDistributionPointUploadCapability: %v", err)
 	}
 
-	// Output the result
-	fmt.Printf("Created Dock Item: %+v\n", result)
+	// Pretty print the groups in XML
+	groupsXML, err := xml.MarshalIndent(groups, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling CloudDistributionPointUploadCapability data: %v", err)
+	}
+	fmt.Println("Fetched CloudDistributionPointUploadCapability:\n", string(groupsXML))
 }
