@@ -1,11 +1,11 @@
-// jamfproapi_computer_inventory.go
+// jamfproapi_computer_inventory_detail.go
 // Jamf Pro Api - Computer Inventory
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-computers-inventory
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 /*
 Shared Resources in this Endpoint:
-- SharedResourceSite
+- SharedResourceSiteProAPI
 */
 
 package jamfpro
@@ -16,7 +16,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-const uriComputersInventory = "/api/v1/computers-inventory" // Define the constant for the computers inventory endpoint
+const uriComputersInventory = "/api/v1/computers-inventory-detail" // Define the constant for the computers inventory endpoint
 
 // List
 
@@ -82,7 +82,7 @@ type ComputerInventorySubsetGeneral struct {
 	InitialEntryDate                     string                                         `json:"initialEntryDate"`
 	DistributionPoint                    string                                         `json:"distributionPoint"`
 	EnrollmentMethod                     ComputerInventorySubsetGeneralEnrollmentMethod `json:"enrollmentMethod"`
-	Site                                 SharedResourceSite                             `json:"site"`
+	Site                                 SharedResourceSiteProAPI                       `json:"site"`
 	ItunesStoreAccountActive             bool                                           `json:"itunesStoreAccountActive"`
 	EnrolledViaAutomatedDeviceEnrollment bool                                           `json:"enrolledViaAutomatedDeviceEnrollment"`
 	UserApprovedMdm                      bool                                           `json:"userApprovedMdm"`

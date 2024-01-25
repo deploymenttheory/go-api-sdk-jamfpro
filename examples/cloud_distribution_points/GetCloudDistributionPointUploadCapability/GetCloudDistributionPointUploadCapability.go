@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -39,19 +39,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define a policy ID for testing
-	policyID := 215 // Replace with the actual policy ID you want to fetch
-
-	// Call GetPolicyByID function
-	policy, err := client.GetPolicyByID(policyID)
+	// Call GetCloudDistributionPoints function
+	groups, err := client.GetCloudDistributionPointUploadCapability()
 	if err != nil {
-		log.Fatalf("Error fetching policy by ID: %v", err)
+		log.Fatalf("Error fetching Cloud Distribution Point Upload Capability: %v", err)
 	}
 
-	// Pretty print the policy details in XML
-	policyXML, err := xml.MarshalIndent(policy, "", "    ") // Indent with 4 spaces
+	// Pretty print the groups in JSON
+	cloudDistributionPointUploadCapabilityJSON, err := json.MarshalIndent(groups, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling policy details data: %v", err)
+		log.Fatalf("Error marshaling Cloud Distribution Point Upload Capability data: %v", err)
 	}
-	fmt.Println("Fetched Policy Details:\n", string(policyXML))
+	fmt.Println("Fetched CloudD istribution Point Upload Capability:\n", string(cloudDistributionPointUploadCapabilityJSON))
 }

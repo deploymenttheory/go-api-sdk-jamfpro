@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file for OAuth credentials
-	configFilePath := "D:\\github\\go-api-sdk-jamfpro\\go-api-sdk-jamfpro\\clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)

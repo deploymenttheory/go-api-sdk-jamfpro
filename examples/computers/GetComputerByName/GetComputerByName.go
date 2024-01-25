@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -45,9 +46,10 @@ func main() {
 		log.Fatalf("Error fetching computer by name: %v", err)
 	}
 
-	// Print out the details of the fetched computer
-	fmt.Printf("Fetched Computer Details:\n")
-	fmt.Printf("ID: %d\n", computer.General.ID)
-	fmt.Printf("Name: %s\n", computer.General.Name)
-	// ... print other desired fields ...
+	// Pretty print the created department in JSON
+	computerJSON, err := xml.MarshalIndent(computer, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling created computer data: %v", err)
+	}
+	fmt.Println("Created Computer:\n", string(computerJSON))
 }

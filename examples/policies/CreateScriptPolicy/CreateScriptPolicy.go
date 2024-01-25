@@ -41,8 +41,9 @@ func main() {
 
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
+		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-disk-encryption-2",
+			Name:                       "jamfpro-sdk-example-script-policy-config",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -58,30 +59,60 @@ func main() {
 			LocationUserOnly:           false,
 			TargetDrive:                "/",
 			Offline:                    false,
+			Category: jamfpro.PolicyCategory{
+				ID:        -1,
+				Name:      "No category assigned",
+				DisplayIn: false,
+				FeatureIn: false,
+			},
+			DateTimeLimitations: jamfpro.PolicySubsetGeneralDateTimeLimitations{
+				// Initialize as needed
+			},
+			NetworkLimitations: jamfpro.PolicySubsetGeneralNetworkLimitations{
+				MinimumNetworkConnection: "No Minimum",
+				AnyIPAddress:             true,
+				NetworkSegments:          "",
+			},
+			NetworkRequirements: "Any",
+			Site: jamfpro.SharedResourceSite{
+				ID:   -1,
+				Name: "None",
+			},
 		},
-		SelfService: jamfpro.PolicySubsetSelfService{
-			UseForSelfService:           false,
-			SelfServiceDisplayName:      "",
-			InstallButtonText:           "Install",
-			ReinstallButtonText:         "",
-			SelfServiceDescription:      "",
-			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
+		// scripts
+		Scripts: jamfpro.PolicySubsetScripts{
+			Size: 1,
+			Script: []jamfpro.PolicySubsetScript{
 				{
-					Category: jamfpro.PolicyCategory{
-						//ID:        "-1",
-						//Name:      "None",
-						DisplayIn: false, // or true, depending on your requirements
-						FeatureIn: false, // or true, depending on your requirements
-					},
+					ID:         "4364",
+					Name:       "[scpt]-add-or-remove-group-membership-v4.0",
+					Priority:   "After",
+					Parameter4: "thing",
+					Parameter5: "thing",
+					Parameter6: "thing",
+					Parameter7: "thing",
+					// Additional parameters if needed
 				},
 			},
 		},
+		// Self Service
+		SelfService: jamfpro.PolicySubsetSelfService{
+			UseForSelfService:           true,
+			SelfServiceDisplayName:      "",
+			InstallButtonText:           "Install",
+			ReinstallButtonText:         "Reinstall",
+			SelfServiceDescription:      "",
+			ForceUsersToViewDescription: false,
+			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
+			FeatureOnMainPage: false,
+		},
+		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
+			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
+			DistributionPoint: "default",
+		},
 		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "rotate",
+				Action:                "doNotChange",
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
@@ -117,13 +148,6 @@ func main() {
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
-		},
-		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
-			Action:                        "apply",
-			DiskEncryptionConfigurationID: 1,
-			AuthRestart:                   true,
-			//RemediateKeyType:                       "",
-			//RemediateDiskEncryptionConfigurationID: 0,
 		},
 		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",

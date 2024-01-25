@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the ID of the computer inventory you want to retrieve
-	computerInventoryID := "8"
+	computerInventoryID := "14"
 
 	// Call the GetComputerInventoryByID function
 	computerInventory, err := client.GetComputerInventoryByID(computerInventoryID)
