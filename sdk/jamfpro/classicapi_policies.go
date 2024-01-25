@@ -108,11 +108,6 @@ type PolicySubsetGeneralOverrideSettings struct {
 	NetbootServer     string `xml:"netboot_server,omitempty"`
 }
 
-type PolicySubsetSite struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
 // Scope
 
 // PolicySubsetScope represents the scope of the policy
