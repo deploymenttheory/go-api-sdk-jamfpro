@@ -26,7 +26,7 @@ type DiskEncryptionConfigurationsListItem struct {
 	Name string `xml:"name"`
 }
 
-type ResponseDiskEncryptionConfiguration struct {
+type ResponseDiskEncryptionConfigurationCreatedAndUpdated struct {
 	ID int `xml:"id"`
 }
 
@@ -69,10 +69,10 @@ func (c *Client) GetDiskEncryptionConfigurations() (*ResponseDiskEncryptionConfi
 }
 
 // GetDiskEncryptionConfigurationByID retrieves a single disk encryption configuration by its ID.
-func (c *Client) GetDiskEncryptionConfigurationByID(id int) (*ResponseDiskEncryptionConfiguration, error) {
+func (c *Client) GetDiskEncryptionConfigurationByID(id int) (*ResourceDiskEncryptionConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
 
-	var configuration ResponseDiskEncryptionConfiguration
+	var configuration ResourceDiskEncryptionConfiguration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "disk encryption configuration", id, err)
@@ -86,10 +86,10 @@ func (c *Client) GetDiskEncryptionConfigurationByID(id int) (*ResponseDiskEncryp
 }
 
 // GetDiskEncryptionConfigurationByName retrieves a disk encryption configuration by its name.
-func (c *Client) GetDiskEncryptionConfigurationByName(name string) (*ResponseDiskEncryptionConfiguration, error) {
+func (c *Client) GetDiskEncryptionConfigurationByName(name string) (*ResourceDiskEncryptionConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDiskEncryptionConfigurations, name)
 
-	var configuration ResponseDiskEncryptionConfiguration
+	var configuration ResourceDiskEncryptionConfiguration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "disk encryption configuration", name, err)
@@ -103,7 +103,7 @@ func (c *Client) GetDiskEncryptionConfigurationByName(name string) (*ResponseDis
 }
 
 // CreateDiskEncryptionConfiguration creates a new disk encryption configuration.
-func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptionConfiguration) (*ResponseDiskEncryptionConfiguration, error) {
+func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptionConfiguration) (*ResponseDiskEncryptionConfigurationCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriDiskEncryptionConfigurations)
 
 	requestBody := struct {
@@ -113,7 +113,7 @@ func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptio
 		ResourceDiskEncryptionConfiguration: config,
 	}
 
-	var createdConfig ResponseDiskEncryptionConfiguration
+	var createdConfig ResponseDiskEncryptionConfigurationCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdConfig)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "disk encryption configuration", err)
@@ -127,7 +127,7 @@ func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptio
 }
 
 // UpdateDiskEncryptionConfigurationByID updates a disk encryption configuration by its ID.
-func (c *Client) UpdateDiskEncryptionConfigurationByID(id int, config *ResourceDiskEncryptionConfiguration) (*ResourceDiskEncryptionConfiguration, error) {
+func (c *Client) UpdateDiskEncryptionConfigurationByID(id int, config *ResourceDiskEncryptionConfiguration) (*ResponseDiskEncryptionConfigurationCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
 
 	requestBody := struct {
@@ -137,7 +137,7 @@ func (c *Client) UpdateDiskEncryptionConfigurationByID(id int, config *ResourceD
 		ResourceDiskEncryptionConfiguration: config,
 	}
 
-	var updatedConfig ResourceDiskEncryptionConfiguration
+	var updatedConfig ResponseDiskEncryptionConfigurationCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "disk encryption configuration", id, err)
