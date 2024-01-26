@@ -40,7 +40,7 @@ func main() {
 	}
 
 	individualConfig := &jamfpro.ResourceDiskEncryptionConfiguration{
-		Name:                  "Corporate Encryption",
+		Name:                  "jamfpro-sdk-example-IndividualRecoveryKey-config",
 		KeyType:               "Individual",
 		FileVaultEnabledUsers: "Management Account",
 	}
