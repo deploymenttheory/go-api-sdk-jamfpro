@@ -156,6 +156,10 @@ type PolicySubsetSelfService struct {
 	SelfServiceIcon             SharedResourceSelfServiceIcon     `xml:"self_service_icon,omitempty"`
 	FeatureOnMainPage           bool                              `xml:"feature_on_main_page"`
 	SelfServiceCategories       []PolicySubsetSelfServiceCategory `xml:"self_service_categories"`
+	Notification                bool                              `xml:"notification,omitempty"`
+	NotificationType            string                            `xml:"notification_type"`
+	NotificationSubject         string                            `xml:"notification_subject,omitempty"`
+	NotificationMessage         string                            `xml:"notification_message,omitempty"`
 }
 
 type PolicySubsetSelfServiceCategory struct {
