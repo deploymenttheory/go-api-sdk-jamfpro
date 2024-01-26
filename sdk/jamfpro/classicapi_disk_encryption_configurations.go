@@ -27,17 +27,13 @@ type DiskEncryptionConfigurationsListItem struct {
 }
 
 type ResponseDiskEncryptionConfiguration struct {
-	ID                    int    `xml:"id"`
-	Name                  string `xml:"name"`
-	KeyType               string `xml:"key_type"`
-	FileVaultEnabledUsers string `xml:"file_vault_enabled_users"`
+	ID int `xml:"id"`
 }
 
 // Resource
 
 // DiskEncryptionConfiguration represents the top-level XML structure for creating/updating a Disk Encryption Configuration.
 type ResourceDiskEncryptionConfiguration struct {
-	XMLName                  xml.Name                                             `xml:"disk_encryption_configuration"`
 	Name                     string                                               `xml:"name"`
 	KeyType                  string                                               `xml:"key_type"`
 	FileVaultEnabledUsers    string                                               `xml:"file_vault_enabled_users"`
