@@ -76,7 +76,7 @@ func main() {
 				TargetDrive:       "/",
 				DistributionPoint: "default",
 				ForceAfpSmb:       false,
-				SUS:               "default", // apple.com or default
+				SUS:               "apple.com", // apple.com or default
 			},
 			NetworkRequirements: "Any",
 			Site: jamfpro.SharedResourceSite{
