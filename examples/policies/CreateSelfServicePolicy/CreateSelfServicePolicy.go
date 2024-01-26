@@ -41,8 +41,9 @@ func main() {
 
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
+		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-softwareupdate-policy-config",
+			Name:                       "jamfpro-sdk-example-selfservice-policy-config",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -72,32 +73,47 @@ func main() {
 				AnyIPAddress:             true,
 				NetworkSegments:          "",
 			},
-			OverrideDefaultSettings: jamfpro.PolicySubsetGeneralOverrideSettings{
-				TargetDrive:       "/",
-				DistributionPoint: "default",
-				ForceAfpSmb:       false,
-				SUS:               "apple.com", // apple.com or default
-			},
 			NetworkRequirements: "Any",
 			Site: jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
 		},
+		// Self Service policy settings
 		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
-			SelfServiceDisplayName:      "",
+			SelfServiceDisplayName:      "some text here",
 			InstallButtonText:           "Install",
 			ReinstallButtonText:         "Reinstall",
-			SelfServiceDescription:      "",
-			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
+			SelfServiceDescription:      "some text here",
+			ForceUsersToViewDescription: true,
+			SelfServiceIcon: jamfpro.SharedResourceSelfServiceIcon{
+				ID:       3,
+				Filename: "mac-icon.png",
+				URI:      "https://euw2.ics.services.jamfcloud.com/icon/hash_f6d371a96ce011c4c297bcc09641bdce76e90c53e79bb212f8ca3024cbb53034",
+			},
+			FeatureOnMainPage: true,
+			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
+				{
+					Category: jamfpro.PolicyCategory{
+						ID:        6,
+						Name:      "Productivity",
+						DisplayIn: true,
+						FeatureIn: true,
+					},
+				},
+			},
+			Notification:        true,
+			NotificationType:    "Self Service and Notification Center",
+			NotificationSubject: "thing",
+			NotificationMessage: "thing",
 		},
+		// package policy settings
 		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
+			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{},
 			DistributionPoint: "default",
 		},
+		// account maintenance policy settings
 		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
 				Action:                "doNotChange",

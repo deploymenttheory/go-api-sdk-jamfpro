@@ -42,7 +42,7 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-softwareupdate-policy-config",
+			Name:                       "jamfpro-sdk-example-FileAndProcesses-policy-config",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -76,7 +76,7 @@ func main() {
 				TargetDrive:       "/",
 				DistributionPoint: "default",
 				ForceAfpSmb:       false,
-				SUS:               "apple.com", // apple.com or default
+				SUS:               "default",
 			},
 			NetworkRequirements: "Any",
 			Site: jamfpro.SharedResourceSite{
@@ -88,15 +88,11 @@ func main() {
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
-			ReinstallButtonText:         "Reinstall",
+			ReinstallButtonText:         "",
 			SelfServiceDescription:      "",
 			ForceUsersToViewDescription: false,
 			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-		},
-		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
-			DistributionPoint: "default",
 		},
 		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
@@ -122,20 +118,23 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
+		// File and processes policy
 		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
-			DeleteFile:           false,
-			UpdateLocateDatabase: false,
-			SpotlightSearch:      "",
-			SearchForProcess:     "",
-			KillProcess:          false,
-			RunCommand:           "",
+			SearchByPath:         "thing",
+			DeleteFile:           true,
+			LocateFile:           "thing",
+			UpdateLocateDatabase: true,
+			SpotlightSearch:      "thing",
+			SearchForProcess:     "thing",
+			KillProcess:          true,
+			RunCommand:           "thing",
 		},
 		UserInteraction: jamfpro.PolicySubsetUserInteraction{
-			MessageStart:          "",
-			AllowUserToDefer:      false,
+			MessageStart:          "thing",
+			AllowUserToDefer:      true,
 			AllowDeferralUntilUtc: "",
-			AllowDeferralMinutes:  0,
-			MessageFinish:         "",
+			AllowDeferralMinutes:  1440,
+			MessageFinish:         "thing",
 		},
 		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",

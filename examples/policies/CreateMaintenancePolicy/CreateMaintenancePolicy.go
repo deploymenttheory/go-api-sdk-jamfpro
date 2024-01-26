@@ -42,7 +42,7 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-softwareupdate-policy-config",
+			Name:                       "jamfpro-sdk-example-Maintenance-policy-config",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
@@ -76,7 +76,7 @@ func main() {
 				TargetDrive:       "/",
 				DistributionPoint: "default",
 				ForceAfpSmb:       false,
-				SUS:               "apple.com", // apple.com or default
+				SUS:               "default",
 			},
 			NetworkRequirements: "Any",
 			Site: jamfpro.SharedResourceSite{
@@ -88,15 +88,11 @@ func main() {
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
-			ReinstallButtonText:         "Reinstall",
+			ReinstallButtonText:         "",
 			SelfServiceDescription:      "",
 			ForceUsersToViewDescription: false,
 			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-		},
-		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
-			DistributionPoint: "default",
 		},
 		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
@@ -110,17 +106,18 @@ func main() {
 				OfPasswordSHA256: "",
 			},
 		},
+		// Create Maintenance Policy
 		Maintenance: jamfpro.PolicySubsetMaintenance{
-			Recon:                    false,
-			ResetName:                false,
-			InstallAllCachedPackages: false,
-			Heal:                     false,
-			Prebindings:              false,
-			Permissions:              false,
-			Byhost:                   false,
-			SystemCache:              false,
-			UserCache:                false,
-			Verify:                   false,
+			Recon:                    true,
+			ResetName:                true,
+			InstallAllCachedPackages: true,
+			Heal:                     true,
+			Prebindings:              true,
+			Permissions:              true,
+			Byhost:                   true,
+			SystemCache:              true,
+			UserCache:                true,
+			Verify:                   true,
 		},
 		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
