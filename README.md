@@ -1,6 +1,6 @@
 ## Getting Started with `go-api-sdk-jamfpro`
 
-This guide will help you **GET** started with `go-api-sdk-jamfpro`, a Go SDK for interfacing with Jamf Pro.
+This guide will help you get started with `go-api-sdk-jamfpro`, a Go SDK for interfacing with Jamf Pro.
 
 ### Prerequisites
 
