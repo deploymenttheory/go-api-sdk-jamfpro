@@ -46,6 +46,7 @@ type ResponseComputerPrestageCreate struct {
 // Resource
 
 type ResourceComputerPrestage struct {
+	ID                                string                                      `json:"id"`
 	DisplayName                       string                                      `json:"displayName"`
 	Mandatory                         bool                                        `json:"mandatory"`
 	MDMRemovable                      bool                                        `json:"mdmRemovable"`
@@ -77,7 +78,6 @@ type ResourceComputerPrestage struct {
 	RecoveryLockPasswordType          string                                      `json:"recoveryLockPasswordType"`
 	RecoveryLockPassword              string                                      `json:"recoveryLockPassword"`
 	RotateRecoveryLockPassword        bool                                        `json:"rotateRecoveryLockPassword"`
-	ID                                string                                      `json:"id"`
 	ProfileUuid                       string                                      `json:"profileUuid"`
 	SiteId                            string                                      `json:"siteId"`
 	VersionLock                       int                                         `json:"versionLock"`
