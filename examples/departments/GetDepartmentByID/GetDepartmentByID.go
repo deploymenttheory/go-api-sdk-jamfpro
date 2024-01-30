@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Define the department ID you want to retrieve
-	departmentID := "23514" // Replace with the desired department ID
+	departmentID := "23" // Replace with the desired department ID
 
 	// Call GetDepartmentByID function
 	department, err := client.GetDepartmentByID(departmentID)

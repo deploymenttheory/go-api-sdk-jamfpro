@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -21,7 +20,7 @@ func main() {
 
 	// Instantiate the default logger and set the desired log level
 	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := jamfpro.Config{
@@ -33,27 +32,31 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the department name you want to create
-	departmentName := &jamfpro.ResourceDepartment{
-		Name: "jamf pro go sdk Department",
+	// Fetch all departments
+	departments, err := client.GetDepartments("")
+	if err != nil {
+		log.Fatalf("Error fetching departments: %v", err)
 	}
 
-	// Call CreateDepartment function using the department name
-	createdDepartment, err := client.CreateDepartment(departmentName)
-	if err != nil {
-		log.Fatalf("Error creating department: %v", err)
+	fmt.Println("Departments fetched. Starting deletion process:")
+
+	// Iterate over each department and delete
+	for _, department := range departments.Results {
+		fmt.Printf("Deleting department ID: %s, Name: %s\n", department.ID, department.Name)
+
+		err = client.DeleteDepartmentByID(department.ID)
+		if err != nil {
+			log.Printf("Error deleting department ID %s: %v\n", department.ID, err)
+			continue // Move to the next department if there's an error
+		}
+
+		fmt.Printf("Department ID %s deleted successfully.\n", department.ID)
 	}
 
-	// Pretty print the created department in JSON
-	createdDepartmentJSON, err := json.MarshalIndent(createdDepartment, "", "    ") // Indent with 4 spaces
-	if err != nil {
-		log.Fatalf("Error marshaling created department data: %v", err)
-	}
-	fmt.Println("Created Department:\n", string(createdDepartmentJSON))
+	fmt.Println("Department deletion process completed.")
 }
