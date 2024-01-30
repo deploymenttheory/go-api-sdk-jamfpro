@@ -61,7 +61,7 @@ type ResourceComputerPrestage struct {
 	PreventActivationLock             bool                                        `json:"preventActivationLock"`
 	EnableDeviceBasedActivationLock   bool                                        `json:"enableDeviceBasedActivationLock"`
 	DeviceEnrollmentProgramInstanceId string                                      `json:"deviceEnrollmentProgramInstanceId"`
-	SkipSetupItems                    map[string]bool                             `json:"skipSetupItems"`
+	SkipSetupItems                    ComputerPrestageSubsetSkipSetupItems        `json:"skipSetupItems"`
 	LocationInformation               ComputerPrestageSubsetLocationInformation   `json:"locationInformation"`
 	PurchasingInformation             ComputerPrestageSubsetPurchasingInformation `json:"purchasingInformation"`
 	AnchorCertificates                []string                                    `json:"anchorCertificates"`
@@ -85,6 +85,27 @@ type ResourceComputerPrestage struct {
 }
 
 // Subsets & Containers
+
+type ComputerPrestageSubsetSkipSetupItems struct {
+	Biometric         bool `json:"Biometric"`
+	TermsOfAddress    bool `json:"TermsOfAddress"`
+	FileVault         bool `json:"FileVault"`
+	ICloudDiagnostics bool `json:"iCloudDiagnostics"`
+	Diagnostics       bool `json:"Diagnostics"`
+	Accessibility     bool `json:"Accessibility"`
+	AppleID           bool `json:"AppleID"`
+	ScreenTime        bool `json:"ScreenTime"`
+	Siri              bool `json:"Siri"`
+	DisplayTone       bool `json:"DisplayTone"`
+	Restore           bool `json:"Restore"`
+	Appearance        bool `json:"Appearance"`
+	Privacy           bool `json:"Privacy"`
+	Payment           bool `json:"Payment"`
+	Registration      bool `json:"Registration"`
+	TOS               bool `json:"TOS"`
+	ICloudStorage     bool `json:"iCloudStorage"`
+	Location          bool `json:"Location"`
+}
 
 type ComputerPrestageSubsetLocationInformation struct {
 	Username     string `json:"username"`
