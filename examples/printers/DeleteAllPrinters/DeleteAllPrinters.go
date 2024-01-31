@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -33,39 +32,31 @@ func main() {
 		ClientSecret:       authConfig.ClientSecret,
 	}
 
-	// Create a new jamfpro client instance
 	client, err := jamfpro.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Printer details to create
-	newPrinter := &jamfpro.ResourcePrinter{
-		Name:        "HP 9th Floor 2",
-		Category:    "",
-		URI:         "lpd://10.1.20.204/",
-		CUPSName:    "HP_9th_Floor",
-		Location:    "string",
-		Model:       "HP LaserJet 500 color MFP M575",
-		Info:        "string",
-		Notes:       "string",
-		MakeDefault: true,
-		UseGeneric:  true,
-		PPD:         "9th_Floor_HP.ppd",
-		PPDPath:     "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Resources/Generic.ppd",
-		PPDContents: "string",
-	}
-
-	createdPrinter, err := client.CreatePrinter(newPrinter)
+	// Fetch all printers
+	printers, err := client.GetPrinters()
 	if err != nil {
-		fmt.Println("Error creating printer:", err)
-		return
+		log.Fatalf("Error fetching printers: %v", err)
 	}
 
-	configXML, err := xml.MarshalIndent(createdPrinter, "", "    ")
-	if err != nil {
-		log.Fatalf("Error marshaling created configuration to XML: %v", err)
+	fmt.Println("Printers fetched. Starting deletion process:")
+
+	// Iterate over each printer and delete
+	for _, printer := range printers.Printer {
+		fmt.Printf("deleting printer ID: %d, Name: %s\n", printer.ID, printer.Name)
+
+		err = client.DeletePrinterByID(printer.ID)
+		if err != nil {
+			log.Printf("error deleting printer ID %d: %v\n", printer.ID, err)
+			continue // Move to the next printer if there's an error
+		}
+
+		fmt.Printf("printer ID %d deleted successfully.\n", printer.ID)
 	}
 
-	fmt.Printf("Created Individual Disk Encryption Configuration:\n%s\n", configXML)
+	fmt.Println("Printer deletion process completed.")
 }

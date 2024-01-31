@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// The ID of the computer prestage you want to delete
-	prestageID := "YOUR_PRESTAGE_ID_HERE"
+	prestageID := "1"
 
 	// Call DeleteComputerPrestageByID to delete the prestage
 	err = client.DeleteComputerPrestageByID(prestageID)

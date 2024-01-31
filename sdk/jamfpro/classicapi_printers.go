@@ -25,6 +25,10 @@ type PrintersListItem struct {
 	Name string `xml:"name"`
 }
 
+type ResponsePrinterCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
+
 // Resource
 
 // ResourcePrinter represents the detailed structure of a single printer.
@@ -99,7 +103,7 @@ func (c *Client) GetPrinterByName(name string) (*ResourcePrinter, error) {
 }
 
 // CreatePrinters creates a new printer on the Jamf Pro server.
-func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResourcePrinter, error) {
+func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriPrinters)
 
 	// Wrap the printer with the desired XML name using an anonymous struct
@@ -110,7 +114,7 @@ func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResourcePrinter, erro
 		ResourcePrinter: printer,
 	}
 
-	var responsePrinter ResourcePrinter
+	var responsePrinter ResponsePrinterCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "printer", err)
@@ -124,7 +128,7 @@ func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResourcePrinter, erro
 }
 
 // UpdatePrinterByID updates a printer by its ID.
-func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResourcePrinter, error) {
+func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
 	// Wrap the printer with the desired XML name using an anonymous struct
@@ -135,7 +139,7 @@ func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResourceP
 		ResourcePrinter: printer,
 	}
 
-	var responsePrinter ResourcePrinter
+	var responsePrinter ResponsePrinterCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "printer", id, err)
@@ -149,7 +153,7 @@ func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResourceP
 }
 
 // UpdatePrinterByName updates a printer by its name.
-func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*ResourcePrinter, error) {
+func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
 	// Wrap the printer with the desired XML name using an anonymous struct
@@ -160,7 +164,7 @@ func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*Re
 		ResourcePrinter: printer,
 	}
 
-	var responsePrinter ResourcePrinter
+	var responsePrinter ResponsePrinterCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "printer", name, err)

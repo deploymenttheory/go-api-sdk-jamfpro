@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -56,11 +57,27 @@ func main() {
 	}
 
 	name := "HP 9th Floor" // Replace with the actual printer name
-	updatedPrinter, err = client.UpdatePrinterByName(name, updatedPrinter)
+
+	response, err := client.UpdatePrinterByName(name, updatedPrinter)
 	if err != nil {
 		fmt.Println("Error updating printer:", err)
 		return
 	}
 
-	fmt.Println("Printer updated successfully:", updatedPrinter.Name)
+	fmt.Printf("Printer updated successfully, ID: %d\n", response.ID)
+
+	// Fetch the full details of the updated printer
+	updatedPrinterDetails, err := client.GetPrinterByID(response.ID)
+	if err != nil {
+		fmt.Println("Error fetching updated printer details:", err)
+		return
+	}
+
+	// Marshal the updated printer details to XML for display
+	printerXML, err := xml.MarshalIndent(updatedPrinterDetails, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling updated printer to XML: %v", err)
+	}
+
+	fmt.Printf("Updated Printer Details:\n%s\n", printerXML)
 }
