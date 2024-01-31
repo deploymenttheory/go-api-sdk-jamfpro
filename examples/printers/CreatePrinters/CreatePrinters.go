@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -61,5 +62,10 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Printer created successfully:\nID: %d\nName: %s\n", createdPrinter.ID, createdPrinter.Name)
+	configXML, err := xml.MarshalIndent(createdPrinter, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling created configuration to XML: %v", err)
+	}
+
+	fmt.Printf("Created Individual Disk Encryption Configuration:\n%s\n", configXML)
 }
