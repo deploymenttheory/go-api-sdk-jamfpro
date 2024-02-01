@@ -43,8 +43,8 @@ func main() {
 
 	// General profile data
 	// Define the macOS Configuration Profile as per the given XML structure
-	profile := jamfpro.ResourceMacOSConfigurationProfiles{
-		General: jamfpro.MacOSConfigurationProfilesSubsetGeneral{
+	profile := jamfpro.ResourceMacOSConfigurationProfile{
+		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
 			Name:               "WiFi Test",
 			Description:        "",
 			Site:               jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
@@ -55,11 +55,11 @@ func main() {
 			RedeployOnUpdate:   "Newly Assigned",
 			Payloads:           payloads,
 		},
-		Scope: jamfpro.MacOSConfigurationProfilesSubsetScope{
+		Scope: jamfpro.MacOSConfigurationProfileSubsetScope{
 			AllComputers: false,
 			AllJSSUsers:  false,
 		},
-		SelfService: jamfpro.MacOSConfigurationProfilesSubsetSelfService{
+		SelfService: jamfpro.MacOSConfigurationProfileSubsetSelfService{
 			InstallButtonText:           "Install",
 			SelfServiceDescription:      "null",
 			ForceUsersToViewDescription: false,
