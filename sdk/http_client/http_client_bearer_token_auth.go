@@ -45,7 +45,7 @@ func (c *Client) ObtainToken() error {
 
 	if resp.StatusCode != http.StatusOK {
 		c.logger.Warn("Received non-OK response while obtaining token", "StatusCode", resp.StatusCode)
-		return c.handleAPIError(resp)
+		return c.HandleAPIError(resp)
 	}
 
 	tokenResp := &TokenResponse{}
@@ -89,7 +89,7 @@ func (c *Client) RefreshToken() error {
 
 	if resp.StatusCode != http.StatusOK {
 		c.logger.Warn("Token refresh response status is not OK", "StatusCode", resp.StatusCode)
-		return c.handleAPIError(resp)
+		return c.HandleAPIError(resp)
 	}
 
 	tokenResp := &TokenResponse{}

@@ -169,24 +169,24 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 			}
 
 			// Retry Logic
-			if isNonRetryableError(resp) {
-				c.logger.Warn("Encountered a non-retryable error", "status", resp.StatusCode, "description", translateStatusCode(resp.StatusCode))
-				return resp, c.handleAPIError(resp)
-			} else if isRateLimitError(resp) {
+			if IsNonRetryableError(resp) {
+				c.logger.Warn("Encountered a non-retryable error", "status", resp.StatusCode, "description", TranslateStatusCode(resp.StatusCode))
+				return resp, c.HandleAPIError(resp)
+			} else if IsRateLimitError(resp) {
 				waitDuration := parseRateLimitHeaders(resp) // Checks for the Retry-After, X-RateLimit-Remaining and X-RateLimit-Reset headers
 				c.logger.Warn("Encountered a rate limit error. Retrying after wait duration.", "wait_duration", waitDuration)
 				time.Sleep(waitDuration)
 				i++
 				continue // This will restart the loop, effectively "retrying" the request
-			} else if isTransientError(resp) {
+			} else if IsTransientError(resp) {
 				waitDuration := calculateBackoff(i) //uses exponential backoff (with jitter)
 				c.logger.Warn("Encountered a transient error. Retrying after backoff.", "wait_duration", waitDuration)
 				time.Sleep(waitDuration)
 				i++
 				continue // This will restart the loop, effectively "retrying" the request
 			} else {
-				c.logger.Error("Received unexpected error status from HTTP request", "method", method, "endpoint", endpoint, "status_code", resp.StatusCode, "description", translateStatusCode(resp.StatusCode))
-				return resp, c.handleAPIError(resp)
+				c.logger.Error("Received unexpected error status from HTTP request", "method", method, "endpoint", endpoint, "status_code", resp.StatusCode, "description", TranslateStatusCode(resp.StatusCode))
+				return resp, c.HandleAPIError(resp)
 			}
 		}
 	} else {
@@ -226,7 +226,7 @@ func (c *Client) DoRequest(method, endpoint string, body, out interface{}) (*htt
 		if resp.StatusCode >= 200 && resp.StatusCode < 300 {
 			return resp, nil
 		} else {
-			statusDescription := translateStatusCode(resp.StatusCode)
+			statusDescription := TranslateStatusCode(resp.StatusCode)
 			c.logger.Error("Received non-success status code from HTTP request", "method", method, "endpoint", endpoint, "status_code", resp.StatusCode, "description", statusDescription)
 			return resp, fmt.Errorf("Error status code: %d - %s", resp.StatusCode, statusDescription)
 		}

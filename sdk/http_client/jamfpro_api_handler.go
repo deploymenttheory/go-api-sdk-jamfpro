@@ -290,7 +290,7 @@ func (u *UnifiedJamfAPIHandler) UnmarshalResponse(resp *http.Response, out inter
 
 	// If content type is HTML, extract the error message
 	if strings.Contains(contentType, "text/html") {
-		errMsg := extractErrorMessageFromHTML(string(bodyBytes))
+		errMsg := ExtractErrorMessageFromHTML(string(bodyBytes))
 		u.logger.Warn("Received HTML content", "error_message", errMsg, "status_code", resp.StatusCode)
 		return &APIError{
 			StatusCode: resp.StatusCode,
@@ -302,7 +302,7 @@ func (u *UnifiedJamfAPIHandler) UnmarshalResponse(resp *http.Response, out inter
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		// Parse the error details from the response body for JSON content type
 		if strings.Contains(contentType, "application/json") {
-			description, err := parseJSONErrorResponse(bodyBytes)
+			description, err := ParseJSONErrorResponse(bodyBytes)
 			if err != nil {
 				u.logger.Error("Failed to parse JSON error response", "error", err)
 				return fmt.Errorf("received non-success status code: %d and failed to parse error response", resp.StatusCode)
@@ -330,7 +330,7 @@ func (u *UnifiedJamfAPIHandler) UnmarshalResponse(resp *http.Response, out inter
 	if err != nil {
 		// If unmarshalling fails, check if the content might be HTML
 		if strings.Contains(string(bodyBytes), "<html>") {
-			errMsg := extractErrorMessageFromHTML(string(bodyBytes))
+			errMsg := ExtractErrorMessageFromHTML(string(bodyBytes))
 			u.logger.Warn("Received HTML content instead of expected format", "error_message", errMsg, "status_code", resp.StatusCode)
 			return fmt.Errorf(errMsg)
 		}
