@@ -45,14 +45,14 @@ type ResponseMacOSConfigurationProfileCreationUpdate struct {
 
 // ResourceMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
 type ResourceMacOSConfigurationProfile struct {
-	General     MacOSConfigurationProfilesSubsetGeneral     `xml:"general,omitempty"`
-	Scope       MacOSConfigurationProfilesSubsetScope       `xml:"scope,omitempty"`
-	SelfService MacOSConfigurationProfilesSubsetSelfService `xml:"self_service,omitempty"`
+	General     MacOSConfigurationProfileSubsetGeneral     `xml:"general,omitempty"`
+	Scope       MacOSConfigurationProfileSubsetScope       `xml:"scope,omitempty"`
+	SelfService MacOSConfigurationProfileSubsetSelfService `xml:"self_service,omitempty"`
 }
 
 // Subsets and Containers
 
-type MacOSConfigurationProfilesSubsetGeneral struct {
+type MacOSConfigurationProfileSubsetGeneral struct {
 	ID                 int                    `xml:"id,omitempty"`
 	Name               string                 `xml:"name"`
 	Description        string                 `xml:"description,omitempty"`
@@ -66,108 +66,108 @@ type MacOSConfigurationProfilesSubsetGeneral struct {
 	Payloads           string                 `xml:"payloads,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetScope struct {
-	AllComputers   bool                                            `xml:"all_computers,omitempty"`
-	AllJSSUsers    bool                                            `xml:"all_jss_users,omitempty"`
-	Computers      []MacOSConfigurationProfilesSubsetComputer      `xml:"computers>computer,omitempty"`
-	ComputerGroups []MacOSConfigurationProfilesSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	JSSUsers       []MacOSConfigurationProfilesSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
-	JSSUserGroups  []MacOSConfigurationProfilesSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
-	Buildings      []MacOSConfigurationProfilesSubsetBuilding      `xml:"buildings>building,omitempty"`
-	Departments    []MacOSConfigurationProfilesSubsetDepartment    `xml:"departments>department,omitempty"`
-	Limitations    MacOSConfigurationProfilesSubsetLimitations     `xml:"limitations,omitempty"`
-	Exclusions     MacOSConfigurationProfilesSubsetExclusions      `xml:"exclusions,omitempty"`
+type MacOSConfigurationProfileSubsetScope struct {
+	AllComputers   bool                                           `xml:"all_computers,omitempty"`
+	AllJSSUsers    bool                                           `xml:"all_jss_users,omitempty"`
+	Computers      []MacOSConfigurationProfileSubsetComputer      `xml:"computers>computer,omitempty"`
+	ComputerGroups []MacOSConfigurationProfileSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups  []MacOSConfigurationProfileSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings      []MacOSConfigurationProfileSubsetBuilding      `xml:"buildings>building,omitempty"`
+	Departments    []MacOSConfigurationProfileSubsetDepartment    `xml:"departments>department,omitempty"`
+	Limitations    MacOSConfigurationProfileSubsetLimitations     `xml:"limitations,omitempty"`
+	Exclusions     MacOSConfigurationProfileSubsetExclusions      `xml:"exclusions,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetSelfService struct {
-	InstallButtonText           string                                                `xml:"install_button_text,omitempty"`
-	SelfServiceDescription      string                                                `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool                                                  `xml:"force_users_to_view_description,omitempty"`
-	SelfServiceIcon             SharedResourceSelfServiceIcon                         `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                                                  `xml:"feature_on_main_page,omitempty"`
-	SelfServiceCategories       MacOSConfigurationProfilesSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
-	Notification                string                                                `xml:"notification,omitempty"`
-	NotificationSubject         string                                                `xml:"notification_subject,omitempty"`
-	NotificationMessage         string                                                `xml:"notification_message,omitempty"`
+type MacOSConfigurationProfileSubsetSelfService struct {
+	InstallButtonText           string                                               `xml:"install_button_text,omitempty"`
+	SelfServiceDescription      string                                               `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description,omitempty"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page,omitempty"`
+	SelfServiceCategories       MacOSConfigurationProfileSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
+	Notification                string                                               `xml:"notification,omitempty"`
+	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
+	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetSelfServiceCategories struct {
-	Category MacOSConfigurationProfilesSubsetSelfServiceCategory `xml:"category,omitempty"`
+type MacOSConfigurationProfileSubsetSelfServiceCategories struct {
+	Category MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"category,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetSelfServiceCategory struct {
+type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
 	DisplayIn bool   `xml:"display_in,omitempty"`
 	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetComputer struct {
+type MacOSConfigurationProfileSubsetComputer struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 	UDID string `xml:"udid,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetComputerGroup struct {
+type MacOSConfigurationProfileSubsetComputerGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetJSSUser struct {
+type MacOSConfigurationProfileSubsetJSSUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetJSSUserGroup struct {
+type MacOSConfigurationProfileSubsetJSSUserGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetBuilding struct {
+type MacOSConfigurationProfileSubsetBuilding struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetDepartment struct {
+type MacOSConfigurationProfileSubsetDepartment struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type MacOSConfigurationProfilesSubsetLimitations struct {
-	Users           []MacOSConfigurationProfilesSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfilesSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
-	NetworkSegments []MacOSConfigurationProfilesSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	IBeacons        []MacOSConfigurationProfilesSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+type MacOSConfigurationProfileSubsetLimitations struct {
+	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
-type MacOSConfigurationProfilesSubsetIBeacon struct {
+type MacOSConfigurationProfileSubsetIBeacon struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type MacOSConfigurationProfilesSubsetNetworkSegment struct {
+type MacOSConfigurationProfileSubsetNetworkSegment struct {
 	ID   int    `xml:"id,omitempty"`
 	UID  string `xml:"uid,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type MacOSConfigurationProfilesSubsetUserGroup struct {
+type MacOSConfigurationProfileSubsetUserGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetUser struct {
+type MacOSConfigurationProfileSubsetUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type MacOSConfigurationProfilesSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfilesSubsetComputer       `xml:"computers,omitempty"`
-	ComputerGroups  []MacOSConfigurationProfilesSubsetComputerGroup  `xml:"computer_groups,omitempty"`
-	Users           []MacOSConfigurationProfilesSubsetUser           `xml:"users,omitempty"`
-	UserGroups      []MacOSConfigurationProfilesSubsetUserGroup      `xml:"user_groups,omitempty"`
-	Buildings       []MacOSConfigurationProfilesSubsetBuilding       `xml:"buildings,omitempty"`
-	Departments     []MacOSConfigurationProfilesSubsetDepartment     `xml:"departments,omitempty"`
-	NetworkSegments []MacOSConfigurationProfilesSubsetNetworkSegment `xml:"network_segments,omitempty"`
-	JSSUsers        []MacOSConfigurationProfilesSubsetJSSUser        `xml:"jss_users,omitempty"`
-	JSSUserGroups   []MacOSConfigurationProfilesSubsetJSSUserGroup   `xml:"jss_user_groups,omitempty"`
-	IBeacons        []MacOSConfigurationProfilesSubsetIBeacon        `xml:"ibeacons,omitempty"`
+type MacOSConfigurationProfileSubsetExclusions struct {
+	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers,omitempty"`
+	ComputerGroups  []MacOSConfigurationProfileSubsetComputerGroup  `xml:"computer_groups,omitempty"`
+	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups,omitempty"`
+	Buildings       []MacOSConfigurationProfileSubsetBuilding       `xml:"buildings,omitempty"`
+	Departments     []MacOSConfigurationProfileSubsetDepartment     `xml:"departments,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments,omitempty"`
+	JSSUsers        []MacOSConfigurationProfileSubsetJSSUser        `xml:"jss_users,omitempty"`
+	JSSUserGroups   []MacOSConfigurationProfileSubsetJSSUserGroup   `xml:"jss_user_groups,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons,omitempty"`
 }
 
 // CRUD
