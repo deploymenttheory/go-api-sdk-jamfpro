@@ -44,7 +44,7 @@ type ResponseMacOSConfigurationProfileCreationUpdate struct {
 // Resource
 
 // ResourceMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
-type ResourceMacOSConfigurationProfiles struct {
+type ResourceMacOSConfigurationProfile struct {
 	General     MacOSConfigurationProfilesSubsetGeneral     `xml:"general,omitempty"`
 	Scope       MacOSConfigurationProfilesSubsetScope       `xml:"scope,omitempty"`
 	SelfService MacOSConfigurationProfilesSubsetSelfService `xml:"self_service,omitempty"`
@@ -190,10 +190,10 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 }
 
 // GetMacOSConfigurationProfileByID fetches a specific macOS Configuration Profile by its ID from the Jamf Pro server.
-func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigurationProfiles, error) {
+func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigurationProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
-	var profile ResourceMacOSConfigurationProfiles
+	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac os config profile", id, err)
@@ -207,10 +207,10 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigu
 }
 
 // GetMacOSConfigurationProfileByName fetches a specific macOS Configuration Profile by its name from the Jamf Pro server.
-func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOSConfigurationProfiles, error) {
+func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOSConfigurationProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
-	var profile ResourceMacOSConfigurationProfiles
+	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
@@ -226,7 +226,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 // QUERY Review this structure
 
 // GetMacOSConfigurationProfileByNameByID retrieves the details of a macOS Configuration Profile by its name.
-func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceMacOSConfigurationProfiles, error) {
+func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceMacOSConfigurationProfile, error) {
 
 	profilesList, err := c.GetMacOSConfigurationProfiles()
 	if err != nil {
@@ -256,7 +256,7 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the profile with its ID updated.
 // It sends a POST request to the Jamf Pro server with the profile details and expects a response with the ID of the newly created profile.
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the ID of the newly created profile.
-func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigurationProfiles) (int, error) {
+func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigurationProfile) (int, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMacOSConfigurationProfiles)
 
 	if profile.General.Site.ID == 0 && profile.General.Site.Name == "" {
@@ -271,9 +271,9 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
-		*ResourceMacOSConfigurationProfiles
+		*ResourceMacOSConfigurationProfile
 	}{
-		ResourceMacOSConfigurationProfiles: profile,
+		ResourceMacOSConfigurationProfile: profile,
 	}
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
@@ -292,14 +292,14 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 // UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server
 // and returns the ID of the updated profile.
-func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMacOSConfigurationProfiles) (int, error) {
+func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMacOSConfigurationProfile) (int, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
-		*ResourceMacOSConfigurationProfiles
+		*ResourceMacOSConfigurationProfile
 	}{
-		ResourceMacOSConfigurationProfiles: profile,
+		ResourceMacOSConfigurationProfile: profile,
 	}
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
@@ -318,14 +318,14 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMa
 
 // UpdateMacOSConfigurationProfileByName updates an existing macOS Configuration Profile by its name on the Jamf Pro server
 // and returns the ID of the updated profile.
-func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *ResourceMacOSConfigurationProfiles) (int, error) {
+func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *ResourceMacOSConfigurationProfile) (int, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
-		*ResourceMacOSConfigurationProfiles
+		*ResourceMacOSConfigurationProfile
 	}{
-		ResourceMacOSConfigurationProfiles: profile,
+		ResourceMacOSConfigurationProfile: profile,
 	}
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
