@@ -120,7 +120,7 @@ func (c *Client) RefreshOAuthToken() error {
 
 	if resp.StatusCode != http.StatusOK {
 		c.logger.Warn("OAuth token refresh response status is not OK", "StatusCode", resp.StatusCode)
-		return c.handleAPIError(resp)
+		return c.HandleAPIError(resp)
 	}
 
 	tokenResp := &TokenResponse{}

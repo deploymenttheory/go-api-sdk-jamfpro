@@ -18,8 +18,8 @@ type APIError struct {
 	Message    string
 }
 
-// handleAPIError handles error responses from the API, converting them into a structured error if possible.
-func (c *Client) handleAPIError(resp *http.Response) error {
+// HandleAPIError handles error responses from the API, converting them into a structured error if possible.
+func (c *Client) HandleAPIError(resp *http.Response) error {
 	var structuredErr StructuredError
 	err := json.NewDecoder(resp.Body).Decode(&structuredErr)
 	if err == nil && structuredErr.Error.Message != "" {
@@ -50,8 +50,8 @@ func (e *APIError) Error() string {
 	return fmt.Sprintf("API Error (Code: %d): %s", e.StatusCode, e.Message)
 }
 
-// translateStatusCode provides a human-readable message for HTTP status codes.
-func translateStatusCode(statusCode int) string {
+// TranslateStatusCode provides a human-readable message for HTTP status codes.
+func TranslateStatusCode(statusCode int) string {
 	messages := map[int]string{
 		http.StatusOK:                    "Request successful.",
 		http.StatusCreated:               "Request to create or update resource successful.",
@@ -76,8 +76,8 @@ func translateStatusCode(statusCode int) string {
 	return "An unexpected error occurred. Please try again later."
 }
 
-// isNonRetryableError checks if the provided response indicates a non-retryable error.
-func isNonRetryableError(resp *http.Response) bool {
+// IsNonRetryableError checks if the provided response indicates a non-retryable error.
+func IsNonRetryableError(resp *http.Response) bool {
 	// List of non-retryable HTTP status codes
 	nonRetryableStatusCodes := map[int]bool{
 		http.StatusBadRequest:            true, // 400
@@ -93,13 +93,13 @@ func isNonRetryableError(resp *http.Response) bool {
 	return isNonRetryable
 }
 
-// isRateLimitError checks if the provided response indicates a rate limit error.
-func isRateLimitError(resp *http.Response) bool {
+// IsRateLimitError checks if the provided response indicates a rate limit error.
+func IsRateLimitError(resp *http.Response) bool {
 	return resp.StatusCode == http.StatusTooManyRequests
 }
 
-// isTransientError checks if an error or HTTP response indicates a transient error.
-func isTransientError(resp *http.Response) bool {
+// IsTransientError checks if an error or HTTP response indicates a transient error.
+func IsTransientError(resp *http.Response) bool {
 	transientStatusCodes := map[int]bool{
 		http.StatusInternalServerError: true,
 		http.StatusBadGateway:          true,
@@ -108,8 +108,8 @@ func isTransientError(resp *http.Response) bool {
 	return resp != nil && transientStatusCodes[resp.StatusCode]
 }
 
-// extractErrorMessageFromHTML attempts to parse an HTML error page and extract a human-readable error message.
-func extractErrorMessageFromHTML(htmlContent string) string {
+// ExtractErrorMessageFromHTML attempts to parse an HTML error page and extract a human-readable error message.
+func ExtractErrorMessageFromHTML(htmlContent string) string {
 	r := bytes.NewReader([]byte(htmlContent))
 	doc, err := goquery.NewDocumentFromReader(r)
 	if err != nil {
@@ -124,8 +124,8 @@ func extractErrorMessageFromHTML(htmlContent string) string {
 	return strings.Join(messages, " | ")
 }
 
-// parseJSONErrorResponse parses the JSON error message from the response body.
-func parseJSONErrorResponse(body []byte) (string, error) {
+// ParseJSONErrorResponse parses the JSON error message from the response body.
+func ParseJSONErrorResponse(body []byte) (string, error) {
 	var errorResponse struct {
 		HTTPStatus int `json:"httpStatus"`
 		Errors     []struct {
