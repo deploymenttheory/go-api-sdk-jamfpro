@@ -7,12 +7,11 @@ import (
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
-	// Import the http_client package for logging
 )
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
@@ -21,13 +20,12 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelWarning // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := http_client.Config{
-		InstanceName: "lbgsandbox",
+		InstanceName: authConfig.InstanceName,
 		Auth: http_client.AuthConfig{
-			InstanceName: "lbgsandbox",
 			ClientID:     authConfig.ClientID,
 			ClientSecret: authConfig.ClientSecret,
 		},
@@ -39,8 +37,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-
-	fmt.Println(client.HTTP.Token)
 
 	departmentID := "24979"
 

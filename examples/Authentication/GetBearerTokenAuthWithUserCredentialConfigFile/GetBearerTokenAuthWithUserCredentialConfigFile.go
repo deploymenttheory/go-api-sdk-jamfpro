@@ -12,7 +12,7 @@ func main() {
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/userauth.json"
 
 	// Load the client authentication details from the configuration file
-	authConfig, err := http_client.LoadClientAuthConfig(configFilePath)
+	authConfig, err := http_client.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client authentication configuration: %v", err)
 	}

@@ -70,7 +70,7 @@ func (c *Client) GetBearerAuthCredentials() BearerTokenAuthCredentials {
 	return c.BearerTokenAuthCredentials
 }
 
-// LoadClientAuthConfig reads a JSON configuration file and decodes it into a ClientAuthConfig struct.
+// LoadAuthConfig reads a JSON configuration file and decodes it into a ClientAuthConfig struct.
 // It is used to retrieve authentication details like BaseURL, Username, and Password for the client.
 func LoadAuthConfig(filename string) (*AuthConfig, error) {
 	file, err := os.Open(filename)

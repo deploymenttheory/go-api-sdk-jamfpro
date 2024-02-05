@@ -23,23 +23,23 @@ func main() {
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logger := http_client.NewDefaultLogger()
+
 	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := jamfpro.Config{
-		InstanceName:       authConfig.InstanceName,
-		OverrideBaseDomain: authConfig.OverrideBaseDomain,
-		LogLevel:           logLevel,
-		Logger:             logger,
-		ClientID:           authConfig.ClientID,
-		ClientSecret:       authConfig.ClientSecret,
+	config := http_client.Config{
+		InstanceName: authConfig.InstanceName,
+		Auth: http_client.AuthConfig{
+			ClientID:     authConfig.ClientID,
+			ClientSecret: authConfig.ClientSecret,
+		},
+		LogLevel: logLevel,
 	}
 
 	// Create a new jamfpro client instance

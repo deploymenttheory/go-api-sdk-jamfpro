@@ -127,7 +127,7 @@ func createTempConfigFile(content []byte) (string, error) {
 	return tmpfile.Name(), nil
 }
 
-func TestLoadClientAuthConfig_Success(t *testing.T) {
+func TestLoadAuthConfig_Success(t *testing.T) {
 	assert := assert.New(t)
 
 	// Create a temporary config file
@@ -142,19 +142,19 @@ func TestLoadClientAuthConfig_Success(t *testing.T) {
 	defer os.Remove(filename)
 
 	// Test loading the config
-	loadedConfig, err := LoadClientAuthConfig(filename)
+	loadedConfig, err := LoadAuthConfig(filename)
 	assert.NoError(err)
 	assert.Equal(config, *loadedConfig)
 }
 
-func TestLoadClientAuthConfig_FileNotFound(t *testing.T) {
+func TestLoadAuthConfig_FileNotFound(t *testing.T) {
 	assert := assert.New(t)
 
-	_, err := LoadClientAuthConfig("nonexistent.json")
+	_, err := LoadAuthConfig("nonexistent.json")
 	assert.Error(err)
 }
 
-func TestLoadClientAuthConfig_InvalidJSON(t *testing.T) {
+func TestLoadAuthConfig_InvalidJSON(t *testing.T) {
 	assert := assert.New(t)
 
 	// Create a temporary config file with invalid JSON
@@ -163,7 +163,7 @@ func TestLoadClientAuthConfig_InvalidJSON(t *testing.T) {
 	defer os.Remove(filename)
 
 	// Test loading the config
-	_, err = LoadClientAuthConfig(filename)
+	_, err = LoadAuthConfig(filename)
 	assert.Error(err)
 }
 

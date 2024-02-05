@@ -11,17 +11,21 @@ import (
 func main() {
 	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
 
-	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	config := jamfpro.Config{
+	// Instantiate the default logger and set the desired log level
+	logLevel := http_client.LogLevelWarning // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+
+	config := http_client.Config{
 		InstanceName: authConfig.InstanceName,
-		LogLevel:     http_client.LogLevelDebug,
-		Logger:       http_client.NewDefaultLogger(),
-		ClientID:     authConfig.ClientID,
-		ClientSecret: authConfig.ClientSecret,
+		Auth: http_client.AuthConfig{
+			ClientID:     authConfig.ClientID,
+			ClientSecret: authConfig.ClientSecret,
+		},
+		LogLevel: logLevel,
 	}
 
 	client, err := jamfpro.NewClient(config)
