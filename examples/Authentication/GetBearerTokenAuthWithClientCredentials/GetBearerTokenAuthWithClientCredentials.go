@@ -10,20 +10,23 @@ import (
 func main() {
 	clientID := "your-client-secret"
 	clientSecret := "your-clientid"
-	baseURL := "your-jamf-instance"
+	instanceName := "your-jamf-instance"
 
 	// Instantiate the default logger and set the desired log level
-	logger := http_client.NewDefaultLogger()
 	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := http_client.Config{
-		LogLevel: logLevel,
-		Logger:   logger,
+		InstanceName: instanceName,
+		LogLevel:     logLevel,
+		Auth: http_client.AuthConfig{
+			ClientID:     clientID,
+			ClientSecret: clientSecret,
+		},
 	}
 
 	// Create a new client instance
-	client, err := http_client.NewClient(baseURL, config, nil)
+	client, err := http_client.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create new client: %v", err)
 	}

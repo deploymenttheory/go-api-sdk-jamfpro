@@ -18,17 +18,20 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logger := http_client.NewDefaultLogger()
 	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := http_client.Config{
+		InstanceName: authConfig.InstanceName,
+		Auth: http_client.AuthConfig{
+			Username: authConfig.Username,
+			Password: authConfig.Password,
+		},
 		LogLevel: logLevel,
-		Logger:   logger,
 	}
 
 	// Create a new client instance using the loaded InstanceName
-	client, err := http_client.NewClient(authConfig.InstanceName, config, nil)
+	client, err := http_client.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create new client: %v", err)
 	}

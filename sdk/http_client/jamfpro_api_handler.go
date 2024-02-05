@@ -139,7 +139,7 @@ func (c *Client) GetBaseDomain() string {
 func (c *Client) ConstructAPIResourceEndpoint(endpointPath string) string {
 	baseDomain := c.GetBaseDomain()
 	url := fmt.Sprintf("https://%s%s%s", c.InstanceName, baseDomain, endpointPath)
-	c.logger.Info("Request will be made to API Resource URL:", "URL", url)
+	c.logger.Info("Request will be made to API   URL:", "URL", url)
 	return url
 }
 
