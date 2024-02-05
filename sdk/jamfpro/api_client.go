@@ -1,7 +1,7 @@
 package jamfpro
 
 import (
-	http_client "github.com/thejoeker12/go-api-sdk-jamfpro/sdk/http_client"
+	http_client "github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 )
 
 type Client struct {
