@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// New distribution point to create
-	updateDistributionPoint := jamfpro.ResourceDistributionPoint{
+	updateDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
 		Name:                     "New York Share",
 		IPAddress:                "ny.company.com",
 		IsMaster:                 true,
