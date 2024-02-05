@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+	"github.com/thejoeker12/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/thejoeker12/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 func main() {
