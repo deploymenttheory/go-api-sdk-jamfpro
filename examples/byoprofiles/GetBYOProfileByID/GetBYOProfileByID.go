@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Replace with the actual ID you want to retrieve
-	profileID := 4
+	profileID := 11
 
 	profile, err := client.GetBYOProfileByID(profileID)
 	if err != nil {
