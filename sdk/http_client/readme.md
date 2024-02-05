@@ -120,7 +120,7 @@ OAuthResponse: Represents the response structure when obtaining an OAuth access 
 OAuthCredentials: Contains the client ID and client secret required for OAuth authentication.
 Functions & Methods:
 
-LoadClientAuthConfig: Reads a JSON configuration file and decodes it into a ClientAuthConfig struct. It retrieves authentication details like BaseURL, Username, and Password for the client.
+LoadAuthConfig: Reads a JSON configuration file and decodes it into a ClientAuthConfig struct. It retrieves authentication details like BaseURL, Username, and Password for the client.
 SetOAuthCredentials: Sets the OAuth credentials (Client ID and Client Secret) for the client instance. These credentials are used for obtaining and refreshing OAuth tokens for authentication.
 ObtainOAuthToken: Fetches an OAuth access token using the provided OAuthCredentials (Client ID and Client Secret).
 The file provides functionalities for loading authentication configurations, setting OAuth credentials, and obtaining OAuth tokens, which are crucial for interacting with protected endpoints.

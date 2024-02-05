@@ -55,7 +55,7 @@ In your Go program, load these credentials using:
 
 ```go
 configFilePath := "path_to_your/clientauth.json"
-authConfig, err := http_client.LoadClientAuthConfig(configFilePath)
+authConfig, err := http_client.LoadAuthConfig(configFilePath)
 if err != nil {
 	log.Fatalf("Failed to load client OAuth configuration: %v", err)
 }
@@ -152,7 +152,7 @@ func main() {
 	configFilePath := "/path/to/your/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
@@ -162,13 +162,13 @@ func main() {
 	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := jamfpro.Config{
-		InstanceName:       authConfig.InstanceName,
-		OverrideBaseDomain: authConfig.OverrideBaseDomain,
-		LogLevel:           logLevel,
-		Logger:             logger,
-		ClientID:           authConfig.ClientID,
-		ClientSecret:       authConfig.ClientSecret,
+	config := http_client.Config{
+		InstanceName: authConfig.InstanceName,
+		Auth: http_client.AuthConfig{
+			ClientID:     authConfig.ClientID,
+			ClientSecret: authConfig.ClientSecret,
+		},
+		LogLevel: logLevel,
 	}
 
 	// Create a new jamfpro client instance

@@ -291,6 +291,6 @@ func (c *Client) HistoricalAverageAcquisitionTime() time.Duration {
 }
 
 // Returns performance metrics from the http client
-func (c *Client) GetPerformanceMetrics() *ClientPerformanceMetrics {
+func (c *Client) GetPerformanceMetrics() *PerformanceMetrics {
 	return &c.PerfMetrics
 }
