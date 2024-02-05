@@ -8,15 +8,49 @@ like the baseURL, authentication details, and an embedded standard HTTP client. 
 package http_client
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"sync"
 	"time"
 )
 
-const DefaultTimeout = 10 * time.Second
+// Config holds configuration options for the HTTP Client.
+type Config struct {
+	// Required
+	InstanceName string
+	Auth         AuthConfig // User can either supply these values manually or pass from LoadAuthConfig/Env vars
+
+	// Optional
+	LogLevel                  LogLevel // Field for defining tiered logging level.
+	MaxRetryAttempts          int      // Config item defines the max number of retry request attempts for retryable HTTP methods.
+	EnableDynamicRateLimiting bool
+	Logger                    Logger // Field for the packages initailzed logger
+	MaxConcurrentRequests     int    // Field for defining the maximum number of concurrent requests allowed in the semaphore
+	TokenRefreshBufferPeriod  time.Duration
+	TotalRetryDuration        time.Duration
+	CustomTimeout             time.Duration
+}
+
+// ClientPerformanceMetrics captures various metrics related to the client's
+// interactions with the API, providing insights into its performance and behavior.
+type PerformanceMetrics struct {
+	TotalRequests        int64
+	TotalRetries         int64
+	TotalRateLimitErrors int64
+	TotalResponseTime    time.Duration
+	TokenWaitTime        time.Duration
+	lock                 sync.Mutex
+}
+
+// ClientAuthConfig represents the structure to read authentication details from a JSON configuration file.
+type AuthConfig struct {
+	InstanceName       string `json:"instanceName,omitempty"`
+	OverrideBaseDomain string `json:"overrideBaseDomain,omitempty"`
+	Username           string `json:"username,omitempty"`
+	Password           string `json:"password,omitempty"`
+	ClientID           string `json:"clientID,omitempty"`
+	ClientSecret       string `json:"clientSecret,omitempty"`
+}
 
 // Client represents an HTTP client to interact with a specific API.
 type Client struct {
@@ -32,149 +66,89 @@ type Client struct {
 	config                     Config
 	logger                     Logger
 	ConcurrencyMgr             *ConcurrencyManager
-	PerfMetrics                ClientPerformanceMetrics
+	PerfMetrics                PerformanceMetrics
 }
 
-// Config holds configuration options for the HTTP Client.
-type Config struct {
-	LogLevel         LogLevel // Field for defining tiered logging level.
-	MaxRetryAttempts int      // Config item defines the max number of retry request attempts for retryable HTTP methods.
-	//CustomBackoff             func(attempt int) time.Duration
-	EnableDynamicRateLimiting bool
-	Logger                    Logger // Field for the packages initailzed logger
-	MaxConcurrentRequests     int    // Field for defining the maximum number of concurrent requests allowed in the semaphore
-	TokenLifespan             time.Duration
-	TokenRefreshBufferPeriod  time.Duration
-	TotalRetryDuration        time.Duration
-}
+// NewClient creates a new HTTP client with the provided configuration.
+func NewClient(config Config) (*Client, error) {
 
-// ClientPerformanceMetrics captures various metrics related to the client's
-// interactions with the API, providing insights into its performance and behavior.
-type ClientPerformanceMetrics struct {
-	TotalRequests        int64
-	TotalRetries         int64
-	TotalRateLimitErrors int64
-	TotalResponseTime    time.Duration
-	TokenWaitTime        time.Duration
-	lock                 sync.Mutex
-}
-
-// ClientAuthConfig represents the structure to read authentication details from a JSON configuration file.
-type ClientAuthConfig struct {
-	InstanceName       string `json:"instanceName,omitempty"`
-	OverrideBaseDomain string `json:"overrideBaseDomain,omitempty"`
-	Username           string `json:"username,omitempty"`
-	Password           string `json:"password,omitempty"`
-	ClientID           string `json:"clientID,omitempty"`
-	ClientSecret       string `json:"clientSecret,omitempty"`
-}
-
-// StructuredError represents a structured error response from the API.
-type StructuredError struct {
-	Error struct {
-		Code    string `json:"code"`
-		Message string `json:"message"`
-	} `json:"error"`
-}
-
-// ClientOption defines a function type for modifying client properties during initialization.
-type ClientOption func(*Client)
-
-// LoadClientAuthConfig reads a JSON configuration file and decodes it into a ClientAuthConfig struct.
-// It is used to retrieve authentication details like BaseURL, Username, and Password for the client.
-func LoadClientAuthConfig(filename string) (*ClientAuthConfig, error) {
-	file, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	config := &ClientAuthConfig{}
-	decoder := json.NewDecoder(file)
-	err = decoder.Decode(config)
-	if err != nil {
-		return nil, err
+	// Logging to track client setup process
+	var logger Logger
+	if config.Logger == nil {
+		logger = NewDefaultLogger()
 	}
 
-	return config, nil
-}
+	if config.LogLevel < LogLevelNone || config.LogLevel > LogLevelDebug {
+		return nil, fmt.Errorf("invalid LogLevel")
+	} else if config.LogLevel == 0 {
+		logger.Info("LogLevel not set, setting to default value", "LogLevel", DefaultLogLevel)
+		config.LogLevel = DefaultLogLevel
+	}
 
-// NewClient initializes a new http client instance with the given baseURL, logger, concurrency manager and client configuration
-/*
-If TokenLifespan and BufferPeriod aren't set in the config, they default to 30 minutes and 5 minutes, respectively.
-If TotalRetryDuration isn't set in the config, it defaults to 1 minute.
-If no logger is provided, a default logger will be used.
-Any additional options provided will be applied to the client during initialization.
-Detect authentication method based on supplied credential type
-*/
-func NewClient(instanceName string, config Config, logger Logger, options ...ClientOption) (*Client, error) {
-	// Config Check
-	if instanceName == "" {
+	logger.SetLevel(config.LogLevel)
+
+	// Config Validation & Default Value setting
+	if config.InstanceName == "" {
 		return nil, fmt.Errorf("instanceName cannot be empty")
 	}
 
-	// Validate MaxRetryAttempts
 	if config.MaxRetryAttempts < 0 {
-		return nil, fmt.Errorf("MaxRetryAttempts cannot be negative")
+		logger.Info("MaxRetryAttempts cannot be negative, setting to default value", "MaxRetryAttempts", DefaultMaxRetryAttempts)
+		config.MaxRetryAttempts = DefaultMaxRetryAttempts
 	}
 
-	// Validate LogLevel
-	if config.LogLevel < LogLevelNone || config.LogLevel > LogLevelDebug {
-		return nil, fmt.Errorf("invalid LogLevel")
+	if config.MaxConcurrentRequests <= 0 {
+		logger.Info("MaxConcurrentRequests cannot be negative, setting to default value", "MaxConcurrentRequests", DefaultMaxConcurrentRequests)
+		config.MaxConcurrentRequests = DefaultMaxConcurrentRequests
 	}
 
-	// Validate MaxConcurrentRequests
-	if config.MaxConcurrentRequests < 0 {
-		return nil, fmt.Errorf("MaxConcurrentRequests cannot be negative")
-	}
-
-	// Validate TokenLifespan
-	if config.TokenLifespan < 0 {
-		return nil, fmt.Errorf("TokenLifespan cannot be negative")
-	}
-
-	// Validate TokenRefreshBufferPeriod
 	if config.TokenRefreshBufferPeriod < 0 {
-		return nil, fmt.Errorf("TokenRefreshBufferPeriod cannot be negative")
+		logger.Info("TokenRefreshBufferPeriod cannot be negative, setting to default value", "TokenRefreshBufferPeriod", DefaultTokenBufferPeriod)
+		config.TokenRefreshBufferPeriod = DefaultTokenBufferPeriod
 	}
 
-	// Validate TotalRetryDuration
 	if config.TotalRetryDuration < 0 {
+		logger.Info("TotalRetryDuration cannot be negative, setting to default value", "TotalRetryDuration", DefaultTotalRetryDuration)
 		return nil, fmt.Errorf("TotalRetryDuration cannot be negative")
 	}
 
-	// Default settings if not supplied
-	if config.TokenLifespan == 0 {
-		config.TokenLifespan = 30 * time.Minute
-	}
-
 	if config.TokenRefreshBufferPeriod == 0 {
+		logger.Info("TokenRefreshBufferPeriod not set, setting to default value", "TokenRefreshBufferPeriod", DefaultTokenBufferPeriod)
 		config.TokenRefreshBufferPeriod = 60 * time.Second
 	}
 
 	if config.TotalRetryDuration == 0 {
+		logger.Info("TotalRetryDuration not set, setting to default value", "TotalRetryDuration", DefaultTotalRetryDuration)
 		config.TotalRetryDuration = 60 * time.Second
 	}
 
-	if logger == nil {
-		logger = NewDefaultLogger()
+	if config.CustomTimeout == 0 {
+		logger.Info("CustomTimeout not set, setting to default value", "CustomTimeout", DefaultTimeout)
+		config.CustomTimeout = DefaultTimeout
 	}
 
-	// Set the log level of the logger
-	logger.SetLevel(config.LogLevel)
+	var AuthMethod string
+	if config.Auth.Username != "" && config.Auth.Password != "" {
+		AuthMethod = "bearer"
+	} else if config.Auth.ClientID != "" && config.Auth.ClientSecret != "" {
+		AuthMethod = "oauth"
+	} else {
+		return nil, fmt.Errorf("invalid AuthConfig")
+	}
 
 	client := &Client{
-		InstanceName:   instanceName,
+		InstanceName:   config.InstanceName,
 		httpClient:     &http.Client{Timeout: DefaultTimeout},
+		AuthMethod:     AuthMethod,
 		config:         config,
 		logger:         logger,
 		ConcurrencyMgr: NewConcurrencyManager(config.MaxConcurrentRequests, logger, config.LogLevel >= LogLevelDebug),
-		PerfMetrics:    ClientPerformanceMetrics{},
+		PerfMetrics:    PerformanceMetrics{},
 	}
 
-	// Apply any additional client options provided during initialization
-	for _, opt := range options {
-		opt(client)
+	_, err := client.ValidAuthTokenCheck()
+	if err != nil {
+		return nil, fmt.Errorf("failed to validate auth: %w", err)
 	}
 
 	// Start the periodic metric evaluation for adjusting concurrency.
@@ -185,7 +159,6 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 			"New client initialized with the following details:",
 			"InstanceName", client.InstanceName,
 			"Timeout", client.httpClient.Timeout,
-			"TokenLifespan", client.config.TokenLifespan,
 			"TokenRefreshBufferPeriod", client.config.TokenRefreshBufferPeriod,
 			"TotalRetryDuration", client.config.TotalRetryDuration,
 			"MaxRetryAttempts", client.config.MaxRetryAttempts,

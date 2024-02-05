@@ -2,8 +2,10 @@
 package http_client
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -66,4 +68,23 @@ func (c *Client) GetOAuthCredentials() OAuthCredentials {
 // set for the client instance. Used for test cases.
 func (c *Client) GetBearerAuthCredentials() BearerTokenAuthCredentials {
 	return c.BearerTokenAuthCredentials
+}
+
+// LoadClientAuthConfig reads a JSON configuration file and decodes it into a ClientAuthConfig struct.
+// It is used to retrieve authentication details like BaseURL, Username, and Password for the client.
+func LoadAuthConfig(filename string) (*AuthConfig, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	config := &AuthConfig{}
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(config)
+	if err != nil {
+		return nil, err
+	}
+
+	return config, nil
 }

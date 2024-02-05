@@ -18,6 +18,14 @@ type APIError struct {
 	Message    string
 }
 
+// StructuredError represents a structured error response from the API.
+type StructuredError struct {
+	Error struct {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+	} `json:"error"`
+}
+
 // HandleAPIError handles error responses from the API, converting them into a structured error if possible.
 func (c *Client) HandleAPIError(resp *http.Response) error {
 	var structuredErr StructuredError

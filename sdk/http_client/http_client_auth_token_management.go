@@ -16,15 +16,15 @@ type TokenResponse struct {
 // If the token is invalid, it tries to refresh it.
 // It returns a boolean indicating the validity of the token and an error if there's a failure.
 func (c *Client) ValidAuthTokenCheck() (bool, error) {
-	// If token doesn't exist
+
 	if c.Token == "" {
-		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
+		if c.AuthMethod == "bearer" {
 			err := c.ObtainToken()
 			if err != nil {
 				return false, fmt.Errorf("failed to obtain bearer token: %w", err)
 			}
-		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
-			err := c.ObtainOAuthToken(c.OAuthCredentials)
+		} else if c.AuthMethod == "oauth" {
+			err := c.ObtainOAuthToken(c.config.Auth)
 			if err != nil {
 				return false, fmt.Errorf("failed to obtain OAuth token: %w", err)
 			}
@@ -39,7 +39,7 @@ func (c *Client) ValidAuthTokenCheck() (bool, error) {
 		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err = c.RefreshToken()
 		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
-			err = c.ObtainOAuthToken(c.OAuthCredentials)
+			err = c.ObtainOAuthToken(c.config.Auth)
 		} else {
 			return false, fmt.Errorf("unknown auth method: %s", c.AuthMethod)
 		}
