@@ -147,9 +147,11 @@ func NewClient(instanceName string, config Config, logger Logger, options ...Cli
 	if config.TokenLifespan == 0 {
 		config.TokenLifespan = 30 * time.Minute
 	}
+
 	if config.TokenRefreshBufferPeriod == 0 {
-		config.TokenRefreshBufferPeriod = 5 * time.Minute
+		config.TokenRefreshBufferPeriod = 60 * time.Second
 	}
+
 	if config.TotalRetryDuration == 0 {
 		config.TotalRetryDuration = 60 * time.Second
 	}
