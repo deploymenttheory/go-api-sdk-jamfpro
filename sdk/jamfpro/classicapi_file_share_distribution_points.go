@@ -1,5 +1,5 @@
-// classicapi_distribution_points.go
-// Jamf Pro Classic Api - Distribution Points
+// classicapi_file_share_distribution_points.go
+// Jamf Pro Classic Api - File Share Distribution Points
 // api reference: https://developer.jamf.com/jamf-pro/reference/distributionpoints
 // Classic API requires the structs to support an XML data structure.
 
@@ -32,7 +32,7 @@ type DistributionPointListItem struct {
 type ResourceDistributionPoint struct {
 	ID                       int    `xml:"id"`
 	Name                     string `xml:"name"`
-	IPAddress                string `xml:"ip_address"`
+	IPAddress                string `xml:"ipAddress"`
 	IsMaster                 bool   `xml:"is_master"`
 	FailoverPoint            string `xml:"failover_point"`
 	FailoverPointURL         string `xml:"failover_point_url"`

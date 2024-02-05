@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// ID of the distribution point to fetch
-	distributionPointID := 1 // Replace with actual ID
+	distributionPointID := 4 // Replace with actual ID
 
 	// Call GetDistributionPointByID function
 	distributionPoint, err := client.GetDistributionPointByID(distributionPointID)
