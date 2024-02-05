@@ -39,7 +39,7 @@ func (c *Client) ValidAuthTokenCheck() (bool, error) {
 		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
 			err = c.RefreshToken()
 		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
-			err = c.RefreshOAuthToken()
+			err = c.ObtainOAuthToken(c.OAuthCredentials)
 		} else {
 			return false, fmt.Errorf("unknown auth method: %s", c.AuthMethod)
 		}
@@ -49,5 +49,8 @@ func (c *Client) ValidAuthTokenCheck() (bool, error) {
 		}
 	}
 
+	if time.Until(c.Expiry) < c.config.TokenRefreshBufferPeriod {
+		return false, fmt.Errorf("token lifetime setting less than buffer. Buffer setting: %v, Time (seconds) until Exp: %v", c.config.TokenRefreshBufferPeriod, time.Until(c.Expiry))
+	}
 	return true, nil
 }

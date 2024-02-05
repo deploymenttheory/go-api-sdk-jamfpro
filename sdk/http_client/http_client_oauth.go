@@ -96,46 +96,46 @@ func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
 }
 
 // RefreshOAuthToken refreshes the current OAuth token.
-func (c *Client) RefreshOAuthToken() error {
-	c.tokenLock.Lock()
-	defer c.tokenLock.Unlock()
+// func (c *Client) RefreshOAuthToken() error {
+// 	c.tokenLock.Lock()
+// 	defer c.tokenLock.Unlock()
 
-	tokenRefreshEndpoint := c.ConstructAPIAuthEndpoint(TokenRefreshEndpoint)
+// 	tokenRefreshEndpoint := c.ConstructAPIAuthEndpoint(OAuthTokenEndpoint)
 
-	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil)
-	if err != nil {
-		c.logger.Error("Failed to create new request for OAuth token refresh", "error", err)
-		return err
-	}
-	req.Header.Add("Authorization", "Bearer "+c.Token)
+// 	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil)
+// 	if err != nil {
+// 		c.logger.Error("Failed to create new request for OAuth token refresh", "error", err)
+// 		return err
+// 	}
+// 	req.Header.Add("Authorization", "Bearer "+c.Token)
 
-	c.logger.Debug("Attempting to refresh OAuth token", "URL", tokenRefreshEndpoint)
+// 	c.logger.Debug("Attempting to refresh OAuth token", "URL", tokenRefreshEndpoint)
 
-	resp, err := c.httpClient.Do(req)
-	if err != nil {
-		c.logger.Error("Failed to make request for OAuth token refresh", "error", err)
-		return err
-	}
-	defer resp.Body.Close()
+// 	resp, err := c.httpClient.Do(req)
+// 	if err != nil {
+// 		c.logger.Error("Failed to make request for OAuth token refresh", "error", err)
+// 		return err
+// 	}
+// 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		c.logger.Warn("OAuth token refresh response status is not OK", "StatusCode", resp.StatusCode)
-		return c.HandleAPIError(resp)
-	}
+// 	if resp.StatusCode != http.StatusOK {
+// 		c.logger.Warn("OAuth token refresh response status is not OK", "StatusCode", resp.StatusCode)
+// 		return c.HandleAPIError(resp)
+// 	}
 
-	tokenResp := &TokenResponse{}
-	err = json.NewDecoder(resp.Body).Decode(tokenResp)
-	if err != nil {
-		c.logger.Error("Failed to decode OAuth token response", "error", err)
-		return err
-	}
+// 	tokenResp := &TokenResponse{}
+// 	err = json.NewDecoder(resp.Body).Decode(tokenResp)
+// 	if err != nil {
+// 		c.logger.Error("Failed to decode OAuth token response", "error", err)
+// 		return err
+// 	}
 
-	c.logger.Debug("OAuth token refreshed successfully", "Expiry", tokenResp.Expires)
+// 	c.logger.Debug("OAuth token refreshed successfully", "Expiry", tokenResp.Expires)
 
-	c.Token = tokenResp.Token
-	c.Expiry = tokenResp.Expires
-	return nil
-}
+// 	c.Token = tokenResp.Token
+// 	c.Expiry = tokenResp.Expires
+// 	return nil
+// }
 
 // InvalidateOAuthToken invalidates the current OAuth access token.
 // After invalidation, the token cannot be used for further API requests.
