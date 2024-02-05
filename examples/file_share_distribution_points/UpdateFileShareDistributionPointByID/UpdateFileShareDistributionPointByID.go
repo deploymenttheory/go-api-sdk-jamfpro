@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -40,9 +40,9 @@ func main() {
 	}
 
 	// New distribution point to create
-	newDistributionPoint := jamfpro.ResourceDistributionPoint{
-		Name:                     "New York Share",
-		IPAddress:                "ny.company.com",
+	updateDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
+		Name:                     "Tokyo Share",
+		IPAddress:                "tokyo.company.com",
 		IsMaster:                 true,
 		EnableLoadBalancing:      false,
 		SSHUsername:              "casperadmin",
@@ -66,16 +66,19 @@ func main() {
 		HTTPPassword:             "password",
 	}
 
-	// Call CreateDistributionPoint function
-	createdDistributionPoint, err := client.CreateDistributionPoint(&newDistributionPoint)
+	// ID of the distribution point to update
+	distributionPointID := 1 // Replace with the actual ID
+
+	// Call UpdateDistributionPointByID function
+	updatedDistributionPoint, err := client.UpdateDistributionPointByID(distributionPointID, &updateDistributionPoint)
 	if err != nil {
-		log.Fatalf("Error creating distribution point: %v", err)
+		log.Fatalf("Error updating distribution point: %v", err)
 	}
 
-	// Pretty print the newly created distribution point in XML
-	createdDistributionPointXML, err := xml.MarshalIndent(createdDistributionPoint, "", "    ")
+	// Pretty print the updated distribution point in XML
+	updatedDistributionPointXML, err := xml.MarshalIndent(updatedDistributionPoint, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling created distribution point data: %v", err)
+		log.Fatalf("Error marshaling updated distribution point data: %v", err)
 	}
-	fmt.Println("Created Distribution Point:\n", string(createdDistributionPointXML))
+	fmt.Println("Updated Distribution Point:\n", string(updatedDistributionPointXML))
 }

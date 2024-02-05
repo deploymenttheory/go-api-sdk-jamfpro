@@ -40,9 +40,9 @@ func main() {
 	}
 
 	// New distribution point to create
-	updateDistributionPoint := jamfpro.ResourceDistributionPoint{
-		Name:                     "Tokyo Share",
-		IPAddress:                "tokyo.company.com",
+	updateDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
+		Name:                     "New York Share",
+		IPAddress:                "ny.company.com",
 		IsMaster:                 true,
 		EnableLoadBalancing:      false,
 		SSHUsername:              "casperadmin",
@@ -66,11 +66,11 @@ func main() {
 		HTTPPassword:             "password",
 	}
 
-	// ID of the distribution point to update
-	distributionPointID := 1 // Replace with the actual ID
+	// Name of the distribution point to update
+	distributionPointName := "Tokyo Share" // Replace with the actual name
 
-	// Call UpdateDistributionPointByID function
-	updatedDistributionPoint, err := client.UpdateDistributionPointByID(distributionPointID, &updateDistributionPoint)
+	// Call UpdateDistributionPointByName function
+	updatedDistributionPoint, err := client.UpdateDistributionPointByName(distributionPointName, &updateDistributionPoint)
 	if err != nil {
 		log.Fatalf("Error updating distribution point: %v", err)
 	}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// New distribution point to create
-	updateDistributionPoint := jamfpro.ResourceDistributionPoint{
+	newDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
 		Name:                     "New York Share",
 		IPAddress:                "ny.company.com",
 		IsMaster:                 true,
@@ -66,19 +66,16 @@ func main() {
 		HTTPPassword:             "password",
 	}
 
-	// Name of the distribution point to update
-	distributionPointName := "Tokyo Share" // Replace with the actual name
-
-	// Call UpdateDistributionPointByName function
-	updatedDistributionPoint, err := client.UpdateDistributionPointByName(distributionPointName, &updateDistributionPoint)
+	// Call CreateDistributionPoint function
+	createdDistributionPoint, err := client.CreateDistributionPoint(&newDistributionPoint)
 	if err != nil {
-		log.Fatalf("Error updating distribution point: %v", err)
+		log.Fatalf("Error creating distribution point: %v", err)
 	}
 
-	// Pretty print the updated distribution point in XML
-	updatedDistributionPointXML, err := xml.MarshalIndent(updatedDistributionPoint, "", "    ")
+	// Pretty print the newly created distribution point in XML
+	createdDistributionPointXML, err := xml.MarshalIndent(createdDistributionPoint, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling updated distribution point data: %v", err)
+		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
-	fmt.Println("Updated Distribution Point:\n", string(updatedDistributionPointXML))
+	fmt.Println("Created Distribution Point:\n", string(createdDistributionPointXML))
 }

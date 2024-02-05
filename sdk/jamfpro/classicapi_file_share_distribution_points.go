@@ -1,5 +1,5 @@
-// classicapi_distribution_points.go
-// Jamf Pro Classic Api - Distribution Points
+// classicapi_file_share_distribution_points.go
+// Jamf Pro Classic Api - File Share Distribution Points
 // api reference: https://developer.jamf.com/jamf-pro/reference/distributionpoints
 // Classic API requires the structs to support an XML data structure.
 
@@ -29,10 +29,10 @@ type DistributionPointListItem struct {
 // Resource
 
 // Struct for detailed Distribution Point data
-type ResourceDistributionPoint struct {
+type ResourceFileShareDistributionPoint struct {
 	ID                       int    `xml:"id"`
 	Name                     string `xml:"name"`
-	IPAddress                string `xml:"ip_address"`
+	IPAddress                string `xml:"ipAddress"`
 	IsMaster                 bool   `xml:"is_master"`
 	FailoverPoint            string `xml:"failover_point"`
 	FailoverPointURL         string `xml:"failover_point_url"`
@@ -79,10 +79,10 @@ func (c *Client) GetDistributionPoints() (*ResponseDistributionPointsList, error
 }
 
 // GetDistributionPointByID retrieves a single distribution point by its ID.
-func (c *Client) GetDistributionPointByID(id int) (*ResourceDistributionPoint, error) {
+func (c *Client) GetDistributionPointByID(id int) (*ResourceFileShareDistributionPoint, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
 
-	var distributionPoint ResourceDistributionPoint
+	var distributionPoint ResourceFileShareDistributionPoint
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "distribution point", id, err)
@@ -96,10 +96,10 @@ func (c *Client) GetDistributionPointByID(id int) (*ResourceDistributionPoint, e
 }
 
 // GetDistributionPointByName retrieves a single distribution point by its name.
-func (c *Client) GetDistributionPointByName(name string) (*ResourceDistributionPoint, error) {
+func (c *Client) GetDistributionPointByName(name string) (*ResourceFileShareDistributionPoint, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
 
-	var distributionPoint ResourceDistributionPoint
+	var distributionPoint ResourceFileShareDistributionPoint
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "distribution point", name, err)
@@ -113,18 +113,18 @@ func (c *Client) GetDistributionPointByName(name string) (*ResourceDistributionP
 }
 
 // CreateDistributionPoint creates a new distribution point.
-func (c *Client) CreateDistributionPoint(dp *ResourceDistributionPoint) (*ResourceDistributionPoint, error) {
+func (c *Client) CreateDistributionPoint(dp *ResourceFileShareDistributionPoint) (*ResourceFileShareDistributionPoint, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriDistributionPoints)
 
 	// Wrap the distribution point with the XML root element name
 	requestBody := struct {
 		XMLName xml.Name `xml:"distribution_point"`
-		*ResourceDistributionPoint
+		*ResourceFileShareDistributionPoint
 	}{
-		ResourceDistributionPoint: dp,
+		ResourceFileShareDistributionPoint: dp,
 	}
 
-	var createdDistributionPoint ResourceDistributionPoint
+	var createdDistributionPoint ResourceFileShareDistributionPoint
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDistributionPoint)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "distribution point", err)
@@ -138,17 +138,17 @@ func (c *Client) CreateDistributionPoint(dp *ResourceDistributionPoint) (*Resour
 }
 
 // UpdateDistributionPointByID updates a distribution point by its ID.
-func (c *Client) UpdateDistributionPointByID(id int, dp *ResourceDistributionPoint) (*ResourceDistributionPoint, error) {
+func (c *Client) UpdateDistributionPointByID(id int, dp *ResourceFileShareDistributionPoint) (*ResourceFileShareDistributionPoint, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"distribution_point"`
-		*ResourceDistributionPoint
+		*ResourceFileShareDistributionPoint
 	}{
-		ResourceDistributionPoint: dp,
+		ResourceFileShareDistributionPoint: dp,
 	}
 
-	var updatedDistributionPoint ResourceDistributionPoint
+	var updatedDistributionPoint ResourceFileShareDistributionPoint
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "distribution point", id, err)
@@ -162,17 +162,17 @@ func (c *Client) UpdateDistributionPointByID(id int, dp *ResourceDistributionPoi
 }
 
 // UpdateDistributionPointByName updates a distribution point by its name.
-func (c *Client) UpdateDistributionPointByName(name string, dp *ResourceDistributionPoint) (*ResourceDistributionPoint, error) {
+func (c *Client) UpdateDistributionPointByName(name string, dp *ResourceFileShareDistributionPoint) (*ResourceFileShareDistributionPoint, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"distribution_point"`
-		*ResourceDistributionPoint
+		*ResourceFileShareDistributionPoint
 	}{
-		ResourceDistributionPoint: dp,
+		ResourceFileShareDistributionPoint: dp,
 	}
 
-	var updatedDistributionPoint ResourceDistributionPoint
+	var updatedDistributionPoint ResourceFileShareDistributionPoint
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "distribution point", name, err)
