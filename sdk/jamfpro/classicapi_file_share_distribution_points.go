@@ -33,6 +33,7 @@ type ResourceFileShareDistributionPoint struct {
 	ID                       int    `xml:"id"`
 	Name                     string `xml:"name"`
 	IPAddress                string `xml:"ipAddress"`
+	IP_Address               string `xml:"ip_address"`
 	IsMaster                 bool   `xml:"is_master"`
 	FailoverPoint            string `xml:"failover_point"`
 	FailoverPointURL         string `xml:"failover_point_url"`
