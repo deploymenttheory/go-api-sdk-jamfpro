@@ -15,7 +15,7 @@ func main() {
 	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadClientAuthConfig(configFilePath)
+	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
