@@ -39,7 +39,7 @@ func (c *Client) SetOAuthCredentials(credentials OAuthCredentials) {
 
 // ObtainOAuthToken fetches an OAuth access token using the provided OAuthCredentials (Client ID and Client Secret).
 // It updates the client's Token and Expiry fields with the obtained values.
-func (c *Client) ObtainOAuthToken(credentials OAuthCredentials) error {
+func (c *Client) ObtainOAuthToken(credentials AuthConfig) error {
 	authenticationEndpoint := c.ConstructAPIAuthEndpoint(OAuthTokenEndpoint)
 	data := url.Values{}
 	data.Set("client_id", credentials.ClientID)

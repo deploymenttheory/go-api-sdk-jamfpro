@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/thejoeker12/go-api-sdk-jamfpro/sdk/http_client"
-	"github.com/thejoeker12/go-api-sdk-jamfpro/sdk/jamfpro"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 	// Import the http_client package for logging
 )
 
@@ -15,7 +15,7 @@ func main() {
 	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := http_client.LoadAuthConfig(configFilePath)
+	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
@@ -26,7 +26,8 @@ func main() {
 	// Configuration for the jamfpro
 	config := http_client.Config{
 		InstanceName: "lbgsandbox",
-		AuthConfig: http_client.AuthConfig{
+		Auth: http_client.AuthConfig{
+			InstanceName: "lbgsandbox",
 			ClientID:     authConfig.ClientID,
 			ClientSecret: authConfig.ClientSecret,
 		},
@@ -39,17 +40,16 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the department ID you want to retrieve
-	departmentID := "24979" // Replace with the desired department ID
+	fmt.Println(client.HTTP.Token)
 
-	// Call GetDepartmentByID function
+	departmentID := "24979"
+
 	department, err := client.GetDepartmentByID(departmentID)
 	if err != nil {
 		log.Fatalf("Error fetching department by ID: %v", err)
 	}
 
-	// Pretty print the department in JSON
-	departmentJSON, err := json.MarshalIndent(department, "", "    ") // Indent with 4 spaces
+	departmentJSON, err := json.MarshalIndent(department, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling department data: %v", err)
 	}

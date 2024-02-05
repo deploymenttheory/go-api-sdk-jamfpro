@@ -5,13 +5,17 @@ import (
 )
 
 type Client struct {
-	client *http_client.Client
+	HTTP *http_client.Client
 }
 
-func (c *Client) NewClient(config http_client.Config) (*Client, error) {
+func NewClient(config http_client.Config) (*Client, error) {
 	client, err := http_client.NewClient(config)
 	if err != nil {
 		return nil, err
 	}
 	return &Client{client}, nil
+}
+
+func LoadAuthConfig(configFilePath string) (*http_client.AuthConfig, error) {
+	return http_client.LoadAuthConfig(configFilePath)
 }

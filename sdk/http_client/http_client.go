@@ -18,7 +18,7 @@ import (
 type Config struct {
 	// Required
 	InstanceName string
-	AuthConfig   AuthConfig // User can either supply these values manually or pass from LoadAuthConfig/Env vars
+	Auth         AuthConfig // User can either supply these values manually or pass from LoadAuthConfig/Env vars
 
 	// Optional
 	LogLevel                  LogLevel // Field for defining tiered logging level.
@@ -97,7 +97,7 @@ func NewClient(config Config) (*Client, error) {
 		config.MaxRetryAttempts = DefaultMaxRetryAttempts
 	}
 
-	if config.MaxConcurrentRequests < 0 {
+	if config.MaxConcurrentRequests <= 0 {
 		logger.Info("MaxConcurrentRequests cannot be negative, setting to default value", "MaxConcurrentRequests", DefaultMaxConcurrentRequests)
 		config.MaxConcurrentRequests = DefaultMaxConcurrentRequests
 	}
@@ -127,13 +127,28 @@ func NewClient(config Config) (*Client, error) {
 		config.CustomTimeout = DefaultTimeout
 	}
 
+	var AuthMethod string
+	if config.Auth.Username != "" && config.Auth.Password != "" {
+		AuthMethod = "bearer"
+	} else if config.Auth.ClientID != "" && config.Auth.ClientSecret != "" {
+		AuthMethod = "oauth"
+	} else {
+		return nil, fmt.Errorf("invalid AuthConfig")
+	}
+
 	client := &Client{
 		InstanceName:   config.InstanceName,
 		httpClient:     &http.Client{Timeout: DefaultTimeout},
+		AuthMethod:     AuthMethod,
 		config:         config,
 		logger:         logger,
 		ConcurrencyMgr: NewConcurrencyManager(config.MaxConcurrentRequests, logger, config.LogLevel >= LogLevelDebug),
 		PerfMetrics:    PerformanceMetrics{},
+	}
+
+	_, err := client.ValidAuthTokenCheck()
+	if err != nil {
+		return nil, fmt.Errorf("failed to validate auth: %w", err)
 	}
 
 	// Start the periodic metric evaluation for adjusting concurrency.

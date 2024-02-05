@@ -1,13 +1,13 @@
-module github.com/thejoeker12/go-api-sdk-jamfpro
+module github.com/deploymenttheory/go-api-sdk-jamfpro
 
 go 1.21
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/aws/aws-sdk-go v1.50.10
-	github.com/deploymenttheory/go-api-sdk-jamfpro v1.1.11
 	github.com/google/uuid v1.6.0
 	github.com/mitchellh/mapstructure v1.5.0
+	github.com/thejoeker12/go-api-sdk-jamfpro v0.0.1
 	howett.net/plist v1.0.1
 )
 
