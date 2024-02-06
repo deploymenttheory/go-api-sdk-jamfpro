@@ -57,7 +57,8 @@
 
     "gopls": {
         "build.directoryFilters": [
-            "-migration"
+            "-migration",
+            "-sdk/integration_tests"
         ]
     }
 }
