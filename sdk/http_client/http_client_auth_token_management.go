@@ -36,9 +36,9 @@ func (c *Client) ValidAuthTokenCheck() (bool, error) {
 	// If token exists and is close to expiry or already expired
 	if time.Until(c.Expiry) < c.config.TokenRefreshBufferPeriod {
 		var err error
-		if c.BearerTokenAuthCredentials.Username != "" && c.BearerTokenAuthCredentials.Password != "" {
+		if c.AuthMethod == "bearer" {
 			err = c.RefreshToken()
-		} else if c.OAuthCredentials.ClientID != "" && c.OAuthCredentials.ClientSecret != "" {
+		} else if c.AuthMethod == "oauth" {
 			err = c.ObtainOAuthToken(c.config.Auth)
 		} else {
 			return false, fmt.Errorf("unknown auth method: %s", c.AuthMethod)
