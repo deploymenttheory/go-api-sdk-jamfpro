@@ -7,7 +7,6 @@ require (
 	github.com/aws/aws-sdk-go v1.50.10
 	github.com/google/uuid v1.6.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/deploymenttheory/go-api-sdk-jamfpro v1.1.11
 	howett.net/plist v1.0.1
 )
 
