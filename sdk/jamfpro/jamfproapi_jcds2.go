@@ -9,7 +9,7 @@ import (
 	"fmt"
 )
 
-const uriJCDS2 = "/api/v1/jcds/files"
+const uriJCDS2 = "/api/v1/jcds"
 
 // List
 
@@ -48,19 +48,67 @@ type UploadProgressPercentage struct {
 
 // CRUD
 
-// GetJCDS2Files fetches a file list from Jamf Cloud Distribution Service
-func (c *Client) GetJCDS2Files() (*ResponseJCDS2List, error) {
+// GetJCDS2Packages fetches a file list from Jamf Cloud Distribution Service
+func (c *Client) GetJCDS2Packages() (*ResponseJCDS2List, error) {
+	endpoint := uriJCDS2 + "/files"
 	var out ResponseJCDS2List
-
-	resp, err := c.HTTP.DoRequest("GET", uriJCDS2, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
+	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
+	return &out, nil
+}
+
+// GetJCDS2PackageByName retrieves a file by name
+func (c *Client) GetJCDS2PackageByName(id string) (*JCDSFileListItem, error) {
+	endpoint := fmt.Sprintf("%s/%v", uriJCDS2+"/files", id)
+	var out JCDSFileListItem
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+
 	if err != nil {
-		fmt.Printf(errMsgFailedGet, "sso failover settings", err)
-		return nil, err
+		return nil, fmt.Errorf(errMsgFailedGetByName, "JCDS 2.0", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// CreateJCDS2Package creates a new file in JCDS 2.0
+func (c *Client) CreateJCDS2Package(JCDSpackage *JCDSFileListItem) (*JCDSFileListItem, error) {
+	endpoint := uriJCDS2 + "/files"
+	var ResponseJCDSPackageCreate JCDSFileListItem
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, JCDSpackage, &ResponseJCDSPackageCreate)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "JCDS 2.0", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &ResponseJCDSPackageCreate, nil
+}
+
+// RenewJCDS2Credentials renews credentials for JCDS 2.0
+func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2List, error) {
+	endpoint := uriJCDS2 + "/renew-credentials"
+	var out ResponseJCDS2List
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
 	}
 
 	return &out, nil

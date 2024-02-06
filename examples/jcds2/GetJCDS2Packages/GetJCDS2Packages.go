@@ -20,7 +20,7 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelWarning // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
 	config := http_client.Config{
@@ -39,15 +39,15 @@ func main() {
 	}
 
 	// Call GetJamfProVersion function
-	JCDS2Files, err := client.GetJCDS2Files()
+	JCDS2Files, err := client.GetJCDS2Packages()
 	if err != nil {
-		log.Fatalf("Error fetching JCDS 2 files: %v", err)
+		log.Fatalf("Error fetching JCDS 2 packages: %v", err)
 	}
 
 	// Pretty print the JCDS 2 files in XML
 	response, err := json.MarshalIndent(JCDS2Files, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling JCDS 2 files data: %v", err)
+		log.Fatalf("Error marshaling JCDS 2 package data: %v", err)
 	}
-	fmt.Println("Fetched JCDS 2 files:\n", string(response))
+	fmt.Println("Fetched JCDS 2 packages:\n", string(response))
 }
