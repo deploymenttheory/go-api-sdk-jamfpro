@@ -1,0 +1,71 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"name": "terraform-provider-jamfpro",
+			"path": "../../../../terraform-provider-jamfpro"
+		},
+		{
+			"path": "../../../../../../localtesting"
+		},
+		{
+			"name": "go-api-http-client",
+			"path": "../../../../go-api-http-client"
+		}
+	],
+	"settings": {
+		"todo-tree.tree.showBadges": true,
+		"todo-tree.tree.showCountsInTree": true,
+		"todo-tree.general.tags": [
+			"BUG",
+			"HACK",
+			"FIXME",
+			"TODO",
+			"XXX",
+			"[ ]",
+			"[X]",
+			"NOTE",
+			"SUGGESTION",
+			"QUERY",
+			"WIP"
+		],
+		"todo-tree.highlights.customHighlight": {
+			"BUG": {
+				"icon": "bug"
+			},
+			"HACK": {
+				"icon": "tools"
+			},
+			"FIXME": {
+				"icon": "flame"
+			},
+			"XXX": {
+				"icon": "x"
+			},
+			"[ ]": {
+				"icon": "issue-draft"
+			},
+			"[X]": {
+				"icon": "issue-closed"
+			},
+			"NOTE": {
+				"icon": "note"
+			},
+			"SUGGESTION": {
+				"icon": "question"
+			},
+			"QUERY": {
+				"icon": "question"
+			},
+			"WIP": {
+				"icon": "gear"
+			}
+		},
+		"todo-tree.general.statusBar": "tags",
+		"todo-tree.general.showIconsInsteadOfTagsInStatusBar": false,
+		"todo-tree.tree.groupedByTag": true,
+		"todo-tree.tree.scanMode": "workspace only"
+	}
+}
