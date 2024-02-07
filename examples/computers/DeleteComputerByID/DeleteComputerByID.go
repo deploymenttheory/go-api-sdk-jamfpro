@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
 	if err != nil {

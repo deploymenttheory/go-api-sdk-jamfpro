@@ -289,7 +289,7 @@ func (u *UnifiedJamfAPIHandler) UnmarshalResponse(resp *http.Response, out inter
 	}
 
 	// If content type is HTML, extract the error message
-	if strings.Contains(contentType, "text/html") {
+	/if strings.Contains(contentType, "text/html") {
 		errMsg := ExtractErrorMessageFromHTML(string(bodyBytes))
 		u.logger.Warn("Received HTML content", "error_message", errMsg, "status_code", resp.StatusCode)
 		return &APIError{

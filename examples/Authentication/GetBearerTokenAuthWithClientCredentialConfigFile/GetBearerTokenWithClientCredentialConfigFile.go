@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := http_client.LoadAuthConfig(configFilePath)

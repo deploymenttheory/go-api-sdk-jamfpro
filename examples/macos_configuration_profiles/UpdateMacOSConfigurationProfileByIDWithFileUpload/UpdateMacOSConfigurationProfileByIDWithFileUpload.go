@@ -25,7 +25,7 @@ func readPayloadFromFile(filePath string) (string, error) {
 }
 
 func main() {
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	authConfig, err := http_client.LoadAuthConfig(configFilePath)
 	if err != nil {

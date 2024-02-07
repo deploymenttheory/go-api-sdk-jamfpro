@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	configFilePath = "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath = "/Users/dafyddwatkins/localtesting/clientauth.json"
 	attributeName  = "Battery Cycle Count" // replace this with the name of the attribute you want to delete
 )
 

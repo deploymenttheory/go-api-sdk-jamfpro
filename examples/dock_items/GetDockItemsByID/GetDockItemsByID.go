@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
 	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Define the ID of the dock item to retrieve
-	dockItemID := 1 // Replace with the actual ID of the dock item
+	dockItemID := 9999999999 // Replace with the actual ID of the dock item
 
 	// Call the GetDockItemsByID function
 	dockItem, err := client.GetDockItemByID(dockItemID)

@@ -16,7 +16,7 @@ const (
 )
 
 func main() {
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 	scriptFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/scriptfile.sh"
 
 	authConfig, err := http_client.LoadAuthConfig(configFilePath)
