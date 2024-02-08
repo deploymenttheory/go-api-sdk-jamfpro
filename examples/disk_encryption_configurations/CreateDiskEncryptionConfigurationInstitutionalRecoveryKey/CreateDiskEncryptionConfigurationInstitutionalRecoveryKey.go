@@ -9,7 +9,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
+	"github.com/deploymenttheory/go-api-http-client/logger"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -24,12 +25,12 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelWarning // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := logger.LogLevelWarn // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := http_client.Config{
+	config := httpclient.Config{
 		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
+		Auth: httpclient.AuthConfig{
 			ClientID:     authConfig.ClientID,
 			ClientSecret: authConfig.ClientSecret,
 		},

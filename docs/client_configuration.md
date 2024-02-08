@@ -1,10 +1,10 @@
-# Configuring the `http_client`
+# Configuring the `httpclient`
 
-The `http_client` package offers a customizable HTTP client designed for interfacing with specific APIs, featuring a variety of configuration options.
+The `httpclient` package offers a customizable HTTP client designed for interfacing with specific APIs, featuring a variety of configuration options.
 
 ## 1. `Client` Structure
 
-At the heart of the `http_client` package is the `Client` structure, which represents the HTTP client designed to interact with a particular API.
+At the heart of the `httpclient` package is the `Client` structure, which represents the HTTP client designed to interact with a particular API.
 
 ### Key Attributes:
 
@@ -40,7 +40,7 @@ The `Config` structure holds various configuration options for the HTTP Client.
 You can initialize a new `Client` instance using the `NewClient` function:
 
 ```go
-client := http_client.NewClient(baseURL, config, logger)
+client := httpclient.NewClient(baseURL, config, logger)
 ```
 
 ### Parameters:
@@ -76,16 +76,16 @@ Certainly! Let's enhance the documentation with an example.
 
 ---
 
-## Example: Setting Up the `http_client`
+## Example: Setting Up the `httpclient`
 
-Below is an example demonstrating how to configure and initialize the `http_client`.
+Below is an example demonstrating how to configure and initialize the `httpclient`.
 
 ### 1. Define Configuration:
 
 First, you need to define the configuration for the client. Here's how you can create a `Config` instance:
 
 ```go
-config := http_client.Config{
+config := httpclient.Config{
     DebugMode:                 true,  // Enable debug mode
     MaxRetryAttempts:          3,     // Set maximum retry attempts
     EnableDynamicRateLimiting: true,  // Enable dynamic rate limiting
@@ -102,7 +102,7 @@ Use the `NewClient` function to initialize a new client with the defined configu
 
 ```go
 baseURL := "your-jamf-instance.jamfcloud.com"
-client := http_client.NewClient(baseURL, config, nil)
+client := httpclient.NewClient(baseURL, config, nil)
 ```
 
 In this example, we're using the baseURL "https://exampleapi.com". We're also using the default logger by passing `nil`.
@@ -123,4 +123,4 @@ Now that the client is configured and initialized, you can use it to make reques
 
 ---
 
-By following the example above, you can easily configure and set up the `http_client` for your specific needs.
+By following the example above, you can easily configure and set up the `httpclient` for your specific needs.

@@ -1,5 +1,5 @@
 // sdk_version.go
-package http_client
+package httpclient
 
 import "fmt"
 

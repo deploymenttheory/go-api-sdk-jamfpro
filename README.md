@@ -55,7 +55,7 @@ In your Go program, load these credentials using:
 
 ```go
 configFilePath := "path_to_your/clientauth.json"
-authConfig, err := http_client.LoadAuthConfig(configFilePath)
+authConfig, err := httpclient.LoadAuthConfig(configFilePath)
 if err != nil {
 	log.Fatalf("Failed to load client OAuth configuration: %v", err)
 }
@@ -66,13 +66,13 @@ With the OAuth credentials loaded, you can now configure the HTTP client:
 
 ```go
 // Initialize a new default logger
-logger := http_client.NewDefaultLogger()
+logger := httpclient.NewDefaultLogger()
 
 // Set the desired log level on the logger
-logger.SetLevel(http_client.LogLevelInfo) // LogLevel can be None, Warning, Info, or Debug
+logger.SetLevel(httpclient.LogLevelInfo) // LogLevel can be None, Warning, Info, or Debug
 
 // Create the configuration for the HTTP client with the logger
-config := http_client.Config{
+config := httpclient.Config{
 	Logger: logger,
 }
 ```
@@ -89,7 +89,7 @@ client := jamfpro.NewClient(authConfig.InstanceName, config)
 Then, set the OAuth credentials for the client's HTTP client:
 
 ```go
-oAuthCreds := http_client.OAuthCredentials{
+oAuthCreds := httpclient.OAuthCredentials{
 	ClientID:     authConfig.ClientID,
 	ClientSecret: authConfig.ClientSecret,
 }
@@ -143,7 +143,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-http-client/httpclient" // Import httpclient for logging
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -158,13 +158,13 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logger := httpclient.NewDefaultLogger()
+	logLevel := httpclient.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := http_client.Config{
+	config := httpclient.Config{
 		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
+		Auth: httpclient.AuthConfig{
 			ClientID:     authConfig.ClientID,
 			ClientSecret: authConfig.ClientSecret,
 		},

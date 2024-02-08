@@ -1,5 +1,5 @@
-// http_client_auth_token_management.go
-package http_client
+// httpclient_auth_token_management.go
+package httpclient
 
 import (
 	"fmt"

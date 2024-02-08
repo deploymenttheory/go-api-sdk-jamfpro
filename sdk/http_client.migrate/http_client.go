@@ -1,11 +1,11 @@
-// http_client.go
-/* The `http_client` package provides a configurable HTTP client tailored for interacting with specific APIs.
+// httpclient.go
+/* The `httpclient` package provides a configurable HTTP client tailored for interacting with specific APIs.
 It supports different authentication methods, including "bearer" and "oauth". The client is designed with a
 focus on concurrency management, structured error handling, and flexible configuration options.
 The package offers a default timeout, custom backoff strategies, dynamic rate limiting,
 and detailed logging capabilities. The main `Client` structure encapsulates all necessary components,
 like the baseURL, authentication details, and an embedded standard HTTP client. */
-package http_client
+package httpclient
 
 import (
 	"fmt"

@@ -1,5 +1,5 @@
 // http_methods.go
-package http_client
+package httpclient
 
 import "net/http"
 

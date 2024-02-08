@@ -1,8 +1,8 @@
-// http_client_oauth.go
-/* The http_client_auth package focuses on authentication mechanisms for an HTTP client.
+// httpclient_oauth.go
+/* The httpclient_auth package focuses on authentication mechanisms for an HTTP client.
 It provides structures and methods for handling OAuth-based authentication
 */
-package http_client
+package httpclient
 
 import (
 	"bytes"

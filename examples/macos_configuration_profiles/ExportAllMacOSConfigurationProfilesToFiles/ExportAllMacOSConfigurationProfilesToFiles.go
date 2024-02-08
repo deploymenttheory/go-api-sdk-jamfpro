@@ -9,7 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
+	"github.com/deploymenttheory/go-api-http-client/logger"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -35,18 +36,18 @@ func extractPayloads(xmlData string) string {
 func main() {
 	configFilePath := "/Users/joseph/github/go-api-sdk-jamfpro/client_auth.json"
 
-	authConfig, err := http_client.LoadAuthConfig(configFilePath)
+	authConfig, err := httpclient.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := logger.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := http_client.Config{
+	config := httpclient.Config{
 		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
+		Auth: httpclient.AuthConfig{
 			ClientID:     authConfig.ClientID,
 			ClientSecret: authConfig.ClientSecret,
 		},

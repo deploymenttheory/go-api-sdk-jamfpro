@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
+	"github.com/deploymenttheory/go-api-http-client/logger"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
 	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := http_client.LoadAuthConfig(configFilePath)
+	authConfig, err := httpclient.LoadAuthConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
@@ -21,12 +22,12 @@ func main() {
 	fmt.Printf("Loaded Config: %+v\n", authConfig)
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := logger.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := http_client.Config{
+	config := httpclient.Config{
 		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
+		Auth: httpclient.AuthConfig{
 			Username: "fwfw",
 			Password: "fwfw",
 		},
@@ -34,13 +35,13 @@ func main() {
 	}
 
 	// Create a new client instance using the loaded InstanceName
-	client, err := http_client.NewClient(config)
+	client, err := httpclient.NewClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create new client: %v", err)
 	}
 
 	// Set OAuth credentials for the client
-	oAuthCreds := http_client.OAuthCredentials{
+	oAuthCreds := httpclient.OAuthCredentials{
 		ClientID:     authConfig.ClientID,
 		ClientSecret: authConfig.ClientSecret,
 	}

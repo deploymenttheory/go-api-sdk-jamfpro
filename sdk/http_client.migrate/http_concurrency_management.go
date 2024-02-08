@@ -1,7 +1,7 @@
 // http_concurrency_management.go
-// Package http_client provides utilities to manage HTTP client interactions, including concurrency control.
+// Package httpclient provides utilities to manage HTTP client interactions, including concurrency control.
 // The Concurrency Manager ensures no more than a certain number of concurrent requests (e.g., 5 for Jamf Pro) are sent at the same time. This is managed using a semaphore
-package http_client
+package httpclient
 
 import (
 	"context"

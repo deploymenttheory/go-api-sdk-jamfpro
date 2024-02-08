@@ -1,6 +1,6 @@
 // http_error_handling.go
 // This package provides utility functions and structures for handling and categorizing HTTP error responses.
-package http_client
+package httpclient
 
 import (
 	"bytes"

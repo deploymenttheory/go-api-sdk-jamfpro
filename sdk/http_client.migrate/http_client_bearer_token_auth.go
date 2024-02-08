@@ -1,8 +1,8 @@
-// http_client_bearer_token_auth.go
-/* The http_client_auth package focuses on authentication mechanisms for an HTTP client.
+// httpclient_bearer_token_auth.go
+/* The httpclient_auth package focuses on authentication mechanisms for an HTTP client.
 It provides structures and methods for handling both basic and bearer token based authentication
 */
-package http_client
+package httpclient
 
 import (
 	"encoding/json"

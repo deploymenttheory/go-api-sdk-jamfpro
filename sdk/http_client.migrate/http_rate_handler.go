@@ -12,7 +12,7 @@ Rate Limit Header Parser: For future compatibility, a function that can parse co
 
 */
 
-package http_client
+package httpclient
 
 import (
 	"math"

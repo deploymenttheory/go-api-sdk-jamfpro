@@ -1,5 +1,5 @@
 // http_logging.go
-package http_client
+package httpclient
 
 import "log"
 

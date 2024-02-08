@@ -1,11 +1,11 @@
 // jamfpro_api_handler.go
 /* ------------------------------Summary----------------------------------------
-This is a api handler module for the http_client to accommodate specifics of
+This is a api handler module for the httpclient to accommodate specifics of
 jamf's api(s). It handles the encoding (marshalling) and decoding (unmarshalling)
 of data. It also sets the correct content headers for the various http methods.
 
-This module integrates with the http_client logger for wrapped error handling
-for human readable return codes. It also supports the http_client tiered logging
+This module integrates with the httpclient logger for wrapped error handling
+for human readable return codes. It also supports the httpclient tiered logging
 functionality for logging support.
 
 The logic of this module is defined as follows:
@@ -33,7 +33,7 @@ Headers
 - Sets accept headers based on weighting. Jamf Pro API doesn't support XML, so MIME type is skipped and returns JSON
 - Set content header as application/json with edge case exceptions based on need.
 */
-package http_client
+package httpclient
 
 import (
 	"bytes"
