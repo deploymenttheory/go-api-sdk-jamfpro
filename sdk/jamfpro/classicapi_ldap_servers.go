@@ -278,7 +278,7 @@ func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDA
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseLDAPServer, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "ldap server", err)
 	}
@@ -302,7 +302,7 @@ func (c *Client) UpdateLDAPServerByID(id int, ldapServer *ResourceLDAPServers) (
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ldap server", id, err)
 	}
@@ -326,7 +326,7 @@ func (c *Client) UpdateLDAPServerByName(name string, ldapServer *ResourceLDAPSer
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ldap server", name, err)
 	}
