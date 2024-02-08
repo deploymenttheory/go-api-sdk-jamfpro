@@ -156,7 +156,7 @@ func (c *Client) GetMacApplications() (*ResponseMacApplicationsList, error) {
 	endpoint := uriVPPMacApplications
 
 	var macApps ResponseMacApplicationsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApps)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApps, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mac applications", err)
 	}
@@ -175,7 +175,7 @@ func (c *Client) GetMacApplicationByID(id int) (*ResourceMacApplications, error)
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac application", id, err)
 	}
@@ -192,7 +192,7 @@ func (c *Client) GetMacApplicationByName(name string) (*ResourceMacApplications,
 	endpoint := fmt.Sprintf("%s/name/%s", uriVPPMacApplications, name)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac application", name, err)
 	}
@@ -210,7 +210,7 @@ func (c *Client) GetMacApplicationByIDAndDataSubset(id int, subset string) (*Res
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriVPPMacApplications, id, subset)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac application and data subset", id, err)
 	}
@@ -228,7 +228,7 @@ func (c *Client) GetMacApplicationByNameAndDataSubset(name, subset string) (*Res
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriVPPMacApplications, name, subset)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac application and data subset", name, err)
 	}

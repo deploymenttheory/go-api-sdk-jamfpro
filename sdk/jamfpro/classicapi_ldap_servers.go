@@ -326,7 +326,7 @@ func (c *Client) UpdateLDAPServerByName(name string, ldapServer *ResourceLDAPSer
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseldapServer)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseldapServer, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ldap server", name, err)
 	}

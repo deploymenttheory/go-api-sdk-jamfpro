@@ -177,7 +177,7 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 	endpoint := uriMacOSConfigurationProfiles
 
 	var profilesList ResponseMacOSConfigurationProfileList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
 	}
@@ -194,7 +194,7 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigu
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
 	var profile ResourceMacOSConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac os config profile", id, err)
 	}
@@ -211,7 +211,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
 	var profile ResourceMacOSConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
 	}
