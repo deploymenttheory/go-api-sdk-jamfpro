@@ -166,7 +166,7 @@ func (c *Client) UpdateSoftwareUpdateServerByName(name string, server *ResourceS
 func (c *Client) DeleteSoftwareUpdateServerByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "software update server", id, err)
 	}
@@ -182,7 +182,7 @@ func (c *Client) DeleteSoftwareUpdateServerByID(id int) error {
 func (c *Client) DeleteSoftwareUpdateServerByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSoftwareUpdateServers, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "software update server", name, err)
 	}

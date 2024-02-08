@@ -48,7 +48,7 @@ func (c *Client) GetAccountGroupByID(id int) (*ResourceAccountGroup, error) {
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
 	var group ResourceAccountGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "account group", id, err)
 	}
@@ -65,7 +65,7 @@ func (c *Client) GetAccountGroupByName(name string) (*ResourceAccountGroup, erro
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
 	var account ResourceAccountGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "account group", name, err)
 	}
@@ -100,7 +100,7 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Respon
 	}
 
 	var returnedAccountGroup ResponseAccountGroupCreated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccountGroup)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccountGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "account group", err)
 	}
@@ -131,7 +131,7 @@ func (c *Client) UpdateAccountGroupByID(id int, accountGroup *ResourceAccountGro
 	}
 
 	var updatedGroup ResourceAccountGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "account group", id, err)
 	}
@@ -162,7 +162,7 @@ func (c *Client) UpdateAccountGroupByName(name string, accountGroup *ResourceAcc
 	}
 
 	var updatedGroup ResourceAccountGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "account group", name, err)
 	}
@@ -178,7 +178,7 @@ func (c *Client) UpdateAccountGroupByName(name string, accountGroup *ResourceAcc
 func (c *Client) DeleteAccountGroupByID(id int) error {
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "account group", id, err)
 	}
@@ -194,7 +194,7 @@ func (c *Client) DeleteAccountGroupByID(id int) error {
 func (c *Client) DeleteAccountGroupByName(name string) error {
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "account group", name, err)
 	}

@@ -237,7 +237,7 @@ func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware 
 func (c *Client) DeleteRestrictedSoftwareByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "restricted software", id, err)
 	}
@@ -253,7 +253,7 @@ func (c *Client) DeleteRestrictedSoftwareByID(id int) error {
 func (c *Client) DeleteRestrictedSoftwareByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRestrictedSoftware, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "restricted software", name, err)
 	}

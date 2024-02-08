@@ -42,7 +42,7 @@ type ResponseClientCheckInHistory struct {
 
 func (c *Client) GetClientCheckIn() (*ResponseClientCheckIn, error) {
 	var out ResponseClientCheckIn
-	err := c.DoRequest("GET", uriAPICheckIn, nil, nil, &out)
+	err := c.DoRequest("GET", uriAPICheckIn, nil, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get check-in data: %v", err)
 	}
@@ -64,7 +64,7 @@ func (c *Client) GetClientCheckInHistory(page int, pageSize int, sort string, fi
 	uri := fmt.Sprintf("%s/history?page=%d&page-size=%d&sort=%s&filter=%s", uriAPICheckIn, page, pageSize, sort, filter)
 
 	var out ResponseClientCheckInHistory
-	err := c.DoRequest("GET", uri, nil, nil, &out)
+	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get client check-in history: %v", err)
 	}

@@ -181,7 +181,7 @@ func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*Re
 func (c *Client) DeletePrinterByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "printer", id, err)
 	}
@@ -197,7 +197,7 @@ func (c *Client) DeletePrinterByID(id int) error {
 func (c *Client) DeletePrinterByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "printer", name, err)
 	}

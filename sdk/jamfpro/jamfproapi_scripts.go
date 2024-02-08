@@ -82,7 +82,7 @@ func (c *Client) GetScripts(sort_filter string) (*ResponseScriptsList, error) {
 func (c *Client) GetScriptByID(id string) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var script ResourceScript
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &script)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &script, c.HTTP.Logger)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "script", id, err)
@@ -116,7 +116,7 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 	endpoint := uriScripts
 	var ResponseScriptCreate ResponseScriptCreate
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, script, &ResponseScriptCreate)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, script, &ResponseScriptCreate, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "script", err)
 	}
@@ -132,7 +132,7 @@ func (c *Client) CreateScript(script *ResourceScript) (*ResponseScriptCreate, er
 func (c *Client) UpdateScriptByID(id string, scriptUpdate *ResourceScript) (*ResourceScript, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var updatedScript ResourceScript
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, scriptUpdate, &updatedScript)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, scriptUpdate, &updatedScript, c.HTTP.Logger)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "script", id, err)
@@ -167,7 +167,7 @@ func (c *Client) UpdateScriptByName(name string, scriptUpdate *ResourceScript) (
 func (c *Client) DeleteScriptByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var response interface{}
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "script", id, err)
 	}

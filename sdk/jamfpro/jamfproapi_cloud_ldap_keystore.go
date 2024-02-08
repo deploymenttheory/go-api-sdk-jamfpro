@@ -31,7 +31,7 @@ type ResponseCloudLdapVerifyKeystore struct {
 func (c *Client) ValidateCloudLdapKeystore(payload PayloadCloudLdapVerifyKeystore) (*ResponseCloudLdapVerifyKeystore, error) {
 	endpoint := uriCloudLdapKeystore
 	var out ResponseCloudLdapVerifyKeystore
-	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &out)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedValidateCloudLdapKeystore, err)
 	}

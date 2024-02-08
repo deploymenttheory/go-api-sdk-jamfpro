@@ -170,7 +170,7 @@ func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *Re
 func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device extension attribute", id, err)
 	}
@@ -186,7 +186,7 @@ func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
 func (c *Client) DeleteMobileExtensionAttributeByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceExtensionAttributes, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device extension attribute", name, err)
 	}

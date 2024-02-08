@@ -175,7 +175,7 @@ func (c *Client) UpdatePackageByName(name string, pkg *ResponsePackage) (*Respon
 func (c *Client) DeletePackageByID(id int) error {
 	url := fmt.Sprintf("%s/id/%d", uriAPIPackages, id)
 
-	if err := c.DoRequest("DELETE", url, nil, nil, nil); err != nil {
+	if err := c.DoRequest("DELETE", url, nil, nil, nil, c.HTTP.Logger); err != nil {
 		return fmt.Errorf("failed to delete package by ID: %v", err)
 	}
 
@@ -186,7 +186,7 @@ func (c *Client) DeletePackageByID(id int) error {
 func (c *Client) DeletePackageByName(name string) error {
 	url := fmt.Sprintf("%s/name/%s", uriAPIPackages, name)
 
-	if err := c.DoRequest("DELETE", url, nil, nil, nil); err != nil {
+	if err := c.DoRequest("DELETE", url, nil, nil, nil, c.HTTP.Logger); err != nil {
 		return fmt.Errorf("failed to delete package by Name: %v", err)
 	}
 

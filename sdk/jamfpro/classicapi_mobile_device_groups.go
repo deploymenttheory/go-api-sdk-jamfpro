@@ -190,7 +190,7 @@ func (c *Client) UpdateMobileDeviceGroupByName(name string, group *ResourceMobil
 func (c *Client) DeleteMobileDeviceGroupByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device group", id, err)
 	}
@@ -206,7 +206,7 @@ func (c *Client) DeleteMobileDeviceGroupByID(id int) error {
 func (c *Client) DeleteMobileDeviceGroupByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceGroups, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device group", name, err)
 	}

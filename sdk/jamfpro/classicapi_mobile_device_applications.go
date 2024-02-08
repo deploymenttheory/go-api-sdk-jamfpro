@@ -446,7 +446,7 @@ func (c *Client) UpdateMobileDeviceApplicationByIDAndAppVersion(id int, version 
 func (c *Client) DeleteMobileDeviceApplicationpByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceApplications, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device application", id, err)
 	}
@@ -462,7 +462,7 @@ func (c *Client) DeleteMobileDeviceApplicationpByID(id int) error {
 func (c *Client) DeleteMobileDeviceApplicationByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceApplications, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device application", name, err)
 	}
@@ -478,7 +478,7 @@ func (c *Client) DeleteMobileDeviceApplicationByName(name string) error {
 func (c *Client) DeleteMobileDeviceApplicationByBundleID(id string) error {
 	endpoint := fmt.Sprintf("%s/bundleid/%s", uriMobileDeviceApplications, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device application (bundle id)", id, err)
 	}
@@ -494,7 +494,7 @@ func (c *Client) DeleteMobileDeviceApplicationByBundleID(id string) error {
 func (c *Client) DeleteMobileDeviceApplicationByBundleIDAndVersion(id string, version string) error {
 	endpoint := fmt.Sprintf("%s/bundleid/%s/version/%s", uriMobileDeviceApplications, id, version)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device application (bundle id and version)", id, err)
 	}

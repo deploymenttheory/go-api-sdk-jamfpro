@@ -246,7 +246,7 @@ func (c *Client) UpdatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 func (c *Client) DeletePatchPolicyByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "patch policy", id, err)
 	}

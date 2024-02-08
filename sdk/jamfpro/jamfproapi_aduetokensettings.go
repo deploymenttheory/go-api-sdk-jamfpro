@@ -23,7 +23,7 @@ func (c *Client) GetADUESessionTokenSettings() (*ResourceADUETokenSettings, erro
 	endpoint := uriUserEnrollmentTokenSettings
 	var out ResourceADUETokenSettings
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "ADUE token settings", err)
 	}
@@ -40,7 +40,7 @@ func (c *Client) UpdateADUESessionTokenSettings(updatedSettings ResourceADUEToke
 	endpoint := uriUserEnrollmentTokenSettings
 	var out ResourceADUETokenSettings
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "ADUE token settings", err)
 	}

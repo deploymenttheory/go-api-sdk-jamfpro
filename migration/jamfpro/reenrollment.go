@@ -31,7 +31,7 @@ func (c *Client) GetReEnrollment() (*ResponseReEnrollment, error) {
 	uri := uriAPIReEnrollment
 
 	var out ResponseReEnrollment
-	err := c.DoRequest("GET", uri, nil, nil, &out)
+	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get re-enrollment data: %v", err)
 	}
@@ -56,7 +56,7 @@ func (c *Client) GetReEnrollmentHistory(page, pageSize int, sort string) (*Respo
 	uri := fmt.Sprintf("%s/history?page=%d&page-size=%d&sort=%s", uriAPIReEnrollment, page, pageSize, sort)
 
 	var out ResponseReEnrollmentHistory
-	err := c.DoRequest("GET", uri, nil, nil, &out)
+	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get re-enrollment history: %v", err)
 	}

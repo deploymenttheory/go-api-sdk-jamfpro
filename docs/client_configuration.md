@@ -102,7 +102,7 @@ Use the `NewClient` function to initialize a new client with the defined configu
 
 ```go
 baseURL := "your-jamf-instance.jamfcloud.com"
-client := httpclient.NewClient(baseURL, config, nil)
+client := httpclient.NewClient(baseURL, config, nil, c.HTTP.Logger)
 ```
 
 In this example, we're using the baseURL "https://exampleapi.com". We're also using the default logger by passing `nil`.

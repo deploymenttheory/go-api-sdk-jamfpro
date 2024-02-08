@@ -574,7 +574,7 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Resou
 // DeletePolicyByID deletes a policy by its ID.
 func (c *Client) DeletePolicyByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf("failed to delete policy: %v", err)
 	}
@@ -589,7 +589,7 @@ func (c *Client) DeletePolicyByID(id int) error {
 // DeletePolicyByName deletes a policy by its name.
 func (c *Client) DeletePolicyByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf("failed to delete policy: %v", err)
 	}

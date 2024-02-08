@@ -58,7 +58,7 @@ func (c *Client) GetBYOProfiles() (*ResponseBYOProfilesList, error) {
 	endpoint := uriBYOProfiles
 
 	var byoProfiles ResponseBYOProfilesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &byoProfiles)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &byoProfiles, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all BYO Profiles: %v", err)
 	}
@@ -75,7 +75,7 @@ func (c *Client) GetBYOProfileByID(id int) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
 
 	var profile ResourceBYOProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "byo profile", id, err)
 	}
@@ -92,7 +92,7 @@ func (c *Client) GetBYOProfileByName(name string) (*ResourceBYOProfile, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriBYOProfiles, name)
 
 	var profile ResourceBYOProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch BYO Profile by name: %v", err)
 	}
@@ -116,7 +116,7 @@ func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResponceBYOProf
 	}
 
 	var createdProfile ResponceBYOProfileCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdProfile)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "byo profile", err)
 	}
@@ -140,7 +140,7 @@ func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*Res
 	}
 
 	var updatedProfile ResponceBYOProfileCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "byo profile", id, err)
 	}
@@ -164,7 +164,7 @@ func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile
 	}
 
 	var updatedProfile ResponceBYOProfileCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "byo profile", name, err)
 	}
@@ -180,7 +180,7 @@ func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile
 func (c *Client) DeleteBYOProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "byo profile", id, err)
 	}
@@ -196,7 +196,7 @@ func (c *Client) DeleteBYOProfileByID(id int) error {
 func (c *Client) DeleteBYOProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriBYOProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "byo profile", name, err)
 	}

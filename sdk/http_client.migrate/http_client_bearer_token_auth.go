@@ -29,7 +29,7 @@ func (c *Client) ObtainToken() error {
 
 	c.logger.Debug("Attempting to obtain token for user", "Username", c.BearerTokenAuthCredentials.Username)
 
-	req, err := http.NewRequest("POST", authenticationEndpoint, nil)
+	req, err := http.NewRequest("POST", authenticationEndpoint, nil, c.HTTP.Logger)
 	if err != nil {
 		c.logger.Error("Failed to create new request for token", "Error", err)
 		return err
@@ -71,7 +71,7 @@ func (c *Client) RefreshToken() error {
 
 	tokenRefreshEndpoint := c.ConstructAPIAuthEndpoint(TokenRefreshEndpoint)
 
-	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil)
+	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil, c.HTTP.Logger)
 	if err != nil {
 		c.logger.Error("Failed to create new request for token refresh", "error", err)
 		return err

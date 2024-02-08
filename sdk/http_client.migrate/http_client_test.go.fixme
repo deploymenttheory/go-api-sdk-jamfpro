@@ -49,49 +49,49 @@ func TestNewClientInvalidConfig(t *testing.T) {
 	assert := assert.New(t)
 
 	// Test with an empty instance name
-	_, err := NewClient("", Config{}, nil)
+	_, err := NewClient("", Config{}, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for empty instance name")
 
 	// Test with a negative MaxRetryAttempts
 	configWithNegativeMaxRetry := Config{
 		MaxRetryAttempts: -1,
 	}
-	_, err = NewClient("testInstance", configWithNegativeMaxRetry, nil)
+	_, err = NewClient("testInstance", configWithNegativeMaxRetry, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for negative MaxRetryAttempts")
 
 	// Test with invalid log level (assuming you have defined constraints for valid log levels)
 	configWithInvalidLogLevel := Config{
 		LogLevel: LogLevel(-1), // Invalid log level
 	}
-	_, err = NewClient("testInstance", configWithInvalidLogLevel, nil)
+	_, err = NewClient("testInstance", configWithInvalidLogLevel, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for invalid LogLevel")
 
 	// Test with a negative MaxConcurrentRequests
 	configWithNegativeConcurrentRequests := Config{
 		MaxConcurrentRequests: -1,
 	}
-	_, err = NewClient("testInstance", configWithNegativeConcurrentRequests, nil)
+	_, err = NewClient("testInstance", configWithNegativeConcurrentRequests, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for negative MaxConcurrentRequests")
 
 	// Test with a negative TokenLifespan
 	configWithNegativeTokenLifespan := Config{
 		TokenLifespan: -1 * time.Minute,
 	}
-	_, err = NewClient("testInstance", configWithNegativeTokenLifespan, nil)
+	_, err = NewClient("testInstance", configWithNegativeTokenLifespan, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for negative TokenLifespan")
 
 	// Test with a negative TokenRefreshBufferPeriod
 	configWithNegativeTokenRefreshBufferPeriod := Config{
 		TokenRefreshBufferPeriod: -1 * time.Minute,
 	}
-	_, err = NewClient("testInstance", configWithNegativeTokenRefreshBufferPeriod, nil)
+	_, err = NewClient("testInstance", configWithNegativeTokenRefreshBufferPeriod, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for negative TokenRefreshBufferPeriod")
 
 	// Test with a negative TotalRetryDuration
 	configWithNegativeTotalRetryDuration := Config{
 		TotalRetryDuration: -1 * time.Second,
 	}
-	_, err = NewClient("testInstance", configWithNegativeTotalRetryDuration, nil)
+	_, err = NewClient("testInstance", configWithNegativeTotalRetryDuration, nil, c.HTTP.Logger)
 	assert.Error(err, "Expected error for negative TotalRetryDuration")
 }
 
@@ -175,7 +175,7 @@ func TestNewClientDefaultSettings(t *testing.T) {
 		// Only set the fields that are absolutely necessary
 		MaxRetryAttempts: 1,
 	}
-	client, err := NewClient("testInstance", config, nil)
+	client, err := NewClient("testInstance", config, nil, c.HTTP.Logger)
 
 	assert.NoError(err, "Client initialization with minimal config should not return an error")
 	assert.NotNil(client, "Expected client to be initialized")

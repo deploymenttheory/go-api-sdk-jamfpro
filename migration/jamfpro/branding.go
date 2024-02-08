@@ -16,7 +16,7 @@ func (c *Client) DownloadSelfServiceBrandingImage(imageID string) ([]byte, error
 	}
 
 	var out []byte
-	err := c.DoRequest("GET", uri, nil, nil, &out)
+	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
 
 	// Clear the custom header after the request is made
 	c.ExtraHeader = nil

@@ -321,7 +321,7 @@ func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacAppli
 func (c *Client) DeleteMacApplicationByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mac application", id, err)
 	}
@@ -337,7 +337,7 @@ func (c *Client) DeleteMacApplicationByID(id int) error {
 func (c *Client) DeleteMacApplicationByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriVPPMacApplications, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mac application", name, err)
 	}

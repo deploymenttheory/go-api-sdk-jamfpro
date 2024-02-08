@@ -79,7 +79,7 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolume
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingSubscriptions, id)
 
 	var subscription ResourceVolumePurchasingSubscription
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &subscription)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &subscription, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "volume purchasing subscription", id, err)
 	}
@@ -118,7 +118,7 @@ func (c *Client) CreateVolumePurchasingSubscription(subscription *ResourceVolume
 	}
 
 	var createdSubscription ResourceVolumePurchasingSubscription
-	resp, err := c.HTTP.DoRequest("POST", endpoint, subscription, &createdSubscription)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, subscription, &createdSubscription, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create volume purchasing subscription: %v", err)
 	}
@@ -135,7 +135,7 @@ func (c *Client) UpdateVolumePurchasingSubscriptionByID(id string, subscription 
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingSubscriptions, id)
 
 	var updatedSubscription ResourceVolumePurchasingSubscription
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, subscription, &updatedSubscription)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, subscription, &updatedSubscription, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update volume purchasing subscription with ID %s: %v", id, err)
 	}
@@ -166,7 +166,7 @@ func (c *Client) UpdateVolumePurchasingSubscriptionByName(name string, updateDat
 func (c *Client) DeleteVolumePurchasingSubscriptionByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingSubscriptions, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf("failed to delete volume purchasing subscription with ID %s: %v", id, err)
 	}

@@ -294,7 +294,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation stri
 func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device enrollment profile", id, err)
 	}
@@ -310,7 +310,7 @@ func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id int) error {
 func (c *Client) DeleteMobileDeviceEnrollmentProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceEnrollmentProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device enrollment profile", name, err)
 	}
@@ -326,7 +326,7 @@ func (c *Client) DeleteMobileDeviceEnrollmentProfileByName(name string) error {
 func (c *Client) DeleteMobileDeviceEnrollmentProfileByInvitation(invitation string) error {
 	endpoint := fmt.Sprintf("%s/invitation/%s", uriMobileDeviceEnrollmentProfiles, invitation)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByString, "mobile device enrollment profile", "invitation", invitation, err)
 	}

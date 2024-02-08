@@ -176,7 +176,7 @@ func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResourceNetwor
 // DeleteNetworkSegmentByID deletes a policy by its ID.
 func (c *Client) DeleteNetworkSegmentByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "network segment", id, err)
 	}
@@ -191,7 +191,7 @@ func (c *Client) DeleteNetworkSegmentByID(id int) error {
 // DeleteNetworkSegmentByName deletes a policy by its name.
 func (c *Client) DeleteNetworkSegmentByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriNetworkSegments, name)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "network segment", name, err)
 	}

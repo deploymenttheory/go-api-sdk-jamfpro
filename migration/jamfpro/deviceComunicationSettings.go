@@ -19,7 +19,7 @@ func (c *Client) GetDeviceCommunicationSettings() (*ResponseDeviceCommunicationS
 	uri := uriDeviceCommunicationSettings
 
 	var out ResponseDeviceCommunicationSettings
-	err := c.DoRequest("GET", uri, nil, nil, &out)
+	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get device communication settings: %v", err)
 	}
@@ -53,7 +53,7 @@ func (c *Client) UpdateDeviceCommunicationSettings(
 
 	var out ResponseDeviceCommunicationSettings
 	uri := uriDeviceCommunicationSettings
-	err := c.DoRequest("PUT", uri, in, nil, &out)
+	err := c.DoRequest("PUT", uri, in, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update device communication settings: %v", err)
 	}

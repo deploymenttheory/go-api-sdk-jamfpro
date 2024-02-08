@@ -102,7 +102,7 @@ func (c *Client) ObtainOAuthToken(credentials AuthConfig) error {
 
 // 	tokenRefreshEndpoint := c.ConstructAPIAuthEndpoint(OAuthTokenEndpoint)
 
-// 	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil)
+// 	req, err := http.NewRequest("POST", tokenRefreshEndpoint, nil, c.HTTP.Logger)
 // 	if err != nil {
 // 		c.logger.Error("Failed to create new request for OAuth token refresh", "error", err)
 // 		return err
@@ -141,7 +141,7 @@ func (c *Client) ObtainOAuthToken(credentials AuthConfig) error {
 // After invalidation, the token cannot be used for further API requests.
 func (c *Client) InvalidateOAuthToken() error {
 	invalidateTokenEndpoint := c.ConstructAPIAuthEndpoint(TokenInvalidateEndpoint)
-	req, err := http.NewRequest("POST", invalidateTokenEndpoint, nil)
+	req, err := http.NewRequest("POST", invalidateTokenEndpoint, nil, c.HTTP.Logger)
 	if err != nil {
 		return err
 	}

@@ -64,7 +64,7 @@ func (c *Client) GetDefaultCloudIdentityProvider() (*ResourceCloudIdpServer, err
 	endpoint := uriCloudIdentityProvider + "/defaults/server-configuration"
 
 	var defaultCloudIdPServer ResourceCloudIdpServer
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultCloudIdPServer)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultCloudIdPServer, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Azure Cloud IDP", err)
 	}
@@ -81,7 +81,7 @@ func (c *Client) GetCloudIdentityProviderByID(id string) (*ResourceCloudIdp, err
 	endpoint := fmt.Sprintf("%s/%s", uriCloudIdentityProvider, id)
 
 	var cloudIDP ResourceCloudIdp
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cloudIDP)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cloudIDP, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "Azure Cloud IDP", id, err)
 	}
@@ -98,7 +98,7 @@ func (c *Client) CreateCloudIdentityProvider(cloudIdP *ResourceCloudIdp) (*Respo
 	endpoint := uriCloudIdentityProvider
 
 	var responseCreateCloudIDP ResponseCloudIdpCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, cloudIdP, &responseCreateCloudIDP)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, cloudIdP, &responseCreateCloudIDP, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "Azure Cloud IDP", err)
 	}
@@ -115,7 +115,7 @@ func (c *Client) UpdateCloudIdentityProviderByID(id string, cloudIdPUpdate *Reso
 	endpoint := fmt.Sprintf("%s%s", uriCloudIdentityProvider, id)
 
 	var updatedCloudIDP ResourceCloudIdp
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, cloudIdPUpdate, &updatedCloudIDP) // or "PATCH" based on API
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, cloudIdPUpdate, &updatedCloudIDP, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "Azure Cloud IDP", id, err)
 	}
@@ -131,7 +131,7 @@ func (c *Client) UpdateCloudIdentityProviderByID(id string, cloudIdPUpdate *Reso
 func (c *Client) DeleteCloudIdentityProviderByID(id string) error {
 	endpoint := fmt.Sprintf("%s%s", uriCloudIdentityProvider, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "Azure Cloud IDP", id, err)
 	}
@@ -149,7 +149,7 @@ func (c *Client) GetCloudIdentityProviderDefaultServerMappings() (*CloudIdpServe
 	endpoint := uriCloudIdentityProvider + "defaults/mappings"
 
 	var defaultMappings CloudIdpServerSubsetCloudIdpServerMappings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultMappings)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultMappings, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Azure Cloud IDP Server Mappings", err)
 	}

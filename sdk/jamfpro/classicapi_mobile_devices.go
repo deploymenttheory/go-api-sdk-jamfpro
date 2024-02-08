@@ -384,7 +384,7 @@ func (c *Client) UpdateMobileDeviceByName(name string, attribute *ResourceMobile
 func (c *Client) DeleteMobileDeviceByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device", id, err)
 	}
@@ -400,7 +400,7 @@ func (c *Client) DeleteMobileDeviceByID(id int) error {
 func (c *Client) DeleteMobileDeviceByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDevices, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device", name, err)
 	}

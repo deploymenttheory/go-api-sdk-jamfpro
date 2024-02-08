@@ -142,7 +142,7 @@ func (c *Client) UpdateVPPAccountByID(id int, account *ResourceVPPAccount) (*Res
 func (c *Client) DeleteVPPAccountByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "vpp account", id, err)
 	}

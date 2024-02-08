@@ -267,7 +267,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device provisioning profile", id, err)
 	}
@@ -283,7 +283,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
 func (c *Client) DeleteMobileDeviceProvisioningProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device provisioning profile", name, err)
 	}
@@ -299,7 +299,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByName(name string) error 
 func (c *Client) DeleteMobileDeviceProvisioningProfileByUUID(uuid string) error {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}

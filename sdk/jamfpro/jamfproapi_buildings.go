@@ -93,7 +93,7 @@ func (c *Client) GetBuildingByID(id string) (*ResourceBuilding, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriBuildings, id)
 
 	var building ResourceBuilding
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &building)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &building, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "building", id, err)
 	}
@@ -126,7 +126,7 @@ func (c *Client) CreateBuilding(building *ResourceBuilding) (*ResponseBuildingCr
 	endpoint := uriBuildings
 
 	var responseBuildingCreate ResponseBuildingCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, building, &responseBuildingCreate)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, building, &responseBuildingCreate, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "building", err)
 	}
@@ -143,7 +143,7 @@ func (c *Client) UpdateBuildingByID(id string, buildingUpdate *ResourceBuilding)
 	endpoint := fmt.Sprintf("%s/%s", uriBuildings, id)
 
 	var updatedBuilding ResourceBuilding
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, buildingUpdate, &updatedBuilding)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, buildingUpdate, &updatedBuilding, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "building", id, err)
 	}
@@ -178,7 +178,7 @@ func (c *Client) UpdateBuildingByName(name string, buildingUpdate *ResourceBuild
 func (c *Client) DeleteBuildingByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriBuildings, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "buidling", id, err)
 	}
@@ -216,7 +216,7 @@ func (c *Client) DeleteMultipleBuildingsByID(ids []string) error {
 		IDs: ids,
 	}
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteMultiple, "buildings", ids, err)
 	}
@@ -259,7 +259,7 @@ func (c *Client) CreateBuildingResourceHistoryByID(id string, historyUpdate *Res
 	endpoint := fmt.Sprintf("%s/%s/history", uriBuildings, id)
 
 	var updatedHistory ResourceBuildingResourceHistory
-	resp, err := c.HTTP.DoRequest("POST", endpoint, historyUpdate, &updatedHistory)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, historyUpdate, &updatedHistory, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "building histories", id, err)
 	}

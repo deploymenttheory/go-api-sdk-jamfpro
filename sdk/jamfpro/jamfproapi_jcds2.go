@@ -46,7 +46,7 @@ type UploadProgressPercentage struct {
 func (c *Client) GetJCDS2Packages() ([]JCDSFileListItem, error) {
 	endpoint := uriJCDS2 + "/files"
 	var out []JCDSFileListItem // Changed to a slice of JCDSFileListItem
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
 	}
@@ -62,7 +62,7 @@ func (c *Client) GetJCDS2Packages() ([]JCDSFileListItem, error) {
 func (c *Client) GetJCDS2PackageByName(id string) (*JCDSFileListItem, error) {
 	endpoint := fmt.Sprintf("%s/%v", uriJCDS2+"/files", id)
 	var out JCDSFileListItem
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "JCDS 2.0", id, err)
@@ -80,7 +80,7 @@ func (c *Client) CreateJCDS2Package(JCDSpackage *JCDSFileListItem) (*JCDSFileLis
 	endpoint := uriJCDS2 + "/files"
 	var ResponseJCDSPackageCreate JCDSFileListItem
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, JCDSpackage, &ResponseJCDSPackageCreate)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, JCDSpackage, &ResponseJCDSPackageCreate, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "JCDS 2.0", err)
 	}
@@ -96,7 +96,7 @@ func (c *Client) CreateJCDS2Package(JCDSpackage *JCDSFileListItem) (*JCDSFileLis
 func (c *Client) RenewJCDS2Credentials() (*ResponseJCDSUploadCredentials, error) {
 	endpoint := uriJCDS2 + "/renew-credentials"
 	var out ResponseJCDSUploadCredentials
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
 	}

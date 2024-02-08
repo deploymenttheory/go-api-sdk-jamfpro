@@ -44,7 +44,7 @@ func (c *Client) GetDockItems() (*ResponseDockItemsList, error) {
 	endpoint := uriDockItems
 
 	var dockItems ResponseDockItemsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItems)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItems, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "dock items", err)
 	}
@@ -61,7 +61,7 @@ func (c *Client) GetDockItemByID(id int) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
 	var dockItem ResourceDockItem
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "dock item", id, err)
 	}
@@ -78,7 +78,7 @@ func (c *Client) GetDockItemByName(name string) (*ResourceDockItem, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
 	var dockItem ResourceDockItem
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "dock item", name, err)
 	}
@@ -102,7 +102,7 @@ func (c *Client) CreateDockItem(dockItem *ResourceDockItem) (*ResourceDockItem, 
 	}
 
 	var createdDockItem ResourceDockItem
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDockItem)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDockItem, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "dock item", err)
 	}
@@ -126,7 +126,7 @@ func (c *Client) UpdateDockItemByID(id int, dockItem *ResourceDockItem) (*Resour
 	}
 
 	var updatedDockItem ResourceDockItem
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDockItem)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDockItem, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "dock item", id, err)
 	}
@@ -150,7 +150,7 @@ func (c *Client) UpdateDockItemByName(name string, dockItem *ResourceDockItem) (
 	}
 
 	var updatedDockItem ResourceDockItem
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDockItem)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDockItem, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "dock item", name, err)
 	}
@@ -166,7 +166,7 @@ func (c *Client) UpdateDockItemByName(name string, dockItem *ResourceDockItem) (
 func (c *Client) DeleteDockItemByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "dock item", id, err)
 	}
@@ -182,7 +182,7 @@ func (c *Client) DeleteDockItemByID(id int) error {
 func (c *Client) DeleteDockItemByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDockItems, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "dock item", name, err)
 	}

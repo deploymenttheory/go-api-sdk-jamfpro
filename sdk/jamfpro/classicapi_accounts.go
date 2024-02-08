@@ -85,7 +85,7 @@ func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
 	endpoint := uriAPIAccounts
 
 	var accountsList ResponseAccountsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountsList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountsList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "accounts", err)
 	}
@@ -102,7 +102,7 @@ func (c *Client) GetAccountByID(id int) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
 	var account ResourceAccount
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "account", id, err)
 	}
@@ -119,7 +119,7 @@ func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
 	var account ResourceAccount
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "account", name, err)
 	}
@@ -154,7 +154,7 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 	}
 
 	var returnedAccount ResponseAccountCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccount)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, &returnedAccount, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "account", err)
 	}
@@ -185,7 +185,7 @@ func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResponseA
 	}
 
 	var updatedAccount ResponseAccountCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "account", id, err)
 	}
@@ -216,7 +216,7 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 	}
 
 	var updatedAccount ResponseAccountCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedAccount, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "account", name, err)
 	}
@@ -232,7 +232,7 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 func (c *Client) DeleteAccountByID(id int) error {
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "account", id, err)
 	}
@@ -248,7 +248,7 @@ func (c *Client) DeleteAccountByID(id int) error {
 func (c *Client) DeleteAccountByName(name string) error {
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "account", name, err)
 	}

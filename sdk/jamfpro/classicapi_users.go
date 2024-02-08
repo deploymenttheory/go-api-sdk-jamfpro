@@ -253,7 +253,7 @@ func (c *Client) UpdateUserByEmail(email string, updatedUser *ResourceUser) (*Re
 // DeleteUserByID deletes a user by their ID.
 func (c *Client) DeleteUserByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user", id, err)
 	}
@@ -268,7 +268,7 @@ func (c *Client) DeleteUserByID(id int) error {
 // DeleteUserByName deletes a user by their name.
 func (c *Client) DeleteUserByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "user", name, err)
 	}
@@ -283,7 +283,7 @@ func (c *Client) DeleteUserByName(name string) error {
 // DeleteUserByEmail deletes a user by their email.
 func (c *Client) DeleteUserByEmail(email string) error {
 	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByEmail, "user", email, err)
 	}

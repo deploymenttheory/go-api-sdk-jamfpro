@@ -177,7 +177,7 @@ func (c *Client) UpdateScriptByName(name string, script *ResponseScript) (*Respo
 func (c *Client) DeleteScriptByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriScripts, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf("failed to delete script by ID: %v", err)
 	}
@@ -193,7 +193,7 @@ func (c *Client) DeleteScriptByID(id int) error {
 func (c *Client) DeleteScriptByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriScripts, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf("failed to delete script by name: %v", err)
 	}

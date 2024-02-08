@@ -29,7 +29,7 @@ func main() {
 		LogLevel: logLevel,
 	}
 
-	client, err := jamfpro.NewClient(config)
+	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}

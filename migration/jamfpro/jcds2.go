@@ -149,7 +149,7 @@ func (c *Client) CheckExistingPackageInJCDS(pkgName string, pkgPath string) (boo
 
 	// Step 6 - Delete existing package and upload the new one
 	deleteURL := fmt.Sprintf("%s/%s", uriAPIJCDSFiles, pkgName)
-	if err := c.DoRequest("DELETE", deleteURL, nil, nil, nil); err != nil {
+	if err := c.DoRequest("DELETE", deleteURL, nil, nil, nil, c.HTTP.Logger); err != nil {
 		return false, fmt.Errorf("failed to delete existing package in JCDS: %v", err)
 	}
 	fmt.Println("Existing package deleted from JCDS")
@@ -222,7 +222,7 @@ func (c *Client) UploadPackageMetadataToJamfPro(pkgName string, pkgID int) error
 	if pkgID > 0 {
 		reqType = "PUT"
 	}
-	if err := c.DoRequest(reqType, fmt.Sprintf("/JSSResource/packages/id/%d", pkgID), pkgData, nil, nil); err != nil {
+	if err := c.DoRequest(reqType, fmt.Sprintf("/JSSResource/packages/id/%d", pkgID), pkgData, nil, nil, c.HTTP.Logger); err != nil {
 		return fmt.Errorf("failed to upload package metadata: %v", err)
 	}
 	return nil

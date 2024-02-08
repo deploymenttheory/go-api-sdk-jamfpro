@@ -67,7 +67,7 @@ func (c *Client) GetDistributionPoints() (*ResponseDistributionPointsList, error
 	endpoint := uriDistributionPoints
 
 	var distributionPoints ResponseDistributionPointsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoints)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoints, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "distribution points", err)
 	}
@@ -84,7 +84,7 @@ func (c *Client) GetDistributionPointByID(id int) (*ResourceFileShareDistributio
 	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
 
 	var distributionPoint ResourceFileShareDistributionPoint
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "distribution point", id, err)
 	}
@@ -101,7 +101,7 @@ func (c *Client) GetDistributionPointByName(name string) (*ResourceFileShareDist
 	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
 
 	var distributionPoint ResourceFileShareDistributionPoint
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "distribution point", name, err)
 	}
@@ -126,7 +126,7 @@ func (c *Client) CreateDistributionPoint(dp *ResourceFileShareDistributionPoint)
 	}
 
 	var createdDistributionPoint ResourceFileShareDistributionPoint
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDistributionPoint)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdDistributionPoint, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "distribution point", err)
 	}
@@ -150,7 +150,7 @@ func (c *Client) UpdateDistributionPointByID(id int, dp *ResourceFileShareDistri
 	}
 
 	var updatedDistributionPoint ResourceFileShareDistributionPoint
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "distribution point", id, err)
 	}
@@ -174,7 +174,7 @@ func (c *Client) UpdateDistributionPointByName(name string, dp *ResourceFileShar
 	}
 
 	var updatedDistributionPoint ResourceFileShareDistributionPoint
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedDistributionPoint, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "distribution point", name, err)
 	}
@@ -190,7 +190,7 @@ func (c *Client) UpdateDistributionPointByName(name string, dp *ResourceFileShar
 func (c *Client) DeleteDistributionPointByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "distribution point", id, err)
 	}
@@ -206,7 +206,7 @@ func (c *Client) DeleteDistributionPointByID(id int) error {
 func (c *Client) DeleteDistributionPointByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDistributionPoints, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "distribution point", name, err)
 	}

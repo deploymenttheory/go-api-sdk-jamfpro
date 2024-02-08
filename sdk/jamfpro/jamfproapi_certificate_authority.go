@@ -43,7 +43,7 @@ func (c *Client) GetActiveCertificateAuthority() (*ResponseActiveCertificateAuth
 	endpoint := fmt.Sprintf("%s/active", uriCertificateAuthority)
 
 	var certAuth ResponseActiveCertificateAuthority
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &certAuth)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &certAuth, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "certificate authority", err)
 	}

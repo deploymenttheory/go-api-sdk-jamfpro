@@ -246,7 +246,7 @@ func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *Res
 func (c *Client) DeleteLicensedSoftwareByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "licensed software", id, err)
 	}
@@ -262,7 +262,7 @@ func (c *Client) DeleteLicensedSoftwareByID(id int) error {
 func (c *Client) DeleteLicensedSoftwareByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriLicensedSoftware, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "licensed software", name, err)
 	}

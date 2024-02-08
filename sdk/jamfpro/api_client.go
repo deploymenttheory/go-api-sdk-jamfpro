@@ -8,8 +8,8 @@ type Client struct {
 	HTTP *httpclient.Client
 }
 
-func NewClient(config httpclient.Config) (*Client, error) {
-	client, err := httpclient.NewClient(config)
+func BuildClient(config httpclient.Config) (*Client, error) {
+	client, err := httpclient.BuildClient(config)
 	if err != nil {
 		return nil, err
 	}

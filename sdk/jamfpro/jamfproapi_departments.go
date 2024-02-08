@@ -64,7 +64,7 @@ func (c *Client) GetDepartments(sort_filter string) (*ResponseDepartmentsList, e
 func (c *Client) GetDepartmentByID(id string) (*ResourceDepartment, error) {
 	endpoint := fmt.Sprintf("%s/%v", uriDepartments, id)
 	var out ResourceDepartment
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "department", id, err)
@@ -98,7 +98,7 @@ func (c *Client) CreateDepartment(department *ResourceDepartment) (*ResponseDepa
 	endpoint := uriDepartments
 	var out ResponseDepartmentCreate
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, department, &out)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, department, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "department", err)
 	}
@@ -116,7 +116,7 @@ func (c *Client) UpdateDepartmentByID(id string, departmentUpdate *ResourceDepar
 	endpoint := fmt.Sprintf("%s/%s", uriDepartments, id)
 	var out ResourceDepartment
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, departmentUpdate, &out)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, departmentUpdate, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "department", id, err)
 	}
@@ -150,7 +150,7 @@ func (c *Client) UpdateDepartmentByName(targetName string, departmentUpdate *Res
 // DeleteDepartmentByID Deletes department with given id
 func (c *Client) DeleteDepartmentByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriDepartments, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 
 	if err != nil || resp.StatusCode != 204 {
 		return fmt.Errorf(errMsgFailedDeleteByID, "department", id, err)

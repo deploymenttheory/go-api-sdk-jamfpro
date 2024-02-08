@@ -60,7 +60,7 @@ func plistDataToStruct(plistBytes []byte) (*ConfigurationProfile, error) {
 	}
 
 	var out ConfigurationProfile
-	err = mapstructure.Decode(unmarshalledPlist, &out)
+	err = mapstructure.Decode(unmarshalledPlist, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("(mapstructure) failed to map unmarshaled configuration profile to struct: %v", err)
 	}

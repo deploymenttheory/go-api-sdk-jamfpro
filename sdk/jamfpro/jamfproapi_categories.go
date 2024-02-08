@@ -65,7 +65,7 @@ func (c *Client) GetCategoryByID(id string) (*ResourceCategory, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
 
 	var category ResourceCategory
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &category)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &category, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "categories", id, err)
 	}
@@ -98,7 +98,7 @@ func (c *Client) CreateCategory(category *ResourceCategory) (*ResourceCategory, 
 	endpoint := uriCategories
 
 	var response ResourceCategory
-	resp, err := c.HTTP.DoRequest("POST", endpoint, category, &response)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, category, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "category", err)
 	}
@@ -115,7 +115,7 @@ func (c *Client) UpdateCategoryByID(id string, categoryUpdate *ResourceCategory)
 	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
 
 	var response ResourceCategory
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, categoryUpdate, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, categoryUpdate, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "category", id, err)
 	}
@@ -148,7 +148,7 @@ func (c *Client) UpdateCategoryByName(name string, categoryUpdate *ResourceCateg
 func (c *Client) DeleteCategoryByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "category", id, err)
 	}
@@ -188,7 +188,7 @@ func (c *Client) DeleteMultipleCategoriesByID(ids []string) error {
 		IDs: ids,
 	}
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteMultiple, "categories", ids, err)
 	}

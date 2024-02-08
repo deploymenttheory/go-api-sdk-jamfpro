@@ -77,7 +77,7 @@ func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearche
 	endpoint := uriAPIAdvancedComputerSearches
 
 	var searchesList ResponseAdvancedComputerSearchesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchesList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchesList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "advance computer searches", err)
 	}
@@ -94,7 +94,7 @@ func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedCompute
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
 	var search ResourceAdvancedComputerSearch
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "advance computer search", id, err)
 	}
@@ -111,7 +111,7 @@ func (c *Client) GetAdvancedComputerSearchByName(name string) (*ResourceAdvanced
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
 	var search ResourceAdvancedComputerSearch
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "advance computer search", name, err)
 	}
@@ -140,7 +140,7 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSe
 	}
 
 	var createdSearch ResponseAdvancedComputerSearchCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "advance computer search", err)
 	}
@@ -164,7 +164,7 @@ func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvanc
 	}
 
 	var updatedSearch ResponseAdvancedComputerSearchCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "advance computer search", id, err)
 	}
@@ -188,7 +188,7 @@ func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *Resourc
 	}
 
 	var updatedSearch ResponseAdvancedComputerSearchCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "advance computer search", name, err)
 	}
@@ -204,7 +204,7 @@ func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *Resourc
 func (c *Client) DeleteAdvancedComputerSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "advance computer search", id, err)
 	}
@@ -220,7 +220,7 @@ func (c *Client) DeleteAdvancedComputerSearchByID(id int) error {
 func (c *Client) DeleteAdvancedComputerSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "advance computer search", name, err)
 	}

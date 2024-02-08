@@ -70,7 +70,7 @@ func (c *Client) GetComputerInvitations() (*ResponseComputerInvitationsList, err
 	endpoint := uriComputerInvitations
 
 	var invitations ResponseComputerInvitationsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitations)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitations, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "computer invitations", err)
 	}
@@ -88,7 +88,7 @@ func (c *Client) GetComputerInvitationByID(id int) (*ResourceComputerInvitation,
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
 
 	var invitation ResourceComputerInvitation
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer invitation", id, err)
 	}
@@ -105,7 +105,7 @@ func (c *Client) GetComputerInvitationByInvitationID(id int) (*ResourceComputerI
 	endpoint := fmt.Sprintf("%s/invitation/%d", uriComputerInvitations, id)
 
 	var invitation ResourceComputerInvitation
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer invitation", id, err)
 	}
@@ -134,7 +134,7 @@ func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation
 	}
 
 	var createdInvitation ResourceComputerInvitation
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdInvitation)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdInvitation, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer invitation", err)
 	}
@@ -150,7 +150,7 @@ func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation
 func (c *Client) DeleteComputerInvitationByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer invitation", id, err)
 	}

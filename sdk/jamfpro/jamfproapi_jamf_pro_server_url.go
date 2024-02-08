@@ -23,7 +23,7 @@ func (c *Client) GetJamfProServerUrlSettings() (*ResourceJamfProServerURL, error
 	endpoint := uriJamfProServerUrl
 	var out ResourceJamfProServerURL
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf pro server url settings", err)
 	}
@@ -40,7 +40,7 @@ func (c *Client) UpdateJamfProServerUrlSettings(updatedSettings ResourceJamfProS
 	endpoint := uriJamfProServerUrl
 	var out ResourceJamfProServerURL
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf pro server url settings", err)
 	}

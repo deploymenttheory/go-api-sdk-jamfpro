@@ -565,7 +565,7 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory
 
 	// Fetch the computer inventory by ID
 	var responseInventory ResourceComputerInventory
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseInventory)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseInventory, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer inventory", id, err)
 	}
@@ -598,7 +598,7 @@ func (c *Client) UpdateComputerInventoryByID(id string, inventoryUpdate *Resourc
 	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
 
 	var updatedInventory ResourceComputerInventory
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, inventoryUpdate, &updatedInventory)
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, inventoryUpdate, &updatedInventory, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer inventory", id, err)
 	}
@@ -614,7 +614,7 @@ func (c *Client) UpdateComputerInventoryByID(id string, inventoryUpdate *Resourc
 func (c *Client) DeleteComputerInventoryByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer-iventory", id, err)
 	}
@@ -658,7 +658,7 @@ func (c *Client) GetComputerFileVaultInventoryByID(id string) (*FileVaultInvento
 	endpoint := fmt.Sprintf("%s/%s/filevault", uriComputersInventory, id)
 
 	var fileVaultInventory FileVaultInventory
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &fileVaultInventory)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &fileVaultInventory, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "file value inventory", id, err)
 	}
@@ -675,7 +675,7 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 	endpoint := fmt.Sprintf("%s/%s/view-recovery-lock-password", uriComputersInventory, id)
 
 	var recoveryLockPasswordResponse ResponseRecoveryLockPassword
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &recoveryLockPasswordResponse)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &recoveryLockPasswordResponse, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "recovery lock password", id, err)
 	}
@@ -702,7 +702,7 @@ func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*
 	var uploadResponse ResponseUploadAttachment
 
 	// Call DoMultipartRequest with the method, endpoint, files, and the response struct
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse)
+	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload attachment and assign to computer: %v", err)
 	}
@@ -722,7 +722,7 @@ func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID stri
 	endpoint := fmt.Sprintf("%s/%s/attachments/%s", uriComputersInventory, computerID, attachmentID)
 
 	// Make a DELETE request to the endpoint
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf("failed to delete attachment: %v", err)
 	}

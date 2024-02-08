@@ -56,7 +56,7 @@ func (c *Client) GetDiskEncryptionConfigurations() (*ResponseDiskEncryptionConfi
 	endpoint := uriDiskEncryptionConfigurations
 
 	var configurations ResponseDiskEncryptionConfigurationsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configurations)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configurations, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "disk encryption configurations", err)
 	}
@@ -73,7 +73,7 @@ func (c *Client) GetDiskEncryptionConfigurationByID(id int) (*ResourceDiskEncryp
 	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
 
 	var configuration ResourceDiskEncryptionConfiguration
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "disk encryption configuration", id, err)
 	}
@@ -90,7 +90,7 @@ func (c *Client) GetDiskEncryptionConfigurationByName(name string) (*ResourceDis
 	endpoint := fmt.Sprintf("%s/name/%s", uriDiskEncryptionConfigurations, name)
 
 	var configuration ResourceDiskEncryptionConfiguration
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "disk encryption configuration", name, err)
 	}
@@ -114,7 +114,7 @@ func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptio
 	}
 
 	var createdConfig ResponseDiskEncryptionConfigurationCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdConfig)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdConfig, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "disk encryption configuration", err)
 	}
@@ -138,7 +138,7 @@ func (c *Client) UpdateDiskEncryptionConfigurationByID(id int, config *ResourceD
 	}
 
 	var updatedConfig ResponseDiskEncryptionConfigurationCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "disk encryption configuration", id, err)
 	}
@@ -162,7 +162,7 @@ func (c *Client) UpdateDiskEncryptionConfigurationByName(name string, config *Re
 	}
 
 	var updatedConfig ResourceDiskEncryptionConfiguration
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedConfig, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "disk encryption configuration", name, err)
 	}
@@ -178,7 +178,7 @@ func (c *Client) UpdateDiskEncryptionConfigurationByName(name string, config *Re
 func (c *Client) DeleteDiskEncryptionConfigurationByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "disk encryption configuration", id, err)
 	}
@@ -194,7 +194,7 @@ func (c *Client) DeleteDiskEncryptionConfigurationByID(id int) error {
 func (c *Client) DeleteDiskEncryptionConfigurationByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDiskEncryptionConfigurations, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "disk encryption configuration", name, err)
 	}

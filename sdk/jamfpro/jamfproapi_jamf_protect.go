@@ -29,7 +29,7 @@ type ResourceJamfProtectIntegrationSettings struct {
 func (c *Client) GetJamfProtectIntegrationSettings() (*ResourceJamfProtectIntegrationSettings, error) {
 	endpoint := uriJamfProtect
 	var out ResourceJamfProtectIntegrationSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf protect integration settings", err)
@@ -46,7 +46,7 @@ func (c *Client) UpdateJamfProtectIntegrationSettings(updatedSettings ResourceJa
 	// TODO - Figure out if we can update everything here or just the bool
 	endpoint := uriJamfProtect
 	var out ResourceJamfProtectIntegrationSettings
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out, c.HTTP.Logger)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "jamf protect integration settings", err)
@@ -63,7 +63,7 @@ func (c *Client) UpdateJamfProtectIntegrationSettings(updatedSettings ResourceJa
 func (c *Client) DeleteJamfProtectIntegration() error {
 	endpoint := uriJamfProtect
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDelete, "jamf protect integration", err)
 	}

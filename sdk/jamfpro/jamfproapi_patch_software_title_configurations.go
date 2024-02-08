@@ -58,7 +58,7 @@ type PatchSoftwareTitleConfigurationSubsetPackage struct {
 func (c *Client) GetPatchSoftwareTitleConfigurations() (*ResponsePatchSoftwareTitleConfigurationList, error) {
 	endpoint := uriPatchSoftwareTitleConfigurations
 	var out ResponsePatchSoftwareTitleConfigurationList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "patch software title configurations", err)
 	}
@@ -75,7 +75,7 @@ func (c *Client) GetPatchSoftwareTitleConfigurations() (*ResponsePatchSoftwareTi
 func (c *Client) GetPatchSoftwareTitleConfigurationById(id string) (*ResourcePatchSoftwareTitleConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
 	var out ResourcePatchSoftwareTitleConfiguration
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "patch software title configuration", id, err)
 	}
@@ -107,7 +107,7 @@ func (c *Client) GetPatchSoftwareTitleConfigurationByName(name string) (*Resourc
 func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
 	endpoint := uriPatchSoftwareTitleConfigurations
 	var out ResponsePatchSoftwareTitleConfigurationCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, configuration, &out)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, configuration, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "patch software title configuration", err)
 	}
@@ -123,7 +123,7 @@ func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePat
 func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedConfiguration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
 	var out ResponsePatchSoftwareTitleConfigurationCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, updatedConfiguration, &out)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, updatedConfiguration, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "patch software title configuration", err)
 	}
@@ -138,7 +138,7 @@ func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedCon
 // DeletePatchSoftwareTitleConfigurationById deletes a PatchSoftwareTitleConfiguration with given ID
 func (c *Client) DeletePatchSoftwareTitleConfigurationById(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "patch software title configuration", id, err)
 	}

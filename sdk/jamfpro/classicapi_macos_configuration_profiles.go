@@ -346,7 +346,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mac os config profile", id, err)
 	}
@@ -362,7 +362,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 func (c *Client) DeleteMacOSConfigurationProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mac os config profile", name, err)
 	}

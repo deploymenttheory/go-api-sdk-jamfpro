@@ -157,7 +157,7 @@ func (c *Client) UpdateSiteByName(name string, site *SharedResourceSite) (*Share
 func (c *Client) DeleteSiteByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "site", id, err)
 	}
@@ -173,7 +173,7 @@ func (c *Client) DeleteSiteByID(id int) error {
 func (c *Client) DeleteSiteByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSites, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "site", name, err)
 	}

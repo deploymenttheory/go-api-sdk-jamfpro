@@ -34,7 +34,7 @@ func (c *Client) GetAllowedFileExtensions() (*ResponseAllowedFileExtensionsList,
 	endpoint := uriAPIAllowedFileExtensions
 
 	var allowedExtensionsList ResponseAllowedFileExtensionsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &allowedExtensionsList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &allowedExtensionsList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "allowed file extension", err)
 	}
@@ -51,7 +51,7 @@ func (c *Client) GetAllowedFileExtensionByID(id int) (*ResourceAllowedFileExtens
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAllowedFileExtensions, id)
 
 	var extension ResourceAllowedFileExtension
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "allowed file extension", id, err)
 	}
@@ -68,7 +68,7 @@ func (c *Client) GetAllowedFileExtensionByName(name string) (*ResourceAllowedFil
 	endpoint := fmt.Sprintf("%s/extension/%s", uriAPIAllowedFileExtensions, name)
 
 	var extension ResourceAllowedFileExtension
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "allowed file extension", name, err)
 	}
@@ -93,7 +93,7 @@ func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtens
 	}
 
 	var responseExtension ResourceAllowedFileExtension
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseExtension)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseExtension, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "allowed file extension", err)
 	}
@@ -109,7 +109,7 @@ func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtens
 func (c *Client) DeleteAllowedFileExtensionByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAllowedFileExtensions, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "allowed file extension", id, err)
 	}

@@ -174,7 +174,7 @@ func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *Reso
 func (c *Client) DeleteUserExtensionAttributeByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user extension attribute", id, err)
 	}
@@ -190,7 +190,7 @@ func (c *Client) DeleteUserExtensionAttributeByID(id int) error {
 func (c *Client) DeleteUserExtensionAttributeByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserExtensionAttributes, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "user extension attribute", name, err)
 	}

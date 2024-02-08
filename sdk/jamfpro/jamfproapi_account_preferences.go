@@ -51,7 +51,7 @@ func (c *Client) GetAccountPreferences() (*ResourceAccountPreferences, error) {
 	endpoint := uriAccountPreferences
 
 	var accountPreferences ResourceAccountPreferences
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountPreferences)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &accountPreferences, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Account Preferences", err)
 	}
@@ -68,7 +68,7 @@ func (c *Client) UpdateAccountPreferences(updatedSettings ResourceAccountPrefere
 	endpoint := uriUserEnrollmentTokenSettings
 	var out ResourceAccountPreferences
 
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, updatedSettings, &out)
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, updatedSettings, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "Account Preferences", err)
 	}

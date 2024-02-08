@@ -85,7 +85,7 @@ func setupJamfProClientWithBootstrapAccount() (*jamfpro.Client, error) {
 	}
 
 	// Create a new jamfpro client instance
-	Client, err := jamfpro.NewClient(config)
+	Client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro bootstrap client: %v", err)
 	}

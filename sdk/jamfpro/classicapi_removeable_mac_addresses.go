@@ -153,7 +153,7 @@ func (c *Client) UpdateRemovableMACAddressByName(name string, macAddress *Resour
 func (c *Client) DeleteRemovableMACAddressByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "removeable macaddress", id, err)
 	}
@@ -169,7 +169,7 @@ func (c *Client) DeleteRemovableMACAddressByID(id int) error {
 func (c *Client) DeleteRemovableMACAddressByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRemovableMacAddresses, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "removeable macaddress", name, err)
 	}

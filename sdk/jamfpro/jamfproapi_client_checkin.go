@@ -31,7 +31,7 @@ func (c *Client) GetClientCheckinSettings() (*ResourceClientCheckinSettings, err
 	endpoint := UriClientCheckinSettings
 
 	var out ResourceClientCheckinSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "client checkin settings", err)
 	}
@@ -47,7 +47,7 @@ func (c *Client) UpdateClientCheckinSettings(settingsUpdate ResourceClientChecki
 	endpoint := UriClientCheckinSettings
 
 	var out ResourceClientCheckinSettings
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, settingsUpdate, &out)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, settingsUpdate, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "client checkin settings", err)
 	}

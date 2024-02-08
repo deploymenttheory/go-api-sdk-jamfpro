@@ -59,7 +59,7 @@ func (c *Client) GetDefaultCloudIdentityProviderDefaultMappings(providerName str
 	endpoint := fmt.Sprintf("%s/%s/mappings", uriCloudLdaps, providerName)
 	var out ResponseCloudIdentityProviderDefaultMappings
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "cloud identity provider default mappings", err)
 	}

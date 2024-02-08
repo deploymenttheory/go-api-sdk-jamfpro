@@ -187,7 +187,7 @@ func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup
 // DeleteUserGroupByID deletes a user group by its ID.
 func (c *Client) DeleteUserGroupByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user group", id, err)
 	}
@@ -202,7 +202,7 @@ func (c *Client) DeleteUserGroupByID(id int) error {
 // DeleteUserGroupByName deletes a user group by its name.
 func (c *Client) DeleteUserGroupByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserGroups, name)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "user group", name, err)
 	}

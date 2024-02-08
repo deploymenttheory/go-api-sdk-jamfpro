@@ -48,7 +48,7 @@ func (c *Client) GetDashboard() (*ResponseDashboard, error) {
 	uri := uriDashboard
 
 	var out ResponseDashboard
-	err := c.DoRequest("GET", uri, nil, nil, &out)
+	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get dashboard details: %v", err)
 	}

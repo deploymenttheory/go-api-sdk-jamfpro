@@ -367,7 +367,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device configuration profile", id, err)
 	}
@@ -383,7 +383,7 @@ func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id int) error {
 func (c *Client) DeleteMobileDeviceConfigurationProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceConfigurationProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device configuration profile", name, err)
 	}
