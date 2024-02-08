@@ -66,7 +66,7 @@ func (c *Client) GetUserGroups() (*ResponseUserGroupsList, error) {
 	endpoint := uriUserGroups
 
 	var userGroupsList ResponseUserGroupsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupsList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupsList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "user groups", err)
 	}
@@ -83,7 +83,7 @@ func (c *Client) GetUserGroupByID(id int) (*ResourceUserGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
 
 	var userGroupDetail ResourceUserGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupDetail)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupDetail, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "user group", id, err)
 	}
@@ -100,7 +100,7 @@ func (c *Client) GetUserGroupByName(name string) (*ResourceUserGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserGroups, name)
 
 	var userGroupDetail ResourceUserGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupDetail)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupDetail, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "user group", name, err)
 	}
@@ -124,7 +124,7 @@ func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGro
 	}
 
 	var createdUserGroup ResourceUserGroup
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUserGroup)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUserGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "user group", err)
 	}
@@ -148,7 +148,7 @@ func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*Res
 	}
 
 	var updatedUserGroup ResourceUserGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "user group", id, err)
 	}
@@ -172,7 +172,7 @@ func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup
 	}
 
 	var updatedUserGroup ResourceUserGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "user group", name, err)
 	}

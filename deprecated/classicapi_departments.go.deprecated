@@ -109,7 +109,7 @@ func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartment, e
 	}
 
 	var response ResponseDepartment
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create department: %v", err)
 	}

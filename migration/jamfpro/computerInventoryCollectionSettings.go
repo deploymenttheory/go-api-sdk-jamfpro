@@ -78,7 +78,7 @@ func (c *Client) CreateComputerInventoryCustomPathCollection(scope, path string)
 	}
 
 	var response ResponseCustomPathCreation
-	err := c.DoRequest("POST", uri, requestPayload, nil, &response)
+	err := c.DoRequest("POST", uri, requestPayload, nil, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create computer inventory collection custom path: %v", err)
 	}

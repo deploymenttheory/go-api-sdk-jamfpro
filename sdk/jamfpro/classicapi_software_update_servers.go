@@ -44,7 +44,7 @@ func (c *Client) GetSoftwareUpdateServers() (*ResponseSoftwareUpdateServersList,
 	endpoint := uriSoftwareUpdateServers
 
 	var response ResponseSoftwareUpdateServersList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "software update servers", err)
 	}
@@ -61,7 +61,7 @@ func (c *Client) GetSoftwareUpdateServerByID(id int) (*ResourceSoftwareUpdateSer
 	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
 
 	var response ResourceSoftwareUpdateServer
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "software update server", id, err)
 	}
@@ -78,7 +78,7 @@ func (c *Client) GetSoftwareUpdateServerByName(name string) (*ResourceSoftwareUp
 	endpoint := fmt.Sprintf("%s/name/%s", uriSoftwareUpdateServers, name)
 
 	var response ResourceSoftwareUpdateServer
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "software update server", name, err)
 	}
@@ -102,7 +102,7 @@ func (c *Client) CreateSoftwareUpdateServer(server *ResourceSoftwareUpdateServer
 	}
 
 	var response ResourceSoftwareUpdateServer
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "software update server", err)
 	}
@@ -126,7 +126,7 @@ func (c *Client) UpdateSoftwareUpdateServerByID(id int, server *ResourceSoftware
 	}
 
 	var response ResourceSoftwareUpdateServer
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "software update server", id, err)
 	}
@@ -150,7 +150,7 @@ func (c *Client) UpdateSoftwareUpdateServerByName(name string, server *ResourceS
 	}
 
 	var response ResourceSoftwareUpdateServer
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "software update server", name, err)
 	}

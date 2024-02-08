@@ -278,7 +278,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return 0, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
 	}
@@ -304,7 +304,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMa
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return 0, fmt.Errorf(errMsgFailedUpdateByID, "mac os config profile", id, err)
 	}
@@ -330,7 +330,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return 0, fmt.Errorf(errMsgFailedUpdateByName, "mac os config profile", name, err)
 	}

@@ -91,7 +91,7 @@ func (c *Client) GetUsers() (*ResponseUsersList, error) {
 	endpoint := uriUsers
 
 	var usersList ResponseUsersList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &usersList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &usersList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "users", err)
 	}
@@ -108,7 +108,7 @@ func (c *Client) GetUserByID(id int) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
 
 	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "user", id, err)
 	}
@@ -125,7 +125,7 @@ func (c *Client) GetUserByName(name string) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
 
 	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "user", name, err)
 	}
@@ -142,7 +142,7 @@ func (c *Client) GetUserByEmail(email string) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
 
 	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByEmail, "user", email, err)
 	}
@@ -166,7 +166,7 @@ func (c *Client) CreateUser(newUser *ResourceUser) (*ResourceUser, error) {
 	}
 
 	var createdUser ResourceUser
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUser)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUser, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "user", err)
 	}
@@ -190,7 +190,7 @@ func (c *Client) UpdateUserByID(id int, updatedUser *ResourceUser) (*ResourceUse
 	}
 
 	var user ResourceUser
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "user", id, err)
 	}
@@ -214,7 +214,7 @@ func (c *Client) UpdateUserByName(name string, updatedUser *ResourceUser) (*Reso
 	}
 
 	var user ResourceUser
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "user", name, err)
 	}
@@ -238,7 +238,7 @@ func (c *Client) UpdateUserByEmail(email string, updatedUser *ResourceUser) (*Re
 	}
 
 	var user ResourceUser
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByEmail, "user", email, err)
 	}

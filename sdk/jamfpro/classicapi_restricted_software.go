@@ -107,7 +107,7 @@ func (c *Client) GetRestrictedSoftwares() (*ResponseRestrictedSoftwaresList, err
 	endpoint := uriRestrictedSoftware
 
 	var restrictedSoftwaresList ResponseRestrictedSoftwaresList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftwaresList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftwaresList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "restricted softwares", err)
 	}
@@ -124,7 +124,7 @@ func (c *Client) GetRestrictedSoftwareByID(id int) (*ResourceRestrictedSoftware,
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
 	var restrictedSoftware ResourceRestrictedSoftware
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "restricted software", id, err)
 	}
@@ -141,7 +141,7 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 	endpoint := fmt.Sprintf("%s/name/%s", uriRestrictedSoftware, name)
 
 	var restrictedSoftware ResourceRestrictedSoftware
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "restricted software", name, err)
 	}
@@ -171,7 +171,7 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 	}
 
 	var ResourceRestrictedSoftware ResourceRestrictedSoftware
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceRestrictedSoftware)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceRestrictedSoftware, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "restricted software", err)
 	}
@@ -196,7 +196,7 @@ func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *Resour
 
 	var response ResourceRestrictedSoftware
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response) // Note the &response
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
 	}
@@ -221,7 +221,7 @@ func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware 
 
 	var response ResourceRestrictedSoftware
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdateByName, "restricted software", name, err)
 	}

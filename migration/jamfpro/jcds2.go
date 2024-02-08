@@ -167,7 +167,7 @@ func calculateMD5(file *os.File) (string, error) {
 
 func (c *Client) GetPackageUploadCredentials() (*JCDSUploadCredentials, error) {
 	var response JCDSUploadResponse
-	if err := c.DoRequest("POST", uriAPIJCDSFiles, nil, nil, &response); err != nil {
+	if err := c.DoRequest("POST", uriAPIJCDSFiles, nil, nil, &response, c.HTTP.Logger); err != nil {
 		return nil, fmt.Errorf("failed to get upload credentials: %v", err)
 	}
 	return &response.Credentials, nil

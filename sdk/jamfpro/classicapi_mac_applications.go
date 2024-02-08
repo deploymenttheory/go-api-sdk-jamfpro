@@ -257,7 +257,7 @@ func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*Resource
 	}
 
 	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mac application", err)
 	}
@@ -281,7 +281,7 @@ func (c *Client) UpdateMacApplicationByID(id int, macApp ResourceMacApplications
 	}
 
 	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mac application", id, err)
 	}
@@ -305,7 +305,7 @@ func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacAppli
 	}
 
 	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mac application", name, err)
 	}

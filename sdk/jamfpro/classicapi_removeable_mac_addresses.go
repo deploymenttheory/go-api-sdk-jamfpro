@@ -30,7 +30,7 @@ func (c *Client) GetRemovableMACAddresses() (*ResponseRemovableMacAddressesList,
 	endpoint := uriRemovableMacAddresses
 
 	var macAddressesList ResponseRemovableMacAddressesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressesList)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressesList, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "removeable macaddresses", err)
 	}
@@ -47,7 +47,7 @@ func (c *Client) GetRemovableMACAddressByID(id int) (*ResourceRemovableMacAddres
 	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
 
 	var macAddressDetails ResourceRemovableMacAddress
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "removeable macaddress", id, err)
 	}
@@ -64,7 +64,7 @@ func (c *Client) GetRemovableMACAddressByName(name string) (*ResourceRemovableMa
 	endpoint := fmt.Sprintf("%s/name/%s", uriRemovableMacAddresses, name)
 
 	var macAddressDetails ResourceRemovableMacAddress
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "removeable macaddress", name, err)
 	}
@@ -89,7 +89,7 @@ func (c *Client) CreateRemovableMACAddress(macAddress *ResourceRemovableMacAddre
 	}
 
 	var responseMacAddress ResourceRemovableMacAddress
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseMacAddress)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseMacAddress, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "removeable macaddress", err)
 	}
@@ -113,7 +113,7 @@ func (c *Client) UpdateRemovableMACAddressByID(id int, macAddress *ResourceRemov
 	}
 
 	var responseMacAddress ResourceRemovableMacAddress
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseMacAddress)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseMacAddress, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "removeable macaddress", id, err)
 	}
@@ -137,7 +137,7 @@ func (c *Client) UpdateRemovableMACAddressByName(name string, macAddress *Resour
 	}
 
 	var responseMacAddress ResourceRemovableMacAddress
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseMacAddress)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseMacAddress, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "removeable macaddress", name, err)
 	}
