@@ -50,7 +50,7 @@ func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDevicePro
 	endpoint := uriMobileDeviceProvisioningProfiles
 
 	var profiles ResponseMobileDeviceProvisioningProfilesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device provisioning profiles", err)
 	}
@@ -67,7 +67,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResourceMobile
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
 	var profile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device provisioning profile", id, err)
 	}
@@ -84,7 +84,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByName(name string) (*Resourc
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
 	var profile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device provisioning profile", name, err)
 	}
@@ -101,7 +101,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
 	var profile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}
@@ -127,7 +127,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *Resource
 	}
 
 	var responseProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "id", id, err)
 	}
@@ -153,7 +153,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 	}
 
 	var responseProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "name", name, err)
 	}
@@ -179,7 +179,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 	}
 
 	var responseProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "uuid", uuid, err)
 	}
@@ -203,7 +203,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *Reso
 	}
 
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device provisioning profile", id, err)
 	}
@@ -227,7 +227,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByName(name string, profil
 	}
 
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device provisioning profile", name, err)
 	}
@@ -251,7 +251,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 	}
 
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}

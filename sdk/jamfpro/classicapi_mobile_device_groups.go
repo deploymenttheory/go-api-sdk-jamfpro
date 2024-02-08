@@ -63,7 +63,7 @@ func (c *Client) GetMobileDeviceGroups() (*ResponseMobileDeviceGroupsList, error
 	endpoint := uriMobileDeviceGroups
 
 	var groups ResponseMobileDeviceGroupsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &groups)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &groups, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device groups", err)
 	}
@@ -80,7 +80,7 @@ func (c *Client) GetMobileDeviceGroupByID(id int) (*ResourceMobileDeviceGroup, e
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
 
 	var group ResourceMobileDeviceGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device group", id, err)
 	}
@@ -97,7 +97,7 @@ func (c *Client) GetMobileDeviceGroupByName(name string) (*ResourceMobileDeviceG
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceGroups, name)
 
 	var group ResourceMobileDeviceGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device group", name, err)
 	}
@@ -126,7 +126,7 @@ func (c *Client) CreateMobileDeviceGroup(group *ResourceMobileDeviceGroup) (*Res
 	}
 
 	var responseGroup ResourceMobileDeviceGroup
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseGroup)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device group", err)
 	}
@@ -150,7 +150,7 @@ func (c *Client) UpdateMobileDeviceGroupByID(id int, group *ResourceMobileDevice
 	}
 
 	var updatedGroup ResourceMobileDeviceGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device group", id, err)
 	}
@@ -174,7 +174,7 @@ func (c *Client) UpdateMobileDeviceGroupByName(name string, group *ResourceMobil
 	}
 
 	var updatedGroup ResourceMobileDeviceGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device group", name, err)
 	}

@@ -97,7 +97,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfiles() (*ResponseMobileDeviceEnrol
 	endpoint := uriMobileDeviceEnrollmentProfiles
 
 	var enrollmentProfiles ResponseMobileDeviceEnrollmentProfilesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &enrollmentProfiles)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &enrollmentProfiles, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device enrollment profiles", err)
 	}
@@ -114,7 +114,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByID(id int) (*ResourceMobileDe
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device enrollment profile", id, err)
 	}
@@ -131,7 +131,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByName(name string) (*ResourceM
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceEnrollmentProfiles, name)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device enrollment profile", name, err)
 	}
@@ -148,7 +148,7 @@ func (c *Client) GetProfileByInvitation(invitation string) (*ResourceMobileDevic
 	endpoint := fmt.Sprintf("%s/invitation/%s", uriMobileDeviceEnrollmentProfiles, invitation)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByString, "mobile device enrollment profile", "invitation", invitation, err)
 	}
@@ -165,7 +165,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByIDWithSubset(id int, subset s
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceEnrollmentProfiles, id, subset)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device enrollment profile", id, err)
 	}
@@ -182,7 +182,7 @@ func (c *Client) GetMobileDeviceEnrollmentProfileByNameWithSubset(name string, s
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDeviceEnrollmentProfiles, name, subset)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device enrollment profile", name, err)
 	}
@@ -206,7 +206,7 @@ func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResourceMobileDevi
 	}
 
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device enrollment profile", err)
 	}
@@ -230,7 +230,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id int, profile *Resour
 	}
 
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device enrollment profile", id, err)
 	}
@@ -254,7 +254,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByName(name string, profile 
 	}
 
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device enrollment profile", name, err)
 	}
@@ -278,7 +278,7 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation stri
 	}
 
 	var responseProfile ResourceMobileDeviceEnrollmentProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByString, "mobile device enrollment profile", "invitation", invitation, err)
 	}
