@@ -39,7 +39,7 @@ func main() {
 	}
 
 	// Let's assume you want to get the uploaded package with name "Firefox 122.0.dmg"
-	packageName := "Firefox 122.0.dmg"
+	packageName := "2"
 
 	configuration, err := client.GetJCDS2PackageByName(packageName)
 	if err != nil {

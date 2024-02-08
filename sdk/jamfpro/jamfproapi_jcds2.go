@@ -24,13 +24,7 @@ type JCDSFileListItem struct {
 
 // Response
 
-type JCDSUploadResponse struct {
-	Credentials JCDSUploadCredentials `json:"Credentials"`
-}
-
-// Other
-
-type JCDSUploadCredentials struct {
+type ResponseJCDSUploadCredentials struct {
 	AccessKeyID     string `json:"accessKeyID"`
 	SecretAccessKey string `json:"secretAccessKey"`
 	SessionToken    string `json:"sessionToken"`
@@ -49,9 +43,9 @@ type UploadProgressPercentage struct {
 // CRUD
 
 // GetJCDS2Packages fetches a file list from Jamf Cloud Distribution Service
-func (c *Client) GetJCDS2Packages() (*ResponseJCDS2List, error) {
+func (c *Client) GetJCDS2Packages() ([]JCDSFileListItem, error) {
 	endpoint := uriJCDS2 + "/files"
-	var out ResponseJCDS2List
+	var out []JCDSFileListItem // Changed to a slice of JCDSFileListItem
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
@@ -61,7 +55,7 @@ func (c *Client) GetJCDS2Packages() (*ResponseJCDS2List, error) {
 		defer resp.Body.Close()
 	}
 
-	return &out, nil
+	return out, nil
 }
 
 // GetJCDS2PackageByName retrieves a file by name
@@ -99,9 +93,9 @@ func (c *Client) CreateJCDS2Package(JCDSpackage *JCDSFileListItem) (*JCDSFileLis
 }
 
 // RenewJCDS2Credentials renews credentials for JCDS 2.0
-func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2List, error) {
+func (c *Client) RenewJCDS2Credentials() (*ResponseJCDSUploadCredentials, error) {
 	endpoint := uriJCDS2 + "/renew-credentials"
-	var out ResponseJCDS2List
+	var out ResponseJCDSUploadCredentials
 	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
