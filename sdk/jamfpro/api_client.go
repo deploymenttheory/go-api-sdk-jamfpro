@@ -20,7 +20,7 @@ type ClientConfig struct {
 }
 
 // BuildClient initializes a new Jamf Pro client with the given configuration.
-func BuildClient(config httpclient.Config) (*Client, error) {
+func BuildClient(config httpclient.ClientConfig) (*Client, error) {
 	httpClient, err := httpclient.BuildClient(config)
 	if err != nil {
 		return nil, err

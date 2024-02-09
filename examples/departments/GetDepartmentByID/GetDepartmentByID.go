@@ -24,7 +24,7 @@ func main() {
 	logLevel := logger.LogLevelDebug // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
 	// Configuration for the HTTP client
-	config := httpclient.Config{
+	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
 			ClientID:     loadedConfig.Auth.ClientID,
 			ClientSecret: loadedConfig.Auth.ClientSecret,
@@ -33,7 +33,9 @@ func main() {
 			APIType:      loadedConfig.Environment.APIType,
 			InstanceName: loadedConfig.Environment.InstanceName,
 		},
-		LogLevel: logLevel,
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel: logLevel,
+		},
 	}
 
 	// Create a new jamfpro client instance
