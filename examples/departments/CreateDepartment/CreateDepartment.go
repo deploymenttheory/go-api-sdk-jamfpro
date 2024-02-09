@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
-	"github.com/deploymenttheory/go-api-http-client/logger"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -21,7 +20,7 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
+	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
@@ -29,12 +28,14 @@ func main() {
 			ClientID:     loadedConfig.Auth.ClientID,
 			ClientSecret: loadedConfig.Auth.ClientSecret,
 		},
-		Environment: httpclient.EnvironmentConfig{ // Use the Environment field to include APIType and InstanceName
+		Environment: httpclient.EnvironmentConfig{
 			APIType:      loadedConfig.Environment.APIType,
 			InstanceName: loadedConfig.Environment.InstanceName,
 		},
 		ClientOptions: httpclient.ClientOptions{
-			LogLevel: logLevel,
+			LogLevel:          loadedConfig.ClientOptions.LogLevel,
+			HideSensitiveData: loadedConfig.ClientOptions.HideSensitiveData,
+			LogOutputFormat:   loadedConfig.ClientOptions.LogOutputFormat,
 		},
 	}
 
