@@ -15,20 +15,23 @@ func main() {
 	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := logger.LogLevelWarn // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
+	logLevel := logger.LogLevelDebug // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
-	// Configuration for the jamfpro
+	// Configuration for the HTTP client
 	config := httpclient.Config{
-		InstanceName: authConfig.InstanceName,
 		Auth: httpclient.AuthConfig{
-			ClientID:     authConfig.ClientID,
-			ClientSecret: authConfig.ClientSecret,
+			ClientID:     loadedConfig.Auth.ClientID,
+			ClientSecret: loadedConfig.Auth.ClientSecret,
+		},
+		Environment: httpclient.EnvironmentConfig{ // Use the Environment field to include APIType and InstanceName
+			APIType:      loadedConfig.Environment.APIType,
+			InstanceName: loadedConfig.Environment.InstanceName,
 		},
 		LogLevel: logLevel,
 	}

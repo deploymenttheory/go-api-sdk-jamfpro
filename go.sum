@@ -7,8 +7,8 @@ github.com/aws/aws-sdk-go v1.50.10/go.mod h1:LF8svs817+Nz+DmiMQKTO3ubZ/6IaTpq3Tj
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/deploymenttheory/go-api-http-client v0.0.4 h1:wU3lmng0PdvgkQWQ1EFOjgTiuwLpmxNoCNVIDqgtp9c=
-github.com/deploymenttheory/go-api-http-client v0.0.4/go.mod h1:nxxvfg4Wu776UWbLvNggvmmfJ3YMFlOYHH1oeStY7PY=
+github.com/deploymenttheory/go-api-http-client v0.0.10 h1:rJUjUq7giwCDHaPtNYwrNbQ0AB0XRZ8H/I8WFWus1dI=
+github.com/deploymenttheory/go-api-http-client v0.0.10/go.mod h1:nxxvfg4Wu776UWbLvNggvmmfJ3YMFlOYHH1oeStY7PY=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/jessevdk/go-flags v1.4.0/go.mod h1:4FA24M0QyGHXBuZZK/XkWh8h0e1EYbRYJSGM75WSRxI=
