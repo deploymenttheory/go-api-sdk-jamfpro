@@ -15,8 +15,9 @@ type Client struct {
 
 // ClientConfig combines authentication and environment settings for the client.
 type ClientConfig struct {
-	Auth        httpclient.AuthConfig
-	Environment httpclient.EnvironmentConfig
+	Auth          httpclient.AuthConfig
+	Environment   httpclient.EnvironmentConfig
+	ClientOptions httpclient.ClientOptions
 }
 
 // BuildClient initializes a new Jamf Pro client with the given configuration.

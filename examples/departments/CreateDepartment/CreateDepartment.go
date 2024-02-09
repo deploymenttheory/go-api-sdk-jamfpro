@@ -15,22 +15,27 @@ func main() {
 	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
 
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := logger.LogLevelWarn // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
+	logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
-	// Configuration for the jamfpro
-	config := httpclient.Config{
-		InstanceName: authConfig.InstanceName,
+	// Configuration for the HTTP client
+	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
-			ClientID:     authConfig.ClientID,
-			ClientSecret: authConfig.ClientSecret,
+			ClientID:     loadedConfig.Auth.ClientID,
+			ClientSecret: loadedConfig.Auth.ClientSecret,
 		},
-		LogLevel: logLevel,
+		Environment: httpclient.EnvironmentConfig{ // Use the Environment field to include APIType and InstanceName
+			APIType:      loadedConfig.Environment.APIType,
+			InstanceName: loadedConfig.Environment.InstanceName,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel: logLevel,
+		},
 	}
 
 	// Create a new jamfpro client instance
@@ -41,7 +46,7 @@ func main() {
 
 	// Define the department name you want to create
 	departmentName := &jamfpro.ResourceDepartment{
-		Name: "jamf pro go sdk Department",
+		Name: "jamf-pro-go-sdk Department",
 	}
 
 	// Call CreateDepartment function using the department name
