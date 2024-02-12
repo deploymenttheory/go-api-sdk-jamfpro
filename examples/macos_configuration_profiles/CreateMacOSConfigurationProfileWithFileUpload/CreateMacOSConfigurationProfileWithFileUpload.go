@@ -4,68 +4,42 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
-	"github.com/deploymenttheory/go-api-http-client/logger"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	maxConcurrentRequestsAllowed = 5 // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
-)
-
-// Helper function to get a pointer from a string
-func stringPtr(s string) *string {
-	return &s
-}
-
-// readPayloadFromFile loads config profile for upload
-func readPayloadFromFile(filePath string) (string, error) {
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
-}
-
 func main() {
-	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
-
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := httpclient.LoadAuthConfig(configFilePath)
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	logLevel := logger.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
-
-	// Configuration for the jamfpro
-	config := httpclient.Config{
-		InstanceName: authConfig.InstanceName,
+	// Configuration for the HTTP client
+	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
-			ClientID:     authConfig.ClientID,
-			ClientSecret: authConfig.ClientSecret,
+			ClientID:     loadedConfig.Auth.ClientID,
+			ClientSecret: loadedConfig.Auth.ClientSecret,
 		},
-		LogLevel: logLevel,
+		Environment: httpclient.EnvironmentConfig{
+			APIType:      loadedConfig.Environment.APIType,
+			InstanceName: loadedConfig.Environment.InstanceName,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel:          loadedConfig.ClientOptions.LogLevel,
+			HideSensitiveData: loadedConfig.ClientOptions.HideSensitiveData,
+			LogOutputFormat:   loadedConfig.ClientOptions.LogOutputFormat,
+		},
 	}
 
-	// Create a new jamfpro client instanceclient,
+	// Create a new jamfpro client instance
 	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-
-	// Set OAuth credentials for the client's HTTP client using the helper function
-	creds := map[string]string{
-		"clientID":     authConfig.ClientID,
-		"clientSecret": authConfig.ClientSecret,
-	}
-	client.HTTP.SetAuthenticationCredentials(creds)
 
 	// Read the payload from a file
 	payloadFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/accessibility-chara-nosub-test.mobileconfig"
@@ -101,4 +75,18 @@ func main() {
 	// Print the ID of the created profile
 	fmt.Printf("Successfully created macOS Configuration Profile with ID: %d\n", createdProfile)
 
+}
+
+// Helper function to get a pointer from a string
+func stringPtr(s string) *string {
+	return &s
+}
+
+// readPayloadFromFile loads config profile for upload
+func readPayloadFromFile(filePath string) (string, error) {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
 }

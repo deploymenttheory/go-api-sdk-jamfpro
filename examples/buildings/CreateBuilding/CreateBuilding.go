@@ -10,16 +10,13 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
 
 	// Load the client OAuth credentials from the configuration file
 	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
-
-	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{

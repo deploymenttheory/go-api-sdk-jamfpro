@@ -13,8 +13,7 @@ const ()
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/clientauth.json"
-
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
 	// Load the client OAuth credentials from the configuration file
 	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {

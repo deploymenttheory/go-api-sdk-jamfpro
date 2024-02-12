@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
-	"github.com/deploymenttheory/go-api-http-client/logger"
 )
 
 func main() {
@@ -13,22 +12,28 @@ func main() {
 	username := "your-jamf-api-account"
 	password := "your-jamf-api-account-password"
 	instanceName := "your-jamf-instance" // e.g., "yourcompany.jamfcloud.com"
+	apitype := "jamf"
 
 	// Instantiate the default logger and set the desired log level
-	logLevel := logger.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
+	logLevel := "logger.LogLevelDebug" // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
 
 	// Configuration for the jamfpro
-	config := httpclient.Config{
-		InstanceName: instanceName,
-		LogLevel:     logLevel,
+	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
-			Username: username,
-			Password: password,
+			ClientID:     username,
+			ClientSecret: password,
+		},
+		Environment: httpclient.EnvironmentConfig{
+			APIType:      apitype,
+			InstanceName: instanceName,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel: logLevel,
 		},
 	}
 
 	// Create a new client instance using the provided BaseURL
-	client, err := httpclient.NewClient(config)
+	client, err := httpclient.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create new client: %v", err)
 	}

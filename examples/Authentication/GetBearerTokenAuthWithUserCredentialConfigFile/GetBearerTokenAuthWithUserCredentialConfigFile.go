@@ -32,7 +32,7 @@ func main() {
 	}
 
 	// Create a new client instance using the loaded InstanceName
-	client, err := httpclient.NewClient(config)
+	client, err := httpclient.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create new client: %v", err)
 	}
