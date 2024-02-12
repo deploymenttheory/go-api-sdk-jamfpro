@@ -10,43 +10,39 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
-
-	// Load the client OAuth credentials from the configuration file
-	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
-	if err != nil {
-		log.Fatalf("Failed to load client OAuth configuration: %v", err)
+	// Directly assign the configuration values
+	authConfig := httpclient.AuthConfig{
+		ClientID:     "7871012d-98bb-454e-8d17-6cd0f8cbfb7b",
+		ClientSecret: "xKwuGxBPBUIXZERLKsbv6d-mVfDvVj6cc2YOiiXVY25mT2aSvmwD61HrzXB_lySy",
+		Username:     "apiuser",
+		Password:     "password",
 	}
 
-	// Debug print statement to check the loaded configuration
-	fmt.Printf("Loaded Config: %+v\n", authConfig)
-
-	// Instantiate the default logger and set the desired log level
-	logLevel := logger.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
-
-	// Configuration for the jamfpro
-	config := httpclient.Config{
-		InstanceName: authConfig.InstanceName,
-		Auth: httpclient.AuthConfig{
-			Username: "fwfw",
-			Password: "fwfw",
-		},
-		LogLevel: logLevel,
+	envConfig := httpclient.EnvironmentConfig{
+		InstanceName:       "lbgsandbox",
+		OverrideBaseDomain: "",
+		APIType:            "jamfpro",
 	}
 
-	// Create a new client instance using the loaded InstanceName
-	client, err := httpclient.BuildClient(config)
+	clientOptions := httpclient.ClientOptions{
+		LogLevel:                  logger.LogLevelInfo, // Adjust the log level as needed
+		LogOutputFormat:           "console",
+		HideSensitiveData:         true,
+		EnableDynamicRateLimiting: true,
+	}
+
+	// Configuration for the HTTP client
+	config := httpclient.ClientConfig{
+		Auth:          authConfig,
+		Environment:   envConfig,
+		ClientOptions: clientOptions,
+	}
+
+	// Create a new client instance using the configuration
+	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create new client: %v", err)
 	}
-
-	// Set OAuth credentials for the client
-	oAuthCreds := httpclient.OAuthCredentials{
-		ClientID:     authConfig.ClientID,
-		ClientSecret: authConfig.ClientSecret,
-	}
-	client.SetOAuthCredentials(oAuthCreds)
 
 	// Call the ValidAuthTokenCheck function to ensure that a valid token is set in the client
 	isTokenValid, err := client.ValidAuthTokenCheck()

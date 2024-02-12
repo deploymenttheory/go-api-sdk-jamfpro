@@ -6,16 +6,17 @@ import (
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-http-client/logger"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 func main() {
-	// Define the path to the JSON configuration file inside the main function
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/userauth.json"
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
 
-	// Load the client authentication details from the configuration file
-	authConfig, err := httpclient.LoadAuthConfig(configFilePath)
+	// Load the client OAuth credentials from the configuration file
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
-		log.Fatalf("Failed to load client authentication configuration: %v", err)
+		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
 	// Instantiate the default logger and set the desired log level
