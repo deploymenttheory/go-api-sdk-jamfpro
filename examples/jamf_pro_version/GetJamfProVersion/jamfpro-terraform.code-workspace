@@ -13,6 +13,10 @@
 		{
 			"name": "go-api-http-client",
 			"path": "../../../../go-api-http-client"
+		},
+		{
+			"name": "terraform-jamfpro-importer",
+			"path": "../../../../terraform-jamfpro-importer"
 		}
 	],
 	"settings": {

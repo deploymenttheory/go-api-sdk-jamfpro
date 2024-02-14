@@ -47,7 +47,7 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-softwareupdate-policy-config",
+			Name:                       "jamfpro-sdk-example-softwareupdate-policy-config-9",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,

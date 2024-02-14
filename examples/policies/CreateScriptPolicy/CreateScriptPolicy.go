@@ -48,7 +48,7 @@ func main() {
 	newPolicy := &jamfpro.ResourcePolicy{
 		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-script-policy-config",
+			Name:                       "jamfpro-sdk-example-script-policy-config-demo",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,

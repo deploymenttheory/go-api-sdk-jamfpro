@@ -48,7 +48,7 @@ func main() {
 	newPolicy := &jamfpro.ResourcePolicy{
 		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-diskencryptionWithInstitutionalKey-policy-config",
+			Name:                       "jamfpro-sdk-example-diskencryptionWithInstitutionalKey-policy-config-10",
 			Enabled:                    false,
 			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
