@@ -7,12 +7,14 @@ package jamfpro
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"path/filepath"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
 const uriJCDS2 = "/api/v1/jcds"
@@ -43,10 +45,13 @@ type ResponseJCDS2File struct {
 	URI string `json:"uri"`
 }
 
-type UploadProgressPercentage struct {
-	Filename  string
-	TotalSize int64
-	SeenSoFar int64
+// progressReader is a wrapper around an io.Reader that reports progress
+
+type progressReader struct {
+	reader     io.Reader
+	totalBytes int64
+	readBytes  int64
+	progressFn func(int64, int64) // function to call to report progress
 }
 
 // CRUD
@@ -114,30 +119,55 @@ func (c *Client) CreateJCDS2Package(filePath string) (*ResponseJCDS2File, error)
 		return nil, fmt.Errorf("failed to create AWS session: %v", err)
 	}
 
-	svc := s3.New(sess)
+	// Step 3: Use s3manager.Uploader for uploading the file with progress tracking
+	uploader := s3manager.NewUploader(sess)
 
-	// Step 3: Use the AWS SDK for Go to upload the file to the specified S3 bucket
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %v", err)
 	}
 	defer file.Close()
 
-	_, err = svc.PutObject(&s3.PutObjectInput{
+	fileInfo, err := file.Stat()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get file info: %v", err)
+	}
+
+	progressFn := func(readBytes, totalBytes int64) {
+		fmt.Printf("\rUploaded %d / %d bytes (%.2f%%)", readBytes, totalBytes, float64(readBytes)/float64(totalBytes)*100)
+	}
+
+	reader := &progressReader{
+		reader:     file,
+		totalBytes: fileInfo.Size(),
+		progressFn: progressFn,
+	}
+
+	_, err = uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(uploadCredentials.BucketName),
-		Key:    aws.String(uploadCredentials.Path + file.Name()),
-		Body:   file,
+		Key:    aws.String(uploadCredentials.Path + filepath.Base(filePath)),
+		Body:   reader,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to upload file to S3: %v", err)
+		return nil, fmt.Errorf("failed to upload file: %v", err)
 	}
+
+	fmt.Println("\nUpload completed")
 
 	// Create a response object to return
 	response := &ResponseJCDS2File{
-		URI: fmt.Sprintf("s3://%s/%s%s", uploadCredentials.BucketName, uploadCredentials.Path, file.Name()),
+		URI: fmt.Sprintf("s3://%s/%s%s", uploadCredentials.BucketName, uploadCredentials.Path, filepath.Base(filePath)),
 	}
 
 	return response, nil
+}
+
+// progressReader is a wrapper around an io.Reader that reports progress
+func (r *progressReader) Read(p []byte) (int, error) {
+	n, err := r.reader.Read(p)
+	r.readBytes += int64(n)
+	r.progressFn(r.readBytes, r.totalBytes)
+	return n, err
 }
 
 // RenewJCDS2Credentials renews credentials for JCDS 2.0
