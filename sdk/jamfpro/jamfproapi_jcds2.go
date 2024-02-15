@@ -2,6 +2,7 @@
 // Jamf Pro Api - Jamf Cloud Distribution Service (JCDS)
 // api reference: N/A
 // Jamf Pro API requires the structs to support an JSON data structure.
+// Ref: https://grahamrpugh.com/2023/08/21/introducing-jcds2.html
 
 package jamfpro
 
