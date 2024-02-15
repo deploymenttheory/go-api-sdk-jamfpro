@@ -10,18 +10,12 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
-	// Load the client OAuth credentials from the configuration file
 	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelDebug // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
-
-	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
 			ClientID:     loadedConfig.Auth.ClientID,
@@ -38,24 +32,24 @@ func main() {
 		},
 	}
 
-	// Create a new jamfpro client instance
 	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Let's assume you want to get the uploaded package with name "Firefox 122.0.dmg"
-	packageName := "powershell-7.4.1-osx-arm64.pkg"
+	// Specify the path to the file you want to upload
+	filePath := "/Users/dafyddwatkins/localtesting/support_files/packages/powershell-7.4.1-osx-x64.pkg"
 
-	configuration, err := client.GetJCDS2PackageByName(packageName)
+	// Call CreateJCDS2Package with the file path
+	response, err := client.CreateJCDS2Package(filePath)
 	if err != nil {
-		log.Fatalf("Error fetching JCDS 2.0 package by name: %v", err)
+		log.Fatalf("Failed to create JCDS 2.0 package: %v", err)
 	}
 
-	// Print the configuration in a pretty JSON format
-	configJSON, err := json.MarshalIndent(configuration, "", "    ")
+	// Print the response
+	responseBytes, err := json.Marshal(response)
 	if err != nil {
-		log.Fatalf("Error marshaling configuration data: %v", err)
+		log.Fatalf("Failed to marshal response: %v", err)
 	}
-	fmt.Printf("Fetched JCDS 2.0 package by Name:\n%s\n", configJSON)
+	fmt.Println("Response:", string(responseBytes))
 }
