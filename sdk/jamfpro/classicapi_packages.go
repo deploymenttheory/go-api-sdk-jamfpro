@@ -11,6 +11,7 @@ Shared Resources in this Endpoint:
 package jamfpro
 
 import (
+	"encoding/xml"
 	"fmt"
 )
 
@@ -29,7 +30,11 @@ type PackageListItem struct {
 	Name string `xml:"name"` // The Name element
 }
 
-// ResourcePackage struct to capture the response for a single Package
+// Response
+
+type ResponsePackageCreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
+}
 
 // ResourcePackage struct to capture the XML response for a single package detail
 type ResourcePackage struct {
@@ -43,6 +48,7 @@ type ResourcePackage struct {
 	RebootRequired             bool   `xml:"reboot_required"`
 	FillUserTemplate           bool   `xml:"fill_user_template"`
 	FillExistingUsers          bool   `xml:"fill_existing_users"`
+	BootVolumeRequired         bool   `xml:"boot_volume_required"`
 	AllowUninstalled           bool   `xml:"allow_uninstalled"`
 	OSRequirements             string `xml:"os_requirements"`
 	RequiredProcessor          string `xml:"required_processor"`
@@ -97,6 +103,30 @@ func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "packages", name, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// CreatePackage creates a new package in Jamf Pro
+func (c *Client) CreatePackage(pkg ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/0", uriPackages)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"package"`
+		ResourcePackage
+	}{
+		ResourcePackage: pkg,
+	}
+
+	var response ResponsePackageCreatedAndUpdated
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create package: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
