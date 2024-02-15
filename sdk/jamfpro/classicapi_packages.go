@@ -95,7 +95,7 @@ func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
 	return &response, nil
 }
 
-// GetPackageByID retrieves details of a specific package by its ID.
+// GetPackageByName retrieves details of a specific package by its name.
 func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
 
