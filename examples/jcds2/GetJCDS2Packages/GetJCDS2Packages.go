@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
+	//logLevel := logger.LogLevelDebug // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{

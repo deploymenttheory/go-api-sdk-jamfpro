@@ -14,17 +14,17 @@ const uriJCDS2 = "/api/v1/jcds"
 // List
 
 type ResponseJCDS2List struct {
-	Files []JCDSFileListItem `json:"files" xml:"files"`
+	Files []JCDS2FileListItem `json:"files" xml:"files"`
 }
 
-type JCDSFileListItem struct {
+type JCDS2FileListItem struct {
 	FileName string `json:"fileName" xml:"fileName"`
 	MD5      string `json:"md5" xml:"md5"`
 }
 
 // Response
 
-type ResponseJCDSUploadCredentials struct {
+type ResponseJCDS2UploadCredentials struct {
 	AccessKeyID     string `json:"accessKeyID"`
 	SecretAccessKey string `json:"secretAccessKey"`
 	SessionToken    string `json:"sessionToken"`
@@ -32,6 +32,10 @@ type ResponseJCDSUploadCredentials struct {
 	BucketName      string `json:"bucketName"`
 	Path            string `json:"path"`
 	UUID            string `json:"uuid"`
+}
+
+type ResponseJCDS2File struct {
+	URI string `json:"uri"`
 }
 
 type UploadProgressPercentage struct {
@@ -43,9 +47,9 @@ type UploadProgressPercentage struct {
 // CRUD
 
 // GetJCDS2Packages fetches a file list from Jamf Cloud Distribution Service
-func (c *Client) GetJCDS2Packages() ([]JCDSFileListItem, error) {
+func (c *Client) GetJCDS2Packages() ([]JCDS2FileListItem, error) {
 	endpoint := uriJCDS2 + "/files"
-	var out []JCDSFileListItem // Changed to a slice of JCDSFileListItem
+	var out []JCDS2FileListItem // Changed to a slice of JCDSFileListItem
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
@@ -59,9 +63,9 @@ func (c *Client) GetJCDS2Packages() ([]JCDSFileListItem, error) {
 }
 
 // GetJCDS2PackageByName retrieves a file by name
-func (c *Client) GetJCDS2PackageByName(id string) (*JCDSFileListItem, error) {
+func (c *Client) GetJCDS2PackageByName(id string) (*ResponseJCDS2File, error) {
 	endpoint := fmt.Sprintf("%s/%v", uriJCDS2+"/files", id)
-	var out JCDSFileListItem
+	var out ResponseJCDS2File
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
 
 	if err != nil {
@@ -76,9 +80,9 @@ func (c *Client) GetJCDS2PackageByName(id string) (*JCDSFileListItem, error) {
 }
 
 // CreateJCDS2Package creates a new file in JCDS 2.0
-func (c *Client) CreateJCDS2Package(JCDSpackage *JCDSFileListItem) (*JCDSFileListItem, error) {
+func (c *Client) CreateJCDS2Package(JCDSpackage *JCDS2FileListItem) (*JCDS2FileListItem, error) {
 	endpoint := uriJCDS2 + "/files"
-	var ResponseJCDSPackageCreate JCDSFileListItem
+	var ResponseJCDSPackageCreate JCDS2FileListItem
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, JCDSpackage, &ResponseJCDSPackageCreate, c.HTTP.Logger)
 	if err != nil {
@@ -93,9 +97,9 @@ func (c *Client) CreateJCDS2Package(JCDSpackage *JCDSFileListItem) (*JCDSFileLis
 }
 
 // RenewJCDS2Credentials renews credentials for JCDS 2.0
-func (c *Client) RenewJCDS2Credentials() (*ResponseJCDSUploadCredentials, error) {
+func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error) {
 	endpoint := uriJCDS2 + "/renew-credentials"
-	var out ResponseJCDSUploadCredentials
+	var out ResponseJCDS2UploadCredentials
 	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out, c.HTTP.Logger)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)

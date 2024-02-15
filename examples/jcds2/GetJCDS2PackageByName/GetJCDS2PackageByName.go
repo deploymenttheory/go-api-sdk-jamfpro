@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
+	//logLevel := logger.LogLevelDebug // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// Let's assume you want to get the uploaded package with name "Firefox 122.0.dmg"
-	packageName := "2"
+	packageName := "powershell-7.4.1-osx-arm64.pkg"
 
 	configuration, err := client.GetJCDS2PackageByName(packageName)
 	if err != nil {
