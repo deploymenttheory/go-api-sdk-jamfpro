@@ -1,4 +1,4 @@
-module github.com/thejoeker12/go-api-sdk-jamfpro
+module github.com/deploymenttheory/go-api-sdk-jamfpro
 
 go 1.21
 
