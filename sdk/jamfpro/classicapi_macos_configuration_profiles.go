@@ -45,7 +45,7 @@ type ResponseMacOSConfigurationProfileCreationUpdate struct {
 
 // ResourceMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
 type ResourceMacOSConfigurationProfile struct {
-	General     MacOSConfigurationProfileSubsetGeneral     `xml:"general,omitempty"`
+	General     MacOSConfigurationProfileSubsetGeneral     `xml:"general"`
 	Scope       MacOSConfigurationProfileSubsetScope       `xml:"scope,omitempty"`
 	SelfService MacOSConfigurationProfileSubsetSelfService `xml:"self_service,omitempty"`
 }
@@ -264,10 +264,10 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 		profile.General.Site.Name = "none"
 
 	}
-	if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
-		profile.General.Category.ID = -1
-		profile.General.Category.Name = "No Category"
-	}
+	// if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
+	// 	profile.General.Category.ID = -1
+	// 	profile.General.Category.Name = "No Category"
+	// }
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
