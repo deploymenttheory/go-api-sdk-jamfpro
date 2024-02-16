@@ -114,7 +114,7 @@ func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
 
 // CreatePackage creates a new package in Jamf Pro
 func (c *Client) CreatePackage(pkg ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriPackages)
+	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, pkg.ID)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"package"`
