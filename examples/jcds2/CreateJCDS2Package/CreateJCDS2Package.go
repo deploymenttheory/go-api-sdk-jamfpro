@@ -10,12 +10,15 @@ import (
 )
 
 func main() {
+	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
+	// Load the client OAuth credentials from the configuration file
 	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
+	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
 			ClientID:     loadedConfig.Auth.ClientID,
@@ -32,6 +35,7 @@ func main() {
 		},
 	}
 
+	// Create a new jamfpro client instance
 	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
@@ -41,7 +45,7 @@ func main() {
 	filePath := "/Users/dafyddwatkins/localtesting/support_files/packages/powershell-7.4.1-osx-x64.pkg"
 
 	// Call CreateJCDS2Package with the file path
-	response, err := client.CreateJCDS2Package(filePath)
+	response, err := client.CreateJCDS2PackageV2(filePath)
 	if err != nil {
 		log.Fatalf("Failed to create JCDS 2.0 package: %v", err)
 	}

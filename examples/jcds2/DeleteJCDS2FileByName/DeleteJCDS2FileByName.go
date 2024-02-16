@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -41,16 +40,14 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Call RenewJCDS2Credentials function
-	JCDS2Creds, err := client.RenewJCDS2Credentials()
-	if err != nil {
-		log.Fatalf("Error fetching JCDS 2 files: %v", err)
-	}
+	// Specify the name of the file you want to delete
+	fileName := "powershell-7.4.1-osx-x64.pkg"
 
-	// Pretty print the JCDS 2 files in JSON
-	response, err := json.MarshalIndent(JCDS2Creds, "", "    ") // Indent with 4 spaces
+	// Call DeleteJCDS2FileByName with the file name
+	err = client.DeleteJCDS2FileByName(fileName)
 	if err != nil {
-		log.Fatalf("Error marshaling JCDS 2 credentials: %v", err)
+		log.Fatalf("Failed to delete JCDS 2.0 file: %v", err)
+	} else {
+		fmt.Printf("File %s deleted successfully\n", fileName)
 	}
-	fmt.Println("Fetched JCDS 2 credentials:\n", string(response))
 }
