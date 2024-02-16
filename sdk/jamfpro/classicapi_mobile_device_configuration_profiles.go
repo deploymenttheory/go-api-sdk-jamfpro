@@ -37,8 +37,8 @@ type MobileDeviceConfigurationProfilesListItem struct {
 // ResponseMobileDeviceConfigurationProfile represents the detailed structure of a single mobile device configuration profile.
 type ResourceMobileDeviceConfigurationProfile struct {
 	General     MobileDeviceConfigurationProfileSubsetGeneral     `xml:"general"`
-	Scope       MobileDeviceConfigurationProfileSubsetScope       `xml:"scope"`
-	SelfService MobileDeviceConfigurationProfileSubsetSelfService `xml:"self_service"`
+	Scope       MobileDeviceConfigurationProfileSubsetScope       `xml:"scope,omitempty"`
+	SelfService MobileDeviceConfigurationProfileSubsetSelfService `xml:"self_service,omitempty"`
 }
 
 // Subsets and Containers
