@@ -159,7 +159,7 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 		return nil, fmt.Errorf("failed to upload file: %v", err)
 	}
 
-	fmt.Println("\nUpload completed")
+	fmt.Println("\nUpload completed Successfully")
 
 	// Step 5. Upload package metadata to Jamf Pro
 	pkgName := filepath.Base(filePath)
@@ -175,7 +175,7 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 	}
 
 	// Log the package creation response from Jamf Pro
-	fmt.Printf("Package metadata uploaded successfully to Jamf Pro. Package ID: %d\n", metadataResponse.ID)
+	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %d\n", metadataResponse.ID)
 
 	// Combine JCDS file URI and Jamf Pro package creation response for the final response
 	finalResponse := &ResponseJCDS2File{
