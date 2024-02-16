@@ -121,11 +121,6 @@ func (c *Client) GetComputerInvitationByInvitationID(id int) (*ResourceComputerI
 func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation) (*ResourceComputerInvitation, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriComputerInvitations)
 
-	if invitation.Site.ID == 0 && invitation.Site.Name == "" {
-		invitation.Site.ID = -1
-		invitation.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_invitation"`
 		*ResourceComputerInvitation

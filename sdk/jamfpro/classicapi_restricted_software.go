@@ -157,12 +157,6 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResourceRestrictedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, restrictedSoftware.General.ID)
 
-	if restrictedSoftware.General.Site.ID == 0 && restrictedSoftware.General.Site.Name == "" {
-		restrictedSoftware.General.Site.ID = -1
-		restrictedSoftware.General.Site.Name = "none"
-
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
 		*ResourceRestrictedSoftware

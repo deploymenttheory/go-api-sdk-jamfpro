@@ -185,11 +185,6 @@ func (c *Client) GetClassByName(name string) (*ResourceClass, error) {
 func (c *Client) CreateClass(class *ResourceClass) (*ResourceClass, error) {
 	endpoint := uriClasses
 
-	if class.Site.ID == 0 && class.Site.Name == "" {
-		class.Site.ID = -1
-		class.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`
 		*ResourceClass

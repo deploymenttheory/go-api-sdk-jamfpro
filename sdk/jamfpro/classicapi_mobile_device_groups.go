@@ -113,11 +113,6 @@ func (c *Client) GetMobileDeviceGroupByName(name string) (*ResourceMobileDeviceG
 func (c *Client) CreateMobileDeviceGroup(group *ResourceMobileDeviceGroup) (*ResourceMobileDeviceGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceGroups)
 
-	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site.ID = -1
-		group.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_group"`
 		*ResourceMobileDeviceGroup

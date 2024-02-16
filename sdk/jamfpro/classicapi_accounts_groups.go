@@ -83,14 +83,6 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Respon
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, placeholderID)
 
-	// Check if site is not provided and set default values
-	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
-		accountGroup.Site = SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		}
-	}
-
 	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`

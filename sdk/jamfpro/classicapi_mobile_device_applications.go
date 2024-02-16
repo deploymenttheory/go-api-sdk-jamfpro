@@ -312,16 +312,6 @@ func (c *Client) GetMobileDeviceApplicationByNameAndDataSubset(name string, subs
 func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceApplications)
 
-	// Set default values for site and category if not included within request
-	if app.General.Site.ID == 0 && app.General.Site.Name == "" {
-		app.General.Site.ID = -1
-		app.General.Site.Name = "none"
-	}
-	if app.General.Category.ID == 0 && app.General.Category.Name == "" {
-		app.General.Category.ID = -1
-		app.General.Category.Name = "no category"
-	}
-
 	// Wrap the application with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_application"`

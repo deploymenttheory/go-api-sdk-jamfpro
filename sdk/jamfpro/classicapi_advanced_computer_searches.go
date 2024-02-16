@@ -127,11 +127,6 @@ func (c *Client) GetAdvancedComputerSearchByName(name string) (*ResourceAdvanced
 func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
-	if search.Site.ID == 0 && search.Site.Name == "" {
-		search.Site.ID = -1
-		search.Site.Name = "None"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
 		*ResourceAdvancedComputerSearch

@@ -113,8 +113,6 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 	return &profile, nil
 }
 
-// QUERY Is this really creating by ID? - yes. you can use https://imazing.com/profile-editor to test
-
 // CreateMobileDeviceProvisioningProfileByID creates a new mobile device provisioning profile by its ID.
 func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
@@ -138,8 +136,6 @@ func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *Resource
 
 	return &responseProfile, nil
 }
-
-// QUERY Is this creating by name? - yes. you can use https://imazing.com/profile-editor to test
 
 // CreateMobileDeviceProvisioningProfileByName creates a new mobile device provisioning profile by its name.
 func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {

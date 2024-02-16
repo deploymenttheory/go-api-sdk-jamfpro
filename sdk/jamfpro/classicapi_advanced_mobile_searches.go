@@ -126,11 +126,6 @@ func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdva
 func (c *Client) CreateAdvancedMobileDeviceSearch(search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedMobileDeviceSearches
 
-	if search.Site.ID == 0 && search.Site.Name == "" {
-		search.Site.ID = -1
-		search.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`
 		*ResourceAdvancedMobileDeviceSearch

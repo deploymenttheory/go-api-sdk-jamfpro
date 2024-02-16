@@ -88,12 +88,6 @@ func (c *Client) GetVPPAccountByID(id int) (*ResourceVPPAccount, error) {
 func (c *Client) CreateVPPAccount(account *ResourceVPPAccount) (*ResourceVPPAccount, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriVPPAccounts)
 
-	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site.ID = -1
-		account.Site.Name = "none"
-
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_account"`
 		*ResourceVPPAccount

@@ -165,13 +165,7 @@ func (c *Client) GetLicensedSoftwareByName(name string) (*ResourceLicensedSoftwa
 
 // CreateLicensedSoftware creates a new licensed software item in Jamf Pro.
 func (c *Client) CreateLicensedSoftware(licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
-	endpoint := fmt.Sprintf("%s/id/0", uriLicensedSoftware) // '0' typically used for creation in APIs
-
-	// Set default values for site if not included within request
-	if licensedSoftware.General.Site.ID == 0 && licensedSoftware.General.Site.Name == "" {
-		licensedSoftware.General.Site.ID = -1
-		licensedSoftware.General.Site.Name = "none"
-	}
+	endpoint := fmt.Sprintf("%s/id/0", uriLicensedSoftware)
 
 	// Wrap licensedSoftware in an anonymous struct to match the expected XML structure
 	requestBody := struct {
