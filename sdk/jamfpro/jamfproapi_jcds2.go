@@ -49,13 +49,12 @@ type ResponseJCDS2File struct {
 	URI string `json:"uri"`
 }
 
-// progressReader is a wrapper around an io.Reader that reports progress
-
+// progressReader is a wrapper around an io.Reader that reports progress in kilobytes and megabytes.
 type progressReader struct {
 	reader     io.Reader
 	totalBytes int64
 	readBytes  int64
-	progressFn func(int64, int64) // function to call to report progress
+	progressFn func(int64, int64, string) // function to call to report progress
 }
 
 // CRUD
@@ -137,8 +136,8 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 		return nil, fmt.Errorf("failed to get file info: %v", err)
 	}
 
-	progressFn := func(bytesTransferred, totalBytes int64) {
-		fmt.Printf("\rUploaded %d / %d bytes (%.2f%%)", bytesTransferred, totalBytes, float64(bytesTransferred)/float64(totalBytes)*100)
+	progressFn := func(read, total int64, unit string) {
+		fmt.Printf("\rUploaded %d / %d %s (%.2f%%)", read, total, unit, float64(read)/float64(total)*100)
 	}
 
 	reader := &progressReader{
@@ -167,7 +166,6 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 	pkg := ResourcePackage{
 		Name:     pkgName,
 		Filename: pkgName,
-		Priority: 10,
 		// Add other package metadata fields as necessary
 	}
 
@@ -188,11 +186,24 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 	return finalResponse, nil
 }
 
-// progressReader is a wrapper around an io.Reader that reports progress
+// Read implements the io.Reader interface for progressReader, reporting upload progress in kilobytes and megabytes.
 func (r *progressReader) Read(p []byte) (int, error) {
 	n, err := r.reader.Read(p)
 	r.readBytes += int64(n)
-	r.progressFn(r.readBytes, r.totalBytes)
+
+	// Report progress in more human-readable units (KB or MB)
+	const kb = 1024
+	const mb = 1024 * kb
+	readKB := r.readBytes / kb
+	totalKB := r.totalBytes / kb
+	if totalKB > kb { // If the total size is larger than 1 MB, report in MB
+		readMB := r.readBytes / mb
+		totalMB := r.totalBytes / mb
+		r.progressFn(readMB, totalMB, "MB")
+	} else { // For smaller files, report in KB
+		r.progressFn(readKB, totalKB, "KB")
+	}
+
 	return n, err
 }
 
