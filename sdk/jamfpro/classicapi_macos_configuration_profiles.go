@@ -268,6 +268,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 	// 	profile.General.Category.ID = -1
 	// 	profile.General.Category.Name = "No Category"
 	// }
+	// test
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
