@@ -8,12 +8,12 @@ import (
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/tools/JAMFProPackageUploader/jamfpropackageuploader"
+	uploader "github.com/deploymenttheory/go-api-sdk-jamfpro/tools/JAMFProPackageUploader/internal"
 )
 
 func main() {
 	// Print the ASCII art
-	jamfpropackageuploader.PrintASCIILogo()
+	uploader.PrintASCIILogo()
 
 	// Define the directory containing the .pkg files
 	fmt.Print("Enter the directory containing the .pkg files: ")
@@ -21,7 +21,7 @@ func main() {
 	fmt.Scanln(&directory)
 
 	// Find all .pkg files in the directory
-	pkgFiles, err := jamfpropackageuploader.FindPkgFiles(directory)
+	pkgFiles, err := uploader.FindPkgFiles(directory)
 	if err != nil {
 		log.Fatalf("Failed to find .pkg files: %v", err)
 	}
@@ -79,7 +79,7 @@ func main() {
 
 	for _, filePath := range pkgFiles {
 		fileName := filepath.Base(filePath)
-		fileMD5 := jamfpropackageuploader.CalculateFileMD5(filePath) // Use the MD5 calculation function
+		fileMD5 := uploader.CalculateFileMD5(filePath) // Use the MD5 calculation function
 
 		// Log the start of processing for this file
 		fmt.Println("-------------------------------------------------")
@@ -88,7 +88,7 @@ func main() {
 
 		// Check JCDS for the package with MD5
 		fmt.Printf("Checking JCDS for existing package...\n")
-		if exists := jamfpropackageuploader.PackageExistsInJCDS(jcdsPackages, fileName, fileMD5); exists {
+		if exists := uploader.PackageExistsInJCDS(jcdsPackages, fileName, fileMD5); exists {
 			fmt.Printf("Package %s with MD5 %s already exists in JCDS. Skipping upload.\n", fileName, fileMD5)
 			fmt.Println("-------------------------------------------------")
 			continue
@@ -98,7 +98,7 @@ func main() {
 
 		// Check Jamf Pro for existing package metadata
 		fmt.Printf("Checking Jamf Pro for existing package metadata...\n")
-		if jamfpropackageuploader.PackageMetadataExists(jamfProPackages.Package, fileName) {
+		if uploader.PackageMetadataExists(jamfProPackages.Package, fileName) {
 			fmt.Printf("Package metadata for %s already exists in Jamf Pro. Skipping metadata upload.\n", fileName)
 			fmt.Println("-------------------------------------------------")
 			continue

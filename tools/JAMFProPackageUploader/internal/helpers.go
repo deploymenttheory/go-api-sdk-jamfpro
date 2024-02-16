@@ -14,7 +14,7 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-// findPkgFiles searches the given directory for files ending with .pkg and returns their paths
+// FindPkgFiles searches the given directory for files ending with .pkg and returns their paths
 func FindPkgFiles(directory string) ([]string, error) {
 	var pkgFiles []string
 	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
