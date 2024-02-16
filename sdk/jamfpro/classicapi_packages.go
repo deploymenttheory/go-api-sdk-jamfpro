@@ -68,7 +68,7 @@ func (c *Client) GetPackages() (*ResponsePackagesList, error) {
 	var response ResponsePackagesList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "packages", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "package", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -85,7 +85,7 @@ func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
 	var response ResourcePackage
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "packages", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "package", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -102,7 +102,7 @@ func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
 	var response ResourcePackage
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "packages", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "package", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -126,7 +126,7 @@ func (c *Client) CreatePackage(pkg ResourcePackage) (*ResponsePackageCreatedAndU
 	var response ResponsePackageCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create package: %v", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "package", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -134,4 +134,89 @@ func (c *Client) CreatePackage(pkg ResourcePackage) (*ResponsePackageCreatedAndU
 	}
 
 	return &response, nil
+}
+
+// UpdatePackageByID updates an existing package by its ID on the Jamf Pro server
+// and returns the response with the ID of the updated package.
+func (c *Client) UpdatePackageByID(id int, pkg *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"package"`
+		*ResourcePackage
+	}{
+		ResourcePackage: pkg,
+	}
+
+	var response ResponsePackageCreatedAndUpdated
+
+	// Use PUT method for updating the package
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "package", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// UpdatePackageByName updates an existing package by its ID on the Jamf Pro server
+// and returns the response with the ID of the updated package.
+func (c *Client) UpdatePackageByName(name string, pkg *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
+
+	requestBody := struct {
+		XMLName xml.Name `xml:"package"`
+		*ResourcePackage
+	}{
+		ResourcePackage: pkg,
+	}
+
+	var response ResponsePackageCreatedAndUpdated
+
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "package", name, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// DeletePackageByID deletes a package by its ID from the Jamf Pro server.
+func (c *Client) DeletePackageByID(id int) error {
+	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "package", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeletePackageByName deletes a package by its name from the Jamf Pro server.
+func (c *Client) DeletePackageByName(name string) error {
+	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByName, "package", name, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
 }
