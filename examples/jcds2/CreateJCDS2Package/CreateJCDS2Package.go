@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// Specify the path to the file you want to upload
-	filePath := "/Users/dafyddwatkins/localtesting/support_files/packages/powershell-7.4.1-osx-x64.pkg"
+	filePath := "/Users/dafyddwatkins/localtesting/support_files/packages/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.2_13.pkg"
 
 	// Call CreateJCDS2Package with the file path
 	response, err := client.CreateJCDS2PackageV2(filePath)
