@@ -20,8 +20,8 @@ const uriPackages = "/JSSResource/packages"
 
 // ResponsePackagesList struct to capture the XML response for packages list
 type ResponsePackagesList struct {
-	Size    int             `xml:"size"`    // The size attribute
-	Package PackageListItem `xml:"package"` // The package element
+	Size    int               `xml:"size"`    // The size attribute
+	Package []PackageListItem `xml:"package"` // The package element
 }
 
 // PackageListItem struct to capture individual package items in the list
