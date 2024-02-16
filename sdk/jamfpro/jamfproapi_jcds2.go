@@ -7,21 +7,17 @@
 package jamfpro
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/aws/aws-sdk-go-v2/service/s3/s3manager"
 )
 
 const uriJCDS2 = "/api/v1/jcds"
@@ -96,8 +92,9 @@ func (c *Client) GetJCDS2PackageURIByName(id string) (*ResponseJCDS2File, error)
 	return &out, nil
 }
 
-// CreateJCDS2Package creates a new file in JCDS 2.0
-func (c *Client) CreateJCDS2Package(filePath string) (*ResponseJCDS2File, error) {
+/*
+// CreateJCDS2PackageV1 creates a new file in JCDS 2.0
+func (c *Client) CreateJCDS2PackageV1(filePath string) (*ResponseJCDS2File, error) {
 	// Step 1: Obtain AWS credentials for the package upload endpoint
 	var uploadCredentials ResponseJCDS2UploadCredentials
 	resp, err := c.HTTP.DoRequest("POST", uriJCDS2+"/files", nil, &uploadCredentials, c.HTTP.Logger)
@@ -168,10 +165,10 @@ func (c *Client) CreateJCDS2Package(filePath string) (*ResponseJCDS2File, error)
 
 	return response, nil
 }
+*/
 
-
-// CreateJCDS2Package creates a new file in JCDS 2.0 using AWS SDK v2
-func (c *Client) CreateJCDS2Package2(filePath string) (*ResponseJCDS2File, error) {
+// CreateJCDS2PackageV2 creates a new file in JCDS 2.0 using AWS SDK v2
+func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, error) {
 	// Step 1: Obtain AWS credentials for the package upload endpoint
 	var uploadCredentials ResponseJCDS2UploadCredentials
 	resp, err := c.HTTP.DoRequest("POST", uriJCDS2+"/files", nil, &uploadCredentials, c.HTTP.Logger)
@@ -190,22 +187,19 @@ func (c *Client) CreateJCDS2Package2(filePath string) (*ResponseJCDS2File, error
 	// Step 2: Use the obtained credentials to configure AWS SDK v2
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion(uploadCredentials.Region),
-		config.WithCredentialsProvider(credentials.StaticCredentialsProvider{
-			Value: aws.Credentials{
-				AccessKeyID:     uploadCredentials.AccessKeyID,
-				SecretAccessKey: uploadCredentials.SecretAccessKey,
-				SessionToken:    uploadCredentials.SessionToken,
-			},
-		}),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(uploadCredentials.AccessKeyID, uploadCredentials.SecretAccessKey, uploadCredentials.SessionToken)),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create AWS config: %v", err)
 	}
 
-	// Step 3: Use s3manager.Uploader for uploading the file with progress tracking in v2
-	client := s3.NewFromConfig(cfg)
-	uploader := s3manager.NewUploader(client)
+	// Create S3 service client
+	s3Client := s3.NewFromConfig(cfg)
 
+	// Step 3: Create an Uploader with the configuration and default options
+	uploader := manager.NewUploader(s3Client)
+
+	// Open the file and use a progressReader to track the upload progress
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %v", err)
@@ -217,8 +211,8 @@ func (c *Client) CreateJCDS2Package2(filePath string) (*ResponseJCDS2File, error
 		return nil, fmt.Errorf("failed to get file info: %v", err)
 	}
 
-	progressFn := func(readBytes, totalBytes int64) {
-		fmt.Printf("\rUploaded %d / %d bytes (%.2f%%)", readBytes, totalBytes, float64(readBytes)/float64(totalBytes)*100)
+	progressFn := func(bytesTransferred, totalBytes int64) {
+		fmt.Printf("\rUploaded %d / %d bytes (%.2f%%)", bytesTransferred, totalBytes, float64(bytesTransferred)/float64(totalBytes)*100)
 	}
 
 	reader := &progressReader{
@@ -227,11 +221,15 @@ func (c *Client) CreateJCDS2Package2(filePath string) (*ResponseJCDS2File, error
 		progressFn: progressFn,
 	}
 
-	_, err = uploader.Upload(context.TODO(), &s3.PutObjectInput{
+	// Create the upload input
+	uploadInput := &s3.PutObjectInput{
 		Bucket: aws.String(uploadCredentials.BucketName),
 		Key:    aws.String(uploadCredentials.Path + filepath.Base(filePath)),
 		Body:   reader,
-	})
+	}
+
+	// Perform the upload
+	_, err = uploader.Upload(context.TODO(), uploadInput)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload file: %v", err)
 	}
