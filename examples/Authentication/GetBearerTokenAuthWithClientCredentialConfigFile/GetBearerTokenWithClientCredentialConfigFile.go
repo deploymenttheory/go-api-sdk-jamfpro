@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
-	"github.com/deploymenttheory/go-api-http-client/logger"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -25,7 +24,7 @@ func main() {
 	}
 
 	clientOptions := httpclient.ClientOptions{
-		LogLevel:                  logger.LogLevelInfo, // Adjust the log level as needed
+		LogLevel:                  "LogLevelInfo", // Adjust the log level as needed
 		LogOutputFormat:           "console",
 		HideSensitiveData:         true,
 		EnableDynamicRateLimiting: true,
