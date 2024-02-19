@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -17,9 +16,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
-
-	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
 
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
@@ -44,19 +40,24 @@ func main() {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
 
-	// Define the variable for the building name
-	buildingName := "test" // Change this value as needed
-
-	// Call GetBuildingByNameByID function
-	building, err := client.GetBuildingByName(buildingName)
-	if err != nil {
-		log.Fatalf("Error fetching building by Name: %v", err)
+	// Specify the updated details for the building
+	buildingUpdate := &jamfpro.ResourceBuilding{
+		Name:           "Updated Building Name",
+		StreetAddress1: "Updated Address 1",
+		StreetAddress2: "Updated Address 2",
+		City:           "Updated City",
+		StateProvince:  "Updated State",
+		ZipPostalCode:  "Updated Zip Code",
+		Country:        "Updated Country",
 	}
 
-	// Pretty print the building details using XML marshaling
-	buildingXML, err := xml.MarshalIndent(building, "", "    ") // Indent with 4 spaces
+	// Update building by name
+	buildingName := "Updated Building Name" // Replace with the actual name
+	updatedBuilding, err := client.UpdateBuildingByName(buildingName, buildingUpdate)
 	if err != nil {
-		log.Fatalf("Error marshaling building data: %v", err)
+		log.Fatalf("Error updating building: %v", err)
 	}
-	fmt.Println("Fetched Building Details:", string(buildingXML))
+
+	// Output the result
+	fmt.Printf("Updated Building: %+v\n", updatedBuilding)
 }
