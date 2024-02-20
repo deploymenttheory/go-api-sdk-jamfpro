@@ -3,7 +3,6 @@ package jamfpro
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"os"
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
@@ -41,9 +40,6 @@ func LoadClientConfig(configFilePath string) (*ClientConfig, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	// Debugging: Log the values loaded from the JSON file to verify correctness
-	log.Printf("Loaded Configuration: %+v\n", config)
 
 	// Validate loaded configuration to ensure necessary fields are populated
 	if config.Auth.ClientID == "" || config.Auth.ClientSecret == "" {
