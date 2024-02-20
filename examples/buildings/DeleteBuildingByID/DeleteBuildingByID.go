@@ -41,7 +41,7 @@ func main() {
 	}
 
 	// ID of the building to be deleted
-	buildingID := "123" // Replace with the actual ID of the building you want to delete
+	buildingID := "1326" // Replace with the actual ID of the building you want to delete
 
 	err = client.DeleteBuildingByID(buildingID)
 	if err != nil {

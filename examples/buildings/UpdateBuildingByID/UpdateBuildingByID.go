@@ -52,7 +52,7 @@ func main() {
 	}
 
 	// Update the building with a specific ID
-	buildingID := "1324" // Replace with the actual ID of the building you want to update
+	buildingID := "1326" // Replace with the actual ID of the building you want to update
 	updatedBuilding, err := client.UpdateBuildingByID(buildingID, buildingUpdate)
 	if err != nil {
 		log.Fatalf("Error updating building: %v", err)
