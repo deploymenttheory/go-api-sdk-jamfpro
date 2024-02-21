@@ -41,7 +41,7 @@ func main() {
 	}
 
 	// Define the variable for the building ID
-	buildingID := 1326 // Change this value as needed
+	buildingID := 1327 // Change this value as needed
 
 	// Call GetBuildingByID function
 	building, err := client.GetBuildingByID(fmt.Sprint(buildingID))
