@@ -38,7 +38,7 @@ func main() {
 	}
 
 	// Load the client OAuth configuration
-	configFilePath := "/Users/dafyddwatkins/localtesting/clientconfig.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
 	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
