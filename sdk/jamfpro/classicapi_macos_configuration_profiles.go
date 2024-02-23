@@ -259,16 +259,6 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigurationProfile) (*ResponseMacOSConfigurationProfileCreationUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMacOSConfigurationProfiles)
 
-	if profile.General.Site.ID == 0 && profile.General.Site.Name == "" {
-		profile.General.Site.ID = -1
-		profile.General.Site.Name = "none"
-
-	}
-	// if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
-	// 	profile.General.Category.ID = -1
-	// 	profile.General.Category.Name = "No Category"
-	// }
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
 		*ResourceMacOSConfigurationProfile
