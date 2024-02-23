@@ -3,10 +3,10 @@ package jamfpro
 
 import "log"
 
-// Logger is an interface for logging within the SDK.// LogLevel mirrors the http_client's LogLevel to maintain compatibility.
+// Logger is an interface for logging within the SDK.// LogLevel mirrors the httpclient's LogLevel to maintain compatibility.
 type LogLevel int
 
-// Exporting LogLevel constants matching http_client package.
+// Exporting LogLevel constants matching httpclient package.
 const (
 	LogLevelNone LogLevel = iota
 	LogLevelWarning
@@ -14,7 +14,7 @@ const (
 	LogLevelDebug
 )
 
-// Logger interface to match http_client's Logger interface.
+// Logger interface to match httpclient's Logger interface.
 type Logger interface {
 	SetLevel(level LogLevel)
 	Trace(msg string, keysAndValues ...interface{})

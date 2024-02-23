@@ -25,6 +25,10 @@ type ResponseNetworkSegmentList struct {
 	} `xml:"network_segment"`
 }
 
+type ResponseNetworkSegmentCreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
+}
+
 // Resource
 
 // ResourceNetworkSegment represents the response structure for a Network Segment.
@@ -97,7 +101,7 @@ func (c *Client) GetNetworkSegmentByName(name string) (*ResourceNetworkSegment, 
 }
 
 // CreateNetworkSegment creates a new network segment on the Jamf Pro server.
-func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*ResourceNetworkSegment, error) {
+func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*ResponseNetworkSegmentCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriNetworkSegments)
 
 	// Wrap the segment with the desired XML name using an anonymous struct
@@ -108,7 +112,7 @@ func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*Resourc
 		ResourceNetworkSegment: segment,
 	}
 
-	var responseSegment ResourceNetworkSegment
+	var responseSegment ResponseNetworkSegmentCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseSegment)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "network segment", err)
@@ -122,7 +126,7 @@ func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*Resourc
 }
 
 // UpdateNetworkSegmentByID updates a specific network segment by its ID.
-func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegment) (*ResourceNetworkSegment, error) {
+func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegment) (*ResponseNetworkSegmentCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
 
 	requestBody := struct {
@@ -132,7 +136,7 @@ func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegmen
 		ResourceNetworkSegment: segment,
 	}
 
-	var responseSegment ResourceNetworkSegment
+	var responseSegment ResponseNetworkSegmentCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseSegment)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "network segment", id, err)
@@ -146,7 +150,7 @@ func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegmen
 }
 
 // UpdateNetworkSegmentByName updates a specific network segment by its name.
-func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResourceNetworkSegment) (*ResourceNetworkSegment, error) {
+func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResourceNetworkSegment) (*ResponseNetworkSegmentCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriNetworkSegments, name)
 
 	requestBody := struct {
@@ -156,7 +160,7 @@ func (c *Client) UpdateNetworkSegmentByName(name string, segment *ResourceNetwor
 		ResourceNetworkSegment: segment,
 	}
 
-	var responseSegment ResourceNetworkSegment
+	var responseSegment ResponseNetworkSegmentCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseSegment)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "network segment", name, err)

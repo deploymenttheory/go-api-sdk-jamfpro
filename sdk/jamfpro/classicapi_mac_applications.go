@@ -244,11 +244,6 @@ func (c *Client) GetMacApplicationByNameAndDataSubset(name, subset string) (*Res
 func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*ResourceMacApplications, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriVPPMacApplications)
 
-	if macApp.General.Site.ID == 0 && macApp.General.Site.Name == "" {
-		macApp.General.Site.ID = -1
-		macApp.General.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`
 		ResourceMacApplications

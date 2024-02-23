@@ -115,7 +115,7 @@ func (c *Client) UpdateCloudIdentityProviderByID(id string, cloudIdPUpdate *Reso
 	endpoint := fmt.Sprintf("%s%s", uriCloudIdentityProvider, id)
 
 	var updatedCloudIDP ResourceCloudIdp
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, cloudIdPUpdate, &updatedCloudIDP) // or "PATCH" based on API
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, cloudIdPUpdate, &updatedCloudIDP)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "Azure Cloud IDP", id, err)
 	}

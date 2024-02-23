@@ -121,12 +121,6 @@ func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUser
 func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
-	// Set default values for Site if not provided
-	if search.Site.ID == 0 && search.Site.Name == "" {
-		search.Site.ID = -1
-		search.Site.Name = "None"
-	}
-
 	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`

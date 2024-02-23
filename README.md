@@ -36,26 +36,49 @@ const (
 
 These constants are used to set the maximum number of concurrent requests the client can make, the lifespan of the token, and a buffer period.
 
-2. Loading OAuth Credentials
+2. Loading configuration from a JSON file
 The http client for this SDK supports both classic auth and Oauth with bearer token. Since the direction of travel is Oauth, and it's fine grain permission management it's strongly suggested to use this auth method when using this SDK. To make use of this sdk, create your api client ID and secret and then store your credentials in a JSON file for credential loading. The structure of the client auth json should be like this:
 
 ```json
 {
-  "instanceName": "your_jamf_instance_name", // Required
-  "clientID": "your_client_id", // Required
-  "clientSecret": "your_client_secret", // Required
-  "overrideBaseDomain": "optional_custom_domain.com" // Optional field
+    "Auth": {
+    "ClientID": "your_client_id", // Required for Oauth
+    "ClientSecret": "your_client_secret", // Required for Oauth
+    "Username": "apiuser", // Required for classic auth
+    "Password": "password" // Required for classic auth
+  },  
+}
+```
+
+```json
+{
+     "Environment": {
+    "InstanceName": "jamfpro-instance-name", // Required
+    "OverrideBaseDomain": "", // Optional , required only for on-prem instances
+    "APIType": "jamfpro" // Required
+  },
 }
 ```
 
 Replace your_jamf_instance_name, with your jamf pro instance name. e.g for mycompany.jamfcloud.com , use "mycompany".
 Replace your_client_id, and your_client_secret with your actual credentials.
 
+```json
+{
+  "ClientOptions": {
+    "LogLevel": "LogLevelDebug", // 
+    "LogOutputFormat": "console",
+    "LogConsoleSeparator": " ",
+    "HideSensitiveData": true,
+  }
+}
+```
+
 In your Go program, load these credentials using:
 
 ```go
 configFilePath := "path_to_your/clientauth.json"
-authConfig, err := http_client.LoadAuthConfig(configFilePath)
+authConfig, err := httpclient.LoadAuthConfig(configFilePath)
 if err != nil {
 	log.Fatalf("Failed to load client OAuth configuration: %v", err)
 }
@@ -66,13 +89,13 @@ With the OAuth credentials loaded, you can now configure the HTTP client:
 
 ```go
 // Initialize a new default logger
-logger := http_client.NewDefaultLogger()
+logger := httpclient.NewDefaultLogger()
 
 // Set the desired log level on the logger
-logger.SetLevel(http_client.LogLevelInfo) // LogLevel can be None, Warning, Info, or Debug
+logger.SetLevel(httpclient.LogLevelInfo) // LogLevel can be None, Warning, Info, or Debug
 
 // Create the configuration for the HTTP client with the logger
-config := http_client.Config{
+config := httpclient.Config{
 	Logger: logger,
 }
 ```
@@ -89,7 +112,7 @@ client := jamfpro.NewClient(authConfig.InstanceName, config)
 Then, set the OAuth credentials for the client's HTTP client:
 
 ```go
-oAuthCreds := http_client.OAuthCredentials{
+oAuthCreds := httpclient.OAuthCredentials{
 	ClientID:     authConfig.ClientID,
 	ClientSecret: authConfig.ClientSecret,
 }
@@ -143,36 +166,38 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client" // Import http_client for logging
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/path/to/your/clientauth.json"
-
+	configFilePath := "/path/to your/clientconfig.json"
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	logger := http_client.NewDefaultLogger()
-	logLevel := http_client.LogLevelInfo // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
-
-	// Configuration for the jamfpro
-	config := http_client.Config{
-		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
-			ClientID:     authConfig.ClientID,
-			ClientSecret: authConfig.ClientSecret,
+	// Configuration for the HTTP client
+	config := httpclient.ClientConfig{
+		Auth: httpclient.AuthConfig{
+			ClientID:     loadedConfig.Auth.ClientID,
+			ClientSecret: loadedConfig.Auth.ClientSecret,
 		},
-		LogLevel: logLevel,
+		Environment: httpclient.EnvironmentConfig{
+			APIType:      loadedConfig.Environment.APIType,
+			InstanceName: loadedConfig.Environment.InstanceName,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel:          loadedConfig.ClientOptions.LogLevel,
+			HideSensitiveData: loadedConfig.ClientOptions.HideSensitiveData,
+			LogOutputFormat:   loadedConfig.ClientOptions.LogOutputFormat,
+		},
 	}
 
 	// Create a new jamfpro client instance
-	client, err := jamfpro.NewClient(config)
+	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}

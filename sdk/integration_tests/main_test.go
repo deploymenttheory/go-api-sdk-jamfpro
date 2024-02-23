@@ -11,7 +11,6 @@ import (
 
 // Global variables
 var (
-	bootstrapClient    *jamfpro.Client                 // initialzed client for bootstrap account
 	intTestClient      *jamfpro.Client                 // initialzed client for integration testing account
 	jamfApiIntegration *jamfpro.ResourceApiIntegration // jamf pro api integration / client
 )

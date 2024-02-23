@@ -109,11 +109,6 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := uriComputerGroups
 
-	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site.ID = -1
-		group.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
 		*ResourceComputerGroup

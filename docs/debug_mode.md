@@ -9,10 +9,10 @@ To enable `DebugMode`, you'll need to set the `DebugMode` property of the SDK co
 ### Example
 
 ```go
-// Configuration for the http_client
-config := http_client.Config{
+// Configuration for the httpclient
+config := httpclient.Config{
     DebugMode: true, // This enables the Debug Mode
-    Logger:    http_client.NewDefaultLogger(),
+    Logger:    httpclient.NewDefaultLogger(),
 }
 
 // Create a new jamfpro client instance using the loaded BaseURL
@@ -42,7 +42,7 @@ While `DebugMode` is a powerful tool, there are some precautions to keep in mind
 If you wish to disable the `DebugMode`, simply set the `DebugMode` property in the configuration to `false`:
 
 \```go
-config := http_client.Config{
+config := httpclient.Config{
     DebugMode: false,
 }
 \```

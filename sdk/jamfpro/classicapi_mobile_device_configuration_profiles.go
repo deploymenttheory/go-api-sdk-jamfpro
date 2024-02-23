@@ -282,17 +282,6 @@ func (c *Client) GetMobileDeviceConfigurationProfileByNameWithSubset(name string
 func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceConfigurationProfiles)
 
-	// Set default values for site and category if not included within request
-	if profile.General.Site.ID == 0 && profile.General.Site.Name == "" {
-		profile.General.Site.ID = -1
-		profile.General.Site.Name = "none"
-	}
-	if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
-		profile.General.Category.ID = -1
-		profile.General.Category.Name = "no category"
-
-	}
-
 	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"configuration_profile"`

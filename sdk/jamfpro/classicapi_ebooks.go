@@ -259,11 +259,6 @@ func (c *Client) GetEbookByNameAndDataSubset(name, subset string) (*ResourceEboo
 func (c *Client) CreateEbook(ebook ResourceEbooks) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriEbooks)
 
-	if ebook.General.Site.ID == 0 && ebook.General.Site.Name == "" {
-		ebook.General.Site.ID = -1
-		ebook.General.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"ebook"`
 		ResourceEbooks

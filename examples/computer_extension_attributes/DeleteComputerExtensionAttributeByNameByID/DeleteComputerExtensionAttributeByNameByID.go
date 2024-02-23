@@ -4,40 +4,44 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	configFilePath = "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
-	attributeName  = "Battery Cycle Count" // replace this with the name of the attribute you want to delete
-)
-
 func main() {
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+
 	// Load the client OAuth credentials from the configuration file
-	authConfig, err := jamfpro.LoadAuthConfig(configFilePath)
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
-
-	// Configuration for the jamfpro
-	config := http_client.Config{
-		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
-			ClientID:     authConfig.ClientID,
-			ClientSecret: authConfig.ClientSecret,
+	// Configuration for the HTTP client
+	config := httpclient.ClientConfig{
+		Auth: httpclient.AuthConfig{
+			ClientID:     loadedConfig.Auth.ClientID,
+			ClientSecret: loadedConfig.Auth.ClientSecret,
 		},
-		LogLevel: logLevel,
+		Environment: httpclient.EnvironmentConfig{
+			APIType:      loadedConfig.Environment.APIType,
+			InstanceName: loadedConfig.Environment.InstanceName,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel:          loadedConfig.ClientOptions.LogLevel,
+			HideSensitiveData: loadedConfig.ClientOptions.HideSensitiveData,
+			LogOutputFormat:   loadedConfig.ClientOptions.LogOutputFormat,
+		},
 	}
 
 	// Create a new jamfpro client instance
-	client, err := jamfpro.NewClient(config)
+	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
+	attributeName := "Battery Cycle Count"
 
 	// Call DeleteComputerExtensionAttributeByName function
 	err = client.DeleteComputerExtensionAttributeByNameByID(attributeName)

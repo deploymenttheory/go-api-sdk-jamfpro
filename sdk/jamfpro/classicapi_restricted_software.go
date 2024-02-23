@@ -157,12 +157,6 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResourceRestrictedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, restrictedSoftware.General.ID)
 
-	if restrictedSoftware.General.Site.ID == 0 && restrictedSoftware.General.Site.Name == "" {
-		restrictedSoftware.General.Site.ID = -1
-		restrictedSoftware.General.Site.Name = "none"
-
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
 		*ResourceRestrictedSoftware
@@ -196,7 +190,7 @@ func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *Resour
 
 	var response ResourceRestrictedSoftware
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response) // Note the &response
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
 	}

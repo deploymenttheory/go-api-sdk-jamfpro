@@ -7,41 +7,46 @@ import (
 	"log"
 	"os"
 
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/http_client"
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-const (
-	scriptNameToUpdate = "Embedded Sample Script" // The name of the script to update.
-)
-
 func main() {
-	configFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/clientauth.json"
-	scriptFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/scriptfile.sh"
-
-	authConfig, err := http_client.LoadAuthConfig(configFilePath)
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	// Load the client OAuth credentials from the configuration file
+	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	logLevel := http_client.LogLevelDebug // LogLevelNone // LogLevelWarning // LogLevelInfo  // LogLevelDebug
-
-	// Configuration for the jamfpro
-	config := http_client.Config{
-		InstanceName: authConfig.InstanceName,
-		Auth: http_client.AuthConfig{
-			ClientID:     authConfig.ClientID,
-			ClientSecret: authConfig.ClientSecret,
+	// Configuration for the HTTP client
+	config := httpclient.ClientConfig{
+		Auth: httpclient.AuthConfig{
+			ClientID:     loadedConfig.Auth.ClientID,
+			ClientSecret: loadedConfig.Auth.ClientSecret,
 		},
-		LogLevel: logLevel,
+		Environment: httpclient.EnvironmentConfig{
+			APIType:      loadedConfig.Environment.APIType,
+			InstanceName: loadedConfig.Environment.InstanceName,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel:            loadedConfig.ClientOptions.LogLevel,
+			LogOutputFormat:     loadedConfig.ClientOptions.LogOutputFormat,
+			LogConsoleSeparator: loadedConfig.ClientOptions.LogConsoleSeparator,
+			HideSensitiveData:   loadedConfig.ClientOptions.HideSensitiveData,
+		},
 	}
 
-	// Create a new jamfpro client instanceclient,
-	client, err := jamfpro.NewClient(config)
+	// Create a new jamfpro client instance
+	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
+	scriptFilePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/scriptfile.sh"
+
+	scriptNameToUpdate := "Embedded Sample Script" // The name of the script to update.
 
 	file, err := os.Open(scriptFilePath)
 	if err != nil {

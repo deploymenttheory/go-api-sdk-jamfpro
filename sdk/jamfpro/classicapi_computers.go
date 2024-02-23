@@ -440,11 +440,6 @@ func (c *Client) GetComputerByName(name string) (*ResponseComputer, error) {
 func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, error) {
 	endpoint := uriComputers
 
-	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
-		computer.General.Site.ID = -1
-		computer.General.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer"`
 		ResponseComputer
