@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Define the advanced mobile device search request based on the provided XML
 	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
 		Name:   "Advanced Search Name",

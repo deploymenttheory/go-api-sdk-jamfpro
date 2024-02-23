@@ -39,7 +39,9 @@ func main() {
 	client, err := jamfpro.BuildClient(config)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	} // Assemble the request body for creating an account group
+	}
+
+	// Assemble the request body for creating an account group
 	accountGroup := &jamfpro.ResourceAccountGroup{
 		Name:         "jamf sdk test group",
 		AccessLevel:  "Full Access", // Full Access / Site Access

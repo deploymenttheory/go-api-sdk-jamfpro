@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Name of the advanced user search to retrieve
 	advancedUserSearchName := "YourSearchName" // Replace with the actual name
 

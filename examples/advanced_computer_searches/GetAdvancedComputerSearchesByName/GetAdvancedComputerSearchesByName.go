@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	advancedComputerSearchName := "Advanced Computer Search Name" // Replace with the actual advanced computer search name
 
 	// Call GetAdvancedComputerSearchesByName function using the constant name

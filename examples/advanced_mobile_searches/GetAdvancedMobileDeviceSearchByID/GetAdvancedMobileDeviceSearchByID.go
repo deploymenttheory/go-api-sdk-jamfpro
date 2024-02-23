@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// The ID of the advanced mobile device search you want to retrieve
 	searchID := 13 // Replace with the actual ID you want to retrieve
 

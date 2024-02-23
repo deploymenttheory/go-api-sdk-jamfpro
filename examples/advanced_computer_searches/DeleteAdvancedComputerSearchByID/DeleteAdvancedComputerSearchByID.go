@@ -38,6 +38,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	advancedComputerSearchID := 1 // Replace 1 with the actual advanced computer search ID
 
 	// Delete the advanced computer search by ID

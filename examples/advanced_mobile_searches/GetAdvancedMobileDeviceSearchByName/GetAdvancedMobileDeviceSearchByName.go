@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// The name of the advanced mobile device search you want to retrieve
 	searchName := "Advanced Search Name" // Replace with the actual name you want to retrieve
 

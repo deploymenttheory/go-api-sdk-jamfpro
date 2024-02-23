@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Call the GetAdvancedMobileDeviceSearches function
 	searches, err := client.GetAdvancedMobileDeviceSearches()
 	if err != nil {

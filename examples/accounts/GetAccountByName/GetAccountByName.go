@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Define the variable for the account name
 	accountName := "Dafydd.Watkins" // Change this value as needed
 

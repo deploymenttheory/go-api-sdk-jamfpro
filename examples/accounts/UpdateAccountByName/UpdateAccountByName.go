@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Assemble the request body for updating an account
 	accountToUpdate := &jamfpro.ResourceAccount{
 		Name:                "John Smith updated by resource name",

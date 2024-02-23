@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Assemble the request body for creating an account group
 	updatedAccountGroup := &jamfpro.ResourceAccountGroup{
 		Name:         "Test Group",

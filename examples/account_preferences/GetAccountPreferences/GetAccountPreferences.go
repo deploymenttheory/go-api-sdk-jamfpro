@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Call GetAccountPreferences function
 	groups, err := client.GetAccountPreferences()
 	if err != nil {

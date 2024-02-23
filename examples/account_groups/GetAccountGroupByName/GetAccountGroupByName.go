@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Define the variable for the group name
 	groupName := "Test Group" // Change this value as needed
 

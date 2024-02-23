@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// ID of the advanced user search to retrieve
 	advancedUserSearchID := 29 // Replace with the actual ID
 

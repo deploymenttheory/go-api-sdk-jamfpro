@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	adueSettings, err := client.GetADUESessionTokenSettings()
 
 	jsonData, err := json.MarshalIndent(adueSettings, "", "    ") // Indent with 4 spaces

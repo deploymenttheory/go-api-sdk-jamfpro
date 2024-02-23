@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Define new settings to update
 	newSettings := jamfpro.ResourceAccountPreferences{
 		Language:                             "en",

@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	updatedSettings := jamfpro.ResourceADUETokenSettings{
 		Enabled:                false,
 		ExpirationIntervalDays: 0, // NOTE this needs either seconds or days. The omitempty means it only sends the one you fill however, if you set it to 0, that also counts as empty and therefore you get failed to supply error.

@@ -40,6 +40,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Define the updated advanced user search details
 	updatedAdvancedUserSearch := &jamfpro.ResourceAdvancedUserSearch{
 		Name: "Advanced User Search Name by jamf pro sdk",

@@ -38,6 +38,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Delete advanced user search by Name
 	err = client.DeleteAdvancedUserSearchByName("Search Name") // Replace "Search Name" with the actual name
 	if err != nil {

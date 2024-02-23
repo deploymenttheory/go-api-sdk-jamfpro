@@ -38,6 +38,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	SearchNameToDelete := "Search Name" // Replace with the actual search name
 
 	// Use the client to delete an advanced mobile device search by name
