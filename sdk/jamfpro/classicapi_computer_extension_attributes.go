@@ -56,7 +56,7 @@ func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAtt
 	endpoint := uriComputerExtensionAttributes
 
 	var attributes ResponseComputerExtensionAttributesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attributes, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attributes)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "computer extension attributes", err)
 	}
@@ -73,7 +73,7 @@ func (c *Client) GetComputerExtensionAttributeByID(id int) (*ResourceComputerExt
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
 
 	var attribute ResourceComputerExtensionAttribute
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer extension attribute", id, err)
 	}
@@ -90,7 +90,7 @@ func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResourceComp
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerExtensionAttributes, name)
 
 	var attribute ResourceComputerExtensionAttribute
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "computer extension attribute", name, err)
 	}
@@ -114,7 +114,7 @@ func (c *Client) CreateComputerExtensionAttribute(attribute *ResourceComputerExt
 	}
 
 	var createdAttribute ResourceComputerExtensionAttribute
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer extension attribute", err)
 	}
@@ -138,7 +138,7 @@ func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *Resourc
 	}
 
 	var updatedAttribute ResourceComputerExtensionAttribute
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer extension attribute", id, err)
 	}
@@ -162,7 +162,7 @@ func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *
 	}
 
 	var updatedAttribute ResourceComputerExtensionAttribute
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer extension attribute", name, err)
 	}
@@ -178,7 +178,7 @@ func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *
 func (c *Client) DeleteComputerExtensionAttributeByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer extension attribute", id, err)
 	}

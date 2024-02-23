@@ -62,7 +62,7 @@ func (c *Client) GetEnrollmentCustomizations() (*ResponseEnrollmentCustomization
 	uri := fmt.Sprintf("%s?page=0&page-size=100&sort=id%%3Aasc", uriEnrollmentCustomizations)
 
 	var out ResponseEnrollmentCustomization
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get enrollment customizations: %v", err)
 	}
@@ -74,7 +74,7 @@ func (c *Client) GetEnrollmentCustomizationByID(customizationID string) (*Enroll
 	uri := fmt.Sprintf("%s/%s", uriEnrollmentCustomizations, customizationID)
 
 	var out EnrollmentCustomization
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get enrollment customization by ID: %v", err)
 	}

@@ -49,7 +49,7 @@ func (c *Client) GetComputerInventoryCustomPathCollectionSettings() (*ResponseCo
 	uri := uriComputerInventoryCollectionSettings
 
 	var out ResponseComputerInventoryCollectionSettings
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get computer inventory collection settings: %v", err)
 	}
@@ -61,7 +61,7 @@ func (c *Client) UpdateComputerInventoryCustomPathCollectionSettings(settings *R
 	uri := uriComputerInventoryCollectionSettings
 
 	var out ResponseComputerInventoryCollectionSettings
-	err := c.DoRequest("PATCH", uri, settings, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PATCH", uri, settings, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update computer inventory collection settings: %v", err)
 	}
@@ -78,7 +78,7 @@ func (c *Client) CreateComputerInventoryCustomPathCollection(scope, path string)
 	}
 
 	var response ResponseCustomPathCreation
-	err := c.DoRequest("POST", uri, requestPayload, nil, &response, c.HTTP.Logger)
+	err := c.DoRequest("POST", uri, requestPayload, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create computer inventory collection custom path: %v", err)
 	}
@@ -89,7 +89,7 @@ func (c *Client) CreateComputerInventoryCustomPathCollection(scope, path string)
 func (c *Client) DeleteComputerInventoryCollectionCustomPath(id string) error {
 	uri := fmt.Sprintf("%s/custom-path/%s", uriComputerInventoryCollectionSettings, id)
 
-	err := c.DoRequest("DELETE", uri, nil, nil, nil, c.HTTP.Logger)
+	err := c.DoRequest("DELETE", uri, nil, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete computer inventory collection custom path: %v", err)
 	}

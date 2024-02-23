@@ -69,7 +69,7 @@ func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) 
 	endpoint := fmt.Sprintf("%s/%d", uriApiIntegrations, id)
 
 	var integration ResourceApiIntegration
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "api integration", id, err)
 	}
@@ -102,7 +102,7 @@ func (c *Client) CreateApiIntegration(integration *ResourceApiIntegration) (*Res
 	endpoint := uriApiIntegrations
 
 	var response ResourceApiIntegration
-	resp, err := c.HTTP.DoRequest("POST", endpoint, integration, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, integration, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "api integration", err)
 	}
@@ -120,7 +120,7 @@ func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApi
 	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
 
 	var updatedIntegration ResourceApiIntegration
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, integrationUpdate, &updatedIntegration, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, integrationUpdate, &updatedIntegration)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "api integration", id, err)
 	}
@@ -154,7 +154,7 @@ func (c *Client) DeleteApiIntegrationByID(id int) error {
 	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
 
 	// Perform the DELETE request
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "api integration", id, err)
 	}
@@ -190,7 +190,7 @@ func (c *Client) RefreshClientCredentialsByApiRoleID(id string) (*ResourceClient
 	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s/client-credentials", id)
 
 	var response ResourceClientCredentials
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedRefreshClientCreds, id, err)
 	}

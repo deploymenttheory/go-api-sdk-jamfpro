@@ -24,7 +24,7 @@ type ResourceApiRolePrivilegesList struct {
 // GetJamfAPIPrivileges fetches a list of Jamf API role privileges
 func (c *Client) GetJamfAPIPrivileges() (*ResourceApiRolePrivilegesList, error) {
 	var privilegesList ResourceApiRolePrivilegesList
-	resp, err := c.HTTP.DoRequest("GET", uriApiRolePrivileges, nil, &privilegesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", uriApiRolePrivileges, nil, &privilegesList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "API Privileges", err)
 	}
@@ -45,7 +45,7 @@ func (c *Client) GetJamfAPIPrivilegesByName(name string, limit int) (*ResourceAp
 	endpoint := fmt.Sprintf(uriApiRolePrivileges+"/search?name=%s&limit=%d", encodedName, limit)
 
 	var privilegesList ResourceApiRolePrivilegesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &privilegesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &privilegesList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "API Privilege", name, err)
 	}

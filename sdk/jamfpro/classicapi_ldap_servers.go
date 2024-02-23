@@ -118,7 +118,7 @@ func (c *Client) GetLDAPServers() (*ResponseLDAPServersList, error) {
 	endpoint := uriLDAPServers
 
 	var ldapServers ResponseLDAPServersList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServers, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServers)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "ldap servers", err)
 	}
@@ -135,7 +135,7 @@ func (c *Client) GetLDAPServerByID(id int) (*ResourceLDAPServers, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriLDAPServers, id)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server", id, err)
 	}
@@ -152,7 +152,7 @@ func (c *Client) GetLDAPServerByName(name string) (*ResourceLDAPServers, error) 
 	endpoint := fmt.Sprintf("%s/name/%s", uriLDAPServers, name)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server", name, err)
 	}
@@ -169,7 +169,7 @@ func (c *Client) GetLDAPServerByIDAndUserDataSubset(id int, user string) (*Resou
 	endpoint := fmt.Sprintf("%s/id/%d/user/%s", uriLDAPServers, id, user)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server and user data", id, err)
 	}
@@ -186,7 +186,7 @@ func (c *Client) GetLDAPServerByIDAndGroupDataSubset(id int, group string) (*Res
 	endpoint := fmt.Sprintf("%s/id/%d/group/%s", uriLDAPServers, id, group)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server and group data", id, err)
 	}
@@ -203,7 +203,7 @@ func (c *Client) GetLDAPServerByIDAndUserMembershipInGroupDataSubset(id int, gro
 	endpoint := fmt.Sprintf("%s/id/%d/group/%s/user/%s", uriLDAPServers, id, group, user)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "ldap server and user membership", id, err)
 	}
@@ -220,7 +220,7 @@ func (c *Client) GetLDAPServerByNameAndUserDataSubset(name, user string) (*Resou
 	endpoint := fmt.Sprintf("%s/name/%s/user/%s", uriLDAPServers, name, user)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server and user data", name, err)
 	}
@@ -237,7 +237,7 @@ func (c *Client) GetLDAPServerByNameAndGroupDataSubset(name, group string) (*Res
 	endpoint := fmt.Sprintf("%s/name/%s/group/%s", uriLDAPServers, name, group)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server and group data", name, err)
 	}
@@ -254,7 +254,7 @@ func (c *Client) GetLDAPServerByNameAndUserMembershipInGroupDataSubset(name, gro
 	endpoint := fmt.Sprintf("%s/name/%s/group/%s/user/%s", uriLDAPServers, name, group, user)
 
 	var ldapServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ldap server and user membership data", name, err)
 	}
@@ -278,7 +278,7 @@ func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDA
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseLDAPServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseLDAPServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "ldap server", err)
 	}
@@ -302,7 +302,7 @@ func (c *Client) UpdateLDAPServerByID(id int, ldapServer *ResourceLDAPServers) (
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ldap server", id, err)
 	}
@@ -326,7 +326,7 @@ func (c *Client) UpdateLDAPServerByName(name string, ldapServer *ResourceLDAPSer
 	}
 
 	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseLDAPServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ldap server", name, err)
 	}
@@ -342,7 +342,7 @@ func (c *Client) UpdateLDAPServerByName(name string, ldapServer *ResourceLDAPSer
 func (c *Client) DeleteLDAPServerByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriLDAPServers, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "ldap server", id, err)
 	}
@@ -358,7 +358,7 @@ func (c *Client) DeleteLDAPServerByID(id int) error {
 func (c *Client) DeleteLDAPServerByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriLDAPServers, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "ldap server", name, err)
 	}

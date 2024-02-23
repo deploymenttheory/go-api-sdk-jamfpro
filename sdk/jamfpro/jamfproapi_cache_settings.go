@@ -46,7 +46,7 @@ func (c *Client) GetCacheSettings() (*ResourceCacheSettings, error) {
 	endpoint := uriCacheSettings
 
 	var cacheSettings ResourceCacheSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cacheSettings, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cacheSettings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "cache settings", err)
 	}
@@ -68,7 +68,7 @@ func (c *Client) UpdateCacheSettings(cacheSettingsUpdate *ResourceCacheSettings)
 	}
 
 	var updatedSettings ResourceCacheSettings
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedSettings, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, requestBody, &updatedSettings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "cache settings", err)
 	}

@@ -47,7 +47,7 @@ func (c *Client) GetDirectoryBindings() (*ResponseDirectoryBindingsList, error) 
 	endpoint := uriDirectoryBindings
 
 	var bindings ResponseDirectoryBindingsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &bindings, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &bindings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "directory bindings", err)
 	}
@@ -64,7 +64,7 @@ func (c *Client) GetDirectoryBindingByID(id int) (*ResponseDirectoryBinding, err
 	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
 
 	var binding ResponseDirectoryBinding
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "directory binding", id, err)
 	}
@@ -81,7 +81,7 @@ func (c *Client) GetDirectoryBindingByName(name string) (*ResponseDirectoryBindi
 	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, name)
 
 	var binding ResponseDirectoryBinding
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "directory binding", name, err)
 	}
@@ -105,7 +105,7 @@ func (c *Client) CreateDirectoryBinding(binding *ResponseDirectoryBinding) (*Res
 	}
 
 	var createdBinding ResponseDirectoryBinding
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdBinding, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdBinding)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "directory binding", err)
 	}
@@ -129,7 +129,7 @@ func (c *Client) UpdateDirectoryBindingByID(id int, binding *ResponseDirectoryBi
 	}
 
 	var updatedBinding ResponseDirectoryBinding
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBinding, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBinding)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "directory binding", id, err)
 	}
@@ -153,7 +153,7 @@ func (c *Client) UpdateDirectoryBindingByName(name string, binding *ResponseDire
 	}
 
 	var updatedBinding ResponseDirectoryBinding
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBinding, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedBinding)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "directory binding", name, err)
 	}
@@ -169,7 +169,7 @@ func (c *Client) UpdateDirectoryBindingByName(name string, binding *ResponseDire
 func (c *Client) DeleteDirectoryBindingByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "directory binding", id, err)
 	}
@@ -185,7 +185,7 @@ func (c *Client) DeleteDirectoryBindingByID(id int) error {
 func (c *Client) DeleteDirectoryBindingByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDirectoryBindings, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "directory binding", name, err)
 	}

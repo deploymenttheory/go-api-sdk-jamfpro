@@ -390,7 +390,7 @@ func (c *Client) GetComputers() (*ResponseComputersList, error) {
 	endpoint := uriComputers
 
 	var computersList ResponseComputersList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computersList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computersList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "computers", err)
 	}
@@ -407,7 +407,7 @@ func (c *Client) GetComputerByID(id int) (*ResponseComputer, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
 
 	var computer ResponseComputer
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer", id, err)
 	}
@@ -424,7 +424,7 @@ func (c *Client) GetComputerByName(name string) (*ResponseComputer, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputers, name)
 
 	var computer ResponseComputer
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "computer", name, err)
 	}
@@ -448,7 +448,7 @@ func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, e
 	}
 
 	var response ResponseComputer
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer", err)
 	}
@@ -479,7 +479,7 @@ func (c *Client) UpdateComputerByID(id int, computer ResponseComputer) (*Respons
 	}
 
 	var response ResponseComputer
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer", id, err)
 	}
@@ -510,7 +510,7 @@ func (c *Client) UpdateComputerByName(name string, computer ResponseComputer) (*
 	}
 
 	var response ResponseComputer
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer", name, err)
 	}
@@ -526,7 +526,7 @@ func (c *Client) UpdateComputerByName(name string, computer ResponseComputer) (*
 func (c *Client) DeleteComputerByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer", id, err)
 	}
@@ -542,7 +542,7 @@ func (c *Client) DeleteComputerByID(id int) error {
 func (c *Client) DeleteComputerByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputers, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "computer", name, err)
 	}

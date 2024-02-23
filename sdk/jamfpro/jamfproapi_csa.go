@@ -22,7 +22,7 @@ func (c *Client) GetCSATokenExchangeInfo() (*ResourceCSATokenExchange, error) {
 	endpoint := uriCSATokenExchange
 	var out ResourceCSATokenExchange
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "csa token exchange info", err)
 	}
@@ -46,7 +46,7 @@ func (c *Client) RefreshCSATokenExchange(username, password string) (*ResourceCS
 		Password: password,
 	}
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "csa token exchange", err)
 	}
@@ -70,7 +70,7 @@ func (c *Client) InitializeCSATokenExchange(username, password string) (*Resourc
 		Password: password,
 	}
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "csa token exchange", err)
 	}
@@ -85,7 +85,7 @@ func (c *Client) InitializeCSATokenExchange(username, password string) (*Resourc
 func (c *Client) DeleteCSATokenExchange() error {
 	endpoint := uriCSATokenExchange
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDelete, "csa token exchange", err)
 	}

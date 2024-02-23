@@ -56,7 +56,7 @@ func (c *Client) GetPrinters() (*ResponsePrintersList, error) {
 	endpoint := uriPrinters
 
 	var printers ResponsePrintersList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printers, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printers)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "printers", err)
 	}
@@ -73,7 +73,7 @@ func (c *Client) GetPrinterByID(id int) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
 	var printer ResourcePrinter
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "printer", id, err)
 	}
@@ -90,7 +90,7 @@ func (c *Client) GetPrinterByName(name string) (*ResourcePrinter, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
 	var printer ResourcePrinter
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "printer", name, err)
 	}
@@ -115,7 +115,7 @@ func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResponsePrinterCreate
 	}
 
 	var responsePrinter ResponsePrinterCreateAndUpdate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePrinter, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "printer", err)
 	}
@@ -140,7 +140,7 @@ func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResponseP
 	}
 
 	var responsePrinter ResponsePrinterCreateAndUpdate
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "printer", id, err)
 	}
@@ -165,7 +165,7 @@ func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*Re
 	}
 
 	var responsePrinter ResponsePrinterCreateAndUpdate
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePrinter)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "printer", name, err)
 	}
@@ -181,7 +181,7 @@ func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*Re
 func (c *Client) DeletePrinterByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "printer", id, err)
 	}
@@ -197,7 +197,7 @@ func (c *Client) DeletePrinterByID(id int) error {
 func (c *Client) DeletePrinterByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "printer", name, err)
 	}

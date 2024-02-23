@@ -414,7 +414,7 @@ func (c *Client) GetPolicies() (*ResponsePoliciesList, error) {
 	endpoint := uriPolicies
 
 	var policiesList ResponsePoliciesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch all policies: %v", err)
 	}
@@ -431,7 +431,7 @@ func (c *Client) GetPolicyByID(id int) (*ResourcePolicy, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
 
 	var policyDetails ResourcePolicy
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch policy by ID: %v", err)
 	}
@@ -448,7 +448,7 @@ func (c *Client) GetPolicyByName(name string) (*ResourcePolicy, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
 
 	var policyDetails ResourcePolicy
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch policy by name: %v", err)
 	}
@@ -465,7 +465,7 @@ func (c *Client) GetPolicyByCategory(category string) (*ResponsePoliciesList, er
 	endpoint := fmt.Sprintf("%s/category/%s", uriPolicies, category)
 
 	var policiesList ResponsePoliciesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch policies by category: %v", err)
 	}
@@ -483,7 +483,7 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 	endpoint := fmt.Sprintf("%s/createdBy/%s", uriPolicies, createdBy)
 
 	var policiesList ResponsePoliciesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policiesList)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch policies by type: %v", err)
 	}
@@ -508,7 +508,7 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResourcePolicyCreateAndU
 	}
 
 	var ResourcePolicy ResourcePolicyCreateAndUpdate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourcePolicy, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourcePolicy)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create policy: %v", err)
 	}
@@ -534,7 +534,7 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResourcePoli
 	}
 
 	var response ResourcePolicyCreateAndUpdate
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update policy: %v", err)
 	}
@@ -559,7 +559,7 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Resou
 	}
 
 	var response ResourcePolicyCreateAndUpdate
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update policy: %v", err)
 	}
@@ -574,7 +574,7 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Resou
 // DeletePolicyByID deletes a policy by its ID.
 func (c *Client) DeletePolicyByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete policy: %v", err)
 	}
@@ -589,7 +589,7 @@ func (c *Client) DeletePolicyByID(id int) error {
 // DeletePolicyByName deletes a policy by its name.
 func (c *Client) DeletePolicyByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete policy: %v", err)
 	}

@@ -67,7 +67,7 @@ func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*ResourceSelfServic
 	var out ResourceSelfServiceBrandingDetail
 	endpoint := fmt.Sprintf("%s/%s", uriSelfServiceBrandingMacOS, id)
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
@@ -102,7 +102,7 @@ func (c *Client) CreateSelfServiceBrandingMacOS(branding *ResourceSelfServiceBra
 	endpoint := uriSelfServiceBrandingMacOS
 
 	var response ResourceSelfServiceBrandingDetail
-	resp, err := c.HTTP.DoRequest("POST", endpoint, branding, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, branding, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create self-service branding: %v", err)
 	}
@@ -119,7 +119,7 @@ func (c *Client) UpdateSelfServiceBrandingMacOSByID(id string, brandingUpdate *R
 	endpoint := fmt.Sprintf("%s/%s", uriSelfServiceBrandingMacOS, id)
 
 	var response ResourceSelfServiceBrandingDetail
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, brandingUpdate, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, brandingUpdate, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update self-service branding: %v", err)
 	}
@@ -152,7 +152,7 @@ func (c *Client) UpdateSelfServiceBrandingMacOSByName(name string, brandingUpdat
 func (c *Client) DeleteSelfServiceBrandingMacOSByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriSelfServiceBrandingMacOS, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "self service branding", id, err)
 	}

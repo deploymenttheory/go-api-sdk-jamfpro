@@ -63,7 +63,7 @@ type progressReader struct {
 func (c *Client) GetJCDS2Packages() ([]ResponseJCDS2List, error) {
 	endpoint := uriJCDS2 + "/files"
 	var out []ResponseJCDS2List
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
 	}
@@ -79,7 +79,7 @@ func (c *Client) GetJCDS2Packages() ([]ResponseJCDS2List, error) {
 func (c *Client) GetJCDS2PackageURIByName(id string) (*ResponseJCDS2File, error) {
 	endpoint := fmt.Sprintf("%s/%v", uriJCDS2+"/files", id)
 	var out ResponseJCDS2File
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "JCDS 2.0", id, err)
@@ -96,7 +96,7 @@ func (c *Client) GetJCDS2PackageURIByName(id string) (*ResponseJCDS2File, error)
 func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, error) {
 	// Step 1: Obtain AWS credentials for the package upload endpoint
 	var uploadCredentials ResponseJCDS2UploadCredentials
-	resp, err := c.HTTP.DoRequest("POST", uriJCDS2+"/files", nil, &uploadCredentials, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", uriJCDS2+"/files", nil, &uploadCredentials)
 	if err != nil {
 		return nil, fmt.Errorf("failed to obtain upload credentials: %v", err)
 	}
@@ -211,7 +211,7 @@ func (r *progressReader) Read(p []byte) (int, error) {
 func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error) {
 	endpoint := uriJCDS2 + "/renew-credentials"
 	var out ResponseJCDS2UploadCredentials
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
 	}

@@ -68,7 +68,7 @@ type SsoSubsetSubsetEnrollmentCustomizationDependency struct {
 func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "sso settings", err)
 	}
@@ -84,7 +84,7 @@ func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "sso settings", err)
 	}
@@ -100,7 +100,7 @@ func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*Resour
 func (c *Client) GetSsoEnrollmentCustomizationDependencies() (*ResponseSsoSubsetEnrollmentCustomizationDependencyList, error) {
 	endpoint := uriSsoDependencies
 	var out ResponseSsoSubsetEnrollmentCustomizationDependencyList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "sso enrollment customization dependencies", err)
 	}

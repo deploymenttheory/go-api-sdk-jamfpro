@@ -117,7 +117,7 @@ func (c *Client) GetLicensedSoftware() (*ResponseLicensedSoftwareList, error) {
 	endpoint := uriLicensedSoftware
 
 	var licensedSoftware ResponseLicensedSoftwareList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "licensed software", err)
 	}
@@ -134,7 +134,7 @@ func (c *Client) GetLicensedSoftwareByID(id int) (*ResourceLicensedSoftware, err
 	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
 
 	var licensedSoftware ResourceLicensedSoftware
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "licensed software", id, err)
 	}
@@ -151,7 +151,7 @@ func (c *Client) GetLicensedSoftwareByName(name string) (*ResourceLicensedSoftwa
 	endpoint := fmt.Sprintf("%s/name/%s", uriLicensedSoftware, name)
 
 	var licensedSoftware ResourceLicensedSoftware
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "licensed software", name, err)
 	}
@@ -176,7 +176,7 @@ func (c *Client) CreateLicensedSoftware(licensedSoftware *ResourceLicensedSoftwa
 	}
 
 	var ResourceLicensedSoftware ResourceLicensedSoftware
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceLicensedSoftware, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceLicensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "licensed software", err)
 	}
@@ -200,7 +200,7 @@ func (c *Client) UpdateLicensedSoftwareByID(id int, licensedSoftware *ResourceLi
 	}
 
 	var ResourceLicensedSoftware ResourceLicensedSoftware
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &ResourceLicensedSoftware, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &ResourceLicensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "licensed software", id, err)
 	}
@@ -224,7 +224,7 @@ func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *Res
 	}
 
 	var ResourceLicensedSoftware ResourceLicensedSoftware
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &ResourceLicensedSoftware, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &ResourceLicensedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "licensed software", name, err)
 	}
@@ -240,7 +240,7 @@ func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *Res
 func (c *Client) DeleteLicensedSoftwareByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "licensed software", id, err)
 	}
@@ -256,7 +256,7 @@ func (c *Client) DeleteLicensedSoftwareByID(id int) error {
 func (c *Client) DeleteLicensedSoftwareByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriLicensedSoftware, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "licensed software", name, err)
 	}

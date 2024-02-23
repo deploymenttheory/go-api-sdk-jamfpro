@@ -52,7 +52,7 @@ func (c *Client) GetUserExtensionAttributes() (*ResponseUserExtensionAttributesL
 	endpoint := uriUserExtensionAttributes
 
 	var extAttributes ResponseUserExtensionAttributesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extAttributes, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extAttributes)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "user extension attributes", err)
 	}
@@ -69,7 +69,7 @@ func (c *Client) GetUserExtensionAttributeByID(id int) (*ResourceUserExtensionAt
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
 
 	var userExtAttr ResourceUserExtensionAttribute
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "user extension attribute", id, err)
 	}
@@ -86,7 +86,7 @@ func (c *Client) GetUserExtensionAttributeByName(name string) (*ResourceUserExte
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserExtensionAttributes, name)
 
 	var userExtAttr ResourceUserExtensionAttribute
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "user extension attribute", name, err)
 	}
@@ -110,7 +110,7 @@ func (c *Client) CreateUserExtensionAttribute(attribute *ResourceUserExtensionAt
 	}
 
 	var createdAttribute ResourceUserExtensionAttribute
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "user extension attribute", err)
 	}
@@ -134,7 +134,7 @@ func (c *Client) UpdateUserExtensionAttributeByID(id int, attribute *ResourceUse
 	}
 
 	var updatedAttribute ResourceUserExtensionAttribute
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "user extension attribute", id, err)
 	}
@@ -158,7 +158,7 @@ func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *Reso
 	}
 
 	var updatedAttribute ResourceUserExtensionAttribute
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "user extension attribute", name, err)
 	}
@@ -174,7 +174,7 @@ func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *Reso
 func (c *Client) DeleteUserExtensionAttributeByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user extension attribute", id, err)
 	}
@@ -190,7 +190,7 @@ func (c *Client) DeleteUserExtensionAttributeByID(id int) error {
 func (c *Client) DeleteUserExtensionAttributeByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserExtensionAttributes, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "user extension attribute", name, err)
 	}

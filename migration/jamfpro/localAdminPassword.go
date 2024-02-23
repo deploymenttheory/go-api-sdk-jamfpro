@@ -17,7 +17,7 @@ func (c *Client) GetLocalAdminPasswordSettings() (*ResponseLocalAdminPasswordSet
 	uri := uriLocalAdminPasswordSettings
 
 	var out ResponseLocalAdminPasswordSettings
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get local admin password settings: %v", err)
 	}
@@ -29,7 +29,7 @@ func (c *Client) UpdateLocalAdminPasswordSettings(settings *ResponseLocalAdminPa
 	uri := uriLocalAdminPasswordSettings
 
 	var out ResponseLocalAdminPasswordSettings
-	err := c.DoRequest("PUT", uri, settings, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PUT", uri, settings, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update local admin password settings: %v", err)
 	}

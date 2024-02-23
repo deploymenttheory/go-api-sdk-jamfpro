@@ -91,7 +91,7 @@ func (c *Client) GetUsers() (*ResponseUsersList, error) {
 	endpoint := uriUsers
 
 	var usersList ResponseUsersList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &usersList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &usersList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "users", err)
 	}
@@ -108,7 +108,7 @@ func (c *Client) GetUserByID(id int) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
 
 	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "user", id, err)
 	}
@@ -125,7 +125,7 @@ func (c *Client) GetUserByName(name string) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
 
 	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "user", name, err)
 	}
@@ -142,7 +142,7 @@ func (c *Client) GetUserByEmail(email string) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
 
 	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByEmail, "user", email, err)
 	}
@@ -166,7 +166,7 @@ func (c *Client) CreateUser(newUser *ResourceUser) (*ResourceUser, error) {
 	}
 
 	var createdUser ResourceUser
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUser, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUser)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "user", err)
 	}
@@ -190,7 +190,7 @@ func (c *Client) UpdateUserByID(id int, updatedUser *ResourceUser) (*ResourceUse
 	}
 
 	var user ResourceUser
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "user", id, err)
 	}
@@ -214,7 +214,7 @@ func (c *Client) UpdateUserByName(name string, updatedUser *ResourceUser) (*Reso
 	}
 
 	var user ResourceUser
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "user", name, err)
 	}
@@ -238,7 +238,7 @@ func (c *Client) UpdateUserByEmail(email string, updatedUser *ResourceUser) (*Re
 	}
 
 	var user ResourceUser
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &user)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByEmail, "user", email, err)
 	}
@@ -253,7 +253,7 @@ func (c *Client) UpdateUserByEmail(email string, updatedUser *ResourceUser) (*Re
 // DeleteUserByID deletes a user by their ID.
 func (c *Client) DeleteUserByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user", id, err)
 	}
@@ -268,7 +268,7 @@ func (c *Client) DeleteUserByID(id int) error {
 // DeleteUserByName deletes a user by their name.
 func (c *Client) DeleteUserByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUsers, name)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "user", name, err)
 	}
@@ -283,7 +283,7 @@ func (c *Client) DeleteUserByName(name string) error {
 // DeleteUserByEmail deletes a user by their email.
 func (c *Client) DeleteUserByEmail(email string) error {
 	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByEmail, "user", email, err)
 	}

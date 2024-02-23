@@ -33,7 +33,7 @@ func (c *Client) UploadIcon(filePath string) (*ResponseUploadIcon, error) {
 	}
 	var uploadResponse ResponseUploadIcon
 
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse, c.HTTP.Logger)
+	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload icon: %v", err)
 	}
@@ -60,7 +60,7 @@ func (c *Client) DownloadIcon(iconID int, savePath string, res string, scale str
 
 	var placeholder struct{}
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &placeholder, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &placeholder)
 	if err != nil {
 		return fmt.Errorf("failed to download icon: %v", err)
 	}

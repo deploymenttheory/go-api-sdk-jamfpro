@@ -59,7 +59,7 @@ func (c *Client) GetWebhooks() (*ResponseWebhooksList, error) {
 	endpoint := uriWebhooks
 
 	var response ResponseWebhooksList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "webhooks", err)
 	}
@@ -76,7 +76,7 @@ func (c *Client) GetWebhookByID(id int) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
 	var response ResourceWebhook
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "webhook", id, err)
 	}
@@ -93,7 +93,7 @@ func (c *Client) GetWebhookByName(name string) (*ResourceWebhook, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
 	var response ResourceWebhook
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "webhook", name, err)
 	}
@@ -117,7 +117,7 @@ func (c *Client) CreateWebhook(webhook *ResourceWebhook) (*ResourceWebhook, erro
 	}
 
 	var response ResourceWebhook
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "webhook", err)
 	}
@@ -141,7 +141,7 @@ func (c *Client) UpdateWebhookByID(id int, webhook *ResourceWebhook) (*ResourceW
 	}
 
 	var response ResourceWebhook
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "webhook", id, err)
 	}
@@ -165,7 +165,7 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 	}
 
 	var response ResourceWebhook
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "webhook", name, err)
 	}
@@ -180,7 +180,7 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 func (c *Client) DeleteWebhookByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "webhook", id, err)
 	}
@@ -199,7 +199,7 @@ func (c *Client) DeleteWebhookByID(id int) error {
 func (c *Client) DeleteWebhookByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "webhook", name, err)
 	}

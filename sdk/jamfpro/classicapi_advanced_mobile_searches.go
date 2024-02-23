@@ -76,7 +76,7 @@ func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDevic
 	endpoint := uriAPIAdvancedMobileDeviceSearches
 
 	var searchesList ResponseAdvancedMobileDeviceSearchesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchesList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "advanced mobile device searches", err)
 	}
@@ -93,7 +93,7 @@ func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMob
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
 	var searchDetail ResourceAdvancedMobileDeviceSearch
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "advanced mobile device search", id, err)
 	}
@@ -110,7 +110,7 @@ func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdva
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
 	var searchDetail ResourceAdvancedMobileDeviceSearch
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "advanced mobile device search", name, err)
 	}
@@ -134,7 +134,7 @@ func (c *Client) CreateAdvancedMobileDeviceSearch(search *ResourceAdvancedMobile
 	}
 
 	var createdSearch ResponseAdvancedMobileDeviceSearchCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "advanced mobile device search", err)
 	}
@@ -158,7 +158,7 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAd
 	}
 
 	var updatedSearch ResponseAdvancedMobileDeviceSearchCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "advanced mobile device search", id, err)
 	}
@@ -182,7 +182,7 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *Res
 	}
 
 	var updatedSearch ResponseAdvancedMobileDeviceSearchCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "advanced mobile device search", name, err)
 	}
@@ -198,7 +198,7 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *Res
 func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "advanced mobile device search", id, err)
 	}
@@ -214,7 +214,7 @@ func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id int) error {
 func (c *Client) DeleteAdvancedMobileDeviceSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "advanced mobile device search", name, err)
 	}

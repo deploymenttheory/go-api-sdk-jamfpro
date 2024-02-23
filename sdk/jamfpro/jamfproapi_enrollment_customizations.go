@@ -87,7 +87,7 @@ func (c *Client) GetEnrollmentCustomizations(sort_filter string) (*ResponseEnrol
 func (c *Client) GetEnrollmentCustomizationByID(id string) (*ResourceEnrollmentCustomization, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriEnrollmentCustomizationSettings, id)
 	var out ResourceEnrollmentCustomization
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "enrollment customization", id, err)
@@ -105,7 +105,7 @@ func (c *Client) GetEnrollmentCustomizationByID(id string) (*ResourceEnrollmentC
 func (c *Client) CreateEnrollmentCustomization(enrollmentCustomization ResourceEnrollmentCustomization) (*ResponseEnrollmentCustomizationCreate, error) {
 	endpoint := uriEnrollmentCustomizationSettings
 	var out ResponseEnrollmentCustomizationCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, enrollmentCustomization, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, enrollmentCustomization, &out)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "enrollment customization", err)
@@ -123,7 +123,7 @@ func (c *Client) CreateEnrollmentCustomization(enrollmentCustomization ResourceE
 func (c *Client) UpdateEnrollmentCustomizationByID(id string, updatedCustomization ResourceEnrollmentCustomization) (*ResourceEnrollmentCustomization, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriEnrollmentCustomizationSettings, id)
 	var out ResourceEnrollmentCustomization
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedCustomization, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedCustomization, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "enrollment customization settings", id, err)
 	}
@@ -139,7 +139,7 @@ func (c *Client) UpdateEnrollmentCustomizationByID(id string, updatedCustomizati
 func (c *Client) DeleteEnrollmentCustomizationByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriEnrollmentCustomizationSettings, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "enrollment customization settings", id, err)

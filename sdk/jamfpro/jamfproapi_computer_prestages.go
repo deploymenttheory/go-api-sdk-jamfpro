@@ -188,7 +188,7 @@ func (c *Client) GetComputerPrestageByID(id string) (*ResourceComputerPrestage, 
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
 	var prestage ResourceComputerPrestage
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &prestage, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &prestage)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer prestage", id, err)
 	}
@@ -221,7 +221,7 @@ func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*Re
 	endpoint := uriComputerPrestagesV3
 
 	var creationResponse ResponseComputerPrestageCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, prestage, &creationResponse, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, prestage, &creationResponse)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer prestage", err)
 	}
@@ -238,7 +238,7 @@ func (c *Client) UpdateComputerPrestageByID(id string, prestageUpdate *ResourceC
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
 	var updatedPrestage ResourceComputerPrestage
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, prestageUpdate, &updatedPrestage, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, prestageUpdate, &updatedPrestage)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update computer prestage with ID %s: %v", id, err)
 	}
@@ -271,7 +271,7 @@ func (c *Client) UpdateComputerPrestageByName(name string, prestageUpdate *Resou
 func (c *Client) DeleteComputerPrestageByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer prestage", id, err)
 	}
@@ -305,7 +305,7 @@ func (c *Client) GetDeviceScopeForComputerPrestageByID(id string) (*ResponseDevi
 	endpoint := fmt.Sprintf("%s/%s/scope", uriComputerPrestagesV2, id)
 
 	var deviceScope ResponseDeviceScope
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer prestage scope", id, err)
 	}

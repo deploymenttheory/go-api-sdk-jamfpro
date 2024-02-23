@@ -35,7 +35,7 @@ func (c *Client) GetSites() (*ResponseSitesList, error) {
 	endpoint := uriSites
 
 	var sites ResponseSitesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &sites, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &sites)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "sites", err)
 	}
@@ -52,7 +52,7 @@ func (c *Client) GetSiteByID(id int) (*SharedResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
 
 	var site SharedResourceSite
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "site", id, err)
 	}
@@ -69,7 +69,7 @@ func (c *Client) GetSiteByName(name string) (*SharedResourceSite, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSites, name)
 
 	var site SharedResourceSite
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "site", name, err)
 	}
@@ -93,7 +93,7 @@ func (c *Client) CreateSite(site *SharedResourceSite) (*SharedResourceSite, erro
 	}
 
 	var createdSite SharedResourceSite
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSite, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSite)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "site", err)
 	}
@@ -117,7 +117,7 @@ func (c *Client) UpdateSiteByID(id int, site *SharedResourceSite) (*SharedResour
 	}
 
 	var updatedSite SharedResourceSite
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "site", id, err)
 	}
@@ -141,7 +141,7 @@ func (c *Client) UpdateSiteByName(name string, site *SharedResourceSite) (*Share
 	}
 
 	var updatedSite SharedResourceSite
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSite)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "site", name, err)
 	}
@@ -157,7 +157,7 @@ func (c *Client) UpdateSiteByName(name string, site *SharedResourceSite) (*Share
 func (c *Client) DeleteSiteByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "site", id, err)
 	}
@@ -173,7 +173,7 @@ func (c *Client) DeleteSiteByID(id int) error {
 func (c *Client) DeleteSiteByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriSites, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "site", name, err)
 	}

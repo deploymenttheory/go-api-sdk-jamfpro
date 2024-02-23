@@ -22,7 +22,7 @@ type ResponseSSOFailover struct {
 func (c *Client) GetSSOFailoverSettings() (*ResponseSSOFailover, error) {
 	var out ResponseSSOFailover
 
-	resp, err := c.HTTP.DoRequest("GET", uriSSOFailover, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", uriSSOFailover, nil, &out)
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
@@ -42,7 +42,7 @@ func (c *Client) UpdateFailoverUrl() (*ResponseSSOFailover, error) {
 
 	endpoint := uriSSOFailover + "/generate"
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()

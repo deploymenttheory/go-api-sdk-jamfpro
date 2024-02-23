@@ -157,7 +157,7 @@ func (c *Client) GetMobileDevicePrestageByID(id string) (*ResourceMobileDevicePr
 	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
 	var out ResourceMobileDevicePrestage
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device prestage", id, err)
 	}
@@ -173,7 +173,7 @@ func (c *Client) GetMobileDevicePrestageByID(id string) (*ResourceMobileDevicePr
 func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePrestage) (*ResponseMobileDevicePrestageCreate, error) {
 	endpoint := uriMobileDevicePrestages
 	var out ResponseMobileDevicePrestageCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, newPrestage, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, newPrestage, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device prestage", err)
 	}
@@ -188,7 +188,7 @@ func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePres
 // DeleteMobileDevicePrestageByID a mobile prestage at the given id
 func (c *Client) DeleteMobileDevicePrestageByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device prestage", id, err)
 	}

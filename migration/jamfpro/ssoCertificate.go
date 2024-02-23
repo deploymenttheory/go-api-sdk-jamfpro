@@ -39,6 +39,6 @@ func (c *Client) GetSSOCertificate() (*SSOCertificateResponse, error) {
 	headers := map[string]string{"accept": "application/json"}
 
 	// Make the request using the client's DoRequest method
-	err := c.DoRequest("GET", uriSSOCert, headers, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uriSSOCert, headers, nil, &out)
 	return out, err
 }

@@ -198,7 +198,7 @@ func (c *Client) GetMobileDeviceConfigurationProfiles() (*ResponseMobileDeviceCo
 	endpoint := uriMobileDeviceConfigurationProfiles
 
 	var profiles ResponseMobileDeviceConfigurationProfilesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device configuration profiles", err)
 	}
@@ -215,7 +215,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByID(id int) (*ResourceMobil
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
 
 	var profile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device configuration profile", id, err)
 	}
@@ -232,7 +232,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByName(name string) (*Resour
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceConfigurationProfiles, name)
 
 	var profile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device configuration profile", name, err)
 	}
@@ -249,7 +249,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByIDWithSubset(id int, subse
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceConfigurationProfiles, id, subset)
 
 	var profile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device configuration profile with data subset", id, err)
 	}
@@ -266,7 +266,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByNameWithSubset(name string
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDeviceConfigurationProfiles, name, subset)
 
 	var profile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device configuration profile with data subset", name, err)
 	}
@@ -291,7 +291,7 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 	}
 
 	var responseProfile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device configuration profile", err)
 	}
@@ -316,7 +316,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *Res
 	}
 
 	var responseProfile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device configuration profile", id, err)
 	}
@@ -340,7 +340,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 	}
 
 	var responseProfile ResourceMobileDeviceConfigurationProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device configuration profile", name, err)
 	}
@@ -356,7 +356,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device configuration profile", id, err)
 	}
@@ -372,7 +372,7 @@ func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id int) error {
 func (c *Client) DeleteMobileDeviceConfigurationProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceConfigurationProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device configuration profile", name, err)
 	}

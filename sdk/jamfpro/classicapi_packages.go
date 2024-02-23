@@ -66,7 +66,7 @@ func (c *Client) GetPackages() (*ResponsePackagesList, error) {
 	endpoint := uriPackages
 
 	var response ResponsePackagesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "package", err)
 	}
@@ -83,7 +83,7 @@ func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
 
 	var response ResourcePackage
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "package", id, err)
 	}
@@ -100,7 +100,7 @@ func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
 
 	var response ResourcePackage
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "package", name, err)
 	}
@@ -124,7 +124,7 @@ func (c *Client) CreatePackage(pkg ResourcePackage) (*ResponsePackageCreatedAndU
 	}
 
 	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "package", err)
 	}
@@ -151,7 +151,7 @@ func (c *Client) UpdatePackageByID(id int, pkg *ResourcePackage) (*ResponsePacka
 	var response ResponsePackageCreatedAndUpdated
 
 	// Use PUT method for updating the package
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "package", id, err)
 	}
@@ -177,7 +177,7 @@ func (c *Client) UpdatePackageByName(name string, pkg *ResourcePackage) (*Respon
 
 	var response ResponsePackageCreatedAndUpdated
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "package", name, err)
 	}
@@ -193,7 +193,7 @@ func (c *Client) UpdatePackageByName(name string, pkg *ResourcePackage) (*Respon
 func (c *Client) DeletePackageByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "package", id, err)
 	}
@@ -209,7 +209,7 @@ func (c *Client) DeletePackageByID(id int) error {
 func (c *Client) DeletePackageByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "package", name, err)
 	}

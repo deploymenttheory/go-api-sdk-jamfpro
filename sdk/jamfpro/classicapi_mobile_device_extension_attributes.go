@@ -48,7 +48,7 @@ func (c *Client) GetMobileExtensionAttributes() (*ResponseMobileDeviceExtensionA
 	endpoint := uriMobileDeviceExtensionAttributes
 
 	var extensionAttributes ResponseMobileDeviceExtensionAttributesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extensionAttributes, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extensionAttributes)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device extension attributes", err)
 	}
@@ -65,7 +65,7 @@ func (c *Client) GetMobileExtensionAttributeByID(id int) (*ResourceMobileExtensi
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
 
 	var attribute ResourceMobileExtensionAttribute
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device extension attribute", id, err)
 	}
@@ -82,7 +82,7 @@ func (c *Client) GetMobileExtensionAttributeByName(name string) (*ResourceMobile
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceExtensionAttributes, name)
 
 	var attribute ResourceMobileExtensionAttribute
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device extension attribute", name, err)
 	}
@@ -106,7 +106,7 @@ func (c *Client) CreateMobileExtensionAttribute(attribute *ResourceMobileExtensi
 	}
 
 	var responseAttribute ResourceMobileExtensionAttribute
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device extension attribute", err)
 	}
@@ -130,7 +130,7 @@ func (c *Client) UpdateMobileExtensionAttributeByID(id int, attribute *ResourceM
 	}
 
 	var responseAttribute ResourceMobileExtensionAttribute
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device extension attribute", id, err)
 	}
@@ -154,7 +154,7 @@ func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *Re
 	}
 
 	var responseAttribute ResourceMobileExtensionAttribute
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseAttribute)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device extension attribute", name, err)
 	}
@@ -170,7 +170,7 @@ func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *Re
 func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device extension attribute", id, err)
 	}
@@ -186,7 +186,7 @@ func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
 func (c *Client) DeleteMobileExtensionAttributeByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceExtensionAttributes, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device extension attribute", name, err)
 	}

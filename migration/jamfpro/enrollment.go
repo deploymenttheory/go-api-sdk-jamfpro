@@ -46,7 +46,7 @@ func (c *Client) GetEnrollmentAndReenrollmentSettings() (*ResponseEnrollmentSett
 	uri := uriEnrollment
 
 	var out ResponseEnrollmentSettings
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get enrollment and reenrollment settings: %v", err)
 	}
@@ -58,7 +58,7 @@ func (c *Client) UpdateEnrollmentAndReenrollmentSettings(settings *ResponseEnrol
 	uri := uriEnrollment
 
 	var out ResponseEnrollmentSettings
-	err := c.DoRequest("PUT", uri, settings, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PUT", uri, settings, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update enrollment and re-enrollment settings: %v", err)
 	}

@@ -55,7 +55,7 @@ func (c *Client) GetVPPAccounts() (*ResponseVPPAccountsList, error) {
 	endpoint := uriVPPAccounts
 
 	var response ResponseVPPAccountsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "vpp accounts", err)
 	}
@@ -72,7 +72,7 @@ func (c *Client) GetVPPAccountByID(id int) (*ResourceVPPAccount, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
 
 	var response ResourceVPPAccount
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp account", id, err)
 	}
@@ -96,7 +96,7 @@ func (c *Client) CreateVPPAccount(account *ResourceVPPAccount) (*ResourceVPPAcco
 	}
 
 	var response ResourceVPPAccount
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "vpp account", err)
 	}
@@ -120,7 +120,7 @@ func (c *Client) UpdateVPPAccountByID(id int, account *ResourceVPPAccount) (*Res
 	}
 
 	var response ResourceVPPAccount
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "vpp account", id, err)
 	}
@@ -136,7 +136,7 @@ func (c *Client) UpdateVPPAccountByID(id int, account *ResourceVPPAccount) (*Res
 func (c *Client) DeleteVPPAccountByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "vpp account", id, err)
 	}

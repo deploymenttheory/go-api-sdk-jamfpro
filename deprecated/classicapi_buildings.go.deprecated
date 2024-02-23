@@ -113,7 +113,7 @@ func (c *Client) CreateBuilding(building *Building) (*Building, error) {
 	endpoint := uriAPIBuildings
 
 	var response Building
-	resp, err := c.HTTP.DoRequest("POST", endpoint, building, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, building, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create building: %v", err)
 	}
@@ -177,7 +177,7 @@ func (c *Client) UpdateBuildingByName(name string, building *ResponseBuildings) 
 func (c *Client) DeleteBuildingByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIBuildings, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete building by ID: %v", err)
 	}
@@ -193,7 +193,7 @@ func (c *Client) DeleteBuildingByID(id int) error {
 func (c *Client) DeleteBuildingByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIBuildings, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete building by name: %v", err)
 	}

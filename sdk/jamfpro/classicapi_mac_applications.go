@@ -156,7 +156,7 @@ func (c *Client) GetMacApplications() (*ResponseMacApplicationsList, error) {
 	endpoint := uriVPPMacApplications
 
 	var macApps ResponseMacApplicationsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApps, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApps)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mac applications", err)
 	}
@@ -175,7 +175,7 @@ func (c *Client) GetMacApplicationByID(id int) (*ResourceMacApplications, error)
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac application", id, err)
 	}
@@ -192,7 +192,7 @@ func (c *Client) GetMacApplicationByName(name string) (*ResourceMacApplications,
 	endpoint := fmt.Sprintf("%s/name/%s", uriVPPMacApplications, name)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac application", name, err)
 	}
@@ -210,7 +210,7 @@ func (c *Client) GetMacApplicationByIDAndDataSubset(id int, subset string) (*Res
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriVPPMacApplications, id, subset)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac application and data subset", id, err)
 	}
@@ -228,7 +228,7 @@ func (c *Client) GetMacApplicationByNameAndDataSubset(name, subset string) (*Res
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriVPPMacApplications, name, subset)
 
 	var macApp ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac application and data subset", name, err)
 	}
@@ -252,7 +252,7 @@ func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*Resource
 	}
 
 	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mac application", err)
 	}
@@ -276,7 +276,7 @@ func (c *Client) UpdateMacApplicationByID(id int, macApp ResourceMacApplications
 	}
 
 	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mac application", id, err)
 	}
@@ -300,7 +300,7 @@ func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacAppli
 	}
 
 	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mac application", name, err)
 	}
@@ -316,7 +316,7 @@ func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacAppli
 func (c *Client) DeleteMacApplicationByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mac application", id, err)
 	}
@@ -332,7 +332,7 @@ func (c *Client) DeleteMacApplicationByID(id int) error {
 func (c *Client) DeleteMacApplicationByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriVPPMacApplications, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mac application", name, err)
 	}

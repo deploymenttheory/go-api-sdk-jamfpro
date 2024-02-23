@@ -30,7 +30,7 @@ func (c *Client) GetCloudDistributionPointUploadCapability() (*ResourceCloudDist
 	endpoint := uriCloudDistributionPoint + "/upload-capability"
 
 	var cloudDistributionPointUploadCapability ResourceCloudDistributionPointUploadCapability
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cloudDistributionPointUploadCapability, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cloudDistributionPointUploadCapability)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Cloud Distribution Point", err)
 	}

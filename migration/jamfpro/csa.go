@@ -25,7 +25,7 @@ func (c *Client) GetCSAToken() (*ResponseCSAToken, error) {
 	uri := uriCSATokenExchange
 
 	var out ResponseCSAToken
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get CSA token: %v", err)
 	}
@@ -42,7 +42,7 @@ func (c *Client) CreateCSAToken(email string, password string) (*ResponseCSAToke
 	}
 
 	var out ResponseCSAToken
-	err := c.DoRequest("POST", uri, in, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("POST", uri, in, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create CSA token: %v", err)
 	}
@@ -64,7 +64,7 @@ func (c *Client) UpdateCSAToken(email string, password string) (*ResponseCSAToke
 	}
 
 	var out ResponseCSAToken
-	err := c.DoRequest("PUT", uri, reqBody, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PUT", uri, reqBody, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update CSA token: %v", err)
 	}
@@ -76,7 +76,7 @@ func (c *Client) UpdateCSAToken(email string, password string) (*ResponseCSAToke
 func (c *Client) DeleteCSAToken() error {
 	uri := uriCSATokenExchange
 
-	err := c.DoRequest("DELETE", uri, nil, nil, nil, c.HTTP.Logger)
+	err := c.DoRequest("DELETE", uri, nil, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete CSA token: %v", err)
 	}

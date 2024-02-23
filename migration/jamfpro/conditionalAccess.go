@@ -48,7 +48,7 @@ func (c *Client) GetConditionalAccessComplianceStateByDeviceTypeAndDeviceName(de
 	uri := fmt.Sprintf("%s/%s", uriAPIConditionalAccess, deviceType)
 
 	var out ResponseConditionalAccess
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get all Conditional Access Device States for %s: %v", deviceType, err)
 	}
@@ -67,7 +67,7 @@ func (c *Client) GetConditionalAccessComplianceStateByDeviceTypeAndID(deviceType
 	uri := fmt.Sprintf("%s/%s/%d", uriAPIConditionalAccess, deviceType, deviceID)
 
 	var out ResponseConditionalAccess
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get Conditional Access Device State for %s ID %d: %v", deviceType, deviceID, err)
 	}
@@ -79,7 +79,7 @@ func (c *Client) GetConditionalAccessComplianceStateByDeviceID(deviceType string
 	uri := fmt.Sprintf("%s/%s/%d", uriAPIConditionalAccess, deviceType, deviceID)
 
 	var out ConditionalAccessDeviceState
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get Conditional Access Device State by ID: %v", err)
 	}

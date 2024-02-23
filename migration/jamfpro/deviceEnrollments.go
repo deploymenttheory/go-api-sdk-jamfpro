@@ -97,7 +97,7 @@ func (c *Client) GetDeviceEnrollments() (*ResponseDeviceEnrollment, error) {
 	uri := fmt.Sprintf("%s?page=0&page-size=100&sort=id%%3Aasc", uriDeviceEnrollments)
 
 	var out ResponseDeviceEnrollment
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get device enrollments: %v", err)
 	}
@@ -109,7 +109,7 @@ func (c *Client) GetDeviceEnrollmentByID(enrollmentID string) (*DeviceEnrollment
 	uri := fmt.Sprintf("%s/%s", uriDeviceEnrollments, enrollmentID)
 
 	var out DeviceEnrollment
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get device enrollment by ID: %v", err)
 	}
@@ -122,7 +122,7 @@ func (c *Client) GetJamfProDeviceEnrollmentPublicKey() (string, error) {
 	uri := fmt.Sprintf("%s/public-key", uriDeviceEnrollments)
 
 	// Call the specialized function
-	response, err := c.DoRawRequest(uri, nil, c.HTTP.Logger)
+	response, err := c.DoRawRequest(uri, nil)
 	if err != nil {
 		return "", fmt.Errorf("failed to get Jamf Pro Device Enrollment public key: %v", err)
 	}
@@ -137,7 +137,7 @@ func (c *Client) GetDevicesAssignedToDeviceEnrollmentID(enrollmentID string) ([]
 		TotalCount int                          `json:"totalCount"`
 		Results    []DeviceAssignedToEnrollment `json:"results"`
 	}
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get devices assigned to device enrollment ID: %v", err)
 	}
@@ -149,7 +149,7 @@ func (c *Client) GetLatestSyncStateForDeviceEnrollmentInstance(enrollmentID stri
 	uri := fmt.Sprintf("%s/%s/syncs/latest", uriDeviceEnrollments, enrollmentID)
 
 	var out InstanceSyncState
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get latest sync state for device enrollment instance: %v", err)
 	}
@@ -161,7 +161,7 @@ func (c *Client) GetAllSyncStateForDeviceEnrollmentInstance() ([]InstanceSyncSta
 	uri := fmt.Sprintf("%s/syncs", uriDeviceEnrollments)
 
 	var out []InstanceSyncState
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get all instance sync states for all Device Enrollment Instances: %v", err)
 	}
@@ -184,7 +184,7 @@ func (c *Client) CreateDeviceEnrollmentInstanceWithToken(tokenFileName string, e
 		ID   string `json:"id"`
 		Href string `json:"href"`
 	}
-	err := c.DoRequest("POST", uri, payload, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("POST", uri, payload, nil, &out)
 	if err != nil {
 		return "", fmt.Errorf("failed to create device enrollment instance with token: %v", err)
 	}
@@ -214,7 +214,7 @@ func (c *Client) UpdateDeviceEnrollmentInstanceWithToken(enrollmentID string, to
 	}
 
 	var out DeviceEnrollment
-	err := c.DoRequest("PUT", uri, payload, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PUT", uri, payload, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update device enrollment instance with token: %v", err)
 	}
@@ -225,7 +225,7 @@ func (c *Client) UpdateDeviceEnrollmentInstanceWithToken(enrollmentID string, to
 func (c *Client) DeleteDeviceEnrollment(enrollmentID string) error {
 	uri := fmt.Sprintf("%s/%s", uriDeviceEnrollments, enrollmentID)
 
-	err := c.DoRequest("DELETE", uri, nil, nil, nil, c.HTTP.Logger)
+	err := c.DoRequest("DELETE", uri, nil, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete device enrollment: %v", err)
 	}

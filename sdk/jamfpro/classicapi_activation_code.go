@@ -27,7 +27,7 @@ func (c *Client) GetActivationCode() (*ResourceActivationCode, error) {
 	endpoint := uriAPIActivationCode
 
 	var activationCode ResourceActivationCode
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &activationCode, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &activationCode)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "activation code", err)
 	}
@@ -53,7 +53,7 @@ func (c *Client) UpdateActivationCode(organizationName, code string) error {
 		},
 	}
 
-	_, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, nil, c.HTTP.Logger)
+	_, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdate, "activation code", err)
 	}

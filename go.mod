@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.0
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.16.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.49.0
-	github.com/deploymenttheory/go-api-http-client v0.0.67
+	github.com/deploymenttheory/go-api-http-client v0.0.71
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
 )
@@ -37,7 +37,7 @@ require (
 	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
-	go.uber.org/zap v1.26.0 // indirect
+	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/net v0.19.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

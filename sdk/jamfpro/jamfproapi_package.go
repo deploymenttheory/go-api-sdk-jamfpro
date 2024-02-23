@@ -44,7 +44,7 @@ type ResponsePackageV2 struct {
 func (c *Client) GetPackageInfoByApplicationV1(application string) (*ResponsePackageListV1, error) {
 	endpoint := fmt.Sprintf("%s?application=%s", uriPackageV1, application)
 	var out ResponsePackageListV1
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByString, "jamf package", "application name", application, err)
 	}
@@ -61,7 +61,7 @@ func (c *Client) GetPackageInfoByApplicationV1(application string) (*ResponsePac
 func (c *Client) GetPackageInfoByApplicationV2(application string) (*ResponsePackageV2, error) {
 	endpoint := fmt.Sprintf("%s?application=%s", uriPackageV2, application)
 	var out ResponsePackageV2
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByString, "jamf package", "application name", application, err)
 	}

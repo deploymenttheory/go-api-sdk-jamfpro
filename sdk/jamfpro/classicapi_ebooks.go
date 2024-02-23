@@ -192,7 +192,7 @@ func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
 	endpoint := uriEbooks
 
 	var ebooks ResponseEbooksList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebooks, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebooks)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "ebooks", err)
 	}
@@ -209,7 +209,7 @@ func (c *Client) GetEbookByID(id int) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
 
 	var ebook ResourceEbooks
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "ebook", id, err)
 	}
@@ -226,7 +226,7 @@ func (c *Client) GetEbookByName(name string) (*ResourceEbooks, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriEbooks, name)
 
 	var ebook ResourceEbooks
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ebook", name, err)
 	}
@@ -243,7 +243,7 @@ func (c *Client) GetEbookByNameAndDataSubset(name, subset string) (*ResourceEboo
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriEbooks, name, subset)
 
 	var ebook ResourceEbooks
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ebook", name, err)
 	}
@@ -267,7 +267,7 @@ func (c *Client) CreateEbook(ebook ResourceEbooks) (*ResourceEbooks, error) {
 	}
 
 	var response ResourceEbooks
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "ebook", err)
 	}
@@ -291,7 +291,7 @@ func (c *Client) UpdateEbookByID(id int, ebook ResourceEbooks) (*ResourceEbooks,
 	}
 
 	var updatedEbook ResourceEbooks
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ebook", id, err)
 	}
@@ -315,7 +315,7 @@ func (c *Client) UpdateEbookByName(name string, ebook ResourceEbooks) (*Resource
 	}
 
 	var updatedEbook ResourceEbooks
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedEbook)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ebook", name, err)
 	}
@@ -331,7 +331,7 @@ func (c *Client) UpdateEbookByName(name string, ebook ResourceEbooks) (*Resource
 func (c *Client) DeleteEbookByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "ebook", id, err)
 	}
@@ -347,7 +347,7 @@ func (c *Client) DeleteEbookByID(id int) error {
 func (c *Client) DeleteEbookByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriEbooks, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "ebook", name, err)
 	}

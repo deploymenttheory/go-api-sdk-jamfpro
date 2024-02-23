@@ -30,7 +30,7 @@ func (c *Client) GetJamfProInformation() (*ResponseJamfProInformation, error) {
 	endpoint := uriJamfProInformation
 
 	var info ResponseJamfProInformation
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &info, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &info)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Jamf Pro information: %v", err)
 	}

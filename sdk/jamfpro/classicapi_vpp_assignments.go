@@ -94,7 +94,7 @@ func (c *Client) GetVPPAssignments() (*ResponseVPPAssignmentsList, error) {
 	endpoint := uriVPPAssignments
 
 	var assignments ResponseVPPAssignmentsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignments, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignments)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "vpp assignments", err)
 	}
@@ -111,7 +111,7 @@ func (c *Client) GetVPPAssignmentByID(id int) (*ResourceVPPAssignment, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
 
 	var assignment ResourceVPPAssignment
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignment, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignment)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp assignment", id, err)
 	}
@@ -136,7 +136,7 @@ func (c *Client) CreateVPPAssignment(assignment *ResourceVPPAssignment) error {
 
 	var handleResponse struct{}
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &handleResponse, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &handleResponse)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedCreate, "vpp assignment", err)
 	}
@@ -161,7 +161,7 @@ func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignme
 
 	var handleResponse struct{}
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdateByID, "vpp assignment", id, err)
 	}
@@ -177,7 +177,7 @@ func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignme
 func (c *Client) DeleteVPPAssignmentByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "vpp assignment", id, err)
 	}

@@ -60,7 +60,7 @@ func (c *Client) GetJamfApiRoleByID(id string) (*ResourceAPIRole, error) {
 	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
 
 	var ApiRole ResourceAPIRole
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ApiRole, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ApiRole)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "api role", id, err)
 	}
@@ -93,7 +93,7 @@ func (c *Client) CreateJamfApiRole(role *ResourceAPIRole) (*ResourceAPIRole, err
 	endpoint := uriApiRoles
 	var response ResourceAPIRole
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, role, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, role, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "api role", err)
 	}
@@ -110,7 +110,7 @@ func (c *Client) UpdateJamfApiRoleByID(id string, roleUpdate *ResourceAPIRole) (
 	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
 
 	var updatedRole ResourceAPIRole
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, roleUpdate, &updatedRole, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, roleUpdate, &updatedRole)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "api role", id, err)
 	}
@@ -144,7 +144,7 @@ func (c *Client) UpdateJamfApiRoleByName(name string, roleUpdate *ResourceAPIRol
 func (c *Client) DeleteJamfApiRoleByID(id string) error {
 	endpoint := fmt.Sprintf(uriApiRoles+"/%s", id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "api role", id, err)
 	}

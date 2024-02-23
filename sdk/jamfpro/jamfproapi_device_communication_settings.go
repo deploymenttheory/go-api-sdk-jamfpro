@@ -26,7 +26,7 @@ type ResourceDeviceCommunicationSettings struct {
 func (c *Client) GetDeviceCommunicationSettings() (*ResourceDeviceCommunicationSettings, error) {
 	endpoint := uriDeviceCommunicationSettings
 	var out ResourceDeviceCommunicationSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "device communication settings", err)
 	}
@@ -42,7 +42,7 @@ func (c *Client) GetDeviceCommunicationSettings() (*ResourceDeviceCommunicationS
 func (c *Client) UpdateDeviceCommunicationSettings(updatedSettings ResourceDeviceCommunicationSettings) (*ResourceDeviceCommunicationSettings, error) {
 	endpoint := uriDeviceCommunicationSettings
 	var out ResourceDeviceCommunicationSettings
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "device communication settings", err)
 	}

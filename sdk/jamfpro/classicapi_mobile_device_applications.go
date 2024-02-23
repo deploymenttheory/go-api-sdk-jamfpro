@@ -192,7 +192,7 @@ func (c *Client) GetMobileDeviceApplications() (*ResponseMobileDeviceApplication
 	endpoint := uriMobileDeviceApplications
 
 	var mobileDeviceApps ResponseMobileDeviceApplicationsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &mobileDeviceApps, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &mobileDeviceApps)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device applications", err)
 	}
@@ -211,7 +211,7 @@ func (c *Client) GetMobileDeviceApplicationByID(id int) (*ResourceMobileDeviceAp
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceApplications, id)
 
 	var app ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device application", id, err)
 	}
@@ -228,7 +228,7 @@ func (c *Client) GetMobileDeviceApplicationByName(name string) (*ResourceMobileD
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceApplications, name)
 
 	var app ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device application", name, err)
 	}
@@ -245,7 +245,7 @@ func (c *Client) GetMobileDeviceApplicationByAppBundleID(id string) (*ResourceMo
 	endpoint := fmt.Sprintf("%s/bundleid/%s", uriMobileDeviceApplications, id)
 
 	var app ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device application (app bundle id)", id, err)
 	}
@@ -262,7 +262,7 @@ func (c *Client) GetMobileDeviceApplicationByAppBundleIDAndVersion(id string, ve
 	endpoint := fmt.Sprintf("%s/bundleid/%s/version/%s", uriMobileDeviceApplications, id, version)
 
 	var app ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device application (by bundle id and version)", id, err)
 	}
@@ -279,7 +279,7 @@ func (c *Client) GetMobileDeviceApplicationByIDAndDataSubset(id int, subset stri
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceApplications, id, subset)
 
 	var app ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device application with data subset", id, err)
 	}
@@ -296,7 +296,7 @@ func (c *Client) GetMobileDeviceApplicationByNameAndDataSubset(name string, subs
 	endpoint := fmt.Sprintf("%s/name/%s/subset/%s", uriMobileDeviceApplications, name, subset)
 
 	var app ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device application and data subset", name, err)
 	}
@@ -321,7 +321,7 @@ func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplicat
 	}
 
 	var responseApp ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device application", err)
 	}
@@ -346,7 +346,7 @@ func (c *Client) UpdateMobileDeviceApplicationByID(id int, app *ResourceMobileDe
 	}
 
 	var responseApp ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device application", id, err)
 	}
@@ -371,7 +371,7 @@ func (c *Client) UpdateMobileDeviceApplicationByName(name string, app *ResourceM
 	}
 
 	var responseApp ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device application", name, err)
 	}
@@ -396,7 +396,7 @@ func (c *Client) UpdateMobileDeviceApplicationByApplicationBundleID(id string, a
 	}
 
 	var responseApp ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device application (app bundle id)", id, err)
 	}
@@ -420,7 +420,7 @@ func (c *Client) UpdateMobileDeviceApplicationByIDAndAppVersion(id int, version 
 	}
 
 	var responseApp ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseApp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device application and app version", id, err)
 	}
@@ -436,7 +436,7 @@ func (c *Client) UpdateMobileDeviceApplicationByIDAndAppVersion(id int, version 
 func (c *Client) DeleteMobileDeviceApplicationpByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceApplications, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device application", id, err)
 	}
@@ -452,7 +452,7 @@ func (c *Client) DeleteMobileDeviceApplicationpByID(id int) error {
 func (c *Client) DeleteMobileDeviceApplicationByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceApplications, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device application", name, err)
 	}
@@ -468,7 +468,7 @@ func (c *Client) DeleteMobileDeviceApplicationByName(name string) error {
 func (c *Client) DeleteMobileDeviceApplicationByBundleID(id string) error {
 	endpoint := fmt.Sprintf("%s/bundleid/%s", uriMobileDeviceApplications, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device application (bundle id)", id, err)
 	}
@@ -484,7 +484,7 @@ func (c *Client) DeleteMobileDeviceApplicationByBundleID(id string) error {
 func (c *Client) DeleteMobileDeviceApplicationByBundleIDAndVersion(id string, version string) error {
 	endpoint := fmt.Sprintf("%s/bundleid/%s/version/%s", uriMobileDeviceApplications, id, version)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device application (bundle id and version)", id, err)
 	}

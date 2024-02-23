@@ -135,7 +135,7 @@ func (c *Client) GetClasses() (*ResponseClassesList, error) {
 	endpoint := uriClasses
 
 	var classes ResponseClassesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &classes, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &classes)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "classes", err)
 	}
@@ -152,7 +152,7 @@ func (c *Client) GetClassByID(id int) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
 
 	var class ResourceClass
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "class", id, err)
 	}
@@ -169,7 +169,7 @@ func (c *Client) GetClassByName(name string) (*ResourceClass, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriClasses, name)
 
 	var class ResourceClass
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "class", name, err)
 	}
@@ -193,7 +193,7 @@ func (c *Client) CreateClass(class *ResourceClass) (*ResourceClass, error) {
 	}
 
 	var createdClass ResourceClass
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdClass, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdClass)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "class", err)
 	}
@@ -216,7 +216,7 @@ func (c *Client) UpdateClassByID(id int, class *ResourceClass) error {
 		ResourceClass: class,
 	}
 
-	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil, c.HTTP.Logger)
+	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdateByID, "class", id, err)
 	}
@@ -235,7 +235,7 @@ func (c *Client) UpdateClassByName(name string, class *ResourceClass) error {
 		ResourceClass: class,
 	}
 
-	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil, c.HTTP.Logger)
+	_, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdateByName, "class", name, err)
 	}
@@ -247,7 +247,7 @@ func (c *Client) UpdateClassByName(name string, class *ResourceClass) error {
 func (c *Client) DeleteClassByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "class", id, err)
 	}
@@ -263,7 +263,7 @@ func (c *Client) DeleteClassByID(id int) error {
 func (c *Client) DeleteClassByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriClasses, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "class", name, err)
 	}

@@ -177,7 +177,7 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 	endpoint := uriMacOSConfigurationProfiles
 
 	var profilesList ResponseMacOSConfigurationProfileList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
 	}
@@ -194,7 +194,7 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigu
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
 	var profile ResourceMacOSConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mac os config profile", id, err)
 	}
@@ -211,7 +211,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
 	var profile ResourceMacOSConfigurationProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
 	}
@@ -268,7 +268,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return 0, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
 	}
@@ -294,7 +294,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMa
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return 0, fmt.Errorf(errMsgFailedUpdateByID, "mac os config profile", id, err)
 	}
@@ -320,7 +320,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 
 	var response ResponseMacOSConfigurationProfileCreationUpdate
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return 0, fmt.Errorf(errMsgFailedUpdateByName, "mac os config profile", name, err)
 	}
@@ -336,7 +336,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mac os config profile", id, err)
 	}
@@ -352,7 +352,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 func (c *Client) DeleteMacOSConfigurationProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMacOSConfigurationProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mac os config profile", name, err)
 	}

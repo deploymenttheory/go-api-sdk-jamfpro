@@ -25,7 +25,7 @@ func (c *Client) CreateFileAttachments(resource, idType, id string, files map[st
 		endpoint += "?FORCE_IPA_UPLOAD=false"
 	}
 
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "attachment", err)
 	}

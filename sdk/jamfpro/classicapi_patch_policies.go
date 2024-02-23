@@ -165,7 +165,7 @@ func (c *Client) GetPatchPoliciesByID(id int) (*ResourcePatchPolicies, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
 
 	var patchPolicyDetails ResourcePatchPolicies
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicyDetails, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicyDetails)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "patch policy", id, err)
 	}
@@ -182,7 +182,7 @@ func (c *Client) GetPatchPolicyByIDAndDataSubset(id int, subset string) (*Resour
 	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriPatchPolicies, id, subset)
 
 	var patchPolicySubset ResourcePatchPolicies
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicySubset, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicySubset)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "patch policy", id, err)
 	}
@@ -206,7 +206,7 @@ func (c *Client) CreatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 	}
 
 	var responsePolicy ResourcePatchPolicies
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePolicy, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "patch policy", err)
 	}
@@ -230,7 +230,7 @@ func (c *Client) UpdatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 	}
 
 	var responsePolicy ResourcePatchPolicies
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePolicy, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responsePolicy)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "patch policy", err)
 	}
@@ -246,7 +246,7 @@ func (c *Client) UpdatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 func (c *Client) DeletePatchPolicyByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "patch policy", id, err)
 	}

@@ -38,7 +38,7 @@ func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
 	endpoint := uriIbeacons
 
 	var iBeacons ResponseIBeaconsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &iBeacons, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &iBeacons)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "ibeacons", err)
 	}
@@ -55,7 +55,7 @@ func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
 func (c *Client) GetIBeaconByID(id int) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
 	var beacon ResourceIBeacons
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "ibeacon", id, err)
 	}
@@ -72,7 +72,7 @@ func (c *Client) GetIBeaconByID(id int) (*ResourceIBeacons, error) {
 func (c *Client) GetIBeaconByName(name string) (*ResourceIBeacons, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
 	var beacon ResourceIBeacons
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "ibeacon", name, err)
 	}
@@ -96,7 +96,7 @@ func (c *Client) CreateIBeacon(beacon *ResourceIBeacons) (*ResourceIBeacons, err
 	}
 
 	var response ResourceIBeacons
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "ibeacon", err)
 	}
@@ -120,7 +120,7 @@ func (c *Client) UpdateIBeaconByID(id int, beacon *ResourceIBeacons) (*ResourceI
 	}
 
 	var response ResourceIBeacons
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "ibeacon", id, err)
 	}
@@ -144,7 +144,7 @@ func (c *Client) UpdateIBeaconByName(name string, beacon *ResourceIBeacons) (*Re
 	}
 
 	var response ResourceIBeacons
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "ibeacon", name, err)
 	}
@@ -160,7 +160,7 @@ func (c *Client) UpdateIBeaconByName(name string, beacon *ResourceIBeacons) (*Re
 func (c *Client) DeleteIBeaconByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "ibeacon", id, err)
 	}
@@ -176,7 +176,7 @@ func (c *Client) DeleteIBeaconByID(id int) error {
 func (c *Client) DeleteIBeaconByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriIbeacons, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "ibeacon", name, err)
 	}

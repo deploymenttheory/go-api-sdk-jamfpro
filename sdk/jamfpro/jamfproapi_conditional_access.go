@@ -21,7 +21,7 @@ func (c *Client) GetConditionalAccessDeviceComplianceFeatureEnablement() (*Resou
 	endpoint := uriConditionalAccess + "/device-compliance/feature-toggle"
 
 	var defaultCloudIdPServer ResourceConditionalAccessDeviceComplianceStatus
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultCloudIdPServer, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &defaultCloudIdPServer)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "Conditional Access Device Compliance", err)
 	}

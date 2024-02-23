@@ -23,7 +23,7 @@ func (c *Client) GetJamfProVersion() (*ResponseJamfProVersion, error) {
 	endpoint := uriJamfProVersion
 
 	var version ResponseJamfProVersion
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &version, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &version)
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch Jamf Pro version: %v", err)
 	}

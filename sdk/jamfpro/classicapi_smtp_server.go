@@ -37,7 +37,7 @@ func (c *Client) GetSMTPServerInformation() (*ResourceSMTPServer, error) {
 	endpoint := uriSMTPServer
 
 	var smtpSettings ResourceSMTPServer
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &smtpSettings, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &smtpSettings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "smtp server information", err)
 	}
@@ -64,7 +64,7 @@ func (c *Client) UpdateSMTPServerInformation(settings *ResourceSMTPServer) error
 	// Create a dummy struct for the response
 	var handleResponse struct{}
 
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdate, "smtp server information", err)
 	}

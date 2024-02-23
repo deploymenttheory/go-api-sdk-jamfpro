@@ -60,7 +60,7 @@ func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInve
 	endpoint := uriComputerInventoryCollectionSettings
 
 	var settings ResourceComputerInventoryCollectionSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &settings, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &settings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "computer inventory collection settings", err)
 	}
@@ -78,7 +78,7 @@ func (c *Client) UpdateComputerInventoryCollectionSettings(settingsUpdate *Resou
 
 	// Perform the PATCH request
 	var updatedSettings ResourceComputerInventoryCollectionSettings
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, settingsUpdate, &updatedSettings, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, settingsUpdate, &updatedSettings)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "computer inventory collection settings", err)
 	}
@@ -95,7 +95,7 @@ func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath 
 	endpoint := fmt.Sprintf("%s/custom-path", uriComputerInventoryCollectionSettings)
 
 	var response ResourceComputerInventoryCollectionSettingsCustomPath
-	resp, err := c.HTTP.DoRequest("POST", endpoint, customPath, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, customPath, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer inventory collection settings custom path", err)
 	}
@@ -111,7 +111,7 @@ func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath 
 func (c *Client) DeleteComputerInventoryCollectionSettingsCustomPathByID(id string) error {
 	endpoint := fmt.Sprintf("%s/custom-path/%s", uriComputerInventoryCollectionSettings, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer inventory collection settings custom path", id, err)
 	}

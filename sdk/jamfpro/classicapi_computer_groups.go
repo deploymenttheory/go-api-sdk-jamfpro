@@ -59,7 +59,7 @@ func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {
 	endpoint := uriComputerGroups
 
 	var computerGroups ResponseComputerGroupsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computerGroups, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computerGroups)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "computer groups", err)
 	}
@@ -76,7 +76,7 @@ func (c *Client) GetComputerGroupByID(id int) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
 	var group ResourceComputerGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer group", id, err)
 	}
@@ -93,7 +93,7 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
 
 	var group ResourceComputerGroup
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "computer group", name, err)
 	}
@@ -117,7 +117,7 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 	}
 
 	var createdGroup ResourceComputerGroup
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdGroup, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer group", err)
 	}
@@ -146,7 +146,7 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 	}
 
 	var updatedGroup ResourceComputerGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer group", id, err)
 	}
@@ -175,7 +175,7 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 	}
 
 	var updatedGroup ResourceComputerGroup
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer group", name, err)
 	}
@@ -191,7 +191,7 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 func (c *Client) DeleteComputerGroupByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "computer group", id, err)
 	}
@@ -207,7 +207,7 @@ func (c *Client) DeleteComputerGroupByID(id int) error {
 func (c *Client) DeleteComputerGroupByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "computer group", name, err)
 	}

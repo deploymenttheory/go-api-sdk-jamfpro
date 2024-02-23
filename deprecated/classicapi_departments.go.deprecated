@@ -109,7 +109,7 @@ func (c *Client) CreateDepartment(departmentName string) (*ResponseDepartment, e
 	}
 
 	var response ResponseDepartment
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create department: %v", err)
 	}
@@ -177,7 +177,7 @@ func (c *Client) UpdateDepartmentByName(oldName string, newName string) (*Respon
 func (c *Client) DeleteDepartmentByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriDepartments, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete department by ID: %v", err)
 	}
@@ -193,7 +193,7 @@ func (c *Client) DeleteDepartmentByID(id int) error {
 func (c *Client) DeleteDepartmentByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriDepartments, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete department by name: %v", err)
 	}

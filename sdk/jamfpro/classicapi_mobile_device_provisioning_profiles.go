@@ -50,7 +50,7 @@ func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDevicePro
 	endpoint := uriMobileDeviceProvisioningProfiles
 
 	var profiles ResponseMobileDeviceProvisioningProfilesList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profiles)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "mobile device provisioning profiles", err)
 	}
@@ -67,7 +67,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResourceMobile
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
 	var profile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device provisioning profile", id, err)
 	}
@@ -84,7 +84,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByName(name string) (*Resourc
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
 	var profile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device provisioning profile", name, err)
 	}
@@ -101,7 +101,7 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
 	var profile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}
@@ -125,7 +125,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *Resource
 	}
 
 	var responseProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "id", id, err)
 	}
@@ -149,7 +149,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 	}
 
 	var responseProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "name", name, err)
 	}
@@ -175,7 +175,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 	}
 
 	var responseProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreateWithValue, "mobile device provisioning profile", "uuid", uuid, err)
 	}
@@ -199,7 +199,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *Reso
 	}
 
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device provisioning profile", id, err)
 	}
@@ -223,7 +223,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByName(name string, profil
 	}
 
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device provisioning profile", name, err)
 	}
@@ -247,7 +247,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 	}
 
 	var updatedProfile ResourceMobileDeviceProvisioningProfile
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}
@@ -263,7 +263,7 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device provisioning profile", id, err)
 	}
@@ -279,7 +279,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
 func (c *Client) DeleteMobileDeviceProvisioningProfileByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceProvisioningProfiles, name)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByName, "mobile device provisioning profile", name, err)
 	}
@@ -295,7 +295,7 @@ func (c *Client) DeleteMobileDeviceProvisioningProfileByName(name string) error 
 func (c *Client) DeleteMobileDeviceProvisioningProfileByUUID(uuid string) error {
 	endpoint := fmt.Sprintf("%s/uuid/%s", uriMobileDeviceProvisioningProfiles, uuid)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByString, "mobile device provisioning profile", "uuid", uuid, err)
 	}

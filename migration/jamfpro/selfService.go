@@ -40,7 +40,7 @@ func (c *Client) GetSelfServiceSettings(exportFilePath string) (*SelfServiceSett
 	var out *SelfServiceSettings
 
 	// Call DoRequest with the GET method and desired output structure
-	err := c.DoRequest("GET", uriSelfServiceSettings, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uriSelfServiceSettings, nil, nil, &out)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (c *Client) UpdateSelfServiceSettings(settings *SelfServiceSettings) (*Self
 	var out *SelfServiceSettings
 
 	// Call DoRequest with the PUT method, the data to update, and a place to store the response
-	err := c.DoRequest("PUT", uriSelfServiceSettings, settings, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PUT", uriSelfServiceSettings, settings, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update Self Service settings: %v", err)
 	}

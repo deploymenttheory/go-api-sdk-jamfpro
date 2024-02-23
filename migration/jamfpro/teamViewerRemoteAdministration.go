@@ -109,7 +109,7 @@ func (c *Client) GetTeamViewerRemoteAdministrationConfigurations() (*ResponseTea
 	uri := fmt.Sprintf("%s?page=0&page-size=100&sort=id%%3Aasc", uriTeamViewerRemoteAdmin)
 
 	var out ResponseTeamViewerRemoteAdministrationConfiguration
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get TeamViewer Remote Administration Configurations: %v", err)
 	}
@@ -121,7 +121,7 @@ func (c *Client) GetTeamViewerRemoteAdministrationConfigurationByID(configID str
 	uri := fmt.Sprintf("%s/%s", uriTeamViewerRemoteAdmin, configID)
 
 	var out TeamViewerRemoteAdministrationConfiguration
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get TeamViewer Remote Administration Configuration by ID: %v", err)
 	}
@@ -147,7 +147,7 @@ func (c *Client) CreateTeamViewerRemoteAdministrationConfiguration(displayName *
 
 	var out *TeamViewerRemoteAdministrationConfiguration
 
-	err := c.DoRequest("POST", uriTeamViewerRemoteAdmin, in, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("POST", uriTeamViewerRemoteAdmin, in, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create TeamViewer Remote Administration Configuration: %v", err)
 	}
@@ -158,7 +158,7 @@ func (c *Client) UpdateTeamViewerRemoteAdministrationConfiguration(id string, co
 	uri := fmt.Sprintf("%s/%s", uriTeamViewerRemoteAdmin, id)
 
 	var out TeamViewerRemoteAdministrationConfiguration
-	err := c.DoRequest("PATCH", uri, config, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("PATCH", uri, config, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update TeamViewer Remote Administration Configuration: %v", err)
 	}
@@ -169,7 +169,7 @@ func (c *Client) UpdateTeamViewerRemoteAdministrationConfiguration(id string, co
 func (c *Client) DeleteTeamViewerRemoteAdministrationConfiguration(id string) error {
 	uri := fmt.Sprintf("%s/%s", uriTeamViewerRemoteAdmin, id)
 
-	err := c.DoRequest("DELETE", uri, nil, nil, nil, c.HTTP.Logger)
+	err := c.DoRequest("DELETE", uri, nil, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete TeamViewer Remote Administration Configuration with ID %s: %v", id, err)
 	}
@@ -181,7 +181,7 @@ func (c *Client) GetTeamViewerRemoteAdminStatus(configID string) (*ResponseTeamV
 	uri := fmt.Sprintf("%s/%s/status", uriTeamViewerRemoteAdmin, configID)
 
 	var out ResponseTeamViewerRemoteAdminStatus
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get TeamViewer Remote Administration connection status: %v", err)
 	}
@@ -193,7 +193,7 @@ func (c *Client) GetTeamViewerSessionStatusByID(configurationId string, sessionI
 	uri := fmt.Sprintf("%s/%s/sessions/%s/status", uriTeamViewerRemoteAdmin, configurationId, sessionId)
 
 	var out ResponseTeamViewerSessionStatus
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get TeamViewer Session status by ID: %v", err)
 	}
@@ -205,7 +205,7 @@ func (c *Client) CreateTeamViewerSession(configurationId string, session CreateT
 	uri := fmt.Sprintf("%s/%s/sessions", uriTeamViewerRemoteAdmin, configurationId)
 
 	var out ResponseCreateTeamViewerSession
-	err := c.DoRequest("POST", uri, session, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("POST", uri, session, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create TeamViewer session: %v", err)
 	}
@@ -216,7 +216,7 @@ func (c *Client) CreateTeamViewerSession(configurationId string, session CreateT
 func (c *Client) CloseTeamViewerSession(configurationId string, sessionId string) error {
 	uri := fmt.Sprintf("%s/%s/sessions/%s/close", uriTeamViewerRemoteAdmin, configurationId, sessionId)
 
-	err := c.DoRequest("POST", uri, nil, nil, nil, c.HTTP.Logger)
+	err := c.DoRequest("POST", uri, nil, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to close TeamViewer session: %v", err)
 	}

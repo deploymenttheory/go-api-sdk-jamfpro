@@ -61,7 +61,7 @@ func (c *Client) DoPaginatedGet(
 			endpoint,
 			nil,
 			&TargetObjectAccumulator,
-			c.HTTP.Logger,
+			//c.HTTP.Logger,
 		)
 
 		if err != nil {

@@ -104,7 +104,7 @@ func (c *Client) GetVolumePurchaseLocations(sort_filter string) (*ResponseVolume
 func (c *Client) GetVolumePurchasingLocationByID(id string) (*ResourceVolumePurchasingLocation, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
 	var responseLocation ResourceVolumePurchasingLocation
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseLocation, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseLocation)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp locations", id, err)
 	}
@@ -121,7 +121,7 @@ func (c *Client) CreateVolumePurchasingLocation(request *ResourceVolumePurchasin
 	endpoint := uriVolumePurchasingLocations
 
 	var response ResponseVolumePurchasingLocationCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create volume purchasing location: %v", err)
 	}
@@ -137,7 +137,7 @@ func (c *Client) CreateVolumePurchasingLocation(request *ResourceVolumePurchasin
 func (c *Client) UpdateVolumePurchasingLocationByID(id string) (*ResourceVolumePurchasingLocation, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
 	var responseLocation ResourceVolumePurchasingLocation
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, nil, &responseLocation, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, nil, &responseLocation)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp locations", id, err)
 	}
@@ -152,7 +152,7 @@ func (c *Client) UpdateVolumePurchasingLocationByID(id string) (*ResourceVolumeP
 // DeleteVolumePurchasingLocationByID deletes a specific volume purchasing location by its ID.
 func (c *Client) DeleteVolumePurchasingLocationByID(id string) error {
 	endpoint := uriVolumePurchasingLocations
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil, c.HTTP.Logger)
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "vpp location", id, err)
 	}
@@ -191,7 +191,7 @@ func (c *Client) GetVolumePurchasingContentForLocationByID(id string, sort []str
 
 		// Fetch the content for the current page
 		var responseContent ResponseVolumePurchasingContentList
-		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseContent, c.HTTP.Logger)
+		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseContent)
 		if err != nil {
 			return nil, fmt.Errorf("failed to fetch volume purchasing content for location ID %s: %v", id, err)
 		}

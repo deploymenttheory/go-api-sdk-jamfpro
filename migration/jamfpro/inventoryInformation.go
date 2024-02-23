@@ -11,6 +11,6 @@ type ResponseInventoryInformation struct {
 
 func (c *Client) GetInventoryInformation() (*ResponseInventoryInformation, error) {
 	var out *ResponseInventoryInformation
-	err := c.DoRequest("GET", uriJamfProInformation, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uriJamfProInformation, nil, nil, &out)
 	return out, err
 }

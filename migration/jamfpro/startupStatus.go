@@ -23,7 +23,7 @@ func (c *Client) GetStartupStatus() (*ResponseStartupStatus, error) {
 	uri := uriAPIStartupStatus
 
 	var out ResponseStartupStatus
-	err := c.DoRequest("GET", uri, nil, nil, &out, c.HTTP.Logger)
+	err := c.DoRequest("GET", uri, nil, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get startup status: %v", err)
 	}
