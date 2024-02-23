@@ -29,9 +29,10 @@ func main() {
 			InstanceName: loadedConfig.Environment.InstanceName,
 		},
 		ClientOptions: httpclient.ClientOptions{
-			LogLevel:          loadedConfig.ClientOptions.LogLevel,
-			HideSensitiveData: loadedConfig.ClientOptions.HideSensitiveData,
-			LogOutputFormat:   loadedConfig.ClientOptions.LogOutputFormat,
+			LogLevel:            loadedConfig.ClientOptions.LogLevel,
+			LogOutputFormat:     loadedConfig.ClientOptions.LogOutputFormat,
+			LogConsoleSeparator: loadedConfig.ClientOptions.LogConsoleSeparator,
+			HideSensitiveData:   loadedConfig.ClientOptions.HideSensitiveData,
 		},
 	}
 
