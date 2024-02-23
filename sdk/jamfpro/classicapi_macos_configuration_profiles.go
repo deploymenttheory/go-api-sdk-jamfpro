@@ -45,7 +45,7 @@ type ResponseMacOSConfigurationProfileCreationUpdate struct {
 
 // ResourceMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
 type ResourceMacOSConfigurationProfile struct {
-	General     MacOSConfigurationProfileSubsetGeneral     `xml:"general,omitempty"`
+	General     MacOSConfigurationProfileSubsetGeneral     `xml:"general"`
 	Scope       MacOSConfigurationProfileSubsetScope       `xml:"scope,omitempty"`
 	SelfService MacOSConfigurationProfileSubsetSelfService `xml:"self_service,omitempty"`
 }
@@ -256,8 +256,18 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the profile with its ID updated.
 // It sends a POST request to the Jamf Pro server with the profile details and expects a response with the ID of the newly created profile.
 // CreateMacOSConfigurationProfile creates a new macOS Configuration Profile on the Jamf Pro server and returns the ID of the newly created profile.
-func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigurationProfile) (int, error) {
+func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigurationProfile) (*ResponseMacOSConfigurationProfileCreationUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMacOSConfigurationProfiles)
+
+	if profile.General.Site.ID == 0 && profile.General.Site.Name == "" {
+		profile.General.Site.ID = -1
+		profile.General.Site.Name = "none"
+
+	}
+	// if profile.General.Category.ID == 0 && profile.General.Category.Name == "" {
+	// 	profile.General.Category.ID = -1
+	// 	profile.General.Category.Name = "No Category"
+	// }
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
@@ -270,14 +280,14 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return response.ID, nil
+	return &response, nil
 }
 
 // UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server
