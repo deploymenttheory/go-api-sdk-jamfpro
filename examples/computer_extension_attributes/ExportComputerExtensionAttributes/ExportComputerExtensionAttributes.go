@@ -32,9 +32,6 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
-
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
@@ -57,7 +54,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-
 	// Ensure that the export directory exists
 	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
 		err = os.MkdirAll(exportPath, 0755)

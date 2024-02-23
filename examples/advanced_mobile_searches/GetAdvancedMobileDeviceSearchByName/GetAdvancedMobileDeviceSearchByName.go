@@ -18,9 +18,6 @@ func main() {
 		log.Fatalf("Failed to load client OAuth configuration: %v", err)
 	}
 
-	// Instantiate the default logger and set the desired log level
-	//logLevel := logger.LogLevelInfo // LogLevelNone / LogLevelDebug / LogLevelInfo / LogLevelError
-
 	// Configuration for the HTTP client
 	config := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
@@ -43,7 +40,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
-
 	// The name of the advanced mobile device search you want to retrieve
 	searchName := "Advanced Search Name" // Replace with the actual name you want to retrieve
 
