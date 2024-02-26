@@ -15,194 +15,103 @@ go get github.com/deploymenttheory/go-api-sdk-jamfpro
 ```
 
 ## Usage
+It's highly recommended to use the [examples](https://github.com/deploymenttheory/go-api-sdk-jamfpro/tree/main/examples) library to get started with the SDK. Here you will find examples of how to use the SDK to perform various operations on your Jamf Pro instance.
 
-sample code: [examples](https://github.com/deploymenttheory/go-api-sdk-jamfpro/tree/main/examples)
+## Configuring the Jamf Pro Client with the Go SDK
 
-## Configuring the HTTP Client
+The `go-api-sdk-jamfpro` provides two convenient ways to build and configure your Jamf Pro client: using environment variables or a JSON configuration file. This flexibility allows for easy integration into different environments and deployment pipelines.
 
-To effectively use the `go-api-sdk-jamfpro` SDK, you'll need to set up and configure the HTTP client. Here's a step-by-step guide:
+### Option 1: Building Client with Environment Variables
 
-### 1. Setting Constants
+For scenarios where you prefer not to use configuration files (e.g., in containerized environments or CI/CD pipelines), you can configure the Jamf Pro client using environment variables.
 
-At the start of your main program, you can optionally define define some constants that will be used to configure the client for http client. If you don't set any then defaults from `shared_api_client.go` will be used.
+1. **Set Environment Variables**: Define the necessary environment variables in your environment. This includes credentials (for OAuth or classic auth), instance details, and client options.
+
+    ```shell
+    export JAMF_PRO_CLIENT_ID="your_client_id"
+    export JAMF_PRO_CLIENT_SECRET="your_client_secret"
+    export JAMF_PRO_INSTANCE_NAME="jamfpro-instance-name"
+    # Additional environment variables for client options as needed
+    ```
+
+2. **Build the Client**: Use the `BuildClientWithEnv` function to build the Jamf Pro client using the environment variables.
+
+    ```go
+    client, err := jamfpro.BuildClientWithEnv()
+    if err != nil {
+        log.Fatalf("Failed to build Jamf Pro client with environment variables: %v", err)
+    }
+    ```
+
+    This method will automatically read the configuration from the environment variables and initialize the Jamf Pro client.
+
+### Option 2: Building Client with a Configuration File
+
+For those who prefer using configuration files for setting up the client, the SDK supports loading configuration from a JSON file.
+
+1. **Prepare the Configuration File**: Create a JSON file with the necessary configuration. This includes authentication credentials, environment settings, and client options.
+
+    ```json
+    {
+      "Auth": {
+        "ClientID": "your_client_id",
+        "ClientSecret": "your_client_secret",
+        "Username": "your_username",
+        "Password": "your_password"
+      },
+      "Environment": {
+        "InstanceName": "jamfpro-instance-name",
+        "OverrideBaseDomain": "",
+        "APIType": "jamfpro"
+      },
+      "ClientOptions": {
+        "LogLevel": "LogLevelDebug",
+        "LogOutputFormat": "console",
+        "LogConsoleSeparator": " ",
+        "HideSensitiveData": true
+      }
+    }
+    ```
+
+    Replace placeholders with actual values as needed.
+
+2. **Load Configuration and Build the Client**: Use the `BuildClientWithConfigFile` function to read the configuration from the file and initialize the Jamf Pro client.
+
+    ```go
+    configFilePath := "path_to_your/client_config.json"
+    client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
+    if err != nil {
+        log.Fatalf("Failed to build Jamf Pro client with configuration file: %v", err)
+    }
+    ```
+
+    This method will load the configuration from the specified file and use it to set up the Jamf Pro client.
+
+### Summary
+
+Both methods provide a flexible way to configure and initialize the Jamf Pro client, allowing you to choose the approach that best fits your deployment strategy and environment. Remember to handle credentials securely and avoid exposing sensitive information in your code or public repositories.
+
+
+## Calling SDK Functions
+
+Once the Jamf Pro client is configured and initialized, you can start making API calls to perform various operations on your Jamf Pro instance. This section provides examples of common SDK functions you might want to use.
+
+### Fetching Device Details
+
+To fetch details about a specific device, you can use the `GetComputerByID` function. You will need the device's unique identifier (such as a serial number) to retrieve its details.
 
 ```go
-const (
-	maxConcurrentRequestsAllowed = 5 // Maximum allowed concurrent requests.
-	defaultTokenLifespan         = 30 * time.Minute
-	defaultBufferPeriod          = 5 * time.Minute
-)
-```
-
-These constants are used to set the maximum number of concurrent requests the client can make, the lifespan of the token, and a buffer period.
-
-2. Loading configuration from a JSON file
-The http client for this SDK supports both classic auth and Oauth with bearer token. Since the direction of travel is Oauth, and it's fine grain permission management it's strongly suggested to use this auth method when using this SDK. To make use of this sdk, create your api client ID and secret and then store your credentials in a JSON file for credential loading. The structure of the client auth json should be like this:
-
-```json
-{
-    "Auth": {
-    "ClientID": "your_client_id", // Required for Oauth
-    "ClientSecret": "your_client_secret", // Required for Oauth
-    "Username": "apiuser", // Required for classic auth
-    "Password": "password" // Required for classic auth
-  },  
-}
-```
-
-```json
-{
-     "Environment": {
-    "InstanceName": "jamfpro-instance-name", // Required
-    "OverrideBaseDomain": "", // Optional , required only for on-prem instances
-    "APIType": "jamfpro" // Required
-  },
-}
-```
-
-Replace your_jamf_instance_name, with your jamf pro instance name. e.g for mycompany.jamfcloud.com , use "mycompany".
-Replace your_client_id, and your_client_secret with your actual credentials.
-
-```json
-{
-  "ClientOptions": {
-    "LogLevel": "LogLevelDebug", // 
-    "LogOutputFormat": "console",
-    "LogConsoleSeparator": " ",
-    "HideSensitiveData": true,
-  }
-}
-```
-
-In your Go program, load these credentials using:
-
-```go
-configFilePath := "path_to_your/clientauth.json"
-authConfig, err := httpclient.LoadAuthConfig(configFilePath)
+// Assuming 'client' is your initialized Jamf Pro client
+deviceID := "your_jamf_computer_id"
+deviceDetails, err := client.GetComputerByID(deviceID)
 if err != nil {
-	log.Fatalf("Failed to load client OAuth configuration: %v", err)
+    log.Fatalf("Failed to get device details: %v", err)
 }
+
+// Use 'deviceDetails' as needed
+fmt.Printf("Device Name: %s\n", deviceDetails.General.DeviceName)
 ```
 
-3. Configuring the HTTP Client
-With the OAuth credentials loaded, you can now configure the HTTP client:
-
-```go
-// Initialize a new default logger
-logger := httpclient.NewDefaultLogger()
-
-// Set the desired log level on the logger
-logger.SetLevel(httpclient.LogLevelInfo) // LogLevel can be None, Warning, Info, or Debug
-
-// Create the configuration for the HTTP client with the logger
-config := httpclient.Config{
-	Logger: logger,
-}
-```
-
-The Logger uses the SDK's default logger.
-
-4. Initializing the Jamf Pro Client
-Once the HTTP client is configured, initialize the Jamf Pro client:
-
-```go
-client := jamfpro.NewClient(authConfig.InstanceName, config)
-```
-
-Then, set the OAuth credentials for the client's HTTP client:
-
-```go
-oAuthCreds := httpclient.OAuthCredentials{
-	ClientID:     authConfig.ClientID,
-	ClientSecret: authConfig.ClientSecret,
-}
-client.HTTP.SetOAuthCredentials(oAuthCreds)
-```
-
-With these steps, the HTTP client will be fully set up and ready to make requests to the Jamf Pro API. You can then proceed to use the client to perform various actions as demonstrated in the sample code provided.
-
-Note: Remember to always keep your OAuth credentials confidential and never expose them in your code or public repositories. 
-
----
-
-### URL Construction in the Client
-
-The `go-api-sdk-jamfpro` SDK constructs URLs in a structured manner to ensure consistent and correct API endpoint accesses. Here's a breakdown of how it's done:
-
-#### **Instance Name:**
-The primary identifier for constructing URLs in the client is the `InstanceName` which represents the Jamf Pro instance. For example, for the URL `mycompany.jamfcloud.com`, the instance name would be `mycompany`.
-
-#### **Base Domain:**
-If OverrideBaseDomain is provided during http client initialization, this will override jamfcloud.com and will be used as the base domain for URL construction.
-
-URL Construction in the Client
-URLs are constructed using the InstanceName and, optionally, the OverrideBaseDomain. If the OverrideBaseDomain is not specified, the default domain (jamfcloud.com) is used. The SDK automatically appends this domain to the InstanceName for API calls.
-
-```go
-const (
-	BaseDomain     = ".jamfcloud.com"
-)
-```
-
-#### **Endpoint Path:**
-Each API function in the SDK corresponds to a specific Jamf Pro API endpoint. The SDK appends this endpoint path to the constructed domain to derive the full URL.
-
-#### **URL Construction Example:**
-Given the `InstanceName` as `mycompany` and an endpoint path `/JSSResource/accounts/userid/{id}`, the full URL constructed by the client would be:
-```
-https://mycompany.jamfcloud.com/JSSResource/accounts/userid/{id}
-```
-
-### **Note:**
-Always ensure that the `InstanceName` is correctly set when initializing the client. Avoid including the full domain (e.g., `.jamfcloud.com`) in the `InstanceName` as the SDK will automatically append it.
-
----
-Putting it all together
-
-```go
-package main
-
-import (
-	"fmt"
-	"log"
-
-	"github.com/deploymenttheory/go-api-http-client/httpclient"
-	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
-)
-
-func main() {
-	// Define the path to the JSON configuration file
-	configFilePath := "/path/to your/clientconfig.json"
-	// Load the client OAuth credentials from the configuration file
-	loadedConfig, err := jamfpro.LoadClientConfig(configFilePath)
-	if err != nil {
-		log.Fatalf("Failed to load client OAuth configuration: %v", err)
-	}
-
-	// Configuration for the HTTP client
-	config := httpclient.ClientConfig{
-		Auth: httpclient.AuthConfig{
-			ClientID:     loadedConfig.Auth.ClientID,
-			ClientSecret: loadedConfig.Auth.ClientSecret,
-		},
-		Environment: httpclient.EnvironmentConfig{
-			APIType:      loadedConfig.Environment.APIType,
-			InstanceName: loadedConfig.Environment.InstanceName,
-		},
-		ClientOptions: httpclient.ClientOptions{
-			LogLevel:          loadedConfig.ClientOptions.LogLevel,
-			HideSensitiveData: loadedConfig.ClientOptions.HideSensitiveData,
-			LogOutputFormat:   loadedConfig.ClientOptions.LogOutputFormat,
-		},
-	}
-
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-}
-```
 
 ## Go SDK for Jamf Pro API Progress Tracker
 

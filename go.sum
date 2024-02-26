@@ -43,8 +43,8 @@ github.com/aws/smithy-go v1.20.0/go.mod h1:uo5RKksAl4PzhqaAbjd4rLgFoq5koTsQKYuGe
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/deploymenttheory/go-api-http-client v0.0.71 h1:7gR5pWhM6+uL4zWIPIeyx3oW466456/HmoTQAChveBo=
-github.com/deploymenttheory/go-api-http-client v0.0.71/go.mod h1:2U56Fdh4OvXJa1pXEEwySOtNgPGmCJkxPOxaCI7YLT4=
+github.com/deploymenttheory/go-api-http-client v0.0.77 h1:dQVyHpgQLGIDGM+xYS+Nm6FlJYJ7T5/J6s007axZuG0=
+github.com/deploymenttheory/go-api-http-client v0.0.77/go.mod h1:2U56Fdh4OvXJa1pXEEwySOtNgPGmCJkxPOxaCI7YLT4=
 github.com/google/go-cmp v0.5.8 h1:e6P7q2lk1O+qJJb4BtCQXlK8vWEO8V1ZeuEdJNOqZyg=
 github.com/google/go-cmp v0.5.8/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=

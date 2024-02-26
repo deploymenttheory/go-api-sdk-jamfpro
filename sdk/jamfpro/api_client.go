@@ -1,9 +1,7 @@
 package jamfpro
 
 import (
-	"encoding/json"
-	"errors"
-	"os"
+	"fmt"
 
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
 )
@@ -19,35 +17,41 @@ type ClientConfig struct {
 	ClientOptions httpclient.ClientOptions
 }
 
-// BuildClient initializes a new Jamf Pro client with the given configuration.
-func BuildClient(config httpclient.ClientConfig) (*Client, error) {
-	httpClient, err := httpclient.BuildClient(config)
+// BuildClientWithEnv initializes a new Jamf Pro client using configurations loaded from environment variables.
+func BuildClientWithEnv() (*Client, error) {
+	// Create a new empty ClientConfig
+	config := &httpclient.ClientConfig{}
+
+	// Load configurations from environment variables
+	loadedConfig, err := httpclient.LoadConfigFromEnv(config)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to load HTTP client configuration from environment variables: %w", err)
 	}
+
+	// Build the HTTP client with the loaded configuration
+	httpClient, err := httpclient.BuildClient(*loadedConfig)
+	if err != nil {
+		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
+	}
+
+	// Create and return the Jamf Pro client with the HTTP client
 	return &Client{HTTP: httpClient}, nil
 }
 
-// LoadClientConfig loads the full configuration, including both AuthConfig and EnvironmentConfig, from a JSON file.
-func LoadClientConfig(configFilePath string) (*ClientConfig, error) {
-	bytes, err := os.ReadFile(configFilePath) // Use os.ReadFile instead of ioutil.ReadFile
+// BuildClientWithConfigFile initializes a new Jamf Pro client using a configuration file for the HTTP client.
+func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
+	// Load the HTTP client configuration from the specified file
+	loadedConfig, err := httpclient.LoadConfigFromFile(configFilePath)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to load HTTP client configuration from file: %w", err)
 	}
 
-	var config ClientConfig
-	err = json.Unmarshal(bytes, &config)
+	// Build the HTTP client with the loaded configuration
+	httpClient, err := httpclient.BuildClient(*loadedConfig)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
 	}
 
-	// Validate loaded configuration to ensure necessary fields are populated
-	if config.Auth.ClientID == "" || config.Auth.ClientSecret == "" {
-		return nil, errors.New("authentication configuration incomplete")
-	}
-	if config.Environment.APIType == "" || config.Environment.InstanceName == "" {
-		return nil, errors.New("environment configuration incomplete")
-	}
-
-	return &config, nil
+	// Create and return the Jamf Pro client with the HTTP client
+	return &Client{HTTP: httpClient}, nil
 }
