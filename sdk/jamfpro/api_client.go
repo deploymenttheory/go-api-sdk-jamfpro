@@ -49,8 +49,6 @@ func LoadClientConfig(configFilePath string) (*ClientConfig, error) {
 
 	return &config, nil
 }
-*/
-
 // BuildClient initializes a new Jamf Pro client using the configuration file path for the HTTP client.
 func BuildClient(httpClientConfigPath string) (*Client, error) {
 	// Initialize the Jamf Pro client with optional HTTP client configuration
@@ -72,6 +70,7 @@ func BuildClient(httpClientConfigPath string) (*Client, error) {
 
 	return jamfProClient, nil
 }
+*/
 
 // BuildClientWithEnv initializes a new Jamf Pro client using configurations loaded from environment variables.
 func BuildClientWithEnv() (*Client, error) {
