@@ -53,10 +53,20 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
 1. **Set Environment Variables**: Define the necessary environment variables in your environment. This includes credentials (for OAuth or classic auth), instance details, and client options.
 
     ```shell
-    export JAMF_PRO_CLIENT_ID="your_client_id"
-    export JAMF_PRO_CLIENT_SECRET="your_client_secret"
-    export JAMF_PRO_INSTANCE_NAME="jamfpro-instance-name"
-    # Additional environment variables for client options as needed
+    export CLIENT_ID="your_client_id"
+    export CLIENT_SECRET="your_client_secret"
+    export INSTANCE_NAME="instance" # e.g., instance in "https://instance.jamfcloud.com
+    export OVERRIDE_BASE_DOMAIN="" # required only for on-premises instances
+    export API_TYPE="jamfpro"
+    export LOG_LEVEL="LogLevelDebug" 
+    export LOG_OUTPUT_FORMAT="console" # or "json" 
+    export LOG_CONSOLE_SEPARATOR=" " # or any other separator
+    export HIDE_SENSITIVE_DATA="true"  
+    export MAX_RETRY_ATTEMPTS="3"  
+    export MAX_CONCURRENT_REQUESTS="5"  
+    export TOKEN_REFRESH_BUFFER_PERIOD="5m"  
+    export TOTAL_RETRY_DURATION="5m"  
+    export CUSTOM_TIMEOUT="10s" 
     ```
 
 2. **Build the Client**: Use the `BuildClientWithEnv` function to build the Jamf Pro client using the environment variables.
@@ -85,8 +95,8 @@ For those who prefer using configuration files for setting up the client, the SD
         "Password": "your_password"
       },
       "Environment": {
-        "InstanceName": "jamfpro-instance-name",
-        "OverrideBaseDomain": "",
+        "InstanceName": "instance", // e.g., instance in "https://instance.jamfcloud.com"
+        "OverrideBaseDomain": "", // required only for on-premises instances
         "APIType": "jamfpro"
       },
       "ClientOptions": {
