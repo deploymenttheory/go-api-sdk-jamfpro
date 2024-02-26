@@ -96,7 +96,7 @@ func setupJamfProClientWithBootstrapAccount() (*jamfpro.Client, error) {
 	}
 
 	// Create a new Jamf Pro client with the provided HTTP client configuration.
-	jamfProClient, err := jamfpro.BuildClient(httpClientConfig)
+	jamfProClient, err := jamfpro.BuildClientF(httpClientConfig)
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
