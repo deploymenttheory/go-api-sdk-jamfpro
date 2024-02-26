@@ -2,7 +2,7 @@
 
 This guide will help you get started with `go-api-sdk-jamfpro`, a Go SDK for interfacing with Jamf Pro.
 
-### Prerequisites
+### Go Prerequisites
 
 Ensure you have Go installed and set up on your system. If not, follow the instructions on the [official Go website](https://golang.org/doc/install).
 
@@ -15,7 +15,32 @@ go get github.com/deploymenttheory/go-api-sdk-jamfpro
 ```
 
 ## Usage
+
 It's highly recommended to use the [examples](https://github.com/deploymenttheory/go-api-sdk-jamfpro/tree/main/examples) library to get started with the SDK. Here you will find examples of how to use the SDK to perform various operations on your Jamf Pro instance.
+
+
+### Authentication Pre-requisites: Obtaining Client ID and Client Secret
+
+To securely interact with the Jamf Pro API, it's essential to obtain a unique client ID and client secret. These credentials are used to authenticate API requests and ensure that only authorized users and applications can access your Jamf Pro environment.
+
+### API Roles and Clients in Jamf Pro
+
+The API Roles and Clients functionality in Jamf Pro provides a dedicated interface for controlling access to both the Jamf Pro API and the Classic API. This feature allows you to create custom privilege sets, known as API roles, and assign them as needed to ensure that API clients possess only the necessary capabilities for their tasks. Roles can be shared between clients or assigned more than one to a client, offering a flexible way to manage and reuse privilege sets for various purposes with granular control.
+
+### Creating API Clients
+
+To create an API client and generate a client ID and secret:
+
+1. Navigate to the **Settings** in your Jamf Pro dashboard.
+2. Select **System Settings**.
+3. Choose **API Roles and Clients** under the System Settings options.
+4. Click on **New Client** to create a new API client.
+5. Assign a name and description for your client, and select the API roles that define the permissions this client will have.
+6. Once the client is created, Jamf Pro will generate a unique client ID and client secret. Make sure to securely store these credentials as they are required for authenticating your API requests.
+
+For a detailed guide and best practices on creating and managing API clients and roles, refer to the official Jamf Pro documentation: [API Roles and Clients in Jamf Pro](https://learn.jamf.com/bundle/jamf-pro-documentation-current/page/API_Roles_and_Clients.html).
+
+Remember to keep your client ID and secret confidential and secure, as these credentials provide access to your Jamf Pro environment's API.
 
 ## Configuring the Jamf Pro Client with the Go SDK
 
@@ -28,10 +53,20 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
 1. **Set Environment Variables**: Define the necessary environment variables in your environment. This includes credentials (for OAuth or classic auth), instance details, and client options.
 
     ```shell
-    export JAMF_PRO_CLIENT_ID="your_client_id"
-    export JAMF_PRO_CLIENT_SECRET="your_client_secret"
-    export JAMF_PRO_INSTANCE_NAME="jamfpro-instance-name"
-    # Additional environment variables for client options as needed
+    export CLIENT_ID="your_client_id"
+    export CLIENT_SECRET="your_client_secret"
+    export INSTANCE_NAME="instance" # e.g., instance in "https://instance.jamfcloud.com
+    export OVERRIDE_BASE_DOMAIN="" # required only for on-premises instances
+    export API_TYPE="jamfpro"
+    export LOG_LEVEL="LogLevelDebug" 
+    export LOG_OUTPUT_FORMAT="console" # or "json" 
+    export LOG_CONSOLE_SEPARATOR=" " # or any other separator
+    export HIDE_SENSITIVE_DATA="true"  
+    export MAX_RETRY_ATTEMPTS="3"  
+    export MAX_CONCURRENT_REQUESTS="5"  
+    export TOKEN_REFRESH_BUFFER_PERIOD="5m"  
+    export TOTAL_RETRY_DURATION="5m"  
+    export CUSTOM_TIMEOUT="10s" 
     ```
 
 2. **Build the Client**: Use the `BuildClientWithEnv` function to build the Jamf Pro client using the environment variables.
@@ -60,8 +95,8 @@ For those who prefer using configuration files for setting up the client, the SD
         "Password": "your_password"
       },
       "Environment": {
-        "InstanceName": "jamfpro-instance-name",
-        "OverrideBaseDomain": "",
+        "InstanceName": "instance", // e.g., instance in "https://instance.jamfcloud.com"
+        "OverrideBaseDomain": "", // required only for on-premises instances
         "APIType": "jamfpro"
       },
       "ClientOptions": {
@@ -117,7 +152,7 @@ fmt.Printf("Device Name: %s\n", deviceDetails.General.DeviceName)
 
 ### API Coverage Progress
 
-Date: Dec-2023 
+Date: Feb-2024
 Maintainer: [ShocOne]
 
 ## Overview
