@@ -41,6 +41,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
+
 	// Define a new Mac Application
 	newMacApp := jamfpro.ResourceMacApplications{
 		General: jamfpro.MacApplicationsSubsetGeneral{

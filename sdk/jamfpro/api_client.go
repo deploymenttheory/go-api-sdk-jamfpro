@@ -19,6 +19,7 @@ type ClientConfig struct {
 	ClientOptions httpclient.ClientOptions
 }
 
+/*
 // BuildClient initializes a new Jamf Pro client with the given configuration.
 func BuildClient(config httpclient.ClientConfig) (*Client, error) {
 	httpClient, err := httpclient.BuildClient(config)
@@ -26,6 +27,29 @@ func BuildClient(config httpclient.ClientConfig) (*Client, error) {
 		return nil, err
 	}
 	return &Client{HTTP: httpClient}, nil
+}
+*/
+
+// BuildClient initializes a new Jamf Pro client using the configuration file path for the HTTP client.
+func BuildClient(httpClientConfigPath string) (*Client, error) {
+	// Initialize the Jamf Pro client with optional HTTP client configuration
+	httpClientConfig, err := httpclient.SetClientConfiguration(httpClientConfigPath)
+	if err != nil {
+		return nil, err
+	}
+
+	// Build the HTTP client with the loaded or set configuration
+	httpClient, err := httpclient.BuildClient(*httpClientConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	// Create the Jamf Pro client with the HTTP client
+	jamfProClient := &Client{HTTP: httpClient}
+
+	// Additional Jamf Pro specific settings can be applied here if necessary
+
+	return jamfProClient, nil
 }
 
 // LoadClientConfig loads the full configuration, including both AuthConfig and EnvironmentConfig, from a JSON file.
