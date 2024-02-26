@@ -22,11 +22,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
 	// Path to the certificate
 	filePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/filevaultcertificate/FilevaultMaster-sdk.p12"
 

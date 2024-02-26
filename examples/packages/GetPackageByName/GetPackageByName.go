@@ -18,11 +18,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
 	// Example ID to fetch
 	packageName := "OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.2_13.pkg"
 

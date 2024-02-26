@@ -18,12 +18,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	// Let's assume you want to get the uploaded package with name "Firefox 122.0.dmg"
 	packageName := "powershell-7.4.1-osx-arm64.pkg"
 

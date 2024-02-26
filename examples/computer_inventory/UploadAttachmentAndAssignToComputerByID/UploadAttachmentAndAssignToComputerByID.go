@@ -17,12 +17,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	computerID := "8"                                                                                                                                                              // Example computer ID
 	filePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/ebooks_pdf/Apple-Developer-Program-License-Agreement-20230828-English.pdf" // File to be uploaded
 

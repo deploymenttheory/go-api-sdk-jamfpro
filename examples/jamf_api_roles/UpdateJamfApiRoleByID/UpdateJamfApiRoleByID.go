@@ -18,11 +18,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
 	// Define the ID of the Jamf API Role you want to update
 	roleID := "13" // For example, use the ID "1"
 

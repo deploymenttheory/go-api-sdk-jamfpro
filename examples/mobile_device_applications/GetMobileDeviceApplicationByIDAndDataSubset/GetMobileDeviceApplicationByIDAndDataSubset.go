@@ -17,12 +17,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	// Replace "123" with an actual ID and "subset" with the desired data subset
 	id := 123
 	subset := "General" // General / Scope / Selfservice / VPPCodes / VPP / AppConfiguration

@@ -18,12 +18,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	// Specify the path to the file you want to upload
 	filePath := "/Users/dafyddwatkins/localtesting/support_files/packages/microsoft-edge-121-0-2277-106.pkg"
 

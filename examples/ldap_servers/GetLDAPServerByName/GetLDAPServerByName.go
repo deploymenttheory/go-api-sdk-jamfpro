@@ -18,11 +18,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
 	// Call the GetLDAPServerByID function
 	name := "Company Active Directory" // Replace with actual LDAP server name
 	ldapServer, err := client.GetLDAPServerByName(name)

@@ -17,12 +17,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	// Delete profile by Name
 	if err := client.DeleteMobileDeviceConfigurationProfileByName("WiFi"); err != nil {
 		fmt.Println("Error deleting profile by Name:", err)

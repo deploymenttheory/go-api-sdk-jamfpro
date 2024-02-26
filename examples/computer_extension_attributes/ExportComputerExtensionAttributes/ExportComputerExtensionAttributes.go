@@ -32,11 +32,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
 	// Ensure that the export directory exists
 	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
 		err = os.MkdirAll(exportPath, 0755)

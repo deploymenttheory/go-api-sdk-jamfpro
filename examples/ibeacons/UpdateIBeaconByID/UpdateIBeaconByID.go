@@ -17,12 +17,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	updatedBeacon := &jamfpro.ResourceIBeacons{
 		ID:    1, // The ID of the iBeacon to update
 		Name:  "Room 1 Beacon Updated",

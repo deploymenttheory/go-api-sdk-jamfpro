@@ -70,12 +70,6 @@ func main() {
 		},
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	jcdsPackages, err := client.GetJCDS2Packages()
 	if err != nil {
 		log.Fatalf("Failed to get JCDS 2.0 packages: %v", err)

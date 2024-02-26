@@ -18,11 +18,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
 	// Call GetComputerGroupByName function
 	groupName := "your-computer-group-name" // Placeholder name, replace with a valid name
 	group, err := client.GetComputerGroupByName(groupName)

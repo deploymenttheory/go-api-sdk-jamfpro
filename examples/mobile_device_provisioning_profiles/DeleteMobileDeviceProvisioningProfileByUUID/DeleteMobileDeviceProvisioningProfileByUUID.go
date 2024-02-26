@@ -17,12 +17,6 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create a new jamfpro client instance
-	client, err := jamfpro.BuildClient(config)
-	if err != nil {
-		log.Fatalf("Failed to create Jamf Pro client: %v", err)
-	}
-
 	profileUUID := "116AF1E6-7EB5-4335-B598-276CDE5E015B" // Replace with the actual UUID of the profile to delete
 
 	err = client.DeleteMobileDeviceProvisioningProfileByUUID(profileUUID)
