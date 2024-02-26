@@ -24,11 +24,8 @@ testing environment is reset and no residual data impacts subsequent test runs.
 import (
 	"embed"
 	"encoding/json"
-	"fmt"
 	"log"
-	"os"
 
-	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -62,41 +59,9 @@ var common_test_harness_data embed.FS
 // setupJamfProClient initializes the Jamf Pro client using environment variables.
 // It Requires a pre existing bootstrap api client with api roles and api integration crud permissions
 func setupJamfProClientWithBootstrapAccount() (*jamfpro.Client, error) {
-	// Retrieve client configuration from environment variables
-	instanceName := os.Getenv("JAMFPRO_INSTANCE_NAME")
-	clientID := os.Getenv("JAMFPRO_CLIENT_ID")
-	clientSecret := os.Getenv("JAMFPRO_CLIENT_SECRET")
-
-	// Check if all required environment variables are set
-	if instanceName == "" || clientID == "" || clientSecret == "" {
-		log.Fatalf("Environment variables for Jamf Pro client are not set")
-	}
-
-	// Initialize the logger configuration
-	logLevel := "LogLevelInfo"   // This could be dynamic based on your test setup
-	logOutputFormat := "console" // Assuming JSON logging
-	logConsoleSeparator := " "   // Default separator, this can be customized
-
-	// Configuration for the HTTP client, including the logger settings
-	httpClientConfig := httpclient.ClientConfig{
-		Auth: httpclient.AuthConfig{
-			ClientID:     clientID,
-			ClientSecret: clientSecret,
-		},
-		Environment: httpclient.EnvironmentConfig{
-			APIType:      "jamfpro",
-			InstanceName: instanceName,
-		},
-		ClientOptions: httpclient.ClientOptions{
-			LogLevel:            logLevel,
-			LogOutputFormat:     logOutputFormat,
-			LogConsoleSeparator: logConsoleSeparator,
-			// Add other client options as needed
-		},
-	}
 
 	// Create a new Jamf Pro client with the provided HTTP client configuration.
-	jamfProClient, err := jamfpro.BuildClientF(httpClientConfig)
+	jamfProClient, err := jamfpro.BuildClientWithEnv()
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
@@ -120,47 +85,8 @@ func setupJamfProClientWithTestIntegrationAccount(bootstrapClient *jamfpro.Clien
 		log.Fatalf("Failed to get API Integration by name: %v", err)
 	}
 
-	// Extract clientId and resourceID from the API Integration response
-	clientID := apiIntegration.ClientID
-	resourceID := apiIntegration.ID
-
-	// Retrieve client configurations
-	instanceName := os.Getenv("JAMFPRO_INSTANCE_NAME")
-
-	// Use bootstrap client to update client credentials by API Integration ID
-	credentials, err := bootstrapClient.RefreshClientCredentialsByApiRoleID(fmt.Sprintf("%d", resourceID))
-	if err != nil {
-		log.Fatalf("Failed to update client credentials for API Integration ID %d: %v", resourceID, err)
-	}
-
-	// Extract the client secret from the credentials
-	clientSecret := credentials.ClientSecret
-
-	// Check if instance name and client ID are set
-	if instanceName == "" || clientID == "" || clientSecret == "" {
-		log.Fatalf("Missing required configuration for Jamf Pro client")
-	}
-
-	// Configuration for the HTTP client, including the logger settings
-	httpClientConfig := httpclient.ClientConfig{
-		Auth: httpclient.AuthConfig{
-			ClientID:     clientID,
-			ClientSecret: clientSecret,
-		},
-		Environment: httpclient.EnvironmentConfig{
-			APIType:      "jamfpro",
-			InstanceName: instanceName,
-		},
-		ClientOptions: httpclient.ClientOptions{
-			LogLevel:            "info",
-			LogOutputFormat:     "console",
-			LogConsoleSeparator: " ",
-			// Add other client options as needed
-		},
-	}
-
 	// Create a new Jamf Pro client with the provided configuration.
-	jamfProClient, err := jamfpro.BuildClient(httpClientConfig)
+	jamfProClient, err := jamfpro.BuildClientWithEnv()
 	if err != nil {
 		log.Fatalf("Failed to create Jamf Pro client: %v", err)
 	}
