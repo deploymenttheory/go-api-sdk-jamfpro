@@ -8,11 +8,9 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
-	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
+	client, err := jamfpro.BuildClientWithEnv()
 	if err != nil {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
