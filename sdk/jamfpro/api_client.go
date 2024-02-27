@@ -17,8 +17,7 @@ type ClientConfig struct {
 	ClientOptions httpclient.ClientOptions
 }
 
-// BuildClient is a wrapper for httpclient.BuildClient to set the jamfpro client
-// configuration to the httpclient configuration.
+// BuildClient initializes a new Jamf Pro client using the provided configuration.
 func BuildClient(clientConfig *ClientConfig) (*httpclient.Client, error) {
 	httpClientConfig := httpclient.ClientConfig{
 		Auth: httpclient.AuthConfig{
