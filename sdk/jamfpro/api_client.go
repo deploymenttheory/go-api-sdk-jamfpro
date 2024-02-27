@@ -17,39 +17,21 @@ type ClientConfig struct {
 	ClientOptions httpclient.ClientOptions
 }
 
-// BuildClient initializes a new Jamf Pro client using the provided configuration.
-func BuildClient(clientConfig *ClientConfig) (*httpclient.Client, error) {
-	httpClientConfig := httpclient.ClientConfig{
-		Auth: httpclient.AuthConfig{
-			Username:     clientConfig.Auth.Username,
-			Password:     clientConfig.Auth.Password,
-			ClientID:     clientConfig.Auth.ClientID,
-			ClientSecret: clientConfig.Auth.ClientSecret,
-		},
-		Environment: httpclient.EnvironmentConfig{
-			InstanceName:       clientConfig.Environment.InstanceName,
-			OverrideBaseDomain: clientConfig.Environment.OverrideBaseDomain,
-			APIType:            clientConfig.Environment.APIType,
-		},
-		ClientOptions: httpclient.ClientOptions{
-			LogLevel:                  clientConfig.ClientOptions.LogLevel,
-			LogOutputFormat:           clientConfig.ClientOptions.LogOutputFormat,
-			LogConsoleSeparator:       clientConfig.ClientOptions.LogConsoleSeparator,
-			HideSensitiveData:         clientConfig.ClientOptions.HideSensitiveData,
-			MaxRetryAttempts:          clientConfig.ClientOptions.MaxRetryAttempts,
-			EnableDynamicRateLimiting: clientConfig.ClientOptions.EnableDynamicRateLimiting,
-			MaxConcurrentRequests:     clientConfig.ClientOptions.MaxConcurrentRequests,
-			TokenRefreshBufferPeriod:  clientConfig.ClientOptions.TokenRefreshBufferPeriod,
-			TotalRetryDuration:        clientConfig.ClientOptions.TotalRetryDuration,
-			CustomTimeout:             clientConfig.ClientOptions.CustomTimeout,
-		},
+// BuildClient initializes a new Jamf Pro client with the given configuration.
+// This is typically used when you want to manually specify the configuration.
+// e.g by another caller application such as terraform or a custom application.
+func BuildClient(config httpclient.ClientConfig) (*Client, error) {
+	httpClient, err := httpclient.BuildClient(config)
+	if err != nil {
+		return nil, err
 	}
-
-	// Call the httpclient.BuildClient function with the adapted configuration
-	return httpclient.BuildClient(httpClientConfig)
+	return &Client{HTTP: httpClient}, nil
 }
 
-// BuildClientWithEnv initializes a new Jamf Pro client using configurations loaded from environment variables.
+// BuildClientWithEnv initializes a new Jamf Pro client using configurations
+// loaded from environment variables. This is typically used when by a user to
+// use environment variables to configure the client locally or when running
+// in a container or a CI/CD pipeline.
 func BuildClientWithEnv() (*Client, error) {
 	// Create a new empty ClientConfig
 	config := &httpclient.ClientConfig{}
@@ -70,7 +52,9 @@ func BuildClientWithEnv() (*Client, error) {
 	return &Client{HTTP: httpClient}, nil
 }
 
-// BuildClientWithConfigFile initializes a new Jamf Pro client using a configuration file for the HTTP client.
+// BuildClientWithConfigFile initializes a new Jamf Pro client using a
+// configuration file for the HTTP client. This is typically used when a user
+// wants to use a configuration file to configure the client locally.
 func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 	// Load the HTTP client configuration from the specified file
 	loadedConfig, err := httpclient.LoadConfigFromFile(configFilePath)
