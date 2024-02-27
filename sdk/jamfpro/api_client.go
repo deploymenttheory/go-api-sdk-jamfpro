@@ -17,6 +17,38 @@ type ClientConfig struct {
 	ClientOptions httpclient.ClientOptions
 }
 
+// BuildClient initializes a new Jamf Pro client using the provided configuration.
+func BuildClient(clientConfig *ClientConfig) (*httpclient.Client, error) {
+	httpClientConfig := httpclient.ClientConfig{
+		Auth: httpclient.AuthConfig{
+			Username:     clientConfig.Auth.Username,
+			Password:     clientConfig.Auth.Password,
+			ClientID:     clientConfig.Auth.ClientID,
+			ClientSecret: clientConfig.Auth.ClientSecret,
+		},
+		Environment: httpclient.EnvironmentConfig{
+			InstanceName:       clientConfig.Environment.InstanceName,
+			OverrideBaseDomain: clientConfig.Environment.OverrideBaseDomain,
+			APIType:            clientConfig.Environment.APIType,
+		},
+		ClientOptions: httpclient.ClientOptions{
+			LogLevel:                  clientConfig.ClientOptions.LogLevel,
+			LogOutputFormat:           clientConfig.ClientOptions.LogOutputFormat,
+			LogConsoleSeparator:       clientConfig.ClientOptions.LogConsoleSeparator,
+			HideSensitiveData:         clientConfig.ClientOptions.HideSensitiveData,
+			MaxRetryAttempts:          clientConfig.ClientOptions.MaxRetryAttempts,
+			EnableDynamicRateLimiting: clientConfig.ClientOptions.EnableDynamicRateLimiting,
+			MaxConcurrentRequests:     clientConfig.ClientOptions.MaxConcurrentRequests,
+			TokenRefreshBufferPeriod:  clientConfig.ClientOptions.TokenRefreshBufferPeriod,
+			TotalRetryDuration:        clientConfig.ClientOptions.TotalRetryDuration,
+			CustomTimeout:             clientConfig.ClientOptions.CustomTimeout,
+		},
+	}
+
+	// Call the httpclient.BuildClient function with the adapted configuration
+	return httpclient.BuildClient(httpClientConfig)
+}
+
 // BuildClientWithEnv initializes a new Jamf Pro client using configurations loaded from environment variables.
 func BuildClientWithEnv() (*Client, error) {
 	// Create a new empty ClientConfig
