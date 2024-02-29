@@ -3,12 +3,12 @@ module github.com/deploymenttheory/go-api-sdk-jamfpro
 go 1.21
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.25.0
-	github.com/aws/aws-sdk-go-v2/config v1.27.0
-	github.com/aws/aws-sdk-go-v2/credentials v1.17.0
-	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.16.0
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.49.0
-	github.com/deploymenttheory/go-api-http-client v0.0.78
+	github.com/aws/aws-sdk-go-v2 v1.25.2
+	github.com/aws/aws-sdk-go-v2/config v1.27.4
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.4
+	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.16.6
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.51.1
+	github.com/deploymenttheory/go-api-http-client v0.0.77
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
 )
