@@ -22,7 +22,7 @@ func main() {
 			ClientSecret: "your-client-secret",
 		},
 		ClientOptions: httpclient.ClientOptions{
-			LogLevel:                  "debug",
+			LogLevel:                  "LogLevelDebug",
 			LogOutputFormat:           "console",
 			HideSensitiveData:         true,
 			MaxRetryAttempts:          5,
