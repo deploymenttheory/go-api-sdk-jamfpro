@@ -45,18 +45,18 @@ type ResourcePackage struct {
 	Info                       string `xml:"info,omitempty"`
 	Notes                      string `xml:"notes,omitempty"`
 	Priority                   int    `xml:"priority,omitempty"`
-	RebootRequired             bool   `xml:"reboot_required,omitempty"`
-	FillUserTemplate           bool   `xml:"fill_user_template,omitempty"`
-	FillExistingUsers          bool   `xml:"fill_existing_users,omitempty"`
-	BootVolumeRequired         bool   `xml:"boot_volume_required,omitempty"`
-	AllowUninstalled           bool   `xml:"allow_uninstalled,omitempty"`
+	RebootRequired             bool   `xml:"reboot_required"`
+	FillUserTemplate           bool   `xml:"fill_user_template"`
+	FillExistingUsers          bool   `xml:"fill_existing_users"`
+	BootVolumeRequired         bool   `xml:"boot_volume_required"`
+	AllowUninstalled           bool   `xml:"allow_uninstalled"`
 	OSRequirements             string `xml:"os_requirements,omitempty"`
 	RequiredProcessor          string `xml:"required_processor,omitempty"`
 	SwitchWithPackage          string `xml:"switch_with_package,omitempty"`
-	InstallIfReportedAvailable bool   `xml:"install_if_reported_available,omitempty"`
+	InstallIfReportedAvailable bool   `xml:"install_if_reported_available"`
 	ReinstallOption            string `xml:"reinstall_option,omitempty"`
 	TriggeringFiles            string `xml:"triggering_files,omitempty"`
-	SendNotification           bool   `xml:"send_notification,omitempty"`
+	SendNotification           bool   `xml:"send_notification"`
 }
 
 // CRUD
