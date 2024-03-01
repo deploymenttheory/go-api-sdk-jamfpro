@@ -59,7 +59,7 @@ type MacOSConfigurationProfileSubsetGeneral struct {
 	Site               SharedResourceSite     `xml:"site,omitempty"`
 	Category           SharedResourceCategory `xml:"category,omitempty"`
 	DistributionMethod string                 `xml:"distribution_method,omitempty"`
-	UserRemovable      bool                   `xml:"user_removable,omitempty"`
+	UserRemovable      bool                   `xml:"user_removable"`
 	Level              string                 `xml:"level,omitempty"`
 	UUID               string                 `xml:"uuid,omitempty"`
 	RedeployOnUpdate   string                 `xml:"redeploy_on_update,omitempty"`
@@ -67,8 +67,8 @@ type MacOSConfigurationProfileSubsetGeneral struct {
 }
 
 type MacOSConfigurationProfileSubsetScope struct {
-	AllComputers   bool                                           `xml:"all_computers,omitempty"`
-	AllJSSUsers    bool                                           `xml:"all_jss_users,omitempty"`
+	AllComputers   bool                                           `xml:"all_computers"`
+	AllJSSUsers    bool                                           `xml:"all_jss_users"`
 	Computers      []MacOSConfigurationProfileSubsetComputer      `xml:"computers>computer,omitempty"`
 	ComputerGroups []MacOSConfigurationProfileSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
 	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
@@ -82,9 +82,9 @@ type MacOSConfigurationProfileSubsetScope struct {
 type MacOSConfigurationProfileSubsetSelfService struct {
 	InstallButtonText           string                                               `xml:"install_button_text,omitempty"`
 	SelfServiceDescription      string                                               `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description,omitempty"`
+	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
 	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page,omitempty"`
+	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
 	SelfServiceCategories       MacOSConfigurationProfileSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
 	Notification                string                                               `xml:"notification,omitempty"`
 	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
@@ -98,8 +98,8 @@ type MacOSConfigurationProfileSubsetSelfServiceCategories struct {
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
-	DisplayIn bool   `xml:"display_in,omitempty"`
-	FeatureIn bool   `xml:"feature_in,omitempty"`
+	DisplayIn bool   `xml:"display_in"`
+	FeatureIn bool   `xml:"feature_in"`
 }
 
 type MacOSConfigurationProfileSubsetComputer struct {
