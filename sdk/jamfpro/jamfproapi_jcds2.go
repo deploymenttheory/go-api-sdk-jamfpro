@@ -214,7 +214,7 @@ func (r *progressReader) Read(p []byte) (int, error) {
 
 	return n, err
 }
-
+*/
 // RenewJCDS2Credentials renews credentials for JCDS 2.0
 func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error) {
 	endpoint := uriJCDS2 + "/renew-credentials"
@@ -230,4 +230,3 @@ func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error
 
 	return &out, nil
 }
-*/
