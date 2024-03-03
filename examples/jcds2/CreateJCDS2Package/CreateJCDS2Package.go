@@ -43,15 +43,23 @@ func main() {
 	}
 
 	// Call DoPackageUpload with the file path and package metadata
-	response, err := client.DoPackageUpload(filePath, &packageData)
+	fileResponse, packageResponse, err := client.DoPackageUpload(filePath, &packageData)
 	if err != nil {
-		log.Fatalf("Failed to create JCDS 2.0 package: %v", err)
+		log.Fatalf("Failed to upload package: %v", err)
+	}
+
+	// Combine responses into a single map and marshal
+	combinedResponses := map[string]interface{}{
+		"fileUploadResponse":      fileResponse,
+		"packageCreationResponse": packageResponse,
+	}
+
+	combinedResponseBytes, err := json.Marshal(combinedResponses)
+	if err != nil {
+		log.Fatalf("Failed to marshal DoPackageUpload responses: %v", err)
 	}
 
 	// Print the response
-	responseBytes, err := json.Marshal(response)
-	if err != nil {
-		log.Fatalf("Failed to marshal response: %v", err)
-	}
-	fmt.Println("Response:", string(responseBytes))
+	fmt.Println("Response:", string(combinedResponseBytes))
+
 }
