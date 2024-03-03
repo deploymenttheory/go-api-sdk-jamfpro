@@ -28,9 +28,13 @@ type ResourceCategory struct {
 	Priority int    `json:"priority"`
 }
 
-// CRUD
+// ResponseCategoryCreateAndUpdate represents the response structure for creating a category.
+type ResponseCategoryCreateAndUpdate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
 
-// QUERY Do we need these comments? - no we can align to the comment style from out endpoints
+// CRUD
 
 // GetCategories retrieves all categories from the Jamf Pro API, handling pagination automatically.
 // This function makes multiple API calls to fetch each page of category data and aggregates the results.
@@ -94,10 +98,10 @@ func (c *Client) GetCategoryByName(name string) (*ResourceCategory, error) {
 }
 
 // CreateCategory creates a new category
-func (c *Client) CreateCategory(category *ResourceCategory) (*ResourceCategory, error) {
+func (c *Client) CreateCategory(category *ResourceCategory) (*ResponseCategoryCreateAndUpdate, error) {
 	endpoint := uriCategories
 
-	var response ResourceCategory
+	var response ResponseCategoryCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, category, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "category", err)
@@ -111,10 +115,10 @@ func (c *Client) CreateCategory(category *ResourceCategory) (*ResourceCategory, 
 }
 
 // UpdateCategoryByID updates an existing category by its ID
-func (c *Client) UpdateCategoryByID(id string, categoryUpdate *ResourceCategory) (*ResourceCategory, error) {
+func (c *Client) UpdateCategoryByID(id string, categoryUpdate *ResourceCategory) (*ResponseCategoryCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriCategories, id)
 
-	var response ResourceCategory
+	var response ResponseCategoryCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, categoryUpdate, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "category", id, err)
@@ -128,7 +132,7 @@ func (c *Client) UpdateCategoryByID(id string, categoryUpdate *ResourceCategory)
 }
 
 // UpdateCategoryByNameByID updates a category by its name and then updates its details using its ID.
-func (c *Client) UpdateCategoryByName(name string, categoryUpdate *ResourceCategory) (*ResourceCategory, error) {
+func (c *Client) UpdateCategoryByName(name string, categoryUpdate *ResourceCategory) (*ResponseCategoryCreateAndUpdate, error) {
 	category, err := c.GetCategoryByName(name)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "category", name, err)

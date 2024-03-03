@@ -20,7 +20,7 @@ func main() {
 
 	// Define the new category you want to create
 	newCategory := &jamfpro.ResourceCategory{
-		Name:     "Applications",
+		Name:     "Configuration Profiles",
 		Priority: 9,
 	}
 
