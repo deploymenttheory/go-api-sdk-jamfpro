@@ -15,12 +15,12 @@ import (
 )
 
 // DoPackageUpload creates a new file in JCDS 2.0 using AWS SDK v2
-func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponseJCDS2File, error) {
+func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponseJCDS2File, *ResponsePackageCreatedAndUpdated, error) {
 	// Step 1: Obtain AWS credentials for the package upload endpoint
 	var uploadCredentials ResponseJCDS2UploadCredentials
 	resp, err := c.HTTP.DoRequest("POST", uriJCDS2+"/files", nil, &uploadCredentials)
 	if err != nil {
-		return nil, fmt.Errorf("failed to obtain upload credentials: %v", err)
+		return nil, nil, fmt.Errorf("failed to obtain upload credentials: %v", err)
 	}
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
@@ -28,7 +28,7 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 
 	// Validate if we received necessary details
 	if uploadCredentials.Region == "" || uploadCredentials.BucketName == "" || uploadCredentials.Path == "" {
-		return nil, fmt.Errorf("incomplete upload credentials received")
+		return nil, nil, fmt.Errorf("incomplete upload credentials received")
 	}
 
 	// Step 2: Use the obtained credentials to configure AWS SDK v2
@@ -37,7 +37,7 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(uploadCredentials.AccessKeyID, uploadCredentials.SecretAccessKey, uploadCredentials.SessionToken)),
 	)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create AWS config: %v", err)
+		return nil, nil, fmt.Errorf("failed to create AWS config: %v", err)
 	}
 
 	// Create S3 service client
@@ -49,13 +49,13 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 	// Open the file and use a progressReader to track the upload progress
 	file, err := os.Open(filePath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to open file: %v", err)
+		return nil, nil, fmt.Errorf("failed to open file: %v", err)
 	}
 	defer file.Close()
 
 	fileInfo, err := file.Stat()
 	if err != nil {
-		return nil, fmt.Errorf("failed to get file info: %v", err)
+		return nil, nil, fmt.Errorf("failed to get file info: %v", err)
 	}
 
 	progressFn := func(read, total int64, unit string) {
@@ -78,7 +78,7 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 	// Step 4. Perform the upload
 	_, err = uploader.Upload(context.TODO(), uploadInput)
 	if err != nil {
-		return nil, fmt.Errorf("failed to upload file: %v", err)
+		return nil, nil, fmt.Errorf("failed to upload file: %v", err)
 	}
 
 	fmt.Println("\nUpload completed Successfully")
@@ -106,21 +106,27 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 		SendNotification:           packageData.SendNotification,
 	}
 
+	// Step 5. Upload package metadata to Jamf Pro
 	metadataResponse, err := c.CreatePackage(pkg)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
+		return nil, nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
 	}
 
 	// Log the package creation response from Jamf Pro
 	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %d\n", metadataResponse.ID)
 
-	// Combine JCDS file URI and Jamf Pro package creation response for the final response
-	finalResponse := &ResponseJCDS2File{
+	// Construct the final file upload response
+	finalFileResponse := &ResponseJCDS2File{
 		URI: fmt.Sprintf("s3://%s/%s%s", uploadCredentials.BucketName, uploadCredentials.Path, filepath.Base(filePath)),
-		// Include relevant fields from the Jamf Pro package creation response if necessary
 	}
 
-	return finalResponse, nil
+	// Construct the jamf pro package creation response
+	finalPackageResponse := &ResponsePackageCreatedAndUpdated{
+		ID: metadataResponse.ID,
+	}
+
+	// Return the file upload response, the package creation response, and nil for no error
+	return finalFileResponse, finalPackageResponse, nil
 }
 
 // Read implements the io.Reader interface for progressReader, reporting upload progress in kilobytes and megabytes.
