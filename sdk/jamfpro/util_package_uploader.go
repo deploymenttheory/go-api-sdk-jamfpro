@@ -116,17 +116,17 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %d\n", metadataResponse.ID)
 
 	// Construct the final file upload response
-	finalFileResponse := &ResponseJCDS2File{
+	packageUploadresponse := &ResponseJCDS2File{
 		URI: fmt.Sprintf("s3://%s/%s%s", uploadCredentials.BucketName, uploadCredentials.Path, filepath.Base(filePath)),
 	}
 
 	// Construct the jamf pro package creation response
-	finalPackageResponse := &ResponsePackageCreatedAndUpdated{
+	jamfPackageMetaData := &ResponsePackageCreatedAndUpdated{
 		ID: metadataResponse.ID,
 	}
 
 	// Return the file upload response, the package creation response, and nil for no error
-	return finalFileResponse, finalPackageResponse, nil
+	return packageUploadresponse, jamfPackageMetaData, nil
 }
 
 // Read implements the io.Reader interface for progressReader, reporting upload progress in kilobytes and megabytes.
