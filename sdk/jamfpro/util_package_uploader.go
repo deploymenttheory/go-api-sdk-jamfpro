@@ -130,7 +130,7 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 }
 
 // Read implements the io.Reader interface for progressReader, reporting upload progress in kilobytes and megabytes.
-func (r *progressReader) Read(p []byte) (int, error) {
+func (r *progressReader) UploadProgress(p []byte) (int, error) {
 	n, err := r.reader.Read(p)
 	r.readBytes += int64(n)
 

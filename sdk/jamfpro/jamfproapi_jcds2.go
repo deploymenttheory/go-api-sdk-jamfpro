@@ -8,8 +8,17 @@
 package jamfpro
 
 import (
+	"context"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
 const uriJCDS2 = "/api/v1/jcds"
@@ -99,7 +108,6 @@ func (c *Client) GetJCDS2PackageURIByName(id string) (*ResponseJCDS2File, error)
 	return &out, nil
 }
 
-/*
 // CreateJCDS2PackageV2 creates a new file in JCDS 2.0 using AWS SDK v2
 func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, error) {
 	// Step 1: Obtain AWS credentials for the package upload endpoint
@@ -168,27 +176,27 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 	}
 
 	fmt.Println("\nUpload completed Successfully")
+	/*
+		// Step 5. Upload package metadata to Jamf Pro
+		pkgName := filepath.Base(filePath)
+		pkg := ResourcePackage{
+			Name:     pkgName,
+			Filename: pkgName,
+			// Add other package metadata fields as necessary
+		}
 
-	// Step 5. Upload package metadata to Jamf Pro
-	pkgName := filepath.Base(filePath)
-	pkg := ResourcePackage{
-		Name:     pkgName,
-		Filename: pkgName,
-		// Add other package metadata fields as necessary
-	}
+		metadataResponse, err := c.CreatePackage(pkg)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
+		}
 
-	metadataResponse, err := c.CreatePackage(pkg)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
-	}
-
-	// Log the package creation response from Jamf Pro
-	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %d\n", metadataResponse.ID)
+		// Log the package creation response from Jamf Pro
+		fmt.Printf("Jamf Pro package metadata created successfully with package ID: %d\n", metadataResponse.ID)
+	*/
 
 	// Combine JCDS file URI and Jamf Pro package creation response for the final response
 	finalResponse := &ResponseJCDS2File{
 		URI: fmt.Sprintf("s3://%s/%s%s", uploadCredentials.BucketName, uploadCredentials.Path, filepath.Base(filePath)),
-		// Include relevant fields from the Jamf Pro package creation response if necessary
 	}
 
 	return finalResponse, nil
@@ -214,7 +222,7 @@ func (r *progressReader) Read(p []byte) (int, error) {
 
 	return n, err
 }
-*/
+
 // RenewJCDS2Credentials renews credentials for JCDS 2.0
 func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error) {
 	endpoint := uriJCDS2 + "/renew-credentials"
