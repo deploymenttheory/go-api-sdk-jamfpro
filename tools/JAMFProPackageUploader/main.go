@@ -14,15 +14,6 @@ func main() {
 	// Print the ASCII art
 	uploader.PrintASCIILogo()
 
-	/*
-		downloadURL := "https://www.mothersruin.com/software/downloads/SuspiciousPackage.dmg"
-		if err := installSuspiciousPackage(downloadURL); err != nil {
-			fmt.Println("Error installing Suspicious Package:", err)
-		} else {
-			fmt.Println("Suspicious Package installed successfully.")
-		}
-	*/
-
 	// Define the directory containing the .pkg files
 	fmt.Print("Enter the directory containing the .pkg files: ")
 	var directory string
@@ -104,7 +95,7 @@ func main() {
 
 		// Upload the package
 		fmt.Printf("Uploading package: %s\n", fileName)
-		response, err := client.CreateJCDS2PackageV2(filePath)
+		response, err := client.DoPackageUpload(filePath, packageMetadata)
 		if err != nil {
 			log.Fatalf("Failed to upload %s: %v", filePath, err)
 		}
