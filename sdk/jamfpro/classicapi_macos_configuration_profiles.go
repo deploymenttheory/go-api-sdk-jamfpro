@@ -98,8 +98,8 @@ type MacOSConfigurationProfileSubsetSelfServiceCategories struct {
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
-	DisplayIn bool   `xml:"display_in"`
-	FeatureIn bool   `xml:"feature_in"`
+	DisplayIn bool   `xml:"display_in,omitempty"`
+	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
 type MacOSConfigurationProfileSubsetComputer struct {
