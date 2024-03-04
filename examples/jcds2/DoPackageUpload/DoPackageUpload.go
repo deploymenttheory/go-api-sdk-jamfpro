@@ -23,8 +23,11 @@ func main() {
 
 	// Define package metadata
 	packageData := jamfpro.ResourcePackage{
-		Name:                       "Microsoft Edge",
-		Category:                   "Web Browsers",
+		Name:     "Microsoft Edge",
+		Category: "Web Browsers",
+		// Filename is a required field to assign the uploaded JCDS2 package to the Jamf Pro package reference.
+		// Without this field the package stays in a pending state. Value must match the filename of the file being uploaded.
+		Filename:                   "microsoft-edge-121-0-2277-106.pkg",
 		Info:                       "Microsoft Edge Browser Package",
 		Notes:                      "Version 121.0.2277.106. This package installs Microsoft Edge on macOS devices.",
 		Priority:                   10,                                      // Set priority (lower number means higher priority)

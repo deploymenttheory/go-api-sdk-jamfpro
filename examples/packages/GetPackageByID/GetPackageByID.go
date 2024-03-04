@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID to fetch
-	packageID := 5
+	packageID := 61
 
 	response, err := client.GetPackageByID(packageID)
 	if err != nil {
