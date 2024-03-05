@@ -71,7 +71,7 @@ type MacOSConfigurationProfileSubsetScope struct {
 	AllJSSUsers    bool                                           `xml:"all_jss_users"`
 	Computers      []MacOSConfigurationProfileSubsetComputer      `xml:"computers>computer,omitempty"`
 	ComputerGroups []MacOSConfigurationProfileSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
+	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>user,omitempty"`
 	JSSUserGroups  []MacOSConfigurationProfileSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
 	Buildings      []MacOSConfigurationProfileSubsetBuilding      `xml:"buildings>building,omitempty"`
 	Departments    []MacOSConfigurationProfileSubsetDepartment    `xml:"departments>department,omitempty"`
