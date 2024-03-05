@@ -72,7 +72,7 @@ type MacOSConfigurationProfileSubsetScope struct {
 	Computers      []MacOSConfigurationProfileSubsetComputer      `xml:"computers>computer,omitempty"`
 	ComputerGroups []MacOSConfigurationProfileSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
 	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>user,omitempty"`
-	JSSUserGroups  []MacOSConfigurationProfileSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
+	JSSUserGroups  []MacOSConfigurationProfileSubsetJSSUserGroup  `xml:"jss_user_groups>user_group,omitempty"`
 	Buildings      []MacOSConfigurationProfileSubsetBuilding      `xml:"buildings>building,omitempty"`
 	Departments    []MacOSConfigurationProfileSubsetDepartment    `xml:"departments>department,omitempty"`
 	Limitations    MacOSConfigurationProfileSubsetLimitations     `xml:"limitations,omitempty"`
