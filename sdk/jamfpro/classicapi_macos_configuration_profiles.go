@@ -85,14 +85,10 @@ type MacOSConfigurationProfileSubsetSelfService struct {
 	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
 	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
 	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
-	SelfServiceCategories       MacOSConfigurationProfileSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
-	Notification                string                                               `xml:"notification,omitempty"`
+	SelfServiceCategories       []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
+	Notification                bool                                                 `xml:"notification,omitempty"`
 	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
 	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetSelfServiceCategories struct {
-	Category MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"category,omitempty"`
 }
 
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
