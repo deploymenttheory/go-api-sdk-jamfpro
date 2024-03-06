@@ -158,7 +158,7 @@ type MacOSConfigurationProfileSubsetUser struct {
 }
 
 type MacOSConfigurationProfileSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers,omitempty"`
+	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers>computer,omitempty"`
 	ComputerGroups  []MacOSConfigurationProfileSubsetComputerGroup  `xml:"computer_groups,omitempty"`
 	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users,omitempty"`
 	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups,omitempty"`
