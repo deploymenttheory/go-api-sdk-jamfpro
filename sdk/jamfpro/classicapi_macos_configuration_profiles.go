@@ -159,15 +159,15 @@ type MacOSConfigurationProfileSubsetUser struct {
 
 type MacOSConfigurationProfileSubsetExclusions struct {
 	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers>computer,omitempty"`
-	ComputerGroups  []MacOSConfigurationProfileSubsetComputerGroup  `xml:"computer_groups,omitempty"`
-	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users,omitempty"`
+	ComputerGroups  []MacOSConfigurationProfileSubsetComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
+	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
 	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups,omitempty"`
-	Buildings       []MacOSConfigurationProfileSubsetBuilding       `xml:"buildings,omitempty"`
-	Departments     []MacOSConfigurationProfileSubsetDepartment     `xml:"departments,omitempty"`
-	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments,omitempty"`
-	JSSUsers        []MacOSConfigurationProfileSubsetJSSUser        `xml:"jss_users,omitempty"`
-	JSSUserGroups   []MacOSConfigurationProfileSubsetJSSUserGroup   `xml:"jss_user_groups,omitempty"`
-	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons,omitempty"`
+	Buildings       []MacOSConfigurationProfileSubsetBuilding       `xml:"buildings>building,omitempty"`
+	Departments     []MacOSConfigurationProfileSubsetDepartment     `xml:"departments>department,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	JSSUsers        []MacOSConfigurationProfileSubsetJSSUser        `xml:"jss_users>user,omitempty"`
+	JSSUserGroups   []MacOSConfigurationProfileSubsetJSSUserGroup   `xml:"jss_user_groups>user_group,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 // CRUD
