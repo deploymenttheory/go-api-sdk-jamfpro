@@ -86,7 +86,7 @@ type MacOSConfigurationProfileSubsetSelfService struct {
 	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
 	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
 	SelfServiceCategories       []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
-	Notification                bool                                                 `xml:"notification,omitempty"`
+	Notification                []string                                             `xml:"notification,omitempty"`
 	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
 	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
 }
