@@ -117,7 +117,7 @@ func (c *Client) GetUserGroupByName(name string) (*ResourceUserGroup, error) {
 }
 
 // CreateUserGroup creates a new user group.
-func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGroup, error) {
+func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriUserGroups)
 
 	requestBody := struct {
@@ -127,7 +127,7 @@ func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGro
 		ResourceUserGroup: userGroup,
 	}
 
-	var createdUserGroup ResourceUserGroup
+	var createdUserGroup ResponseUserGroupCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUserGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "user group", err)
@@ -141,7 +141,7 @@ func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGro
 }
 
 // UpdateUserGroupByID updates an existing user group by its ID.
-func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*ResourceUserGroup, error) {
+func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
 
 	requestBody := struct {
@@ -151,7 +151,7 @@ func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*Res
 		ResourceUserGroup: userGroup,
 	}
 
-	var updatedUserGroup ResourceUserGroup
+	var updatedUserGroup ResponseUserGroupCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "user group", id, err)
@@ -165,7 +165,7 @@ func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*Res
 }
 
 // UpdateUserGroupByName updates an existing user group by its name.
-func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup) (*ResourceUserGroup, error) {
+func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserGroups, name)
 
 	requestBody := struct {
@@ -175,7 +175,7 @@ func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup
 		ResourceUserGroup: userGroup,
 	}
 
-	var updatedUserGroup ResourceUserGroup
+	var updatedUserGroup ResponseUserGroupCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "user group", name, err)
