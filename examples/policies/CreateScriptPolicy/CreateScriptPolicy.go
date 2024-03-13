@@ -63,8 +63,8 @@ func main() {
 			Size: 1,
 			Script: []jamfpro.PolicySubsetScript{
 				{
-					ID:         "4364",
-					Name:       "[scpt]-add-or-remove-group-membership-v4.0",
+					ID:         "4521",
+					Name:       "tf-ghatest-add-or-remove-group-membership-v4.0",
 					Priority:   "After",
 					Parameter4: "thing",
 					Parameter5: "thing",

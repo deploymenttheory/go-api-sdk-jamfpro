@@ -108,6 +108,22 @@ func (c *Client) GetJCDS2PackageURIByName(id string) (*ResponseJCDS2File, error)
 	return &out, nil
 }
 
+// RenewJCDS2Credentials renews credentials for JCDS 2.0
+func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error) {
+	endpoint := uriJCDS2 + "/renew-credentials"
+	var out ResponseJCDS2UploadCredentials
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
 // CreateJCDS2PackageV2 creates a new file in JCDS 2.0 using AWS SDK v2
 func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, error) {
 	// Step 1: Obtain AWS credentials for the package upload endpoint
@@ -176,23 +192,6 @@ func (c *Client) CreateJCDS2PackageV2(filePath string) (*ResponseJCDS2File, erro
 	}
 
 	fmt.Println("\nUpload completed Successfully")
-	/*
-		// Step 5. Upload package metadata to Jamf Pro
-		pkgName := filepath.Base(filePath)
-		pkg := ResourcePackage{
-			Name:     pkgName,
-			Filename: pkgName,
-			// Add other package metadata fields as necessary
-		}
-
-		metadataResponse, err := c.CreatePackage(pkg)
-		if err != nil {
-			return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
-		}
-
-		// Log the package creation response from Jamf Pro
-		fmt.Printf("Jamf Pro package metadata created successfully with package ID: %d\n", metadataResponse.ID)
-	*/
 
 	// Combine JCDS file URI and Jamf Pro package creation response for the final response
 	finalResponse := &ResponseJCDS2File{
@@ -223,18 +222,47 @@ func (r *progressReader) Read(p []byte) (int, error) {
 	return n, err
 }
 
-// RenewJCDS2Credentials renews credentials for JCDS 2.0
-func (c *Client) RenewJCDS2Credentials() (*ResponseJCDS2UploadCredentials, error) {
-	endpoint := uriJCDS2 + "/renew-credentials"
-	var out ResponseJCDS2UploadCredentials
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &out)
+// DeleteJCDS2PackageV2 deletes an existing file from JCDS 2.0 using AWS SDK v2.
+func (c *Client) DeleteJCDS2PackageV2(filePath string) error {
+	// Step 1: Obtain AWS credentials for the package deletion endpoint
+	var uploadCredentials ResponseJCDS2UploadCredentials
+	resp, err := c.HTTP.DoRequest("POST", uriJCDS2+"/files", nil, &uploadCredentials)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
+		return fmt.Errorf("failed to obtain deletion credentials: %v", err)
 	}
-
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &out, nil
+	// Validate if we received necessary details
+	if uploadCredentials.Region == "" || uploadCredentials.BucketName == "" || uploadCredentials.Path == "" {
+		return fmt.Errorf("incomplete deletion credentials received")
+	}
+
+	// Step 2: Use the obtained credentials to configure AWS SDK v2
+	cfg, err := config.LoadDefaultConfig(context.TODO(),
+		config.WithRegion(uploadCredentials.Region),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(uploadCredentials.AccessKeyID, uploadCredentials.SecretAccessKey, uploadCredentials.SessionToken)),
+	)
+	if err != nil {
+		return fmt.Errorf("failed to create AWS config: %v", err)
+	}
+
+	// Create S3 service client
+	s3Client := s3.NewFromConfig(cfg)
+
+	// Step 3: Define the object to delete
+	objectToDelete := &s3.DeleteObjectInput{
+		Bucket: aws.String(uploadCredentials.BucketName),
+		Key:    aws.String(uploadCredentials.Path + filepath.Base(filePath)),
+	}
+
+	// Step 4: Perform the deletion
+	_, err = s3Client.DeleteObject(context.TODO(), objectToDelete)
+	if err != nil {
+		return fmt.Errorf("failed to delete file: %v", err)
+	}
+
+	fmt.Printf("File '%s' successfully deleted from JCDS 2.0.\n", filepath.Base(filePath))
+	return nil
 }
