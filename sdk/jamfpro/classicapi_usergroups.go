@@ -33,30 +33,34 @@ type UserGroupsListItem struct {
 	IsNotifyOnChange bool   `xml:"is_notify_on_change"`
 }
 
+type ResponseUserGroupCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
+
 // Resource
 
 // ResourceUserGroup represents the detailed information of a user group.
 type ResourceUserGroup struct {
 	ID               int                       `xml:"id"`
-	Name             string                    `xml:"name"`
+	Name             string                    `xml:"name,omitempty"`
 	IsSmart          bool                      `xml:"is_smart"`
 	IsNotifyOnChange bool                      `xml:"is_notify_on_change"`
-	Site             SharedResourceSite        `xml:"site"`
-	Criteria         []SharedSubsetCriteria    `xml:"criteria>criterion"`
-	Users            []UserGroupSubsetUserItem `xml:"users>user"`
-	UserAdditions    []UserGroupSubsetUserItem `xml:"user_additions>user"`
-	UserDeletions    []UserGroupSubsetUserItem `xml:"user_deletions>user"`
+	Site             SharedResourceSite        `xml:"site,omitempty"`
+	Criteria         []SharedSubsetCriteria    `xml:"criteria>criterion,omitempty"`
+	Users            []UserGroupSubsetUserItem `xml:"users>user,omitempty"`
+	UserAdditions    []UserGroupSubsetUserItem `xml:"user_additions>user,omitempty"`
+	UserDeletions    []UserGroupSubsetUserItem `xml:"user_deletions>user,omitempty"`
 }
 
 // Shared
 
 // UserGroupUserItem represents a user of a user group.
 type UserGroupSubsetUserItem struct {
-	ID           int    `xml:"id"`
-	Username     string `xml:"username"`
-	FullName     string `xml:"full_name"`
+	ID           int    `xml:"id,omitempty"`
+	Username     string `xml:"username,omitempty"`
+	FullName     string `xml:"full_name,omitempty"`
 	PhoneNumber  string `xml:"phone_number,omitempty"`
-	EmailAddress string `xml:"email_address"`
+	EmailAddress string `xml:"email_address,omitempty"`
 }
 
 // CRUD
