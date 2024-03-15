@@ -5,11 +5,30 @@
 
 package jamfpro
 
-// QUERY - Can you tell me which endpoints you think are relevant here?
-/*
-- Get the current LAPS settings.
-- Update settings for LAPS.
-- Get current LAPS password for specified username on a client.
-- Get the LAPS capable admin accounts for a device.
-- Set the LAPS password for a device.
-*/
+import "fmt"
+
+const uriLocalAdminPassword = "/api/v2/local-admin-password"
+
+// Resource
+type ResourceLocalAdminPasswordSettings struct {
+	AutoDeployEnabled        bool `json:"autoDeployEnabled"`
+	PasswordRotationTime     int  `json:"passwordRotationTime"`
+	AutoRotateEnabled        bool `json:"autoRotateEnabled"`
+	AutoRotateExpirationTime int  `json:"autoRotateExpirationTime"`
+}
+
+// GetLocalAdminPasswordSettings retrieves current Jamf Pro LAPS settings
+func (c *Client) GetLocalAdminPasswordSettings() (*ResourceLocalAdminPasswordSettings, error) {
+	endpoint := uriLocalAdminPassword
+	var out ResourceLocalAdminPasswordSettings
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "LAPS settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
