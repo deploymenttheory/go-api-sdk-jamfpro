@@ -20,10 +20,10 @@ func main() {
 
 	// Define the new ADUE access group details
 	newGroup := jamfpro.ResourceAccountDrivenUserEnrollmentAccessGroup{
-		GroupID:                            "123", // Example Group ID, replace with actual
-		LdapServerID:                       "456", // Example LDAP Server ID, replace with actual
+		GroupID:                            "1", // Example Group ID, replace with actual
+		LdapServerID:                       "4", // Example LDAP Server ID, replace with actual
 		Name:                               "New Access Group",
-		SiteID:                             "789", // Example Site ID, replace with actual
+		SiteID:                             "-1", // Example Site ID, replace with actual
 		EnterpriseEnrollmentEnabled:        true,
 		PersonalEnrollmentEnabled:          false,
 		AccountDrivenUserEnrollmentEnabled: true,
