@@ -18,16 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call Function
-	JCDS2Files, err := client.GetJCDS2Properties()
+	// Define a ADUE Account Group ID for testing
+	ADUEAccountGroupName := "All Directory Service Users"
+
+	// Call GetScriptsByID function
+	script, err := client.GetAccountDrivenUserEnrollmentAccessGroupByName(ADUEAccountGroupName)
 	if err != nil {
-		log.Fatalf("Error fetching JCDS 2 properties: %v", err)
+		log.Fatalf("Error fetching script by ID: %v", err)
 	}
 
-	// Pretty print the JSON
-	response, err := json.MarshalIndent(JCDS2Files, "", "    ") // Indent with 4 spaces
+	// Pretty print the script details in XML
+	JSON, err := json.MarshalIndent(script, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling JCDS 2 package data: %v", err)
+		log.Fatalf("Error marshaling script details data: %v", err)
 	}
-	fmt.Println("Fetched JCDS 2 properties:\n", string(response))
+	fmt.Println("Fetched Script Details:\n", string(JSON))
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -17,12 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call Function
-	version, err := client.GetJamfProVersion()
+	// Call GetAccountDrivenUserEnrollmentAccessGroups function
+	ADUEAccessGroups, err := client.GetAccountDrivenUserEnrollmentAccessGroups("")
 	if err != nil {
-		log.Fatalf("Error fetching Jamf Pro version: %v", err)
+		log.Fatalf("Error fetching ADUE Access Groups: %v", err)
 	}
 
-	// Print the fetched Jamf Pro version
-	fmt.Println("Current Jamf Pro Version:", *version.Version)
+	// Pretty print the scripts in XML
+	JSON, err := json.MarshalIndent(ADUEAccessGroups, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling scripts data: %v", err)
+	}
+	fmt.Println("Fetched Scripts:\n", string(JSON))
 }

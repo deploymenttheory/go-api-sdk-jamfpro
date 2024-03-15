@@ -1,4 +1,4 @@
-// jamfproapi_enrollment.go
+// jamfproapi_account_driven_user_enrollment_token_settings.go
 // Jamf Pro Api - Enrollment
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-enrollment-history
 // Jamf Pro API requires the structs to support a JSON data structure.
