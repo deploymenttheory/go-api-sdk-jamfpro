@@ -19,7 +19,7 @@ type ResourceLocalAdminPasswordSettings struct {
 
 // GetLocalAdminPasswordSettings retrieves current Jamf Pro LAPS settings
 func (c *Client) GetLocalAdminPasswordSettings() (*ResourceLocalAdminPasswordSettings, error) {
-	endpoint := uriLocalAdminPassword
+	endpoint := uriLocalAdminPassword + "/settings"
 	var out ResourceLocalAdminPasswordSettings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
@@ -31,4 +31,22 @@ func (c *Client) GetLocalAdminPasswordSettings() (*ResourceLocalAdminPasswordSet
 	}
 
 	return &out, nil
+}
+
+// UpdateLocalAdminPasswordSettings updates the current Jamf Pro LAPS settings
+func (c *Client) UpdateLocalAdminPasswordSettings(settings *ResourceLocalAdminPasswordSettings) error {
+	endpoint := uriLocalAdminPassword + "/settings"
+
+	var handleResponse struct{}
+
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &settings, &handleResponse)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedUpdate, "LAPS settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
 }
