@@ -719,18 +719,6 @@ This documentation outlines the operations available for departments using the A
 
 - Total Operations Covered: 8
 
-
-### macOS Configuration Profiles - /JSSResource/osxconfigurationprofiles
-
-- [x] ✅ **GET** `/JSSResource/osxconfigurationprofiles` - GetMacOSConfigurationProfiles retrieves all macOS configuration profiles.
-- [x] ✅ **GET** `/JSSResource/osxconfigurationprofiles/id/{id}` - GetMacOSConfigurationProfileByID retrieves the macOS configuration profile by its ID.
-- [x] ✅ **GET** `/JSSResource/osxconfigurationprofiles/name/{name}` - GetMacOSConfigurationProfileByName retrieves the macOS configuration profile by its name.
-- [x] ✅ **POST**  `/JSSResource/osxconfigurationprofiles/id/0` - CreateMacOSConfigurationProfile creates a new macOS configuration profile.
-- [x] ✅ **PUT** `/JSSResource/osxconfigurationprofiles/id/{id}` - UpdateMacOSConfigurationProfileByID updates an existing macOS configuration profile by ID.
-- [x] ✅ **PUT** `/JSSResource/osxconfigurationprofiles/name/{name}` - UpdateMacOSConfigurationProfileByName updates an existing macOS configuration profile by its name.
-- [x] ✅ **DELETE** `/JSSResource/osxconfigurationprofiles/id/{id}` - DeleteMacOSConfigurationProfileByID deletes an existing macOS configuration profile by ID.
-- [x] ✅ **DELETE** `/JSSResource/osxconfigurationprofiles/name/{name}` - DeleteMacOSConfigurationProfileByName deletes an existing macOS configuration profile by its name.
-
 ### Policies - /JSSResource/policies
 
 This documentation outlines the operations available for policies using the API.

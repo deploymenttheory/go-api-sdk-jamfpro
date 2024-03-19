@@ -17,12 +17,14 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call Function
-	version, err := client.GetJamfProVersion()
+	// Define the name of the macOS Configuration Profile you want to delete
+	packageFileName := "microsoft-edge-121-0-2277-106.pkg"
+
+	// Call the DeleteMacApplicationByName function
+	err = client.DeleteJCDS2PackageV2(packageFileName)
 	if err != nil {
-		log.Fatalf("Error fetching Jamf Pro version: %v", err)
+		log.Fatalf("Failed to delete JCDS 2.0 file with name '%s': %v", packageFileName, err)
 	}
 
-	// Print the fetched Jamf Pro version
-	fmt.Println("Current Jamf Pro Version:", *version.Version)
+	fmt.Printf("JCDS 2.0 file with name '%s' deleted successfully\n", packageFileName)
 }

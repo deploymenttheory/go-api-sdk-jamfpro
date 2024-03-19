@@ -18,13 +18,13 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetJamfProVersion function
+	// Call Function
 	JCDS2Files, err := client.GetJCDS2Packages()
 	if err != nil {
 		log.Fatalf("Error fetching JCDS 2 packages: %v", err)
 	}
 
-	// Pretty print the JCDS 2 files in XML
+	// Pretty print the JSON
 	response, err := json.MarshalIndent(JCDS2Files, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling JCDS 2 package data: %v", err)

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,11 +19,15 @@ func main() {
 	}
 
 	// Call Function
-	version, err := client.GetJamfProVersion()
+	LAPSSettings, err := client.GetLocalAdminPasswordSettings()
 	if err != nil {
-		log.Fatalf("Error fetching Jamf Pro version: %v", err)
+		log.Fatalf("Error fetching LAPS properties: %v", err)
 	}
 
-	// Print the fetched Jamf Pro version
-	fmt.Println("Current Jamf Pro Version:", *version.Version)
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(LAPSSettings, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling LAPS package data: %v", err)
+	}
+	fmt.Println("Fetched LAPS properties:\n", string(response))
 }

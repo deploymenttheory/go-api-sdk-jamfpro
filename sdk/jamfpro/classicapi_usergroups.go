@@ -33,30 +33,34 @@ type UserGroupsListItem struct {
 	IsNotifyOnChange bool   `xml:"is_notify_on_change"`
 }
 
+type ResponseUserGroupCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
+
 // Resource
 
 // ResourceUserGroup represents the detailed information of a user group.
 type ResourceUserGroup struct {
 	ID               int                       `xml:"id"`
-	Name             string                    `xml:"name"`
+	Name             string                    `xml:"name,omitempty"`
 	IsSmart          bool                      `xml:"is_smart"`
 	IsNotifyOnChange bool                      `xml:"is_notify_on_change"`
-	Site             SharedResourceSite        `xml:"site"`
-	Criteria         []SharedSubsetCriteria    `xml:"criteria>criterion"`
-	Users            []UserGroupSubsetUserItem `xml:"users>user"`
-	UserAdditions    []UserGroupSubsetUserItem `xml:"user_additions>user"`
-	UserDeletions    []UserGroupSubsetUserItem `xml:"user_deletions>user"`
+	Site             SharedResourceSite        `xml:"site,omitempty"`
+	Criteria         []SharedSubsetCriteria    `xml:"criteria>criterion,omitempty"`
+	Users            []UserGroupSubsetUserItem `xml:"users>user,omitempty"`
+	UserAdditions    []UserGroupSubsetUserItem `xml:"user_additions>user,omitempty"`
+	UserDeletions    []UserGroupSubsetUserItem `xml:"user_deletions>user,omitempty"`
 }
 
 // Shared
 
 // UserGroupUserItem represents a user of a user group.
 type UserGroupSubsetUserItem struct {
-	ID           int    `xml:"id"`
-	Username     string `xml:"username"`
-	FullName     string `xml:"full_name"`
+	ID           int    `xml:"id,omitempty"`
+	Username     string `xml:"username,omitempty"`
+	FullName     string `xml:"full_name,omitempty"`
 	PhoneNumber  string `xml:"phone_number,omitempty"`
-	EmailAddress string `xml:"email_address"`
+	EmailAddress string `xml:"email_address,omitempty"`
 }
 
 // CRUD
@@ -113,7 +117,7 @@ func (c *Client) GetUserGroupByName(name string) (*ResourceUserGroup, error) {
 }
 
 // CreateUserGroup creates a new user group.
-func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGroup, error) {
+func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriUserGroups)
 
 	requestBody := struct {
@@ -123,7 +127,7 @@ func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGro
 		ResourceUserGroup: userGroup,
 	}
 
-	var createdUserGroup ResourceUserGroup
+	var createdUserGroup ResponseUserGroupCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdUserGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "user group", err)
@@ -137,7 +141,7 @@ func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResourceUserGro
 }
 
 // UpdateUserGroupByID updates an existing user group by its ID.
-func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*ResourceUserGroup, error) {
+func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
 
 	requestBody := struct {
@@ -147,7 +151,7 @@ func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*Res
 		ResourceUserGroup: userGroup,
 	}
 
-	var updatedUserGroup ResourceUserGroup
+	var updatedUserGroup ResponseUserGroupCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "user group", id, err)
@@ -161,7 +165,7 @@ func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*Res
 }
 
 // UpdateUserGroupByName updates an existing user group by its name.
-func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup) (*ResourceUserGroup, error) {
+func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriUserGroups, name)
 
 	requestBody := struct {
@@ -171,7 +175,7 @@ func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup
 		ResourceUserGroup: userGroup,
 	}
 
-	var updatedUserGroup ResourceUserGroup
+	var updatedUserGroup ResponseUserGroupCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedUserGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "user group", name, err)

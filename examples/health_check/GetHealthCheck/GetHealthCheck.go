@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,11 +19,15 @@ func main() {
 	}
 
 	// Call Function
-	version, err := client.GetJamfProVersion()
+	HealthCheck, err := client.GetHealthCheck()
 	if err != nil {
-		log.Fatalf("Error fetching Jamf Pro version: %v", err)
+		log.Fatalf("Error fetching Health Check properties: %v", err)
 	}
 
-	// Print the fetched Jamf Pro version
-	fmt.Println("Current Jamf Pro Version:", *version.Version)
+	// Pretty print the Health Check files in XML
+	response, err := json.MarshalIndent(HealthCheck, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling Health Check package data: %v", err)
+	}
+	fmt.Println("Fetched Health Check properties:\n", string(response))
 }
