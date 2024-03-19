@@ -1,3 +1,9 @@
+// jamfproapi_return_to_service.go
+// Jamf Pro Api - Return to Service
+// api reference: none available
+// docs: https://learn.jamf.com/en-US/bundle/technical-articles/page/Return_to_Service.html
+// Jamf Pro Api requires the structs to support an JSON data structure.
+
 package jamfpro
 
 import (
@@ -6,7 +12,7 @@ import (
 
 const uriReturnToService = "/api/v1/return-to-service"
 
-// GetReturnToService fetches a file list from Jamf Cloud Distribution Service
+// GetReturnToService fetches a list of devices that are in the Return to Service state.
 func (c *Client) GetReturnToService() ([]ResponseJCDS2List, error) {
 	endpoint := uriReturnToService
 	var out []ResponseJCDS2List

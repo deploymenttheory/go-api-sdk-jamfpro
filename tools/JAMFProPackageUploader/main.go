@@ -95,17 +95,29 @@ func main() {
 
 		// Upload the package
 		fmt.Printf("Uploading package: %s\n", fileName)
-		response, err := client.DoPackageUpload(filePath, packageMetadata)
+
+		// Assuming packageMetadata is correctly defined somewhere in your code
+		var packageMetadata *jamfpro.ResourcePackage
+
+		responseJCDS2File, responsePackageCreatedAndUpdated, err := client.DoPackageUpload(filePath, packageMetadata)
 		if err != nil {
 			log.Fatalf("Failed to upload %s: %v", filePath, err)
 		}
 
-		// Marshal and log the response
-		responseBytes, err := json.Marshal(response)
+		// Marshal and log the JCDS2File response
+		responseJCDS2Bytes, err := json.Marshal(responseJCDS2File)
 		if err != nil {
-			log.Fatalf("Failed to marshal response for %s: %v", filePath, err)
+			log.Fatalf("Failed to marshal JCDS2File response for %s: %v", filePath, err)
 		}
-		fmt.Printf("Upload response for %s: %s\n", fileName, string(responseBytes))
+		fmt.Printf("JCDS2File Upload response for %s: %s\n", fileName, string(responseJCDS2Bytes))
+
+		// Marshal and log the PackageCreatedAndUpdated response
+		responsePackageCreatedAndUpdatedBytes, err := json.Marshal(responsePackageCreatedAndUpdated)
+		if err != nil {
+			log.Fatalf("Failed to marshal PackageCreatedAndUpdated response for %s: %v", filePath, err)
+		}
+		fmt.Printf("PackageCreatedAndUpdated response for %s: %s\n", fileName, string(responsePackageCreatedAndUpdatedBytes))
+
 		fmt.Println("-------------------------------------------------")
 	}
 }

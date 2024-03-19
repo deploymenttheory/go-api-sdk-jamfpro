@@ -123,7 +123,7 @@ func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePat
 func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedConfiguration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
 	var out ResponsePatchSoftwareTitleConfigurationCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, updatedConfiguration, &out)
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, updatedConfiguration, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "patch software title configuration", err)
 	}
