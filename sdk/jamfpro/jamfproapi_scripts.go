@@ -1,3 +1,8 @@
+// jamfproapi_self_service_branding_macos.go
+// Jamf Pro Api - Scripts
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-scripts
+// Jamf Pro Api requires the structs to support an JSON data structure.
+
 package jamfpro
 
 import (

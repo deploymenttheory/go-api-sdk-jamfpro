@@ -1,7 +1,7 @@
 // jamfproapi_self_service_branding_macos.go
 // Jamf Pro Api - Self Service Branding macOS
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-self-service-branding-macos
-// Classic API requires the structs to support an JSON data structure.
+// Jamf Pro Api requires the structs to support an JSON data structure.
 
 package jamfpro
 
