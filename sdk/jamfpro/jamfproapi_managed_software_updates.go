@@ -78,7 +78,7 @@ type ManagedSoftwareUpdatePlanSubsetStatus struct {
 
 // GetManagedSoftwareUpdates retrieves a list of all available managed software updates
 func (c *Client) GetManagedSoftwareUpdates() (*ResponseManagedSoftwareUpdateList, error) {
-	endpoint := uriManagedSoftwareUpdates + "/available-updates"
+	endpoint := fmt.Sprintf("%s/available-updates", uriManagedSoftwareUpdates)
 
 	var updateList ResponseManagedSoftwareUpdateList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &updateList)
