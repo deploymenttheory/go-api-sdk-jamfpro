@@ -172,6 +172,23 @@ func (c *Client) CreateManagedSoftwareUpdatePlan(plan *ResourceManagedSoftwareUp
 	return &responseManagedSoftwareUpdatePlanCreate, nil
 }
 
+// GetManagedSoftwareUpdateFeatureToggle retrieves the current managed software update feature toggle settings
+func (c *Client) GetManagedSoftwareUpdateFeatureToggle() (*ResourceManagedSoftwareUpdateFeatureToggle, error) {
+	endpoint := fmt.Sprintf("%s/plans/feature-toggle", uriManagedSoftwareUpdates)
+
+	var featureToggle ResourceManagedSoftwareUpdateFeatureToggle
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &featureToggle)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "self service settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &featureToggle, nil
+}
+
 // UpdateManagedSoftwareUpdateFeatureToggle updates the feature toggle for managed software updates.
 func (c *Client) UpdateManagedSoftwareUpdateFeatureToggle(payload *ResourceManagedSoftwareUpdateFeatureToggle) (*ResponseManagedSoftwareUpdateFeatureToggle, error) {
 	endpoint := fmt.Sprintf("%s/plans/feature-toggle", uriManagedSoftwareUpdates)
