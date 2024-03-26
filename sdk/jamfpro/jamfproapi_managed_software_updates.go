@@ -22,8 +22,31 @@ type ResponseManagedSoftwareUpdateList struct {
 }
 
 type ResponseManagedSoftwareUpdatePlanList struct {
-	TotalCount int                                 `json:"totalCount"`
-	Results    []ResourceManagedSoftwareUpdatePlan `json:"results"`
+	TotalCount int                                     `json:"totalCount"`
+	Results    []ResourceManagedSoftwareUpdatePlanList `json:"results"`
+}
+
+type ResourceManagedSoftwareUpdatePlanList struct {
+	PlanUuid                  string                                    `json:"planUuid,omitempty"`
+	Device                    ManagedSoftwareUpdatePlanListSubsetDevice `json:"device,omitempty"`
+	UpdateAction              string                                    `json:"updateAction,omitempty"`
+	VersionType               string                                    `json:"versionType,omitempty"`
+	SpecificVersion           string                                    `json:"specificVersion,omitempty"`
+	MaxDeferrals              int                                       `json:"maxDeferrals,omitempty"`
+	ForceInstallLocalDateTime string                                    `json:"forceInstallLocalDateTime,omitempty"`
+	RecipeId                  string                                    `json:"recipeId,omitempty"`
+	Status                    ManagedSoftwareUpdatePlanListSubsetStatus `json:"status,omitempty"`
+}
+
+type ManagedSoftwareUpdatePlanListSubsetDevice struct {
+	DeviceId   string `json:"deviceId,omitempty"`
+	ObjectType string `json:"objectType,omitempty"`
+	Href       string `json:"href,omitempty"`
+}
+
+type ManagedSoftwareUpdatePlanListSubsetStatus struct {
+	State        string   `json:"state,omitempty"`
+	ErrorReasons []string `json:"errorReasons"`
 }
 
 // Response
@@ -51,27 +74,25 @@ type ResourceAvailableUpdates struct {
 	IOS   []string `json:"iOS"`
 }
 
+// ResourceManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
 type ResourceManagedSoftwareUpdatePlan struct {
-	PlanUuid                  string                                `json:"planUuid"`
-	Device                    ManagedSoftwareUpdatePlanSubsetDevice `json:"device"`
-	UpdateAction              string                                `json:"updateAction"`
-	VersionType               string                                `json:"versionType"`
-	SpecificVersion           string                                `json:"specificVersion"`
-	MaxDeferrals              int                                   `json:"maxDeferrals"`
-	ForceInstallLocalDateTime string                                `json:"forceInstallLocalDateTime"`
-	RecipeId                  string                                `json:"recipeId"`
-	Status                    ManagedSoftwareUpdatePlanSubsetStatus `json:"status"`
+	Devices []ManagedSoftwareUpdatePlanDevice `json:"devices"`
+	Config  ManagedSoftwareUpdatePlanConfig   `json:"config"`
 }
 
-type ManagedSoftwareUpdatePlanSubsetDevice struct {
-	DeviceId   string `json:"deviceId"`
+// ManagedSoftwareUpdatePlanDevice defines the structure for device objects in the managed software update plan.
+type ManagedSoftwareUpdatePlanDevice struct {
 	ObjectType string `json:"objectType"`
-	Href       string `json:"href"`
+	DeviceId   string `json:"deviceId"`
 }
 
-type ManagedSoftwareUpdatePlanSubsetStatus struct {
-	State        string   `json:"state"`
-	ErrorReasons []string `json:"errorReasons"`
+// ManagedSoftwareUpdatePlanConfig defines the configuration for a managed software update plan.
+type ManagedSoftwareUpdatePlanConfig struct {
+	UpdateAction              string `json:"updateAction"`
+	VersionType               string `json:"versionType"`
+	SpecificVersion           string `json:"specificVersion,omitempty"` // omitempty allows this field to be omitted if empty
+	MaxDeferrals              int    `json:"maxDeferrals"`
+	ForceInstallLocalDateTime string `json:"forceInstallLocalDateTime"`
 }
 
 // CRUD
@@ -110,7 +131,7 @@ func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseMan
 	out.TotalCount = resp.Size
 
 	for _, value := range resp.Results {
-		var newObj ResourceManagedSoftwareUpdatePlan
+		var newObj ResourceManagedSoftwareUpdatePlanList
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
 			return nil, fmt.Errorf(errMsgFailedMapstruct, "script", err)
@@ -125,16 +146,16 @@ func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseMan
 // Creates Managed Software Update Plan from ResourceManagedSoftwareUpdatePlan struct
 func (c *Client) CreateManagedSoftwareUpdatePlan(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
 	endpoint := uriManagedSoftwareUpdates + "/plans"
-	var ResponseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
+	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, plan, &ResponseManagedSoftwareUpdatePlanCreate)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, plan, &responseManagedSoftwareUpdatePlanCreate)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedCreate, "script", err)
+		return nil, fmt.Errorf("failed to create managed software update plan: %v", err)
 	}
 
 	if resp != nil {
 		defer resp.Body.Close()
 	}
 
-	return &ResponseManagedSoftwareUpdatePlanCreate, nil
+	return &responseManagedSoftwareUpdatePlanCreate, nil
 }

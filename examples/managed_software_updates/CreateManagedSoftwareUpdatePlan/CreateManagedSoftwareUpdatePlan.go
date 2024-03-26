@@ -19,7 +19,19 @@ func main() {
 	}
 
 	// Define a sample plan for testing
-	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{}
+	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
+		Devices: []jamfpro.ManagedSoftwareUpdatePlanDevice{{
+			ObjectType: "COMPUTER",
+			DeviceId:   "1",
+		}},
+		Config: jamfpro.ManagedSoftwareUpdatePlanConfig{
+			UpdateAction:              "DOWNLOAD_INSTALL",
+			VersionType:               "LATEST_MINOR",
+			SpecificVersion:           "12.6.1",
+			MaxDeferrals:              5,
+			ForceInstallLocalDateTime: "2023-12-25T21:09:31",
+		},
+	}
 
 	// Call CreateManagedSoftwareUpdatePlan function
 	createdPlan, err := client.CreateManagedSoftwareUpdatePlan(sampleUpdatePlan)
