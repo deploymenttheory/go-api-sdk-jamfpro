@@ -83,23 +83,23 @@ type ResourceAvailableUpdates struct {
 
 // ResourceManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
 type ResourceManagedSoftwareUpdatePlan struct {
-	Devices []ManagedSoftwareUpdatePlanDevice `json:"devices"`
-	Config  ManagedSoftwareUpdatePlanConfig   `json:"config"`
+	Devices []ManagedSoftwareUpdatePlanDevice `json:"devices,omitempty"`
+	Config  ManagedSoftwareUpdatePlanConfig   `json:"config,omitempty"`
 }
 
 // ManagedSoftwareUpdatePlanDevice defines the structure for device objects in the managed software update plan.
 type ManagedSoftwareUpdatePlanDevice struct {
-	ObjectType string `json:"objectType"`
-	DeviceId   string `json:"deviceId"`
+	ObjectType string `json:"objectType,omitempty"`
+	DeviceId   string `json:"deviceId,omitempty"`
 }
 
 // ManagedSoftwareUpdatePlanConfig defines the configuration for a managed software update plan.
 type ManagedSoftwareUpdatePlanConfig struct {
-	UpdateAction              string `json:"updateAction"`
-	VersionType               string `json:"versionType"`
-	SpecificVersion           string `json:"specificVersion,omitempty"` // omitempty allows this field to be omitted if empty
-	MaxDeferrals              int    `json:"maxDeferrals"`
-	ForceInstallLocalDateTime string `json:"forceInstallLocalDateTime"`
+	UpdateAction              string `json:"updateAction,omitempty"`
+	VersionType               string `json:"versionType,omitempty"`
+	SpecificVersion           string `json:"specificVersion,omitempty"`
+	MaxDeferrals              int    `json:"maxDeferrals,omitempty"`
+	ForceInstallLocalDateTime string `json:"forceInstallLocalDateTime,omitempty"`
 }
 
 // ResourceManagedSoftwareUpdateFeatureToggle represents the payload for updating the feature toggle.
