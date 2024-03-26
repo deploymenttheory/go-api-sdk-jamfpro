@@ -67,6 +67,13 @@ type ManagedSoftwareUpdatePlanCreateSubsetDevice struct {
 	Href       string `json:"href"`
 }
 
+type ResponseManagedSoftwareUpdateFeatureToggle struct {
+	Toggle                       bool `json:"toggle"`
+	ForceInstallLocalDateEnabled bool `json:"forceInstallLocalDateEnabled"`
+	DssEnabled                   bool `json:"dssEnabled"`
+	RecipeEnabled                bool `json:"recipeEnabled"`
+}
+
 // Resource
 
 type ResourceAvailableUpdates struct {
@@ -93,6 +100,11 @@ type ManagedSoftwareUpdatePlanConfig struct {
 	SpecificVersion           string `json:"specificVersion,omitempty"` // omitempty allows this field to be omitted if empty
 	MaxDeferrals              int    `json:"maxDeferrals"`
 	ForceInstallLocalDateTime string `json:"forceInstallLocalDateTime"`
+}
+
+// ResourceManagedSoftwareUpdateFeatureToggle represents the payload for updating the feature toggle.
+type ResourceManagedSoftwareUpdateFeatureToggle struct {
+	Toggle bool `json:"toggle"`
 }
 
 // CRUD
@@ -158,4 +170,25 @@ func (c *Client) CreateManagedSoftwareUpdatePlan(plan *ResourceManagedSoftwareUp
 	}
 
 	return &responseManagedSoftwareUpdatePlanCreate, nil
+}
+
+// UpdateManagedSoftwareUpdateFeatureToggle updates the feature toggle for managed software updates.
+func (c *Client) UpdateManagedSoftwareUpdateFeatureToggle(payload *ResourceManagedSoftwareUpdateFeatureToggle) (*ResponseManagedSoftwareUpdateFeatureToggle, error) {
+	endpoint := fmt.Sprintf("%s/plans/feature-toggle", uriManagedSoftwareUpdates)
+
+	// Define a variable to hold the response
+	var response ResponseManagedSoftwareUpdateFeatureToggle
+
+	// Perform the request and unmarshal the response
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update managed software update feature toggle: %v", err)
+	}
+
+	// Ensure the response body gets closed
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }
