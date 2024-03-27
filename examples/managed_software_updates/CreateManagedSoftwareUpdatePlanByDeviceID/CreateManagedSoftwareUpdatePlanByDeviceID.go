@@ -33,8 +33,8 @@ func main() {
 		},
 	}
 
-	// Call CreateManagedSoftwareUpdatePlan function
-	createdPlan, err := client.CreateManagedSoftwareUpdatePlan(sampleUpdatePlan)
+	// Call CreateManagedSoftwareUpdatePlanByDeviceID function
+	createdPlan, err := client.CreateManagedSoftwareUpdatePlanByDeviceID(sampleUpdatePlan)
 	if err != nil {
 		log.Fatalf("Error creating managed software update plan: %v", err)
 	}

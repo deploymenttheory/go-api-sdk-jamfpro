@@ -155,8 +155,8 @@ func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseMan
 
 }
 
-// Creates Managed Software Update Plan from ResourceManagedSoftwareUpdatePlan struct
-func (c *Client) CreateManagedSoftwareUpdatePlan(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
+// CreateManagedSoftwareUpdatePlanByDeviceID Creates Managed Software Update Plan by Device ID
+func (c *Client) CreateManagedSoftwareUpdatePlanByDeviceID(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
 	endpoint := uriManagedSoftwareUpdates + "/plans"
 	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
 
@@ -179,7 +179,7 @@ func (c *Client) GetManagedSoftwareUpdateFeatureToggle() (*ResourceManagedSoftwa
 	var featureToggle ResourceManagedSoftwareUpdateFeatureToggle
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &featureToggle)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "self service settings", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "managed software update feature toggle", err)
 	}
 
 	if resp != nil && resp.Body != nil {
