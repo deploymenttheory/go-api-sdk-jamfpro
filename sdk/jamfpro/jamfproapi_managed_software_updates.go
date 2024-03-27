@@ -1,5 +1,5 @@
 // jamfproapi_managed_software_updates.go
-// Jamf Pro Api - Managed Software Updates
+// Jamf Pro Api - Managed Software Updates (BETA)
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-managed-software-updates-available-updates
 // Jamf Pro API requires the structs to support a JSON data structure.
 
