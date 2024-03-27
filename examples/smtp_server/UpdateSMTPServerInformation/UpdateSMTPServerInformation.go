@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -20,17 +20,15 @@ func main() {
 
 	// Define new SMTP server settings
 	newSMTPSettings := &jamfpro.ResourceSMTPServer{
-		Enabled:               true,
-		Host:                  "smtp.sendgrid.net",
-		Port:                  587,
-		Timeout:               5,
-		AuthorizationRequired: true,
-		Username:              "sample-username",
-		Password:              "sample-password",
-		SSL:                   false,
-		TLS:                   false,
-		SendFromName:          "Jamf Pro Server",
-		SendFromEmail:         "user@company.com",
+		Enabled:                true,
+		Server:                 "smtp.sendgrid.net",
+		Port:                   587,
+		EncryptionType:         "", // Specify the encryption type if applicable, for example "SSL" or "TLS"
+		ConnectionTimeout:      5,
+		SenderDisplayName:      "Jamf Pro Server",
+		SenderEmailAddress:     "user@company.com",
+		RequiresAuthentication: true,
+		Username:               "sample-username",
 	}
 
 	// Call the UpdateSMTPServerInformation function
@@ -40,9 +38,9 @@ func main() {
 	}
 
 	// Pretty print the details in XML
-	smtpInfoXML, err := xml.MarshalIndent(newSMTPSettings, "", "    ") // Indent with 4 spaces
+	smtpInfoJSON, err := json.MarshalIndent(newSMTPSettings, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling server data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(smtpInfoXML))
+	fmt.Println("Created Script Details:\n", string(smtpInfoJSON))
 }

@@ -43,10 +43,10 @@ func main() {
 		log.Fatalf("Error creating script: %v", err)
 	}
 
-	// Pretty print the created script details in XML
-	createdScriptXML, err := json.MarshalIndent(createdScript, "", "    ") // Indent with 4 spaces
+	// Pretty print the created script details in JSON
+	createdScriptJSON, err := json.MarshalIndent(createdScript, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling created script data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(createdScriptXML))
+	fmt.Println("Created Script Details:\n", string(createdScriptJSON))
 }
