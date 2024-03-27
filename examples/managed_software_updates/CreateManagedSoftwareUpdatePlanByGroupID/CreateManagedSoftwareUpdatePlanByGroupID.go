@@ -20,10 +20,11 @@ func main() {
 
 	// Define a sample plan for testing
 	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
-		Devices: []jamfpro.ManagedSoftwareUpdatePlanObject{{
-			ObjectType: "COMPUTER", // COMPUTER / MOBILE_DEVICE / APPLE_TV
-			DeviceId:   "18",
-		}},
+		Group: jamfpro.ManagedSoftwareUpdatePlanObject{
+			ObjectType: "COMPUTER_GROUP", // COMPUTER_GROUP / MOBILE_DEVICE_GROUP
+			GroupId:    "55",
+			// Do not set DeviceId for a group request
+		},
 		Config: jamfpro.ManagedSoftwareUpdatePlanConfig{
 			UpdateAction:    "DOWNLOAD_INSTALL_ALLOW_DEFERRAL", // DOWNLOAD_ONLY / DOWNLOAD_INSTALL / DOWNLOAD_INSTALL_ALLOW_DEFERRAL / DOWNLOAD_INSTALL_RESTART / DOWNLOAD_INSTALL_SCHEDULE / UNKNOWN
 			VersionType:     "LATEST_MAJOR",                    // LATEST_MAJOR / LATEST_MINOR / LATEST_ANY / SPECIFIC_VERSION / UNKNOWN
@@ -34,7 +35,7 @@ func main() {
 	}
 
 	// Call CreateManagedSoftwareUpdatePlanByDeviceID function
-	createdPlan, err := client.CreateManagedSoftwareUpdatePlanByDeviceID(sampleUpdatePlan)
+	createdPlan, err := client.CreateManagedSoftwareUpdatePlanByGroupID(sampleUpdatePlan)
 	if err != nil {
 		log.Fatalf("Error creating managed software update plan: %v", err)
 	}

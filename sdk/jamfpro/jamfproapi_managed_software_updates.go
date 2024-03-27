@@ -83,14 +83,16 @@ type ResourceAvailableUpdates struct {
 
 // ResourceManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
 type ResourceManagedSoftwareUpdatePlan struct {
-	Devices []ManagedSoftwareUpdatePlanDevice `json:"devices,omitempty"`
+	Devices []ManagedSoftwareUpdatePlanObject `json:"devices,omitempty"`
+	Group   ManagedSoftwareUpdatePlanObject   `json:"group,omitempty"`
 	Config  ManagedSoftwareUpdatePlanConfig   `json:"config,omitempty"`
 }
 
 // ManagedSoftwareUpdatePlanDevice defines the structure for device objects in the managed software update plan.
-type ManagedSoftwareUpdatePlanDevice struct {
+type ManagedSoftwareUpdatePlanObject struct {
 	ObjectType string `json:"objectType,omitempty"`
 	DeviceId   string `json:"deviceId,omitempty"`
+	GroupId    string `json:"groupId,omitempty"`
 }
 
 // ManagedSoftwareUpdatePlanConfig defines the configuration for a managed software update plan.
@@ -208,4 +210,38 @@ func (c *Client) UpdateManagedSoftwareUpdateFeatureToggle(payload *ResourceManag
 	}
 
 	return &response, nil
+}
+
+// CreateManagedSoftwareUpdatePlanByDeviceGroupID creates a managed software update plan by group ID
+func (c *Client) CreateManagedSoftwareUpdatePlanByGroupID(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
+	endpoint := uriManagedSoftwareUpdates + "/plans/group"
+	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, plan, &responseManagedSoftwareUpdatePlanCreate)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create managed software update plan: %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseManagedSoftwareUpdatePlanCreate, nil
+}
+
+// GetManagedSoftwareUpdatePlansByGroupID retrieves managed software update plans for a specific group ID.
+func (c *Client) GetManagedSoftwareUpdatePlansByGroupID(groupId string, groupType string) (*ResponseManagedSoftwareUpdatePlanList, error) {
+	endpoint := fmt.Sprintf("%s/plans/group/%s?group-type=%s", uriManagedSoftwareUpdates, groupId, groupType)
+
+	var responseManagedSoftwareUpdatePlanList ResponseManagedSoftwareUpdatePlanList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseManagedSoftwareUpdatePlanList)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get managed software update plans: %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseManagedSoftwareUpdatePlanList, nil
 }
