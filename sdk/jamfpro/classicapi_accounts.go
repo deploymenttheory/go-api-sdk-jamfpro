@@ -59,7 +59,6 @@ type AccountsListSubsetUsers struct {
 type AccountsListSubsetGroups struct {
 	ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
 	Name       string                  `json:"name,omitempty" xml:"name,omitempty"`
-	Site       SharedResourceSite      `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
 }
 
@@ -69,13 +68,13 @@ type AccountSubsetLdapServer struct {
 }
 
 type AccountSubsetPrivileges struct {
-	JSSObjects    []string `json:"jss_objects,omitempty" xml:"jss_objects>privilege"`
-	JSSSettings   []string `json:"jss_settings,omitempty" xml:"jss_settings>privilege"`
-	JSSActions    []string `json:"jss_actions,omitempty" xml:"jss_actions>privilege"`
-	Recon         []string `json:"recon,omitempty" xml:"recon>privilege"`
-	CasperAdmin   []string `json:"casper_admin,omitempty" xml:"casper_admin>privilege"`
-	CasperRemote  []string `json:"casper_remote,omitempty" xml:"casper_remote>privilege"`
-	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege"`
+	JSSObjects    []string `json:"jss_objects,omitempty" xml:"jss_objects>privilege,omitempty"`
+	JSSSettings   []string `json:"jss_settings,omitempty" xml:"jss_settings>privilege,omitempty"`
+	JSSActions    []string `json:"jss_actions,omitempty" xml:"jss_actions>privilege,omitempty"`
+	Recon         []string `json:"recon,omitempty" xml:"recon>privilege,omitempty"`
+	CasperAdmin   []string `json:"casper_admin,omitempty" xml:"casper_admin>privilege,omitempty"`
+	CasperRemote  []string `json:"casper_remote,omitempty" xml:"casper_remote>privilege,omitempty"`
+	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege,omitempty"`
 }
 
 // CRUD
