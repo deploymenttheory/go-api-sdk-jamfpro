@@ -108,33 +108,33 @@ type ComputerPrestageSubsetSkipSetupItems struct {
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
-	Username     string `json:"username,omitempty"`
-	Realname     string `json:"realname,omitempty"`
-	Phone        string `json:"phone,omitempty"`
-	Email        string `json:"email,omitempty"`
-	Room         string `json:"room,omitempty"`
-	Position     string `json:"position,omitempty"`
+	Username     string `json:"username"`
+	Realname     string `json:"realname"`
+	Phone        string `json:"phone"`
+	Email        string `json:"email"`
+	Room         string `json:"room"`
+	Position     string `json:"position"`
 	DepartmentId string `json:"departmentId,omitempty"`
 	BuildingId   string `json:"buildingId,omitempty"`
 	ID           string `json:"id,omitempty"`
-	VersionLock  int    `json:"versionLock,omitempty"`
+	VersionLock  int    `json:"versionLock"`
 }
 
 type ComputerPrestageSubsetPurchasingInformation struct {
 	ID                string `json:"id,omitempty"`
 	Leased            bool   `json:"leased"`
 	Purchased         bool   `json:"purchased"`
-	AppleCareId       string `json:"appleCareId,omitempty"`
-	PONumber          string `json:"poNumber,omitempty"`
-	Vendor            string `json:"vendor,omitempty"`
-	PurchasePrice     string `json:"purchasePrice,omitempty"`
-	LifeExpectancy    int    `json:"lifeExpectancy,omitempty"`
-	PurchasingAccount string `json:"purchasingAccount,omitempty"`
-	PurchasingContact string `json:"purchasingContact,omitempty"`
+	AppleCareId       string `json:"appleCareId"`
+	PONumber          string `json:"poNumber"`
+	Vendor            string `json:"vendor"`
+	PurchasePrice     string `json:"purchasePrice"`
+	LifeExpectancy    int    `json:"lifeExpectancy"`
+	PurchasingAccount string `json:"purchasingAccount"`
+	PurchasingContact string `json:"purchasingContact"`
 	LeaseDate         string `json:"leaseDate,omitempty"`
 	PODate            string `json:"poDate,omitempty"`
 	WarrantyDate      string `json:"warrantyDate,omitempty"`
-	VersionLock       int    `json:"versionLock,omitempty"`
+	VersionLock       int    `json:"versionLock"`
 }
 
 type ComputerPrestageSubsetAccountSettings struct {

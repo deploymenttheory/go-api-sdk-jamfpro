@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,19 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the variable for the ID number
-	accountID := 55 // Change this value as needed
-
-	// Call GetAccountByID function
-	account, err := client.GetAccountByID(accountID)
+	// Call GetManagedSoftwareUpdatePlans function
+	updatePlans, err := client.GetManagedSoftwareUpdatePlans("")
 	if err != nil {
-		log.Fatalf("Error fetching account by ID: %v", err)
+		log.Fatalf("Error fetching managed software update plans: %v", err)
 	}
 
-	// Pretty print the account details
-	accountsXML, err := xml.MarshalIndent(account, "", "    ") // Indent with 4 spaces
+	// Pretty print the managed software update plans in json
+	updatePlansJSON, err := json.MarshalIndent(updatePlans, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling account data: %v", err)
+		log.Fatalf("Error marshaling managed software update plans data: %v", err)
 	}
-	fmt.Println("Fetched Account Details:", string(accountsXML))
+	fmt.Println("Fetched managed software update plans:\n", string(updatePlansJSON))
 }

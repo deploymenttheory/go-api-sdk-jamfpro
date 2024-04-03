@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,19 +18,17 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the variable for the ID number
-	accountID := 55 // Change this value as needed
-
-	// Call GetAccountByID function
-	account, err := client.GetAccountByID(accountID)
+	// Call GetSelfServiceSettings
+	checkinSettings, err := client.GetSelfServiceSettings()
 	if err != nil {
-		log.Fatalf("Error fetching account by ID: %v", err)
+		fmt.Printf("Error fetching self service settings: %s\n", err)
+		return
 	}
 
-	// Pretty print the account details
-	accountsXML, err := xml.MarshalIndent(account, "", "    ") // Indent with 4 spaces
+	// Pretty print the created attribute in JSON
+	selfServiceSettingsJSON, err := json.MarshalIndent(checkinSettings, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling account data: %v", err)
+		log.Fatalf("Error marshaling self service settings data: %v", err)
 	}
-	fmt.Println("Fetched Account Details:", string(accountsXML))
+	fmt.Println("self service settings:\n", string(selfServiceSettingsJSON))
 }
