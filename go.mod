@@ -8,14 +8,12 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.9
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.16.13
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.53.0
-	github.com/deploymenttheory/go-api-http-client v0.1.12
+	github.com/deploymenttheory/go-api-http-client v0.1.16
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
 )
 
 require (
-	github.com/PuerkitoBio/goquery v1.9.1 // indirect
-	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/antchfx/xmlquery v1.3.18 // indirect
 	github.com/antchfx/xpath v1.2.4 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.1 // indirect
