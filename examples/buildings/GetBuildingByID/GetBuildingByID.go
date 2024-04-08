@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the variable for the building ID
-	buildingID := "1347"
+	buildingID := "1399"
 
 	// Call GetBuildings function
 	building, err := client.GetBuildingByID(buildingID)

@@ -29,7 +29,7 @@ func main() {
 	}
 
 	// Update building by name
-	buildingName := "Updated Building Name" // Replace with the actual name
+	buildingName := "Apple Park" // Replace with the actual name
 	updatedBuilding, err := client.UpdateBuildingByName(buildingName, buildingUpdate)
 	if err != nil {
 		log.Fatalf("Error updating building: %v", err)
