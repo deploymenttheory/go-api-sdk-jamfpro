@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the department name you want to retrieve
-	departmentName := "JLtestDept22" // Replace with the desired department name
+	departmentName := "jamf-pro-go-sdk Department" // Replace with the desired department name
 
 	// Call GetDepartmentByName function
 	department, err := client.GetDepartmentByName(departmentName)
