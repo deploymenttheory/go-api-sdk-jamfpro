@@ -61,6 +61,7 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
     export LOG_LEVEL="LogLevelDebug" # or "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
     export LOG_OUTPUT_FORMAT="console" # or "json" 
     export LOG_CONSOLE_SEPARATOR=" " # or any other separator
+    export LOG_EXPORT_PATH="jamfpro.log" # optional
     export HIDE_SENSITIVE_DATA="true"  
     export MAX_RETRY_ATTEMPTS="3"  
     export MAX_CONCURRENT_REQUESTS="5"  
@@ -103,7 +104,14 @@ For those who prefer using configuration files for setting up the client, the SD
         "LogLevel": "LogLevelDebug", // "LogLevelDebug" / "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
         "LogOutputFormat": "console",
         "LogConsoleSeparator": " ",
-        "HideSensitiveData": true
+        "LogExportPath": "/your/log/export/path", // Optional
+        "HideSensitiveData": true,
+        "EnableDynamicRateLimiting": true,
+        "MaxRetryAttempts": 5,
+        "MaxConcurrentRequests": 3,
+        "EnableCookieJar": true,
+        "FollowRedirects": true,
+	      "MaxRedirects": 5
       }
     }
     ```
