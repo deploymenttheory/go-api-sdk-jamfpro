@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,14 +19,18 @@ func main() {
 	}
 
 	// Define the variable for the building ID
-	buildingID := 1327 // Change this value as needed
+	buildingID := "1399"
 
-	// Call GetBuildingByID function
-	building, err := client.GetBuildingByID(fmt.Sprint(buildingID))
+	// Call GetBuildings function
+	building, err := client.GetBuildingByID(buildingID)
 	if err != nil {
-		log.Fatalf("Error fetching building by ID: %v", err)
+		log.Fatalf("Error fetching accounts: %v", err)
 	}
 
-	// Print the building details
-	fmt.Printf("Fetched Building Details:\n%+v\n", building)
+	// Pretty print the accounts details
+	buildingsJSON, err := json.MarshalIndent(building, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling accounts data: %v", err)
+	}
+	fmt.Println("Fetched Accounts List:", string(buildingsJSON))
 }

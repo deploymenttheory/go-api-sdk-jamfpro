@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// ID of the department you want to update
-	departmentID := "23514" // Placeholder ID, replace with the correct ID you want to update
+	departmentID := "37287" // Placeholder ID, replace with the correct ID you want to update
 
 	// New name for the department you want to update
 	updatedDepartment := &jamfpro.ResourceDepartment{

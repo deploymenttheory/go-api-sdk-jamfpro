@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	departmentID := "25542"
+	departmentID := "37287"
 
 	department, err := client.GetDepartmentByID(departmentID)
 	if err != nil {
