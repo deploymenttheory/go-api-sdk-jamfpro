@@ -47,7 +47,7 @@ type ResourceAdvancedUserSearch struct {
 
 // Responses
 
-type ResourceAdvancedUserSearchCreatedAndUpdated struct {
+type ResponseAdvancedUserSearchCreatedAndUpdated struct {
 	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
@@ -118,7 +118,7 @@ func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUser
 }
 
 // CreateAdvancedUserSearch creates a new advanced user search.
-func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
+func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
 	// Wrap the search request with the desired XML name using an anonymous struct
@@ -129,7 +129,7 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 		ResourceAdvancedUserSearch: search,
 	}
 
-	var createdSearch ResourceAdvancedUserSearchCreatedAndUpdated
+	var createdSearch ResponseAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdSearch)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "advanced user search", err)
@@ -143,7 +143,7 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 }
 
 // UpdateAdvancedUserSearchByID updates an existing advanced user search by its ID.
-func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
+func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
 	requestBody := struct {
@@ -153,7 +153,7 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 		ResourceAdvancedUserSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedUserSearchCreatedAndUpdated
+	var updatedSearch ResponseAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "advanced user search", id, err)
@@ -167,7 +167,7 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 }
 
 // UpdateAdvancedUserSearchByName updates an existing advanced user search by its name.
-func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResourceAdvancedUserSearchCreatedAndUpdated, error) {
+func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
 	requestBody := struct {
@@ -177,7 +177,7 @@ func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdv
 		ResourceAdvancedUserSearch: search,
 	}
 
-	var updatedSearch ResourceAdvancedUserSearchCreatedAndUpdated
+	var updatedSearch ResponseAdvancedUserSearchCreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedSearch)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "advanced user search", name, err)

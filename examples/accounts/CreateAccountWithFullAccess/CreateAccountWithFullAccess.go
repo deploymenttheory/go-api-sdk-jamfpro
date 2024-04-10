@@ -21,7 +21,7 @@ func main() {
 	// Assemble the request body for creating an account
 	accountDetail := &jamfpro.ResourceAccount{
 		Name:                "Barry White",
-		DirectoryUser:       false,
+		DirectoryUser:       true,
 		FullName:            "Barry White",
 		Email:               "Barry.White@company.com",
 		EmailAddress:        "Barry.White@company.com",
