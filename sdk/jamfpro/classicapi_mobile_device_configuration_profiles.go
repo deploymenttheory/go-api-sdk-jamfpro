@@ -32,6 +32,13 @@ type MobileDeviceConfigurationProfilesListItem struct {
 	Name string `xml:"name"`
 }
 
+// Responses
+
+// ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
+type ResponseMobileDeviceConfigurationProfileCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
+
 // Resource
 
 // ResponseMobileDeviceConfigurationProfile represents the detailed structure of a single mobile device configuration profile.
@@ -279,7 +286,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByNameWithSubset(name string
 }
 
 // CreateMobileDeviceConfigurationProfile creates a new mobile device configuration profile on the Jamf Pro server.
-func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceConfigurationProfiles)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -290,7 +297,7 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 		ResourceMobileDeviceConfigurationProfile: profile,
 	}
 
-	var responseProfile ResourceMobileDeviceConfigurationProfile
+	var responseProfile ResponseMobileDeviceConfigurationProfileCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device configuration profile", err)
@@ -304,7 +311,7 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 }
 
 // UpdateMobileDeviceConfigurationProfileByID updates a mobile device configuration profile by its ID on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -315,7 +322,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *Res
 		ResourceMobileDeviceConfigurationProfile: profile,
 	}
 
-	var responseProfile ResourceMobileDeviceConfigurationProfile
+	var responseProfile ResponseMobileDeviceConfigurationProfileCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device configuration profile", id, err)
@@ -329,7 +336,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *Res
 }
 
 // UpdateMobileDeviceConfigurationProfileByName updates a mobile device configuration profile by its name on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceConfigurationProfiles, name)
 
 	requestBody := struct {
@@ -339,7 +346,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 		ResourceMobileDeviceConfigurationProfile: profile,
 	}
 
-	var responseProfile ResourceMobileDeviceConfigurationProfile
+	var responseProfile ResponseMobileDeviceConfigurationProfileCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device configuration profile", name, err)
