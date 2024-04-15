@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Let's assume you want to delete an account with ID 31.
-	accountID := 73
+	accountID := 388
 
 	// Call DeleteAccountByID function
 	err = client.DeleteAccountByID(accountID)

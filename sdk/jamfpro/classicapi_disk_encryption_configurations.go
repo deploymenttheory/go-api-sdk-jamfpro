@@ -34,6 +34,7 @@ type ResponseDiskEncryptionConfigurationCreatedAndUpdated struct {
 
 // DiskEncryptionConfiguration represents the top-level XML structure for creating/updating a Disk Encryption Configuration.
 type ResourceDiskEncryptionConfiguration struct {
+	ID                       int                                                  `xml:"id" json:"id"`
 	Name                     string                                               `xml:"name"`
 	KeyType                  string                                               `xml:"key_type"`
 	FileVaultEnabledUsers    string                                               `xml:"file_vault_enabled_users"`
