@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -29,12 +30,17 @@ func main() {
 	}
 
 	// Update the building with a specific ID
-	buildingID := "1326" // Replace with the actual ID of the building you want to update
+	buildingID := "1348" // Replace with the actual ID of the building you want to update
+
 	updatedBuilding, err := client.UpdateBuildingByID(buildingID, buildingUpdate)
 	if err != nil {
 		log.Fatalf("Error updating building: %v", err)
 	}
 
-	// Print the details of the updated building
-	fmt.Printf("Updated Building: %+v\n", updatedBuilding)
+	// Pretty print the building details using XML marshaling
+	buildingJSON, err := json.MarshalIndent(updatedBuilding, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling building data: %v", err)
+	}
+	fmt.Println("Fetched Building Details:", string(buildingJSON))
 }

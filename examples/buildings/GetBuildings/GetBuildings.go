@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -17,16 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Fetch the buildings
-	buildings, err := client.GetBuildings("") // Pass nil or a specific sorting criteria
+	// Call GetBuildings function
+	accountsList, err := client.GetBuildings("")
 	if err != nil {
-		log.Fatalf("Error fetching buildings: %v", err)
+		log.Fatalf("Error fetching accounts: %v", err)
 	}
 
-	// Iterate through the buildings and print them
-	for _, building := range buildings.Results {
-		fmt.Printf("ID: %s, Name: %s, Address: %s, %s, %s, %s, %s\n",
-			building.ID, building.Name, building.StreetAddress1, building.StreetAddress2,
-			building.City, building.StateProvince, building.ZipPostalCode)
+	// Pretty print the accounts details
+	buildingsJSON, err := json.MarshalIndent(accountsList, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling accounts data: %v", err)
 	}
+	fmt.Println("Fetched Accounts List:", string(buildingsJSON))
 }

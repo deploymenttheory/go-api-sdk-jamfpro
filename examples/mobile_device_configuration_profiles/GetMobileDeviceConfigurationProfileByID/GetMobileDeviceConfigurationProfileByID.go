@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -17,11 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := 123 // Replace with the actual ID
+	profileID := 17 // Replace with the actual ID
 	profile, err := client.GetMobileDeviceConfigurationProfileByID(profileID)
 	if err != nil {
 		log.Fatalf("Error fetching mobile device configuration profile by ID: %v", err)
 	}
 
-	fmt.Printf("Profile: %+v\n", profile)
+	// Pretty print the group details
+	accountsXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling group data: %v", err)
+	}
+	fmt.Println("Fetched mobile device configuration profile Details:", string(accountsXML))
 }

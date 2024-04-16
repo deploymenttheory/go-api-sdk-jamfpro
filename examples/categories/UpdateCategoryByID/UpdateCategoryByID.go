@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the category ID you want to update and the updated category details
-	categoryID := "1" // Replace with the actual category ID you want to update
+	categoryID := "120" // Replace with the actual category ID you want to update
 	updatedCategory := &jamfpro.ResourceCategory{
 		Name:     "Updated Category Name", // Replace with the updated name
 		Priority: 10,                      // Replace with the updated priority

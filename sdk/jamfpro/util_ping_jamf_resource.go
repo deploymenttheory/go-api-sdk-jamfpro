@@ -30,7 +30,7 @@ func (c *Client) PingResource(endpoint, resourceID string) (*http.Response, erro
 
 	// Here we use a nil body and a nil output variable since we're just "pinging" the endpoint
 	// and don't need to send or receive any specific data.
-	resp, err := c.HTTP.DoPing("GET", fullPath, nil, nil)
+	resp, err := c.HTTP.DoPole("GET", fullPath, nil, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to ping resource at %s: %v", fullPath, err)
 	}
@@ -57,7 +57,7 @@ func (c *Client) PingHost(endpoint, resourceID string, timeoutInSeconds int) err
 	timeout := time.Duration(timeoutInSeconds) * time.Second
 
 	// Call the DoPingV2 method with the host and timeout
-	err := c.HTTP.DoPingV2(fullPath, timeout)
+	err := c.HTTP.DoPing(fullPath, timeout)
 	if err != nil {
 		return fmt.Errorf("failed to ping host %s: %v", fullPath, err)
 	}

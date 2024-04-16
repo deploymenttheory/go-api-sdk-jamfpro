@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Let's assume you want to delete a department with ID 123.
-	departmentID := "23513"
+	departmentID := "37286"
 
 	// Call DeleteDepartmentByID function
 	err = client.DeleteDepartmentByID(departmentID)

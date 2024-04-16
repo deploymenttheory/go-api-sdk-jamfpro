@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -27,10 +27,10 @@ func main() {
 		log.Fatalf("Error fetching building by Name: %v", err)
 	}
 
-	// Pretty print the building details using XML marshaling
-	buildingXML, err := xml.MarshalIndent(building, "", "    ") // Indent with 4 spaces
+	// Pretty print the building details using JSON marshaling
+	buildingJSON, err := json.MarshalIndent(building, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling building data: %v", err)
 	}
-	fmt.Println("Fetched Building Details:", string(buildingXML))
+	fmt.Println("Fetched Building Details:", string(buildingJSON))
 }

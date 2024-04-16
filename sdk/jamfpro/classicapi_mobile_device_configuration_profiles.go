@@ -32,9 +32,16 @@ type MobileDeviceConfigurationProfilesListItem struct {
 	Name string `xml:"name"`
 }
 
+// Responses
+
+// ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
+type ResponseMobileDeviceConfigurationProfileCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
+
 // Resource
 
-// ResponseMobileDeviceConfigurationProfile represents the detailed structure of a single mobile device configuration profile.
+// ResourceMobileDeviceConfigurationProfile represents the detailed structure of a single mobile device configuration profile.
 type ResourceMobileDeviceConfigurationProfile struct {
 	General     MobileDeviceConfigurationProfileSubsetGeneral     `xml:"general"`
 	Scope       MobileDeviceConfigurationProfileSubsetScope       `xml:"scope,omitempty"`
@@ -58,16 +65,16 @@ type MobileDeviceConfigurationProfileSubsetGeneral struct {
 }
 
 type MobileDeviceConfigurationProfileSubsetScope struct {
-	AllMobileDevices   bool                                                      `xml:"all_mobile_devices,omitempty"`
-	AllJSSUsers        bool                                                      `xml:"all_jss_users,omitempty"`
-	MobileDevices      []MobileDeviceConfigurationProfileSubsetMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`
-	Buildings          []MobileDeviceConfigurationProfileSubsetBuilding          `xml:"buildings>building,omitempty"`
-	Departments        []MobileDeviceConfigurationProfileSubsetDepartment        `xml:"departments>department,omitempty"`
-	MobileDeviceGroups []MobileDeviceConfigurationProfileSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group,omitempty"`
-	JSSUsers           []MobileDeviceConfigurationProfileSubsetJSSUser           `xml:"jss_users>user,omitempty"`
-	JSSUserGroups      []MobileDeviceConfigurationProfileSubsetJSSUserGroup      `xml:"jss_user_groups>user_group,omitempty"`
-	Limitations        MobileDeviceConfigurationProfileSubsetLimitation          `xml:"limitations,omitempty"`
-	Exclusions         MobileDeviceConfigurationProfileSubsetExclusion           `xml:"exclusions,omitempty"`
+	AllMobileDevices   bool                                                 `xml:"all_mobile_devices,omitempty"`
+	AllJSSUsers        bool                                                 `xml:"all_jss_users,omitempty"`
+	MobileDevices      []MobileDeviceConfigurationProfileSubsetMobileDevice `xml:"mobile_devices>mobile_device,omitempty"`
+	MobileDeviceGroups []MobileDeviceConfigurationProfileSubsetScopeEntity  `xml:"mobile_device_groups>mobile_device_group,omitempty"`
+	JSSUsers           []MobileDeviceConfigurationProfileSubsetScopeEntity  `xml:"jss_users>user,omitempty"`
+	JSSUserGroups      []MobileDeviceConfigurationProfileSubsetScopeEntity  `xml:"jss_user_groups>user_group,omitempty"`
+	Buildings          []MobileDeviceConfigurationProfileSubsetScopeEntity  `xml:"buildings>building,omitempty"`
+	Departments        []MobileDeviceConfigurationProfileSubsetScopeEntity  `xml:"departments>department,omitempty"`
+	Limitations        MobileDeviceConfigurationProfileSubsetLimitation     `xml:"limitations,omitempty"`
+	Exclusions         MobileDeviceConfigurationProfileSubsetExclusion      `xml:"exclusions,omitempty"`
 }
 
 type MobileDeviceConfigurationProfileSubsetSelfService struct {
@@ -85,110 +92,46 @@ type MobileDeviceConfigurationProfileSubsetSelfServiceSecurityName struct {
 // Shared in Resource
 
 type MobileDeviceConfigurationProfileSubsetLimitation struct {
-	Users           []MobileDeviceConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MobileDeviceConfigurationProfileSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
 	NetworkSegments []MobileDeviceConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	Ibeacons        []MobileDeviceConfigurationProfileSubsetIbeacon        `xml:"ibeacons>ibeacon,omitempty"`
+	Users           []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups      []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	Ibeacons        []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 type MobileDeviceConfigurationProfileSubsetExclusion struct {
-	MobileDevices      []MobileDeviceConfigurationProfileContainerMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`
-	Buildings          []MobileDeviceConfigurationProfileContainerBuilding          `xml:"buildings>building,omitempty"`
-	Departments        []MobileDeviceConfigurationProfileContainerDepartment        `xml:"departments>department,omitempty"`
-	MobileDeviceGroups []MobileDeviceConfigurationProfileContainerMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group,omitempty"`
-	Users              []MobileDeviceConfigurationProfileSubsetUser                 `xml:"users>user,omitempty"`
-	UserGroups         []MobileDeviceConfigurationProfileSubsetUserGroup            `xml:"user_groups>user_group,omitempty"`
-	NetworkSegments    []MobileDeviceConfigurationProfileSubsetNetworkSegment       `xml:"network_segments>network_segment,omitempty"`
-	Ibeacons           []MobileDeviceConfigurationProfileSubsetIbeacon              `xml:"ibeacons>ibeacon,omitempty"`
-	JSSUsers           []MobileDeviceConfigurationProfileSubsetJSSUser              `xml:"jss_users>user,omitempty"`
-	JSSUserGroups      []MobileDeviceConfigurationProfileSubsetJSSUserGroup         `xml:"jss_user_groups>user_group,omitempty"`
+	MobileDevices      []MobileDeviceConfigurationProfileSubsetMobileDevice   `xml:"mobile_devices>mobile_device,omitempty"`
+	MobileDeviceGroups []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"mobile_device_groups>mobile_device_group,omitempty"`
+	Users              []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups         []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	Buildings          []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"buildings>building,omitempty"`
+	Departments        []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"departments>department,omitempty"`
+	NetworkSegments    []MobileDeviceConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	JSSUsers           []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"jss_users>user,omitempty"`
+	JSSUserGroups      []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"jss_user_groups>user_group,omitempty"`
+	IBeacons           []MobileDeviceConfigurationProfileSubsetScopeEntity    `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 // Mobile Device
 
-type MobileDeviceConfigurationProfileContainerMobileDevice struct {
-	MobileDevice MobileDeviceConfigurationProfileSubsetMobileDevice `xml:"mobile_device"`
-}
-
 type MobileDeviceConfigurationProfileSubsetMobileDevice struct {
 	ID             int    `xml:"id"`
-	Name           string `xml:"name"`
+	Name           string `xml:"name,omitempty"`
 	UDID           string `xml:"udid,omitempty"`
 	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
 }
 
-// Building
+// Entity
 
-type MobileDeviceConfigurationProfileContainerBuilding struct {
-	Building MobileDeviceConfigurationProfileSubsetBuilding `xml:"building"`
-}
-
-type MobileDeviceConfigurationProfileSubsetBuilding struct {
+// Generic Entity struct for common use
+type MobileDeviceConfigurationProfileSubsetScopeEntity struct {
 	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	Name string `xml:"name,omitempty"`
 }
 
-// Department
-
-type MobileDeviceConfigurationProfileContainerDepartment struct {
-	Department MobileDeviceConfigurationProfileSubsetDepartment `xml:"department"`
-}
-
-type MobileDeviceConfigurationProfileSubsetDepartment struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// Mobile Device Group
-
-type MobileDeviceConfigurationProfileContainerMobileDeviceGroup struct {
-	MobileDeviceGroup MobileDeviceConfigurationProfileSubsetMobileDeviceGroup `xml:"mobile_device_group"`
-}
-
-type MobileDeviceConfigurationProfileSubsetMobileDeviceGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// JSS User
-
-type MobileDeviceConfigurationProfileSubsetJSSUser struct {
-	User MobileDeviceConfigurationProfileSubsetUser `xml:"user"`
-}
-
-// User
-
-type MobileDeviceConfigurationProfileSubsetUser struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// JSS User group
-
-type MobileDeviceConfigurationProfileSubsetJSSUserGroup struct {
-	UserGroup MobileDeviceConfigurationProfileSubsetUserGroup `xml:"user_group"`
-}
-
-// User group
-
-type MobileDeviceConfigurationProfileSubsetUserGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-// Network Segment
-
+// Specific struct for NetworkSegment due to its unique attribute 'UID'
 type MobileDeviceConfigurationProfileSubsetNetworkSegment struct {
-	ID   int    `xml:"id"`
-	UID  string `xml:"uid,omitempty"`
-	Name string `xml:"name"`
-}
-
-// IBeacon
-
-type MobileDeviceConfigurationProfileSubsetIbeacon struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
+	MobileDeviceConfigurationProfileSubsetScopeEntity
+	UID string `xml:"uid,omitempty"`
 }
 
 // CRUD
@@ -279,7 +222,7 @@ func (c *Client) GetMobileDeviceConfigurationProfileByNameWithSubset(name string
 }
 
 // CreateMobileDeviceConfigurationProfile creates a new mobile device configuration profile on the Jamf Pro server.
-func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceConfigurationProfiles)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -290,7 +233,7 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 		ResourceMobileDeviceConfigurationProfile: profile,
 	}
 
-	var responseProfile ResourceMobileDeviceConfigurationProfile
+	var responseProfile ResponseMobileDeviceConfigurationProfileCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device configuration profile", err)
@@ -304,7 +247,7 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 }
 
 // UpdateMobileDeviceConfigurationProfileByID updates a mobile device configuration profile by its ID on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
 
 	// Wrap the profile with the desired XML name using an anonymous struct
@@ -315,7 +258,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *Res
 		ResourceMobileDeviceConfigurationProfile: profile,
 	}
 
-	var responseProfile ResourceMobileDeviceConfigurationProfile
+	var responseProfile ResponseMobileDeviceConfigurationProfileCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device configuration profile", id, err)
@@ -329,7 +272,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *Res
 }
 
 // UpdateMobileDeviceConfigurationProfileByName updates a mobile device configuration profile by its name on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profile *ResourceMobileDeviceConfigurationProfile) (*ResourceMobileDeviceConfigurationProfile, error) {
+func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceConfigurationProfiles, name)
 
 	requestBody := struct {
@@ -339,7 +282,7 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 		ResourceMobileDeviceConfigurationProfile: profile,
 	}
 
-	var responseProfile ResourceMobileDeviceConfigurationProfile
+	var responseProfile ResponseMobileDeviceConfigurationProfileCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseProfile)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "mobile device configuration profile", name, err)
