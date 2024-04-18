@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 	uploader "github.com/deploymenttheory/go-api-sdk-jamfpro/tools/JAMFProPackageUploader/internal"
@@ -14,10 +17,23 @@ func main() {
 	// Print the ASCII art
 	uploader.PrintASCIILogo()
 
+	// Set up a reader from standard input
+	reader := bufio.NewReader(os.Stdin)
+
 	// Define the directory containing the .pkg files
 	fmt.Print("Enter the directory containing the .pkg files: ")
-	var directory string
-	fmt.Scanln(&directory)
+	directory, err := reader.ReadString('\n')
+	if err != nil {
+		log.Fatalf("Failed to read directory input: %v", err)
+	}
+
+	// Trim space to remove any new line character
+	directory = filepath.Clean(strings.TrimSpace(directory))
+
+	// Validate the directory path
+	if _, err := os.Stat(directory); os.IsNotExist(err) {
+		log.Fatalf("Directory does not exist: %s", directory)
+	}
 
 	// Find all .pkg files in the directory
 	pkgFiles, err := uploader.FindPkgFiles(directory)

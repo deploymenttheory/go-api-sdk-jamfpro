@@ -34,7 +34,7 @@ func main() {
 
 	// Ensure that the export directory exists
 	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
-		err = os.MkdirAll(exportPath, 0755)
+		err = os.MkdirAll(exportPath, 0750)
 		if err != nil {
 			log.Fatalf("Failed to create export directory: %v", err)
 		}

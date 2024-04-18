@@ -4,7 +4,7 @@ package jamfpro
 import (
 	"context"
 	"fmt"
-	"os"
+	"io"
 	"path/filepath"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -12,7 +12,16 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/helpers"
 )
+
+// ProgressReader wraps an io.Reader to report progress on read operations
+type ProgressReader struct {
+	reader     io.Reader
+	totalBytes int64
+	readBytes  int64
+	progressFn func(readBytes, totalBytes int64, unit string)
+}
 
 // DoPackageUpload creates a new file in JCDS 2.0 using AWS SDK v2
 func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponseJCDS2File, *ResponsePackageCreatedAndUpdated, error) {
@@ -46,33 +55,26 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 	// Step 3: Create an Uploader with the configuration and default options
 	uploader := manager.NewUploader(s3Client)
 
-	// Open the file and use a progressReader to track the upload progress
-	file, err := os.Open(filePath)
+	// Step 3: Use the secure file reading helper
+	fileReader, fileSize, err := helpers.ReadJCDSPackageTypes(filePath)
 	if err != nil {
-		return nil, nil, fmt.Errorf("failed to open file: %v", err)
-	}
-	defer file.Close()
-
-	fileInfo, err := file.Stat()
-	if err != nil {
-		return nil, nil, fmt.Errorf("failed to get file info: %v", err)
+		return nil, nil, fmt.Errorf("failed to read package file securely: %v", err)
 	}
 
-	progressFn := func(read, total int64, unit string) {
-		fmt.Printf("\rUploaded %d / %d %s (%.2f%%)", read, total, unit, float64(read)/float64(total)*100)
-	}
-
-	reader := &progressReader{
-		reader:     file,
-		totalBytes: fileInfo.Size(),
-		progressFn: progressFn,
+	// Create a progress reader
+	progressReader := &ProgressReader{
+		reader:     fileReader,
+		totalBytes: fileSize,
+		progressFn: func(read, total int64, unit string) {
+			fmt.Printf("\rUploaded %d / %d %s (%.2f%%)", read, total, unit, float64(read)/float64(total)*100)
+		},
 	}
 
 	// Create the upload input
 	uploadInput := &s3.PutObjectInput{
 		Bucket: aws.String(uploadCredentials.BucketName),
 		Key:    aws.String(uploadCredentials.Path + filepath.Base(filePath)),
-		Body:   reader,
+		Body:   progressReader,
 	}
 
 	// Step 4. Perform the upload
@@ -129,22 +131,18 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 	return packageUploadresponse, jamfPackageMetaData, nil
 }
 
-// Read implements the io.Reader interface for progressReader, reporting upload progress in kilobytes and megabytes.
-func (r *progressReader) UploadProgress(p []byte) (int, error) {
+// Read implements the io.Reader interface.
+func (r *ProgressReader) Read(p []byte) (int, error) {
 	n, err := r.reader.Read(p)
 	r.readBytes += int64(n)
 
-	// Report progress in more human-readable units (KB or MB)
 	const kb = 1024
 	const mb = 1024 * kb
-	readKB := r.readBytes / kb
-	totalKB := r.totalBytes / kb
-	if totalKB > kb { // If the total size is larger than 1 MB, report in MB
-		readMB := r.readBytes / mb
-		totalMB := r.totalBytes / mb
-		r.progressFn(readMB, totalMB, "MB")
-	} else { // For smaller files, report in KB
-		r.progressFn(readKB, totalKB, "KB")
+
+	if r.totalBytes > mb { // report in MB if file is larger than 1MB
+		r.progressFn(r.readBytes/mb, r.totalBytes/mb, "MB")
+	} else { // otherwise, report in KB
+		r.progressFn(r.readBytes/kb, r.totalBytes/kb, "KB")
 	}
 
 	return n, err
