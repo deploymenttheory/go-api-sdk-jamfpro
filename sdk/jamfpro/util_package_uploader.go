@@ -4,7 +4,6 @@ package jamfpro
 import (
 	"context"
 	"fmt"
-	"io"
 	"path/filepath"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -14,14 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/helpers"
 )
-
-// ProgressReader wraps an io.Reader to report progress on read operations
-type ProgressReader struct {
-	reader     io.Reader
-	totalBytes int64
-	readBytes  int64
-	progressFn func(readBytes, totalBytes int64, unit string)
-}
 
 // DoPackageUpload creates a new file in JCDS 2.0 using AWS SDK v2
 func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponseJCDS2File, *ResponsePackageCreatedAndUpdated, error) {
@@ -129,21 +120,4 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 
 	// Return the file upload response, the package creation response, and nil for no error
 	return packageUploadresponse, jamfPackageMetaData, nil
-}
-
-// Read implements the io.Reader interface.
-func (r *ProgressReader) Read(p []byte) (int, error) {
-	n, err := r.reader.Read(p)
-	r.readBytes += int64(n)
-
-	const kb = 1024
-	const mb = 1024 * kb
-
-	if r.totalBytes > mb { // report in MB if file is larger than 1MB
-		r.progressFn(r.readBytes/mb, r.totalBytes/mb, "MB")
-	} else { // otherwise, report in KB
-		r.progressFn(r.readBytes/kb, r.totalBytes/kb, "KB")
-	}
-
-	return n, err
 }
