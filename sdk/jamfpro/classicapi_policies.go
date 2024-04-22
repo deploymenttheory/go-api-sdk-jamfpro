@@ -33,17 +33,17 @@ type ResourcePolicyCreateAndUpdate struct {
 type ResourcePolicy struct {
 	General              PolicySubsetGeneral              `xml:"general"`
 	Scope                PolicySubsetScope                `xml:"scope,omitempty"`
-	SelfService          PolicySubsetSelfService          `xml:"self_service"`
+	SelfService          PolicySubsetSelfService          `xml:"self_service,omitempty"`
 	PackageConfiguration PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
 	Scripts              PolicySubsetScripts              `xml:"scripts,omitempty"`
-	Printers             PolicySubsetPrinters             `xml:"printers"`
-	DockItems            PolicySubsetDockItems            `xml:"dock_items"`
-	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance"`
-	Maintenance          PolicySubsetMaintenance          `xml:"maintenance"`
-	FilesProcesses       PolicySubsetFilesProcesses       `xml:"files_processes"`
-	UserInteraction      PolicySubsetUserInteraction      `xml:"user_interaction"`
-	DiskEncryption       PolicySubsetDiskEncryption       `xml:"disk_encryption"`
-	Reboot               PolicySubsetReboot               `xml:"reboot"`
+	Printers             PolicySubsetPrinters             `xml:"printers,omitempty"`
+	DockItems            PolicySubsetDockItems            `xml:"dock_items,omitempty"`
+	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
+	Maintenance          PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
+	FilesProcesses       PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
+	UserInteraction      PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`
+	DiskEncryption       PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`
+	Reboot               PolicySubsetReboot               `xml:"reboot,omitempty"`
 }
 
 // Subsets & Containers
@@ -56,26 +56,26 @@ type PolicySubsetGeneral struct {
 	Name                       string                                 `xml:"name"`
 	Enabled                    bool                                   `xml:"enabled"`
 	Trigger                    string                                 `xml:"trigger,omitempty"`
-	TriggerCheckin             bool                                   `xml:"trigger_checkin"`
-	TriggerEnrollmentComplete  bool                                   `xml:"trigger_enrollment_complete"`
-	TriggerLogin               bool                                   `xml:"trigger_login"`
-	TriggerLogout              bool                                   `xml:"trigger_logout"`
-	TriggerNetworkStateChanged bool                                   `xml:"trigger_network_state_changed"`
-	TriggerStartup             bool                                   `xml:"trigger_startup"`
+	TriggerCheckin             bool                                   `xml:"trigger_checkin,omitempty"`
+	TriggerEnrollmentComplete  bool                                   `xml:"trigger_enrollment_complete,omitempty"`
+	TriggerLogin               bool                                   `xml:"trigger_login,omitempty"`
+	TriggerLogout              bool                                   `xml:"trigger_logout,omitempty"`
+	TriggerNetworkStateChanged bool                                   `xml:"trigger_network_state_changed,omitempty"`
+	TriggerStartup             bool                                   `xml:"trigger_startup,omitempty"`
 	TriggerOther               string                                 `xml:"trigger_other,omitempty"`
 	Frequency                  string                                 `xml:"frequency,omitempty"`
 	RetryEvent                 string                                 `xml:"retry_event,omitempty"`
 	RetryAttempts              int                                    `xml:"retry_attempts,omitempty"`
-	NotifyOnEachFailedRetry    bool                                   `xml:"notify_on_each_failed_retry"`
-	LocationUserOnly           bool                                   `xml:"location_user_only"`
+	NotifyOnEachFailedRetry    bool                                   `xml:"notify_on_each_failed_retry,omitempty"`
+	LocationUserOnly           bool                                   `xml:"location_user_only,omitempty"`
 	TargetDrive                string                                 `xml:"target_drive,omitempty"`
-	Offline                    bool                                   `xml:"offline"`
+	Offline                    bool                                   `xml:"offline,omitempty"`
 	Category                   PolicyCategory                         `xml:"category,omitempty"`
 	DateTimeLimitations        PolicySubsetGeneralDateTimeLimitations `xml:"date_time_limitations,omitempty"`
 	NetworkLimitations         PolicySubsetGeneralNetworkLimitations  `xml:"network_limitations,omitempty"`
 	OverrideDefaultSettings    PolicySubsetGeneralOverrideSettings    `xml:"override_default_settings,omitempty"`
 	NetworkRequirements        string                                 `xml:"network_requirements,omitempty"`
-	Site                       SharedResourceSite                     `xml:"site"`
+	Site                       SharedResourceSite                     `xml:"site,omitempty"`
 }
 
 type PolicySubsetGeneralDateTimeLimitations struct {
