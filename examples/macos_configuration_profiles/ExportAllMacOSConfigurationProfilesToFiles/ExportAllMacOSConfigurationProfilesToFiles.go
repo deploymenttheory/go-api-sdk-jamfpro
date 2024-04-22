@@ -33,7 +33,7 @@ func main() {
 	fmt.Println("These profiles will be exported.")
 
 	exportDir := "/Users/joseph/github/go-api-sdk-jamfpro"
-	if err := os.MkdirAll(exportDir, 0755); err != nil {
+	if err := os.MkdirAll(exportDir, 0750); err != nil {
 		log.Fatalf("Failed to create export directory: %v", err)
 	}
 

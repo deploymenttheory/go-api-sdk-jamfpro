@@ -1,11 +1,9 @@
-// utilities.go
+// helpers/xml.go
+
 // For utility/helper functions to support the jamf pro package
-package utils
+package helpers
 
 import (
-	"encoding/base64"
-	"fmt"
-	"os"
 	"strings"
 )
 
@@ -50,19 +48,6 @@ func ConvertFromXMLSafeString(s string) string {
 
 	// Return the original string with characters restored.
 	return s
-}
-
-func Base64EncodeCertificate(certPath string) (string, error) {
-	// Read the certificate file
-	data, err := os.ReadFile(certPath)
-	if err != nil {
-		return "", fmt.Errorf("failed to read certificate file: %v", err)
-	}
-
-	// Base64 encode the file's content
-	encoded := base64.StdEncoding.EncodeToString(data)
-
-	return encoded, nil
 }
 
 // EnsureXMLSafeString checks if a string contains disallowed XML characters.
