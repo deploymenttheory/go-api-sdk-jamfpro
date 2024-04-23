@@ -43,8 +43,16 @@ github.com/aws/smithy-go v1.20.2/go.mod h1:krry+ya/rV9RDcV/Q16kpu6ypI4K2czasz0NC
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/deploymenttheory/go-api-http-client v0.0.90-0.20240423111855-9d1008b57b61 h1:K7n9HArYT//6Im/mQGIQso6udp6ov5Q8jUN5huxdkAU=
+github.com/deploymenttheory/go-api-http-client v0.0.90-0.20240423111855-9d1008b57b61/go.mod h1:FWSFqBZbtwrP/AeWiFjoyG9PvbLF53Q1JHlrp9+5O8Q=
 github.com/deploymenttheory/go-api-http-client v0.1.35 h1:7uui7YO9fzB5X0OVjdWHHXtc1EAXeIiMRPmFLwlm8NY=
 github.com/deploymenttheory/go-api-http-client v0.1.35/go.mod h1:FWSFqBZbtwrP/AeWiFjoyG9PvbLF53Q1JHlrp9+5O8Q=
+github.com/deploymenttheory/go-api-http-client v0.1.36-0.20240423052739-5827a4433ab8 h1:+pJYByWtLhRR6Em15GqEO2YFPBSBghVRf3zuorO4Kg0=
+github.com/deploymenttheory/go-api-http-client v0.1.36-0.20240423052739-5827a4433ab8/go.mod h1:FWSFqBZbtwrP/AeWiFjoyG9PvbLF53Q1JHlrp9+5O8Q=
+github.com/deploymenttheory/go-api-http-client v0.1.36-0.20240423115844-0b87f8e0de7e h1:hwJ15CFX1Hw8T0WTnqELrcehc/6Q5L04CDVOystLvic=
+github.com/deploymenttheory/go-api-http-client v0.1.36-0.20240423115844-0b87f8e0de7e/go.mod h1:FWSFqBZbtwrP/AeWiFjoyG9PvbLF53Q1JHlrp9+5O8Q=
+github.com/deploymenttheory/go-api-http-client v0.1.36-0.20240423124022-7761f754dcc7 h1:H1EGiFBIjfzdwhLP/dUp3ei/6uiGoANAdm2VS/JDTWk=
+github.com/deploymenttheory/go-api-http-client v0.1.36-0.20240423124022-7761f754dcc7/go.mod h1:FWSFqBZbtwrP/AeWiFjoyG9PvbLF53Q1JHlrp9+5O8Q=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da h1:oI5xCqsCo564l8iNU+DwB5epxmsaqB+rhGL0m5jtYqE=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
