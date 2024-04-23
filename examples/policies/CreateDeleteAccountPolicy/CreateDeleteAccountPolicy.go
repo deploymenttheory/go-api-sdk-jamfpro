@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/joseph/github/terraform-sandbox/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -38,11 +38,9 @@ func main() {
 			LocationUserOnly:           false,
 			TargetDrive:                "/",
 			Offline:                    false,
-			Category: jamfpro.PolicyCategory{
-				ID:        -1,
-				Name:      "No category assigned",
-				DisplayIn: false,
-				FeatureIn: false,
+			Category: jamfpro.SharedResourceCategory{
+				ID:   -1,
+				Name: "No category assigned",
 			},
 			DateTimeLimitations: jamfpro.PolicySubsetGeneralDateTimeLimitations{
 				// Initialize as needed
