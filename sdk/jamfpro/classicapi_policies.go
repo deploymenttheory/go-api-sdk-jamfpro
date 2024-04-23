@@ -58,17 +58,17 @@ type ResourcePolicy struct {
 
 // PolicySubsetGeneral represents the general information of a policy
 type PolicySubsetGeneral struct {
-	ID                         int                                     `xml:"id"`
-	Name                       string                                  `xml:"name"`
-	Enabled                    bool                                    `xml:"enabled"`
-	Trigger                    string                                  `xml:"trigger,omitempty"`
+	ID      int    `xml:"id"`
+	Name    string `xml:"name"`
+	Enabled bool   `xml:"enabled"`
+	// Trigger                    string                                  `xml:"trigger,omitempty"` // NOTE not needed
 	TriggerCheckin             bool                                    `xml:"trigger_checkin,omitempty"`
-	TriggerEnrollmentComplete  bool                                    `xml:"trigger_enrollment_complete,omitempty"`
-	TriggerLogin               bool                                    `xml:"trigger_login,omitempty"`
-	TriggerLogout              bool                                    `xml:"trigger_logout,omitempty"`
-	TriggerNetworkStateChanged bool                                    `xml:"trigger_network_state_changed,omitempty"`
-	TriggerStartup             bool                                    `xml:"trigger_startup,omitempty"`
-	TriggerOther               string                                  `xml:"trigger_other,omitempty"`
+	TriggerEnrollmentComplete  bool                                    `xml:"trigger_enrollment_complete"`
+	TriggerLogin               bool                                    `xml:"trigger_login"`
+	TriggerLogout              bool                                    `xml:"trigger_logout"`
+	TriggerNetworkStateChanged bool                                    `xml:"trigger_network_state_changed"`
+	TriggerStartup             bool                                    `xml:"trigger_startup"`
+	TriggerOther               string                                  `xml:"trigger_other"`
 	Frequency                  string                                  `xml:"frequency,omitempty"`
 	RetryEvent                 string                                  `xml:"retry_event,omitempty"`
 	RetryAttempts              int                                     `xml:"retry_attempts,omitempty"`
