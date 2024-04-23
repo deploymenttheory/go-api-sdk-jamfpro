@@ -25,6 +25,9 @@ func main() {
 			Name:    "jamfpro-sdk-example-DeleteAccount-policy-config-2",
 			Enabled: false,
 		},
+		Scope: &jamfpro.PolicySubsetScope{
+			AllComputers: true,
+		},
 	}
 
 	policyXML, err := xml.MarshalIndent(newPolicy, "", "    ")
