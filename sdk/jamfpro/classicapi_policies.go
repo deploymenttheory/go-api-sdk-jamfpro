@@ -12,22 +12,28 @@ import (
 
 const uriPolicies = "/JSSResource/policies"
 
+// List
+
 // Policies List Structs
 type ResponsePoliciesList struct {
-	Size   int          `xml:"size"`
-	Policy []PolicyItem `xml:"policy"`
+	Size   int                      `xml:"size"`
+	Policy []ResponsePolicyListItem `xml:"policy"`
 }
 
-type PolicyItem struct {
+type ResponsePolicyListItem struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
+// Responses
+
 // ResourcePolicyCreateAndUpdate represents the response structure for creating or updating a policy
-type ResourcePolicyCreateAndUpdate struct {
+type ResponsePolicyCreateAndUpdate struct {
 	XMLName xml.Name `xml:"policy"`
 	ID      int      `xml:"id"`
 }
+
+// Resource
 
 // ResourcePolicy represents the response structure for a single policy
 type ResourcePolicy struct {
@@ -70,7 +76,7 @@ type PolicySubsetGeneral struct {
 	LocationUserOnly           bool                                   `xml:"location_user_only,omitempty"`
 	TargetDrive                string                                 `xml:"target_drive,omitempty"`
 	Offline                    bool                                   `xml:"offline,omitempty"`
-	Category                   PolicyCategory                         `xml:"category,omitempty"`
+	Category                   SharedResourceCategory                 `xml:"category,omitempty"`
 	DateTimeLimitations        PolicySubsetGeneralDateTimeLimitations `xml:"date_time_limitations,omitempty"`
 	NetworkLimitations         PolicySubsetGeneralNetworkLimitations  `xml:"network_limitations,omitempty"`
 	OverrideDefaultSettings    PolicySubsetGeneralOverrideSettings    `xml:"override_default_settings,omitempty"`
@@ -79,31 +85,32 @@ type PolicySubsetGeneral struct {
 }
 
 type PolicySubsetGeneralDateTimeLimitations struct {
-	ActivationDate      string                                              `xml:"activation_date,omitempty"`
-	ActivationDateEpoch int                                                 `xml:"activation_date_epoch,omitempty"`
-	ActivationDateUTC   string                                              `xml:"activation_date_utc,omitempty"`
-	ExpirationDate      string                                              `xml:"expiration_date,omitempty"`
-	ExpirationDateEpoch int                                                 `xml:"expiration_date_epoch,omitempty"`
-	ExpirationDateUTC   string                                              `xml:"expiration_date_utc,omitempty"`
-	NoExecuteOn         []PolicySubsetGeneralDateTimeLimitationsNoExecuteOn `xml:"no_execute_on>day,omitempty"`
-	NoExecuteStart      string                                              `xml:"no_execute_start,omitempty"`
-	NoExecuteEnd        string                                              `xml:"no_execute_end,omitempty"`
+	ActivationDate      string `xml:"activation_date,omitempty"`
+	ActivationDateEpoch int    `xml:"activation_date_epoch,omitempty"`
+	ActivationDateUTC   string `xml:"activation_date_utc,omitempty"`
+	ExpirationDate      string `xml:"expiration_date,omitempty"`
+	ExpirationDateEpoch int    `xml:"expiration_date_epoch,omitempty"`
+	ExpirationDateUTC   string `xml:"expiration_date_utc,omitempty"`
+	// NoExecuteOn         []PolicySubsetGeneralDateTimeLimitationsNoExecuteOn `xml:"no_execute_on>day,omitempty"`
+	NoExecuteStart string `xml:"no_execute_start,omitempty"`
+	NoExecuteEnd   string `xml:"no_execute_end,omitempty"`
 }
 
-type PolicySubsetGeneralDateTimeLimitationsNoExecuteOn struct {
-	Day string `xml:",chardata"`
-}
+// TODO solve this weird stuff later
+// type PolicySubsetGeneralDateTimeLimitationsNoExecuteOn struct {
+// 	Day string `xml:",chardata"`
+// }
 
 type PolicySubsetGeneralNetworkLimitations struct {
 	MinimumNetworkConnection string `xml:"minimum_network_connection,omitempty"`
-	AnyIPAddress             bool   `xml:"any_ip_address"`
-	NetworkSegments          string `xml:"network_segments"`
+	AnyIPAddress             bool   `xml:"any_ip_address,omitempty"`
+	NetworkSegments          string `xml:"network_segments,omitempty"`
 }
 
 type PolicySubsetGeneralOverrideSettings struct {
 	TargetDrive       string `xml:"target_drive,omitempty"`
 	DistributionPoint string `xml:"distribution_point,omitempty"`
-	ForceAfpSmb       bool   `xml:"force_afp_smb"`
+	ForceAfpSmb       bool   `xml:"force_afp_smb,omitempty"`
 	SUS               string `xml:"sus,omitempty"`
 	NetbootServer     string `xml:"netboot_server,omitempty"`
 }
@@ -120,9 +127,9 @@ type PolicySubsetScope struct {
 	JSSUserGroups  []PolicyDataSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
 	Buildings      []PolicyDataSubsetBuilding      `xml:"buildings>building,omitempty"`
 	Departments    []PolicyDataSubsetDepartment    `xml:"departments>department,omitempty"`
-	LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
-	Limitations    PolicySubsetScopeLimitations    `xml:"limitations,omitempty"`
-	Exclusions     PolicySubsetScopeExclusions     `xml:"exclusions,omitempty"`
+	// LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
+	Limitations PolicySubsetScopeLimitations `xml:"limitations,omitempty"`
+	Exclusions  PolicySubsetScopeExclusions  `xml:"exclusions,omitempty"`
 }
 
 type PolicySubsetScopeLimitations struct {
@@ -496,7 +503,7 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 }
 
 // CreatePolicy creates a new policy.
-func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResourcePolicyCreateAndUpdate, error) {
+func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, policy.General.ID)
 
 	// Wrap the policy with the desired XML name using an anonymous struct
@@ -507,7 +514,7 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResourcePolicyCreateAndU
 		ResourcePolicy: policy,
 	}
 
-	var ResourcePolicy ResourcePolicyCreateAndUpdate
+	var ResourcePolicy ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourcePolicy)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create policy: %v", err)
@@ -522,7 +529,7 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResourcePolicyCreateAndU
 }
 
 // UpdatePolicyByID updates an existing policy by its ID.
-func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResourcePolicyCreateAndUpdate, error) {
+func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
 
 	// Wrap the policy with the desired XML name using an anonymous struct
@@ -533,7 +540,7 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResourcePoli
 		ResourcePolicy: policy,
 	}
 
-	var response ResourcePolicyCreateAndUpdate
+	var response ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update policy: %v", err)
@@ -547,7 +554,7 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResourcePoli
 }
 
 // UpdatePolicyByName updates an existing policy by its name.
-func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*ResourcePolicyCreateAndUpdate, error) {
+func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
 
 	// Wrap the policy with the desired XML name using an anonymous struct
@@ -558,7 +565,7 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Resou
 		ResourcePolicy: policy,
 	}
 
-	var response ResourcePolicyCreateAndUpdate
+	var response ResponsePolicyCreateAndUpdate
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update policy: %v", err)
