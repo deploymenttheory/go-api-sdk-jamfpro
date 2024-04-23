@@ -58,30 +58,30 @@ type ResourcePolicy struct {
 
 // PolicySubsetGeneral represents the general information of a policy
 type PolicySubsetGeneral struct {
-	ID                         int                                    `xml:"id"`
-	Name                       string                                 `xml:"name"`
-	Enabled                    bool                                   `xml:"enabled"`
-	Trigger                    string                                 `xml:"trigger,omitempty"`
-	TriggerCheckin             bool                                   `xml:"trigger_checkin,omitempty"`
-	TriggerEnrollmentComplete  bool                                   `xml:"trigger_enrollment_complete,omitempty"`
-	TriggerLogin               bool                                   `xml:"trigger_login,omitempty"`
-	TriggerLogout              bool                                   `xml:"trigger_logout,omitempty"`
-	TriggerNetworkStateChanged bool                                   `xml:"trigger_network_state_changed,omitempty"`
-	TriggerStartup             bool                                   `xml:"trigger_startup,omitempty"`
-	TriggerOther               string                                 `xml:"trigger_other,omitempty"`
-	Frequency                  string                                 `xml:"frequency,omitempty"`
-	RetryEvent                 string                                 `xml:"retry_event,omitempty"`
-	RetryAttempts              int                                    `xml:"retry_attempts,omitempty"`
-	NotifyOnEachFailedRetry    bool                                   `xml:"notify_on_each_failed_retry,omitempty"`
-	LocationUserOnly           bool                                   `xml:"location_user_only,omitempty"`
-	TargetDrive                string                                 `xml:"target_drive,omitempty"`
-	Offline                    bool                                   `xml:"offline,omitempty"`
-	Category                   SharedResourceCategory                 `xml:"category,omitempty"`
-	DateTimeLimitations        PolicySubsetGeneralDateTimeLimitations `xml:"date_time_limitations,omitempty"`
-	NetworkLimitations         PolicySubsetGeneralNetworkLimitations  `xml:"network_limitations,omitempty"`
-	OverrideDefaultSettings    PolicySubsetGeneralOverrideSettings    `xml:"override_default_settings,omitempty"`
-	NetworkRequirements        string                                 `xml:"network_requirements,omitempty"`
-	Site                       SharedResourceSite                     `xml:"site,omitempty"`
+	ID                         int                                     `xml:"id"`
+	Name                       string                                  `xml:"name"`
+	Enabled                    bool                                    `xml:"enabled"`
+	Trigger                    string                                  `xml:"trigger,omitempty"`
+	TriggerCheckin             bool                                    `xml:"trigger_checkin,omitempty"`
+	TriggerEnrollmentComplete  bool                                    `xml:"trigger_enrollment_complete,omitempty"`
+	TriggerLogin               bool                                    `xml:"trigger_login,omitempty"`
+	TriggerLogout              bool                                    `xml:"trigger_logout,omitempty"`
+	TriggerNetworkStateChanged bool                                    `xml:"trigger_network_state_changed,omitempty"`
+	TriggerStartup             bool                                    `xml:"trigger_startup,omitempty"`
+	TriggerOther               string                                  `xml:"trigger_other,omitempty"`
+	Frequency                  string                                  `xml:"frequency,omitempty"`
+	RetryEvent                 string                                  `xml:"retry_event,omitempty"`
+	RetryAttempts              int                                     `xml:"retry_attempts,omitempty"`
+	NotifyOnEachFailedRetry    bool                                    `xml:"notify_on_each_failed_retry,omitempty"`
+	LocationUserOnly           bool                                    `xml:"location_user_only,omitempty"`
+	TargetDrive                string                                  `xml:"target_drive,omitempty"`
+	Offline                    bool                                    `xml:"offline,omitempty"`
+	Category                   *SharedResourceCategory                 `xml:"category,omitempty"`
+	DateTimeLimitations        *PolicySubsetGeneralDateTimeLimitations `xml:"date_time_limitations,omitempty"`
+	NetworkLimitations         *PolicySubsetGeneralNetworkLimitations  `xml:"network_limitations,omitempty"`
+	OverrideDefaultSettings    *PolicySubsetGeneralOverrideSettings    `xml:"override_default_settings,omitempty"`
+	NetworkRequirements        string                                  `xml:"network_requirements,omitempty"`
+	Site                       *SharedResourceSite                     `xml:"site,omitempty"`
 }
 
 type PolicySubsetGeneralDateTimeLimitations struct {
@@ -119,66 +119,66 @@ type PolicySubsetGeneralOverrideSettings struct {
 
 // PolicySubsetScope represents the scope of the policy
 type PolicySubsetScope struct {
-	AllComputers   bool                            `xml:"all_computers"`
-	AllJSSUsers    bool                            `xml:"all_jss_users"`
-	Computers      []PolicyDataSubsetComputer      `xml:"computers>computer,omitempty"`
-	ComputerGroups []PolicyDataSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	JSSUsers       []PolicyDataSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
-	JSSUserGroups  []PolicyDataSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
-	Buildings      []PolicyDataSubsetBuilding      `xml:"buildings>building,omitempty"`
-	Departments    []PolicyDataSubsetDepartment    `xml:"departments>department,omitempty"`
+	AllComputers   bool                             `xml:"all_computers"`
+	AllJSSUsers    bool                             `xml:"all_jss_users"`
+	Computers      *[]PolicyDataSubsetComputer      `xml:"computers>computer,omitempty"`
+	ComputerGroups *[]PolicyDataSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers       *[]PolicyDataSubsetJSSUser       `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups  *[]PolicyDataSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings      *[]PolicyDataSubsetBuilding      `xml:"buildings>building,omitempty"`
+	Departments    *[]PolicyDataSubsetDepartment    `xml:"departments>department,omitempty"`
 	// LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
-	Limitations PolicySubsetScopeLimitations `xml:"limitations,omitempty"`
-	Exclusions  PolicySubsetScopeExclusions  `xml:"exclusions,omitempty"`
+	Limitations *PolicySubsetScopeLimitations `xml:"limitations,omitempty"`
+	Exclusions  *PolicySubsetScopeExclusions  `xml:"exclusions,omitempty"`
 }
 
 type PolicySubsetScopeLimitations struct {
-	Users           []PolicyDataSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []PolicyDataSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
-	NetworkSegments []PolicyDataSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	IBeacons        []PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+	Users           *[]PolicyDataSubsetUser           `xml:"users>user,omitempty"`
+	UserGroups      *[]PolicyDataSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	NetworkSegments *[]PolicyDataSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	IBeacons        *[]PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 type PolicySubsetScopeExclusions struct {
-	Computers       []PolicyDataSubsetComputer       `xml:"computers>computer,omitempty"`
-	ComputerGroups  []PolicyDataSubsetComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
-	Users           []PolicyDataSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []PolicyDataSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
-	Buildings       []PolicyDataSubsetBuilding       `xml:"buildings>building,omitempty"`
-	Departments     []PolicyDataSubsetDepartment     `xml:"departments>department,omitempty"`
-	NetworkSegments []PolicyDataSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	JSSUsers        []PolicyDataSubsetJSSUser        `xml:"jss_users>jss_user,omitempty"`
-	JSSUserGroups   []PolicyDataSubsetJSSUserGroup   `xml:"jss_user_groups>jss_user_group,omitempty"`
-	IBeacons        []PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+	Computers       *[]PolicyDataSubsetComputer       `xml:"computers>computer,omitempty"`
+	ComputerGroups  *[]PolicyDataSubsetComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
+	Users           *[]PolicyDataSubsetUser           `xml:"users>user,omitempty"`
+	UserGroups      *[]PolicyDataSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	Buildings       *[]PolicyDataSubsetBuilding       `xml:"buildings>building,omitempty"`
+	Departments     *[]PolicyDataSubsetDepartment     `xml:"departments>department,omitempty"`
+	NetworkSegments *[]PolicyDataSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	JSSUsers        *[]PolicyDataSubsetJSSUser        `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups   *[]PolicyDataSubsetJSSUserGroup   `xml:"jss_user_groups>jss_user_group,omitempty"`
+	IBeacons        *[]PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 // PolicySubsetSelfService represents the self service settings of a policy
 type PolicySubsetSelfService struct {
-	UseForSelfService           bool                              `xml:"use_for_self_service"`
-	SelfServiceDisplayName      string                            `xml:"self_service_display_name"`
-	InstallButtonText           string                            `xml:"install_button_text"`
-	ReinstallButtonText         string                            `xml:"re_install_button_text"`
-	SelfServiceDescription      string                            `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                              `xml:"force_users_to_view_description"`
-	SelfServiceIcon             SharedResourceSelfServiceIcon     `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                              `xml:"feature_on_main_page"`
-	SelfServiceCategories       []PolicySubsetSelfServiceCategory `xml:"self_service_categories"`
-	Notification                bool                              `xml:"notification,omitempty"`
-	NotificationType            string                            `xml:"notification_type"`
-	NotificationSubject         string                            `xml:"notification_subject,omitempty"`
-	NotificationMessage         string                            `xml:"notification_message,omitempty"`
+	UseForSelfService           bool                               `xml:"use_for_self_service,omitempty"`
+	SelfServiceDisplayName      string                             `xml:"self_service_display_name,omitempty"`
+	InstallButtonText           string                             `xml:"install_button_text,omitempty"`
+	ReinstallButtonText         string                             `xml:"re_install_button_text,omitempty"`
+	SelfServiceDescription      string                             `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool                               `xml:"force_users_to_view_description,omitempty"`
+	SelfServiceIcon             *SharedResourceSelfServiceIcon     `xml:"self_service_icon,omitempty,omitempty"`
+	FeatureOnMainPage           bool                               `xml:"feature_on_main_page,omitempty"`
+	SelfServiceCategories       *[]PolicySubsetSelfServiceCategory `xml:"self_service_categories,omitempty"`
+	Notification                bool                               `xml:"notification,omitempty,omitempty"`
+	NotificationType            string                             `xml:"notification_type,omitempty"`
+	NotificationSubject         string                             `xml:"notification_subject,omitempty"`
+	NotificationMessage         string                             `xml:"notification_message,omitempty"`
 }
 
 type PolicySubsetSelfServiceCategory struct {
-	Category PolicyCategory `xml:"category"`
+	Category *PolicyCategory `xml:"category"`
 }
 
 // Package Configuration
 
 // PolicySubsetPackageConfiguration represents the package configuration settings of a policy
 type PolicySubsetPackageConfiguration struct {
-	Packages          []PolicySubsetPackageConfigurationPackage `xml:"packages>package"`
-	DistributionPoint string                                    `xml:"distribution_point"`
+	Packages          *[]PolicySubsetPackageConfigurationPackage `xml:"packages>package,omitempty"`
+	DistributionPoint string                                     `xml:"distribution_point,omitempty"`
 }
 
 type PolicySubsetPackageConfigurationPackage struct {
@@ -194,8 +194,8 @@ type PolicySubsetPackageConfigurationPackage struct {
 
 // PolicySubsetScripts represents the scripts settings of a policy
 type PolicySubsetScripts struct {
-	Size   int                  `xml:"size"`
-	Script []PolicySubsetScript `xml:"script"`
+	// Size   int                  `xml:"size,omitempty"`
+	Script *[]PolicySubsetScript `xml:"script,omitempty"`
 }
 
 type PolicySubsetScript struct {
@@ -216,9 +216,9 @@ type PolicySubsetScript struct {
 
 // PolicySubsetPrinters represents the printers settings of a policy
 type PolicySubsetPrinters struct {
-	Size                 int                   `xml:"size"`
-	LeaveExistingDefault bool                  `xml:"leave_existing_default"`
-	Printer              []PolicySubsetPrinter `xml:"printer"`
+	// Size                 int                   `xml:"size"`
+	LeaveExistingDefault bool                   `xml:"leave_existing_default,omitempty"`
+	Printer              *[]PolicySubsetPrinter `xml:"printer,omitempty"`
 }
 
 type PolicySubsetPrinter struct {
@@ -232,8 +232,8 @@ type PolicySubsetPrinter struct {
 
 // PolicySubsetDockItems represents the dock items settings of a policy
 type PolicySubsetDockItems struct {
-	Size     int                    `xml:"size"`
-	DockItem []PolicySubsetDockItem `xml:"dock_item"`
+	// Size     int                     `xml:"size"`
+	DockItem *[]PolicySubsetDockItem `xml:"dock_item"`
 }
 
 type PolicySubsetDockItem struct {
@@ -246,10 +246,10 @@ type PolicySubsetDockItem struct {
 
 // PolicySubsetAccountMaintenance represents the account maintenance settings of a policy
 type PolicySubsetAccountMaintenance struct {
-	Accounts                []PolicySubsetAccountMaintenanceAccount               `xml:"accounts>account"`
-	DirectoryBindings       []PolicySubsetAccountMaintenanceDirectoryBindings     `xml:"directory_bindings>binding"`
-	ManagementAccount       PolicySubsetAccountMaintenanceManagementAccount       `xml:"management_account"`
-	OpenFirmwareEfiPassword PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword `xml:"open_firmware_efi_password"`
+	Accounts                *[]PolicySubsetAccountMaintenanceAccount               `xml:"accounts>account"`
+	DirectoryBindings       *[]PolicySubsetAccountMaintenanceDirectoryBindings     `xml:"directory_bindings>binding"`
+	ManagementAccount       *PolicySubsetAccountMaintenanceManagementAccount       `xml:"management_account"`
+	OpenFirmwareEfiPassword *PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword `xml:"open_firmware_efi_password"`
 }
 
 type PolicySubsetAccountMaintenanceAccount struct {
@@ -355,8 +355,8 @@ type PolicySubsetReboot struct {
 type PolicyCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
-	DisplayIn bool   `xml:"display_in"`
-	FeatureIn bool   `xml:"feature_in"`
+	DisplayIn bool   `xml:"display_in,omitempty"`
+	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
 type PolicyDataSubsetComputer struct {
