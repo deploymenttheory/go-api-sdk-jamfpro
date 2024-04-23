@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"math/rand"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -22,11 +23,29 @@ func main() {
 	newPolicy := &jamfpro.ResourcePolicy{
 		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:    "jamfpro-sdk-example-DeleteAccount-policy-config-2",
+			Name:    fmt.Sprintf("Policy Test-%v", rand.Intn(10000)),
 			Enabled: false,
 		},
 		Scope: &jamfpro.PolicySubsetScope{
 			AllComputers: true,
+			Computers: &[]jamfpro.PolicyDataSubsetComputer{
+				{
+					ID: 16,
+				},
+				{
+					ID: 15,
+				},
+			},
+		},
+		SelfService: &jamfpro.PolicySubsetSelfService{
+			SelfServiceCategories: &[]jamfpro.PolicySubsetSelfServiceCategory{
+				{
+					Name:      "Applications",
+					ID:        5,
+					DisplayIn: true,
+					FeatureIn: false,
+				},
+			},
 		},
 	}
 
