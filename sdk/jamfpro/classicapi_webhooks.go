@@ -177,6 +177,7 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 	return &response, nil
 }
 
+// DeleteWebhookByID deletes a specific webhook by its ID.
 func (c *Client) DeleteWebhookByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
@@ -189,13 +190,10 @@ func (c *Client) DeleteWebhookByID(id int) error {
 		defer resp.Body.Close()
 	}
 
-	if resp.StatusCode != 204 {
-		return fmt.Errorf(errMsgFailedDeleteByID, "webhook", id, err)
-	}
-
 	return nil
 }
 
+// DeleteWebhookByName deletes a specific webhook by its name.
 func (c *Client) DeleteWebhookByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
@@ -206,10 +204,6 @@ func (c *Client) DeleteWebhookByName(name string) error {
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
-	}
-
-	if resp.StatusCode != 204 {
-		return fmt.Errorf(errMsgFailedDeleteByName, "webhook", name, err)
 	}
 
 	return nil
