@@ -62,7 +62,7 @@ type PolicySubsetGeneral struct {
 	Name    string `xml:"name"`
 	Enabled bool   `xml:"enabled"`
 	// Trigger                    string                                  `xml:"trigger,omitempty"` // NOTE not needed
-	TriggerCheckin             bool                                    `xml:"trigger_checkin,"`
+	TriggerCheckin             bool                                    `xml:"trigger_checkin"`
 	TriggerEnrollmentComplete  bool                                    `xml:"trigger_enrollment_complete"`
 	TriggerLogin               bool                                    `xml:"trigger_login"`
 	TriggerLogout              bool                                    `xml:"trigger_logout"`
