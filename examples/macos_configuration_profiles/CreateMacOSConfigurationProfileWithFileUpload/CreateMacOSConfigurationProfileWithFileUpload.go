@@ -50,7 +50,7 @@ func main() {
 	}
 
 	// Print the ID of the created profile
-	fmt.Printf("Successfully created macOS Configuration Profile with ID: %d\n", createdProfile)
+	fmt.Printf("successfully created macOS Configuration Profile with ID: %d\n", createdProfile)
 
 }
 

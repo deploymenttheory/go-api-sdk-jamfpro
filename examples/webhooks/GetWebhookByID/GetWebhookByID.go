@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example usage of GetWebhookByID
-	webhookByID, err := client.GetWebhookByID(1) // Replace with the desired webhook ID
+	webhookByID, err := client.GetWebhookByID(3) // Replace with the desired webhook ID
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		return
