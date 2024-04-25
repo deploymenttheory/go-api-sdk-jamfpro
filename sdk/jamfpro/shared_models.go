@@ -36,14 +36,12 @@ type SharedResourceSelfServiceCategory struct {
 }
 
 // Advanced Search DisplayField
-
 type SharedAdvancedSearchContainerDisplayField struct {
-	Size         int                                      `xml:"size"`
 	DisplayField []SharedAdvancedSearchSubsetDisplayField `xml:"display_field"`
 }
 
 type SharedAdvancedSearchSubsetDisplayField struct {
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
+	Name string `xml:"name"`
 }
 
 // Criteria
