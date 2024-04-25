@@ -133,11 +133,6 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
-	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site.ID = -1
-		group.Site.Name = "none"
-	}
-
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
 		*ResourceComputerGroup
@@ -161,11 +156,6 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 // UpdateComputerGroupByName updates a computer group by its name.
 func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
-
-	if group.Site.ID == 0 && group.Site.Name == "" {
-		group.Site.ID = -1
-		group.Site.Name = "none"
-	}
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`

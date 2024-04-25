@@ -57,17 +57,21 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
     export CLIENT_SECRET="your_client_secret"
     export INSTANCE_NAME="instance" # e.g., instance in "https://instance.jamfcloud.com
     export OVERRIDE_BASE_DOMAIN="" # required only for on-premises instances
-    export API_TYPE="jamfpro"
+    export API_TYPE="jamfpro" # required
     export LOG_LEVEL="LogLevelDebug" # or "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
     export LOG_OUTPUT_FORMAT="console" # or "json" 
     export LOG_CONSOLE_SEPARATOR=" " # or any other separator
-    export LOG_EXPORT_PATH="jamfpro.log" # optional
+    export LOG_EXPORT_PATH="/your/log/path/" # optional
     export HIDE_SENSITIVE_DATA="true"  
-    export MAX_RETRY_ATTEMPTS="3"  
-    export MAX_CONCURRENT_REQUESTS="5"  
-    export TOKEN_REFRESH_BUFFER_PERIOD="5m"  
-    export TOTAL_RETRY_DURATION="5m"  
-    export CUSTOM_TIMEOUT="10s" 
+    export MAX_RETRY_ATTEMPTS="3" # optional  
+    export MAX_CONCURRENT_REQUESTS="5"  # optional
+    export TOKEN_REFRESH_BUFFER_PERIOD="5m"  # optional
+    export TOTAL_RETRY_DURATION="5m"  # optional
+    export CUSTOM_TIMEOUT="10s" # optional
+    export ENABLE_COOKIE_JAR="true" # Enables the cookie jar
+    export CUSTOM_COOKIES="jpro-ingress=your_cookie_value; sessionToken=abc123; userPref=lightMode" # optional
+    export FOLLOW_REDIRECTS="true" # Enables following redirects
+    export MAX_REDIRECTS="5" # Sets the maximum number of redirects
     ```
 
 2. **Build the Client**: Use the `BuildClientWithEnv` function to build the Jamf Pro client using the environment variables.
@@ -91,27 +95,42 @@ For those who prefer using configuration files for setting up the client, the SD
     {
       "Auth": {
         "ClientID": "your_client_id",
-        "ClientSecret": "your_client_secret",
-        "Username": "your_username",
-        "Password": "your_password"
+            "ClientSecret": "your_client_secret",
+            "Username": "your_username",
+            "Password": "your_password"
       },
       "Environment": {
-        "InstanceName": "instance", // e.g., instance in "https://instance.jamfcloud.com"
-        "OverrideBaseDomain": "", // required only for on-premises instances
-        "APIType": "jamfpro"
+        "InstanceName": "instance", // required. e.g., instance in "https://instance.jamfcloud.com"
+            "OverrideBaseDomain": "", // optional: required only for on-premises instances
+            "APIType": "jamfpro" // required
       },
       "ClientOptions": {
-        "LogLevel": "LogLevelDebug", // "LogLevelDebug" / "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
-        "LogOutputFormat": "console",
-        "LogConsoleSeparator": " ",
-        "LogExportPath": "/your/log/export/path", // Optional
-        "HideSensitiveData": true,
-        "EnableDynamicRateLimiting": true,
-        "MaxRetryAttempts": 5,
-        "MaxConcurrentRequests": 3,
-        "EnableCookieJar": true,
-        "FollowRedirects": true,
-	      "MaxRedirects": 5
+        "Logging": {
+          "LogLevel": "LogLevelDebug", // "LogLevelDebug" / "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
+            "LogOutputFormat": "console",
+            "LogConsoleSeparator": " ",
+            "LogExportPath": "/your/log/export/path", // Optional
+            "HideSensitiveData": true, // redacts sensitive data from logs
+        },
+        "Cookies": {
+          "EnableCookieJar": true,  // enables cookie jar for jamfpro and provides a sticky session
+          "CustomCookies": {        // optional: if you wish to provide custom cookies
+            "jpro-ingress": "your_cookie_value" 
+          }
+        },
+        "Retry": {
+          "MaxRetryAttempts": 5,            // optional: maximum number of retry attempts
+          "TokenRefreshBufferPeriod": "5m", // optional: buffer period before token refresh
+          "TotalRetryDuration": "5m",       // optional: total duration for retry attempts
+          "EnableDynamicRateLimiting": true // optional: enables dynamic rate limiting which scales the semaphore
+        },
+        "Concurrency": {
+          "MaxConcurrentRequests": 3
+        },
+        "Redirect": {
+          "FollowRedirects": true,
+          "MaxRedirects": 5
+        }
       }
     }
     ```
