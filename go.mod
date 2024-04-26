@@ -10,6 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.53.1
 	github.com/deploymenttheory/go-api-http-client v0.1.37
 	github.com/mitchellh/mapstructure v1.5.0
+	howett.net/plist v1.0.1
 )
 
 require (
