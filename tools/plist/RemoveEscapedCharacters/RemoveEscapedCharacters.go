@@ -13,7 +13,7 @@ import (
 )
 
 // RemoveEscapedCharacters removes escaped characters from a plist / .mobileconfig file
-func RemoveEscapedCharacters() {
+func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	// Prompt for and read the source plist file path
