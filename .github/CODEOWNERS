@@ -6,7 +6,6 @@
 # review when someone opens a pull request.
 
 * @ShocOne
-* @thejoeker12
 
 .azuredevops/** @ShocOne
 .github/** @ShocOne
