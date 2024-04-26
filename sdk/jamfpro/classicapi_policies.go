@@ -54,7 +54,7 @@ type ResourcePolicy struct {
 
 // Subsets & Containers
 
-// General
+// General - comment test
 
 // PolicySubsetGeneral represents the general information of a policy
 type PolicySubsetGeneral struct {
