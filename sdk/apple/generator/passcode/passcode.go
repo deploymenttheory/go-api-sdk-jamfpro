@@ -56,6 +56,8 @@ func main() {
 
 // CreatePasscodeConfig initializes and returns a ResourcePasscodeConfigurationProfile with sample data.
 func CreatePasscodeConfig() models.ResourcePasscodeConfigurationProfile {
+	trueVal := true
+	falseVal := false
 	descriptions := []models.Description{
 		{
 			Locale:      "en-US",
@@ -68,15 +70,15 @@ func CreatePasscodeConfig() models.ResourcePasscodeConfigurationProfile {
 		Version: "1.0",
 		PayloadContent: []models.PasscodeConfigurationProfileSubsetPayload{
 			{
-				AllowSimple:         true,
-				ForcePIN:            true,
+				AllowSimple:         &trueVal,
+				ForcePIN:            &trueVal,
 				MaxFailedAttempts:   5,
 				MaxGracePeriod:      1,
 				MaxInactivity:       2,
 				MaxPINAgeInDays:     30,
 				MinLength:           8,
 				PinHistory:          2,
-				RequireAlphanumeric: false,
+				RequireAlphanumeric: &falseVal,
 				PayloadIdentifier:   "com.example.mypasscodepayload",
 				PayloadType:         "com.apple.mobiledevice.passwordpolicy",
 				PayloadUUID:         "2a8a75e5-d17d-44d5-b062-3cb92161af9f",

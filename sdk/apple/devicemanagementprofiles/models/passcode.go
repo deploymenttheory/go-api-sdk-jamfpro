@@ -78,15 +78,15 @@ type ResourcePasscodeConfigurationProfile struct {
 
 // PasscodeConfigurationProfileSubsetPayload represents the passcode requirements set in the policy.
 type PasscodeConfigurationProfileSubsetPayload struct {
-	AllowSimple         bool         `plist:"allowSimple"`
-	ForcePIN            bool         `plist:"forcePIN"`
+	AllowSimple         *bool        `plist:"allowSimple"`
+	ForcePIN            *bool        `plist:"forcePIN"`
 	MaxFailedAttempts   int          `plist:"maxFailedAttempts"`
 	MaxGracePeriod      int          `plist:"maxGracePeriod"`
 	MaxInactivity       int          `plist:"maxInactivity"`
 	MaxPINAgeInDays     int          `plist:"maxPINAgeInDays"`
 	MinLength           int          `plist:"minLength"`
 	PinHistory          int          `plist:"pinHistory"`
-	RequireAlphanumeric bool         `plist:"requireAlphanumeric"`
+	RequireAlphanumeric *bool        `plist:"requireAlphanumeric"`
 	PayloadIdentifier   string       `plist:"PayloadIdentifier"`
 	PayloadType         string       `plist:"PayloadType"`
 	PayloadUUID         string       `plist:"PayloadUUID"`
