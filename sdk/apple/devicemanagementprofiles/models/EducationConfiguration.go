@@ -1,3 +1,11 @@
+/*
+Device:		Management Profile: EducationConfiguration
+Version: 	iOS 9.3+
+					iPadOS 9.3+
+					macOS 10.14+
+Ref: 			https://developer.apple.com/documentation/devicemanagement/educationconfiguration
+*/
+
 package models
 
 import "encoding/xml"
@@ -33,8 +41,8 @@ type EducationConfiguration struct {
 	Departments                                    []DepartmentItem  `xml:"Departments,omitempty"`
 	DeviceGroups                                   []DeviceGroupItem `xml:"DeviceGroups,omitempty"`
 	Groups                                         []GroupItem       `xml:"Groups,omitempty"`
-	LeaderPayloadCertificateAnchorUUID             []string          `xml:"LeaderPayloadCertificateAnchorUUID,omitempty"`
-	MemberPayloadCertificateAnchorUUID             []string          `xml:"MemberPayloadCertificateAnchorUUID,omitempty"`
+	LeaderPayloadCertificateAnchorUUID             []string          `xml:"LeaderPayloadCertificateAnchorUUID>string,omitempty"`
+	MemberPayloadCertificateAnchorUUID             []string          `xml:"MemberPayloadCertificateAnchorUUID>string,omitempty"`
 	OrganizationName                               string            `xml:"OrganizationName,omitempty"`
 	OrganizationUUID                               string            `xml:"OrganizationUUID,omitempty"`
 	PayloadCertificateUUID                         string            `xml:"PayloadCertificateUUID,omitempty"`

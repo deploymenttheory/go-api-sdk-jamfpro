@@ -22,7 +22,7 @@ type Resource8021XFirstActiveEthernetConfigurationProfile struct {
 	PayloadVersion           string                                                     `xml:"PayloadVersion,omitempty"`
 }
 
-// X8021XFirstActiveEthernetConfigurationProfileSubsetPayload represents the content structure for configuring 802.1X First Active Ethernet settings
+// Subset struct for specific 802.1X First Active Ethernet settings
 type X8021XFirstActiveEthernetConfigurationProfileSubsetPayload struct {
 	PayloadContent     []X8021XFirstActiveEthernet `xml:"PayloadContent>dict"`
 	PayloadDisplayName string                      `xml:"PayloadDisplayName,omitempty"`
@@ -32,14 +32,14 @@ type X8021XFirstActiveEthernetConfigurationProfileSubsetPayload struct {
 	PayloadVersion     int                         `xml:"PayloadVersion,omitempty"`
 }
 
-// X8021XFirstActiveEthernet represents the 802.1X First Active Ethernet dictionary within 802.1X First Active Ethernet configuration
+// Detailed configuration for individual Ethernet settings
 type X8021XFirstActiveEthernet struct {
 	AuthenticationMethod   string                  `xml:"AuthenticationMethod,omitempty"`
 	AutoJoin               bool                    `xml:"AutoJoin"`
 	CaptiveBypass          bool                    `xml:"CaptiveBypass"`
 	EAPClientConfiguration XEAPClientConfiguration `xml:"EAPClientConfiguration,omitempty"`
 	EncryptionType         string                  `xml:"EncryptionType,omitempty"`
-	HiddenNetwork          bool                    `xml:"HIDDEN_NETWORK"`
+	HiddenNetwork          bool                    `xml:"HiddenNetwork"`
 	Interface              string                  `xml:"Interface"`
 	Password               string                  `xml:"Password,omitempty"`
 	ProxyType              string                  `xml:"ProxyType,omitempty"`
