@@ -60,45 +60,49 @@ Profile Example:
 */
 package models
 
-import "encoding/xml"
-
 // ResourcePasscodeConfigurationProfile defines the structure for managing passcode policies on devices.
 type ResourcePasscodeConfigurationProfile struct {
-	XMLName                  xml.Name                                  `xml:"plist"`
-	Version                  string                                    `xml:"version,attr"`
-	Payload                  PasscodeConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
-	PayloadDescription       string                                    `xml:"PayloadDescription,omitempty"`
-	PayloadDisplayName       string                                    `xml:"PayloadDisplayName,omitempty"`
-	PayloadEnabled           string                                    `xml:"PayloadEnabled,omitempty"`
-	PayloadIdentifier        string                                    `xml:"PayloadIdentifier,omitempty"`
-	PayloadOrganization      string                                    `xml:"PayloadOrganization,omitempty"`
-	PayloadRemovalDisallowed string                                    `xml:"PayloadRemovalDisallowed,omitempty"`
-	PayloadScope             string                                    `xml:"PayloadScope,omitempty"`
-	PayloadType              string                                    `xml:"PayloadType,omitempty"`
-	PayloadUUID              string                                    `xml:"PayloadUUID,omitempty"`
-	PayloadVersion           string                                    `xml:"PayloadVersion,omitempty"`
+	Version                  string                                      `plist:"version,attr"`
+	PayloadContent           []PasscodeConfigurationProfileSubsetPayload `plist:"PayloadContent"`
+	PayloadDescription       string                                      `plist:"PayloadDescription,omitempty"`
+	PayloadDisplayName       string                                      `plist:"PayloadDisplayName,omitempty"`
+	PayloadEnabled           string                                      `plist:"PayloadEnabled,omitempty"`
+	PayloadIdentifier        string                                      `plist:"PayloadIdentifier,omitempty"`
+	PayloadOrganization      string                                      `plist:"PayloadOrganization,omitempty"`
+	PayloadRemovalDisallowed string                                      `plist:"PayloadRemovalDisallowed,omitempty"`
+	PayloadScope             string                                      `plist:"PayloadScope,omitempty"`
+	PayloadType              string                                      `plist:"PayloadType,omitempty"`
+	PayloadUUID              string                                      `plist:"PayloadUUID,omitempty"`
+	PayloadVersion           int                                         `plist:"PayloadVersion,omitempty"`
 }
 
 // PasscodeConfigurationProfileSubsetPayload represents the passcode requirements set in the policy.
 type PasscodeConfigurationProfileSubsetPayload struct {
-	AllowSimple         bool         `xml:"allowSimple"`
-	ForcePIN            bool         `xml:"forcePIN"`
-	MaxFailedAttempts   int          `xml:"maxFailedAttempts"`
-	MaxGracePeriod      int          `xml:"maxGracePeriod"`
-	MaxInactivity       int          `xml:"maxInactivity"`
-	MaxPINAgeInDays     float64      `xml:"maxPINAgeInDays"`
-	MinLength           int          `xml:"minLength"`
-	PinHistory          float64      `xml:"pinHistory"`
-	RequireAlphanumeric bool         `xml:"requireAlphanumeric"`
-	PayloadIdentifier   string       `xml:"PayloadIdentifier"`
-	PayloadType         string       `xml:"PayloadType"`
-	PayloadUUID         string       `xml:"PayloadUUID"`
-	PayloadVersion      int          `xml:"PayloadVersion"`
-	CustomRegex         *CustomRegex `xml:"CustomRegex,omitempty"`
+	AllowSimple         bool         `plist:"allowSimple"`
+	ForcePIN            bool         `plist:"forcePIN"`
+	MaxFailedAttempts   int          `plist:"maxFailedAttempts"`
+	MaxGracePeriod      int          `plist:"maxGracePeriod"`
+	MaxInactivity       int          `plist:"maxInactivity"`
+	MaxPINAgeInDays     int          `plist:"maxPINAgeInDays"`
+	MinLength           int          `plist:"minLength"`
+	PinHistory          int          `plist:"pinHistory"`
+	RequireAlphanumeric bool         `plist:"requireAlphanumeric"`
+	PayloadIdentifier   string       `plist:"PayloadIdentifier"`
+	PayloadType         string       `plist:"PayloadType"`
+	PayloadUUID         string       `plist:"PayloadUUID"`
+	PayloadVersion      int          `plist:"PayloadVersion"`
+	CustomRegex         *CustomRegex `plist:"CustomRegex,omitempty"`
 }
 
 // CustomRegex defines the regular expression for password compliance.
 type CustomRegex struct {
-	PasswordContentDescription map[string]string `xml:"PasswordContentDescription"`
-	PasswordContentRegex       string            `xml:"PasswordContentRegex"`
+	PasswordContentDescriptions []Description `plist:"PasswordContentDescription"`
+	PasswordContentRegex        string        `plist:"PasswordContentRegex"`
+}
+
+// CustomRegex defines the regular expression for password compliance.
+// Description represents a single localized description entry.
+type Description struct {
+	Locale      string `plist:"locale,attr"`
+	Description string `plist:",chardata"`
 }
