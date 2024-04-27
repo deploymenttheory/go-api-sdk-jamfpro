@@ -3,6 +3,7 @@ Device Management Profile: Security Preferences
 Version: 	macOS 10.10+
 
 Ref: 			https://developer.apple.com/documentation/devicemanagement/securitypreferences
+
 Profile Example:
 <?xml version=”1.0” encoding=”UTF-8”?>
 <!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “http://www.apple.com/DTDs/PropertyList-1.0.dtd”>
