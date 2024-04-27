@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceCertificateRevocationConfigurationProfile struct {
 	XMLName                  xml.Name                                               `xml:"plist"`
 	Version                  string                                                 `xml:"version,attr"`
-	Payload                  CertificateRevocationConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  CertificateRevocationConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                                 `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                                 `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                                 `xml:"PayloadEnabled,omitempty"`

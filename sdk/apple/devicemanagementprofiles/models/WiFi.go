@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceWiFiConfigurationProfile struct {
 	XMLName                  xml.Name                              `xml:"plist"`
 	Version                  string                                `xml:"version,attr"`
-	Payload                  WiFiConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  WiFiConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                `xml:"PayloadEnabled,omitempty"`
@@ -21,7 +21,7 @@ type ResourceWiFiConfigurationProfile struct {
 
 // WiFiConfigurationProfileSubsetPayload represents the nested dictionary structure within the plist
 type WiFiConfigurationProfileSubsetPayload struct {
-	XMLName                       xml.Name                                             `xml:"dict"`
+	XMLName                       xml.Name                                             `xml:"dict>array>dict"`
 	SSID_STR                      string                                               `xml:"SSID_STR,omitempty"`
 	HIDDEN_NETWORK                string                                               `xml:"HIDDEN_NETWORK,omitempty"`
 	AutoJoin                      string                                               `xml:"AutoJoin,omitempty"`

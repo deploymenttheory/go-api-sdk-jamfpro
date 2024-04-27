@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceExchangeActiveSyncConfigurationProfile struct {
 	XMLName                  xml.Name                                            `xml:"plist"`
 	Version                  string                                              `xml:"version,attr"`
-	Payload                  ExchangeActiveSyncConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  ExchangeActiveSyncConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                              `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                              `xml:"PayloadDisplayName,omitempty"`
 	PayloadIdentifier        string                                              `xml:"PayloadIdentifier,omitempty"`

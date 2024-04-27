@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceExtensibleSingleSignOnConfigurationProfile struct {
 	XMLName                  xml.Name                                                `xml:"plist"`
 	Version                  string                                                  `xml:"version,attr"`
-	Payload                  ExtensibleSingleSignOnConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  ExtensibleSingleSignOnConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                                  `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                                  `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                                  `xml:"PayloadEnabled,omitempty"`

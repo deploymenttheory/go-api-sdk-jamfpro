@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceSCEPConfigurationProfile struct {
 	XMLName                  xml.Name                              `xml:"plist"`
 	Version                  string                                `xml:"version,attr"`
-	Payload                  SCEPConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  SCEPConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                `xml:"PayloadEnabled,omitempty"`

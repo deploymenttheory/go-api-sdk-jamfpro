@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceSubscribedCalendarsConfigurationProfile struct {
 	XMLName                  xml.Name                                             `xml:"plist"`
 	Version                  string                                               `xml:"version,attr"`
-	Payload                  SubscribedCalendarsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  SubscribedCalendarsConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                               `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                               `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                               `xml:"PayloadEnabled,omitempty"`

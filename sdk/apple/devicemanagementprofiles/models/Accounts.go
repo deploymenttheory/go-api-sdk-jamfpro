@@ -55,7 +55,7 @@ func (r *ResourceAccountsConfigurationProfile) MarshalXML(e *xml.Encoder, start 
 type ResourceAccountsConfigurationProfile struct {
 	XMLName                  xml.Name                                  `xml:"plist"`
 	Version                  string                                    `xml:"version,attr"`
-	Payload                  AccountsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  AccountsConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                    `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                    `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                    `xml:"PayloadEnabled,omitempty"`

@@ -6,7 +6,7 @@ import "encoding/xml"
 type ServiceManagementManagedLoginItemsConfigurationProfile struct {
 	XMLName                  xml.Name                                                            `xml:"plist"`
 	Version                  string                                                              `xml:"version,attr"`
-	Payload                  ServiceManagementManagedLoginItemsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  ServiceManagementManagedLoginItemsConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                                              `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                                              `xml:"PayloadDisplayName,omitempty"`
 	PayloadIdentifier        string                                                              `xml:"PayloadIdentifier,omitempty"`

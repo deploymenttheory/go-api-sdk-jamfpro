@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceCertificatePEMProfile struct {
 	XMLName                  xml.Name                           `xml:"plist"`
 	Version                  string                             `xml:"version,attr"`
-	Payload                  CertificatePEMProfileSubsetPayload `xml:"dict"`
+	Payload                  CertificatePEMProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                             `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                             `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                             `xml:"PayloadEnabled,omitempty"`

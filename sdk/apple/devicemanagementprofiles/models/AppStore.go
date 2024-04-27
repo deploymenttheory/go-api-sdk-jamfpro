@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceAppStoreConfigurationProfile struct {
 	XMLName                  xml.Name                                  `xml:"plist"`
 	Version                  string                                    `xml:"version,attr"`
-	Payload                  AppStoreConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  AppStoreConfigurationProfileSubsetPayload `xml:"dict>array>dict"`
 	PayloadDescription       string                                    `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                    `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                    `xml:"PayloadEnabled,omitempty"`
