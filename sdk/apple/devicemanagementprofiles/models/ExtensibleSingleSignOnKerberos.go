@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceExtensibleSingleSignOnKerberosConfigurationProfile struct {
 	XMLName                  xml.Name                                                        `xml:"plist"`
 	Version                  string                                                          `xml:"version,attr"`
-	Dict                     ExtensibleSingleSignOnKerberosConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  ExtensibleSingleSignOnKerberosConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                                          `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                                          `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                                          `xml:"PayloadEnabled,omitempty"`

@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceMailConfigurationProfile struct {
 	XMLName                  xml.Name                              `xml:"plist"`
 	Version                  string                                `xml:"version,attr"`
-	Dict                     MailConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  MailConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                `xml:"PayloadDisplayName,omitempty"`
 	PayloadIdentifier        string                                `xml:"PayloadIdentifier,omitempty"`

@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceIdentityPreferenceConfigurationProfile struct {
 	XMLName                  xml.Name                                     `xml:"plist"`
 	Version                  string                                       `xml:"version,attr"`
-	Dict                     IdentityPreferenceConfigurationProfileSubset `xml:"dict"`
+	Payload                  IdentityPreferenceConfigurationProfileSubset `xml:"dict"`
 	PayloadDescription       string                                       `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                       `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                       `xml:"PayloadEnabled,omitempty"`

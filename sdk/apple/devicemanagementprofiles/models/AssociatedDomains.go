@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceAssociatedDomainsConfigurationProfile struct {
 	XMLName                  xml.Name                                           `xml:"plist"`
 	Version                  string                                             `xml:"version,attr"`
-	Dict                     AssociatedDomainsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  AssociatedDomainsConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                             `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                             `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                             `xml:"PayloadEnabled,omitempty"`

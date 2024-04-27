@@ -6,7 +6,7 @@ import "encoding/xml"
 type Resource8021XFirstEthernetConfigurationProfile struct {
 	XMLName                  xml.Name                                             `xml:"plist"`
 	Version                  string                                               `xml:"version,attr"`
-	Dict                     X8021XFirstEthernetConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  X8021XFirstEthernetConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                               `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                               `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                               `xml:"PayloadEnabled,omitempty"`

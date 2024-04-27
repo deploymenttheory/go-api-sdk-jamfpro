@@ -6,7 +6,7 @@ import "encoding/xml"
 type FDEFileVaultOptionsConfigurationProfile struct {
 	XMLName                  xml.Name                                             `xml:"plist"`
 	Version                  string                                               `xml:"version,attr"`
-	Dict                     FDEFileVaultOptionsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  FDEFileVaultOptionsConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                               `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                               `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                               `xml:"PayloadEnabled,omitempty"`

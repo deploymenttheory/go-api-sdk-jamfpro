@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceLDAPConfigurationProfile struct {
 	XMLName                  xml.Name                              `xml:"plist"`
 	Version                  string                                `xml:"version,attr"`
-	Dict                     LDAPConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  LDAPConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                `xml:"PayloadEnabled,omitempty"`

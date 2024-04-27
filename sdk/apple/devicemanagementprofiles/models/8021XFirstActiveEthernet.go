@@ -1,3 +1,6 @@
+/*
+Ref: https://developer.apple.com/documentation/devicemanagement/8021xglobalethernet */
+
 package models
 
 import "encoding/xml"
@@ -6,7 +9,7 @@ import "encoding/xml"
 type Resource8021XFirstActiveEthernetConfigurationProfile struct {
 	XMLName                  xml.Name                                                   `xml:"plist"`
 	Version                  string                                                     `xml:"version,attr"`
-	Dict                     X8021XFirstActiveEthernetConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  X8021XFirstActiveEthernetConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                                     `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                                     `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                                     `xml:"PayloadEnabled,omitempty"`

@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceNSExtensionManagementConfigurationProfile struct {
 	XMLName                  xml.Name                                               `xml:"plist"`
 	Version                  string                                                 `xml:"version,attr"`
-	Dict                     NSExtensionManagementConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  NSExtensionManagementConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                                 `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                                 `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                                 `xml:"PayloadEnabled,omitempty"`

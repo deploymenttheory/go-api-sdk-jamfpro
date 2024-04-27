@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceMobileAccountsConfigurationProfile struct {
 	XMLName                  xml.Name                                        `xml:"plist"`
 	Version                  string                                          `xml:"version,attr"`
-	Dict                     MobileAccountsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  MobileAccountsConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                          `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                          `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                          `xml:"PayloadEnabled,omitempty"`

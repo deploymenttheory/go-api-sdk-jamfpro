@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceEducationConfigurationProfile struct {
 	XMLName                  xml.Name                                   `xml:"plist"`
 	Version                  string                                     `xml:"version,attr"`
-	Dict                     EducationConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  EducationConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                     `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                     `xml:"PayloadDisplayName,omitempty"`
 	PayloadIdentifier        string                                     `xml:"PayloadIdentifier,omitempty"`

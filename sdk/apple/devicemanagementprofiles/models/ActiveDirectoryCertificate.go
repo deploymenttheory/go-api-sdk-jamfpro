@@ -6,7 +6,7 @@ import "encoding/xml"
 type ResourceActiveDirectoryCertificateProfile struct {
 	XMLName                  xml.Name                                       `xml:"plist"`
 	Version                  string                                         `xml:"version,attr"`
-	Dict                     ActiveDirectoryCertificateProfileSubsetPayload `xml:"dict"`
+	Payload                  ActiveDirectoryCertificateProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                         `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                         `xml:"PayloadDisplayName,omitempty"`
 	PayloadEnabled           string                                         `xml:"PayloadEnabled,omitempty"`

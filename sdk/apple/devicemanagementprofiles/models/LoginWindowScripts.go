@@ -6,7 +6,7 @@ import "encoding/xml"
 type LoginWindowScriptsConfigurationProfile struct {
 	XMLName                  xml.Name                                            `xml:"plist"`
 	Version                  string                                              `xml:"version,attr"`
-	Dict                     LoginWindowScriptsConfigurationProfileSubsetPayload `xml:"dict"`
+	Payload                  LoginWindowScriptsConfigurationProfileSubsetPayload `xml:"dict"`
 	PayloadDescription       string                                              `xml:"PayloadDescription,omitempty"`
 	PayloadDisplayName       string                                              `xml:"PayloadDisplayName,omitempty"`
 	PayloadIdentifier        string                                              `xml:"PayloadIdentifier,omitempty"`
