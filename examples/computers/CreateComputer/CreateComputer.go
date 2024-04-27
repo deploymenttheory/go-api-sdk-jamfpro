@@ -21,9 +21,9 @@ func main() {
 	// Create a new computer configuration
 	newComputer := jamfpro.ResponseComputer{
 		General: jamfpro.ComputerSubsetGeneral{
-			Name:         "APIGWFYFGH",
-			SerialNumber: "APIGWFYFGH",                           // Must be Unique
-			UDID:         "APIFF74D-C6B7-5589-93A9-19E8BDFEDFGH", // Must be Unique
+			Name:         "APIASDFGHJ",
+			SerialNumber: "APIASDFGHJ",                           // Must be Unique
+			UDID:         "APIASDFG-C6B7-5589-93A9-19E8BDFEDFGH", // Must be Unique
 			RemoteManagement: jamfpro.ComputerSubsetGeneralRemoteManagement{
 				Managed: true,
 			},
