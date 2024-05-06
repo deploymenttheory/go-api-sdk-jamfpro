@@ -119,37 +119,37 @@ type PolicySubsetGeneralOverrideSettings struct {
 
 // PolicySubsetScope represents the scope of the policy
 type PolicySubsetScope struct {
-	AllComputers   bool                             `xml:"all_computers"`
-	AllJSSUsers    bool                             `xml:"all_jss_users"`
-	Computers      *[]PolicyDataSubsetComputer      `xml:"computers>computer"`
-	ComputerGroups *[]PolicyDataSubsetComputerGroup `xml:"computer_groups>computer_group"`
-	JSSUsers       *[]PolicyDataSubsetJSSUser       `xml:"jss_users>jss_user"`
-	JSSUserGroups  *[]PolicyDataSubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group"`
-	Buildings      *[]PolicyDataSubsetBuilding      `xml:"buildings>building"`
-	Departments    *[]PolicyDataSubsetDepartment    `xml:"departments>department"`
+	AllComputers   bool                         `xml:"all_computers"`
+	AllJSSUsers    bool                         `xml:"all_jss_users"`
+	Computers      *[]PolicySubsetComputer      `xml:"computers>computer"`
+	ComputerGroups *[]PolicySubsetComputerGroup `xml:"computer_groups>computer_group"`
+	JSSUsers       *[]PolicySubsetJSSUser       `xml:"jss_users>jss_user"`
+	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group"`
+	Buildings      *[]PolicySubsetBuilding      `xml:"buildings>building"`
+	Departments    *[]PolicySubsetDepartment    `xml:"departments>department"`
 	// LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
 	Limitations *PolicySubsetScopeLimitations `xml:"limitations"`
 	Exclusions  *PolicySubsetScopeExclusions  `xml:"exclusions"`
 }
 
 type PolicySubsetScopeLimitations struct {
-	Users           *[]PolicyDataSubsetUser           `xml:"users>user"`
-	UserGroups      *[]PolicyDataSubsetUserGroup      `xml:"user_groups>user_group"`
-	NetworkSegments *[]PolicyDataSubsetNetworkSegment `xml:"network_segments>network_segment"`
-	IBeacons        *[]PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon"`
+	Users           *[]PolicySubsetUser           `xml:"users>user"`
+	UserGroups      *[]PolicySubsetUserGroup      `xml:"user_groups>user_group"`
+	NetworkSegments *[]PolicySubsetNetworkSegment `xml:"network_segments>network_segment"`
+	IBeacons        *[]PolicySubsetIBeacon        `xml:"ibeacons>ibeacon"`
 }
 
 type PolicySubsetScopeExclusions struct {
-	Computers       *[]PolicyDataSubsetComputer       `xml:"computers>computer"`
-	ComputerGroups  *[]PolicyDataSubsetComputerGroup  `xml:"computer_groups>computer_group"`
-	Users           *[]PolicyDataSubsetUser           `xml:"users>user"`
-	UserGroups      *[]PolicyDataSubsetUserGroup      `xml:"user_groups>user_group"`
-	Buildings       *[]PolicyDataSubsetBuilding       `xml:"buildings>building"`
-	Departments     *[]PolicyDataSubsetDepartment     `xml:"departments>department"`
-	NetworkSegments *[]PolicyDataSubsetNetworkSegment `xml:"network_segments>network_segment"`
-	JSSUsers        *[]PolicyDataSubsetJSSUser        `xml:"jss_users>jss_user"`
-	JSSUserGroups   *[]PolicyDataSubsetJSSUserGroup   `xml:"jss_user_groups>jss_user_group"`
-	IBeacons        *[]PolicyDataSubsetIBeacon        `xml:"ibeacons>ibeacon"`
+	Computers       *[]PolicySubsetComputer       `xml:"computers>computer"`
+	ComputerGroups  *[]PolicySubsetComputerGroup  `xml:"computer_groups>computer_group"`
+	Users           *[]PolicySubsetUser           `xml:"users>user"`
+	UserGroups      *[]PolicySubsetUserGroup      `xml:"user_groups>user_group"`
+	Buildings       *[]PolicySubsetBuilding       `xml:"buildings>building"`
+	Departments     *[]PolicySubsetDepartment     `xml:"departments>department"`
+	NetworkSegments *[]PolicySubsetNetworkSegment `xml:"network_segments>network_segment"`
+	JSSUsers        *[]PolicySubsetJSSUser        `xml:"jss_users>jss_user"`
+	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"jss_user_groups>jss_user_group"`
+	IBeacons        *[]PolicySubsetIBeacon        `xml:"ibeacons>ibeacon"`
 }
 
 // PolicySubsetSelfService represents the self service settings of a policy
@@ -355,32 +355,32 @@ type PolicySubsetSelfServiceCategory struct {
 	FeatureIn bool   `xml:"feature_in"`
 }
 
-type PolicyDataSubsetComputer struct {
+type PolicySubsetComputer struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 	UDID string `xml:"udid,omitempty"`
 }
 
-type PolicyDataSubsetComputerGroup struct {
+type PolicySubsetComputerGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type PolicyDataSubsetJSSUser struct {
+type PolicySubsetJSSUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type PolicyDataSubsetJSSUserGroup struct {
+type PolicySubsetJSSUserGroup struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
-type PolicyDataSubsetBuilding struct {
+type PolicySubsetBuilding struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type PolicyDataSubsetDepartment struct {
+type PolicySubsetDepartment struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
@@ -389,23 +389,23 @@ type PolicyLimitToUsers struct {
 	UserGroups []string `xml:"user_groups>user_group"`
 }
 
-type PolicyDataSubsetUser struct {
+type PolicySubsetUser struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
-type PolicyDataSubsetUserGroup struct {
+type PolicySubsetUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
 
-type PolicyDataSubsetNetworkSegment struct {
+type PolicySubsetNetworkSegment struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 	UID  string `xml:"uid"`
 }
 
-type PolicyDataSubsetIBeacon struct {
+type PolicySubsetIBeacon struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
