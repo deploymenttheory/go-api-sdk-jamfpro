@@ -37,17 +37,17 @@ type ResourceWebhook struct {
 	ID                          int                                         `xml:"id"`
 	Name                        string                                      `xml:"name"`
 	Enabled                     bool                                        `xml:"enabled"`
-	URL                         string                                      `xml:"url"`
-	ContentType                 string                                      `xml:"content_type"`
-	Event                       string                                      `xml:"event"`
-	ConnectionTimeout           int                                         `xml:"connection_timeout"`
-	ReadTimeout                 int                                         `xml:"read_timeout"`
-	AuthenticationType          string                                      `xml:"authentication_type"`
-	Username                    string                                      `xml:"username"`
-	Password                    string                                      `xml:"password"`
-	EnableDisplayFieldsForGroup bool                                        `xml:"enable_display_fields_for_group_object"`
-	DisplayFields               []SharedAdvancedSearchContainerDisplayField `xml:"display_fields>display_field"`
-	SmartGroupID                int                                         `xml:"smart_group_id"`
+	URL                         string                                      `xml:"url,omitempty"`
+	ContentType                 string                                      `xml:"content_type,omitempty"`
+	Event                       string                                      `xml:"event,omitempty"`
+	ConnectionTimeout           int                                         `xml:"connection_timeout,omitempty"`
+	ReadTimeout                 int                                         `xml:"read_timeout,omitempty"`
+	AuthenticationType          string                                      `xml:"authentication_type,omitempty"`
+	Username                    string                                      `xml:"username,omitempty"`
+	Password                    string                                      `xml:"password,omitempty"`
+	EnableDisplayFieldsForGroup bool                                        `xml:"enable_display_fields_for_group_object,omitempty"`
+	DisplayFields               []SharedAdvancedSearchContainerDisplayField `xml:"display_fields>display_field,omitempty"`
+	SmartGroupID                int                                         `xml:"smart_group_id,omitempty"`
 }
 
 // Subsets & Containers
@@ -177,6 +177,7 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 	return &response, nil
 }
 
+// DeleteWebhookByID deletes a specific webhook by its ID.
 func (c *Client) DeleteWebhookByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
 
@@ -189,13 +190,10 @@ func (c *Client) DeleteWebhookByID(id int) error {
 		defer resp.Body.Close()
 	}
 
-	if resp.StatusCode != 204 {
-		return fmt.Errorf(errMsgFailedDeleteByID, "webhook", id, err)
-	}
-
 	return nil
 }
 
+// DeleteWebhookByName deletes a specific webhook by its name.
 func (c *Client) DeleteWebhookByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriWebhooks, name)
 
@@ -206,10 +204,6 @@ func (c *Client) DeleteWebhookByName(name string) error {
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
-	}
-
-	if resp.StatusCode != 204 {
-		return fmt.Errorf(errMsgFailedDeleteByName, "webhook", name, err)
 	}
 
 	return nil

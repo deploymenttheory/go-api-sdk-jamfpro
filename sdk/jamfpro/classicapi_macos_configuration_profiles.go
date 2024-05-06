@@ -80,15 +80,19 @@ type MacOSConfigurationProfileSubsetScope struct {
 }
 
 type MacOSConfigurationProfileSubsetSelfService struct {
-	InstallButtonText           string                                               `xml:"install_button_text,omitempty"`
-	SelfServiceDescription      string                                               `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
-	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
-	SelfServiceCategories       []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
-	Notification                []string                                             `xml:"notification,omitempty"`
-	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
-	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
+	InstallButtonText           string `xml:"install_button_text,omitempty"`
+	SelfServiceDescription      string `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool   `xml:"force_users_to_view_description"`
+	// The 'security' filed is not documented, but it actually exists in the API response.
+	Security        MacOSConfigurationProfileSubsetSelfServiceSecurity `xml:"security,omitempty"`
+	SelfServiceIcon SharedResourceSelfServiceIcon                      `xml:"self_service_icon,omitempty"`
+	// The 'self_service_display_name' filed is not documented, but it actually exists in the API response.
+	SelfServiceDisplayName string                                               `xml:"self_service_display_name,omitempty"`
+	FeatureOnMainPage      bool                                                 `xml:"feature_on_main_page"`
+	SelfServiceCategories  []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
+	Notification           []string                                             `xml:"notification,omitempty"`
+	NotificationSubject    string                                               `xml:"notification_subject,omitempty"`
+	NotificationMessage    string                                               `xml:"notification_message,omitempty"`
 }
 
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
@@ -96,6 +100,10 @@ type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	Name      string `xml:"name,omitempty"`
 	DisplayIn bool   `xml:"display_in,omitempty"`
 	FeatureIn bool   `xml:"feature_in,omitempty"`
+}
+
+type MacOSConfigurationProfileSubsetSelfServiceSecurity struct {
+	RemovalDisallowed string `xml:"removal_disallowed,omitempty"`
 }
 
 type MacOSConfigurationProfileSubsetComputer struct {
