@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -49,11 +50,26 @@ func main() {
 		},
 	}
 
-	err = client.UpdateRestrictedSoftwareByName(restrictedSoftwareName, updatedRestrictedSoftware)
+	response, err := client.UpdateRestrictedSoftwareByName(restrictedSoftwareName, updatedRestrictedSoftware)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error updating restricted software:", err)
 		return
 	}
 
-	fmt.Println("Restricted software updated successfully.")
+	fmt.Printf("restricted software updated successfully, ID: %d\n", response.ID)
+
+	// Fetch the full details of the updated restricted software
+	updatedPrinterDetails, err := client.GetRestrictedSoftwareByID(response.ID)
+	if err != nil {
+		fmt.Println("Error fetching updated restricted software details:", err)
+		return
+	}
+
+	// Marshal the updated restricted software details to XML for display
+	softwareXML, err := xml.MarshalIndent(updatedPrinterDetails, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling updated restricted software to XML: %v", err)
+	}
+
+	fmt.Printf("Updated restricted software Details:\n%s\n", softwareXML)
 }

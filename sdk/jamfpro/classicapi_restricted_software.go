@@ -17,7 +17,11 @@ import (
 
 const uriRestrictedSoftware = "/JSSResource/restrictedsoftware"
 
-// List
+// Responses
+
+type ResponseRestrictedSoftwareCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
 
 // Structs for Restricted Software List
 type ResponseRestrictedSoftwaresList struct {
@@ -134,7 +138,7 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 }
 
 // CreateRestrictedSoftware creates a new restricted software entry in Jamf Pro.
-func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResourceRestrictedSoftware, error) {
+func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, restrictedSoftware.General.ID)
 
 	requestBody := struct {
@@ -144,8 +148,8 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var ResourceRestrictedSoftware ResourceRestrictedSoftware
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceRestrictedSoftware)
+	var responseRestrictedSoftware ResponseRestrictedSoftwareCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseRestrictedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "restricted software", err)
 	}
@@ -154,13 +158,14 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 		defer resp.Body.Close()
 	}
 
-	return &ResourceRestrictedSoftware, nil
+	return &responseRestrictedSoftware, nil
 }
 
 // UpdateRestrictedSoftwareByID updates an existing restricted software entry by its ID.
-func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) error {
+func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
+	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
 		*ResourceRestrictedSoftware
@@ -168,22 +173,21 @@ func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *Resour
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var response ResourceRestrictedSoftware
-
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	var responseRestrictedSoftware ResponseRestrictedSoftwareCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseRestrictedSoftware)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return &responseRestrictedSoftware, nil
 }
 
 // UpdateRestrictedSoftwareByName updates an existing restricted software entry by its name.
-func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware *ResourceRestrictedSoftware) error {
+func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRestrictedSoftware, name)
 
 	requestBody := struct {
@@ -193,18 +197,17 @@ func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware 
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var response ResourceRestrictedSoftware
-
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	var responseRestrictedSoftware ResponseRestrictedSoftwareCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseRestrictedSoftware)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedUpdateByName, "restricted software", name, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "restricted software", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return &responseRestrictedSoftware, nil
 }
 
 // DeleteRestrictedSoftwareByID deletes a restricted software entry by its ID.
