@@ -179,7 +179,7 @@ type PolicySubsetPackageConfiguration struct {
 
 type PolicySubsetPackageConfigurationPackage struct {
 	ID                int    `xml:"id"`
-	Name              string `xml:"name"`
+	Name              string `xml:"name,omitempty"`
 	Action            string `xml:"action"`
 	FillUserTemplate  bool   `xml:"fut"`
 	FillExistingUsers bool   `xml:"feu"`
