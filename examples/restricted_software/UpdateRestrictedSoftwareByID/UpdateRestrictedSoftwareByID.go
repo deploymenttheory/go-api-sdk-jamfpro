@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	restrictedSoftwareID := 1 // Replace with actual ID
+	restrictedSoftwareID := 2 // Replace with actual ID
 
 	updatedRestrictedSoftware := &jamfpro.ResourceRestrictedSoftware{
 		General: jamfpro.RestrictedSoftwareSubsetGeneral{
@@ -34,17 +34,21 @@ func main() {
 			},
 		},
 		Scope: jamfpro.RestrictedSoftwareSubsetScope{
-			AllComputers:   false,
-			Computers:      []jamfpro.RestrictedSoftwareSubsetScopeComputer{},
-			ComputerGroups: []jamfpro.RestrictedSoftwareSubsetScopeComputerGroup{},
-			Buildings:      []jamfpro.RestrictedSoftwareSubsetScopeBuilding{},
-			Departments:    []jamfpro.RestrictedSoftwareSubsetScopeDepartment{},
+			AllComputers: false,
+			Computers: []jamfpro.RestrictedSoftwareSubsetScopeEntity{
+				{
+					ID: 21,
+				},
+			},
+			ComputerGroups: []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
+			Buildings:      []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
+			Departments:    []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
 			Exclusions: jamfpro.RestrictedSoftwareSubsetScopeExclusions{
-				Computers:      []jamfpro.RestrictedSoftwareSubsetScopeComputer{},
-				ComputerGroups: []jamfpro.RestrictedSoftwareSubsetScopeComputerGroup{},
-				Buildings:      []jamfpro.RestrictedSoftwareSubsetScopeBuilding{},
-				Departments:    []jamfpro.RestrictedSoftwareSubsetScopeDepartment{},
-				Users:          []jamfpro.RestrictedSoftwareSubsetScopeUser{},
+				Computers:      []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
+				ComputerGroups: []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
+				Buildings:      []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
+				Departments:    []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
+				Users:          []jamfpro.RestrictedSoftwareSubsetScopeEntity{},
 			},
 		},
 	}

@@ -57,45 +57,25 @@ type RestrictedSoftwareSubsetGeneral struct {
 // Scope
 
 type RestrictedSoftwareSubsetScope struct {
-	AllComputers   bool                                         `xml:"all_computers"`
-	Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
-	ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
-	Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
-	Exclusions     RestrictedSoftwareSubsetScopeExclusions      `xml:"exclusions"`
+	AllComputers   bool                                    `xml:"all_computers"`
+	Computers      []RestrictedSoftwareSubsetScopeEntity   `xml:"computers>computer"`
+	ComputerGroups []RestrictedSoftwareSubsetScopeEntity   `xml:"computer_groups>computer_group"`
+	Buildings      []RestrictedSoftwareSubsetScopeEntity   `xml:"buildings>building"`
+	Departments    []RestrictedSoftwareSubsetScopeEntity   `xml:"departments>department"`
+	Exclusions     RestrictedSoftwareSubsetScopeExclusions `xml:"exclusions"`
 }
 
 type RestrictedSoftwareSubsetScopeExclusions struct {
-	Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
-	ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
-	Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
-	Users          []RestrictedSoftwareSubsetScopeUser          `xml:"users>user"`
+	Computers      []RestrictedSoftwareSubsetScopeEntity `xml:"computers>computer"`
+	ComputerGroups []RestrictedSoftwareSubsetScopeEntity `xml:"computer_groups>computer_group"`
+	Buildings      []RestrictedSoftwareSubsetScopeEntity `xml:"buildings>building"`
+	Departments    []RestrictedSoftwareSubsetScopeEntity `xml:"departments>department"`
+	Users          []RestrictedSoftwareSubsetScopeEntity `xml:"users>user"`
 }
 
 // Shared
 
-type RestrictedSoftwareSubsetScopeComputer struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeComputerGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeBuilding struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeDepartment struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeUser struct {
+type RestrictedSoftwareSubsetScopeEntity struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
