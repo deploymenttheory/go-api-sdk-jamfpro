@@ -198,14 +198,14 @@ type PolicySubsetScript struct {
 	ID          string `xml:"id"`
 	Name        string `xml:"name,omitempty"`
 	Priority    string `xml:"priority"`
-	Parameter4  string `xml:"parameter4"`
-	Parameter5  string `xml:"parameter5"`
-	Parameter6  string `xml:"parameter6"`
-	Parameter7  string `xml:"parameter7"`
-	Parameter8  string `xml:"parameter8"`
-	Parameter9  string `xml:"parameter9"`
-	Parameter10 string `xml:"parameter10"`
-	Parameter11 string `xml:"parameter11"`
+	Parameter4  string `xml:"parameter4,omitempty"`
+	Parameter5  string `xml:"parameter5,omitempty"`
+	Parameter6  string `xml:"parameter6,omitempty"`
+	Parameter7  string `xml:"parameter7,omitempty"`
+	Parameter8  string `xml:"parameter8,omitempty"`
+	Parameter9  string `xml:"parameter9,omitempty"`
+	Parameter10 string `xml:"parameter10,omitempty"`
+	Parameter11 string `xml:"parameter11,omitempty"`
 }
 
 // Printers
