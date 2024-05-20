@@ -191,7 +191,7 @@ type PolicySubsetPackageConfigurationPackage struct {
 // PolicySubsetScripts represents the scripts settings of a policy
 type PolicySubsetScripts struct {
 	// Size   int                  `xml:"size,omitempty"`
-	Script *[]PolicySubsetScript `xml:"script"`
+	Script *[]PolicySubsetScript `xml:"script,omitempty"`
 }
 
 type PolicySubsetScript struct {
