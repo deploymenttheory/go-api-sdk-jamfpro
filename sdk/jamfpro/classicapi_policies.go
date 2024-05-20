@@ -196,7 +196,7 @@ type PolicySubsetScripts struct {
 
 type PolicySubsetScript struct {
 	ID          string `xml:"id"`
-	Name        string `xml:"name"`
+	Name        string `xml:"name,omitempty"`
 	Priority    string `xml:"priority"`
 	Parameter4  string `xml:"parameter4"`
 	Parameter5  string `xml:"parameter5"`
