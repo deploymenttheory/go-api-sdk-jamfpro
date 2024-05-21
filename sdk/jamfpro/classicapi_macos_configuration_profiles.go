@@ -37,8 +37,7 @@ type MacOSConfigurationProfileListItem struct {
 
 // ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
 type ResponseMacOSConfigurationProfileCreationUpdate struct {
-	XMLName xml.Name `xml:"os_x_configuration_profile"`
-	ID      int      `xml:"id"`
+	ID int `xml:"id"`
 }
 
 // Resource
@@ -66,35 +65,39 @@ type MacOSConfigurationProfileSubsetGeneral struct {
 	Payloads           string                 `xml:"payloads,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetScope represents the scope subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetScope struct {
-	AllComputers   bool                                           `xml:"all_computers"`
-	AllJSSUsers    bool                                           `xml:"all_jss_users"`
-	Computers      []MacOSConfigurationProfileSubsetComputer      `xml:"computers>computer,omitempty"`
-	ComputerGroups []MacOSConfigurationProfileSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>user,omitempty"`
-	JSSUserGroups  []MacOSConfigurationProfileSubsetJSSUserGroup  `xml:"jss_user_groups>user_group,omitempty"`
-	Buildings      []MacOSConfigurationProfileSubsetBuilding      `xml:"buildings>building,omitempty"`
-	Departments    []MacOSConfigurationProfileSubsetDepartment    `xml:"departments>department,omitempty"`
-	Limitations    MacOSConfigurationProfileSubsetLimitations     `xml:"limitations,omitempty"`
-	Exclusions     MacOSConfigurationProfileSubsetExclusions      `xml:"exclusions,omitempty"`
+	AllComputers   bool                                         `xml:"all_computers"`
+	AllJSSUsers    bool                                         `xml:"all_jss_users"`
+	Computers      []MacOSConfigurationProfileSubsetScopeEntity `xml:"computers>computer,omitempty"`
+	ComputerGroups []MacOSConfigurationProfileSubsetScopeEntity `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers       []MacOSConfigurationProfileSubsetScopeEntity `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups  []MacOSConfigurationProfileSubsetScopeEntity `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings      []MacOSConfigurationProfileSubsetScopeEntity `xml:"buildings>building,omitempty"`
+	Departments    []MacOSConfigurationProfileSubsetScopeEntity `xml:"departments>department,omitempty"`
+	Limitations    MacOSConfigurationProfileSubsetLimitations   `xml:"limitations,omitempty"`
+	Exclusions     MacOSConfigurationProfileSubsetExclusions    `xml:"exclusions,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetSelfService represents the self-service subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetSelfService struct {
-	InstallButtonText           string `xml:"install_button_text,omitempty"`
-	SelfServiceDescription      string `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool   `xml:"force_users_to_view_description"`
-	// The 'security' filed is not documented, but it actually exists in the API response.
-	Security        MacOSConfigurationProfileSubsetSelfServiceSecurity `xml:"security,omitempty"`
-	SelfServiceIcon SharedResourceSelfServiceIcon                      `xml:"self_service_icon,omitempty"`
-	// The 'self_service_display_name' filed is not documented, but it actually exists in the API response.
-	SelfServiceDisplayName string                                               `xml:"self_service_display_name,omitempty"`
-	FeatureOnMainPage      bool                                                 `xml:"feature_on_main_page"`
-	SelfServiceCategories  []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
-	Notification           []string                                             `xml:"notification,omitempty"`
-	NotificationSubject    string                                               `xml:"notification_subject,omitempty"`
-	NotificationMessage    string                                               `xml:"notification_message,omitempty"`
+	InstallButtonText           string                                               `xml:"install_button_text,omitempty"`
+	SelfServiceDescription      string                                               `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
+	SelfServiceCategories       MacOSConfigurationProfileSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
+	Notification                string                                               `xml:"notification,omitempty"`
+	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
+	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetSelfServiceCategories represents the self-service categories subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetSelfServiceCategories struct {
+	Category MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"category,omitempty"`
+}
+
+// MacOSConfigurationProfileSubsetSelfServiceCategory represents the self-service category subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
@@ -102,76 +105,38 @@ type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
-type MacOSConfigurationProfileSubsetSelfServiceSecurity struct {
-	RemovalDisallowed string `xml:"removal_disallowed,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetComputer struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-	UDID string `xml:"udid,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetComputerGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetJSSUser struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetJSSUserGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetBuilding struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetDepartment struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
+// MacOSConfigurationProfileSubsetLimitations represents the limitations subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetLimitations struct {
-	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
 	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
-}
-type MacOSConfigurationProfileSubsetIBeacon struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-type MacOSConfigurationProfileSubsetNetworkSegment struct {
-	ID   int    `xml:"id,omitempty"`
-	UID  string `xml:"uid,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-type MacOSConfigurationProfileSubsetUserGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons>ibeacon,omitempty"`
 }
 
-type MacOSConfigurationProfileSubsetUser struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
+// MacOSConfigurationProfileSubsetExclusions represents the exclusions subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers>computer,omitempty"`
-	ComputerGroups  []MacOSConfigurationProfileSubsetComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
-	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups,omitempty"`
-	Buildings       []MacOSConfigurationProfileSubsetBuilding       `xml:"buildings>building,omitempty"`
-	Departments     []MacOSConfigurationProfileSubsetDepartment     `xml:"departments>department,omitempty"`
-	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	JSSUsers        []MacOSConfigurationProfileSubsetJSSUser        `xml:"jss_users>user,omitempty"`
-	JSSUserGroups   []MacOSConfigurationProfileSubsetJSSUserGroup   `xml:"jss_user_groups>user_group,omitempty"`
-	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
+	Computers       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computers,omitempty"`
+	ComputerGroups  []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computer_groups,omitempty"`
+	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups,omitempty"`
+	Buildings       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"buildings,omitempty"`
+	Departments     []MacOSConfigurationProfileSubsetScopeEntity    `xml:"departments,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments,omitempty"`
+	JSSUsers        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_users,omitempty"`
+	JSSUserGroups   []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_user_groups,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons,omitempty"`
+}
+
+// MacOSConfigurationProfileSubsetNetworkSegment represents the network segment subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetNetworkSegment struct {
+	MacOSConfigurationProfileSubsetScopeEntity
+	UID string `xml:"uid,omitempty"`
+}
+
+// MacOSConfigurationProfileSubsetScopeEntity represents the scope entity subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetScopeEntity struct {
+	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
 }
 
 // CRUD
