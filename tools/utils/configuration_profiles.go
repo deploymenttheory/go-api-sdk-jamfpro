@@ -9,7 +9,7 @@ import (
 	"howett.net/plist"
 )
 
-// Struct to mirror MacOS .plist conifguration profile data with bucket for unexpected values
+// Struct to mirror MacOS .plist configuration profile data with bucket for unexpected values
 type ConfigurationProfile struct {
 	PayloadContent     []PayloadContentListItem
 	PayloadDisplayName string
@@ -30,7 +30,7 @@ type PayloadContentListItem struct {
 	PayloadSpecificValues map[string]interface{} `mapstructure:",remain"`
 }
 
-// ConfigurationFilePlistToStruct takes filepath of MacOS Configuration Profile .plist file and returns &ConfigurationProfile
+// ConfigurationFilePlistToStructFromFile takes filepath of MacOS Configuration Profile .plist file and returns &ConfigurationProfile
 func ConfigurationFilePlistToStructFromFile(filepath string) (*ConfigurationProfile, error) {
 	plistFile, err := os.Open(filepath)
 	if err != nil {
@@ -66,4 +66,50 @@ func plistDataToStruct(plistBytes []byte) (*ConfigurationProfile, error) {
 	}
 
 	return &out, nil
+}
+
+// FilterPayloadSpecificFields extracts and returns only the payload-specific fields from the profile
+func FilterPayloadSpecificFields(profile *ConfigurationProfile) []map[string]interface{} {
+	var filteredPayloads []map[string]interface{}
+	for _, payload := range profile.PayloadContent {
+		filteredPayload := map[string]interface{}{}
+		for key, value := range payload.PayloadSpecificValues {
+			// Add only the relevant payload-specific fields, ignoring MDM-specific fields
+			if key != "PayloadUUID" && key != "PayloadIdentifier" && key != "PayloadType" && key != "PayloadVersion" {
+				filteredPayload[key] = value
+			}
+		}
+		filteredPayloads = append(filteredPayloads, filteredPayload)
+	}
+	return filteredPayloads
+}
+
+// ComparePayloads compares two sets of payload-specific fields and returns true if they are equal
+func ComparePayloads(payloads1, payloads2 []map[string]interface{}) bool {
+	if len(payloads1) != len(payloads2) {
+		return false
+	}
+
+	for i := range payloads1 {
+		if !compareMaps(payloads1[i], payloads2[i]) {
+			return false
+		}
+	}
+
+	return true
+}
+
+// compareMaps compares two maps and returns true if they are equal
+func compareMaps(map1, map2 map[string]interface{}) bool {
+	if len(map1) != len(map2) {
+		return false
+	}
+
+	for key, val1 := range map1 {
+		if val2, ok := map2[key]; !ok || val1 != val2 {
+			return false
+		}
+	}
+
+	return true
 }
