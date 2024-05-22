@@ -39,7 +39,7 @@ type ResourceComputerGroup struct {
 	IsSmart   bool                          `xml:"is_smart"`
 	Site      SharedResourceSite            `xml:"site"`
 	Criteria  SharedContainerCriteria       `xml:"criteria"`
-	Computers []ComputerGroupSubsetComputer `xml:"computers>computer"`
+	Computers []ComputerGroupSubsetComputer `xml:"computers>computer,omitempty"`
 }
 
 // Subsets & Containers
