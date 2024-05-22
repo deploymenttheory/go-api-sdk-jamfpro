@@ -1,5 +1,5 @@
 // classicapi_macos_configuration_profiles.go
-// Jamf Pro Classic Api - osx configuration profiles
+// Jamf Pro Classic Api - macOS (osx) configuration profiles
 // api reference: https://developer.jamf.com/jamf-pro/reference/osxconfigurationprofiles
 // Entity_Equivalents_for_Disallowed_XML_Characters: https://learn.jamf.com/bundle/technical-articles/page/Entity_Equivalents_for_Disallowed_XML_Characters.html
 // Classic API requires the structs to support an XML data structure.
@@ -24,7 +24,6 @@ const uriMacOSConfigurationProfiles = "/JSSResource/osxconfigurationprofiles"
 
 // ResponseMacOSConfigurationProfileList represents the response structure for a list of macOS configuration profiles.
 type ResponseMacOSConfigurationProfileList struct {
-	Size    int                                 `xml:"size,omitempty"`
 	Results []MacOSConfigurationProfileListItem `xml:"os_x_configuration_profile,omitempty"`
 }
 
@@ -69,7 +68,7 @@ type MacOSConfigurationProfileSubsetGeneral struct {
 type MacOSConfigurationProfileSubsetScope struct {
 	AllComputers   bool                                         `xml:"all_computers"`
 	AllJSSUsers    bool                                         `xml:"all_jss_users"`
-	Computers      []MacOSConfigurationProfileSubsetScopeEntity `xml:"computers>computer,omitempty"`
+	Computers      []MacOSConfigurationProfileSubsetComputer    `xml:"computers>computer,omitempty"`
 	ComputerGroups []MacOSConfigurationProfileSubsetScopeEntity `xml:"computer_groups>computer_group,omitempty"`
 	JSSUsers       []MacOSConfigurationProfileSubsetScopeEntity `xml:"jss_users>jss_user,omitempty"`
 	JSSUserGroups  []MacOSConfigurationProfileSubsetScopeEntity `xml:"jss_user_groups>jss_user_group,omitempty"`
@@ -86,15 +85,10 @@ type MacOSConfigurationProfileSubsetSelfService struct {
 	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
 	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
 	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
-	SelfServiceCategories       MacOSConfigurationProfileSubsetSelfServiceCategories `xml:"self_service_categories,omitempty"`
+	SelfServiceCategories       []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
 	Notification                string                                               `xml:"notification,omitempty"`
 	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
 	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
-}
-
-// MacOSConfigurationProfileSubsetSelfServiceCategories represents the self-service categories subset of a macOS configuration profile.
-type MacOSConfigurationProfileSubsetSelfServiceCategories struct {
-	Category MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"category,omitempty"`
 }
 
 // MacOSConfigurationProfileSubsetSelfServiceCategory represents the self-service category subset of a macOS configuration profile.
@@ -115,7 +109,7 @@ type MacOSConfigurationProfileSubsetLimitations struct {
 
 // MacOSConfigurationProfileSubsetExclusions represents the exclusions subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computers,omitempty"`
+	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers,omitempty"`
 	ComputerGroups  []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computer_groups,omitempty"`
 	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users,omitempty"`
 	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups,omitempty"`
@@ -125,6 +119,12 @@ type MacOSConfigurationProfileSubsetExclusions struct {
 	JSSUsers        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_users,omitempty"`
 	JSSUserGroups   []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_user_groups,omitempty"`
 	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons,omitempty"`
+}
+
+// MacOSConfigurationProfileSubsetComputer represents the computer subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetComputer struct {
+	MacOSConfigurationProfileSubsetScopeEntity
+	UDID string `xml:"udid,omitempty"`
 }
 
 // MacOSConfigurationProfileSubsetNetworkSegment represents the network segment subset of a macOS configuration profile.
@@ -148,7 +148,7 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 	var profilesList ResponseMacOSConfigurationProfileList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "macOS configuration profiles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -165,7 +165,7 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigu
 	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "mac os config profile", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "macOS configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -182,7 +182,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -199,7 +199,7 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 
 	profilesList, err := c.GetMacOSConfigurationProfiles()
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "macOS configuration profiles", err)
 	}
 
 	var profileID int
@@ -211,12 +211,12 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 	}
 
 	if profileID == 0 {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
 	detailedProfile, err := c.GetMacOSConfigurationProfileByID(profileID)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
 	return detailedProfile, nil
@@ -239,7 +239,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "macOS configuration profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -265,7 +265,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMa
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf(errMsgFailedUpdateByID, "mac os config profile", id, err)
+		return 0, fmt.Errorf(errMsgFailedUpdateByID, "macOS configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -291,7 +291,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf(errMsgFailedUpdateByName, "mac os config profile", name, err)
+		return 0, fmt.Errorf(errMsgFailedUpdateByName, "macOS configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -307,7 +307,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByID, "mac os config profile", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "macOS configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -323,7 +323,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByName, "mac os config profile", name, err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "macOS configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
