@@ -17,7 +17,11 @@ import (
 
 const uriRestrictedSoftware = "/JSSResource/restrictedsoftware"
 
-// List
+// Responses
+
+type ResponseRestrictedSoftwareCreateAndUpdate struct {
+	ID int `xml:"id"`
+}
 
 // Structs for Restricted Software List
 type ResponseRestrictedSoftwaresList struct {
@@ -57,45 +61,25 @@ type RestrictedSoftwareSubsetGeneral struct {
 // Scope
 
 type RestrictedSoftwareSubsetScope struct {
-	AllComputers   bool                                         `xml:"all_computers"`
-	Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
-	ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
-	Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
-	Exclusions     RestrictedSoftwareSubsetScopeExclusions      `xml:"exclusions"`
+	AllComputers   bool                                    `xml:"all_computers"`
+	Computers      []RestrictedSoftwareSubsetScopeEntity   `xml:"computers>computer"`
+	ComputerGroups []RestrictedSoftwareSubsetScopeEntity   `xml:"computer_groups>computer_group"`
+	Buildings      []RestrictedSoftwareSubsetScopeEntity   `xml:"buildings>building"`
+	Departments    []RestrictedSoftwareSubsetScopeEntity   `xml:"departments>department"`
+	Exclusions     RestrictedSoftwareSubsetScopeExclusions `xml:"exclusions"`
 }
 
 type RestrictedSoftwareSubsetScopeExclusions struct {
-	Computers      []RestrictedSoftwareSubsetScopeComputer      `xml:"computers>computer"`
-	ComputerGroups []RestrictedSoftwareSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
-	Buildings      []RestrictedSoftwareSubsetScopeBuilding      `xml:"buildings>building"`
-	Departments    []RestrictedSoftwareSubsetScopeDepartment    `xml:"departments>department"`
-	Users          []RestrictedSoftwareSubsetScopeUser          `xml:"users>user"`
+	Computers      []RestrictedSoftwareSubsetScopeEntity `xml:"computers>computer"`
+	ComputerGroups []RestrictedSoftwareSubsetScopeEntity `xml:"computer_groups>computer_group"`
+	Buildings      []RestrictedSoftwareSubsetScopeEntity `xml:"buildings>building"`
+	Departments    []RestrictedSoftwareSubsetScopeEntity `xml:"departments>department"`
+	Users          []RestrictedSoftwareSubsetScopeEntity `xml:"users>user"`
 }
 
 // Shared
 
-type RestrictedSoftwareSubsetScopeComputer struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeComputerGroup struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeBuilding struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeDepartment struct {
-	ID   int    `xml:"id"`
-	Name string `xml:"name"`
-}
-
-type RestrictedSoftwareSubsetScopeUser struct {
+type RestrictedSoftwareSubsetScopeEntity struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }
@@ -154,7 +138,7 @@ func (c *Client) GetRestrictedSoftwareByName(name string) (*ResourceRestrictedSo
 }
 
 // CreateRestrictedSoftware creates a new restricted software entry in Jamf Pro.
-func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResourceRestrictedSoftware, error) {
+func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, restrictedSoftware.General.ID)
 
 	requestBody := struct {
@@ -164,8 +148,8 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var ResourceRestrictedSoftware ResourceRestrictedSoftware
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &ResourceRestrictedSoftware)
+	var responseRestrictedSoftware ResponseRestrictedSoftwareCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseRestrictedSoftware)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "restricted software", err)
 	}
@@ -174,13 +158,14 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 		defer resp.Body.Close()
 	}
 
-	return &ResourceRestrictedSoftware, nil
+	return &responseRestrictedSoftware, nil
 }
 
 // UpdateRestrictedSoftwareByID updates an existing restricted software entry by its ID.
-func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) error {
+func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
+	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
 		*ResourceRestrictedSoftware
@@ -188,22 +173,21 @@ func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *Resour
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var response ResourceRestrictedSoftware
-
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	var responseRestrictedSoftware ResponseRestrictedSoftwareCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &responseRestrictedSoftware)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "restricted software", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return &responseRestrictedSoftware, nil
 }
 
 // UpdateRestrictedSoftwareByName updates an existing restricted software entry by its name.
-func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware *ResourceRestrictedSoftware) error {
+func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriRestrictedSoftware, name)
 
 	requestBody := struct {
@@ -213,18 +197,17 @@ func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware 
 		ResourceRestrictedSoftware: restrictedSoftware,
 	}
 
-	var response ResourceRestrictedSoftware
-
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
+	var responseRestrictedSoftware ResponseRestrictedSoftwareCreateAndUpdate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseRestrictedSoftware)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedUpdateByName, "restricted software", name, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByName, "restricted software", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return &responseRestrictedSoftware, nil
 }
 
 // DeleteRestrictedSoftwareByID deletes a restricted software entry by its ID.

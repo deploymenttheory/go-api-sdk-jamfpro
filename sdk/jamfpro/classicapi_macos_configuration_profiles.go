@@ -1,5 +1,5 @@
 // classicapi_macos_configuration_profiles.go
-// Jamf Pro Classic Api - osx configuration profiles
+// Jamf Pro Classic Api - macOS (osx) configuration profiles
 // api reference: https://developer.jamf.com/jamf-pro/reference/osxconfigurationprofiles
 // Entity_Equivalents_for_Disallowed_XML_Characters: https://learn.jamf.com/bundle/technical-articles/page/Entity_Equivalents_for_Disallowed_XML_Characters.html
 // Classic API requires the structs to support an XML data structure.
@@ -24,7 +24,6 @@ const uriMacOSConfigurationProfiles = "/JSSResource/osxconfigurationprofiles"
 
 // ResponseMacOSConfigurationProfileList represents the response structure for a list of macOS configuration profiles.
 type ResponseMacOSConfigurationProfileList struct {
-	Size    int                                 `xml:"size,omitempty"`
 	Results []MacOSConfigurationProfileListItem `xml:"os_x_configuration_profile,omitempty"`
 }
 
@@ -37,8 +36,7 @@ type MacOSConfigurationProfileListItem struct {
 
 // ResponseMacOSConfigurationProfileCreation represents the response structure for a new macOS configuration profile.
 type ResponseMacOSConfigurationProfileCreationUpdate struct {
-	XMLName xml.Name `xml:"os_x_configuration_profile"`
-	ID      int      `xml:"id"`
+	ID int `xml:"id"`
 }
 
 // Resource
@@ -66,35 +64,34 @@ type MacOSConfigurationProfileSubsetGeneral struct {
 	Payloads           string                 `xml:"payloads,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetScope represents the scope subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetScope struct {
-	AllComputers   bool                                           `xml:"all_computers"`
-	AllJSSUsers    bool                                           `xml:"all_jss_users"`
-	Computers      []MacOSConfigurationProfileSubsetComputer      `xml:"computers>computer,omitempty"`
-	ComputerGroups []MacOSConfigurationProfileSubsetComputerGroup `xml:"computer_groups>computer_group,omitempty"`
-	JSSUsers       []MacOSConfigurationProfileSubsetJSSUser       `xml:"jss_users>user,omitempty"`
-	JSSUserGroups  []MacOSConfigurationProfileSubsetJSSUserGroup  `xml:"jss_user_groups>user_group,omitempty"`
-	Buildings      []MacOSConfigurationProfileSubsetBuilding      `xml:"buildings>building,omitempty"`
-	Departments    []MacOSConfigurationProfileSubsetDepartment    `xml:"departments>department,omitempty"`
-	Limitations    MacOSConfigurationProfileSubsetLimitations     `xml:"limitations,omitempty"`
-	Exclusions     MacOSConfigurationProfileSubsetExclusions      `xml:"exclusions,omitempty"`
+	AllComputers   bool                                         `xml:"all_computers"`
+	AllJSSUsers    bool                                         `xml:"all_jss_users"`
+	Computers      []MacOSConfigurationProfileSubsetComputer    `xml:"computers>computer,omitempty"`
+	ComputerGroups []MacOSConfigurationProfileSubsetScopeEntity `xml:"computer_groups>computer_group,omitempty"`
+	JSSUsers       []MacOSConfigurationProfileSubsetScopeEntity `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups  []MacOSConfigurationProfileSubsetScopeEntity `xml:"jss_user_groups>jss_user_group,omitempty"`
+	Buildings      []MacOSConfigurationProfileSubsetScopeEntity `xml:"buildings>building,omitempty"`
+	Departments    []MacOSConfigurationProfileSubsetScopeEntity `xml:"departments>department,omitempty"`
+	Limitations    MacOSConfigurationProfileSubsetLimitations   `xml:"limitations,omitempty"`
+	Exclusions     MacOSConfigurationProfileSubsetExclusions    `xml:"exclusions,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetSelfService represents the self-service subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetSelfService struct {
-	InstallButtonText           string `xml:"install_button_text,omitempty"`
-	SelfServiceDescription      string `xml:"self_service_description,omitempty"`
-	ForceUsersToViewDescription bool   `xml:"force_users_to_view_description"`
-	// The 'security' filed is not documented, but it actually exists in the API response.
-	Security        MacOSConfigurationProfileSubsetSelfServiceSecurity `xml:"security,omitempty"`
-	SelfServiceIcon SharedResourceSelfServiceIcon                      `xml:"self_service_icon,omitempty"`
-	// The 'self_service_display_name' filed is not documented, but it actually exists in the API response.
-	SelfServiceDisplayName string                                               `xml:"self_service_display_name,omitempty"`
-	FeatureOnMainPage      bool                                                 `xml:"feature_on_main_page"`
-	SelfServiceCategories  []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
-	Notification           []string                                             `xml:"notification,omitempty"`
-	NotificationSubject    string                                               `xml:"notification_subject,omitempty"`
-	NotificationMessage    string                                               `xml:"notification_message,omitempty"`
+	InstallButtonText           string                                               `xml:"install_button_text,omitempty"`
+	SelfServiceDescription      string                                               `xml:"self_service_description,omitempty"`
+	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
+	SelfServiceIcon             SharedResourceSelfServiceIcon                        `xml:"self_service_icon,omitempty"`
+	FeatureOnMainPage           bool                                                 `xml:"feature_on_main_page"`
+	SelfServiceCategories       []MacOSConfigurationProfileSubsetSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
+	Notification                string                                               `xml:"notification,omitempty"`
+	NotificationSubject         string                                               `xml:"notification_subject,omitempty"`
+	NotificationMessage         string                                               `xml:"notification_message,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetSelfServiceCategory represents the self-service category subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
@@ -102,76 +99,44 @@ type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
-type MacOSConfigurationProfileSubsetSelfServiceSecurity struct {
-	RemovalDisallowed string `xml:"removal_disallowed,omitempty"`
+// MacOSConfigurationProfileSubsetLimitations represents the limitations subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetLimitations struct {
+	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons>ibeacon,omitempty"`
 }
 
+// MacOSConfigurationProfileSubsetExclusions represents the exclusions subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetExclusions struct {
+	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers,omitempty"`
+	ComputerGroups  []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computer_groups,omitempty"`
+	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups,omitempty"`
+	Buildings       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"buildings,omitempty"`
+	Departments     []MacOSConfigurationProfileSubsetScopeEntity    `xml:"departments,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments,omitempty"`
+	JSSUsers        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_users,omitempty"`
+	JSSUserGroups   []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_user_groups,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons,omitempty"`
+}
+
+// MacOSConfigurationProfileSubsetComputer represents the computer subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetComputer struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
+	MacOSConfigurationProfileSubsetScopeEntity
 	UDID string `xml:"udid,omitempty"`
 }
 
-type MacOSConfigurationProfileSubsetComputerGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetJSSUser struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetJSSUserGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetBuilding struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetDepartment struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-type MacOSConfigurationProfileSubsetLimitations struct {
-	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
-	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
-}
-type MacOSConfigurationProfileSubsetIBeacon struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
+// MacOSConfigurationProfileSubsetNetworkSegment represents the network segment subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetNetworkSegment struct {
-	ID   int    `xml:"id,omitempty"`
-	UID  string `xml:"uid,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-type MacOSConfigurationProfileSubsetUserGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
+	MacOSConfigurationProfileSubsetScopeEntity
+	UID string `xml:"uid,omitempty"`
 }
 
-type MacOSConfigurationProfileSubsetUser struct {
+// MacOSConfigurationProfileSubsetScopeEntity represents the scope entity subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetScopeEntity struct {
 	ID   int    `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
-}
-
-type MacOSConfigurationProfileSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers>computer,omitempty"`
-	ComputerGroups  []MacOSConfigurationProfileSubsetComputerGroup  `xml:"computer_groups>computer_group,omitempty"`
-	Users           []MacOSConfigurationProfileSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetUserGroup      `xml:"user_groups,omitempty"`
-	Buildings       []MacOSConfigurationProfileSubsetBuilding       `xml:"buildings>building,omitempty"`
-	Departments     []MacOSConfigurationProfileSubsetDepartment     `xml:"departments>department,omitempty"`
-	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
-	JSSUsers        []MacOSConfigurationProfileSubsetJSSUser        `xml:"jss_users>user,omitempty"`
-	JSSUserGroups   []MacOSConfigurationProfileSubsetJSSUserGroup   `xml:"jss_user_groups>user_group,omitempty"`
-	IBeacons        []MacOSConfigurationProfileSubsetIBeacon        `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 // CRUD
@@ -183,7 +148,7 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 	var profilesList ResponseMacOSConfigurationProfileList
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profilesList)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "macOS configuration profiles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -200,7 +165,7 @@ func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigu
 	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "mac os config profile", id, err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "macOS configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -217,7 +182,7 @@ func (c *Client) GetMacOSConfigurationProfileByName(name string) (*ResourceMacOS
 	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -234,7 +199,7 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 
 	profilesList, err := c.GetMacOSConfigurationProfiles()
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "mac os config profiles", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "macOS configuration profiles", err)
 	}
 
 	var profileID int
@@ -246,12 +211,12 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 	}
 
 	if profileID == 0 {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
 	detailedProfile, err := c.GetMacOSConfigurationProfileByID(profileID)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByName, "mac os config profile", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
 	return detailedProfile, nil
@@ -274,7 +239,7 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedCreate, "mac os config profile", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "macOS configuration profile", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -300,7 +265,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMa
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf(errMsgFailedUpdateByID, "mac os config profile", id, err)
+		return 0, fmt.Errorf(errMsgFailedUpdateByID, "macOS configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -326,7 +291,7 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
 	if err != nil {
-		return 0, fmt.Errorf(errMsgFailedUpdateByName, "mac os config profile", name, err)
+		return 0, fmt.Errorf(errMsgFailedUpdateByName, "macOS configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -342,7 +307,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByID, "mac os config profile", id, err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "macOS configuration profile", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -358,7 +323,7 @@ func (c *Client) DeleteMacOSConfigurationProfileByName(name string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByName, "mac os config profile", name, err)
+		return fmt.Errorf(errMsgFailedDeleteByName, "macOS configuration profile", name, err)
 	}
 
 	if resp != nil && resp.Body != nil {

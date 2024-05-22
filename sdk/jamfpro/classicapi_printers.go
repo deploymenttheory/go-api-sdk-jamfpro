@@ -25,6 +25,8 @@ type PrintersListItem struct {
 	Name string `xml:"name"`
 }
 
+// Responses
+
 type ResponsePrinterCreateAndUpdate struct {
 	ID int `xml:"id"`
 }
