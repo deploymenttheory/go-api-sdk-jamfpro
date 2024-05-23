@@ -44,7 +44,7 @@ func main() {
 		Name:      "Static Group Name",
 		IsSmart:   false,
 		Site:      jamfpro.SharedResourceSite{ID: -1, Name: "None"},
-		Computers: updatedComputers,
+		Computers: &updatedComputers,
 	}
 
 	// Call UpdateComputerGroupByName function
