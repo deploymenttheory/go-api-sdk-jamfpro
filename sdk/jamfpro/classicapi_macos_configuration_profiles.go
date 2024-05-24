@@ -109,16 +109,16 @@ type MacOSConfigurationProfileSubsetLimitations struct {
 
 // MacOSConfigurationProfileSubsetExclusions represents the exclusions subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetExclusions struct {
-	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers,omitempty"`
-	ComputerGroups  []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computer_groups,omitempty"`
-	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups,omitempty"`
-	Buildings       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"buildings,omitempty"`
-	Departments     []MacOSConfigurationProfileSubsetScopeEntity    `xml:"departments,omitempty"`
-	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments,omitempty"`
-	JSSUsers        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_users,omitempty"`
-	JSSUserGroups   []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_user_groups,omitempty"`
-	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons,omitempty"`
+	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers>computer,omitempty"`
+	ComputerGroups  []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computer_groups>computer_group,omitempty"`
+	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	Buildings       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"buildings>building,omitempty"`
+	Departments     []MacOSConfigurationProfileSubsetScopeEntity    `xml:"departments>department,omitempty"`
+	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	JSSUsers        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_users>jss_user,omitempty"`
+	JSSUserGroups   []MacOSConfigurationProfileSubsetScopeEntity    `xml:"jss_user_groups>jss_user_group,omitempty"`
+	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons>ibeacon,omitempty"`
 }
 
 // MacOSConfigurationProfileSubsetComputer represents the computer subset of a macOS configuration profile.
