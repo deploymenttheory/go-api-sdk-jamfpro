@@ -41,7 +41,7 @@ func main() {
 		Name:      "SDK Static Group Test",
 		IsSmart:   false,
 		Site:      jamfpro.SharedResourceSite{ID: -1, Name: "None"},
-		Computers: computers,
+		Computers: &computers,
 	}
 
 	// Call CreateComputerGroup function

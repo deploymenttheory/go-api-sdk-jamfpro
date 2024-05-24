@@ -34,12 +34,12 @@ type ComputerGroupListItem struct {
 // Resource
 
 type ResourceComputerGroup struct {
-	ID        int                           `xml:"id"`
-	Name      string                        `xml:"name"`
-	IsSmart   bool                          `xml:"is_smart"`
-	Site      SharedResourceSite            `xml:"site"`
-	Criteria  SharedContainerCriteria       `xml:"criteria"`
-	Computers []ComputerGroupSubsetComputer `xml:"computers>computer"`
+	ID        int                            `xml:"id"`
+	Name      string                         `xml:"name"`
+	IsSmart   bool                           `xml:"is_smart"`
+	Site      SharedResourceSite             `xml:"site"`
+	Criteria  SharedContainerCriteria        `xml:"criteria"`
+	Computers *[]ComputerGroupSubsetComputer `xml:"computers>computer,omitempty"`
 }
 
 // Subsets & Containers

@@ -1,20 +1,26 @@
 package main
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
+	"html"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+	"howett.net/plist"
+)
+
+// Global configuration variables
+var (
+	configFilePath = "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	exportDir      = "/Users/dafyddwatkins/localtesting/jamfpro"
 )
 
 func main() {
-	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
 	if err != nil {
@@ -33,7 +39,6 @@ func main() {
 	}
 	fmt.Println("These profiles will be exported.")
 
-	exportDir := "/Users/dafyddwatkins/localtesting/jamfpro"
 	if err := os.MkdirAll(exportDir, 0750); err != nil {
 		log.Fatalf("Failed to create export directory: %v", err)
 	}
@@ -57,6 +62,13 @@ func main() {
 			continue
 		}
 
+		// Remove escaped characters
+		reformattedPayloads, err := removeEscapedCharacters(payloadsContent)
+		if err != nil {
+			log.Printf("Failed to reformat payloads for profile with ID %d: %v", profile.ID, err)
+			continue
+		}
+
 		filename := filepath.Join(exportDir, profile.Name+".mobileconfig")
 		file, err := os.Create(filename)
 		if err != nil {
@@ -65,7 +77,7 @@ func main() {
 		}
 		defer file.Close()
 
-		if _, err := file.WriteString(payloadsContent); err != nil {
+		if _, err := file.WriteString(reformattedPayloads); err != nil {
 			log.Printf("Failed to write to file for profile with ID %d: %v", profile.ID, err)
 			continue
 		}
@@ -76,6 +88,7 @@ func main() {
 	fmt.Println("Export completed!")
 }
 
+// extractPayloads extracts the payloads from the XML data
 func extractPayloads(xmlData string) string {
 	startTag := "<payloads>"
 	endTag := "</payloads>"
@@ -87,4 +100,34 @@ func extractPayloads(xmlData string) string {
 	}
 
 	return xmlData[startIndex+len(startTag) : endIndex]
+}
+
+// removeEscapedCharacters removes escaped characters from a plist / .mobileconfig file
+func removeEscapedCharacters(plistContent string) (string, error) {
+	data, err := decodePlist([]byte(plistContent))
+	if err != nil {
+		return "", err
+	}
+
+	newPlist, err := plist.MarshalIndent(data, plist.XMLFormat, "\t")
+	if err != nil {
+		return "", fmt.Errorf("error marshaling plist: %v", err)
+	}
+
+	return string(newPlist), nil
+}
+
+// decodePlist decodes the plist content and returns the data
+func decodePlist(content []byte) (interface{}, error) {
+	// Check if content needs unescaping
+	if bytes.Contains(content, []byte("&lt;")) {
+		content = []byte(html.UnescapeString(string(content)))
+	}
+
+	decoder := plist.NewDecoder(bytes.NewReader(content))
+	var data interface{}
+	if err := decoder.Decode(&data); err != nil {
+		return nil, fmt.Errorf("error decoding plist: %v", err)
+	}
+	return data, nil
 }
