@@ -19,17 +19,18 @@ func main() {
 	}
 
 	// Define a new policy with all required fields
-	updatedPolicy := &jamfpro.ResourcePolicy{
+	newPolicy := &jamfpro.ResourcePolicy{
+		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "disk-encryption-sdk",
+			Name:                       "jamfpro-sdk-example-script-policy-config-demo",
 			Enabled:                    false,
-			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
 			TriggerLogout:              false,
 			TriggerNetworkStateChanged: false,
 			TriggerStartup:             false,
+			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
@@ -37,40 +38,73 @@ func main() {
 			LocationUserOnly:           false,
 			TargetDrive:                "/",
 			Offline:                    false,
+			Category: &jamfpro.SharedResourceCategory{
+				ID:   -1,
+				Name: "No category assigned",
+			},
+			DateTimeLimitations: &jamfpro.PolicySubsetGeneralDateTimeLimitations{
+				ActivationDate:      "",
+				ActivationDateEpoch: 0,
+				ActivationDateUTC:   "",
+				ExpirationDate:      "",
+				ExpirationDateEpoch: 0,
+				ExpirationDateUTC:   "",
+				NoExecuteStart:      "",
+				NoExecuteEnd:        "",
+			},
+			NetworkLimitations: &jamfpro.PolicySubsetGeneralNetworkLimitations{
+				MinimumNetworkConnection: "No Minimum",
+				AnyIPAddress:             true,
+				NetworkSegments:          "",
+			},
+			NetworkRequirements: "Any",
+			Site: &jamfpro.SharedResourceSite{
+				ID:   -1,
+				Name: "None",
+			},
 		},
-		SelfService: &jamfpro.PolicySubsetSelfService{
-			UseForSelfService:           false,
-			SelfServiceDisplayName:      "",
-			InstallButtonText:           "Install",
-			ReinstallButtonText:         "",
-			SelfServiceDescription:      "",
-			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
+		// scripts
+		Scripts: &jamfpro.PolicySubsetScripts{
+			Script: &[]jamfpro.PolicySubsetScript{
 				{
-					Category: jamfpro.PolicyCategory{
-						//ID:        "-1",
-						//Name:      "None",
-						DisplayIn: false, // or true, depending on your requirements
-						FeatureIn: false, // or true, depending on your requirements
-					},
+					ID:         "4521",
+					Name:       "tf-ghatest-add-or-remove-group-membership-v4.0",
+					Priority:   "After",
+					Parameter4: "thing",
+					Parameter5: "thing",
+					Parameter6: "thing",
+					Parameter7: "thing",
+					// Additional parameters if needed
 				},
 			},
 		},
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "rotate",
+		// Self Service
+		SelfService: &jamfpro.PolicySubsetSelfService{
+			UseForSelfService:           true,
+			SelfServiceDisplayName:      "",
+			InstallButtonText:           "Install",
+			ReinstallButtonText:         "Reinstall",
+			SelfServiceDescription:      "",
+			ForceUsersToViewDescription: false,
+			FeatureOnMainPage:           false,
+		},
+		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
+			Packages:          &[]jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
+			DistributionPoint: "default",
+		},
+		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
+				Action:                "doNotChange",
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
-			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
+			OpenFirmwareEfiPassword: &jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
 				OfMode:           "none",
 				OfPassword:       "",
 				OfPasswordSHA256: "",
 			},
 		},
-		Maintenance: jamfpro.PolicySubsetMaintenance{
+		Maintenance: &jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
 			ResetName:                false,
 			InstallAllCachedPackages: false,
@@ -82,7 +116,7 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
+		FilesProcesses: &jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
 			SpotlightSearch:      "",
@@ -90,21 +124,14 @@ func main() {
 			KillProcess:          false,
 			RunCommand:           "",
 		},
-		UserInteraction: jamfpro.PolicySubsetUserInteraction{
+		UserInteraction: &jamfpro.PolicySubsetUserInteraction{
 			MessageStart:          "",
 			AllowUserToDefer:      false,
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
-			Action:                        "apply",
-			DiskEncryptionConfigurationID: 1,
-			AuthRestart:                   true,
-			//RemediateKeyType:                       "",
-			//RemediateDiskEncryptionConfigurationID: 0,
-		},
-		Reboot: jamfpro.PolicySubsetReboot{
+		Reboot: &jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",
@@ -116,21 +143,22 @@ func main() {
 		},
 	}
 
-	policyXML, err := xml.MarshalIndent(updatedPolicy, "", "    ")
+	policyXML, err := xml.MarshalIndent(newPolicy, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling policy data: %v", err)
 	}
 	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
 
-	policyID := 19
-
-	// Update the policy
-	response, err := client.UpdatePolicyByID(policyID, updatedPolicy)
+	// Call CreatePolicy function
+	createdPolicy, err := client.CreatePolicy(newPolicy)
 	if err != nil {
-		log.Fatalf("Error updating policy: %v", err)
+		log.Fatalf("Error creating policy: %v", err)
 	}
 
-	// Print the ID of the updated policy
-	fmt.Printf("Updated Policy ID: %d\n", response.ID)
-
+	// Pretty print the created policy details in XML
+	policyXML, err = xml.MarshalIndent(createdPolicy, "", "    ") // Indent with 4 spaces and use '='
+	if err != nil {
+		log.Fatalf("Error marshaling policy details data: %v", err)
+	}
+	fmt.Println("Created Policy Details:\n", string(policyXML))
 }
