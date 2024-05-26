@@ -24,13 +24,13 @@ func main() {
 		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "jamfpro-sdk-example-selfservice-policy-config",
 			Enabled:                    false,
-			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
 			TriggerLogout:              false,
 			TriggerNetworkStateChanged: false,
 			TriggerStartup:             false,
+			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
@@ -38,109 +38,33 @@ func main() {
 			LocationUserOnly:           false,
 			TargetDrive:                "/",
 			Offline:                    false,
-			Category: jamfpro.PolicyCategory{
-				ID:        -1,
-				Name:      "No category assigned",
-				DisplayIn: false,
-				FeatureIn: false,
-			},
-			DateTimeLimitations: jamfpro.PolicySubsetGeneralDateTimeLimitations{
-				// Initialize as needed
-			},
-			NetworkLimitations: jamfpro.PolicySubsetGeneralNetworkLimitations{
-				MinimumNetworkConnection: "No Minimum",
-				AnyIPAddress:             true,
-				NetworkSegments:          "",
-			},
-			NetworkRequirements: "Any",
-			Site: jamfpro.SharedResourceSite{
-				ID:   -1,
-				Name: "None",
-			},
 		},
 		// Self Service policy settings
-		SelfService: jamfpro.PolicySubsetSelfService{
+		SelfService: &jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "some text here",
 			InstallButtonText:           "Install",
 			ReinstallButtonText:         "Reinstall",
 			SelfServiceDescription:      "some text here",
 			ForceUsersToViewDescription: true,
-			SelfServiceIcon: jamfpro.SharedResourceSelfServiceIcon{
+			SelfServiceIcon: &jamfpro.SharedResourceSelfServiceIcon{
 				ID:       3,
 				Filename: "mac-icon.png",
 				URI:      "https://euw2.ics.services.jamfcloud.com/icon/hash_f6d371a96ce011c4c297bcc09641bdce76e90c53e79bb212f8ca3024cbb53034",
 			},
 			FeatureOnMainPage: true,
-			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
+			SelfServiceCategories: &[]jamfpro.PolicySubsetSelfServiceCategory{
 				{
-					Category: jamfpro.PolicyCategory{
-						ID:        6,
-						Name:      "Productivity",
-						DisplayIn: true,
-						FeatureIn: true,
-					},
+					ID:        6,
+					Name:      "Productivity",
+					DisplayIn: true,
+					FeatureIn: true,
 				},
 			},
 			Notification:        true,
 			NotificationType:    "Self Service and Notification Center",
 			NotificationSubject: "thing",
 			NotificationMessage: "thing",
-		},
-		// package policy settings
-		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{},
-			DistributionPoint: "default",
-		},
-		// account maintenance policy settings
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "doNotChange",
-				ManagedPassword:       "",
-				ManagedPasswordLength: 0,
-			},
-			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
-				OfMode:           "none",
-				OfPassword:       "",
-				OfPasswordSHA256: "",
-			},
-		},
-		Maintenance: jamfpro.PolicySubsetMaintenance{
-			Recon:                    false,
-			ResetName:                false,
-			InstallAllCachedPackages: false,
-			Heal:                     false,
-			Prebindings:              false,
-			Permissions:              false,
-			Byhost:                   false,
-			SystemCache:              false,
-			UserCache:                false,
-			Verify:                   false,
-		},
-		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
-			DeleteFile:           false,
-			UpdateLocateDatabase: false,
-			SpotlightSearch:      "",
-			SearchForProcess:     "",
-			KillProcess:          false,
-			RunCommand:           "",
-		},
-		UserInteraction: jamfpro.PolicySubsetUserInteraction{
-			MessageStart:          "",
-			AllowUserToDefer:      false,
-			AllowDeferralUntilUtc: "",
-			AllowDeferralMinutes:  0,
-			MessageFinish:         "",
-		},
-		Reboot: jamfpro.PolicySubsetReboot{
-			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
-			StartupDisk:                 "Current Startup Disk",
-			SpecifyStartup:              "",
-			NoUserLoggedIn:              "Do not restart",
-			UserLoggedIn:                "Do not restart",
-			MinutesUntilReboot:          5,
-			StartRebootTimerImmediately: false,
-			FileVault2Reboot:            false,
 		},
 	}
 
