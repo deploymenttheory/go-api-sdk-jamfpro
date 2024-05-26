@@ -23,7 +23,7 @@ func main() {
 		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "jamfpro-sdk-disk-encryption-2",
 			Enabled:                    false,
-			Trigger:                    "EVENT",
+			TriggerOther:               "EVENT",
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
@@ -37,8 +37,31 @@ func main() {
 			LocationUserOnly:           false,
 			TargetDrive:                "/",
 			Offline:                    false,
+			Category: &jamfpro.SharedResourceCategory{
+				ID:   -1,
+				Name: "No category assigned",
+			},
+			DateTimeLimitations: &jamfpro.PolicySubsetGeneralDateTimeLimitations{
+				// Initialize as needed
+			},
+			NetworkLimitations: &jamfpro.PolicySubsetGeneralNetworkLimitations{
+				MinimumNetworkConnection: "No Minimum",
+				AnyIPAddress:             true,
+				NetworkSegments:          "",
+			},
+			OverrideDefaultSettings: &jamfpro.PolicySubsetGeneralOverrideSettings{
+				TargetDrive:       "/",
+				DistributionPoint: "default",
+				ForceAfpSmb:       false,
+				SUS:               "default",
+			},
+			NetworkRequirements: "Any",
+			Site: &jamfpro.SharedResourceSite{
+				ID:   -1,
+				Name: "None",
+			},
 		},
-		SelfService: jamfpro.PolicySubsetSelfService{
+		SelfService: &jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           false,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
@@ -47,30 +70,20 @@ func main() {
 			ForceUsersToViewDescription: false,
 			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
-				{
-					Category: jamfpro.PolicyCategory{
-						//ID:        "-1",
-						//Name:      "None",
-						DisplayIn: false, // or true, depending on your requirements
-						FeatureIn: false, // or true, depending on your requirements
-					},
-				},
-			},
 		},
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
+		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
 				Action:                "rotate",
 				ManagedPassword:       "",
 				ManagedPasswordLength: 0,
 			},
-			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
+			OpenFirmwareEfiPassword: &jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
 				OfMode:           "none",
 				OfPassword:       "",
 				OfPasswordSHA256: "",
 			},
 		},
-		Maintenance: jamfpro.PolicySubsetMaintenance{
+		Maintenance: &jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
 			ResetName:                false,
 			InstallAllCachedPackages: false,
@@ -82,7 +95,7 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
+		FilesProcesses: &jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
 			SpotlightSearch:      "",
@@ -90,21 +103,21 @@ func main() {
 			KillProcess:          false,
 			RunCommand:           "",
 		},
-		UserInteraction: jamfpro.PolicySubsetUserInteraction{
+		UserInteraction: &jamfpro.PolicySubsetUserInteraction{
 			MessageStart:          "",
 			AllowUserToDefer:      false,
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
+		DiskEncryption: &jamfpro.PolicySubsetDiskEncryption{
 			Action:                        "apply",
 			DiskEncryptionConfigurationID: 1,
 			AuthRestart:                   true,
 			//RemediateKeyType:                       "",
 			//RemediateDiskEncryptionConfigurationID: 0,
 		},
-		Reboot: jamfpro.PolicySubsetReboot{
+		Reboot: &jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",
