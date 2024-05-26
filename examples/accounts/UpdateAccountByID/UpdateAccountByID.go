@@ -20,7 +20,7 @@ func main() {
 
 	// Assemble the request body for updating an account
 	accountDetail := &jamfpro.ResourceAccount{
-		Name:                "John Smith Updated by resource ID",
+		Name:                "John Smith",
 		DirectoryUser:       false,
 		FullName:            "John Smith Updated",
 		Email:               "john.smith.updated@company.com",
@@ -46,7 +46,7 @@ func main() {
 	}
 
 	// Let's assume we are updating an account with ID 1.
-	accountID := 10
+	accountID := 501
 
 	// Call UpdateAccountByID function
 	updatedAccount, err := client.UpdateAccountByID(accountID, accountDetail)
