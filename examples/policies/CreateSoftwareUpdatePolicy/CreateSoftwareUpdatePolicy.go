@@ -20,16 +20,17 @@ func main() {
 
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
+		// General
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-softwareupdate-policy-config-9",
+			Name:                       "jamfpro-sdk-example-software-update-policy-config-demo",
 			Enabled:                    false,
-			Trigger:                    "EVENT",
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
 			TriggerLogout:              false,
 			TriggerNetworkStateChanged: false,
 			TriggerStartup:             false,
+			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
@@ -37,86 +38,8 @@ func main() {
 			LocationUserOnly:           false,
 			TargetDrive:                "/",
 			Offline:                    false,
-			Category: jamfpro.PolicyCategory{
-				ID:        -1,
-				Name:      "No category assigned",
-				DisplayIn: false,
-				FeatureIn: false,
-			},
-			DateTimeLimitations: jamfpro.PolicySubsetGeneralDateTimeLimitations{
-				// Initialize as needed
-			},
-			NetworkLimitations: jamfpro.PolicySubsetGeneralNetworkLimitations{
-				MinimumNetworkConnection: "No Minimum",
-				AnyIPAddress:             true,
-				NetworkSegments:          "",
-			},
-			OverrideDefaultSettings: jamfpro.PolicySubsetGeneralOverrideSettings{
-				TargetDrive:       "/",
-				DistributionPoint: "default",
-				ForceAfpSmb:       false,
-				SUS:               "apple.com", // apple.com or default
-			},
-			NetworkRequirements: "Any",
-			Site: jamfpro.SharedResourceSite{
-				ID:   -1,
-				Name: "None",
-			},
 		},
-		SelfService: jamfpro.PolicySubsetSelfService{
-			UseForSelfService:           true,
-			SelfServiceDisplayName:      "",
-			InstallButtonText:           "Install",
-			ReinstallButtonText:         "Reinstall",
-			SelfServiceDescription:      "",
-			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.Icon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
-		},
-		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
-			DistributionPoint: "default",
-		},
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "doNotChange",
-				ManagedPassword:       "",
-				ManagedPasswordLength: 0,
-			},
-			OpenFirmwareEfiPassword: jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
-				OfMode:           "none",
-				OfPassword:       "",
-				OfPasswordSHA256: "",
-			},
-		},
-		Maintenance: jamfpro.PolicySubsetMaintenance{
-			Recon:                    false,
-			ResetName:                false,
-			InstallAllCachedPackages: false,
-			Heal:                     false,
-			Prebindings:              false,
-			Permissions:              false,
-			Byhost:                   false,
-			SystemCache:              false,
-			UserCache:                false,
-			Verify:                   false,
-		},
-		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
-			DeleteFile:           false,
-			UpdateLocateDatabase: false,
-			SpotlightSearch:      "",
-			SearchForProcess:     "",
-			KillProcess:          false,
-			RunCommand:           "",
-		},
-		UserInteraction: jamfpro.PolicySubsetUserInteraction{
-			MessageStart:          "",
-			AllowUserToDefer:      false,
-			AllowDeferralUntilUtc: "",
-			AllowDeferralMinutes:  0,
-			MessageFinish:         "",
-		},
-		Reboot: jamfpro.PolicySubsetReboot{
+		Reboot: &jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",
