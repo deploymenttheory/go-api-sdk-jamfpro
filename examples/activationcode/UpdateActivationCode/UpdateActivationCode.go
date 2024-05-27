@@ -17,8 +17,14 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
+	// Create the ResourceActivationCode struct
+	activationCode := &jamfpro.ResourceActivationCode{
+		OrganizationName: "Organization Name",
+		Code:             "UW5M-xxxx-CNAP-TCDT-xxxx-DNTV-ZAGT-xxxx",
+	}
+
 	// Update the activation code
-	err = client.UpdateActivationCode("Organization Name", "ABCD-1234-A1B2-AAAA-BBBB-CCCC-DDDD-EEEE")
+	err = client.UpdateActivationCode(activationCode)
 	if err != nil {
 		fmt.Printf("Error updating activation code: %v\n", err)
 		return

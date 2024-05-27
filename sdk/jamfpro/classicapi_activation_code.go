@@ -40,22 +40,25 @@ func (c *Client) GetActivationCode() (*ResourceActivationCode, error) {
 }
 
 // UpdateActivationCode updates the activation code.
-func (c *Client) UpdateActivationCode(organizationName, code string) error {
+func (c *Client) UpdateActivationCode(activationCode *ResourceActivationCode) error {
 	endpoint := uriAPIActivationCode
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"activation_code"`
 		ResourceActivationCode
 	}{
-		ResourceActivationCode: ResourceActivationCode{
-			OrganizationName: organizationName,
-			Code:             code,
-		},
+		ResourceActivationCode: *activationCode,
 	}
 
-	_, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, nil)
+	var handleResponse struct{}
+
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &handleResponse)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedUpdate, "activation code", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
 	}
 
 	return nil
