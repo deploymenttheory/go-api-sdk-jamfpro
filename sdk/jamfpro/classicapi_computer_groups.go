@@ -34,15 +34,29 @@ type ComputerGroupListItem struct {
 // Resource
 
 type ResourceComputerGroup struct {
-	ID        int                            `xml:"id"`
-	Name      string                         `xml:"name"`
-	IsSmart   bool                           `xml:"is_smart"`
-	Site      SharedResourceSite             `xml:"site"`
-	Criteria  SharedContainerCriteria        `xml:"criteria"`
-	Computers *[]ComputerGroupSubsetComputer `xml:"computers>computer,omitempty"`
+
+	ID        int                                    `xml:"id"`
+	Name      string                                 `xml:"name"`
+	IsSmart   bool                                   `xml:"is_smart"`
+	Site      *SharedResourceSite                    `xml:"site"`
+	Criteria  *ComputerGroupSubsetContainerCriteria  `xml:"criteria"`
+	Computers *ComputerGroupSubsetComputersContainer `xml:"computers"`
 }
 
 // Subsets & Containers
+
+// Criteria
+
+type ComputerGroupSubsetContainerCriteria struct {
+	Size      int                     `xml:"size,omitempty"`
+	Criterion *[]SharedSubsetCriteria `xml:"criterion,omitempty"`
+}
+
+// Computers
+type ComputerGroupSubsetComputersContainer struct {
+	Size      int                            `xml:"size"`
+	Computers *[]ComputerGroupSubsetComputer `xml:"computers,omitempty"`
+}
 
 type ComputerGroupSubsetComputer struct {
 	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
