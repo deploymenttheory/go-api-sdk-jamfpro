@@ -29,12 +29,17 @@ func ProcessJSONFile(filePath string, result interface{}) error {
 		return fmt.Errorf("failed to read file: %w", err)
 	}
 
-	var data map[string]interface{}
-	if err := json.Unmarshal(byteValue, &data); err != nil {
+	return decodeJSONToStruct(byteValue, result)
+}
+
+// decodeJSONToStruct reads a JSON byte slice, decodes it into a Go struct, and returns the result.
+func decodeJSONToStruct(data []byte, result interface{}) error {
+	var jsonData map[string]interface{}
+	if err := json.Unmarshal(data, &jsonData); err != nil {
 		return fmt.Errorf("failed to unmarshal JSON: %w", err)
 	}
 
-	if err := mapstructure.Decode(data, result); err != nil {
+	if err := mapstructure.Decode(jsonData, result); err != nil {
 		return fmt.Errorf("failed to decode data: %w", err)
 	}
 
@@ -48,20 +53,27 @@ func ParseJSONSchema(schema []byte) (string, error) {
 		return "", fmt.Errorf("failed to unmarshal JSON schema: %w", err)
 	}
 
-	structs, err := generateRootStructs(schemaData)
-	if err != nil {
-		return "", fmt.Errorf("failed to generate root structs: %w", err)
-	}
-
-	return structs, nil
+	return generateStructs(schemaData)
 }
 
-// generateRootStructs generates Go struct definitions for the root-level fields of the OpenAPI schema
-func generateRootStructs(schemaData map[string]interface{}) (string, error) {
+// generateStructs generates Go struct definitions for the schema
+func generateStructs(schemaData map[string]interface{}) (string, error) {
 	var structsBuilder strings.Builder
 	structsBuilder.WriteString("package generatedstructs\n\n")
 
-	// Generate the OpenAPI root struct
+	if err := generateOpenAPIStruct(&structsBuilder); err != nil {
+		return "", err
+	}
+
+	if err := generateTopLevelStructs(&structsBuilder, schemaData); err != nil {
+		return "", err
+	}
+
+	return structsBuilder.String(), nil
+}
+
+// generateOpenAPIStruct generates a Go struct definition for the OpenAPI object
+func generateOpenAPIStruct(structsBuilder *strings.Builder) error {
 	openAPIFields := []string{
 		"Openapi string `json:\"openapi\"`",
 		"Servers []Server `json:\"servers\"`",
@@ -75,24 +87,23 @@ func generateRootStructs(schemaData map[string]interface{}) (string, error) {
 		structsBuilder.WriteString(field + "\n")
 	}
 	structsBuilder.WriteString("}\n\n")
-
-	// Generate structs for the individual top-level fields
-	if err := generateServersStruct(&structsBuilder, schemaData); err != nil {
-		return "", err
-	}
-
-	if err := generatePathsStruct(&structsBuilder, schemaData); err != nil {
-		return "", err
-	}
-
-	if err := generateComponentsStruct(&structsBuilder, schemaData); err != nil {
-		return "", err
-	}
-
-	return structsBuilder.String(), nil
+	return nil
 }
 
-// generateServersStruct generates the Go struct for the "servers" field
+// generateTopLevelStructs generates Go struct definitions for the top-level sections of the schema
+func generateTopLevelStructs(structsBuilder *strings.Builder, schemaData map[string]interface{}) error {
+	if err := generateServersStruct(structsBuilder, schemaData); err != nil {
+		return err
+	}
+
+	if err := generatePathsStruct(structsBuilder, schemaData); err != nil {
+		return err
+	}
+
+	return generateComponentsStruct(structsBuilder, schemaData)
+}
+
+// generateServersStruct generates Go struct definitions for the servers section of the schema
 func generateServersStruct(structsBuilder *strings.Builder, schemaData map[string]interface{}) error {
 	servers, ok := schemaData["servers"].([]interface{})
 	if !ok {
@@ -105,25 +116,47 @@ func generateServersStruct(structsBuilder *strings.Builder, schemaData map[strin
 			continue
 		}
 
-		serverStruct, err := generateStruct("Server", serverMap)
-		if err != nil {
+		if err := appendStruct(structsBuilder, "Server", serverMap); err != nil {
 			return err
 		}
-
-		structsBuilder.WriteString(serverStruct)
-		structsBuilder.WriteString("\n\n")
 	}
 
 	return nil
 }
 
-// generatePathsStruct generates the Go struct for the "paths" field
+// generatePathsStruct generates Go struct definitions for the paths section of the schema
 func generatePathsStruct(structsBuilder *strings.Builder, schemaData map[string]interface{}) error {
 	paths, ok := schemaData["paths"].(map[string]interface{})
 	if !ok {
 		return nil
 	}
 
+	taggedPaths := extractTaggedPaths(paths)
+	titleCaser := cases.Title(language.English)
+
+	structsBuilder.WriteString("type Paths struct {\n")
+	tagStructNames := make([]string, 0, len(taggedPaths))
+	for tag := range taggedPaths {
+		tagStructNames = append(tagStructNames, tag)
+	}
+	sort.Strings(tagStructNames)
+
+	for _, tagStructName := range tagStructNames {
+		structsBuilder.WriteString(fmt.Sprintf("%s %s `json:\"%s\"`\n", titleCaser.String(tagStructName), titleCaser.String(tagStructName), tagStructName))
+	}
+	structsBuilder.WriteString("}\n\n")
+
+	for _, tag := range tagStructNames {
+		if err := generateTaggedPathsStruct(structsBuilder, tag, taggedPaths[tag], titleCaser); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// extractTaggedPaths extracts paths tagged with a specific tag
+func extractTaggedPaths(paths map[string]interface{}) map[string]map[string]interface{} {
 	taggedPaths := make(map[string]map[string]interface{})
 
 	for path, pathItem := range paths {
@@ -156,71 +189,45 @@ func generatePathsStruct(structsBuilder *strings.Builder, schemaData map[string]
 		}
 	}
 
-	titleCaser := cases.Title(language.English)
+	return taggedPaths
+}
 
-	// Create top-level Paths struct
-	structsBuilder.WriteString("type Paths struct {\n")
-	tagStructNames := make([]string, 0, len(taggedPaths))
+// generateTaggedPathsStruct generates Go struct definitions for tagged paths
+func generateTaggedPathsStruct(structsBuilder *strings.Builder, tag string, paths map[string]interface{}, titleCaser cases.Caser) error {
+	tagStructName := sanitizeFieldName(tag)
+	structsBuilder.WriteString(fmt.Sprintf("type %s struct {\n", titleCaser.String(tagStructName)))
 
-	for tag := range taggedPaths {
-		tagStructName := sanitizeFieldName(tag)
-		tagStructNames = append(tagStructNames, tagStructName)
+	methodPaths := sortKeys(paths)
+
+	for _, methodPath := range methodPaths {
+		structName := sanitizeFieldName(methodPath)
+		fieldName := titleCaser.String(structName)
+		structsBuilder.WriteString(fmt.Sprintf("%s %s `json:\"%s\"`\n", fieldName, structName, methodPath))
 	}
-	sort.Strings(tagStructNames)
 
-	for _, tagStructName := range tagStructNames {
-		structsBuilder.WriteString(fmt.Sprintf("%s %s `json:\"%s\"`\n", titleCaser.String(tagStructName), titleCaser.String(tagStructName), tagStructName))
-	}
 	structsBuilder.WriteString("}\n\n")
 
-	// Generate structs for each tag
-	for _, tag := range tagStructNames {
-		paths := taggedPaths[tag]
-		tagStructName := sanitizeFieldName(tag)
-		structsBuilder.WriteString(fmt.Sprintf("type %s struct {\n", titleCaser.String(tagStructName)))
-
-		methodPaths := make([]string, 0, len(paths))
-		for methodPath := range paths {
-			methodPaths = append(methodPaths, methodPath)
-		}
-		sort.Strings(methodPaths)
-
-		for _, methodPath := range methodPaths {
-			structName := sanitizeFieldName(methodPath)
-			fieldName := titleCaser.String(structName)
-			structsBuilder.WriteString(fmt.Sprintf("%s %s `json:\"%s\"`\n", fieldName, structName, methodPath))
-		}
-
-		structsBuilder.WriteString("}\n\n")
-
-		for _, methodPath := range methodPaths {
-			structName := sanitizeFieldName(methodPath)
-			pathItem := paths[methodPath]
-			pathItemStruct, err := generateStruct(structName, pathItem.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			structsBuilder.WriteString(pathItemStruct)
-			structsBuilder.WriteString("\n\n")
+	for _, methodPath := range methodPaths {
+		structName := sanitizeFieldName(methodPath)
+		pathItem := paths[methodPath]
+		if err := appendStruct(structsBuilder, structName, pathItem.(map[string]interface{})); err != nil {
+			return err
 		}
 	}
 
 	return nil
 }
 
-// generateComponentsStruct generates the Go struct for the "components" field
+// generateComponentsStruct generates Go struct definitions for the components section of the schema
 func generateComponentsStruct(structsBuilder *strings.Builder, schemaData map[string]interface{}) error {
 	components, ok := schemaData["components"].(map[string]interface{})
 	if !ok {
 		return nil
 	}
 
-	componentStruct, err := generateStruct("Components", components)
-	if err != nil {
+	if err := appendStruct(structsBuilder, "Components", components); err != nil {
 		return err
 	}
-	structsBuilder.WriteString(componentStruct)
-	structsBuilder.WriteString("\n\n")
 
 	for key, value := range components {
 		if nestedProps, ok := value.(map[string]interface{}); ok {
@@ -233,6 +240,16 @@ func generateComponentsStruct(structsBuilder *strings.Builder, schemaData map[st
 		}
 	}
 
+	return nil
+}
+
+func appendStruct(structsBuilder *strings.Builder, structName string, structData map[string]interface{}) error {
+	structDef, err := generateStruct(structName, structData)
+	if err != nil {
+		return err
+	}
+	structsBuilder.WriteString(structDef)
+	structsBuilder.WriteString("\n\n")
 	return nil
 }
 
@@ -289,7 +306,8 @@ func getFieldType(fieldName string, value interface{}) (string, error) {
 			return "[]" + elemType, nil
 		}
 		return "[]interface{}", nil
-	case string:
+	case
+		string:
 		return "string", nil
 	case float64:
 		return "float64", nil
@@ -307,4 +325,14 @@ func sanitizeFieldName(fieldName string) string {
 	// Remove invalid characters, specifically '/'
 	reg := regexp.MustCompile(`[/]`)
 	return reg.ReplaceAllString(fieldName, "")
+}
+
+// sortKeys sorts map keys alphabetically and returns them as a slice
+func sortKeys(data map[string]interface{}) []string {
+	keys := make([]string, 0, len(data))
+	for key := range data {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	return keys
 }
