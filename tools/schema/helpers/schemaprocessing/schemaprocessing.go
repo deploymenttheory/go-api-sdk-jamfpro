@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"io"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/mitchellh/mapstructure"
@@ -15,28 +16,23 @@ import (
 )
 
 // ProcessJSONFile reads a JSON file, decodes it into a Go struct, and returns the result.
-// The result is returned as an interface{} and can be further processed as needed.
 func ProcessJSONFile(filePath string, result interface{}) error {
-	// Read the JSON file
 	file, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("failed to open file: %w", err)
 	}
 	defer file.Close()
 
-	// Read the file contents into a byte slice
 	byteValue, err := io.ReadAll(file)
 	if err != nil {
 		return fmt.Errorf("failed to read file: %w", err)
 	}
 
-	// Unmarshal the JSON data into a map[string]interface{}
 	var data map[string]interface{}
 	if err := json.Unmarshal(byteValue, &data); err != nil {
 		return fmt.Errorf("failed to unmarshal JSON: %w", err)
 	}
 
-	// Decode the map into the provided result struct using mapstructure
 	if err := mapstructure.Decode(data, result); err != nil {
 		return fmt.Errorf("failed to decode data: %w", err)
 	}
@@ -62,8 +58,6 @@ func ParseJSONSchema(schema []byte) (string, error) {
 // generateStructs generates Go struct definitions from the JSON schema
 func generateStructs(structName string, schemaData map[string]interface{}) (string, error) {
 	var structsBuilder strings.Builder
-
-	// Add package name at the top of the file
 	structsBuilder.WriteString("package generatedstructs\n\n")
 
 	structDef, err := generateStruct(structName, schemaData)
@@ -73,7 +67,14 @@ func generateStructs(structName string, schemaData map[string]interface{}) (stri
 	structsBuilder.WriteString(structDef)
 	structsBuilder.WriteString("\n\n")
 
-	for key, value := range schemaData {
+	keys := make([]string, 0, len(schemaData))
+	for key := range schemaData {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		value := schemaData[key]
 		switch value := value.(type) {
 		case map[string]interface{}:
 			structDef, err := generateStruct(cases.Title(language.English).String(key), value)
@@ -83,7 +84,6 @@ func generateStructs(structName string, schemaData map[string]interface{}) (stri
 			structsBuilder.WriteString(structDef)
 			structsBuilder.WriteString("\n\n")
 		case []interface{}:
-			// Handle arrays of objects
 			if len(value) > 0 {
 				if elem, ok := value[0].(map[string]interface{}); ok {
 					structDef, err := generateStruct(cases.Title(language.English).String(key), elem)
@@ -95,7 +95,6 @@ func generateStructs(structName string, schemaData map[string]interface{}) (stri
 				}
 			}
 		default:
-			// Handle primitive types at the top level
 			fieldType, err := getFieldType(value)
 			if err != nil {
 				return "", err
@@ -111,7 +110,6 @@ func generateStructs(structName string, schemaData map[string]interface{}) (stri
 // generateStruct generates a Go struct definition from a JSON object
 func generateStruct(structName string, structData map[string]interface{}) (string, error) {
 	var fieldsBuilder strings.Builder
-
 	titleCaser := cases.Title(language.English)
 
 	for key, value := range structData {
