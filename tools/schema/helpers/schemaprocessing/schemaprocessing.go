@@ -63,6 +63,9 @@ func ParseJSONSchema(schema []byte) (string, error) {
 func generateStructs(structName string, schemaData map[string]interface{}) (string, error) {
 	var structsBuilder strings.Builder
 
+	// Add package name at the top of the file
+	structsBuilder.WriteString("package generatedstructs\n\n")
+
 	structDef, err := generateStruct(structName, schemaData)
 	if err != nil {
 		return "", err
@@ -73,7 +76,7 @@ func generateStructs(structName string, schemaData map[string]interface{}) (stri
 	for key, value := range schemaData {
 		switch value := value.(type) {
 		case map[string]interface{}:
-			structDef, err := generateStruct(key, value)
+			structDef, err := generateStruct(cases.Title(language.English).String(key), value)
 			if err != nil {
 				return "", err
 			}
@@ -83,7 +86,7 @@ func generateStructs(structName string, schemaData map[string]interface{}) (stri
 			// Handle arrays of objects
 			if len(value) > 0 {
 				if elem, ok := value[0].(map[string]interface{}); ok {
-					structDef, err := generateStruct(key, elem)
+					structDef, err := generateStruct(cases.Title(language.English).String(key), elem)
 					if err != nil {
 						return "", err
 					}
