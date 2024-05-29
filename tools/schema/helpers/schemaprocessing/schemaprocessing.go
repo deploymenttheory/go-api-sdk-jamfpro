@@ -12,6 +12,8 @@ import (
 	"strings"
 
 	"github.com/mitchellh/mapstructure"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // OpenAPI is the top-level struct for the OAS3 standard
@@ -86,7 +88,7 @@ func generateStruct(structsBuilder *strings.Builder, parentStructName string, st
 
 	for key, value := range structData {
 		if subMap, ok := value.(map[string]interface{}); ok {
-			subStructName := normalizeToSafeNameGoStruct(parentStructName + key)
+			subStructName := normalizeToSafeNameGoStruct(key)
 			if err := generateStruct(structsBuilder, subStructName, subMap); err != nil {
 				return err
 			}
@@ -171,10 +173,11 @@ func normalizeToSafeNameGoStruct(fieldName string) string {
 	reg := regexp.MustCompile(`[^a-zA-Z0-9]+`)
 	fieldName = reg.ReplaceAllString(fieldName, " ")
 
-	// Split the string by spaces and capitalize each part
+	// Split the string by spaces and capitalize each part using cases.Title
+	caser := cases.Title(language.Und)
 	parts := strings.Fields(fieldName)
 	for i, part := range parts {
-		parts[i] = strings.Title(part)
+		parts[i] = caser.String(part)
 	}
 
 	// Join the parts back together without spaces
