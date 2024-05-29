@@ -18,11 +18,11 @@ import (
 
 // OpenAPI is the top-level struct for the OAS3 standard
 type OpenAPI struct {
-	Openapi    string                   `json:"openapi"`
+	Openapi    []map[string]interface{} `json:"openapi"`
 	Servers    []map[string]interface{} `json:"servers"`
 	Security   []map[string]interface{} `json:"security"`
-	Paths      map[string]interface{}   `json:"paths"`
-	Components map[string]interface{}   `json:"components"`
+	Paths      []map[string]interface{} `json:"paths"`
+	Components []map[string]interface{} `json:"components"`
 }
 
 // ProcessJSONFile reads a JSON file, decodes it into a Go struct, and returns the result.
@@ -70,7 +70,7 @@ func generateStructs(schemaData map[string]interface{}, rootStructName string) (
 	var structsBuilder strings.Builder
 	structsBuilder.WriteString("package generatedstructs\n\n")
 
-	if err := generateStruct(&structsBuilder, rootStructName, schemaData); err != nil {
+	if err := generateStruct(&structsBuilder, rootStructName, schemaData, true); err != nil {
 		return "", err
 	}
 
@@ -78,19 +78,22 @@ func generateStructs(schemaData map[string]interface{}, rootStructName string) (
 }
 
 // generateStruct generates a Go struct definition from a JSON object
-func generateStruct(structsBuilder *strings.Builder, parentStructName string, structData map[string]interface{}) error {
-	structDef, err := createStructDefinition(parentStructName, structData)
+func generateStruct(structsBuilder *strings.Builder, parentStructName string, structData map[string]interface{}, isRoot bool) error {
+	structDef, err := createStructDefinition(parentStructName, structData, isRoot)
 	if err != nil {
 		return err
 	}
 	structsBuilder.WriteString(structDef)
 	structsBuilder.WriteString("\n\n")
 
-	for key, value := range structData {
-		if subMap, ok := value.(map[string]interface{}); ok {
-			subStructName := normalizeToSafeNameGoStruct(key)
-			if err := generateStruct(structsBuilder, subStructName, subMap); err != nil {
-				return err
+	keys := getOrderedKeys(structData)
+	for _, key := range keys {
+		if value, ok := structData[key]; ok {
+			if subMap, ok := value.(map[string]interface{}); ok {
+				subStructName := normalizeToSafeNameGoStruct(key)
+				if err := generateStruct(structsBuilder, subStructName, subMap, false); err != nil {
+					return err
+				}
 			}
 		}
 	}
@@ -99,11 +102,14 @@ func generateStruct(structsBuilder *strings.Builder, parentStructName string, st
 }
 
 // createStructDefinition creates a Go struct definition string
-func createStructDefinition(structName string, structData map[string]interface{}) (string, error) {
+func createStructDefinition(structName string, structData map[string]interface{}, isRoot bool) (string, error) {
 	var fieldsBuilder strings.Builder
 
-	// Sort keys for consistent order
-	keys := sortKeys(structData)
+	// Get ordered keys for root, sorted keys otherwise
+	keys := getOrderedKeys(structData)
+	if !isRoot {
+		keys = sortKeys(structData)
+	}
 
 	for _, key := range keys {
 		value := structData[key]
@@ -141,7 +147,7 @@ func createStructDefinition(structName string, structData map[string]interface{}
 func inferFieldType(fieldName string, value interface{}, parentStructName string) (string, error) {
 	switch v := value.(type) {
 	case map[string]interface{}:
-		return normalizeToSafeNameGoStruct(parentStructName + fieldName), nil
+		return normalizeToSafeNameGoStruct(fieldName), nil
 	case []interface{}:
 		if len(v) > 0 {
 			elemType, err := inferFieldType(fieldName, v[0], parentStructName)
@@ -203,5 +209,14 @@ func sortKeys(data map[string]interface{}) []string {
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
+	return keys
+}
+
+// getOrderedKeys returns the keys of the map in the order they are defined
+func getOrderedKeys(data map[string]interface{}) []string {
+	keys := make([]string, 0, len(data))
+	for key := range data {
+		keys = append(keys, key)
+	}
 	return keys
 }
