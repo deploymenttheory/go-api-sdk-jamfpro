@@ -1,7 +1,8 @@
-// classicapi_advanced_mobile_searches.go
-// Jamf Pro Classic Api - Advanced Mobile Searches
-// api reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
-// Classic API requires the structs to support an XML data structure.
+// Filename: classicapi_advanced_mobile_searches.go
+// Jamf Pro Classic API
+// Resource: Advanced Mobile Searches
+// API reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
+// Data Structure: XML
 
 /*
 Shared Resources in this Endpoint:
@@ -71,7 +72,12 @@ type AdvancedMobileSearchSubsetDevice struct {
 
 // CRUD
 
-// GetAdvancedMobileDeviceSearches retrieves all advanced mobile device searches.
+/*
+Function: GetAdvancedMobileDeviceSearches
+Method: GET
+Path: /JSSResource/advancedmobiledevicesearches
+Description: Gets a list of all Jamf Pro Advanced Mobile Device Search resources.
+*/
 func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDeviceSearchesList, error) {
 	endpoint := uriAPIAdvancedMobileDeviceSearches
 
@@ -88,7 +94,12 @@ func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDevic
 	return &searchesList, nil
 }
 
-// GetAdvancedMobileDeviceSearchByID retrieves an advanced mobile device search by its ID.
+/*
+Function: GetAdvancedMobileDeviceSearchByID
+Method: GET
+Path: /JSSResource/advancedmobiledevicesearches/id/{id}
+Description: Gets a Jamf Pro advanced mobile device search resource by its ID.
+*/
 func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMobileDeviceSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
@@ -105,7 +116,12 @@ func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMob
 	return &searchDetail, nil
 }
 
-// GetAdvancedMobileDeviceSearchByName retrieves an advanced mobile device search by its name.
+/*
+Function: GetAdvancedMobileDeviceSearchByName
+Method: GET
+Path: /JSSResource/advancedmobiledevicesearches/name/{name}
+Description: Gets a Jamf Pro advanced mobile device search resource by its name.
+*/
 func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdvancedMobileDeviceSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
@@ -122,7 +138,12 @@ func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdva
 	return &searchDetail, nil
 }
 
-// CreateAdvancedMobileDeviceSearch creates a new advanced mobile device search with the given ID.
+/*
+Function: CreateAdvancedMobileDeviceSearch
+Method: POST
+Path: /JSSResource/advancedmobiledevicesearches
+Description: Creates a new Jamf Pro advanced mobile device search resource.
+*/
 func (c *Client) CreateAdvancedMobileDeviceSearch(search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedMobileDeviceSearches
 
@@ -146,7 +167,12 @@ func (c *Client) CreateAdvancedMobileDeviceSearch(search *ResourceAdvancedMobile
 	return &createdSearch, nil
 }
 
-// UpdateAdvancedMobileDeviceSearchByID updates an existing advanced mobile device search by its ID.
+/*
+Function: UpdateAdvancedMobileDeviceSearchByID
+Method: PUT
+Path: /JSSResource/advancedmobiledevicesearches/id/{id}
+Description: Updates an existing Jamf Pro advanced mobile device search resource by its ID.
+*/
 func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
@@ -170,7 +196,12 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAd
 	return &updatedSearch, nil
 }
 
-// UpdateAdvancedMobileDeviceSearchByName updates an existing advanced mobile device search by its name.
+/*
+Function: UpdateAdvancedMobileDeviceSearchByName
+Method: PUT
+Path: /JSSResource/advancedmobiledevicesearches/name/{name}
+Description: Updates an existing Jamf Pro advanced mobile device search resource by its name.
+*/
 func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
@@ -194,7 +225,12 @@ func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *Res
 	return &updatedSearch, nil
 }
 
-// DeleteAdvancedMobileDeviceSearchByID deletes an existing advanced mobile device search by its ID.
+/*
+Function: DeleteAdvancedMobileDeviceSearchByID
+Method: DELETE
+Path: /JSSResource/advancedmobiledevicesearches/id/{id}
+Description: Deletes an existing Jamf Pro advanced mobile device search resource by its ID.
+*/
 func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
 
@@ -210,7 +246,12 @@ func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id int) error {
 	return nil
 }
 
-// DeleteAdvancedMobileDeviceSearchByName deletes an existing advanced mobile device search by its name.
+/*
+Function: DeleteAdvancedMobileDeviceSearchByName
+Method: DELETE
+Path: /JSSResource/advancedmobiledevicesearches/name/{name}
+Description: Deletes an existing Jamf Pro advanced mobile device search resource by its name.
+*/
 func (c *Client) DeleteAdvancedMobileDeviceSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
 
