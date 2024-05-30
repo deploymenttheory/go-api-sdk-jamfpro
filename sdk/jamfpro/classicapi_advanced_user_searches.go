@@ -1,10 +1,11 @@
-// classicapi_advanced_user_searches.go
-// Jamf Pro Classic Api - Advanced User Searches
-// api reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
-// Classic API requires the structs to support an XML data structure.
-
 /*
-Shared Resources in this Endpoint
+Filename: classicapi_advanced_user_searches.go
+- Jamf Pro Classic API
+- Resource: Advanced User Searches
+- API reference: https://developer.jamf.com/jamf-pro/reference/advancedusersearches
+- Data Structure: XML
+
+Shared data structure resources in this endpoint:
 - SharedResourceSite
 - SharedContainerCriteria
 - SharedAdvancedSearchSubsetDisplayField
@@ -66,7 +67,23 @@ type AdvancedUserSearchSubsetUser struct {
 
 // CRUD
 
-// GetAdvancedUserSearches retrieves all advanced user searches
+/*
+Function: GetAdvancedUserSearches
+Method: GET
+Path: /JSSResource/advancedusersearches
+Description: Gets a list of all Jamf Pro Advanced User Search resources.
+Parameters: None
+Returns: ResponseAdvancedUserSearchesList - A list of advanced user searches.
+Example:
+
+	searches, err := client.GetAdvancedUserSearches()
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(searches)
+
+Errors: Returns an error if the request fails.
+*/
 func (c *Client) GetAdvancedUserSearches() (*ResponseAdvancedUserSearchesList, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
@@ -83,7 +100,25 @@ func (c *Client) GetAdvancedUserSearches() (*ResponseAdvancedUserSearchesList, e
 	return &advancedUserSearchesList, nil
 }
 
-// GetAdvancedUserSearchByID retrieves an advanced user search by its ID
+/*
+Function: GetAdvancedUserSearchByID
+Method: GET
+Path: /JSSResource/advancedusersearches/id/{id}
+Description: Gets a Jamf Pro advanced user search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced user search.
+
+Returns: ResourceAdvancedUserSearch - The advanced user search resource.
+Example:
+
+	search, err := client.GetAdvancedUserSearchByID(123)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(search)
+
+Errors: Returns an error if the request fails or if the ID is not found.
+*/
 func (c *Client) GetAdvancedUserSearchByID(id int) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
@@ -100,7 +135,25 @@ func (c *Client) GetAdvancedUserSearchByID(id int) (*ResourceAdvancedUserSearch,
 	return &searchDetail, nil
 }
 
-// GetAdvancedUserSearchByName retrieves an advanced user search by its name
+/*
+Function: GetAdvancedUserSearchByName
+Method: GET
+Path: /JSSResource/advancedusersearches/name/{name}
+Description: Gets a Jamf Pro advanced user search resource by its name.
+Parameters:
+  - name (string): The name of the advanced user search.
+
+Returns: ResourceAdvancedUserSearch - The advanced user search resource.
+Example:
+
+	search, err := client.GetAdvancedUserSearchByName("SearchName")
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(search)
+
+Errors: Returns an error if the request fails or if the name is not found.
+*/
 func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUserSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
@@ -117,7 +170,29 @@ func (c *Client) GetAdvancedUserSearchByName(name string) (*ResourceAdvancedUser
 	return &searchDetail, nil
 }
 
-// CreateAdvancedUserSearch creates a new advanced user search.
+/*
+Function: CreateAdvancedUserSearch
+Method: POST
+Path: /JSSResource/advancedusersearches
+Description: Creates a new Jamf Pro advanced user search resource.
+Parameters:
+  - search (*ResourceAdvancedUserSearch): The advanced user search resource to create.
+
+Returns: ResponseAdvancedUserSearchCreatedAndUpdated - The ID of the created advanced user search resource.
+Example:
+
+	newSearch := &jamfpro.ResourceAdvancedUserSearch{
+	    Name: "New Search",
+	    // Other fields...
+	}
+	created, err := client.CreateAdvancedUserSearch(newSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(created)
+
+Errors: Returns an error if the request fails or if the resource cannot be created.
+*/
 func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
@@ -142,7 +217,30 @@ func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*
 	return &createdSearch, nil
 }
 
-// UpdateAdvancedUserSearchByID updates an existing advanced user search by its ID.
+/*
+Function: UpdateAdvancedUserSearchByID
+Method: PUT
+Path: /JSSResource/advancedusersearches/id/{id}
+Description: Updates an existing Jamf Pro advanced user search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced user search.
+  - search (*ResourceAdvancedUserSearch): The updated advanced user search resource.
+
+Returns: ResponseAdvancedUserSearchCreatedAndUpdated - The ID of the updated advanced user search resource.
+Example:
+
+	updatedSearch := &jamfpro.ResourceAdvancedUserSearch{
+	    Name: "Updated Search",
+	    // Other fields...
+	}
+	updated, err := client.UpdateAdvancedUserSearchByID(123, updatedSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(updated)
+
+Errors: Returns an error if the request fails or if the resource cannot be updated.
+*/
 func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 
@@ -166,7 +264,30 @@ func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUs
 	return &updatedSearch, nil
 }
 
-// UpdateAdvancedUserSearchByName updates an existing advanced user search by its name.
+/*
+Function: UpdateAdvancedUserSearchByName
+Method: PUT
+Path: /JSSResource/advancedusersearches/name/{name}
+Description: Updates an existing Jamf Pro advanced user search resource by its name.
+Parameters:
+  - name (string): The name of the advanced user search.
+  - search (*ResourceAdvancedUserSearch): The updated advanced user search resource.
+
+Returns: ResponseAdvancedUserSearchCreatedAndUpdated - The ID of the updated advanced user search resource.
+Example:
+
+	updatedSearch := &jamfpro.ResourceAdvancedUserSearch{
+	    Name: "Updated Search",
+	    // Other fields...
+	}
+	updated, err := client.UpdateAdvancedUserSearchByName("SearchName", updatedSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(updated)
+
+Errors: Returns an error if the request fails or if the resource cannot be updated.
+*/
 func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 
@@ -190,7 +311,24 @@ func (c *Client) UpdateAdvancedUserSearchByName(name string, search *ResourceAdv
 	return &updatedSearch, nil
 }
 
-// DeleteAdvancedUserSearchByID deletes an advanced user search by its ID.
+/*
+Function: DeleteAdvancedUserSearchByID
+Method: DELETE
+Path: /JSSResource/advancedusersearches/id/{id}
+Description: Deletes an existing Jamf Pro advanced user search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced user search.
+
+Returns: None
+Example:
+
+	err := client.DeleteAdvancedUserSearchByID(123)
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Errors: Returns an error if the request fails or if the resource cannot be deleted.
+*/
 func (c *Client) DeleteAdvancedUserSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -203,7 +341,24 @@ func (c *Client) DeleteAdvancedUserSearchByID(id int) error {
 	return nil
 }
 
-// DeleteAdvancedUserSearchByName deletes an advanced user search by its name.
+/*
+Function: DeleteAdvancedUserSearchByName
+Method: DELETE
+Path: /JSSResource/advancedusersearches/name/{name}
+Description: Deletes an existing Jamf Pro advanced user search resource by its name.
+Parameters:
+  - name (string): The name of the advanced user search.
+
+Returns: None
+Example:
+
+	err := client.DeleteAdvancedUserSearchByName("SearchName")
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Errors: Returns an error if the request fails or if the resource cannot be deleted.
+*/
 func (c *Client) DeleteAdvancedUserSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedUserSearches, name)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)

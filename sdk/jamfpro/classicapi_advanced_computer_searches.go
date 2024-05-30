@@ -1,10 +1,11 @@
-// classicapi_advanced_computer_searches.go
-// Jamf Pro Classic Api - Advanced Computer Searches
-// api reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
-// Classic API requires the structs to support an XML data structure.
-
 /*
-Shared Resources in this Endpoint :
+Filename: classicapi_advanced_computer_searches.go
+- Jamf Pro Classic API
+- Resource: Advanced Computer Searches
+- API reference: https://developer.jamf.com/jamf-pro/reference/advancedcomputersearches
+- Data Structure: XML
+
+Shared data structure resources in this endpoint:
 - SharedResourceSite
 - SharedContainerCriteria
 - SharedAdvancedSearchSubsetDisplayField
@@ -72,7 +73,23 @@ type AdvancedComputerSearchSubsetComputer struct {
 
 // CRUD
 
-// GetAdvancedComputerSearches retrieves all advanced computer searches.
+/*
+Function: GetAdvancedComputerSearches
+Method: GET
+Path: /JSSResource/advancedcomputersearches
+Description: Gets a list of all Jamf Pro Advanced Computer Search resources.
+Parameters: None
+Returns: ResponseAdvancedComputerSearchesList - A list of advanced computer searches.
+Example:
+
+	searches, err := client.GetAdvancedComputerSearches()
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(searches)
+
+Errors: Returns an error if the request fails.
+*/
 func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearchesList, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
@@ -89,7 +106,25 @@ func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearche
 	return &searchesList, nil
 }
 
-// GetAdvancedComputerSearchByID retrieves an advanced computer search by its ID
+/*
+Function: GetAdvancedComputerSearchByID
+Method: GET
+Path: /JSSResource/advancedcomputersearches/id/{id}
+Description: Gets a Jamf Pro advanced computer search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced computer search.
+
+Returns: ResourceAdvancedComputerSearch - The advanced computer search resource.
+Example:
+
+	search, err := client.GetAdvancedComputerSearchByID(123)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(search)
+
+Errors: Returns an error if the request fails or if the ID is not found.
+*/
 func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
@@ -106,7 +141,25 @@ func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedCompute
 	return &search, nil
 }
 
-// GetAdvancedComputerSearchesByName retrieves advanced computer searches by their name
+/*
+Function: GetAdvancedComputerSearchByName
+Method: GET
+Path: /JSSResource/advancedcomputersearches/name/{name}
+Description: Gets a Jamf Pro advanced computer search resource by its name.
+Parameters:
+  - name (string): The name of the advanced computer search.
+
+Returns: ResourceAdvancedComputerSearch - The advanced computer search resource.
+Example:
+
+	search, err := client.GetAdvancedComputerSearchByName("SearchName")
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(search)
+
+Errors: Returns an error if the request fails or if the name is not found.
+*/
 func (c *Client) GetAdvancedComputerSearchByName(name string) (*ResourceAdvancedComputerSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
@@ -123,7 +176,29 @@ func (c *Client) GetAdvancedComputerSearchByName(name string) (*ResourceAdvanced
 	return &search, nil
 }
 
-// CreateAdvancedComputerSearch creates a new advanced computer search.
+/*
+Function: CreateAdvancedComputerSearch
+Method: POST
+Path: /JSSResource/advancedcomputersearches
+Description: Creates a new Jamf Pro advanced computer search resource.
+Parameters:
+  - search (*ResourceAdvancedComputerSearch): The advanced computer search resource to create.
+
+Returns: ResponseAdvancedComputerSearchCreatedAndUpdated - The ID of the created advanced computer search resource.
+Example:
+
+	newSearch := &jamfpro.ResourceAdvancedComputerSearch{
+	    Name: "New Search",
+	    // Other fields...
+	}
+	created, err := client.CreateAdvancedComputerSearch(newSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(created)
+
+Errors: Returns an error if the request fails or if the resource cannot be created.
+*/
 func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedComputerSearches
 
@@ -147,7 +222,30 @@ func (c *Client) CreateAdvancedComputerSearch(search *ResourceAdvancedComputerSe
 	return &createdSearch, nil
 }
 
-// UpdateAdvancedComputerSearchByID updates an existing advanced computer search by its ID.
+/*
+Function: UpdateAdvancedComputerSearchByID
+Method: PUT
+Path: /JSSResource/advancedcomputersearches/id/{id}
+Description: Updates an existing Jamf Pro advanced computer search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced computer search.
+  - search (*ResourceAdvancedComputerSearch): The updated advanced computer search resource.
+
+Returns: ResponseAdvancedComputerSearchCreatedAndUpdated - The ID of the updated advanced computer search resource.
+Example:
+
+	updatedSearch := &jamfpro.ResourceAdvancedComputerSearch{
+	    Name: "Updated Search",
+	    // Other fields...
+	}
+	updated, err := client.UpdateAdvancedComputerSearchByID(123, updatedSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(updated)
+
+Errors: Returns an error if the request fails or if the resource cannot be updated.
+*/
 func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
@@ -171,7 +269,30 @@ func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvanc
 	return &updatedSearch, nil
 }
 
-// UpdateAdvancedComputerSearchByName updates an existing advanced computer search by its name.
+/*
+Function: UpdateAdvancedComputerSearchByName
+Method: PUT
+Path: /JSSResource/advancedcomputersearches/name/{name}
+Description: Updates an existing Jamf Pro advanced computer search resource by its name.
+Parameters:
+  - name (string): The name of the advanced computer search.
+  - search (*ResourceAdvancedComputerSearch): The updated advanced computer search resource.
+
+Returns: ResponseAdvancedComputerSearchCreatedAndUpdated - The ID of the updated advanced computer search resource.
+Example:
+
+	updatedSearch := &jamfpro.ResourceAdvancedComputerSearch{
+	    Name: "Updated Search",
+	    // Other fields...
+	}
+	updated, err := client.UpdateAdvancedComputerSearchByName("SearchName", updatedSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(updated)
+
+Errors: Returns an error if the request fails or if the resource cannot be updated.
+*/
 func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
@@ -195,7 +316,24 @@ func (c *Client) UpdateAdvancedComputerSearchByName(name string, search *Resourc
 	return &updatedSearch, nil
 }
 
-// DeleteAdvancedComputerSearchByID deletes an advanced computer search by its ID.
+/*
+Function: DeleteAdvancedComputerSearchByID
+Method: DELETE
+Path: /JSSResource/advancedcomputersearches/id/{id}
+Description: Deletes an existing Jamf Pro advanced computer search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced computer search.
+
+Returns: None
+Example:
+
+	err := client.DeleteAdvancedComputerSearchByID(123)
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Errors: Returns an error if the request fails or if the resource cannot be deleted.
+*/
 func (c *Client) DeleteAdvancedComputerSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
 
@@ -211,7 +349,24 @@ func (c *Client) DeleteAdvancedComputerSearchByID(id int) error {
 	return nil
 }
 
-// DeleteAdvancedComputerSearchByName deletes an advanced computer search by its name.
+/*
+Function: DeleteAdvancedComputerSearchByName
+Method: DELETE
+Path: /JSSResource/advancedcomputersearches/name/{name}
+Description: Deletes an existing Jamf Pro advanced computer search resource by its name.
+Parameters:
+  - name (string): The name of the advanced computer search.
+
+Returns: None
+Example:
+
+	err := client.DeleteAdvancedComputerSearchByName("SearchName")
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Errors: Returns an error if the request fails or if the resource cannot be deleted.
+*/
 func (c *Client) DeleteAdvancedComputerSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedComputerSearches, name)
 
