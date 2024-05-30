@@ -1,4 +1,5 @@
-/* Filename: classicapi_advanced_mobile_searches.go
+/*
+Filename: classicapi_advanced_mobile_device_searches.go
 - Jamf Pro Classic API
 - Resource: Advanced Mobile Searches
 - API reference: https://developer.jamf.com/jamf-pro/reference/advancedmobiledevicesearches
