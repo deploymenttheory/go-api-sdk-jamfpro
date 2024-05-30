@@ -76,6 +76,17 @@ Function: GetAdvancedMobileDeviceSearches
 Method: GET
 Path: /JSSResource/advancedmobiledevicesearches
 Description: Gets a list of all Jamf Pro Advanced Mobile Device Search resources.
+Parameters: None
+Returns: ResponseAdvancedMobileDeviceSearchesList - A list of advanced mobile device searches.
+Example:
+
+	searches, err := client.GetAdvancedMobileDeviceSearches()
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(searches)
+
+Errors: Returns an error if the request fails.
 */
 func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDeviceSearchesList, error) {
 	endpoint := uriAPIAdvancedMobileDeviceSearches
@@ -98,6 +109,19 @@ Function: GetAdvancedMobileDeviceSearchByID
 Method: GET
 Path: /JSSResource/advancedmobiledevicesearches/id/{id}
 Description: Gets a Jamf Pro advanced mobile device search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced mobile device search.
+
+Returns: ResourceAdvancedMobileDeviceSearch - The advanced mobile device search resource.
+Example:
+
+	search, err := client.GetAdvancedMobileDeviceSearchByID(123)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(search)
+
+Errors: Returns an error if the request fails or if the ID is not found.
 */
 func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMobileDeviceSearch, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
@@ -120,6 +144,19 @@ Function: GetAdvancedMobileDeviceSearchByName
 Method: GET
 Path: /JSSResource/advancedmobiledevicesearches/name/{name}
 Description: Gets a Jamf Pro advanced mobile device search resource by its name.
+Parameters:
+  - name (string): The name of the advanced mobile device search.
+
+Returns: ResourceAdvancedMobileDeviceSearch - The advanced mobile device search resource.
+Example:
+
+	search, err := client.GetAdvancedMobileDeviceSearchByName("SearchName")
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(search)
+
+Errors: Returns an error if the request fails or if the name is not found.
 */
 func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdvancedMobileDeviceSearch, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
@@ -142,6 +179,23 @@ Function: CreateAdvancedMobileDeviceSearch
 Method: POST
 Path: /JSSResource/advancedmobiledevicesearches
 Description: Creates a new Jamf Pro advanced mobile device search resource.
+Parameters:
+  - search (*ResourceAdvancedMobileDeviceSearch): The advanced mobile device search resource to create.
+
+Returns: ResponseAdvancedMobileDeviceSearchCreatedAndUpdated - The ID of the created advanced mobile device search resource.
+Example:
+
+	newSearch := &jamfpro.ResourceAdvancedMobileDeviceSearch{
+	    Name: "New Search",
+	    // Other fields...
+	}
+	created, err := client.CreateAdvancedMobileDeviceSearch(newSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(created)
+
+Errors: Returns an error if the request fails or if the resource cannot be created.
 */
 func (c *Client) CreateAdvancedMobileDeviceSearch(search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedMobileDeviceSearches
@@ -171,6 +225,24 @@ Function: UpdateAdvancedMobileDeviceSearchByID
 Method: PUT
 Path: /JSSResource/advancedmobiledevicesearches/id/{id}
 Description: Updates an existing Jamf Pro advanced mobile device search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced mobile device search.
+  - search (*ResourceAdvancedMobileDeviceSearch): The updated advanced mobile device search resource.
+
+Returns: ResponseAdvancedMobileDeviceSearchCreatedAndUpdated - The ID of the updated advanced mobile device search resource.
+Example:
+
+	updatedSearch := &jamfpro.ResourceAdvancedMobileDeviceSearch{
+	    Name: "Updated Search",
+	    // Other fields...
+	}
+	updated, err := client.UpdateAdvancedMobileDeviceSearchByID(123, updatedSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(updated)
+
+Errors: Returns an error if the request fails or if the resource cannot be updated.
 */
 func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
@@ -200,6 +272,24 @@ Function: UpdateAdvancedMobileDeviceSearchByName
 Method: PUT
 Path: /JSSResource/advancedmobiledevicesearches/name/{name}
 Description: Updates an existing Jamf Pro advanced mobile device search resource by its name.
+Parameters:
+  - name (string): The name of the advanced mobile device search.
+  - search (*ResourceAdvancedMobileDeviceSearch): The updated advanced mobile device search resource.
+
+Returns: ResponseAdvancedMobileDeviceSearchCreatedAndUpdated - The ID of the updated advanced mobile device search resource.
+Example:
+
+	updatedSearch := &jamfpro.ResourceAdvancedMobileDeviceSearch{
+	    Name: "Updated Search",
+	    // Other fields...
+	}
+	updated, err := client.UpdateAdvancedMobileDeviceSearchByName("SearchName", updatedSearch)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(updated)
+
+Errors: Returns an error if the request fails or if the resource cannot be updated.
 */
 func (c *Client) UpdateAdvancedMobileDeviceSearchByName(name string, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
@@ -229,6 +319,18 @@ Function: DeleteAdvancedMobileDeviceSearchByID
 Method: DELETE
 Path: /JSSResource/advancedmobiledevicesearches/id/{id}
 Description: Deletes an existing Jamf Pro advanced mobile device search resource by its ID.
+Parameters:
+  - id (int): The ID of the advanced mobile device search.
+
+Returns: None
+Example:
+
+	err := client.DeleteAdvancedMobileDeviceSearchByID(123)
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Errors: Returns an error if the request fails or if the resource cannot be deleted.
 */
 func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id int) error {
 	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
@@ -250,6 +352,18 @@ Function: DeleteAdvancedMobileDeviceSearchByName
 Method: DELETE
 Path: /JSSResource/advancedmobiledevicesearches/name/{name}
 Description: Deletes an existing Jamf Pro advanced mobile device search resource by its name.
+Parameters:
+  - name (string): The name of the advanced mobile device search.
+
+Returns: None
+Example:
+
+	err := client.DeleteAdvancedMobileDeviceSearchByName("SearchName")
+	if err != nil {
+	    log.Fatal(err)
+	}
+
+Errors: Returns an error if the request fails or if the resource cannot be deleted.
 */
 func (c *Client) DeleteAdvancedMobileDeviceSearchByName(name string) error {
 	endpoint := fmt.Sprintf("%s/name/%s", uriAPIAdvancedMobileDeviceSearches, name)
