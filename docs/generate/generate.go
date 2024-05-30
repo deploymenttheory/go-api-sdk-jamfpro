@@ -23,13 +23,19 @@ func main() {
 		return
 	}
 
-	sdkPath, err := findSDKDirectory(startPath)
+	sdkPath, err := findDirectory(startPath, "sdk")
 	if err != nil {
 		fmt.Printf("Error finding sdk directory: %v\n", err)
 		return
 	}
 
-	exportPath := "export"
+	docsPath, err := findDirectory(startPath, "docs")
+	if err != nil {
+		fmt.Printf("Error finding docs directory: %v\n", err)
+		return
+	}
+
+	exportPath := filepath.Join(docsPath, "markdown")
 
 	// Create the export directory if it doesn't exist
 	if _, err := os.Stat(exportPath); os.IsNotExist(err) {
@@ -53,25 +59,28 @@ func main() {
 		fmt.Printf("Error walking through files: %v\n", err)
 	}
 
-	fmt.Println("Processing complete. Markdown files generated in the 'export' folder.")
+	// Create the root markdown file
+	createRootMarkdown(docsPath, exportPath)
+
+	fmt.Println("Processing complete. Markdown files generated in the 'markdown' folder within 'docs'.")
 }
 
-func findSDKDirectory(startPath string) (string, error) {
+func findDirectory(startPath, dirName string) (string, error) {
 	for {
-		fmt.Printf("Searching for 'sdk' directory in: %s\n", startPath)
-		sdkPath := filepath.Join(startPath, "sdk")
-		if _, err := os.Stat(sdkPath); err == nil {
-			fmt.Printf("Found 'sdk' directory in: %s\n", sdkPath)
-			return sdkPath, nil
+		fmt.Printf("Searching for '%s' directory in: %s\n", dirName, startPath)
+		dirPath := filepath.Join(startPath, dirName)
+		if _, err := os.Stat(dirPath); err == nil {
+			fmt.Printf("Found '%s' directory in: %s\n", dirName, dirPath)
+			return dirPath, nil
 		}
 
 		if filepath.Base(startPath) == "go-api-sdk-jamfpro" {
-			return "", fmt.Errorf("reached the root of the repository without finding sdk directory")
+			return "", fmt.Errorf("reached the root of the repository without finding %s directory", dirName)
 		}
 
 		parent := filepath.Dir(startPath)
 		if parent == startPath {
-			return "", fmt.Errorf("sdk directory not found")
+			return "", fmt.Errorf("%s directory not found", dirName)
 		}
 
 		startPath = parent
@@ -197,5 +206,40 @@ func writeMarkdown(exportPath, endpoint string, docs []*FunctionDoc) {
 			doc.Path,
 			strings.Repeat(" ", maxPathLength-len(doc.Path)),
 			doc.Description))
+	}
+}
+
+func createRootMarkdown(docsPath, exportPath string) {
+	rootMarkdownPath := filepath.Join(docsPath, "index.md")
+	file, err := os.Create(rootMarkdownPath)
+	if err != nil {
+		fmt.Printf("Error creating root markdown file: %v\n", err)
+		return
+	}
+	defer file.Close()
+
+	writer := bufio.NewWriter(file)
+	defer writer.Flush()
+
+	writer.WriteString("# API Documentation Index\n\n")
+	writer.WriteString("## Endpoints\n\n")
+
+	err = filepath.Walk(exportPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if !info.IsDir() && strings.HasSuffix(info.Name(), ".md") {
+			relPath, err := filepath.Rel(docsPath, path)
+			if err != nil {
+				return err
+			}
+			link := fmt.Sprintf("- [%s](%s)\n", strings.TrimSuffix(info.Name(), ".md"), relPath)
+			writer.WriteString(link)
+		}
+		return nil
+	})
+	if err != nil {
+		fmt.Printf("Error walking through markdown files: %v\n", err)
 	}
 }
