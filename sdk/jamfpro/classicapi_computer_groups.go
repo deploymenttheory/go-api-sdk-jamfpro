@@ -34,13 +34,18 @@ type ComputerGroupListItem struct {
 // Resource
 
 type ResourceComputerGroup struct {
-
 	ID        int                                    `xml:"id"`
 	Name      string                                 `xml:"name"`
 	IsSmart   bool                                   `xml:"is_smart"`
 	Site      *SharedResourceSite                    `xml:"site"`
 	Criteria  *ComputerGroupSubsetContainerCriteria  `xml:"criteria"`
 	Computers *ComputerGroupSubsetComputersContainer `xml:"computers"`
+}
+
+// Responses
+
+type ResponseComputerGroupreatedAndUpdated struct {
+	ID int `json:"id,omitempty" xml:"id,omitempty"`
 }
 
 // Subsets & Containers
@@ -120,7 +125,7 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 }
 
 // CreateComputerGroup creates a new computer group.
-func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
+func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResponseComputerGroupreatedAndUpdated, error) {
 	endpoint := uriComputerGroups
 
 	requestBody := struct {
@@ -130,7 +135,7 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 		ResourceComputerGroup: group,
 	}
 
-	var createdGroup ResourceComputerGroup
+	var createdGroup ResponseComputerGroupreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createdGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer group", err)
@@ -144,7 +149,7 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResourceCom
 }
 
 // UpdateComputerGroupByID updates an existing computer group by its ID.
-func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
+func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (*ResponseComputerGroupreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
 
 	requestBody := struct {
@@ -154,7 +159,7 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 		ResourceComputerGroup: group,
 	}
 
-	var updatedGroup ResourceComputerGroup
+	var updatedGroup ResponseComputerGroupreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "computer group", id, err)
@@ -168,7 +173,7 @@ func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (
 }
 
 // UpdateComputerGroupByName updates a computer group by its name.
-func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerGroup) (*ResourceComputerGroup, error) {
+func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerGroup) (*ResponseComputerGroupreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputerGroups, name)
 
 	requestBody := struct {
@@ -178,7 +183,7 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 		ResourceComputerGroup: group,
 	}
 
-	var updatedGroup ResourceComputerGroup
+	var updatedGroup ResponseComputerGroupreatedAndUpdated
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &updatedGroup)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "computer group", name, err)

@@ -20,14 +20,15 @@ func main() {
 
 	// Define the computer group details for update
 	groupUpdate := &jamfpro.ResourceComputerGroup{
-		Name:    "Group Name",
+		Name:    "jamfpro-go-sdk-test-group-update-by-id",
 		IsSmart: true,
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Criteria: jamfpro.SharedContainerCriteria{
-			Criterion: []jamfpro.SharedSubsetCriteria{
+		Criteria: &jamfpro.ComputerGroupSubsetContainerCriteria{
+			Size: 1, // Assuming there is only one criterion
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:       "Operating System Version",
 					Priority:   0,
@@ -40,8 +41,10 @@ func main() {
 		// Include other fields if necessary
 	}
 
+	groupID := 175 // Replace with the actual ID
+
 	// Call UpdateComputerGroupByID function
-	updatedGroup, err := client.UpdateComputerGroupByID(123, groupUpdate) // Assuming 123 is the ID of the computer group you want to update
+	updatedGroup, err := client.UpdateComputerGroupByID(groupID, groupUpdate)
 	if err != nil {
 		log.Fatalf("Error updating Computer Group by ID: %v", err)
 	}

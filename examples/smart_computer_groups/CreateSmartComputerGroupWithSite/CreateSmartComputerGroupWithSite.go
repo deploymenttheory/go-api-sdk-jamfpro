@@ -20,11 +20,11 @@ func main() {
 
 	// Sample data for creating a new computer group (replace with actual data as needed)
 	newSmartGroup := &jamfpro.ResourceComputerGroup{
-		Name:    "jamf sdk smart computer group with site",
+		Name:    "jamfpro-go-sdk-smart-computer-group-with-site",
 		IsSmart: true,
-		Site: jamfpro.SharedResourceSite{
-			ID:   967,
-			Name: "test",
+		Site: &jamfpro.SharedResourceSite{
+			ID:   123,
+			Name: "your-site-name",
 		},
 	}
 

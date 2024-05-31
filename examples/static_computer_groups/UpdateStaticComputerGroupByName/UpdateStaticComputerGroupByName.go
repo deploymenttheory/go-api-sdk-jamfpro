@@ -41,10 +41,15 @@ func main() {
 
 	// Create the updated static computer group data
 	updatedStaticGroup := &jamfpro.ResourceComputerGroup{
-		Name:      "Static Group Name",
-		IsSmart:   false,
-		Site:      jamfpro.SharedResourceSite{ID: -1, Name: "None"},
-		Computers: &updatedComputers,
+		Name:    "jamfpro-go-sdk-test-static-group-update-by-name",
+		IsSmart: false,
+		Site: &jamfpro.SharedResourceSite{
+			ID:   -1,
+			Name: "None",
+		},
+		Computers: &jamfpro.ComputerGroupSubsetComputersContainer{
+			Computers: &updatedComputers,
+		},
 	}
 
 	// Call UpdateComputerGroupByName function
