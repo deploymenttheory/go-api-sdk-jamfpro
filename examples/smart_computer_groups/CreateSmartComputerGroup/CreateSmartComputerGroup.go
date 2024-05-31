@@ -22,13 +22,12 @@ func main() {
 	newSmartGroup := &jamfpro.ResourceComputerGroup{
 		Name:    "Operating System Version like 15",
 		IsSmart: true,
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Criteria: jamfpro.SharedContainerCriteria{
-			Size: 1, // Assuming there is only one criterion
-			Criterion: []jamfpro.SharedSubsetCriteria{
+		Criteria: &jamfpro.ComputerGroupSubsetContainerCriteria{
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:       "Operating System Version",
 					Priority:   0,

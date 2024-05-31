@@ -19,17 +19,19 @@ func main() {
 	}
 
 	// Define the computer group name and details for update
-	groupName := "Group Name"
+	groupName := "group-name-to-update" // Replace with the actual name
+
 	// Define the computer group details for update
 	groupUpdate := &jamfpro.ResourceComputerGroup{
-		Name:    "Group Name",
+		Name:    "jamfpro-go-sdk-test-group-update-by-name",
 		IsSmart: true,
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		Criteria: jamfpro.SharedContainerCriteria{
-			Criterion: []jamfpro.SharedSubsetCriteria{
+		Criteria: &jamfpro.ComputerGroupSubsetContainerCriteria{
+			Size: 1, // Assuming there is only one criterion
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:       "Operating System Version",
 					Priority:   0,

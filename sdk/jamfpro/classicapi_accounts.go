@@ -11,6 +11,7 @@ Shared Resources in this Endpoint:
 package jamfpro
 
 import (
+	"encoding/xml"
 	"fmt"
 )
 
@@ -132,21 +133,11 @@ func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 
 // CreateAccountByID creates an Account using its ID
 func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
-	// Use a placeholder ID for creating a new account
-	placeholderID := 0
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, placeholderID)
-
-	// Check if site is not provided and set default values
-	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		}
-	}
+	endpoint := uriAPIAccounts
 
 	// Define XML requestBody structure
-	requestBody := &struct {
-		XMLName struct{} `xml:"account"`
+	requestBody := struct {
+		XMLName xml.Name `xml:"account"`
 		*ResourceAccount
 	}{
 		ResourceAccount: account,
