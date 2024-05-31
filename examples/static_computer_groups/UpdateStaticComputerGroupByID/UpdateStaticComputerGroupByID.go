@@ -47,9 +47,7 @@ func main() {
 			ID:   -1,
 			Name: "None",
 		},
-		Computers: &jamfpro.ComputerGroupSubsetComputersContainer{
-			Computers: &updatedComputers,
-		},
+		Computers: &updatedComputers,
 	}
 
 	// Call UpdateComputerGroupByID function

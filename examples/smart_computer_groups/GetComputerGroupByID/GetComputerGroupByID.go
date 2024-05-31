@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Call GetComputerGroupByID function
-	groupID := 34 // Placeholder ID, replace with a valid ID
+	groupID := 195 // Placeholder ID, replace with a valid ID
 	group, err := client.GetComputerGroupByID(groupID)
 	if err != nil {
 		log.Fatalf("Error fetching Computer Group by ID: %v", err)

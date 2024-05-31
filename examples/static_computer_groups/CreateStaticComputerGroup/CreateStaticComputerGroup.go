@@ -21,18 +21,10 @@ func main() {
 	// Define the computers for the static group
 	computers := []jamfpro.ComputerGroupSubsetComputer{
 		{
-			ID:            2,
-			Name:          "MacBook Pro",
-			MacAddress:    "",
-			AltMacAddress: "",
-			SerialNumber:  "D2FHXH22QB",
+			ID: 21,
 		},
 		{
-			ID:            6,
-			Name:          "MacBook Pro",
-			MacAddress:    "",
-			AltMacAddress: "",
-			SerialNumber:  "LT6M4DTF88",
+			ID: 16,
 		},
 	}
 
@@ -44,9 +36,8 @@ func main() {
 			ID:   -1,
 			Name: "None",
 		},
-		Computers: &jamfpro.ComputerGroupSubsetComputersContainer{
-			Computers: &computers,
-		},
+
+		Computers: &computers,
 	}
 
 	// Call CreateComputerGroup function
