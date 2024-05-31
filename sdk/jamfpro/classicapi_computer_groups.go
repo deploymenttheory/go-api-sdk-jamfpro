@@ -34,12 +34,12 @@ type ComputerGroupListItem struct {
 // Resource
 
 type ResourceComputerGroup struct {
-	ID        int                                    `xml:"id"`
-	Name      string                                 `xml:"name"`
-	IsSmart   bool                                   `xml:"is_smart"`
-	Site      *SharedResourceSite                    `xml:"site"`
-	Criteria  *ComputerGroupSubsetContainerCriteria  `xml:"criteria"`
-	Computers *ComputerGroupSubsetComputersContainer `xml:"computers"`
+	ID        int                                   `xml:"id"`
+	Name      string                                `xml:"name"`
+	IsSmart   bool                                  `xml:"is_smart"`
+	Site      *SharedResourceSite                   `xml:"site"`
+	Criteria  *ComputerGroupSubsetContainerCriteria `xml:"criteria,omitempty"`
+	Computers *[]ComputerGroupSubsetComputer        `xml:"computers>computer,omitempty"`
 }
 
 // Responses
@@ -58,17 +58,12 @@ type ComputerGroupSubsetContainerCriteria struct {
 }
 
 // Computers
-type ComputerGroupSubsetComputersContainer struct {
-	Size      int                            `xml:"size"`
-	Computers *[]ComputerGroupSubsetComputer `xml:"computers,omitempty"`
-}
-
 type ComputerGroupSubsetComputer struct {
-	ID            int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name          string `json:"name,omitempty" xml:"name,omitempty"`
-	SerialNumber  string `json:"serial_number,omitempty" xml:"serial_number,omitempty"`
-	MacAddress    string `json:"mac_address,omitempty" xml:"mac_address,omitempty"`
-	AltMacAddress string `json:"alt_mac_address,omitempty" xml:"alt_mac_address,omitempty"`
+	ID            int    `xml:"id,omitempty"`
+	Name          string `xml:"name,omitempty"`
+	SerialNumber  string `xml:"serial_number,omitempty"`
+	MacAddress    string `xml:"mac_address,omitempty"`
+	AltMacAddress string `xml:"alt_mac_address,omitempty"`
 }
 
 // CRUD
