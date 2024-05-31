@@ -38,10 +38,15 @@ func main() {
 
 	// Create a new static computer group
 	newStaticGroup := &jamfpro.ResourceComputerGroup{
-		Name:      "SDK Static Group Test",
-		IsSmart:   false,
-		Site:      jamfpro.SharedResourceSite{ID: -1, Name: "None"},
-		Computers: &computers,
+		Name:    "jamfpro-go-sdk-test-static-group",
+		IsSmart: false,
+		Site: &jamfpro.SharedResourceSite{
+			ID:   -1,
+			Name: "None",
+		},
+		Computers: &jamfpro.ComputerGroupSubsetComputersContainer{
+			Computers: &computers,
+		},
 	}
 
 	// Call CreateComputerGroup function
