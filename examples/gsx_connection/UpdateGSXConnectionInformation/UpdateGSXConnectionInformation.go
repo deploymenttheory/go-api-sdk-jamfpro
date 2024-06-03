@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -19,17 +20,27 @@ func main() {
 
 	// Define new GSX Connection settings
 	newGSXSettings := &jamfpro.ResourceGSXConnection{
-		Enabled:       false,
-		Username:      "", // Empty string to denote no username
-		AccountNumber: 0,  // Zero to denote no account number
-		URI:           "https://partner-connect.apple.com/gsx/api",
+		Enabled:          false,
+		Username:         "",  // Empty string to denote no username
+		ServiceAccountNo: "0", // Zero to denote no account number
+		ShipToNo:         "0", // Zero to denote no ship-to number
+		GsxKeystore: jamfpro.GsxKeystore{
+			Name:            "certificate.p12",
+			ExpirationEpoch: 169195490000,
+			ErrorMessage:    "Certificate error",
+		},
 	}
 
 	// Call the UpdateGSXConnectionInformation function
-	err = client.UpdateGSXConnectionInformation(newGSXSettings)
+	updatedGSXSettings, err := client.UpdateGSXConnectionInformation(newGSXSettings)
 	if err != nil {
 		log.Fatalf("Error updating GSX Connection Information: %v", err)
 	}
 
-	fmt.Println("GSX Connection Information updated successfully.")
+	// Pretty print the updated group details
+	groupXML, err := json.MarshalIndent(updatedGSXSettings, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling group data: %v", err)
+	}
+	fmt.Println("Updated GSX Connection Information: Details:", string(groupXML))
 }
