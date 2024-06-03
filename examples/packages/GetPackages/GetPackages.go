@@ -18,7 +18,9 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	packages, err := client.GetPackages()
+	// allowed in the query: id, fileName, packageName, categoryId, info, notes, manifestFileName.
+
+	packages, err := client.GetPackages("tf-ghatest-package-suspiciouspackage")
 	if err != nil {
 		fmt.Println("Error fetching printers:", err)
 		return
