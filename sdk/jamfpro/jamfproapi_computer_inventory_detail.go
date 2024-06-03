@@ -12,6 +12,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -693,9 +694,15 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*ResponseUploadAttachment, error) {
 	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
 
-	// Construct the files map
-	files := map[string]string{
-		"file": filePath, // Assuming 'file' is the form field name for the file uploads
+	// Read the file content
+	fileContent, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read file %s: %v", filePath, err)
+	}
+
+	// Construct the files map with file content as bytes
+	files := map[string][]byte{
+		"file": fileContent, // Assuming 'file' is the form field name for the file uploads
 	}
 
 	// Initialize the response struct

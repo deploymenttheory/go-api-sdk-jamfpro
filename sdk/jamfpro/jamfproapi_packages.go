@@ -289,26 +289,12 @@ func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreated
 		return nil, fmt.Errorf("failed to close zip writer: %v", err)
 	}
 
-	// Create a temporary file to store the zipped content
-	tempFile, err := os.CreateTemp("", "upload-*.zip")
-	if err != nil {
-		return nil, fmt.Errorf("failed to create temp file: %v", err)
-	}
-	defer os.Remove(tempFile.Name())
-
-	// Write the zipped content to the temporary file
-	if _, err := tempFile.Write(buf.Bytes()); err != nil {
-		return nil, fmt.Errorf("failed to write to temp file: %v", err)
-	}
-
-	// Ensure the temporary file is closed after writing
-	if err := tempFile.Close(); err != nil {
-		return nil, fmt.Errorf("failed to close temp file: %v", err)
-	}
+	// Convert the zipped content to bytes
+	zippedContent := buf.Bytes()
 
 	// Create a map for the file to be uploaded
-	files := map[string]string{
-		"file": tempFile.Name(),
+	files := map[string][]byte{
+		"file": zippedContent,
 	}
 
 	var response ResponsePackageCreatedAndUpdated

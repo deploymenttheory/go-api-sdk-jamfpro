@@ -8,6 +8,7 @@ package jamfpro
 import (
 	"fmt"
 	"net/http"
+	"os"
 )
 
 const uriFileUploads = "/JSSResource/fileuploads"
@@ -16,13 +17,23 @@ const uriFileUploads = "/JSSResource/fileuploads"
 
 // CreateFileAttachments uploads file attachments to a specific resource in Jamf Pro.
 // The function assumes that the file paths are provided as a map where the keys are the form field names.
-func (c *Client) CreateFileAttachments(resource, idType, id string, files map[string]string) (*http.Response, error) {
+func (c *Client) CreateFileAttachments(resource, idType, id string, filePaths map[string]string) (*http.Response, error) {
 	endpoint := fmt.Sprintf("%s/%s/%s/%s", uriFileUploads, resource, idType, id)
 
 	if resource == "mobiledeviceapplicationsipa" {
 		endpoint += "?FORCE_IPA_UPLOAD=true"
 	} else {
 		endpoint += "?FORCE_IPA_UPLOAD=false"
+	}
+
+	// Read the file contents
+	files := make(map[string][]byte)
+	for key, filePath := range filePaths {
+		fileContent, err := os.ReadFile(filePath)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read file %s: %v", filePath, err)
+		}
+		files[key] = fileContent
 	}
 
 	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, nil)

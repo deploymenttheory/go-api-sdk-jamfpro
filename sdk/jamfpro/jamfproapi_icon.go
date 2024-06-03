@@ -28,11 +28,18 @@ type ResponseUploadIcon struct {
 func (c *Client) UploadIcon(filePath string) (*ResponseUploadIcon, error) {
 	endpoint := uriUploadIcon
 
-	files := map[string]string{
-		"file": filePath,
+	// Read the file content
+	fileContent, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read file: %v", err)
 	}
-	var uploadResponse ResponseUploadIcon
 
+	// Create a map for the file to be uploaded
+	files := map[string][]byte{
+		"file": fileContent,
+	}
+
+	var uploadResponse ResponseUploadIcon
 	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload icon: %v", err)
