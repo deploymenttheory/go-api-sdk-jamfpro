@@ -1,3 +1,9 @@
+// jamfproapi_packages.go
+// Jamf Pro Api - Packages
+// api reference: https://developer.jamf.com/jamf-pro/reference/post_v1-packages
+// Jamf Pro Api requires the structs to support an JSON data structure.
+// Ref: https://grahamrpugh.com/2024/05/16/jamf-new-packages-api-endpoint.html
+
 package jamfpro
 
 import (
@@ -202,7 +208,7 @@ func (c *Client) GetPackageHistoryByPackageID(id int, sort, filter string) (*Res
 Function: CreatePackage
 Method: POST
 Path: /api/v1/packages
-Description: Creates a new package in Jamf Pro. This is step one in the process of creating a package
+Description: Creates a new package manifest in Jamf Pro. This is step one in the process of creating a package
 and creates the package metadata to Jamf Pro. The package file must be uploaded separately using the
 UploadPackage function.
 Parameters: pkgManifest - A ResourcePackage struct containing the details of the package to be created.
