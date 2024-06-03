@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,17 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example with both sort and filter parameters
-	packages, err := client.GetPackages("id:asc", "packageName==tf-ghatest-package-suspiciouspackage")
+	// Example ID to fetch package history
+	packageID := 233
+
+	response, err := client.GetPackageHistoryByPackageID(packageID, "date:desc", "")
 	if err != nil {
-		fmt.Println("Error fetching packages:", err)
+		fmt.Println("Error fetching package history by package ID:", err)
 		return
 	}
 
-	// Pretty print the created package details in XML
-	packagesXML, err := xml.MarshalIndent(packages, "", "    ") // Indent with 4 spaces
+	// Pretty print the package history details in JSON
+	historyJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling created package data: %v", err)
+		log.Fatalf("Error marshaling package history data: %v", err)
 	}
-	fmt.Println("Package Details:\n", string(packagesXML))
+	fmt.Println("Obtained package history details:\n", string(historyJSON))
 }

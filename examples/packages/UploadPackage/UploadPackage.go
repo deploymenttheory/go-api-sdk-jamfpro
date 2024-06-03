@@ -18,19 +18,21 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example ID to fetch
-	packageID := 232
+	// Example ID and file path to upload
+	packageID := 0
+	filePath := "/Users/dafyddwatkins/localtesting/terraform/support_files/packages/GoogleChrome.pkg"
 
-	response, err := client.GetPackageByID(packageID)
+	// Upload the package
+	response, err := client.UploadPackage(packageID, filePath)
 	if err != nil {
-		fmt.Println("Error fetching package by ID:", err)
+		fmt.Println("Error uploading package:", err)
 		return
 	}
 
-	// Pretty print the created script details in JSON
-	packageJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	// Pretty print the response details in JSON
+	responseJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling package data: %v", err)
+		log.Fatalf("Error marshaling response data: %v", err)
 	}
-	fmt.Println("Obtained package Details:\n", string(packageJSON))
+	fmt.Println("Upload Package Response:\n", string(responseJSON))
 }

@@ -2,8 +2,7 @@ package jamfpro
 
 import (
 	"fmt"
-
-	"github.com/mitchellh/mapstructure"
+	"net/url"
 )
 
 // URI for Packages in the Jamf Pro Classic API
@@ -11,7 +10,7 @@ const uriPackages = "/api/v1/packages"
 
 // ResponsePackagesList struct to capture the JSON response for packages list
 type ResponsePackagesList struct {
-	TotalCount *int              `json:"totalCount"` // The total count attribute
+	TotalCount int               `json:"totalCount"` // The total count attribute
 	Results    []ResourcePackage `json:"results"`    // The package list
 }
 
@@ -54,57 +53,167 @@ type ResourcePackage struct {
 	Format               string `json:"format"`               // Format
 }
 
-// Response
-
+// ResponsePackageCreatedAndUpdated represents the response structure for creating and updating a package
 type ResponsePackageCreatedAndUpdated struct {
-	ID int `json:"id,omitempty"` // ID of the created/updated package
+	ID   int    `json:"id,omitempty"`
+	Href string `json:"href"`
+}
+
+// ResponsePackageHistoryList struct to capture the JSON response for package history list
+type ResponsePackageHistoryList struct {
+	TotalCount int                      `json:"totalCount"` // The total count attribute
+	Results    []ResourcePackageHistory `json:"results"`    // The package history list
+}
+
+// ResourcePackageHistory struct to capture individual package history items in the list
+type ResourcePackageHistory struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Date     string `json:"date"`
+	Note     string `json:"note"`
+	Details  string `json:"details"`
 }
 
 // CRUD
 
-// GetPackages retrieves a list of packages.
-func (c *Client) GetPackages(sort_filter string) (*ResponsePackagesList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriPackages,
-		maxPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "packages", err)
-	}
+// GetPackages retrieves a list of packages with pagination, sorting, and filtering.
+func (c *Client) GetPackages(sort, filter string) (*ResponsePackagesList, error) {
+	const maxPageSize = 200 // Define a constant for the maximum page size
 
-	var out ResponsePackagesList
-	out.TotalCount = &resp.Size
+	var allResults []ResourcePackage
+	var totalCount int
+	page := 0
 
-	for _, value := range resp.Results {
-		var newObj ResourcePackage
-		err := mapstructure.Decode(value, &newObj)
+	for {
+		u, err := url.Parse(uriPackages)
 		if err != nil {
-			return nil, fmt.Errorf(errMsgFailedMapstruct, "packages", err)
+			return nil, fmt.Errorf("failed to parse URL: %v", err)
 		}
-		out.Results = append(out.Results, newObj)
+
+		query := u.Query()
+		query.Set("page", fmt.Sprintf("%d", page))
+		query.Set("page-size", fmt.Sprintf("%d", maxPageSize))
+		if sort != "" {
+			query.Set("sort", sort)
+		}
+		if filter != "" {
+			query.Set("filter", filter)
+		}
+		u.RawQuery = query.Encode()
+
+		var paginatedResponse ResponsePackagesList
+		resp, err := c.HTTP.DoRequest("GET", u.String(), nil, &paginatedResponse)
+		if err != nil {
+			return nil, fmt.Errorf("failed to fetch packages: %v", err)
+		}
+
+		if resp != nil && resp.Body != nil {
+			defer resp.Body.Close()
+		}
+
+		totalCount = paginatedResponse.TotalCount
+		allResults = append(allResults, paginatedResponse.Results...)
+
+		if len(paginatedResponse.Results) < maxPageSize {
+			break
+		}
+		page++
 	}
 
-	return &out, nil
+	return &ResponsePackagesList{
+		TotalCount: totalCount,
+		Results:    allResults,
+	}, nil
 }
 
-// // GetPackageByID retrieves details of a specific package by its ID.
-// func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
-// 	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
+// GetPackageByID retrieves details of a specific package by its ID.
+func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
+	endpoint := fmt.Sprintf("%s/%d", uriPackages, id)
 
-// 	var response ResourcePackage
-// 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf(errMsgFailedGetByID, "package", id, err)
-// 	}
+	var response ResourcePackage
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "package", id, err)
+	}
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// 	return &response, nil
-// }
+	return &response, nil
+}
+
+// GetPackageHistoryByPackageID retrieves the history of a specific package by its ID with pagination, sorting, and filtering.
+func (c *Client) GetPackageHistoryByPackageID(id int, sort, filter string) (*ResponsePackageHistoryList, error) {
+	const maxPageSize = 200 // Define a constant for the maximum page size
+
+	var allResults []ResourcePackageHistory
+	var totalCount int
+	page := 0
+
+	for {
+		u, err := url.Parse(fmt.Sprintf("%s/%d/history", uriPackages, id))
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse URL: %v", err)
+		}
+
+		query := u.Query()
+		query.Set("page", fmt.Sprintf("%d", page))
+		query.Set("page-size", fmt.Sprintf("%d", maxPageSize))
+		if sort != "" {
+			query.Set("sort", sort)
+		}
+		if filter != "" {
+			query.Set("filter", filter)
+		}
+		u.RawQuery = query.Encode()
+
+		var paginatedResponse ResponsePackageHistoryList
+		resp, err := c.HTTP.DoRequest("GET", u.String(), nil, &paginatedResponse)
+		if err != nil {
+			return nil, fmt.Errorf("failed to fetch package history: %v", err)
+		}
+
+		if resp != nil && resp.Body != nil {
+			defer resp.Body.Close()
+		}
+
+		totalCount = paginatedResponse.TotalCount
+		allResults = append(allResults, paginatedResponse.Results...)
+
+		if len(paginatedResponse.Results) < maxPageSize {
+			break
+		}
+		page++
+	}
+
+	return &ResponsePackageHistoryList{
+		TotalCount: totalCount,
+		Results:    allResults,
+	}, nil
+}
+
+// UploadPackage uploads a package to the Jamf Pro server
+func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/%d/upload", uriPackages, id)
+
+	// Create a map for the file to be uploaded
+	files := map[string]string{
+		"file": filePath,
+	}
+
+	var response ResponsePackageCreatedAndUpdated
+	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload package: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
 
 // // GetPackageByName retrieves details of a specific package by its name.
 // func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
