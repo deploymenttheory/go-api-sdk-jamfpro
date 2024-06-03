@@ -18,8 +18,9 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example ID and file path to upload
-	packageID := 0
+	// Example ID and file path to upload. The package manifest must exist in Jamf Pro
+	// before uploading the package file using CreatePackage or UpdatePackage functions.
+	packageID := 236
 	filePath := "/Users/dafyddwatkins/localtesting/terraform/support_files/packages/GoogleChrome.pkg"
 
 	// Upload the package

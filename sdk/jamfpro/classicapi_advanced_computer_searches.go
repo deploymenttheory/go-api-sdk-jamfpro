@@ -80,6 +80,7 @@ Path: /JSSResource/advancedcomputersearches
 Description: Gets a list of all Jamf Pro Advanced Computer Search resources.
 Parameters: None
 Returns: ResponseAdvancedComputerSearchesList - A list of advanced computer searches.
+Errors: Returns an error if the request fails.
 Example:
 
 	searches, err := client.GetAdvancedComputerSearches()
@@ -87,8 +88,6 @@ Example:
 	    log.Fatal(err)
 	}
 	fmt.Println(searches)
-
-Errors: Returns an error if the request fails.
 */
 func (c *Client) GetAdvancedComputerSearches() (*ResponseAdvancedComputerSearchesList, error) {
 	endpoint := uriAPIAdvancedComputerSearches

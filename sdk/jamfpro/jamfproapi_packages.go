@@ -1,8 +1,13 @@
 package jamfpro
 
 import (
+	"archive/zip"
+	"bytes"
 	"fmt"
+	"io"
 	"net/url"
+	"os"
+	"path/filepath"
 )
 
 // URI for Packages in the Jamf Pro Classic API
@@ -16,46 +21,46 @@ type ResponsePackagesList struct {
 
 // ResourcePackage struct to capture individual package items in the list
 type ResourcePackage struct {
-	ID                   string `json:"id"`                   // The ID element
-	PackageName          string `json:"packageName"`          // The package name
-	FileName             string `json:"fileName"`             // The file name
-	CategoryID           string `json:"categoryId"`           // The category ID
-	Info                 string `json:"info"`                 // The info
-	Notes                string `json:"notes"`                // The notes
-	Priority             int    `json:"priority"`             // The priority
-	OSRequirements       string `json:"osRequirements"`       // The OS requirements
-	FillUserTemplate     bool   `json:"fillUserTemplate"`     // Fill user template
-	Indexed              bool   `json:"indexed"`              // Indexed
-	FillExistingUsers    bool   `json:"fillExistingUsers"`    // Fill existing users
-	SWU                  bool   `json:"swu"`                  // Software update
-	RebootRequired       bool   `json:"rebootRequired"`       // Reboot required
-	SelfHealNotify       bool   `json:"selfHealNotify"`       // Self heal notify
-	SelfHealingAction    string `json:"selfHealingAction"`    // Self healing action
-	OSInstall            bool   `json:"osInstall"`            // OS install
-	SerialNumber         string `json:"serialNumber"`         // Serial number
-	ParentPackageID      string `json:"parentPackageId"`      // Parent package ID
-	BasePath             string `json:"basePath"`             // Base path
-	SuppressUpdates      bool   `json:"suppressUpdates"`      // Suppress updates
-	CloudTransferStatus  string `json:"cloudTransferStatus"`  // Cloud transfer status
-	IgnoreConflicts      bool   `json:"ignoreConflicts"`      // Ignore conflicts
-	SuppressFromDock     bool   `json:"suppressFromDock"`     // Suppress from dock
-	SuppressEula         bool   `json:"suppressEula"`         // Suppress EULA
-	SuppressRegistration bool   `json:"suppressRegistration"` // Suppress registration
-	InstallLanguage      string `json:"installLanguage"`      // Install language
-	MD5                  string `json:"md5"`                  // MD5
-	SHA256               string `json:"sha256"`               // SHA256
-	HashType             string `json:"hashType"`             // Hash type
-	HashValue            string `json:"hashValue"`            // Hash value
-	Size                 string `json:"size"`                 // Size
-	OSInstallerVersion   string `json:"osInstallerVersion"`   // OS installer version
-	Manifest             string `json:"manifest"`             // Manifest
-	ManifestFileName     string `json:"manifestFileName"`     // Manifest file name
-	Format               string `json:"format"`               // Format
+	ID                   string `json:"id"`
+	PackageName          string `json:"packageName"`
+	FileName             string `json:"fileName,omitempty"`
+	CategoryID           string `json:"categoryId,omitempty"`
+	Info                 string `json:"info,omitempty"`
+	Notes                string `json:"notes,omitempty"`
+	Priority             int    `json:"priority,omitempty"`
+	OSRequirements       string `json:"osRequirements,omitempty"`
+	FillUserTemplate     *bool  `json:"fillUserTemplate,omitempty"`
+	Indexed              *bool  `json:"indexed,omitempty"`
+	FillExistingUsers    *bool  `json:"fillExistingUsers,omitempty"`
+	SWU                  *bool  `json:"swu,omitempty"`
+	RebootRequired       *bool  `json:"rebootRequired,omitempty"`
+	SelfHealNotify       *bool  `json:"selfHealNotify,omitempty"`
+	SelfHealingAction    string `json:"selfHealingAction,omitempty"`
+	OSInstall            *bool  `json:"osInstall,omitempty"`
+	SerialNumber         string `json:"serialNumber,omitempty"`
+	ParentPackageID      string `json:"parentPackageId,omitempty"`
+	BasePath             string `json:"basePath,omitempty"`
+	SuppressUpdates      *bool  `json:"suppressUpdates,omitempty"`
+	CloudTransferStatus  string `json:"cloudTransferStatus,omitempty"`
+	IgnoreConflicts      *bool  `json:"ignoreConflicts,omitempty"`
+	SuppressFromDock     *bool  `json:"suppressFromDock,omitempty"`
+	SuppressEula         *bool  `json:"suppressEula,omitempty"`
+	SuppressRegistration *bool  `json:"suppressRegistration,omitempty"`
+	InstallLanguage      string `json:"installLanguage,omitempty"`
+	MD5                  string `json:"md5,omitempty"`
+	SHA256               string `json:"sha256,omitempty"`
+	HashType             string `json:"hashType,omitempty"`
+	HashValue            string `json:"hashValue,omitempty"`
+	Size                 string `json:"size,omitempty"`
+	OSInstallerVersion   string `json:"osInstallerVersion,omitempty"`
+	Manifest             string `json:"manifest,omitempty"`
+	ManifestFileName     string `json:"manifestFileName,omitempty"`
+	Format               string `json:"format,omitempty"`
 }
 
 // ResponsePackageCreatedAndUpdated represents the response structure for creating and updating a package
 type ResponsePackageCreatedAndUpdated struct {
-	ID   int    `json:"id,omitempty"`
+	ID   string `json:"id,omitempty"`
 	Href string `json:"href"`
 }
 
@@ -193,13 +198,111 @@ func (c *Client) GetPackageHistoryByPackageID(id int, sort, filter string) (*Res
 	}, nil
 }
 
+/*
+Function: CreatePackage
+Method: POST
+Path: /api/v1/packages
+Description: Creates a new package in Jamf Pro. This is step one in the process of creating a package
+and creates the package metadata to Jamf Pro. The package file must be uploaded separately using the
+UploadPackage function.
+Parameters: pkgManifest - A ResourcePackage struct containing the details of the package to be created.
+Returns: ResponsePackageCreatedAndUpdated - The response containing the details of the created package.
+Errors: Returns an error if the request fails.
+Example:
+
+	// Helper function to create a pointer to a bool
+	func BoolPtr(b bool) *bool {
+		return &b
+	}
+
+	pkg := jamfpro.ResourcePackage{
+		PackageName:          "Firefox.dmg",
+		FileName:             "Firefox.dmg",
+		CategoryID:           "-1",
+		Priority:             3,
+		FillUserTemplate:     BoolPtr(false),
+		SWU:                  BoolPtr(false),
+		RebootRequired:       BoolPtr(false),
+		OSInstall:            BoolPtr(false),
+		SuppressUpdates:      BoolPtr(false),
+		SuppressFromDock:     BoolPtr(false),
+		SuppressEula:         BoolPtr(false),
+		SuppressRegistration: BoolPtr(false),
+	}
+
+	response, err := client.CreatePackage(pkg)
+	if err != nil {
+	    log.Fatal(err)
+	}
+	fmt.Println(response)
+*/
+func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := uriPackages
+
+	var response ResponsePackageCreatedAndUpdated
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &pkgManifest, &response)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "package", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
 // UploadPackage uploads a package to the Jamf Pro server
 func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/%d/upload", uriPackages, id)
 
+	// Create a buffer to hold the zipped file
+	var buf bytes.Buffer
+	zipWriter := zip.NewWriter(&buf)
+
+	// Open the file to be uploaded
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open file: %v", err)
+	}
+	defer file.Close()
+
+	// Create a writer for the file inside the zip
+	w, err := zipWriter.Create(filepath.Base(filePath))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create zip writer: %v", err)
+	}
+
+	// Copy the file contents to the zip writer
+	if _, err := io.Copy(w, file); err != nil {
+		return nil, fmt.Errorf("failed to write file to zip: %v", err)
+	}
+
+	// Close the zip writer to finalize the zip file
+	if err := zipWriter.Close(); err != nil {
+		return nil, fmt.Errorf("failed to close zip writer: %v", err)
+	}
+
+	// Create a temporary file to store the zipped content
+	tempFile, err := os.CreateTemp("", "upload-*.zip")
+	if err != nil {
+		return nil, fmt.Errorf("failed to create temp file: %v", err)
+	}
+	defer os.Remove(tempFile.Name())
+
+	// Write the zipped content to the temporary file
+	if _, err := tempFile.Write(buf.Bytes()); err != nil {
+		return nil, fmt.Errorf("failed to write to temp file: %v", err)
+	}
+
+	// Ensure the temporary file is closed after writing
+	if err := tempFile.Close(); err != nil {
+		return nil, fmt.Errorf("failed to close temp file: %v", err)
+	}
+
 	// Create a map for the file to be uploaded
 	files := map[string]string{
-		"file": filePath,
+		"file": tempFile.Name(),
 	}
 
 	var response ResponsePackageCreatedAndUpdated
@@ -223,30 +326,6 @@ func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreated
 // 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 // 	if err != nil {
 // 		return nil, fmt.Errorf(errMsgFailedGetByName, "package", name, err)
-// 	}
-
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
-
-// 	return &response, nil
-// }
-
-// // CreatePackage creates a new package in Jamf Pro
-// func (c *Client) CreatePackage(pkg ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-// 	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, pkg.ID)
-
-// 	requestBody := struct {
-// 		XMLName xml.Name `xml:"package"`
-// 		ResourcePackage
-// 	}{
-// 		ResourcePackage: pkg,
-// 	}
-
-// 	var response ResponsePackageCreatedAndUpdated
-// 	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf(errMsgFailedCreate, "package", err)
 // 	}
 
 // 	if resp != nil && resp.Body != nil {

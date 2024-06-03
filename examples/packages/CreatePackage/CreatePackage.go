@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,39 +18,37 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the package details
+	// Set boolean pointers for the FillUserTemplate field
+	falsePointer := false
+
+	// Define the package manifest payload. the settings below is the minimum required
+	// to create a package with the api
 	pkg := jamfpro.ResourcePackage{
-		Name:                       "Firefox.dmg",
-		Category:                   "Unknown",
-		Filename:                   "Firefox.dmg",
-		Info:                       "string",
-		Notes:                      "string",
-		Priority:                   5,
-		RebootRequired:             true,
-		FillUserTemplate:           true,
-		FillExistingUsers:          true,
-		BootVolumeRequired:         true,
-		AllowUninstalled:           true,
-		OSRequirements:             "string",
-		RequiredProcessor:          "None",
-		SwitchWithPackage:          "Do Not Install",
-		InstallIfReportedAvailable: true,
-		ReinstallOption:            "Do Not Reinstall",
-		TriggeringFiles:            "string",
-		SendNotification:           true,
+		PackageName:          "GoogleChrome.pkg",
+		FileName:             "GoogleChrome.pkg",
+		CategoryID:           "-1",
+		Priority:             3,
+		FillUserTemplate:     &falsePointer,
+		SWU:                  &falsePointer,
+		RebootRequired:       &falsePointer,
+		OSInstall:            &falsePointer,
+		SuppressUpdates:      &falsePointer,
+		SuppressFromDock:     &falsePointer,
+		SuppressEula:         &falsePointer,
+		SuppressRegistration: &falsePointer,
 	}
 
-	// Use the CreatePackage function with the package payload string
+	// Use the CreatePackage function with the package payload
 	response, err := client.CreatePackage(pkg)
 	if err != nil {
 		fmt.Println("Error creating package:", err)
 		return
 	}
 
-	// Pretty print the created script details in XML
-	packageXML, err := xml.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	// Pretty print the created package details in XML
+	packageJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling created script data: %v", err)
+		log.Fatalf("Error marshaling created package data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(packageXML))
+	fmt.Println("Created Package Details:\n", string(packageJSON))
 }
