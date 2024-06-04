@@ -8,7 +8,6 @@ package jamfpro
 import (
 	"fmt"
 	"net/http"
-	"os"
 )
 
 const uriFileUploads = "/JSSResource/fileuploads"
@@ -26,17 +25,10 @@ func (c *Client) CreateFileAttachments(resource, idType, id string, filePaths ma
 		endpoint += "?FORCE_IPA_UPLOAD=false"
 	}
 
-	// Read the file contents
-	files := make(map[string][]byte)
-	for key, filePath := range filePaths {
-		fileContent, err := os.ReadFile(filePath)
-		if err != nil {
-			return nil, fmt.Errorf("failed to read file %s: %v", filePath, err)
-		}
-		files[key] = fileContent
-	}
+	// Use the file paths directly
+	files := filePaths
 
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, nil)
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, nil, nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "attachment", err)
 	}

@@ -12,7 +12,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -694,22 +693,16 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*ResponseUploadAttachment, error) {
 	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
 
-	// Read the file content
-	fileContent, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file %s: %v", filePath, err)
-	}
-
-	// Construct the files map with file content as bytes
-	files := map[string][]byte{
-		"file": fileContent, // Assuming 'file' is the form field name for the file uploads
+	// Construct the files map with file paths
+	files := map[string]string{
+		"file": filePath, // Assuming 'file' is the form field name for the file uploads
 	}
 
 	// Initialize the response struct
 	var uploadResponse ResponseUploadAttachment
 
-	// Call DoMultipartRequest with the method, endpoint, files, and the response struct
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse)
+	// Call DoMultiPartRequest with the method, endpoint, files, and the response struct
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, nil, &uploadResponse)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload attachment and assign to computer: %v", err)
 	}

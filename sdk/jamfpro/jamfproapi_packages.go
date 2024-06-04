@@ -7,13 +7,8 @@
 package jamfpro
 
 import (
-	"archive/zip"
-	"bytes"
 	"fmt"
-	"io"
 	"net/url"
-	"os"
-	"path/filepath"
 )
 
 // URI for Packages in the Jamf Pro Classic API
@@ -258,51 +253,24 @@ func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCre
 	return &response, nil
 }
 
-// UploadPackage uploads a package to the Jamf Pro server
+// UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
+// manifest withing JamfPro and the file path.
 func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/%d/upload", uriPackages, id)
 
-	// Create a buffer to hold the zipped file
-	var buf bytes.Buffer
-	zipWriter := zip.NewWriter(&buf)
-
-	// Open the file to be uploaded
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to open file: %v", err)
-	}
-	defer file.Close()
-
-	// Create a writer for the file inside the zip
-	w, err := zipWriter.Create(filepath.Base(filePath))
-	if err != nil {
-		return nil, fmt.Errorf("failed to create zip writer: %v", err)
-	}
-
-	// Copy the file contents to the zip writer
-	if _, err := io.Copy(w, file); err != nil {
-		return nil, fmt.Errorf("failed to write file to zip: %v", err)
-	}
-
-	// Close the zip writer to finalize the zip file
-	if err := zipWriter.Close(); err != nil {
-		return nil, fmt.Errorf("failed to close zip writer: %v", err)
-	}
-
-	// Convert the zipped content to bytes
-	zippedContent := buf.Bytes()
-
 	// Create a map for the file to be uploaded
-	files := map[string][]byte{
-		"file": zippedContent,
+	files := map[string]string{
+		"file": filePath,
 	}
+
+	// Include form fields if needed (currently none based on docs)
+	formFields := map[string]string{}
 
 	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &response)
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload package: %v", err)
 	}
-
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
