@@ -254,8 +254,6 @@ func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCre
 	return &response, nil
 }
 
-// UploadPackage uploads a package file to an existing package by its ID on the Jamf Pro server
-// and returns the response with the ID of the updated package.
 // UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
 // manifest within JamfPro and the file paths.
 func (c *Client) UploadPackage(id int, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {

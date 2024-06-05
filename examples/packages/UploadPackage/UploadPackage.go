@@ -21,10 +21,13 @@ func main() {
 	// Example ID and file path to upload. The package manifest must exist in Jamf Pro
 	// before uploading the package file using CreatePackage or UpdatePackage functions.
 	packageID := 240
-	filePath := "/Users/dafyddwatkins/localtesting/terraform/support_files/packages/SuspiciousPackage.dmg"
+	filePaths := []string{
+		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/SuspiciousPackage.dmg",
+		// Add more file paths if needed
+	}
 
 	// Upload the package
-	response, err := client.UploadPackage(packageID, filePath)
+	response, err := client.UploadPackage(packageID, filePaths)
 	if err != nil {
 		fmt.Println("Error uploading package:", err)
 		return
