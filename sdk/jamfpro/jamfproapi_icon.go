@@ -26,12 +26,12 @@ type ResponseUploadIcon struct {
 // CRUD
 
 // UploadIcon uploads an icon file to Jamf Pro and returns the icon URL and ID.
-func (c *Client) UploadIcon(filePath string) (*ResponseUploadIcon, error) {
+func (c *Client) UploadIcon(filePaths []string) (*ResponseUploadIcon, error) {
 	endpoint := uriUploadIcon
 
-	// Create a map for the file to be uploaded
-	files := map[string]string{
-		"file": filePath,
+	// Create a map for the files to be uploaded
+	files := map[string][]string{
+		"file": filePaths,
 	}
 
 	// Include form fields if needed (currently none based on docs)

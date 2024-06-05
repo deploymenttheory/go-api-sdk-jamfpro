@@ -256,12 +256,14 @@ func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCre
 
 // UploadPackage uploads a package file to an existing package by its ID on the Jamf Pro server
 // and returns the response with the ID of the updated package.
-func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreatedAndUpdated, error) {
+// UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
+// manifest within JamfPro and the file paths.
+func (c *Client) UploadPackage(id int, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/%d/upload", uriPackages, id)
 
-	// Create a map for the file to be uploaded
-	files := map[string]string{
-		"file": filePath,
+	// Create a map for the files to be uploaded
+	files := map[string][]string{
+		"file": filePaths,
 	}
 
 	// Include form fields if needed (currently none based on docs)

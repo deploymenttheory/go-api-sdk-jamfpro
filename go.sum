@@ -87,6 +87,8 @@ github.com/deploymenttheory/go-api-http-client v0.1.51-0.20240604143230-d2225739
 github.com/deploymenttheory/go-api-http-client v0.1.51-0.20240604143230-d22257394060/go.mod h1:a50wmpzDKITI2xAF3mg0JY/JojnBfvCt7y3IPROkPj4=
 github.com/deploymenttheory/go-api-http-client v0.1.51-0.20240605075055-ec4a9dd49b88 h1:rWgjUsyWNTtz30kALKfGj3A79oP6kT/YfGXwx/UTJtY=
 github.com/deploymenttheory/go-api-http-client v0.1.51-0.20240605075055-ec4a9dd49b88/go.mod h1:a50wmpzDKITI2xAF3mg0JY/JojnBfvCt7y3IPROkPj4=
+github.com/deploymenttheory/go-api-http-client v0.1.51-0.20240605084337-a8b80bff980a h1:sNZ2pGFQNuURZ3Nc008OLobJf4x4L75Fr9AeKJLLwdU=
+github.com/deploymenttheory/go-api-http-client v0.1.51-0.20240605084337-a8b80bff980a/go.mod h1:a50wmpzDKITI2xAF3mg0JY/JojnBfvCt7y3IPROkPj4=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da h1:oI5xCqsCo564l8iNU+DwB5epxmsaqB+rhGL0m5jtYqE=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=

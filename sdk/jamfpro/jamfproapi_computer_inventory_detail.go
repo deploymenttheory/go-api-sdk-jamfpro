@@ -691,12 +691,13 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 /// COME BACK TO THIS LATER
 
 // UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
-func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*ResponseUploadAttachment, error) {
+// Api supports single file upload only.
+func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePaths []string) (*ResponseUploadAttachment, error) {
 	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
 
-	// Construct the files map with file paths
-	files := map[string]string{
-		"file": filePath, // Assuming 'file' is the form field name for the file uploads
+	// Create a map for the files to be uploaded
+	files := map[string][]string{
+		"file": filePaths,
 	}
 
 	// Include form fields if needed (currently none based on docs)
