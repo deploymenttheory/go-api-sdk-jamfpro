@@ -8,6 +8,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -253,8 +254,8 @@ func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCre
 	return &response, nil
 }
 
-// UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
-// manifest withing JamfPro and the file path.
+// UploadPackage uploads a package file to an existing package by its ID on the Jamf Pro server
+// and returns the response with the ID of the updated package.
 func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/%d/upload", uriPackages, id)
 
@@ -266,8 +267,14 @@ func (c *Client) UploadPackage(id int, filePath string) (*ResponsePackageCreated
 	// Include form fields if needed (currently none based on docs)
 	formFields := map[string]string{}
 
+	// No custom content types for this request
+	contentTypes := map[string]string{}
+
+	// No additional headers for this request
+	headersMap := map[string]http.Header{}
+
 	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, &response)
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload package: %v", err)
 	}

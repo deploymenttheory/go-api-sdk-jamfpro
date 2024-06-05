@@ -8,6 +8,7 @@ package jamfpro
 import (
 	"fmt"
 	"io"
+	"net/http"
 	"net/url"
 	"os"
 )
@@ -33,17 +34,25 @@ func (c *Client) UploadIcon(filePath string) (*ResponseUploadIcon, error) {
 		"file": filePath,
 	}
 
-	var uploadResponse ResponseUploadIcon
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, nil, &uploadResponse)
-	if err != nil {
-		return nil, fmt.Errorf("failed to upload icon: %v", err)
-	}
+	// Include form fields if needed (currently none based on docs)
+	formFields := map[string]string{}
 
+	// No custom content types for this request
+	contentTypes := map[string]string{}
+
+	// No additional headers for this request
+	headersMap := map[string]http.Header{}
+
+	var response ResponseUploadIcon
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload package: %v", err)
+	}
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &uploadResponse, nil
+	return &response, nil
 }
 
 // DownloadIcon downloads an icon by its ID from Jamf Pro and saves it to the specified file path.

@@ -12,6 +12,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -698,21 +699,25 @@ func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*
 		"file": filePath, // Assuming 'file' is the form field name for the file uploads
 	}
 
-	// Initialize the response struct
-	var uploadResponse ResponseUploadAttachment
+	// Include form fields if needed (currently none based on docs)
+	formFields := map[string]string{}
 
-	// Call DoMultiPartRequest with the method, endpoint, files, and the response struct
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, nil, &uploadResponse)
+	// No custom content types for this request
+	contentTypes := map[string]string{}
+
+	// No additional headers for this request
+	headersMap := map[string]http.Header{}
+
+	var response ResponseUploadAttachment
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to upload attachment and assign to computer: %v", err)
+		return nil, fmt.Errorf("failed to upload package: %v", err)
 	}
-
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	// Return the response struct pointer
-	return &uploadResponse, nil
+	return &response, nil
 }
 
 // DeleteAttachmentByIDAndComputerID deletes a computer's inventory attached by computer ID

@@ -24,8 +24,8 @@ func main() {
 	// Define the package manifest payload. the settings below is the minimum required
 	// to create a package with the api
 	pkg := jamfpro.ResourcePackage{
-		PackageName:          "GoogleChrome.pkg",
-		FileName:             "GoogleChrome.pkg",
+		PackageName:          "SuspiciousPackage",
+		FileName:             "SuspiciousPackage.dmg",
 		CategoryID:           "-1",
 		Priority:             3,
 		FillUserTemplate:     &falsePointer,

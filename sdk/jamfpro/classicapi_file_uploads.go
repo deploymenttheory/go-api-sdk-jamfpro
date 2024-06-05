@@ -5,37 +5,41 @@
 
 package jamfpro
 
-import (
-	"fmt"
-	"net/http"
-)
-
 const uriFileUploads = "/JSSResource/fileuploads"
 
 // CRUD
 
 // CreateFileAttachments uploads file attachments to a specific resource in Jamf Pro.
 // The function assumes that the file paths are provided as a map where the keys are the form field names.
-func (c *Client) CreateFileAttachments(resource, idType, id string, filePaths map[string]string) (*http.Response, error) {
-	endpoint := fmt.Sprintf("%s/%s/%s/%s", uriFileUploads, resource, idType, id)
+// func (c *Client) CreateFileAttachments(resource, idType, id string, filePaths map[string]string) (*http.Response, error) {
+// 	endpoint := fmt.Sprintf("%s/%s/%s/%s", uriFileUploads, resource, idType, id)
 
-	if resource == "mobiledeviceapplicationsipa" {
-		endpoint += "?FORCE_IPA_UPLOAD=true"
-	} else {
-		endpoint += "?FORCE_IPA_UPLOAD=false"
-	}
+// 	if resource == "mobiledeviceapplicationsipa" {
+// 		endpoint += "?FORCE_IPA_UPLOAD=true"
+// 	} else {
+// 		endpoint += "?FORCE_IPA_UPLOAD=false"
+// 	}
 
-	// Use the file paths directly
-	files := filePaths
+// 	// Use the file paths directly
+// 	files := filePaths
 
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, nil, nil)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedCreate, "attachment", err)
-	}
+// 	// Include form fields if needed (currently none based on docs)
+// 	formFields := map[string]string{}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
+// 	// No custom content types for this request
+// 	contentTypes := map[string]string{}
 
-	return resp, nil
-}
+// 	// No additional headers for this request
+// 	headersMap := map[string]http.Header{}
+
+// 	var response ResponsePackageCreatedAndUpdated
+// 	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed to upload package: %v", err)
+// 	}
+// 	if resp != nil && resp.Body != nil {
+// 		defer resp.Body.Close()
+// 	}
+
+// 	return &response, nil
+// }
