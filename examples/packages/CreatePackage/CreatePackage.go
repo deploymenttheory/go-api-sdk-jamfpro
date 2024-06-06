@@ -24,8 +24,8 @@ func main() {
 	// Define the package manifest payload. the settings below is the minimum required
 	// to create a package with the api
 	pkg := jamfpro.ResourcePackage{
-		PackageName:          "Microsoft_365_and_Office_16.82.24021116_Installer.pkg",
-		FileName:             "Microsoft_365_and_Office_16.82.24021116_Installer.pkg",
+		PackageName:          "powershell-7.4.1-osx-x64.pkg",
+		FileName:             "powershell-7.4.1-osx-x64.pkg",
 		CategoryID:           "-1",
 		Priority:             3,
 		FillUserTemplate:     &falsePointer,
