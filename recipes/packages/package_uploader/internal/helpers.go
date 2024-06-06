@@ -30,7 +30,7 @@ func FindPkgFiles(directory string) ([]string, error) {
 }
 
 // PackageExistsInJCDS checks if a package exists in JCDS by comparing both the file name and MD5 hash.
-func PackageExistsInJCDS(packages []jamfpro.ResponseJCDS2List, fileName, fileMD5 string) bool {
+func PackageExistsInJCDS(packages []jamfpro.ResourcePackage, fileName, fileMD5 string) bool {
 	for _, pkg := range packages {
 		fmt.Printf("JCDS Entry: FileName: %s, MD5: %s\n", pkg.FileName, pkg.MD5)
 		if pkg.FileName == fileName && strings.EqualFold(pkg.MD5, fileMD5) {
@@ -43,9 +43,9 @@ func PackageExistsInJCDS(packages []jamfpro.ResponseJCDS2List, fileName, fileMD5
 }
 
 // PackageMetadataExists checks if package metadata exists in Jamf Pro by comparing the package name
-func PackageMetadataExists(packages []jamfpro.PackageListItem, fileName string) bool {
+func PackageMetadataExists(packages []jamfpro.ResourcePackage, fileName string) bool {
 	for _, pkg := range packages {
-		if pkg.Name == fileName {
+		if pkg.PackageName == fileName {
 			return true
 		}
 	}
@@ -90,4 +90,9 @@ func CalculateFileMD5(filePath string) string {
 
 	// Return the hexadecimal representation of the MD5 checksum
 	return hex.EncodeToString(md5sum)
+}
+
+// Helper function to create a pointer to a bool
+func BoolPtr(b bool) *bool {
+	return &b
 }

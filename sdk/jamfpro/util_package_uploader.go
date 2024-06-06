@@ -6,7 +6,6 @@ package jamfpro
 import (
 	"fmt"
 	"path/filepath"
-	"strconv"
 )
 
 // DoPackageUpload creates a new package and uploads the package file to Jamf Pro
@@ -24,10 +23,7 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %s\n", metadataResponse.ID)
 
 	// Step 2. Upload the package file using the newly created package ID
-	packageID, err := strconv.Atoi(metadataResponse.ID)
-	if err != nil {
-		return nil, fmt.Errorf("invalid package ID: %v", err)
-	}
+	packageID := metadataResponse.ID
 
 	filePaths := []string{filePath}
 	uploadResponse, err := c.UploadPackage(packageID, filePaths)

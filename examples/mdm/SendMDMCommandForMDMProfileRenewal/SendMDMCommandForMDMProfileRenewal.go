@@ -18,19 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example ID and file path to upload. The package manifest must exist in Jamf Pro
-	// before uploading the package file using CreatePackage or UpdatePackage functions.
-	packageID := "257"
-	filePaths := []string{
-		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/powershell-7.4.1-osx-x64.pkg",
-		// Add more file paths if needed
+	// Define the MDM profile renewal request
+	renewProfileRequest := &jamfpro.ResourceMDMProfileRenewal{
+		UDIDs: []string{
+			"6E47EF55-5318-494F-A09E-70F613E0AFD1",
+			"6E47EF55-5318-494F-A09E-70F613E0AFD1",
+			"6E47EF55-5318-494F-A09E-70F613E0AFD1",
+		},
 	}
 
-	// Upload the package
-	response, err := client.UploadPackage(packageID, filePaths)
+	// Call SendMDMCommandForMDMProfileRenewal function
+	response, err := client.SendMDMCommandForMDMProfileRenewal(renewProfileRequest)
 	if err != nil {
-		fmt.Println("Error uploading package:", err)
-		return
+		log.Fatalf("Error renewing MDM profile: %v", err)
 	}
 
 	// Pretty print the response details in JSON
@@ -38,5 +38,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling response data: %v", err)
 	}
-	fmt.Println("Upload Package Response:\n", string(responseJSON))
+	fmt.Println("MDM Profile Renewal Response:\n", string(responseJSON))
 }

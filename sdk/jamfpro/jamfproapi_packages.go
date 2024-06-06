@@ -134,8 +134,8 @@ func (c *Client) GetPackages(sort, filter string) (*ResponsePackagesList, error)
 }
 
 // GetPackageByID retrieves details of a specific package by its ID.
-func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
-	endpoint := fmt.Sprintf("%s/%d", uriPackages, id)
+func (c *Client) GetPackageByID(id string) (*ResourcePackage, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
 
 	var response ResourcePackage
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
@@ -151,7 +151,7 @@ func (c *Client) GetPackageByID(id int) (*ResourcePackage, error) {
 }
 
 // GetPackageHistoryByPackageID retrieves the history of a specific package by its ID with pagination, sorting, and filtering.
-func (c *Client) GetPackageHistoryByPackageID(id int, sort, filter string) (*ResponsePackageHistoryList, error) {
+func (c *Client) GetPackageHistoryByPackageID(id string, sort, filter string) (*ResponsePackageHistoryList, error) {
 	const maxPageSize = 200 // Define a constant for the maximum page size
 
 	var allResults []ResourcePackageHistory
@@ -159,7 +159,7 @@ func (c *Client) GetPackageHistoryByPackageID(id int, sort, filter string) (*Res
 	page := 0
 
 	for {
-		u, err := url.Parse(fmt.Sprintf("%s/%d/history", uriPackages, id))
+		u, err := url.Parse(fmt.Sprintf("%s/%s/history", uriPackages, id))
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse URL: %v", err)
 		}
@@ -256,8 +256,8 @@ func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCre
 
 // UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
 // manifest within JamfPro and the file paths.
-func (c *Client) UploadPackage(id int, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/%d/upload", uriPackages, id)
+func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/%s/upload", uriPackages, id)
 
 	// Create a map for the files to be uploaded
 	files := map[string][]string{

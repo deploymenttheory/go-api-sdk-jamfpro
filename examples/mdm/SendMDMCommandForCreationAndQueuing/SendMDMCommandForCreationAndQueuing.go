@@ -18,19 +18,24 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example ID and file path to upload. The package manifest must exist in Jamf Pro
-	// before uploading the package file using CreatePackage or UpdatePackage functions.
-	packageID := "257"
-	filePaths := []string{
-		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/powershell-7.4.1-osx-x64.pkg",
-		// Add more file paths if needed
+	// Define the DELETE_USER command
+	deleteUserCommand := &jamfpro.ResourceMDMCommandRequest{
+		CommandData: jamfpro.CommandData{
+			CommandType:    "DELETE_USER",
+			UserName:       "Barry White",
+			ForceDeletion:  true,
+			DeleteAllUsers: false,
+		},
+		ClientData: []jamfpro.ClientData{
+			{ManagementID: "aaaaaaaa-3f1e-4b3a-a5b3-ca0cd7430937"},
+			{ManagementID: "aaaaaaaa-3f1e-4b3a-a5b3-ca0cd7430937"},
+		},
 	}
 
-	// Upload the package
-	response, err := client.UploadPackage(packageID, filePaths)
+	// Send the DELETE_USER command
+	response, err := client.SendMDMCommandForCreationAndQueuing(deleteUserCommand)
 	if err != nil {
-		fmt.Println("Error uploading package:", err)
-		return
+		log.Fatalf("Error sending MDM command: %v", err)
 	}
 
 	// Pretty print the response details in JSON
@@ -38,5 +43,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling response data: %v", err)
 	}
-	fmt.Println("Upload Package Response:\n", string(responseJSON))
+	fmt.Println("MDM command response Details:\n", string(responseJSON))
 }
