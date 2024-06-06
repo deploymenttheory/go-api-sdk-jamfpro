@@ -13,6 +13,11 @@ import (
 )
 
 func main() {
+
+	// Load the client OAuth configuration
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+
 	// Print the ASCII art
 	uploader.PrintASCIILogo()
 
@@ -50,10 +55,6 @@ func main() {
 	for _, file := range pkgFiles {
 		fmt.Println(filepath.Base(file))
 	}
-
-	// Load the client OAuth configuration
-	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -121,9 +122,6 @@ func main() {
 			SuppressFromDock:     uploader.BoolPtr(false),
 			SuppressEula:         uploader.BoolPtr(false),
 			SuppressRegistration: uploader.BoolPtr(false),
-			MD5:                  fileMD5,
-			HashType:             "SHA3",
-			HashValue:            uploader.CalculateFileSHA3(filePath),
 		}
 
 		response, err := client.CreatePackage(pkg)
