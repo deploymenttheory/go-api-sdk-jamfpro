@@ -238,7 +238,7 @@ Example:
 	}
 	fmt.Println(response)
 */
-func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+func (c *Client) CreatePackageManifest(pkgManifest ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := uriPackages
 
 	var response ResponsePackageCreatedAndUpdated
@@ -285,104 +285,51 @@ func (c *Client) UploadPackage(id int, filePaths []string) (*ResponsePackageCrea
 	return &response, nil
 }
 
-// // GetPackageByName retrieves details of a specific package by its name.
-// func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
-// 	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
+// UpdatePackageManifestByID updates a package manifest by its ID on the Jamf Pro server.
+func (c *Client) UpdatePackageManifestByID(id string, pkgManifest ResourcePackage) (*ResourcePackage, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
 
-// 	var response ResourcePackage
-// 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf(errMsgFailedGetByName, "package", name, err)
-// 	}
+	var response ResourcePackage
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &pkgManifest, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to update package manifest: %v", err)
+	}
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// 	return &response, nil
-// }
+	return &response, nil
+}
 
-// // UpdatePackageByID updates an existing package by its ID on the Jamf Pro server
-// // and returns the response with the ID of the updated package.
-// func (c *Client) UpdatePackageByID(id int, pkg *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-// 	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
+// DeletePackageManifestByID deletes a package by its ID from the Jamf Pro server.
+func (c *Client) DeletePackageManifestByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s/manifest", uriPackages, id)
 
-// 	requestBody := struct {
-// 		XMLName xml.Name `xml:"package"`
-// 		*ResourcePackage
-// 	}{
-// 		ResourcePackage: pkg,
-// 	}
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "package manifest", id, err)
+	}
 
-// 	var response ResponsePackageCreatedAndUpdated
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// 	// Use PUT method for updating the package
-// 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "package", id, err)
-// 	}
+	return nil
+}
 
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+// DeletePackageByID deletes a package by its ID from the Jamf Pro server.
+func (c *Client) DeletePackageByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
 
-// 	return &response, nil
-// }
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "package", id, err)
+	}
 
-// // UpdatePackageByName updates an existing package by its ID on the Jamf Pro server
-// // and returns the response with the ID of the updated package.
-// func (c *Client) UpdatePackageByName(name string, pkg *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-// 	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// 	requestBody := struct {
-// 		XMLName xml.Name `xml:"package"`
-// 		*ResourcePackage
-// 	}{
-// 		ResourcePackage: pkg,
-// 	}
-
-// 	var response ResponsePackageCreatedAndUpdated
-
-// 	resp, err := c.HTTP.DoRequest("PUT", endpoint, &requestBody, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "package", name, err)
-// 	}
-
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
-
-// 	return &response, nil
-// }
-
-// // DeletePackageByID deletes a package by its ID from the Jamf Pro server.
-// func (c *Client) DeletePackageByID(id int) error {
-// 	endpoint := fmt.Sprintf("%s/id/%d", uriPackages, id)
-
-// 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
-// 	if err != nil {
-// 		return fmt.Errorf(errMsgFailedDeleteByID, "package", id, err)
-// 	}
-
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
-
-// 	return nil
-// }
-
-// // DeletePackageByName deletes a package by its name from the Jamf Pro server.
-// func (c *Client) DeletePackageByName(name string) error {
-// 	endpoint := fmt.Sprintf("%s/name/%s", uriPackages, name)
-
-// 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
-// 	if err != nil {
-// 		return fmt.Errorf(errMsgFailedDeleteByName, "package", name, err)
-// 	}
-
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
-
-// 	return nil
-// }
+	return nil
+}

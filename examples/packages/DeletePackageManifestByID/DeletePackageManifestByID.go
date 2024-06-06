@@ -17,12 +17,13 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	packageName := "firefox-91.0.2.dmg"
+	// Define the package ID to be deleted
+	packageID := "250"
 
-	err = client.DeletePackageByName(packageName)
+	err = client.DeletePackageManifestByID(packageID)
 	if err != nil {
-		log.Fatalf("Error deleting network package by name: %v", err)
+		log.Fatalf("Error deleting packages by IDs: %v", err)
 	} else {
-		fmt.Printf("Network package '%s' successfully deleted.\n", packageName)
+		fmt.Printf("Package manfest with ID %v successfully deleted.\n", packageID)
 	}
 }

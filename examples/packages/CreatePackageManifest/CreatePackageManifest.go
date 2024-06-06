@@ -24,8 +24,8 @@ func main() {
 	// Define the package manifest payload. the settings below is the minimum required
 	// to create a package with the api
 	pkg := jamfpro.ResourcePackage{
-		PackageName:          "SuspiciousPackage",
-		FileName:             "SuspiciousPackage.dmg",
+		PackageName:          "microsoft-edge-121-0-2277-106.pkg",
+		FileName:             "microsoft-edge-121-0-2277-106.pkg",
 		CategoryID:           "-1",
 		Priority:             3,
 		FillUserTemplate:     &falsePointer,
@@ -38,10 +38,10 @@ func main() {
 		SuppressRegistration: &falsePointer,
 	}
 
-	// Use the CreatePackage function with the package payload
-	response, err := client.CreatePackage(pkg)
+	// Use the CreatePackageManifest function with the package payload
+	response, err := client.CreatePackageManifest(pkg)
 	if err != nil {
-		fmt.Println("Error creating package:", err)
+		fmt.Println("Error creating package manifest:", err)
 		return
 	}
 
@@ -50,5 +50,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling created package data: %v", err)
 	}
-	fmt.Println("Created Package Details:\n", string(packageJSON))
+	fmt.Println("Created Package Manifest Details:\n", string(packageJSON))
 }
