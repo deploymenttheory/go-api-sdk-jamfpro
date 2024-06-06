@@ -24,8 +24,8 @@ func main() {
 	// Define the package manifest payload. the settings below is the minimum required
 	// to create a package with the api
 	pkg := jamfpro.ResourcePackage{
-		PackageName:          "microsoft-edge-121-0-2277-106.pkg",
-		FileName:             "microsoft-edge-121-0-2277-106.pkg",
+		PackageName:          "Microsoft_365_and_Office_16.82.24021116_Installer.pkg",
+		FileName:             "Microsoft_365_and_Office_16.82.24021116_Installer.pkg",
 		CategoryID:           "-1",
 		Priority:             3,
 		FillUserTemplate:     &falsePointer,
@@ -38,8 +38,8 @@ func main() {
 		SuppressRegistration: &falsePointer,
 	}
 
-	// Use the CreatePackageManifest function with the package payload
-	response, err := client.CreatePackageManifest(pkg)
+	// Use the CreatePackage function with the package payload
+	response, err := client.CreatePackage(pkg)
 	if err != nil {
 		fmt.Println("Error creating package manifest:", err)
 		return
@@ -50,5 +50,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling created package data: %v", err)
 	}
-	fmt.Println("Created Package Manifest Details:\n", string(packageJSON))
+	fmt.Println("Created Package Details:\n", string(packageJSON))
 }

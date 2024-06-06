@@ -20,9 +20,9 @@ func main() {
 
 	// Example ID and file path to upload. The package manifest must exist in Jamf Pro
 	// before uploading the package file using CreatePackage or UpdatePackage functions.
-	packageID := 253
+	packageID := 254
 	filePaths := []string{
-		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/microsoft-edge-121-0-2277-106.pkg",
+		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/Microsoft_365_and_Office_16.82.24021116_Installer.pkg",
 		// Add more file paths if needed
 	}
 

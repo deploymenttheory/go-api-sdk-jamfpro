@@ -238,7 +238,7 @@ Example:
 	}
 	fmt.Println(response)
 */
-func (c *Client) CreatePackageManifest(pkgManifest ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := uriPackages
 
 	var response ResponsePackageCreatedAndUpdated
