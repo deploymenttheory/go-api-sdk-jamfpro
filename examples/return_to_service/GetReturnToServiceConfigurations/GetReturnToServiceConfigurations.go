@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Call GetReturnToService function
-	returnToService, err := client.GetReturnToService()
+	returnToService, err := client.GetReturnToServiceConfigurations()
 	if err != nil {
 		log.Fatalf("Error fetching return to service  properties: %v", err)
 	}

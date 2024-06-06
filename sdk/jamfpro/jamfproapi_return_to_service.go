@@ -49,7 +49,7 @@ func (c *Client) GetReturnToServiceConfigurationByID(id string) (*ResourceReturn
 	var out ResourceReturnToServiceConfiguration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "Return To Service Configuration", err)
+		return nil, fmt.Errorf(errMsgFailedGetByID, "Return To Service Configuration", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -81,7 +81,7 @@ func (c *Client) UpdateReturnToServiceConfigurationByID(id string, config Resour
 	var out ResourceReturnToServiceConfiguration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, config, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdateByID, "Return To Service Configuration", err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "Return To Service Configuration", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -96,7 +96,7 @@ func (c *Client) DeleteReturnToServiceConfigurationByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriReturnToService, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByID, "Return To Service Configuration", err)
+		return fmt.Errorf(errMsgFailedDeleteByID, "Return To Service Configuration", id, err)
 	}
 
 	if resp != nil && resp.Body != nil {
