@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the package ID to be deleted
-	packageID := "250"
+	packageID := "256"
 
 	err = client.DeletePackageByID(packageID)
 	if err != nil {

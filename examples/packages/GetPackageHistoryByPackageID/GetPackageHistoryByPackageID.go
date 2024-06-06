@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID to fetch package history
-	packageID := 233
+	packageID := "233"
 
 	response, err := client.GetPackageHistoryByPackageID(packageID, "date:desc", "")
 	if err != nil {

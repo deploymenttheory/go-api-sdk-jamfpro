@@ -2,15 +2,14 @@ package main
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
+	uploader "github.com/deploymenttheory/go-api-sdk-jamfpro/recipes/packages/package_uploader/internal"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
-	uploader "github.com/deploymenttheory/go-api-sdk-jamfpro/tools/JAMFProPackageUploader/internal"
 )
 
 func main() {
@@ -62,19 +61,15 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	jcdsPackages, err := client.GetJCDS2Packages()
-	if err != nil {
-		log.Fatalf("Failed to get JCDS 2.0 packages: %v", err)
-	}
-
-	jamfProPackages, err := client.GetPackages()
+	// Fetch existing packages from Jamf Pro
+	jamfProPackages, err := client.GetPackages("", "")
 	if err != nil {
 		log.Fatalf("Failed to get Jamf Pro packages: %v", err)
 	}
 
 	// Create a map of existing JCDS entries
 	jcdsMap := make(map[string]bool)
-	for _, pkg := range jcdsPackages {
+	for _, pkg := range jamfProPackages.Results {
 		key := fmt.Sprintf("%s-%s", pkg.FileName, pkg.MD5)
 		jcdsMap[key] = true
 	}
@@ -101,7 +96,7 @@ func main() {
 
 		// Check Jamf Pro for existing package metadata
 		fmt.Printf("Checking Jamf Pro for existing package metadata...\n")
-		if uploader.PackageMetadataExists(jamfProPackages.Package, fileName) {
+		if uploader.PackageMetadataExists(jamfProPackages.Results, fileName) {
 			fmt.Printf("Package metadata for %s already exists in Jamf Pro. Skipping metadata creation.\n", fileName)
 			fmt.Println("-------------------------------------------------")
 			continue
@@ -112,27 +107,36 @@ func main() {
 		// Upload the package
 		fmt.Printf("Uploading package: %s\n", fileName)
 
-		// Assuming packageMetadata is correctly defined somewhere in your code
-		var packageMetadata *jamfpro.ResourcePackage
-
-		responseJCDS2File, responsePackageCreatedAndUpdated, err := client.DoPackageUpload(filePath, packageMetadata)
-		if err != nil {
-			log.Fatalf("Failed to upload %s: %v", filePath, err)
+		// Create package metadata
+		pkg := jamfpro.ResourcePackage{
+			PackageName:          fileName,
+			FileName:             fileName,
+			CategoryID:           "-1",
+			Priority:             3,
+			FillUserTemplate:     uploader.BoolPtr(false),
+			SWU:                  uploader.BoolPtr(false),
+			RebootRequired:       uploader.BoolPtr(false),
+			OSInstall:            uploader.BoolPtr(false),
+			SuppressUpdates:      uploader.BoolPtr(false),
+			SuppressFromDock:     uploader.BoolPtr(false),
+			SuppressEula:         uploader.BoolPtr(false),
+			SuppressRegistration: uploader.BoolPtr(false),
+			MD5:                  fileMD5,
+			HashType:             "SHA3",
+			HashValue:            uploader.CalculateFileSHA3(filePath),
 		}
 
-		// Marshal and log the JCDS2File response
-		responseJCDS2Bytes, err := json.Marshal(responseJCDS2File)
+		response, err := client.CreatePackage(pkg)
 		if err != nil {
-			log.Fatalf("Failed to marshal JCDS2File response for %s: %v", filePath, err)
+			log.Fatalf("Error creating package in Jamf Pro: %v", err)
 		}
-		fmt.Printf("JCDS2File Upload response for %s: %s\n", fileName, string(responseJCDS2Bytes))
+		fmt.Printf("Package created with ID: %s\n", response.ID)
 
-		// Marshal and log the PackageCreatedAndUpdated response
-		responsePackageCreatedAndUpdatedBytes, err := json.Marshal(responsePackageCreatedAndUpdated)
+		_, err = client.UploadPackage(response.ID, []string{filePath})
 		if err != nil {
-			log.Fatalf("Failed to marshal PackageCreatedAndUpdated response for %s: %v", filePath, err)
+			log.Fatalf("Error uploading package to Jamf Pro: %v", err)
 		}
-		fmt.Printf("PackageCreatedAndUpdated response for %s: %s\n", fileName, string(responsePackageCreatedAndUpdatedBytes))
+		fmt.Printf("Package %s uploaded successfully.\n", fileName)
 
 		fmt.Println("-------------------------------------------------")
 	}
