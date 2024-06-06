@@ -7,9 +7,11 @@ package jamfpro
 
 import "fmt"
 
-const uriMDM = "/api/v2/mdm/commands"
+const uriMDMCommands = "/api/v2/mdm/commands"
+const uriMDMDeployPackage = "/api/v1/deploy-package"
+const uriMDMProfileRenewal = "/api/v1/mdm/renew-profile"
 
-// Structs
+// MDM Commands
 
 // ResourceMDMCommandRequest represents the overall request structure for the MDM command
 type ResourceMDMCommandRequest struct {
@@ -103,9 +105,66 @@ type ResponseMDMCommand struct {
 	Href string `json:"href"`
 }
 
+// Deploy Package
+
+// ResourceDeployPackage represents the request structure for deploying a package
+type ResourceDeployPackage struct {
+	Manifest         PackageManifest `json:"manifest"`
+	InstallAsManaged bool            `json:"installAsManaged"`
+	Devices          []int           `json:"devices"`
+	GroupID          string          `json:"groupId"`
+}
+
+// PackageManifest represents the package manifest structure in the deploy package command
+type PackageManifest struct {
+	HashType         string `json:"hashType"`
+	URL              string `json:"url"`
+	Hash             string `json:"hash"`
+	DisplayImageURL  string `json:"displayImageUrl"`
+	FullSizeImageURL string `json:"fullSizeImageUrl"`
+	BundleID         string `json:"bundleId"`
+	BundleVersion    string `json:"bundleVersion"`
+	Subtitle         string `json:"subtitle"`
+	Title            string `json:"title"`
+	SizeInBytes      int    `json:"sizeInBytes"`
+}
+
+// ResponseDeployPackage represents the response structure for deploying a package
+type ResponseDeployPackage struct {
+	QueuedCommands []QueuedCommand `json:"queuedCommands"`
+	Errors         []ErrorDetail   `json:"errors"`
+}
+
+// QueuedCommand represents the details of a queued command in the response
+type QueuedCommand struct {
+	Device      int    `json:"device"`
+	CommandUUID string `json:"commandUuid"`
+}
+
+// ErrorDetail represents the details of an error in the response
+type ErrorDetail struct {
+	Device int    `json:"device"`
+	Group  int    `json:"group"`
+	Reason string `json:"reason"`
+}
+
+// Renew Profile
+
+// ResourceMDMProfileRenewal represents the request structure for renewing MDM profiles
+type ResourceMDMProfileRenewal struct {
+	UDIDs []string `json:"udids"`
+}
+
+// ResponseMDMProfileRenewal represents the response structure for renewing MDM profiles
+type ResponseMDMProfileRenewal struct {
+	UDIDsNotProcessed struct {
+		UDIDs []string `json:"udids"`
+	} `json:"udidsNotProcessed"`
+}
+
 // SendMDMCommandForCreationAndQueuing sends an MDM command for creation and queuing
 func (c *Client) SendMDMCommandForCreationAndQueuing(MDMCommand *ResourceMDMCommandRequest) (*ResponseMDMCommand, error) {
-	endpoint := uriMDM
+	endpoint := uriMDMCommands
 	var responseMDMCommand ResponseMDMCommand
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, MDMCommand, &responseMDMCommand)
@@ -118,4 +177,38 @@ func (c *Client) SendMDMCommandForCreationAndQueuing(MDMCommand *ResourceMDMComm
 	}
 
 	return &responseMDMCommand, nil
+}
+
+// SendMDMCommandForPackageDeployment deploys a package using an MDM command
+func (c *Client) SendMDMCommandForPackageDeployment(deployPackageRequest *ResourceDeployPackage) (*ResponseDeployPackage, error) {
+	endpoint := uriMDMDeployPackage + "?verbose=true"
+	var responseDeployPackage ResponseDeployPackage
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, deployPackageRequest, &responseDeployPackage)
+	if err != nil {
+		return nil, fmt.Errorf("failed to deploy package: %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseDeployPackage, nil
+}
+
+// SendMDMCommandForMDMProfileRenewal renews MDM profiles for specified UDIDs
+func (c *Client) SendMDMCommandForMDMProfileRenewal(renewProfileRequest *ResourceMDMProfileRenewal) (*ResponseMDMProfileRenewal, error) {
+	endpoint := uriMDMProfileRenewal
+	var responseMDMProfileRenewal ResponseMDMProfileRenewal
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, renewProfileRequest, &responseMDMProfileRenewal)
+	if err != nil {
+		return nil, fmt.Errorf("failed to renew MDM profile: %v", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseMDMProfileRenewal, nil
 }
