@@ -12,6 +12,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -690,29 +691,34 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 /// COME BACK TO THIS LATER
 
 // UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
-func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePath string) (*ResponseUploadAttachment, error) {
+// Api supports single file upload only.
+func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePaths []string) (*ResponseUploadAttachment, error) {
 	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
 
-	// Construct the files map
-	files := map[string]string{
-		"file": filePath, // Assuming 'file' is the form field name for the file uploads
+	// Create a map for the files to be uploaded
+	files := map[string][]string{
+		"file": filePaths,
 	}
 
-	// Initialize the response struct
-	var uploadResponse ResponseUploadAttachment
+	// Include form fields if needed (currently none based on docs)
+	formFields := map[string]string{}
 
-	// Call DoMultipartRequest with the method, endpoint, files, and the response struct
-	resp, err := c.HTTP.DoMultipartRequest("POST", endpoint, nil, files, &uploadResponse)
+	// No custom content types for this request
+	contentTypes := map[string]string{}
+
+	// No additional headers for this request
+	headersMap := map[string]http.Header{}
+
+	var response ResponseUploadAttachment
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to upload attachment and assign to computer: %v", err)
+		return nil, fmt.Errorf("failed to upload package: %v", err)
 	}
-
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	// Return the response struct pointer
-	return &uploadResponse, nil
+	return &response, nil
 }
 
 // DeleteAttachmentByIDAndComputerID deletes a computer's inventory attached by computer ID

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,19 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example ID to fetch
-	packageName := "OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.2_13.pkg"
-
-	response, err := client.GetPackageByName(packageName)
+	// Call GetReturnToService function
+	returnToService, err := client.GetReturnToServiceConfigurations()
 	if err != nil {
-		fmt.Println("Error fetching package by Name:", err)
-		return
+		log.Fatalf("Error fetching return to service  properties: %v", err)
 	}
 
-	// Pretty print the created script details in XML
-	packageXML, err := xml.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	// Pretty print the return to service  files in JSON
+	response, err := json.MarshalIndent(returnToService, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling created script data: %v", err)
+		log.Fatalf("Error marshaling return to service data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(packageXML))
+	fmt.Println("Fetched return to service properties:\n", string(response))
 }

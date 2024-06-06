@@ -18,7 +18,9 @@ func main() {
 	}
 
 	// Path to the icon file you want to upload
-	filePath := "/Users/dafyddwatkins/Downloads/mac-icon.png"
+	filePath := []string{
+		"/Users/dafyddwatkins/localtesting/terraform/support_files/icons/Icon_macOS.svg.png",
+	}
 
 	// Call the UploadIcon function
 	uploadResponse, err := client.UploadIcon(filePath)

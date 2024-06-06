@@ -18,16 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetReturnToService function
-	returnToService, err := client.GetReturnToService()
+	// Example ID to fetch package history
+	packageID := 233
+
+	response, err := client.GetPackageHistoryByPackageID(packageID, "date:desc", "")
 	if err != nil {
-		log.Fatalf("Error fetching return to service  properties: %v", err)
+		fmt.Println("Error fetching package history by package ID:", err)
+		return
 	}
 
-	// Pretty print the return to service  files in JSON
-	response, err := json.MarshalIndent(returnToService, "", "    ") // Indent with 4 spaces
+	// Pretty print the package history details in JSON
+	historyJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling return to service data: %v", err)
+		log.Fatalf("Error marshaling package history data: %v", err)
 	}
-	fmt.Println("Fetched return to service properties:\n", string(response))
+	fmt.Println("Obtained package history details:\n", string(historyJSON))
 }

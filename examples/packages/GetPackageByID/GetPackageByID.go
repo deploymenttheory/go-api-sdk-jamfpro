@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID to fetch
-	packageID := 61
+	packageID := 232
 
 	response, err := client.GetPackageByID(packageID)
 	if err != nil {
@@ -27,10 +27,10 @@ func main() {
 		return
 	}
 
-	// Pretty print the created script details in XML
-	packageXML, err := xml.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	// Pretty print the created script details in JSON
+	packageJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling created script data: %v", err)
+		log.Fatalf("Error marshaling package data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(packageXML))
+	fmt.Println("Obtained package Details:\n", string(packageJSON))
 }

@@ -17,12 +17,13 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	packageID := 1
+	// Define the package ID to be deleted
+	packageID := "250"
 
 	err = client.DeletePackageByID(packageID)
 	if err != nil {
-		log.Fatalf("Error deleting network package by ID: %v", err)
+		log.Fatalf("Error deleting packages by IDs: %v", err)
 	} else {
-		fmt.Printf("Network package with ID %d successfully deleted.\n", packageID)
+		fmt.Printf("Package with ID %v successfully deleted.\n", packageID)
 	}
 }
