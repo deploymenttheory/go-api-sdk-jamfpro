@@ -20,9 +20,9 @@ func main() {
 
 	// Example ID and file path to upload. The package manifest must exist in Jamf Pro
 	// before uploading the package file using CreatePackage or UpdatePackage functions.
-	packageID := "257"
+	packageID := "261"
 	filePaths := []string{
-		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/powershell-7.4.1-osx-x64.pkg",
+		"/Users/dafyddwatkins/localtesting/terraform/support_files/packages/Microsoft_365_and_Office_16.82.24021116_Installer.pkg",
 		// Add more file paths if needed
 	}
 

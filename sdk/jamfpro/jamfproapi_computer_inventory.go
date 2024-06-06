@@ -17,7 +17,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-const uriComputersInventory = "/api/v1/computers-inventory-detail" // Define the constant for the computers inventory endpoint
+const uriComputersInventory = "/api/v1/computers-inventory"
 
 // List
 
