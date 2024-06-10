@@ -1,12 +1,5 @@
 package jamfpro
 
-import (
-	"fmt"
-	"net/http"
-	"path"
-	"time"
-)
-
 // PingResource sends a ping to a specified endpoint and resource ID to check its availability.
 // This function utilizes the DoPing method from the httpclient package to perform the operation.
 //
@@ -24,19 +17,20 @@ import (
 // Usage:
 // This function is intended for use in scenarios where it's necessary to confirm the availability or health of a specific
 // resource within an endpoint.
-func (c *Client) PingResource(endpoint, resourceID string) (*http.Response, error) {
-	// Combine the endpoint and the resource ID to form the full path
-	fullPath := path.Join(endpoint, resourceID)
+// TODO fix this after v2
+// func (c *Client) PingResource(endpoint, resourceID string) (*http.Response, error) {
+// 	// Combine the endpoint and the resource ID to form the full path
+// 	fullPath := path.Join(endpoint, resourceID)
 
-	// Here we use a nil body and a nil output variable since we're just "pinging" the endpoint
-	// and don't need to send or receive any specific data.
-	resp, err := c.HTTP.DoPole("GET", fullPath, nil, nil)
-	if err != nil {
-		return nil, fmt.Errorf("failed to ping resource at %s: %v", fullPath, err)
-	}
+// 	// Here we use a nil body and a nil output variable since we're just "pinging" the endpoint
+// 	// and don't need to send or receive any specific data.
+// 	resp, err := c.HTTP.DoPole("GET", fullPath, nil, nil)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed to ping resource at %s: %v", fullPath, err)
+// 	}
 
-	return resp, nil
-}
+// 	return resp, nil
+// }
 
 // PingHost sends an ICMP "ping" to a specified host to check its availability.
 // This function utilizes the DoPingV2 method from the httpclient package to perform the operation.
@@ -51,16 +45,17 @@ func (c *Client) PingResource(endpoint, resourceID string) (*http.Response, erro
 //
 // Usage:
 // This function is intended for use in scenarios where it's necessary to confirm the availability or health of a host.
-func (c *Client) PingHost(endpoint, resourceID string, timeoutInSeconds int) error {
-	fullPath := path.Join(endpoint, resourceID)
+// fix this after v2
+// func (c *Client) PingHost(endpoint, resourceID string, timeoutInSeconds int) error {
+// 	fullPath := path.Join(endpoint, resourceID)
 
-	timeout := time.Duration(timeoutInSeconds) * time.Second
+// 	timeout := time.Duration(timeoutInSeconds) * time.Second
 
-	// Call the DoPingV2 method with the host and timeout
-	err := c.HTTP.DoPing(fullPath, timeout)
-	if err != nil {
-		return fmt.Errorf("failed to ping host %s: %v", fullPath, err)
-	}
+// 	// Call the DoPingV2 method with the host and timeout
+// 	err := c.HTTP.DoPing(fullPath, timeout)
+// 	if err != nil {
+// 		return fmt.Errorf("failed to ping host %s: %v", fullPath, err)
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
