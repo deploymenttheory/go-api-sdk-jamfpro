@@ -3,7 +3,7 @@ module github.com/deploymenttheory/go-api-sdk-jamfpro
 go 1.22.2
 
 require (
-	github.com/deploymenttheory/go-api-http-client v0.1.53
+	github.com/deploymenttheory/go-api-http-client v0.1.43-0.20240610101509-1dcd3ec33de9
 	github.com/mitchellh/mapstructure v1.5.0
 	golang.org/x/text v0.15.0
 	howett.net/plist v1.0.1
@@ -17,5 +17,4 @@ require (
 	go.uber.org/multierr v1.10.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sys v0.20.0 // indirect
 )

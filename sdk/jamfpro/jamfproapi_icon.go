@@ -8,7 +8,6 @@ package jamfpro
 import (
 	"fmt"
 	"io"
-	"net/http"
 	"net/url"
 	"os"
 )
@@ -26,34 +25,36 @@ type ResponseUploadIcon struct {
 // CRUD
 
 // UploadIcon uploads an icon file to Jamf Pro and returns the icon URL and ID.
-func (c *Client) UploadIcon(filePaths []string) (*ResponseUploadIcon, error) {
-	endpoint := uriUploadIcon
 
-	// Create a map for the files to be uploaded
-	files := map[string][]string{
-		"file": filePaths,
-	}
+// TODO fix this with multipart
+// func (c *Client) UploadIcon(filePaths []string) (*ResponseUploadIcon, error) {
+// 	endpoint := uriUploadIcon
 
-	// Include form fields if needed (currently none based on docs)
-	formFields := map[string]string{}
+// 	// Create a map for the files to be uploaded
+// 	files := map[string][]string{
+// 		"file": filePaths,
+// 	}
 
-	// No custom content types for this request
-	contentTypes := map[string]string{}
+// 	// Include form fields if needed (currently none based on docs)
+// 	formFields := map[string]string{}
 
-	// No additional headers for this request
-	headersMap := map[string]http.Header{}
+// 	// No custom content types for this request
+// 	contentTypes := map[string]string{}
 
-	var response ResponseUploadIcon
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
-	if err != nil {
-		return nil, fmt.Errorf("failed to upload package: %v", err)
-	}
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
+// 	// No additional headers for this request
+// 	headersMap := map[string]http.Header{}
 
-	return &response, nil
-}
+// 	var response ResponseUploadIcon
+// 	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed to upload package: %v", err)
+// 	}
+// 	if resp != nil && resp.Body != nil {
+// 		defer resp.Body.Close()
+// 	}
+
+// 	return &response, nil
+// }
 
 // DownloadIcon downloads an icon by its ID from Jamf Pro and saves it to the specified file path.
 // The icon is saved to the path provided in the 'savePath' parameter.
