@@ -3,7 +3,7 @@ module github.com/deploymenttheory/go-api-sdk-jamfpro
 go 1.22.4
 
 require (
-	github.com/deploymenttheory/go-api-http-client v0.1.54-0.20240617153832-256e1346b42d
+	github.com/deploymenttheory/go-api-http-client v0.1.54-0.20240618090742-b34e699f5832
 	github.com/mitchellh/mapstructure v1.5.0
 	golang.org/x/text v0.15.0
 	howett.net/plist v1.0.1
