@@ -104,7 +104,6 @@ func (c *Client) GetNetworkSegmentByName(name string) (*ResourceNetworkSegment, 
 func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*ResponseNetworkSegmentCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriNetworkSegments)
 
-	// Wrap the segment with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"network_segment"`
 		*ResourceNetworkSegment

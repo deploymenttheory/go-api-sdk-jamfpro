@@ -116,7 +116,6 @@ func (c *Client) CreateApiIntegration(integration *ResourceApiIntegration) (*Res
 
 // UpdateApiIntegrationByID updates an API integration by its ID
 func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
 
 	var updatedIntegration ResourceApiIntegration
@@ -150,10 +149,8 @@ func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *Reso
 
 // DeleteApiIntegrationByID deletes an API integration by its ID
 func (c *Client) DeleteApiIntegrationByID(id int) error {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
 
-	// Perform the DELETE request
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "api integration", id, err)

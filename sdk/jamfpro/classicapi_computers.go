@@ -464,13 +464,11 @@ func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, e
 func (c *Client) UpdateComputerByID(id int, computer ResponseComputer) (*ResponseComputer, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
 
-	// Check if site is not provided in the General subset and set default values
 	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
 		computer.General.Site.ID = -1
 		computer.General.Site.Name = "none"
 	}
 
-	// The requestBody struct should mirror the Computer struct, including all nested structs
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer"`
 		ResponseComputer
@@ -495,13 +493,11 @@ func (c *Client) UpdateComputerByID(id int, computer ResponseComputer) (*Respons
 func (c *Client) UpdateComputerByName(name string, computer ResponseComputer) (*ResponseComputer, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriComputers, name)
 
-	// Check if site is not provided in the General subset and set default values
 	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
 		computer.General.Site.ID = -1
 		computer.General.Site.Name = "none"
 	}
 
-	// The requestBody struct should mirror the Computer struct, including all nested structs
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer"`
 		ResponseComputer

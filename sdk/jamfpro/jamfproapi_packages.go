@@ -84,7 +84,7 @@ type ResourcePackageHistory struct {
 
 // GetPackages retrieves a list of packages with pagination, sorting, and filtering.
 func (c *Client) GetPackages(sort, filter string) (*ResponsePackagesList, error) {
-	const maxPageSize = 200 // Define a constant for the maximum page size
+	const maxPageSize = 200 // TODO move this.
 
 	var allResults []ResourcePackage
 	var totalCount int
@@ -151,7 +151,7 @@ func (c *Client) GetPackageByID(id string) (*ResourcePackage, error) {
 
 // GetPackageHistoryByPackageID retrieves the history of a specific package by its ID with pagination, sorting, and filtering.
 func (c *Client) GetPackageHistoryByPackageID(id string, sort, filter string) (*ResponsePackageHistoryList, error) {
-	const maxPageSize = 200 // Define a constant for the maximum page size
+	const maxPageSize = 200
 
 	var allResults []ResourcePackageHistory
 	var totalCount int

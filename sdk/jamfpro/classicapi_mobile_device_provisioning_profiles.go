@@ -161,7 +161,7 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByName(name string, profil
 	return &responseProfile, nil
 }
 
-// QUERY is this creating by a UUID? - yes. you can use https://imazing.com/profile-editor to test
+// TODO is this creating by a UUID? - yes. you can use https://imazing.com/profile-editor to test
 
 // CreateMobileDeviceProvisioningProfileByUUID creates a new mobile device provisioning profile by its UUID.
 func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
