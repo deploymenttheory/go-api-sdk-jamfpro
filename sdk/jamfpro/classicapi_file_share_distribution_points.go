@@ -123,7 +123,6 @@ func (c *Client) GetDistributionPointByName(name string) (*ResourceFileShareDist
 func (c *Client) CreateDistributionPoint(dp *ResourceFileShareDistributionPoint) (*ResponseFileShareDistributionPointCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriDistributionPoints)
 
-	// Wrap the distribution point with the XML root element name
 	requestBody := struct {
 		XMLName xml.Name `xml:"distribution_point"`
 		*ResourceFileShareDistributionPoint

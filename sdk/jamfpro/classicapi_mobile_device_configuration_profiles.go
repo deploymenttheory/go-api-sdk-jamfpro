@@ -225,7 +225,6 @@ func (c *Client) GetMobileDeviceConfigurationProfileByNameWithSubset(name string
 func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceConfigurationProfiles)
 
-	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"configuration_profile"`
 		*ResourceMobileDeviceConfigurationProfile
@@ -250,7 +249,6 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
 
-	// Wrap the profile with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"configuration_profile"`
 		*ResourceMobileDeviceConfigurationProfile

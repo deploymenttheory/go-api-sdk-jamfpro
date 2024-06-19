@@ -165,7 +165,6 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
 
-	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`
 		*ResourceRestrictedSoftware

@@ -167,7 +167,6 @@ func (c *Client) GetLicensedSoftwareByName(name string) (*ResourceLicensedSoftwa
 func (c *Client) CreateLicensedSoftware(licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriLicensedSoftware)
 
-	// Wrap licensedSoftware in an anonymous struct to match the expected XML structure
 	requestBody := struct {
 		XMLName xml.Name `xml:"licensed_software"`
 		*ResourceLicensedSoftware

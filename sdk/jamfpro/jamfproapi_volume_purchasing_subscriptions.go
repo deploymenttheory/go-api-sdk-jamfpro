@@ -112,7 +112,6 @@ func (c *Client) GetVolumePurchasingSubscriptionByName(name string) (*ResourceVo
 func (c *Client) CreateVolumePurchasingSubscription(subscription *ResourceVolumePurchasingSubscription) (*ResourceVolumePurchasingSubscription, error) {
 	endpoint := uriVolumePurchasingSubscriptions
 
-	// Default the SiteId to "-1" if not provided
 	if subscription.SiteId == "" {
 		subscription.SiteId = "-1"
 	}

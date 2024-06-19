@@ -687,7 +687,7 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 	return &recoveryLockPasswordResponse, nil
 }
 
-/// COME BACK TO THIS LATER
+// TODO
 
 // UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
 // Api supports single file upload only.
@@ -724,10 +724,8 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 // DeleteAttachmentByIDAndComputerID deletes a computer's inventory attached by computer ID
 // and the computer's attachment ID. Multiple attachments can be assigned to a single computer resource.
 func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID string) error {
-	// Construct the endpoint URL using the provided computerID and attachmentID
 	endpoint := fmt.Sprintf("%s/%s/attachments/%s", uriComputersInventory, computerID, attachmentID)
 
-	// Make a DELETE request to the endpoint
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete attachment: %v", err)
@@ -737,8 +735,6 @@ func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID stri
 		defer resp.Body.Close()
 	}
 
-	// Check if the DELETE operation was successful
-	// Typical success codes for DELETE are 200 (OK), 202 (Accepted), or 204 (No Content)
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return fmt.Errorf("failed to delete attachment, status code: %d", resp.StatusCode)
 	}

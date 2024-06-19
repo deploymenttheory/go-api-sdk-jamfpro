@@ -38,10 +38,7 @@ func (c *Client) GetJamfAPIPrivileges() (*ResourceApiRolePrivilegesList, error) 
 
 // GetJamfAPIPrivilegesByName fetches a list of Jamf API role privileges by name
 func (c *Client) GetJamfAPIPrivilegesByName(name string, limit int) (*ResourceApiRolePrivilegesList, error) {
-	// Encode the name parameter to handle special characters
 	encodedName := url.QueryEscape(name)
-
-	// Construct the URL with the provided name and limit
 	endpoint := fmt.Sprintf(uriApiRolePrivileges+"/search?name=%s&limit=%d", encodedName, limit)
 
 	var privilegesList ResourceApiRolePrivilegesList

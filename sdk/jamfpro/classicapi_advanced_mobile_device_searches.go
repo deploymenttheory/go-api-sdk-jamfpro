@@ -56,8 +56,8 @@ type ResponseAdvancedMobileDeviceSearchCreatedAndUpdated struct {
 }
 
 // Subsets & Containers
-// Mobile Device
 
+// Mobile Device
 type AdvancedMobileSearchContainerDevices struct {
 	Size   int                              `xml:"size,omitempty"`
 	Device AdvancedMobileSearchSubsetDevice `xml:"mobile_device,omitempty"`

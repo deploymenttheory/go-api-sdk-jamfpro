@@ -135,7 +135,6 @@ func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
 	endpoint := uriAPIAccounts
 
-	// Define XML requestBody structure
 	requestBody := struct {
 		XMLName xml.Name `xml:"account"`
 		*ResourceAccount

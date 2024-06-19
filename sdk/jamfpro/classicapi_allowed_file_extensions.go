@@ -84,7 +84,6 @@ func (c *Client) GetAllowedFileExtensionByName(name string) (*ResourceAllowedFil
 func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtension) (*ResourceAllowedFileExtension, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriAPIAllowedFileExtensions)
 
-	// Wrap the extension with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"allowed_file_extension"`
 		*ResourceAllowedFileExtension

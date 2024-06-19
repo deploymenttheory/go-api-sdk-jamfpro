@@ -528,7 +528,6 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndU
 func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy
@@ -553,7 +552,6 @@ func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePoli
 func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPolicies, name)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy

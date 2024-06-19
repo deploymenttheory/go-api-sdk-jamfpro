@@ -32,6 +32,7 @@ type ResponseAccountGroupCreated struct {
 }
 
 // Subsets
+
 type AccountGroupSubsetMembers []struct {
 	User MemberUser `json:"user,omitempty" xml:"user,omitempty"`
 }
@@ -41,6 +42,7 @@ type AccountGroupSubsetLDAPServer struct {
 }
 
 // New MemberUser struct
+
 type MemberUser struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
@@ -84,11 +86,9 @@ func (c *Client) GetAccountGroupByName(name string) (*ResourceAccountGroup, erro
 
 // CreateAccountGroupByID creates an Account Group using its ID
 func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*ResponseAccountGroupCreated, error) {
-	// Use a placeholder ID for creating a new account group
 	placeholderID := 0
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, placeholderID)
 
-	// Define XML requestBody structure
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`
 		*ResourceAccountGroup

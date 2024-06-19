@@ -230,7 +230,6 @@ func (c *Client) DeleteMultipleBuildingsByID(ids []string) error {
 
 // GetBuildingResourceHistoryByID retrieves the resource history of a specific building by its ID.
 func (c *Client) GetBuildingResourceHistoryByID(id, sort_filter string) (*ResponseBuildingResourceHistoryList, error) {
-	// Construct the URL with the provided ID
 	endpoint := fmt.Sprintf("%s/%s/history", uriBuildings, id)
 
 	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sort_filter)
