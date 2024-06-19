@@ -11,21 +11,17 @@ import (
 
 // SafeReadCertificateFile reads a certificate file securely after applying multiple checks.
 func SafeReadCertificateFile(filePath string, allowedExtensions []string) ([]byte, error) {
-	// Clean the file path first to prevent directory traversal
 	cleanedPath := cleanPath(filePath)
 
-	// Check for a valid file extension
 	if !isValidExtension(cleanedPath, allowedExtensions) {
 		return nil, fmt.Errorf("file extension '%s' is not allowed", filepath.Ext(cleanedPath))
 	}
 
-	// Resolve any symbolic links to ensure the path is safe
 	resolvedPath, err := resolveSymlinks(cleanedPath)
 	if err != nil {
 		return nil, err
 	}
 
-	// Read the file
 	data, err := os.ReadFile(resolvedPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %v", err)
@@ -35,21 +31,17 @@ func SafeReadCertificateFile(filePath string, allowedExtensions []string) ([]byt
 
 // SafeReadJCDSPackageFile reads a package file securely after applying multiple checks.
 func SafeReadJCDSPackageFile(filePath string, allowedExtensions []string) ([]byte, error) {
-	// Clean the file path first to prevent directory traversal
 	cleanedPath := cleanPath(filePath)
 
-	// Check for a valid file extension
 	if !isValidExtension(cleanedPath, allowedExtensions) {
 		return nil, fmt.Errorf("file extension '%s' is not allowed", filepath.Ext(cleanedPath))
 	}
 
-	// Resolve any symbolic links to ensure the path is safe
 	resolvedPath, err := resolveSymlinks(cleanedPath)
 	if err != nil {
 		return nil, err
 	}
 
-	// Read the file
 	data, err := os.ReadFile(resolvedPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read Jamf Pro package: %v", err)
