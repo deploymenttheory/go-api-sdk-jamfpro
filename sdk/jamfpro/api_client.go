@@ -15,6 +15,19 @@ type Client struct {
 	HTTP *httpclient.Client
 }
 
+// CombinedConfig combines HTTP client, logger, and integration configurations.
+type CombinedConfig struct {
+	HTTPClientConfig  *httpclient.ClientConfig `json:"http_client_config"`
+	LoggerConfig      LoggerConfig             `json:"logger_config"`
+	IntegrationConfig IntegrationConfig        `json:"api_integration_config"`
+}
+
+// IntegrationConfig holds the configuration for the API integration.
+type IntegrationConfig struct {
+	BaseDomain           string `json:"base_domain"`
+	AuthMethodDescriptor string `json:"auth_method_descriptor"`
+}
+
 // LoggerConfig holds the configuration for the logger.
 type LoggerConfig struct {
 	LogLevel            logger.LogLevel `json:"log_level"`
@@ -24,29 +37,15 @@ type LoggerConfig struct {
 	ExportLogs          bool            `json:"export_logs"`
 }
 
-// IntegrationConfig holds the configuration for the API integration.
-type IntegrationConfig struct {
-	BaseDomain           string `json:"base_domain"`
-	AuthMethodDescriptor string `json:"auth_method_descriptor"`
-}
-
-// CombinedConfig combines HTTP client, logger, and integration configurations.
-type CombinedConfig struct {
-	HTTPClientConfig  *httpclient.ClientConfig `json:"http_client_config"`
-	LoggerConfig      LoggerConfig             `json:"logger_config"`
-	IntegrationConfig IntegrationConfig        `json:"api_integration_config"`
-}
-
 // BuildClientWithConfigFile initializes a new Jamf Pro client using a
 // configuration file for the HTTP client, logger, and integration.
 func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
-	// Load the combined configuration from the specified file
 	combinedConfig, err := loadCombinedConfig(configFilePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load combined configuration from file: %w", err)
 	}
 
-	// Initialize a logger using the loaded logger configuration
+	// Build and Initialize logger
 	log := logger.BuildLogger(
 		combinedConfig.LoggerConfig.LogLevel,
 		combinedConfig.LoggerConfig.Encoding,
@@ -55,7 +54,7 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		combinedConfig.LoggerConfig.ExportLogs,
 	)
 
-	// Create the API integration using the loaded integration configuration
+	// Build and Initialize api integration
 	integration := &jamfprointegration.Integration{
 		BaseDomain:           combinedConfig.IntegrationConfig.BaseDomain,
 		AuthMethodDescriptor: combinedConfig.IntegrationConfig.AuthMethodDescriptor,
