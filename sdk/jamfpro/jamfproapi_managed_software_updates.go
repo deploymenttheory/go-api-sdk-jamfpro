@@ -194,17 +194,13 @@ func (c *Client) GetManagedSoftwareUpdateFeatureToggle() (*ResourceManagedSoftwa
 // UpdateManagedSoftwareUpdateFeatureToggle updates the feature toggle for managed software updates.
 func (c *Client) UpdateManagedSoftwareUpdateFeatureToggle(payload *ResourceManagedSoftwareUpdateFeatureToggle) (*ResponseManagedSoftwareUpdateFeatureToggle, error) {
 	endpoint := fmt.Sprintf("%s/plans/feature-toggle", uriManagedSoftwareUpdates)
-
-	// Define a variable to hold the response
 	var response ResponseManagedSoftwareUpdateFeatureToggle
 
-	// Perform the request and unmarshal the response
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update managed software update feature toggle: %v", err)
 	}
 
-	// Ensure the response body gets closed
 	if resp != nil {
 		defer resp.Body.Close()
 	}

@@ -76,7 +76,6 @@ func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInve
 func (c *Client) UpdateComputerInventoryCollectionSettings(settingsUpdate *ResourceComputerInventoryCollectionSettings) (*ResourceComputerInventoryCollectionSettings, error) {
 	endpoint := uriComputerInventoryCollectionSettings
 
-	// Perform the PATCH request
 	var updatedSettings ResourceComputerInventoryCollectionSettings
 	resp, err := c.HTTP.DoRequest("PATCH", endpoint, settingsUpdate, &updatedSettings)
 	if err != nil {

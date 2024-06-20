@@ -8,7 +8,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"net/http"
 	"net/url"
 )
 
@@ -85,7 +84,7 @@ type ResourcePackageHistory struct {
 
 // GetPackages retrieves a list of packages with pagination, sorting, and filtering.
 func (c *Client) GetPackages(sort, filter string) (*ResponsePackagesList, error) {
-	const maxPageSize = 200 // Define a constant for the maximum page size
+	const maxPageSize = 200 // TODO move this.
 
 	var allResults []ResourcePackage
 	var totalCount int
@@ -152,7 +151,7 @@ func (c *Client) GetPackageByID(id string) (*ResourcePackage, error) {
 
 // GetPackageHistoryByPackageID retrieves the history of a specific package by its ID with pagination, sorting, and filtering.
 func (c *Client) GetPackageHistoryByPackageID(id string, sort, filter string) (*ResponsePackageHistoryList, error) {
-	const maxPageSize = 200 // Define a constant for the maximum page size
+	const maxPageSize = 200
 
 	var allResults []ResourcePackageHistory
 	var totalCount int
@@ -256,34 +255,35 @@ func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCre
 
 // UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
 // manifest within JamfPro and the file paths.
-func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/%s/upload", uriPackages, id)
+// Fix this with multipart
+// func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
+// 	endpoint := fmt.Sprintf("%s/%s/upload", uriPackages, id)
 
-	// Create a map for the files to be uploaded
-	files := map[string][]string{
-		"file": filePaths,
-	}
+// 	// Create a map for the files to be uploaded
+// 	files := map[string][]string{
+// 		"file": filePaths,
+// 	}
 
-	// Include form fields if needed (currently none based on docs)
-	formFields := map[string]string{}
+// 	// Include form fields if needed (currently none based on docs)
+// 	formFields := map[string]string{}
 
-	// No custom content types for this request
-	contentTypes := map[string]string{}
+// 	// No custom content types for this request
+// 	contentTypes := map[string]string{}
 
-	// No additional headers for this request
-	headersMap := map[string]http.Header{}
+// 	// No additional headers for this request
+// 	headersMap := map[string]http.Header{}
 
-	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
-	if err != nil {
-		return nil, fmt.Errorf("failed to upload package: %v", err)
-	}
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
+// 	var response ResponsePackageCreatedAndUpdated
+// 	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed to upload package: %v", err)
+// 	}
+// 	if resp != nil && resp.Body != nil {
+// 		defer resp.Body.Close()
+// 	}
 
-	return &response, nil
-}
+// 	return &response, nil
+// }
 
 // UpdatePackageManifestByID updates a package manifest by its ID on the Jamf Pro server.
 func (c *Client) UpdatePackageManifestByID(id string, pkgManifest ResourcePackage) (*ResourcePackage, error) {

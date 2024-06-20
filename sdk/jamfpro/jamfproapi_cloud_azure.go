@@ -140,7 +140,6 @@ func (c *Client) DeleteCloudIdentityProviderByID(id string) error {
 		defer resp.Body.Close()
 	}
 
-	// Success, no error
 	return nil
 }
 

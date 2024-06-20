@@ -12,7 +12,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -688,46 +687,45 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 	return &recoveryLockPasswordResponse, nil
 }
 
-/// COME BACK TO THIS LATER
+// TODO
 
 // UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
 // Api supports single file upload only.
-func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePaths []string) (*ResponseUploadAttachment, error) {
-	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
+// TODO fix this with multipart
+// func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePaths []string) (*ResponseUploadAttachment, error) {
+// 	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
 
-	// Create a map for the files to be uploaded
-	files := map[string][]string{
-		"file": filePaths,
-	}
+// 	// Create a map for the files to be uploaded
+// 	files := map[string][]string{
+// 		"file": filePaths,
+// 	}
 
-	// Include form fields if needed (currently none based on docs)
-	formFields := map[string]string{}
+// 	// Include form fields if needed (currently none based on docs)
+// 	formFields := map[string]string{}
 
-	// No custom content types for this request
-	contentTypes := map[string]string{}
+// 	// No custom content types for this request
+// 	contentTypes := map[string]string{}
 
-	// No additional headers for this request
-	headersMap := map[string]http.Header{}
+// 	// No additional headers for this request
+// 	headersMap := map[string]http.Header{}
 
-	var response ResponseUploadAttachment
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
-	if err != nil {
-		return nil, fmt.Errorf("failed to upload package: %v", err)
-	}
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
+// 	var response ResponseUploadAttachment
+// 	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("failed to upload package: %v", err)
+// 	}
+// 	if resp != nil && resp.Body != nil {
+// 		defer resp.Body.Close()
+// 	}
 
-	return &response, nil
-}
+// 	return &response, nil
+// }
 
 // DeleteAttachmentByIDAndComputerID deletes a computer's inventory attached by computer ID
 // and the computer's attachment ID. Multiple attachments can be assigned to a single computer resource.
 func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID string) error {
-	// Construct the endpoint URL using the provided computerID and attachmentID
 	endpoint := fmt.Sprintf("%s/%s/attachments/%s", uriComputersInventory, computerID, attachmentID)
 
-	// Make a DELETE request to the endpoint
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete attachment: %v", err)
@@ -737,8 +735,6 @@ func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID stri
 		defer resp.Body.Close()
 	}
 
-	// Check if the DELETE operation was successful
-	// Typical success codes for DELETE are 200 (OK), 202 (Accepted), or 204 (No Content)
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return fmt.Errorf("failed to delete attachment, status code: %d", resp.StatusCode)
 	}

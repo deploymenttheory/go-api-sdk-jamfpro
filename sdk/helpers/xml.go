@@ -19,12 +19,10 @@ func ConvertToXMLSafeString(s string) string {
 		"\"": "&quot;",
 	}
 
-	// Replace each disallowed character with its entity reference.
 	for key, val := range replacements {
 		s = strings.ReplaceAll(s, key, val)
 	}
 
-	// Return the XML-safe string.
 	return s
 }
 
@@ -32,7 +30,6 @@ func ConvertToXMLSafeString(s string) string {
 // It replaces XML entity references in a string back to their original characters.
 // This is useful when reading XML data that contains entity references and converting them back to normal characters.
 func ConvertFromXMLSafeString(s string) string {
-	// Define a map of XML entities and their corresponding characters.
 	replacements := map[string]string{
 		"&amp;":  "&",
 		"&lt;":   "<",
@@ -41,12 +38,10 @@ func ConvertFromXMLSafeString(s string) string {
 		"&quot;": "\"",
 	}
 
-	// Replace each entity reference with its corresponding character.
 	for key, val := range replacements {
 		s = strings.ReplaceAll(s, key, val)
 	}
 
-	// Return the original string with characters restored.
 	return s
 }
 
@@ -54,17 +49,13 @@ func ConvertFromXMLSafeString(s string) string {
 // If it does, it converts the string to an XML-safe format using ConvertToXMLSafeString.
 // This function is useful for ensuring that strings are safe for inclusion in XML documents.
 func EnsureXMLSafeString(s string) string {
-	// Define a set of disallowed XML characters.
 	disallowedChars := []string{"&", "<", ">", "'", "\""}
 
-	// Check if the string contains any disallowed characters.
 	for _, char := range disallowedChars {
 		if strings.Contains(s, char) {
-			// If a disallowed character is found, convert the entire string to an XML-safe format.
 			return ConvertToXMLSafeString(s)
 		}
 	}
 
-	// If no disallowed characters are found, return the original string.
 	return s
 }

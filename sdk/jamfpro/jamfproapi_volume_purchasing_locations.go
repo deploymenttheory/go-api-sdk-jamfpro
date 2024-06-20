@@ -174,22 +174,19 @@ func (c *Client) GetVolumePurchasingContentForLocationByID(id string, sort []str
 	for {
 		params := url.Values{
 			"page":      []string{strconv.Itoa(page)},
-			"page-size": []string{"100"}, // Adjust the page size as per requirement
+			"page-size": []string{"100"},
 		}
 
-		// Append sort parameters
 		for _, s := range sort {
 			params.Add("sort", s)
 		}
 
-		// Append filter parameter if provided
 		if filter != "" {
 			params.Add("filter", filter)
 		}
 
 		endpointWithParams := fmt.Sprintf("%s/%s/content?%s", uriVolumePurchasingLocations, id, params.Encode())
 
-		// Fetch the content for the current page
 		var responseContent ResponseVolumePurchasingContentList
 		resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseContent)
 		if err != nil {
@@ -200,19 +197,15 @@ func (c *Client) GetVolumePurchasingContentForLocationByID(id string, sort []str
 			defer resp.Body.Close()
 		}
 
-		// Add the fetched content to the total list
 		allContent = append(allContent, responseContent.Results...)
 
-		// Check if all content has been fetched
 		if len(allContent) >= responseContent.TotalCount {
 			break
 		}
 
-		// Increment page number for the next iteration
 		page++
 	}
 
-	// Return the combined list of all content for the given volume purchasing location
 	return &ResponseVolumePurchasingContentList{
 		TotalCount: len(allContent),
 		Results:    allContent,

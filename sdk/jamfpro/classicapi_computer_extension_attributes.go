@@ -209,6 +209,5 @@ func (c *Client) DeleteComputerExtensionAttributeByNameByID(name string) error {
 		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
 	}
 
-	// Step 2: Use the discovered ID to delete the attribute
 	return c.DeleteComputerExtensionAttributeByID(attributeID)
 }

@@ -196,7 +196,6 @@ Errors: Returns an error if the request fails or if the resource cannot be creat
 func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
 	endpoint := uriAPIAdvancedUserSearches
 
-	// Wrap the search request with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`
 		*ResourceAdvancedUserSearch

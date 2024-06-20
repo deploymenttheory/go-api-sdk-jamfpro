@@ -108,7 +108,6 @@ func (c *Client) GetPrinterByName(name string) (*ResourcePrinter, error) {
 func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriPrinters)
 
-	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`
 		*ResourcePrinter
@@ -133,7 +132,6 @@ func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResponsePrinterCreate
 func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
 
-	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`
 		*ResourcePrinter
@@ -158,7 +156,6 @@ func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResponseP
 func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriPrinters, name)
 
-	// Wrap the printer with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`
 		*ResourcePrinter

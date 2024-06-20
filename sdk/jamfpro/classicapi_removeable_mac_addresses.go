@@ -80,7 +80,6 @@ func (c *Client) GetRemovableMACAddressByName(name string) (*ResourceRemovableMa
 func (c *Client) CreateRemovableMACAddress(macAddress *ResourceRemovableMacAddress) (*ResourceRemovableMacAddress, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, macAddress.ID)
 
-	// Wrap the removable MAC address with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"removable_mac_address"`
 		*ResourceRemovableMacAddress

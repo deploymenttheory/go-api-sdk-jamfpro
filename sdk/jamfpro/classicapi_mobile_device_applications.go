@@ -312,7 +312,6 @@ func (c *Client) GetMobileDeviceApplicationByNameAndDataSubset(name string, subs
 func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceApplications)
 
-	// Wrap the application with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_application"`
 		*ResourceMobileDeviceApplication
@@ -362,7 +361,6 @@ func (c *Client) UpdateMobileDeviceApplicationByID(id int, app *ResourceMobileDe
 func (c *Client) UpdateMobileDeviceApplicationByName(name string, app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriMobileDeviceApplications, name)
 
-	// Wrap the application with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_application"`
 		*ResourceMobileDeviceApplication
@@ -387,7 +385,6 @@ func (c *Client) UpdateMobileDeviceApplicationByName(name string, app *ResourceM
 func (c *Client) UpdateMobileDeviceApplicationByApplicationBundleID(id string, app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
 	endpoint := fmt.Sprintf("%s/bundleid/%s", uriMobileDeviceApplications, id)
 
-	// Wrap the application with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_application"`
 		*ResourceMobileDeviceApplication
