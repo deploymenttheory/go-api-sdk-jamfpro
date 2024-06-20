@@ -70,7 +70,6 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
 	}
 
-	// Create and return the Jamf Pro client with the HTTP client
 	return &Client{HTTP: httpClient}, nil
 }
 
