@@ -37,6 +37,7 @@ type ConfigContainer struct {
 
 // BuildClientWithConfigFile initializes a new Jamf Pro client using a
 // configuration file for the HTTP client, logger, and integration.
+// func BuildClientWithConfigFile(configFilePath string, httpClientConfig *httpclient.ClientConfig) (*Client, error) {
 func BuildClientWithConfigFile(configFilePath string, httpClientConfig *httpclient.ClientConfig) (*Client, error) {
 	config, err := loadConfigFromJSONFile(configFilePath)
 	if err != nil {
@@ -75,7 +76,7 @@ func BuildClientWithConfigFile(configFilePath string, httpClientConfig *httpclie
 		)
 
 	default:
-		return nil, fmt.Errorf("invalida auth method supplied")
+		return nil, fmt.Errorf("invalid auth method supplied")
 
 	}
 
