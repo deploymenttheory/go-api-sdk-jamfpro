@@ -15,66 +15,84 @@ type Client struct {
 	HTTP *httpclient.Client
 }
 
-// CombinedConfig combines HTTP client, logger, and integration configurations.
-type CombinedConfig struct {
-	HTTPClientConfig  *httpclient.ClientConfig `json:"http_client_config"`
-	LoggerConfig      LoggerConfig             `json:"logger_config"`
-	IntegrationConfig IntegrationConfig        `json:"api_integration_config"`
-}
-
-// IntegrationConfig holds the configuration for the API integration.
-type IntegrationConfig struct {
-	BaseDomain           string `json:"base_domain"`
-	AuthMethodDescriptor string `json:"auth_method_descriptor"`
-}
-
-// LoggerConfig holds the configuration for the logger.
-type LoggerConfig struct {
+type ConfigContainer struct {
+	// Logger
 	LogLevel            logger.LogLevel `json:"log_level"`
 	Encoding            string          `json:"encoding"`
 	LogConsoleSeparator string          `json:"log_console_separator"`
 	LogFilepath         string          `json:"log_filepath"`
 	ExportLogs          bool            `json:"export_logs"`
+
+	// Integration
+	BaseDomain           string `json:"base_domain"`
+	AuthMethodDescriptor string `json:"auth_method_descriptor"`
+	ClientId             string `json:"client_id"`
+	ClientSecret         string `json:"client_secret"`
+	BasicAuthUsername    string `json:"basic_auth_username"`
+	BasicAuthPassword    string `json:"basic_auth_password"`
+
+	// Client
+	HTTPClientConfig *httpclient.ClientConfig `json:"http_client_config"`
 }
 
 // BuildClientWithConfigFile initializes a new Jamf Pro client using a
 // configuration file for the HTTP client, logger, and integration.
-func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
-	combinedConfig, err := loadCombinedConfig(configFilePath)
+func BuildClientWithConfigFile(configFilePath string, httpClientConfig *httpclient.ClientConfig) (*Client, error) {
+	config, err := loadConfigFromJSONFile(configFilePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load combined configuration from file: %w", err)
 	}
 
-	// Build and Initialize logger
+	// Logger
 	log := logger.BuildLogger(
-		combinedConfig.LoggerConfig.LogLevel,
-		combinedConfig.LoggerConfig.Encoding,
-		combinedConfig.LoggerConfig.LogConsoleSeparator,
-		combinedConfig.LoggerConfig.LogFilepath,
-		combinedConfig.LoggerConfig.ExportLogs,
+		config.LogLevel,
+		config.Encoding,
+		config.LogConsoleSeparator,
+		config.LogFilepath,
+		config.ExportLogs,
 	)
 
-	// Build and Initialize api integration
-	integration := &jamfprointegration.Integration{
-		BaseDomain:           combinedConfig.IntegrationConfig.BaseDomain,
-		AuthMethodDescriptor: combinedConfig.IntegrationConfig.AuthMethodDescriptor,
-		Logger:               log,
+	var integration *jamfprointegration.Integration
+
+	// Integration
+	switch config.AuthMethodDescriptor {
+	case "oauth2":
+		integration, err = jamfprointegration.BuildIntegrationWithOAuth(
+			config.BaseDomain,
+			log,
+			config.HTTPClientConfig.TokenRefreshBufferPeriod,
+			config.ClientId,
+			config.ClientSecret,
+		)
+
+	case "basic":
+		integration, err = jamfprointegration.BuildIntegrationWithBasicAuth(
+			config.BaseDomain,
+			log,
+			config.HTTPClientConfig.TokenRefreshBufferPeriod,
+			config.BasicAuthUsername,
+			config.BasicAuthPassword,
+		)
+
+	default:
+		return nil, fmt.Errorf("invalida auth method supplied")
+
 	}
 
-	// Assign the integration to the HTTP client configuration
-	combinedConfig.HTTPClientConfig.Integration = integration
-
-	// Build the HTTP client with the loaded configuration
-	httpClient, err := httpclient.BuildClient(*combinedConfig.HTTPClientConfig, true, log)
+	// HttpClient
+	config.HTTPClientConfig.Integration = integration
+	httpClient, err := httpclient.BuildClient(*config.HTTPClientConfig, true, log)
 	if err != nil {
 		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
 	}
+
+	// Wrap into SDK & return
 
 	return &Client{HTTP: httpClient}, nil
 }
 
 // loadCombinedConfig loads the combined configuration from a JSON file
-func loadCombinedConfig(configFilePath string) (*CombinedConfig, error) {
+func loadConfigFromJSONFile(configFilePath string) (*ConfigContainer, error) {
 	file, err := os.Open(configFilePath)
 	if err != nil {
 		return nil, fmt.Errorf("could not open file: %v", err)
@@ -86,7 +104,7 @@ func loadCombinedConfig(configFilePath string) (*CombinedConfig, error) {
 		return nil, fmt.Errorf("could not read file: %v", err)
 	}
 
-	var config CombinedConfig
+	var config ConfigContainer
 	err = json.Unmarshal(byteValue, &config)
 	if err != nil {
 		return nil, fmt.Errorf("could not unmarshal JSON: %v", err)
