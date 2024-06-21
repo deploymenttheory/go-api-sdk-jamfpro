@@ -63,7 +63,7 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		return nil, fmt.Errorf("failed to load configuration from file: %w", err)
 	}
 
-	// Logger
+	// Initialize logger
 	logLevel := logger.ParseLogLevelFromString(config.LogLevel)
 	log := logger.BuildLogger(
 		logLevel,
@@ -79,7 +79,7 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		return nil, fmt.Errorf("failed to initialize integration: %w", err)
 	}
 
-	// Handle load balancer lock and custom cookies
+	// Handle jamf pro load balancer lock and custom cookies
 	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), log)
 	if err != nil {
 		return nil, err
