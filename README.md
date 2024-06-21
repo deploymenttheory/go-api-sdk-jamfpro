@@ -55,23 +55,29 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
     ```shell
     export CLIENT_ID="your_client_id"
     export CLIENT_SECRET="your_client_secret"
-    export INSTANCE_NAME="instance" # e.g., instance in "https://instance.jamfcloud.com
-    export OVERRIDE_BASE_DOMAIN="" # required only for on-premises instances
-    export API_TYPE="jamfpro" # required
+    export INSTANCE_DOMAIN="https://your_instance.jamfcloud.com" # use the fqdn
+    export AUTH_METHOD="oauth2" # or "basic"
+    export BASIC_AUTH_USERNAME="your_basic_auth_username" # Required if using basic auth
+    export BASIC_AUTH_PASSWORD="your_basic_auth_password" # Required if using basic auth
+    export CLIENT_ID="your_client_id" # Required if using oauth2
+    export CLIENT_SECRET="your_client_secret" # Required if using oauth2
     export LOG_LEVEL="LogLevelDebug" # or "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
-    export LOG_OUTPUT_FORMAT="console" # or "json" 
+    export LOG_OUTPUT_FORMAT="pretty" # or "json" 
     export LOG_CONSOLE_SEPARATOR=" " # or any other separator
-    export LOG_EXPORT_PATH="/your/log/path/" # optional
-    export HIDE_SENSITIVE_DATA="true"  
+    export LOG_EXPORT_PATH="/your/log/path/" # optional, ensure permissions to file path
+    export EXPORT_LOGS="true" # or "false"
+    export HIDE_SENSITIVE_DATA="true" # or "false"
     export MAX_RETRY_ATTEMPTS="3" # optional  
-    export MAX_CONCURRENT_REQUESTS="5"  # optional
-    export TOKEN_REFRESH_BUFFER_PERIOD="5m"  # optional
-    export TOTAL_RETRY_DURATION="5m"  # optional
-    export CUSTOM_TIMEOUT="10s" # optional
-    export ENABLE_COOKIE_JAR="true" # Enables the cookie jar
-    export CUSTOM_COOKIES="jpro-ingress=your_cookie_value; sessionToken=abc123; userPref=lightMode" # optional
-    export FOLLOW_REDIRECTS="true" # Enables following redirects
+    export MAX_CONCURRENT_REQUESTS="5" # optional
+    export ENABLE_DYNAMIC_RATE_LIMITING="true" # or "false"
+    export TOKEN_REFRESH_BUFFER_PERIOD_SECONDS="300" # optional, in seconds
+    export TOTAL_RETRY_DURATION_SECONDS="300" # optional, in seconds
+    export CUSTOM_TIMEOUT_SECONDS="60" # optional, in seconds
+    export FOLLOW_REDIRECTS="true" # or "false"
     export MAX_REDIRECTS="5" # Sets the maximum number of redirects
+    export ENABLE_CONCURRENCY_MANAGEMENT="true" # or "false"
+    export JAMF_LOAD_BALANCER_LOCK="true" # or "false"
+    export CUSTOM_COOKIES='[{"name": "jpro-ingress", "value": "your_cookie_value"}, {"name": "sessionToken", "value": "abc123"}, {"name": "userPref", "value": "lightMode"}]' # optional, JSON array of cookies
     ```
 
 2. **Build the Client**: Use the `BuildClientWithEnv` function to build the Jamf Pro client using the environment variables.
