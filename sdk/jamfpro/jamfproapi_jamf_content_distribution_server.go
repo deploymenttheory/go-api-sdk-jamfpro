@@ -1,6 +1,6 @@
 // jamfproapi_jcds2.go
 // Jamf Pro Api - Jamf Cloud Distribution Service (JCDS)
-// api reference: N/A
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-jcds-files
 // Jamf Pro API requires the structs to support an JSON data structure.
 // Ref: https://grahamrpugh.com/2023/08/21/introducing-jcds2.html
 // Ref: https://aws.github.io/aws-sdk-go-v2/docs/sdk-utilities/s3/
