@@ -11,7 +11,10 @@ import (
 	"github.com/deploymenttheory/go-api-http-client-integrations/jamf/jamfprointegration"
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-http-client/logger"
+	"go.uber.org/zap"
 )
+
+const jamfLoadBalancerCookieName = "jpro-ingress"
 
 type Client struct {
 	HTTP *httpclient.Client
@@ -76,6 +79,12 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		return nil, fmt.Errorf("failed to initialize integration: %w", err)
 	}
 
+	// Handle load balancer lock and custom cookies
+	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), log)
+	if err != nil {
+		return nil, err
+	}
+
 	// HttpClient
 	httpClientConfig := &httpclient.ClientConfig{
 		Integration:                 integration,
@@ -89,7 +98,7 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		FollowRedirects:             config.FollowRedirects,
 		MaxRedirects:                config.MaxRedirects,
 		EnableConcurrencyManagement: config.EnableConcurrencyManagement,
-		CustomCookies:               convertCustomCookies(config.CustomCookies),
+		CustomCookies:               customCookies,
 	}
 
 	httpClient, err := httpclient.BuildClient(*httpClientConfig, true, log)
@@ -166,4 +175,33 @@ func convertCustomCookies(customCookies []CustomCookie) []*http.Cookie {
 		})
 	}
 	return cookies
+}
+
+// handleLoadBalancerLock handles the load balancer lock by adding appropriate cookies if enabled
+func handleLoadBalancerLock(config *ConfigContainer, integration httpclient.APIIntegration, customCookies []*http.Cookie, log logger.Logger) ([]*http.Cookie, error) {
+	if config.JamfLoadBalancerLock {
+		jamfIntegration, ok := integration.(*jamfprointegration.Integration)
+		if !ok {
+			return nil, fmt.Errorf("integration is not of type *jamfprointegration.Integration")
+		}
+		cookies, err := jamfIntegration.GetSessionCookies()
+		if err != nil {
+			log.Error("Failed to get session cookies for load balancer lock", zap.Error(err))
+			return customCookies, nil
+		}
+
+		for _, cookie := range cookies {
+			if cookie.Name == jamfLoadBalancerCookieName {
+				// Ensure no custom cookie conflicts with the load balancer lock cookie
+				for i, customCookie := range customCookies {
+					if customCookie.Name == jamfLoadBalancerCookieName {
+						customCookies = append(customCookies[:i], customCookies[i+1:]...)
+						break
+					}
+				}
+				customCookies = append(customCookies, cookie)
+			}
+		}
+	}
+	return customCookies, nil
 }
