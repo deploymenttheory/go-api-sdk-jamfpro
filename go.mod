@@ -35,7 +35,7 @@ require (
 require (
 	github.com/antchfx/xmlquery v1.4.0 // indirect
 	github.com/antchfx/xpath v1.3.0 // indirect
-	github.com/deploymenttheory/go-api-http-client v0.1.54-0.20240620124147-89cdd8c7eb5e
+	github.com/deploymenttheory/go-api-http-client v0.2.0
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
