@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/deploymenttheory/go-api-http-client-integrations/jamf/jamfprointegration"
@@ -110,6 +111,60 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 	return &Client{HTTP: httpClient}, nil
 }
 
+// BuildClientWithEnv initializes a new Jamf Pro client using environment variables for the HTTP client, logger, and integration.
+func BuildClientWithEnv() (*Client, error) {
+	config, err := loadConfigFromEnv()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load configuration from environment: %w", err)
+	}
+
+	// Initialize logger
+	logLevel := logger.ParseLogLevelFromString(config.LogLevel)
+	log := logger.BuildLogger(
+		logLevel,
+		config.LogOutputFormat,
+		config.LogConsoleSeparator,
+		config.LogExportPath,
+		config.ExportLogs,
+	)
+
+	// Initialize API integration
+	integration, err := initializeAPIIntegration(config, log)
+	if err != nil {
+		return nil, fmt.Errorf("failed to initialize integration: %w", err)
+	}
+
+	// Handle jamf pro load balancer lock and custom cookies
+	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), log)
+	if err != nil {
+		return nil, err
+	}
+
+	// HttpClient
+	httpClientConfig := &httpclient.ClientConfig{
+		Integration:                 integration,
+		HideSensitiveData:           config.HideSensitiveData,
+		MaxRetryAttempts:            config.MaxRetryAttempts,
+		MaxConcurrentRequests:       config.MaxConcurrentRequests,
+		EnableDynamicRateLimiting:   config.EnableDynamicRateLimiting,
+		CustomTimeout:               time.Duration(config.CustomTimeout) * time.Second,
+		TokenRefreshBufferPeriod:    time.Duration(config.TokenRefreshBufferPeriod) * time.Second,
+		TotalRetryDuration:          time.Duration(config.TotalRetryDuration) * time.Second,
+		FollowRedirects:             config.FollowRedirects,
+		MaxRedirects:                config.MaxRedirects,
+		EnableConcurrencyManagement: config.EnableConcurrencyManagement,
+		CustomCookies:               customCookies,
+	}
+
+	httpClient, err := httpclient.BuildClient(*httpClientConfig, true, log)
+	if err != nil {
+		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
+	}
+
+	// Wrap into SDK & return
+	return &Client{HTTP: httpClient}, nil
+}
+
 // initializeAPIIntegration initializes the API integration based on the configuration
 func initializeAPIIntegration(config *ConfigContainer, log logger.Logger) (httpclient.APIIntegration, error) {
 	var integration *jamfprointegration.Integration
@@ -163,6 +218,85 @@ func loadConfigFromJSONFile(configFilePath string) (*ConfigContainer, error) {
 	}
 
 	return &config, nil
+}
+
+// loadConfigFromEnv loads the configuration from environment variables
+func loadConfigFromEnv() (*ConfigContainer, error) {
+	config := &ConfigContainer{
+		LogLevel:                    getEnv("LOG_LEVEL", "warning"),
+		LogOutputFormat:             getEnv("LOG_OUTPUT_FORMAT", "pretty"),
+		LogConsoleSeparator:         getEnv("LOG_CONSOLE_SEPARATOR", " "),
+		LogExportPath:               getEnv("LOG_EXPORT_PATH", ""),
+		ExportLogs:                  getEnvAsBool("EXPORT_LOGS", false),
+		HideSensitiveData:           getEnvAsBool("HIDE_SENSITIVE_DATA", true),
+		InstanceDomain:              getEnv("INSTANCE_DOMAIN", ""),
+		AuthMethod:                  getEnv("AUTH_METHOD", ""),
+		ClientID:                    getEnv("CLIENT_ID", ""),
+		ClientSecret:                getEnv("CLIENT_SECRET", ""),
+		Username:                    getEnv("BASIC_AUTH_USERNAME", ""),
+		Password:                    getEnv("BASIC_AUTH_PASSWORD", ""),
+		JamfLoadBalancerLock:        getEnvAsBool("JAMF_LOAD_BALANCER_LOCK", false),
+		MaxRetryAttempts:            getEnvAsInt("MAX_RETRY_ATTEMPTS", 3),
+		EnableDynamicRateLimiting:   getEnvAsBool("ENABLE_DYNAMIC_RATE_LIMITING", false),
+		MaxConcurrentRequests:       getEnvAsInt("MAX_CONCURRENT_REQUESTS", 1),
+		TokenRefreshBufferPeriod:    getEnvAsInt("TOKEN_REFRESH_BUFFER_PERIOD_SECONDS", 300),
+		TotalRetryDuration:          getEnvAsInt("TOTAL_RETRY_DURATION_SECONDS", 60),
+		CustomTimeout:               getEnvAsInt("CUSTOM_TIMEOUT_SECONDS", 60),
+		FollowRedirects:             getEnvAsBool("FOLLOW_REDIRECTS", true),
+		MaxRedirects:                getEnvAsInt("MAX_REDIRECTS", 5),
+		EnableConcurrencyManagement: getEnvAsBool("ENABLE_CONCURRENCY_MANAGEMENT", true),
+		CustomCookies:               convertCustomCookiesFromEnv(getEnv("CUSTOM_COOKIES", "")),
+	}
+	return config, nil
+}
+
+// convertCustomCookiesFromEnv converts environment variable string to custom cookie configuration
+func convertCustomCookiesFromEnv(customCookiesStr string) []CustomCookie {
+	var customCookies []CustomCookie
+	if customCookiesStr == "" {
+		return customCookies
+	}
+	err := json.Unmarshal([]byte(customCookiesStr), &customCookies)
+	if err != nil {
+		fmt.Printf("Error parsing custom cookies from environment: %v\n", err)
+		return nil
+	}
+	return customCookies
+}
+
+// getEnv gets the environment variable or returns a default value
+func getEnv(key, defaultValue string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		return defaultValue
+	}
+	return value
+}
+
+// getEnvAsBool gets the environment variable as a boolean or returns a default value
+func getEnvAsBool(key string, defaultValue bool) bool {
+	valueStr := getEnv(key, "")
+	if valueStr == "" {
+		return defaultValue
+	}
+	value, err := strconv.ParseBool(valueStr)
+	if err != nil {
+		return defaultValue
+	}
+	return value
+}
+
+// getEnvAsInt gets the environment variable as an integer or returns a default value
+func getEnvAsInt(key string, defaultValue int) int {
+	valueStr := getEnv(key, "")
+	if valueStr == "" {
+		return defaultValue
+	}
+	value, err := strconv.Atoi(valueStr)
+	if err != nil {
+		return defaultValue
+	}
+	return value
 }
 
 // convertCustomCookies converts custom cookie configuration into http.Cookie objects for client build
