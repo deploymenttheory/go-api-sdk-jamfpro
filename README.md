@@ -99,45 +99,38 @@ For those who prefer using configuration files for setting up the client, the SD
 
     ```json
     {
-      "Auth": {
-        "ClientID": "your_client_id",
-            "ClientSecret": "your_client_secret",
-            "Username": "your_username",
-            "Password": "your_password"
-      },
-      "Environment": {
-        "InstanceName": "instance", // required. e.g., instance in "https://instance.jamfcloud.com"
-            "OverrideBaseDomain": "", // optional: required only for on-premises instances
-            "APIType": "jamfpro" // required
-      },
-      "ClientOptions": {
-        "Logging": {
-          "LogLevel": "LogLevelDebug", // "LogLevelDebug" / "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
-            "LogOutputFormat": "console",
-            "LogConsoleSeparator": " ",
-            "LogExportPath": "/your/log/export/path", // Optional
-            "HideSensitiveData": true, // redacts sensitive data from logs
+      "log_level": "LogLevelDebug", // or "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
+      "log_output_format": "pretty", // or "json"
+      "log_console_separator": "  ",
+      "log_export_path": "/your/log/path/", // optional, ensure permissions to file path
+      "export_logs": true, // or false
+      "hide_sensitive_data": false, // redact sensitive data from logs
+      "instance_domain": "https://lbgsandbox.jamfcloud.com",
+      "auth_method": "oauth2", // or "basic"
+      "client_id": "your_client_id", // Required if using oauth2
+      "client_secret": "your_client_secret", // Required if using oauth2
+      "basic_auth_username": "your_basic_auth_username", // Required if using basic auth
+      "basic_auth_password": "your_basic_auth_password", // Required if using basic auth
+      "jamf_load_balancer_lock": false, // or true
+      "max_retry_attempts": 3,
+      "enable_dynamic_rate_limiting": true,
+      "max_concurrent_requests": 5, // optional
+      "token_refresh_buffer_period_seconds": 300, // optional in seconds
+      "total_retry_duration_seconds": 300, // optional in seconds
+      "custom_timeout_seconds": 300, // optional in seconds
+      "follow_redirects": true,
+      "max_redirects": 5,
+      "enable_concurrency_management": true,
+      "custom_cookies": [
+        {
+          "name": "cookie1",
+          "value": "value1"
         },
-        "Cookies": {
-          "EnableCookieJar": true,  // enables cookie jar for jamfpro and provides a sticky session
-          "CustomCookies": {        // optional: if you wish to provide custom cookies
-            "jpro-ingress": "your_cookie_value" 
-          }
-        },
-        "Retry": {
-          "MaxRetryAttempts": 5,            // optional: maximum number of retry attempts
-          "TokenRefreshBufferPeriod": "5m", // optional: buffer period before token refresh
-          "TotalRetryDuration": "5m",       // optional: total duration for retry attempts
-          "EnableDynamicRateLimiting": true // optional: enables dynamic rate limiting which scales the semaphore
-        },
-        "Concurrency": {
-          "MaxConcurrentRequests": 3
-        },
-        "Redirect": {
-          "FollowRedirects": true,
-          "MaxRedirects": 5
+        {
+          "name": "cookie2",
+          "value": "value2"
         }
-      }
+      ]
     }
     ```
 
