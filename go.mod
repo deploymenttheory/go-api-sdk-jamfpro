@@ -8,6 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.21
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.1
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.56.1
+	github.com/deploymenttheory/go-api-http-client v0.2.1
 	github.com/deploymenttheory/go-api-http-client-integrations v0.0.3
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
@@ -35,7 +36,6 @@ require (
 require (
 	github.com/antchfx/xmlquery v1.4.0 // indirect
 	github.com/antchfx/xpath v1.3.0 // indirect
-	github.com/deploymenttheory/go-api-http-client v0.2.1-0.20240621141519-74be6fe4f3a4
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
