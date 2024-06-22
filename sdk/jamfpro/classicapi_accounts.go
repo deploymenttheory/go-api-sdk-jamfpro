@@ -73,7 +73,7 @@ type AccountSubsetPrivileges struct {
 	JSSSettings   []string `json:"jss_settings,omitempty" xml:"jss_settings>privilege,omitempty"`
 	JSSActions    []string `json:"jss_actions,omitempty" xml:"jss_actions>privilege,omitempty"`
 	Recon         []string `json:"recon,omitempty" xml:"recon>privilege,omitempty"`
-	CasperAdmin   []string `json:"casper_admin,omitempty" xml:"casper_admin>privilege,omitempty"`
+	CasperAdmin   []string `json:"casper_admin>privilege,omitempty" xml:"casper_admin>privilege,omitempty"`
 	CasperRemote  []string `json:"casper_remote,omitempty" xml:"casper_remote>privilege,omitempty"`
 	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege,omitempty"`
 }
