@@ -45,7 +45,7 @@ type ResourceUserGroup struct {
 	Name             string                    `xml:"name,omitempty"`
 	IsSmart          bool                      `xml:"is_smart"`
 	IsNotifyOnChange bool                      `xml:"is_notify_on_change"`
-	Site             SharedResourceSite        `xml:"site,omitempty"`
+	Site             *SharedResourceSite       `xml:"site,omitempty"`
 	Criteria         []SharedSubsetCriteria    `xml:"criteria>criterion,omitempty"`
 	Users            []UserGroupSubsetUserItem `xml:"users>user,omitempty"`
 	UserAdditions    []UserGroupSubsetUserItem `xml:"user_additions>user,omitempty"`

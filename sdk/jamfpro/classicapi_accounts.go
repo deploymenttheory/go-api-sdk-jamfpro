@@ -39,7 +39,7 @@ type ResourceAccount struct {
 	AccessLevel         string                     `json:"access_level,omitempty" xml:"access_level,omitempty"`
 	Password            string                     `json:"password,omitempty" xml:"password,omitempty"`
 	PrivilegeSet        string                     `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
-	Site                SharedResourceSite         `json:"site,omitempty" xml:"site,omitempty"`
+	Site                *SharedResourceSite        `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges          AccountSubsetPrivileges    `json:"privileges,omitempty" xml:"privileges,omitempty"`
 	Groups              []AccountsListSubsetGroups `json:"groups,omitempty" xml:"groups>group"`
 }
@@ -73,7 +73,7 @@ type AccountSubsetPrivileges struct {
 	JSSSettings   []string `json:"jss_settings,omitempty" xml:"jss_settings>privilege,omitempty"`
 	JSSActions    []string `json:"jss_actions,omitempty" xml:"jss_actions>privilege,omitempty"`
 	Recon         []string `json:"recon,omitempty" xml:"recon>privilege,omitempty"`
-	CasperAdmin   []string `json:"casper_admin,omitempty" xml:"casper_admin>privilege,omitempty"`
+	CasperAdmin   []string `json:"casper_admin>privilege,omitempty" xml:"casper_admin>privilege,omitempty"`
 	CasperRemote  []string `json:"casper_remote,omitempty" xml:"casper_remote>privilege,omitempty"`
 	CasperImaging []string `json:"casper_imaging,omitempty" xml:"casper_imaging>privilege,omitempty"`
 }
@@ -159,12 +159,12 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
 
-	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		}
-	}
+	// if account.Site.ID == 0 && account.Site.Name == "" {
+	// 	account.Site = &SharedResourceSite{
+	// 		ID:   -1,
+	// 		Name: "None",
+	// 	}
+	// }
 
 	requestBody := &struct {
 		XMLName struct{} `xml:"account"`
@@ -190,12 +190,12 @@ func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResponseA
 func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/username/%s", uriAPIAccounts, name)
 
-	if account.Site.ID == 0 && account.Site.Name == "" {
-		account.Site = SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		}
-	}
+	// if account.Site.ID == 0 && account.Site.Name == "" {
+	// 	account.Site = &SharedResourceSite{
+	// 		ID:   -1,
+	// 		Name: "None",
+	// 	}
+	// }
 
 	requestBody := &struct {
 		XMLName struct{} `xml:"account"`

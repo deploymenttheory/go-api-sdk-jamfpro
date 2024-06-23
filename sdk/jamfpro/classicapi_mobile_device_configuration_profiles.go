@@ -55,7 +55,7 @@ type MobileDeviceConfigurationProfileSubsetGeneral struct {
 	Name                          string                 `xml:"name"`
 	Description                   string                 `xml:"description,omitempty"`
 	Level                         string                 `xml:"level,omitempty"`
-	Site                          SharedResourceSite     `xml:"site"`
+	Site                          *SharedResourceSite    `xml:"site"`
 	Category                      SharedResourceCategory `xml:"category"`
 	UUID                          string                 `xml:"uuid,omitempty"`
 	DeploymentMethod              string                 `xml:"deployment_method,omitempty"`

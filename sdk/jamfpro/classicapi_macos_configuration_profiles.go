@@ -54,7 +54,7 @@ type MacOSConfigurationProfileSubsetGeneral struct {
 	ID                 int                    `xml:"id,omitempty"`
 	Name               string                 `xml:"name"`
 	Description        string                 `xml:"description,omitempty"`
-	Site               SharedResourceSite     `xml:"site,omitempty"`
+	Site               *SharedResourceSite    `xml:"site,omitempty"`
 	Category           SharedResourceCategory `xml:"category,omitempty"`
 	DistributionMethod string                 `xml:"distribution_method,omitempty"`
 	UserRemovable      bool                   `xml:"user_removable"`

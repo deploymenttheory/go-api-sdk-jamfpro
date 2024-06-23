@@ -47,15 +47,15 @@ type ResourceRestrictedSoftware struct {
 // General
 
 type RestrictedSoftwareSubsetGeneral struct {
-	ID                    int                `xml:"id"`
-	Name                  string             `xml:"name"`
-	ProcessName           string             `xml:"process_name"`
-	MatchExactProcessName bool               `xml:"match_exact_process_name"`
-	SendNotification      bool               `xml:"send_notification"`
-	KillProcess           bool               `xml:"kill_process"`
-	DeleteExecutable      bool               `xml:"delete_executable"`
-	DisplayMessage        string             `xml:"display_message"`
-	Site                  SharedResourceSite `xml:"site"`
+	ID                    int                 `xml:"id"`
+	Name                  string              `xml:"name"`
+	ProcessName           string              `xml:"process_name"`
+	MatchExactProcessName bool                `xml:"match_exact_process_name"`
+	SendNotification      bool                `xml:"send_notification"`
+	KillProcess           bool                `xml:"kill_process"`
+	DeleteExecutable      bool                `xml:"delete_executable"`
+	DisplayMessage        string              `xml:"display_message"`
+	Site                  *SharedResourceSite `xml:"site"`
 }
 
 // Scope
