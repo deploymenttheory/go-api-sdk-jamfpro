@@ -51,17 +51,17 @@ type ResourceMacOSConfigurationProfile struct {
 // Subsets and Containers
 
 type MacOSConfigurationProfileSubsetGeneral struct {
-	ID                 int                    `xml:"id,omitempty"`
-	Name               string                 `xml:"name"`
-	Description        string                 `xml:"description,omitempty"`
-	Site               *SharedResourceSite    `xml:"site,omitempty"`
-	Category           SharedResourceCategory `xml:"category,omitempty"`
-	DistributionMethod string                 `xml:"distribution_method,omitempty"`
-	UserRemovable      bool                   `xml:"user_removable"`
-	Level              string                 `xml:"level,omitempty"`
-	UUID               string                 `xml:"uuid,omitempty"`
-	RedeployOnUpdate   string                 `xml:"redeploy_on_update,omitempty"`
-	Payloads           string                 `xml:"payloads,omitempty"`
+	ID                 int                     `xml:"id,omitempty"`
+	Name               string                  `xml:"name"`
+	Description        string                  `xml:"description,omitempty"`
+	Site               *SharedResourceSite     `xml:"site,omitempty"`
+	Category           *SharedResourceCategory `xml:"category,omitempty"`
+	DistributionMethod string                  `xml:"distribution_method,omitempty"`
+	UserRemovable      bool                    `xml:"user_removable"`
+	Level              string                  `xml:"level,omitempty"`
+	UUID               string                  `xml:"uuid,omitempty"`
+	RedeployOnUpdate   string                  `xml:"redeploy_on_update,omitempty"`
+	Payloads           string                  `xml:"payloads,omitempty"`
 }
 
 // MacOSConfigurationProfileSubsetScope represents the scope subset of a macOS configuration profile.
