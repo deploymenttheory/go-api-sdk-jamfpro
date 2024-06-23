@@ -19,7 +19,7 @@ type ResourceAccountGroup struct {
 	Name         string                       `json:"name,omitempty" xml:"name,omitempty"`
 	AccessLevel  string                       `json:"access_level,omitempty" xml:"access_level,omitempty"`
 	PrivilegeSet string                       `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
-	Site         SharedResourceSite           `json:"site,omitempty" xml:"site,omitempty"`
+	Site         *SharedResourceSite          `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges   AccountSubsetPrivileges      `json:"privileges,omitempty" xml:"privileges,omitempty"`
 	Members      AccountGroupSubsetMembers    `json:"members,omitempty" xml:"members>user,omitempty"`
 	LDAPServer   AccountGroupSubsetLDAPServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
@@ -113,12 +113,12 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Respon
 func (c *Client) UpdateAccountGroupByID(id int, accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
 	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
 
-	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
-		accountGroup.Site = SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		}
-	}
+	// if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
+	// 	accountGroup.Site = &SharedResourceSite{
+	// 		ID:   -1,
+	// 		Name: "None",
+	// 	}
+	// }
 
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`
@@ -144,12 +144,12 @@ func (c *Client) UpdateAccountGroupByID(id int, accountGroup *ResourceAccountGro
 func (c *Client) UpdateAccountGroupByName(name string, accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
 	endpoint := fmt.Sprintf("%s/groupname/%s", uriAPIAccounts, name)
 
-	if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
-		accountGroup.Site = SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		}
-	}
+	// if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
+	// 	accountGroup.Site = &SharedResourceSite{
+	// 		ID:   -1,
+	// 		Name: "None",
+	// 	}
+	// }
 
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`

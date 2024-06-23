@@ -70,7 +70,7 @@ type MobileDeviceApplicationSubsetGeneral struct {
 	TakeOverManagement               bool                                                 `xml:"take_over_management,omitempty"`
 	HostExternally                   bool                                                 `xml:"host_externally,omitempty"`
 	ExternalURL                      string                                               `xml:"external_url,omitempty"`
-	Site                             SharedResourceSite                                   `xml:"site"`
+	Site                             *SharedResourceSite                                  `xml:"site"`
 	Scope                            MobileDeviceApplicationSubsetScope                   `xml:"scope"`
 	SelfService                      MobileDeviceApplicationSubsetGeneralSelfService      `xml:"self_service"`
 	VPP                              MobileDeviceApplicationSubsetGeneralVPP              `xml:"vpp,omitempty"`

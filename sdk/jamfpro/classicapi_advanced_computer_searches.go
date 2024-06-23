@@ -46,7 +46,7 @@ type ResourceAdvancedComputerSearch struct {
 	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
 	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
 	Computers     []AdvancedComputerSearchContainerComputers  `xml:"computer,omitempty"`
-	Site          SharedResourceSite                          `xml:"site,omitempty"`
+	Site          *SharedResourceSite                         `xml:"site,omitempty"`
 }
 
 // Responses

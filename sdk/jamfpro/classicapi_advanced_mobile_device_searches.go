@@ -46,7 +46,7 @@ type ResourceAdvancedMobileDeviceSearch struct {
 	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
 	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
 	MobileDevices []AdvancedMobileSearchContainerDevices      `xml:"mobile_devices,omitempty"`
-	Site          SharedResourceSite                          `xml:"site,omitempty"`
+	Site          *SharedResourceSite                         `xml:"site,omitempty"`
 }
 
 // Responses

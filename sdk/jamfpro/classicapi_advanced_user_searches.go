@@ -43,7 +43,7 @@ type ResourceAdvancedUserSearch struct {
 	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
 	Users         []AdvancedUserSearchContainerUsers          `xml:"users,omitempty"`
 	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
-	Site          SharedResourceSite                          `xml:"site,omitempty"`
+	Site          *SharedResourceSite                         `xml:"site,omitempty"`
 }
 
 // Responses
