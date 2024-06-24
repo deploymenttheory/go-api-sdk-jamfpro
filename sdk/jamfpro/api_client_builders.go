@@ -31,25 +31,27 @@ type ConfigContainer struct {
 	HideSensitiveData   bool   `json:"hide_sensitive_data"`
 
 	// API Integration
-	InstanceDomain string `json:"instance_domain"`
-	AuthMethod     string `json:"auth_method"`
-	ClientID       string `json:"client_id"`
-	ClientSecret   string `json:"client_secret"`
-	Username       string `json:"basic_auth_username"`
-	Password       string `json:"basic_auth_password"`
+	InstanceDomain       string `json:"instance_domain"`
+	AuthMethod           string `json:"auth_method"`
+	ClientID             string `json:"client_id"`
+	ClientSecret         string `json:"client_secret"`
+	Username             string `json:"basic_auth_username"`
+	Password             string `json:"basic_auth_password"`
+	JamfLoadBalancerLock bool   `json:"jamf_load_balancer_lock"`
 
 	// Client
 	CustomCookies               []CustomCookie `json:"custom_cookies"`
-	JamfLoadBalancerLock        bool           `json:"jamf_load_balancer_lock"`
 	MaxRetryAttempts            int            `json:"max_retry_attempts"`
-	EnableDynamicRateLimiting   bool           `json:"enable_dynamic_rate_limiting"`
 	MaxConcurrentRequests       int            `json:"max_concurrent_requests"`
+	EnableDynamicRateLimiting   bool           `json:"enable_dynamic_rate_limiting"`
+	CustomTimeout               int            `json:"custom_timeout_seconds"`
 	TokenRefreshBufferPeriod    int            `json:"token_refresh_buffer_period_seconds"`
 	TotalRetryDuration          int            `json:"total_retry_duration_seconds"`
-	CustomTimeout               int            `json:"custom_timeout_seconds"`
 	FollowRedirects             bool           `json:"follow_redirects"`
 	MaxRedirects                int            `json:"max_redirects"`
 	EnableConcurrencyManagement bool           `json:"enable_concurrency_management"`
+	MandatoryRequestDelay       int            `json:"mandatory_request_delay_milliseconds"`
+	RetryEligiableRequests      bool           `json:"retry_eligiable_requests"`
 }
 
 type CustomCookie struct {
@@ -90,6 +92,7 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 	httpClientConfig := &httpclient.ClientConfig{
 		Integration:                 integration,
 		HideSensitiveData:           config.HideSensitiveData,
+		CustomCookies:               customCookies,
 		MaxRetryAttempts:            config.MaxRetryAttempts,
 		MaxConcurrentRequests:       config.MaxConcurrentRequests,
 		EnableDynamicRateLimiting:   config.EnableDynamicRateLimiting,
@@ -99,7 +102,8 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		FollowRedirects:             config.FollowRedirects,
 		MaxRedirects:                config.MaxRedirects,
 		EnableConcurrencyManagement: config.EnableConcurrencyManagement,
-		CustomCookies:               customCookies,
+		MandatoryRequestDelay:       time.Duration(config.MandatoryRequestDelay) * time.Millisecond,
+		RetryEligiableRequests:      config.RetryEligiableRequests,
 	}
 
 	httpClient, err := httpclient.BuildClient(*httpClientConfig, true, log)
@@ -144,6 +148,7 @@ func BuildClientWithEnv() (*Client, error) {
 	httpClientConfig := &httpclient.ClientConfig{
 		Integration:                 integration,
 		HideSensitiveData:           config.HideSensitiveData,
+		CustomCookies:               customCookies,
 		MaxRetryAttempts:            config.MaxRetryAttempts,
 		MaxConcurrentRequests:       config.MaxConcurrentRequests,
 		EnableDynamicRateLimiting:   config.EnableDynamicRateLimiting,
@@ -153,7 +158,8 @@ func BuildClientWithEnv() (*Client, error) {
 		FollowRedirects:             config.FollowRedirects,
 		MaxRedirects:                config.MaxRedirects,
 		EnableConcurrencyManagement: config.EnableConcurrencyManagement,
-		CustomCookies:               customCookies,
+		MandatoryRequestDelay:       time.Duration(config.MandatoryRequestDelay) * time.Millisecond,
+		RetryEligiableRequests:      config.RetryEligiableRequests,
 	}
 
 	httpClient, err := httpclient.BuildClient(*httpClientConfig, true, log)
@@ -246,6 +252,8 @@ func loadConfigFromEnv() (*ConfigContainer, error) {
 		MaxRedirects:                getEnvAsInt("MAX_REDIRECTS", 5),
 		EnableConcurrencyManagement: getEnvAsBool("ENABLE_CONCURRENCY_MANAGEMENT", true),
 		CustomCookies:               convertCustomCookiesFromEnv(getEnv("CUSTOM_COOKIES", "")),
+		MandatoryRequestDelay:       getEnvAsInt("MANDATORY_REQUEST_DELAY_MILLISECONDS", 0),
+		RetryEligiableRequests:      getEnvAsBool("RETRY_ELIGIABLE_REQUESTS", true),
 	}
 	return config, nil
 }
