@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example with both sort and filter parameters
-	packages, err := client.GetPackages("id:asc", "packageName==tf-ghatest-package-suspiciouspackage")
+	packages, err := client.GetPackages("id:asc", "")
 	if err != nil {
 		fmt.Println("Error fetching packages:", err)
 		return

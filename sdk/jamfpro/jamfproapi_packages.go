@@ -21,33 +21,33 @@ type ResponsePackagesList struct {
 	Results    []ResourcePackage `json:"results"`    // The package list
 }
 
-// ResourcePackage struct to capture individual package items in the list
+// ResourcePackage struct describes the JSON structure for a package in Jamf Pro
 type ResourcePackage struct {
-	ID                   string `json:"id"`
-	PackageName          string `json:"packageName"`
-	FileName             string `json:"fileName,omitempty"`
-	CategoryID           string `json:"categoryId,omitempty"`
+	ID                   string `json:"id,omitempty"`
+	PackageName          string `json:"packageName"` // required
+	FileName             string `json:"fileName"`    // required
+	CategoryID           string `json:"categoryId"`  // required
 	Info                 string `json:"info,omitempty"`
 	Notes                string `json:"notes,omitempty"`
-	Priority             int    `json:"priority,omitempty"`
+	Priority             int    `json:"priority"` // required
 	OSRequirements       string `json:"osRequirements,omitempty"`
-	FillUserTemplate     *bool  `json:"fillUserTemplate,omitempty"`
+	FillUserTemplate     *bool  `json:"fillUserTemplate"` // required
 	Indexed              *bool  `json:"indexed,omitempty"`
 	FillExistingUsers    *bool  `json:"fillExistingUsers,omitempty"`
 	SWU                  *bool  `json:"swu,omitempty"`
-	RebootRequired       *bool  `json:"rebootRequired,omitempty"`
+	RebootRequired       *bool  `json:"rebootRequired"` // required
 	SelfHealNotify       *bool  `json:"selfHealNotify,omitempty"`
 	SelfHealingAction    string `json:"selfHealingAction,omitempty"`
-	OSInstall            *bool  `json:"osInstall,omitempty"`
+	OSInstall            *bool  `json:"osInstall"` // required
 	SerialNumber         string `json:"serialNumber,omitempty"`
 	ParentPackageID      string `json:"parentPackageId,omitempty"`
 	BasePath             string `json:"basePath,omitempty"`
-	SuppressUpdates      *bool  `json:"suppressUpdates,omitempty"`
+	SuppressUpdates      *bool  `json:"suppressUpdates"` // required
 	CloudTransferStatus  string `json:"cloudTransferStatus,omitempty"`
 	IgnoreConflicts      *bool  `json:"ignoreConflicts,omitempty"`
-	SuppressFromDock     *bool  `json:"suppressFromDock,omitempty"`
-	SuppressEula         *bool  `json:"suppressEula,omitempty"`
-	SuppressRegistration *bool  `json:"suppressRegistration,omitempty"`
+	SuppressFromDock     *bool  `json:"suppressFromDock"`     // required
+	SuppressEula         *bool  `json:"suppressEula"`         // required
+	SuppressRegistration *bool  `json:"suppressRegistration"` // required
 	InstallLanguage      string `json:"installLanguage,omitempty"`
 	MD5                  string `json:"md5,omitempty"`
 	SHA256               string `json:"sha256,omitempty"`
@@ -223,7 +223,6 @@ Example:
 		CategoryID:           "-1",
 		Priority:             3,
 		FillUserTemplate:     BoolPtr(false),
-		SWU:                  BoolPtr(false),
 		RebootRequired:       BoolPtr(false),
 		OSInstall:            BoolPtr(false),
 		SuppressUpdates:      BoolPtr(false),
