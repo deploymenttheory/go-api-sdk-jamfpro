@@ -207,7 +207,7 @@ Path: /api/v1/packages
 Description: Creates a new package manifest in Jamf Pro. This is step one in the process of creating a package
 and creates the package metadata to Jamf Pro. The package file must be uploaded separately using the
 UploadPackage function.
-Parameters: pkgManifest - A ResourcePackage struct containing the details of the package to be created.
+Parameters: packageMetadata - A ResourcePackage struct containing the details of the package to be created.
 Returns: ResponsePackageCreatedAndUpdated - The response containing the details of the created package.
 Errors: Returns an error if the request fails.
 Example:
@@ -238,11 +238,11 @@ Example:
 	}
 	fmt.Println(response)
 */
-func (c *Client) CreatePackage(pkgManifest ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+func (c *Client) CreatePackage(packageMetadata ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := uriPackages
 
 	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &pkgManifest, &response)
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &packageMetadata, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "package", err)
 	}
@@ -286,13 +286,13 @@ func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageC
 }
 
 // UpdatePackageByID updates a package manifest by its ID on the Jamf Pro server.
-func (c *Client) UpdatePackageByID(id string, pkgManifest ResourcePackage) (*ResourcePackage, error) {
+func (c *Client) UpdatePackageByID(id string, packageMetadata ResourcePackage) (*ResourcePackage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
 
 	var response ResourcePackage
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, &pkgManifest, &response)
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, &packageMetadata, &response)
 	if err != nil {
-		return nil, fmt.Errorf("failed to update package manifest: %v", err)
+		return nil, fmt.Errorf("failed to update package: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
