@@ -59,7 +59,7 @@ func main() {
 	packageID := "1" // Replace with actual ID
 
 	// Update the package by ID
-	updated, err := client.UpdatePackageManifestByID(packageID, updatedPackage)
+	updated, err := client.UpdatePackageByID(packageID, updatedPackage)
 	if err != nil {
 		log.Fatalf("Error updating package by ID: %v", err)
 	}
