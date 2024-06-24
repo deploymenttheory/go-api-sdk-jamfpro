@@ -52,7 +52,7 @@ type MobileDeviceApplicationSubsetGeneral struct {
 	Version                          string                                               `xml:"version"`
 	InternalApp                      bool                                                 `xml:"internal_app,omitempty"`
 	OsType                           string                                               `xml:"os_type,omitempty"`
-	Category                         SharedResourceCategory                               `xml:"category"`
+	Category                         *SharedResourceCategory                              `xml:"category"`
 	IPA                              MobileDeviceApplicationSubsetGeneralIPA              `xml:"ipa,omitempty"`
 	Icon                             MobileDeviceApplicationSubsetIcon                    `xml:"icon"`
 	ProvisioningProfile              int                                                  `xml:"mobile_device_provisioning_profile,omitempty"`

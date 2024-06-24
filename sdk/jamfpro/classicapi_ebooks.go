@@ -56,7 +56,7 @@ type EbookSubsetGeneral struct {
 	DeploymentType  string                        `xml:"deployment_type"`
 	FileType        string                        `xml:"file_type"`
 	DeployAsManaged bool                          `xml:"deploy_as_managed"`
-	Category        SharedResourceCategory        `xml:"category"`
+	Category        *SharedResourceCategory       `xml:"category"`
 	SelfServiceIcon SharedResourceSelfServiceIcon `xml:"self_service_icon"`
 	Site            SharedResourceSite            `xml:"site"`
 }
