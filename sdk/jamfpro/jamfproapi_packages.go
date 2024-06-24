@@ -285,8 +285,8 @@ func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageC
 	return &response, nil
 }
 
-// UpdatePackageManifestByID updates a package manifest by its ID on the Jamf Pro server.
-func (c *Client) UpdatePackageManifestByID(id string, pkgManifest ResourcePackage) (*ResourcePackage, error) {
+// UpdatePackageByID updates a package manifest by its ID on the Jamf Pro server.
+func (c *Client) UpdatePackageByID(id string, pkgManifest ResourcePackage) (*ResourcePackage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
 
 	var response ResourcePackage
@@ -300,6 +300,51 @@ func (c *Client) UpdatePackageManifestByID(id string, pkgManifest ResourcePackag
 	}
 
 	return &response, nil
+}
+
+// DeletePackageByID deletes a package by its ID from the Jamf Pro server.
+func (c *Client) DeletePackageByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "package", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// DeleteMultiplePackagesByID deletes multiple packages by their IDs from the Jamf Pro server.
+// The function takes a slice of strings as input representing the IDs of the packages to be deleted.
+func (c *Client) DeleteMultiplePackagesByID(ids []string) error {
+	endpoint := fmt.Sprintf("%s/delete-multiple", uriPackages)
+
+	// Define the request body
+	body := struct {
+		IDs []string `json:"ids"`
+	}{
+		IDs: ids,
+	}
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &body, nil)
+	if err != nil {
+		return fmt.Errorf("failed to delete multiple packages: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	// Check if the response status code is 204 (No Content)
+	if resp.StatusCode == http.StatusNoContent {
+		return nil
+	}
+
+	return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 }
 
 // DeletePackageManifestByID deletes a package by its ID from the Jamf Pro server.
@@ -318,18 +363,33 @@ func (c *Client) DeletePackageManifestByID(id string) error {
 	return nil
 }
 
-// DeletePackageByID deletes a package by its ID from the Jamf Pro server.
-func (c *Client) DeletePackageByID(id string) error {
-	endpoint := fmt.Sprintf("%s/%s", uriPackages, id)
+// AssignManifestToPackageByID assigns a manifest to a package by its ID on the Jamf Pro server.
+// It requires the ID of an existing package and the file paths of the manifest.
+func (c *Client) AssignManifestToPackageByID(id string, manifestFilePath string) (*ResponsePackageCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/%s/manifest", uriPackages, id)
 
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
-	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByID, "package", id, err)
+	// Create a map for the files to be uploaded
+	files := map[string][]string{
+		"file": {manifestFilePath},
 	}
 
+	// Include form fields if needed (currently none based on docs)
+	formFields := map[string]string{}
+
+	// No custom content types for this request
+	contentTypes := map[string]string{}
+
+	// No additional headers for this request
+	headersMap := map[string]http.Header{}
+
+	var response ResponsePackageCreatedAndUpdated
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to assign manifest to package: %v", err)
+	}
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return &response, nil
 }
