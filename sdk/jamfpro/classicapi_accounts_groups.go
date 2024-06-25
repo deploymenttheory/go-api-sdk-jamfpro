@@ -21,7 +21,7 @@ type ResourceAccountGroup struct {
 	PrivilegeSet string                       `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
 	Site         *SharedResourceSite          `json:"site,omitempty" xml:"site,omitempty"`
 	Privileges   AccountSubsetPrivileges      `json:"privileges,omitempty" xml:"privileges,omitempty"`
-	Members      AccountGroupSubsetMembers    `json:"members,omitempty" xml:"members>user,omitempty"`
+	Members      []MemberUser                 `json:"members>user,omitempty" xml:"members>user,omitempty"`
 	LDAPServer   AccountGroupSubsetLDAPServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
 }
 
@@ -33,9 +33,9 @@ type ResponseAccountGroupCreated struct {
 
 // Subsets
 
-type AccountGroupSubsetMembers struct {
-	Users []MemberUser `json:"user,omitempty" xml:"user,omitempty"`
-}
+// type AccountGroupSubsetMembers struct {
+// 	Users []MemberUser `json:"user,omitempty" xml:"user,omitempty"`
+// }
 
 type AccountGroupSubsetLDAPServer struct {
 	ID int `json:"id,omitempty" xml:"id,omitempty"`
