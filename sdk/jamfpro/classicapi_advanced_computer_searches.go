@@ -59,10 +59,6 @@ type ResponseAdvancedComputerSearchCreatedAndUpdated struct {
 
 // Computer
 
-type DisplayField struct {
-	Name string `xml:"name"`
-}
-
 type AdvancedComputerSearchContainerComputers struct {
 	Size     int
 	Computer AdvancedComputerSearchSubsetComputer `xml:"computers"`
