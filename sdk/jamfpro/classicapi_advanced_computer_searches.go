@@ -37,16 +37,16 @@ type AdvancedComputerSearchListItem struct {
 
 // ResourceAdvancedComputerSearch represents the structure of the response for an advanced computer search.
 type ResourceAdvancedComputerSearch struct {
-	ID            int                                         `xml:"id"`
-	Name          string                                      `xml:"name"`
-	ViewAs        string                                      `xml:"view_as,omitempty"`
-	Sort1         string                                      `xml:"sort_1,omitempty"`
-	Sort2         string                                      `xml:"sort_2,omitempty"`
-	Sort3         string                                      `xml:"sort_3,omitempty"`
-	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
-	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
-	Computers     []AdvancedComputerSearchContainerComputers  `xml:"computer,omitempty"`
-	Site          *SharedResourceSite                         `xml:"site,omitempty"`
+	ID            int                                        `xml:"id"`
+	Name          string                                     `xml:"name"`
+	ViewAs        string                                     `xml:"view_as,omitempty"`
+	Sort1         string                                     `xml:"sort_1,omitempty"`
+	Sort2         string                                     `xml:"sort_2,omitempty"`
+	Sort3         string                                     `xml:"sort_3,omitempty"`
+	Criteria      SharedContainerCriteria                    `xml:"criteria,omitempty"`
+	DisplayFields []DisplayField                             `xml:"display_fields>display_field,omitempty"`
+	Computers     []AdvancedComputerSearchContainerComputers `xml:"computer,omitempty"`
+	Site          *SharedResourceSite                        `xml:"site,omitempty"`
 }
 
 // Responses
@@ -58,6 +58,10 @@ type ResponseAdvancedComputerSearchCreatedAndUpdated struct {
 // Subsets & Containers
 
 // Computer
+
+type DisplayField struct {
+	Name string `xml:"name"`
+}
 
 type AdvancedComputerSearchContainerComputers struct {
 	Size     int
