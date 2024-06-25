@@ -33,8 +33,8 @@ type ResponseAccountGroupCreated struct {
 
 // Subsets
 
-type AccountGroupSubsetMembers []struct {
-	User MemberUser `json:"user,omitempty" xml:"user,omitempty"`
+type AccountGroupSubsetMembers struct {
+	Users []MemberUser `json:"user,omitempty" xml:"user,omitempty"`
 }
 
 type AccountGroupSubsetLDAPServer struct {
