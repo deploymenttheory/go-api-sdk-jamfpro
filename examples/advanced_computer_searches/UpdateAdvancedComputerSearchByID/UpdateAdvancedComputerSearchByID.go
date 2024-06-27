@@ -36,25 +36,22 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.SharedAdvancedSearchContainerDisplayField{
+		DisplayFields: []jamfpro.DisplayField{
 			{
-				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
-					{
-						Name: "Activation Lock Manageable",
-					},
-					{
-						Name: "Apple Silicon",
-					},
-					{
-						Name: "Architecture Type",
-					},
-					{
-						Name: "Available RAM Slots",
-					},
-				},
+				Name: "Activation Lock Manageable",
+			},
+			{
+				Name: "Apple Silicon",
+			},
+			{
+				Name: "Architecture Type",
+			},
+			{
+				Name: "Available RAM Slots",
 			},
 		},
-		Site: jamfpro.SharedResourceSite{
+
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

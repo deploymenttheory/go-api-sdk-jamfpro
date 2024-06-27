@@ -34,23 +34,22 @@ func main() {
 				},
 			},
 		},
-		DisplayFields: []jamfpro.SharedAdvancedSearchContainerDisplayField{
+		DisplayFields: []jamfpro.DisplayField{
 			{
-				DisplayField: []jamfpro.SharedAdvancedSearchSubsetDisplayField{
-					{
-						Name: "Computers",
-					},
-					{
-						Name: "Content Name",
-					},
-					{
-						Name: "Roster Course Source",
-					},
-					// Additional display fields can be added here
-				},
+				Name: "Activation Lock Manageable",
+			},
+			{
+				Name: "Apple Silicon",
+			},
+			{
+				Name: "Architecture Type",
+			},
+			{
+				Name: "Available RAM Slots",
 			},
 		},
-		Site: jamfpro.SharedResourceSite{
+
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

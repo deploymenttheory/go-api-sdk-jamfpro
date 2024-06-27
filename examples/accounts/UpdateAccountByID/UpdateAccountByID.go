@@ -30,7 +30,7 @@ func main() {
 		AccessLevel:         "Full Access",
 		PrivilegeSet:        "Custom", // Administrator / Auditor / Enrollment Only / Custom
 		Password:            "sampleUpdated",
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

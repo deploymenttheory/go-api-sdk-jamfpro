@@ -29,7 +29,7 @@ func main() {
 			DeploymentType:  "Install Automatically/Prompt Users to Install",
 			FileType:        "PDF",
 			DeployAsManaged: true,
-			Category:        jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
+			Category:        &jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
 			Site:            jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 		},
 		// Add Scope and SelfService if needed
