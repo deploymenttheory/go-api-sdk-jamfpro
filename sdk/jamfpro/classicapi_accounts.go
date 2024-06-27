@@ -34,7 +34,7 @@ type ResourceAccount struct {
 	Email               string                     `json:"email,omitempty" xml:"email,omitempty"`
 	EmailAddress        string                     `json:"email_address,omitempty" xml:"email_address,omitempty"`
 	Enabled             string                     `json:"enabled,omitempty" xml:"enabled,omitempty"`
-	LdapServer          AccountSubsetLdapServer    `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
+	LdapServer          SharedResourceLdapServer   `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
 	ForcePasswordChange bool                       `json:"force_password_change,omitempty" xml:"force_password_change,omitempty"`
 	AccessLevel         string                     `json:"access_level,omitempty" xml:"access_level,omitempty"`
 	Password            string                     `json:"password,omitempty" xml:"password,omitempty"`
@@ -61,11 +61,6 @@ type AccountsListSubsetGroups struct {
 	ID         int                     `json:"id,omitempty" xml:"id,omitempty"`
 	Name       string                  `json:"name,omitempty" xml:"name,omitempty"`
 	Privileges AccountSubsetPrivileges `json:"privileges,omitempty" xml:"privileges,omitempty"`
-}
-
-type AccountSubsetLdapServer struct {
-	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
-	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
 
 type AccountSubsetPrivileges struct {
