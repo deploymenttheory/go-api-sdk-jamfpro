@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define a policy ID for testing
-	policyID := 268 // Replace with the actual policy ID you want to fetch
+	policyID := 1548 // Replace with the actual policy ID you want to fetch
 
 	// Call GetPolicyByID function
 	policy, err := client.GetPolicyByID(policyID)
