@@ -44,8 +44,8 @@ func main() {
 			LeaveExistingDefault: false,
 			Printer: &[]jamfpro.PolicySubsetPrinter{
 				{
-					ID:          233,
-					Name:        "Printer-019-Update",
+					ID:          1740,
+					Name:        "HP 9th Floor 2",
 					Action:      "install", // install / uninstall
 					MakeDefault: true,
 				},
