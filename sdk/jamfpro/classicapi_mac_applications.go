@@ -42,14 +42,14 @@ type ResourceMacApplications struct {
 // General
 
 type MacApplicationsSubsetGeneral struct {
-	ID       int                    `xml:"id"`
-	Name     string                 `xml:"name"`
-	Version  string                 `xml:"version"`
-	IsFree   bool                   `xml:"is_free"`
-	BundleID string                 `xml:"bundle_id"`
-	URL      string                 `xml:"url"`
-	Category SharedResourceCategory `xml:"category"`
-	Site     SharedResourceSite     `xml:"site"`
+	ID       int                     `xml:"id"`
+	Name     string                  `xml:"name"`
+	Version  string                  `xml:"version"`
+	IsFree   bool                    `xml:"is_free"`
+	BundleID string                  `xml:"bundle_id"`
+	URL      string                  `xml:"url"`
+	Category *SharedResourceCategory `xml:"category"`
+	Site     *SharedResourceSite     `xml:"site"`
 }
 
 // Scope

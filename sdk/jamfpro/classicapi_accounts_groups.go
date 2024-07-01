@@ -15,14 +15,14 @@ import "fmt"
 // Resource
 
 type ResourceAccountGroup struct {
-	ID           int                          `json:"id,omitempty" xml:"id,omitempty"`
-	Name         string                       `json:"name,omitempty" xml:"name,omitempty"`
-	AccessLevel  string                       `json:"access_level,omitempty" xml:"access_level,omitempty"`
-	PrivilegeSet string                       `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
-	Site         *SharedResourceSite          `json:"site,omitempty" xml:"site,omitempty"`
-	Privileges   AccountSubsetPrivileges      `json:"privileges,omitempty" xml:"privileges,omitempty"`
-	Members      AccountGroupSubsetMembers    `json:"members,omitempty" xml:"members>user,omitempty"`
-	LDAPServer   AccountGroupSubsetLDAPServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
+	ID           int                      `json:"id,omitempty" xml:"id,omitempty"`
+	Name         string                   `json:"name,omitempty" xml:"name,omitempty"`
+	AccessLevel  string                   `json:"access_level,omitempty" xml:"access_level,omitempty"`
+	PrivilegeSet string                   `json:"privilege_set,omitempty" xml:"privilege_set,omitempty"`
+	Site         *SharedResourceSite      `json:"site,omitempty" xml:"site,omitempty"`
+	Privileges   AccountSubsetPrivileges  `json:"privileges,omitempty" xml:"privileges,omitempty"`
+	Members      []MemberUser             `json:"members>user,omitempty" xml:"members>user,omitempty"`
+	LDAPServer   SharedResourceLdapServer `json:"ldap_server,omitempty" xml:"ldap_server,omitempty"`
 }
 
 // Responses
@@ -33,13 +33,9 @@ type ResponseAccountGroupCreated struct {
 
 // Subsets
 
-type AccountGroupSubsetMembers []struct {
-	User MemberUser `json:"user,omitempty" xml:"user,omitempty"`
-}
-
-type AccountGroupSubsetLDAPServer struct {
-	ID int `json:"id,omitempty" xml:"id,omitempty"`
-}
+// type AccountGroupSubsetMembers struct {
+// 	Users []MemberUser `json:"user,omitempty" xml:"user,omitempty"`
+// }
 
 // New MemberUser struct
 

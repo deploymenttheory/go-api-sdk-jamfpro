@@ -51,17 +51,17 @@ type ResourceMobileDeviceConfigurationProfile struct {
 // Subsets and Containers
 
 type MobileDeviceConfigurationProfileSubsetGeneral struct {
-	ID                            int                    `xml:"id"`
-	Name                          string                 `xml:"name"`
-	Description                   string                 `xml:"description,omitempty"`
-	Level                         string                 `xml:"level,omitempty"`
-	Site                          *SharedResourceSite    `xml:"site"`
-	Category                      SharedResourceCategory `xml:"category"`
-	UUID                          string                 `xml:"uuid,omitempty"`
-	DeploymentMethod              string                 `xml:"deployment_method,omitempty"`
-	RedeployOnUpdate              string                 `xml:"redeploy_on_update,omitempty"`
-	RedeployDaysBeforeCertExpires int                    `xml:"redeploy_Dayss_before_certificate_expires,omitempty"`
-	Payloads                      string                 `xml:"payloads,omitempty"`
+	ID                            int                     `xml:"id"`
+	Name                          string                  `xml:"name"`
+	Description                   string                  `xml:"description,omitempty"`
+	Level                         string                  `xml:"level,omitempty"`
+	Site                          *SharedResourceSite     `xml:"site"`
+	Category                      *SharedResourceCategory `xml:"category"`
+	UUID                          string                  `xml:"uuid,omitempty"`
+	DeploymentMethod              string                  `xml:"deployment_method,omitempty"`
+	RedeployOnUpdate              string                  `xml:"redeploy_on_update,omitempty"`
+	RedeployDaysBeforeCertExpires int                     `xml:"redeploy_Dayss_before_certificate_expires,omitempty"`
+	Payloads                      string                  `xml:"payloads,omitempty"`
 }
 
 type MobileDeviceConfigurationProfileSubsetScope struct {

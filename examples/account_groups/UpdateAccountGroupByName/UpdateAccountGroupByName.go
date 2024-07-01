@@ -23,7 +23,7 @@ func main() {
 		Name:         "Test Group",
 		AccessLevel:  "Full Access",
 		PrivilegeSet: "Administrator",
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
@@ -36,9 +36,9 @@ func main() {
 			CasperRemote:  []string{"string"},
 			CasperImaging: []string{"string"},
 		},
-		Members: jamfpro.AccountGroupSubsetMembers{
-			{User: jamfpro.MemberUser{ID: 12, Name: "Barry White"}},
-			{User: jamfpro.MemberUser{ID: 2, Name: "dafydd.watkins"}},
+		Members: []jamfpro.MemberUser{
+			{ID: 12, Name: "Barry White"},
+			{ID: 2, Name: "dafydd.watkins"},
 		},
 	}
 

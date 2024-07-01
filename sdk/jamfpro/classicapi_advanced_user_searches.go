@@ -38,12 +38,12 @@ type AdvancedUserSearchListItem struct {
 
 // Structs for Advanced User Search details by ID
 type ResourceAdvancedUserSearch struct {
-	ID            int                                         `xml:"id"`
-	Name          string                                      `xml:"name,omitempty"`
-	Criteria      SharedContainerCriteria                     `xml:"criteria,omitempty"`
-	Users         []AdvancedUserSearchContainerUsers          `xml:"users,omitempty"`
-	DisplayFields []SharedAdvancedSearchContainerDisplayField `xml:"display_fields,omitempty"`
-	Site          *SharedResourceSite                         `xml:"site,omitempty"`
+	ID            int                                `xml:"id"`
+	Name          string                             `xml:"name,omitempty"`
+	Criteria      SharedContainerCriteria            `xml:"criteria,omitempty"`
+	Users         []AdvancedUserSearchContainerUsers `xml:"users,omitempty"`
+	DisplayFields []DisplayField                     `xml:"display_fields>display_field,omitempty"`
+	Site          *SharedResourceSite                `xml:"site,omitempty"`
 }
 
 // Responses

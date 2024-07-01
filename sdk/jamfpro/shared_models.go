@@ -36,9 +36,8 @@ type SharedResourceSelfServiceCategory struct {
 }
 
 // Advanced Search DisplayField
-type SharedAdvancedSearchContainerDisplayField struct {
-	Size         int                                      `json:"size,omitempty" xml:"size,omitempty"`
-	DisplayField []SharedAdvancedSearchSubsetDisplayField `json:"display_field,omitempty" xml:"display_field,omitempty"`
+type DisplayField struct {
+	Name string `xml:"name"`
 }
 
 type SharedAdvancedSearchSubsetDisplayField struct {
@@ -60,4 +59,9 @@ type SharedSubsetCriteria struct {
 	Value        string `json:"value,omitempty" xml:"value,omitempty"`
 	OpeningParen bool   `json:"opening_paren,omitempty" xml:"opening_paren,omitempty"`
 	ClosingParen bool   `json:"closing_paren,omitempty" xml:"closing_paren,omitempty"`
+}
+
+type SharedResourceLdapServer struct {
+	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
+	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }

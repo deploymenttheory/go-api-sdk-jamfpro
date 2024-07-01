@@ -61,12 +61,13 @@ type JamfAppCatalogAppInstallerSubsetMediaSource struct {
 
 // Struct which represents AppInstallers object JSON from Pro API
 type ResourceJamfAppCatalogDeployment struct {
-	ID                              string                                             `json:"id"`
-	Name                            string                                             `json:"name,omitempty"`
-	Enabled                         *bool                                              `json:"enabled"`
-	AppTitleId                      string                                             `json:"appTitleId,omitempty"`
-	DeploymentType                  string                                             `json:"deploymentType,omitempty"`
-	UpdateBehavior                  string                                             `json:"updateBehavior,omitempty"`
+	ID             string `json:"id"`
+	Name           string `json:"name,omitempty"`
+	Enabled        *bool  `json:"enabled"`
+	AppTitleId     string `json:"appTitleId,omitempty"`
+	DeploymentType string `json:"deploymentType,omitempty"`
+	UpdateBehavior string `json:"updateBehavior,omitempty"`
+	// TODO why is this not the object?
 	CategoryId                      string                                             `json:"categoryId,omitempty"`
 	SiteId                          string                                             `json:"siteId,omitempty"`
 	SmartGroupId                    string                                             `json:"smartGroupId,omitempty"`
