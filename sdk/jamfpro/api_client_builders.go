@@ -22,12 +22,9 @@ type Client struct {
 
 type ConfigContainer struct {
 	// Logger
-	LogLevel            string `json:"log_level"`
-	LogOutputFormat     string `json:"log_output_format"`
-	LogConsoleSeparator string `json:"log_console_separator"`
-	LogExportPath       string `json:"log_export_path"`
-	ExportLogs          bool   `json:"export_logs"`
-	HideSensitiveData   bool   `json:"hide_sensitive_data"`
+	LogLevel          string `json:"log_level"`
+	LogExportPath     string `json:"log_export_path"`
+	HideSensitiveData bool   `json:"hide_sensitive_data"`
 
 	// API Integration
 	InstanceDomain       string `json:"instance_domain"`
@@ -58,16 +55,25 @@ type CustomCookie struct {
 	Value string `json:"value"`
 }
 
-// BuildClientWithConfigFile initializes a new Jamf Pro client using a configuration file for the HTTP client, logger, and integration.
-func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
-	config, err := loadConfigFromJSONFile(configFilePath)
+func BuildClient(config *ConfigContainer) (*Client, error) {
+	var err error
+
+	DefaultLoggerConfig := zap.NewProductionConfig()
+	DefaultLoggerConfig.Level, err = ConvertLogLevel(config.LogLevel)
 	if err != nil {
-		return nil, fmt.Errorf("failed to load configuration from file: %w", err)
+		return nil, fmt.Errorf("failed to set log level: %v", err)
 	}
 
-	// Initialize logger
-	DefaultLogger, err := zap.NewProduction()
-	Sugar := DefaultLogger.Sugar()
+	if config.LogExportPath != "" {
+		DefaultLoggerConfig.OutputPaths = append(DefaultLoggerConfig.OutputPaths, config.LogExportPath)
+	}
+
+	Logger, err := DefaultLoggerConfig.Build()
+	if err != nil {
+		return nil, fmt.Errorf("failed to build logger: %v", err)
+	}
+
+	Sugar := Logger.Sugar()
 
 	// Initialize API integration
 	integration, err := initializeAPIIntegration(config, Sugar)
@@ -109,55 +115,25 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 	return &Client{HTTP: httpClient}, nil
 }
 
+// BuildClientWithConfigFile initializes a new Jamf Pro client using a configuration file for the HTTP client, logger, and integration.
+func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
+	config, err := loadConfigFromJSONFile(configFilePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to load configuration from file: %w", err)
+	}
+
+	return BuildClient(config)
+}
+
 // BuildClientWithEnv initializes a new Jamf Pro client using environment variables for the HTTP client, logger, and integration.
 func BuildClientWithEnv() (*Client, error) {
 	config, err := loadConfigFromEnv()
 	if err != nil {
-		return nil, fmt.Errorf("failed to load configuration from environment: %w", err)
-	}
-
-	// Initialize logger
-	DefaultLogger, err := zap.NewProduction()
-	Sugar := DefaultLogger.Sugar()
-
-	// Initialize API integration
-	integration, err := initializeAPIIntegration(config, Sugar)
-	if err != nil {
-		return nil, fmt.Errorf("failed to initialize integration: %w", err)
-	}
-
-	// Handle jamf pro load balancer lock and custom cookies
-	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), Sugar)
-	if err != nil {
 		return nil, err
 	}
 
-	// HttpClient
-	httpClientConfig := &httpclient.ClientConfig{
-		Sugar:                       Sugar,
-		Integration:                 integration,
-		HideSensitiveData:           config.HideSensitiveData,
-		CustomCookies:               customCookies,
-		MaxRetryAttempts:            config.MaxRetryAttempts,
-		MaxConcurrentRequests:       config.MaxConcurrentRequests,
-		EnableDynamicRateLimiting:   config.EnableDynamicRateLimiting,
-		CustomTimeout:               time.Duration(config.CustomTimeout) * time.Second,
-		TokenRefreshBufferPeriod:    time.Duration(config.TokenRefreshBufferPeriod) * time.Second,
-		TotalRetryDuration:          time.Duration(config.TotalRetryDuration) * time.Second,
-		FollowRedirects:             config.FollowRedirects,
-		MaxRedirects:                config.MaxRedirects,
-		EnableConcurrencyManagement: config.EnableConcurrencyManagement,
-		MandatoryRequestDelay:       time.Duration(config.MandatoryRequestDelay) * time.Millisecond,
-		RetryEligiableRequests:      config.RetryEligiableRequests,
-	}
+	return BuildClient(config)
 
-	httpClient, err := httpClientConfig.Build()
-	if err != nil {
-		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
-	}
-
-	// Wrap into SDK & return
-	return &Client{HTTP: httpClient}, nil
 }
 
 // initializeAPIIntegration initializes the API integration based on the configuration
@@ -173,6 +149,7 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
 			config.ClientID,
 			config.ClientSecret,
+			config.HideSensitiveData,
 		)
 	case "basic":
 		integration, err = jamfprointegration.BuildWithBasicAuth(
@@ -181,6 +158,7 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
 			config.Username,
 			config.Password,
+			config.HideSensitiveData,
 		)
 	default:
 		return nil, fmt.Errorf("invalid auth method supplied")
@@ -218,11 +196,8 @@ func loadConfigFromJSONFile(configFilePath string) (*ConfigContainer, error) {
 // loadConfigFromEnv loads the configuration from environment variables
 func loadConfigFromEnv() (*ConfigContainer, error) {
 	config := &ConfigContainer{
-		LogLevel:                    getEnv("LOG_LEVEL", "warning"),
-		LogOutputFormat:             getEnv("LOG_OUTPUT_FORMAT", "pretty"),
-		LogConsoleSeparator:         getEnv("LOG_CONSOLE_SEPARATOR", " "),
-		LogExportPath:               getEnv("LOG_EXPORT_PATH", ""),
-		ExportLogs:                  getEnvAsBool("EXPORT_LOGS", false),
+		LogLevel: getEnv("LOG_LEVEL", "warning"),
+		// ExportLogs:                  getEnvAsBool("EXPORT_LOGS", false),
 		HideSensitiveData:           getEnvAsBool("HIDE_SENSITIVE_DATA", true),
 		InstanceDomain:              getEnv("INSTANCE_DOMAIN", ""),
 		AuthMethod:                  getEnv("AUTH_METHOD", ""),
@@ -334,4 +309,23 @@ func handleLoadBalancerLock(config *ConfigContainer, integration httpclient.APII
 		}
 	}
 	return customCookies, nil
+}
+
+func ConvertLogLevel(inLevel string) (zap.AtomicLevel, error) {
+	levelMap := map[string]zap.AtomicLevel{
+		"debug":  zap.NewAtomicLevelAt(zap.DebugLevel),
+		"info":   zap.NewAtomicLevelAt(zap.InfoLevel),
+		"warn":   zap.NewAtomicLevelAt(zap.WarnLevel),
+		"dpanic": zap.NewAtomicLevelAt(zap.DPanicLevel),
+		"error":  zap.NewAtomicLevelAt(zap.ErrorLevel),
+		"fatal":  zap.NewAtomicLevelAt(zap.FatalLevel),
+	}
+
+	outLevel, ok := levelMap[inLevel]
+	if !ok {
+		return zap.AtomicLevel{}, nil
+	}
+
+	return outLevel, nil
+
 }
