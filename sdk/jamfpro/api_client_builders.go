@@ -11,7 +11,6 @@ import (
 
 	"github.com/deploymenttheory/go-api-http-client-integrations/jamf/jamfprointegration"
 	"github.com/deploymenttheory/go-api-http-client/httpclient"
-	"github.com/deploymenttheory/go-api-http-client/logger"
 	"go.uber.org/zap"
 )
 
@@ -67,29 +66,24 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 	}
 
 	// Initialize logger
-	logLevel := logger.ParseLogLevelFromString(config.LogLevel)
-	log := logger.BuildLogger(
-		logLevel,
-		config.LogOutputFormat,
-		config.LogConsoleSeparator,
-		config.LogExportPath,
-		config.ExportLogs,
-	)
+	DefaultLogger, err := zap.NewProduction()
+	Sugar := DefaultLogger.Sugar()
 
 	// Initialize API integration
-	integration, err := initializeAPIIntegration(config, log)
+	integration, err := initializeAPIIntegration(config, Sugar)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize integration: %w", err)
 	}
 
 	// Handle jamf pro load balancer lock and custom cookies
-	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), log)
+	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), Sugar)
 	if err != nil {
 		return nil, err
 	}
 
 	// HttpClient
 	httpClientConfig := &httpclient.ClientConfig{
+		Sugar:                       Sugar,
 		Integration:                 integration,
 		HideSensitiveData:           config.HideSensitiveData,
 		CustomCookies:               customCookies,
@@ -106,7 +100,7 @@ func BuildClientWithConfigFile(configFilePath string) (*Client, error) {
 		RetryEligiableRequests:      config.RetryEligiableRequests,
 	}
 
-	httpClient, err := httpclient.BuildClient(*httpClientConfig, true, log)
+	httpClient, err := httpClientConfig.Build()
 	if err != nil {
 		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
 	}
@@ -123,29 +117,24 @@ func BuildClientWithEnv() (*Client, error) {
 	}
 
 	// Initialize logger
-	logLevel := logger.ParseLogLevelFromString(config.LogLevel)
-	log := logger.BuildLogger(
-		logLevel,
-		config.LogOutputFormat,
-		config.LogConsoleSeparator,
-		config.LogExportPath,
-		config.ExportLogs,
-	)
+	DefaultLogger, err := zap.NewProduction()
+	Sugar := DefaultLogger.Sugar()
 
 	// Initialize API integration
-	integration, err := initializeAPIIntegration(config, log)
+	integration, err := initializeAPIIntegration(config, Sugar)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize integration: %w", err)
 	}
 
 	// Handle jamf pro load balancer lock and custom cookies
-	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), log)
+	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), Sugar)
 	if err != nil {
 		return nil, err
 	}
 
 	// HttpClient
 	httpClientConfig := &httpclient.ClientConfig{
+		Sugar:                       Sugar,
 		Integration:                 integration,
 		HideSensitiveData:           config.HideSensitiveData,
 		CustomCookies:               customCookies,
@@ -162,7 +151,7 @@ func BuildClientWithEnv() (*Client, error) {
 		RetryEligiableRequests:      config.RetryEligiableRequests,
 	}
 
-	httpClient, err := httpclient.BuildClient(*httpClientConfig, true, log)
+	httpClient, err := httpClientConfig.Build()
 	if err != nil {
 		return nil, fmt.Errorf("failed to build HTTP client: %w", err)
 	}
@@ -172,23 +161,23 @@ func BuildClientWithEnv() (*Client, error) {
 }
 
 // initializeAPIIntegration initializes the API integration based on the configuration
-func initializeAPIIntegration(config *ConfigContainer, log logger.Logger) (httpclient.APIIntegration, error) {
+func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger) (httpclient.APIIntegration, error) {
 	var integration *jamfprointegration.Integration
 	var err error
 
 	switch config.AuthMethod {
 	case "oauth2":
-		integration, err = jamfprointegration.BuildIntegrationWithOAuth(
+		integration, err = jamfprointegration.BuildWithOAuth(
 			config.InstanceDomain,
-			log,
+			Sugar,
 			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
 			config.ClientID,
 			config.ClientSecret,
 		)
 	case "basic":
-		integration, err = jamfprointegration.BuildIntegrationWithBasicAuth(
+		integration, err = jamfprointegration.BuildWithBasicAuth(
 			config.InstanceDomain,
-			log,
+			Sugar,
 			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
 			config.Username,
 			config.Password,
@@ -320,7 +309,7 @@ func convertCustomCookies(customCookies []CustomCookie) []*http.Cookie {
 }
 
 // handleLoadBalancerLock handles the load balancer lock by adding appropriate cookies if enabled
-func handleLoadBalancerLock(config *ConfigContainer, integration httpclient.APIIntegration, customCookies []*http.Cookie, log logger.Logger) ([]*http.Cookie, error) {
+func handleLoadBalancerLock(config *ConfigContainer, integration httpclient.APIIntegration, customCookies []*http.Cookie, Sugar *zap.SugaredLogger) ([]*http.Cookie, error) {
 	if config.JamfLoadBalancerLock {
 		jamfIntegration, ok := integration.(*jamfprointegration.Integration)
 		if !ok {
@@ -328,13 +317,12 @@ func handleLoadBalancerLock(config *ConfigContainer, integration httpclient.APII
 		}
 		cookies, err := jamfIntegration.GetSessionCookies()
 		if err != nil {
-			log.Error("Failed to get session cookies for load balancer lock", zap.Error(err))
+			Sugar.Error("Failed to get session cookies for load balancer lock", zap.Error(err))
 			return customCookies, nil
 		}
 
 		for _, cookie := range cookies {
 			if cookie.Name == jamfLoadBalancerCookieName {
-				// Ensure no custom cookie conflicts with the load balancer lock cookie
 				for i, customCookie := range customCookies {
 					if customCookie.Name == jamfLoadBalancerCookieName {
 						customCookies = append(customCookies[:i], customCookies[i+1:]...)
