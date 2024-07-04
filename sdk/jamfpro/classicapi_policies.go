@@ -173,8 +173,8 @@ type PolicySubsetSelfService struct {
 
 // PolicySubsetPackageConfiguration represents the package configuration settings of a policy
 type PolicySubsetPackageConfiguration struct {
-	Packages          *[]PolicySubsetPackageConfigurationPackage `xml:"packages>package"`
-	DistributionPoint string                                     `xml:"distribution_point"`
+	Packages          []PolicySubsetPackageConfigurationPackage `xml:"packages>package"`
+	DistributionPoint string                                    `xml:"distribution_point"`
 }
 
 type PolicySubsetPackageConfigurationPackage struct {
