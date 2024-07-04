@@ -41,7 +41,7 @@ type ResourcePolicy struct {
 	Scope                *PolicySubsetScope                `xml:"scope,omitempty"`
 	SelfService          *PolicySubsetSelfService          `xml:"self_service,omitempty"`
 	PackageConfiguration *PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
-	Scripts              *PolicySubsetScripts              `xml:"scripts,omitempty"`
+	Scripts              *[]PolicySubsetScript             `xml:"scripts>script,omitempty"`
 	Printers             *PolicySubsetPrinters             `xml:"printers,omitempty"`
 	DockItems            *PolicySubsetDockItems            `xml:"dock_items,omitempty"`
 	AccountMaintenance   *PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
@@ -187,12 +187,6 @@ type PolicySubsetPackageConfigurationPackage struct {
 }
 
 // Scripts
-
-// PolicySubsetScripts represents the scripts settings of a policy
-type PolicySubsetScripts struct {
-	// Size   int                  `xml:"size,omitempty"`
-	Script *[]PolicySubsetScript `xml:"script,omitempty"`
-}
 
 type PolicySubsetScript struct {
 	ID          string `xml:"id"`
