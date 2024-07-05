@@ -83,7 +83,7 @@ func decodePlistFile(filePath string) (interface{}, error) {
 
 	// Check if content needs unescaping
 	if bytes.Contains(content, []byte("&lt;")) {
-		content = []byte(UnescapeXML(string(content)))
+		content = []byte(html.UnescapeString(string(content)))
 	}
 
 	decoder := plist.NewDecoder(bytes.NewReader(content))
@@ -92,11 +92,6 @@ func decodePlistFile(filePath string) (interface{}, error) {
 		return nil, fmt.Errorf("error decoding plist: %v", err)
 	}
 	return data, nil
-}
-
-// UnescapeXML takes an XML string with HTML entities and returns the unescaped XML.
-func UnescapeXML(encodedXML string) string {
-	return html.UnescapeString(encodedXML)
 }
 
 // WriteFile handles the file writing process
