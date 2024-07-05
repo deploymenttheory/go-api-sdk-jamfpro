@@ -31,8 +31,8 @@ func main() {
 		General: jamfpro.MobileDeviceConfigurationProfileSubsetGeneral{
 			Name:             "jamfpro-sdk-localtest-mobiledeviceconfigprofile-iOS-WiFi",
 			Description:      "An example mobile device configuration profile.",
-			Site:             jamfpro.SharedResourceSite{Name: "None"},
-			Category:         jamfpro.SharedResourceCategory{Name: "No category assigned"},
+			Site:             &jamfpro.SharedResourceSite{Name: "None"},
+			Category:         &jamfpro.SharedResourceCategory{Name: "No category assigned"},
 			DeploymentMethod: "Install Automatically",
 			Level:            "Device Level",
 			RedeployOnUpdate: "Newly Assigned",

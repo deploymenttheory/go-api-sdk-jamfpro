@@ -30,8 +30,8 @@ func main() {
 	profile := &jamfpro.ResourceMacOSConfigurationProfile{
 		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
 			Name:               "accessibility-formatted-test",
-			Site:               jamfpro.SharedResourceSite{Name: "None"},
-			Category:           jamfpro.SharedResourceCategory{Name: "No category assigned"},
+			Site:               &jamfpro.SharedResourceSite{Name: "None"},
+			Category:           &jamfpro.SharedResourceCategory{Name: "No category assigned"},
 			DistributionMethod: "Install Automatically",
 			Level:              "computer",
 			RedeployOnUpdate:   "Newly Assigned",

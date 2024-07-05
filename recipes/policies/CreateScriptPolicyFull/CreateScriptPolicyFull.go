@@ -64,20 +64,19 @@ func main() {
 			},
 		},
 		// scripts
-		Scripts: &jamfpro.PolicySubsetScripts{
-			Script: &[]jamfpro.PolicySubsetScript{
-				{
-					ID:         "4521",
-					Name:       "tf-ghatest-add-or-remove-group-membership-v4.0",
-					Priority:   "After",
-					Parameter4: "thing",
-					Parameter5: "thing",
-					Parameter6: "thing",
-					Parameter7: "thing",
-					// Additional parameters if needed
-				},
+		Scripts: &[]jamfpro.PolicySubsetScript{
+			{
+				ID:         "4521",
+				Name:       "tf-ghatest-add-or-remove-group-membership-v4.0",
+				Priority:   "After",
+				Parameter4: "thing",
+				Parameter5: "thing",
+				Parameter6: "thing",
+				Parameter7: "thing",
+				// Additional parameters if needed
 			},
 		},
+
 		// Self Service
 		SelfService: &jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
@@ -89,7 +88,7 @@ func main() {
 			FeatureOnMainPage:           false,
 		},
 		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          &[]jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
+			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
 			DistributionPoint: "default",
 		},
 		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
