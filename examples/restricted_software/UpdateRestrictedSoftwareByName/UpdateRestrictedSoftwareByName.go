@@ -29,7 +29,7 @@ func main() {
 			KillProcess:           true,
 			DeleteExecutable:      true,
 			DisplayMessage:        "High Sierra is not yet supported, check Self Service after public release.",
-			Site: jamfpro.SharedResourceSite{
+			Site: &jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},

@@ -23,7 +23,7 @@ func main() {
 		Name:             "Teachers",
 		IsSmart:          true,
 		IsNotifyOnChange: true,
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

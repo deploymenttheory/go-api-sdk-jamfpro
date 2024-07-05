@@ -23,7 +23,7 @@ func main() {
 		Name:             "Static Group",
 		IsSmart:          false,
 		IsNotifyOnChange: false,
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

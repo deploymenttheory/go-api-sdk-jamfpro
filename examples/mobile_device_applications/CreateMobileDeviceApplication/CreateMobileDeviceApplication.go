@@ -27,7 +27,7 @@ func main() {
 			Version:     "10.10.6",
 			InternalApp: true,
 			OsType:      "iOS", // iOS or tvOS
-			Category: jamfpro.SharedResourceCategory{
+			Category: &jamfpro.SharedResourceCategory{
 				ID:   -1,
 				Name: "No category assigned",
 			},

@@ -21,11 +21,11 @@ func main() {
 	newProfile := jamfpro.ResourceMobileDeviceConfigurationProfile{
 		General: jamfpro.MobileDeviceConfigurationProfileSubsetGeneral{
 			Name: "WiFi",
-			Site: jamfpro.SharedResourceSite{
+			Site: &jamfpro.SharedResourceSite{
 				ID:   -1,
 				Name: "None",
 			},
-			Category: jamfpro.SharedResourceCategory{
+			Category: &jamfpro.SharedResourceCategory{
 				ID:   -1,
 				Name: "No category assigned",
 			},

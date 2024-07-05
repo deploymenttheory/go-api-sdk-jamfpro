@@ -44,7 +44,7 @@ func main() {
 			AuthRestart:                   false,
 		},
 		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          &[]jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
+			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
 			DistributionPoint: "default",
 		},
 		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{

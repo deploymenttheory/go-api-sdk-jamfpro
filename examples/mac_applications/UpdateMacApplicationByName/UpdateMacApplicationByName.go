@@ -26,8 +26,8 @@ func main() {
 			IsFree:   true,
 			BundleID: "com.barebones.textwrangler",
 			URL:      "https://itunes.apple.com/us/app/textwrangler/id404010395?mt=12&uo=4",
-			Category: jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
-			Site:     jamfpro.SharedResourceSite{ID: -1, Name: "None"},
+			Category: &jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
+			Site:     &jamfpro.SharedResourceSite{ID: -1, Name: "None"},
 		},
 		Scope: jamfpro.MacApplicationsSubsetScope{
 			AllComputers: false,

@@ -40,7 +40,7 @@ func main() {
 		},
 		// Package Configuration
 		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
-			Packages: &[]jamfpro.PolicySubsetPackageConfigurationPackage{
+			Packages: []jamfpro.PolicySubsetPackageConfigurationPackage{
 				{
 					ID:                232, // Replace with actual package ID
 					Name:              "Microsoft Edge",

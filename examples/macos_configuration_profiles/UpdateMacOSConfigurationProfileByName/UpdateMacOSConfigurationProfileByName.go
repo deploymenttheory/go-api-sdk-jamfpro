@@ -27,8 +27,8 @@ func main() {
 		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
 			Name:               "WiFi Test",
 			Description:        "",
-			Site:               jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
-			Category:           jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
+			Site:               &jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
+			Category:           &jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
 			DistributionMethod: "Install Automatically",
 			UserRemovable:      false,
 			Level:              "computer",
