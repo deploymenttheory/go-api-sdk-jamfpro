@@ -99,7 +99,6 @@ func BuildClient(config *ConfigContainer) (*Client, error) {
 		CustomTimeout:               time.Duration(config.CustomTimeout) * time.Second,
 		TokenRefreshBufferPeriod:    time.Duration(config.TokenRefreshBufferPeriod) * time.Second,
 		TotalRetryDuration:          time.Duration(config.TotalRetryDuration) * time.Second,
-		FollowRedirects:             config.FollowRedirects,
 		MaxRedirects:                config.MaxRedirects,
 		EnableConcurrencyManagement: config.EnableConcurrencyManagement,
 		MandatoryRequestDelay:       time.Duration(config.MandatoryRequestDelay) * time.Millisecond,
