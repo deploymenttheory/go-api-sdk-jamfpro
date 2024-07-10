@@ -8,8 +8,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.23
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.3
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.57.1
-	github.com/deploymenttheory/go-api-http-client v0.2.7-0.20240709152650-dca16145c82a
-	github.com/deploymenttheory/go-api-http-client-integrations v0.0.8-0.20240709151431-dcf2d5f12c21
+	github.com/deploymenttheory/go-api-http-client v0.2.7-0.20240710094943-c92ef829cfd7
+	github.com/deploymenttheory/go-api-http-client-integrations v0.0.8
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
 )

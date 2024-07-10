@@ -21,12 +21,10 @@ type Client struct {
 }
 
 type ConfigContainer struct {
-	// Logger
 	LogLevel          string `json:"log_level"`
 	LogExportPath     string `json:"log_export_path"`
 	HideSensitiveData bool   `json:"hide_sensitive_data"`
 
-	// API Integration
 	InstanceDomain       string `json:"instance_domain"`
 	AuthMethod           string `json:"auth_method"`
 	ClientID             string `json:"client_id"`
@@ -35,7 +33,6 @@ type ConfigContainer struct {
 	Password             string `json:"basic_auth_password"`
 	JamfLoadBalancerLock bool   `json:"jamf_load_balancer_lock"`
 
-	// Client
 	CustomCookies               []CustomCookie `json:"custom_cookies"`
 	MaxRetryAttempts            int            `json:"max_retry_attempts"`
 	MaxConcurrentRequests       int            `json:"max_concurrent_requests"`
@@ -59,7 +56,7 @@ func BuildClient(config *ConfigContainer) (*Client, error) {
 	var err error
 
 	DefaultLoggerConfig := zap.NewProductionConfig()
-	DefaultLoggerConfig.Level, err = ConvertLogLevel(config.LogLevel)
+	DefaultLoggerConfig.Level, err = LogLevelStringtoZap(config.LogLevel)
 	if err != nil {
 		return nil, fmt.Errorf("failed to set log level: %v", err)
 	}
@@ -68,26 +65,23 @@ func BuildClient(config *ConfigContainer) (*Client, error) {
 		DefaultLoggerConfig.OutputPaths = append(DefaultLoggerConfig.OutputPaths, config.LogExportPath)
 	}
 
-	Logger, err := DefaultLoggerConfig.Build()
+	logger, err := DefaultLoggerConfig.Build()
 	if err != nil {
 		return nil, fmt.Errorf("failed to build logger: %v", err)
 	}
 
-	Sugar := Logger.Sugar()
+	Sugar := logger.Sugar()
 
-	// Initialize API integration
 	integration, err := initializeAPIIntegration(config, Sugar)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize integration: %w", err)
 	}
 
-	// Handle jamf pro load balancer lock and custom cookies
 	customCookies, err := handleLoadBalancerLock(config, integration, convertCustomCookies(config.CustomCookies), Sugar)
 	if err != nil {
 		return nil, err
 	}
 
-	// HttpClient
 	httpClientConfig := &httpclient.ClientConfig{
 		Sugar:                       Sugar,
 		Integration:                 integration,
@@ -310,7 +304,8 @@ func handleLoadBalancerLock(config *ConfigContainer, integration httpclient.APII
 	return customCookies, nil
 }
 
-func ConvertLogLevel(inLevel string) (zap.AtomicLevel, error) {
+// LogLevelStringtoZap takes a string log level and converts it to a zap level
+func LogLevelStringtoZap(stringLevel string) (zap.AtomicLevel, error) {
 	levelMap := map[string]zap.AtomicLevel{
 		"debug":  zap.NewAtomicLevelAt(zap.DebugLevel),
 		"info":   zap.NewAtomicLevelAt(zap.InfoLevel),
@@ -320,9 +315,9 @@ func ConvertLogLevel(inLevel string) (zap.AtomicLevel, error) {
 		"fatal":  zap.NewAtomicLevelAt(zap.FatalLevel),
 	}
 
-	outLevel, ok := levelMap[inLevel]
+	outLevel, ok := levelMap[stringLevel]
 	if !ok {
-		return zap.AtomicLevel{}, nil
+		return zap.NewAtomicLevel(), fmt.Errorf("invalid log level supplied: %s", stringLevel)
 	}
 
 	return outLevel, nil
