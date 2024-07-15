@@ -14,7 +14,6 @@ import (
 	"go.uber.org/zap"
 )
 
-// test
 const jamfLoadBalancerCookieName = "jpro-ingress"
 
 type Client struct {
