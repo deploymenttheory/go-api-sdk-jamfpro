@@ -174,8 +174,8 @@ func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignme
 }
 
 // DeleteVPPAssignmentByID deletes a VPP assignment by its ID
-func (c *Client) DeleteVPPAssignmentByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
+func (c *Client) DeleteVPPAssignmentByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAssignments, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

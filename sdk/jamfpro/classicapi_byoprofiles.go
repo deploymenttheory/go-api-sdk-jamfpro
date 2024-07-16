@@ -177,8 +177,8 @@ func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile
 }
 
 // DeleteBYOProfileByID deletes a BYO profile by its ID.
-func (c *Client) DeleteBYOProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
+func (c *Client) DeleteBYOProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriBYOProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

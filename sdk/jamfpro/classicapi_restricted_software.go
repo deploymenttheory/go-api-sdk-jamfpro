@@ -210,8 +210,8 @@ func (c *Client) UpdateRestrictedSoftwareByName(name string, restrictedSoftware 
 }
 
 // DeleteRestrictedSoftwareByID deletes a restricted software entry by its ID.
-func (c *Client) DeleteRestrictedSoftwareByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
+func (c *Client) DeleteRestrictedSoftwareByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriRestrictedSoftware, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

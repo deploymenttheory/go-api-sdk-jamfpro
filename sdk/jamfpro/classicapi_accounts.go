@@ -213,8 +213,8 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 }
 
 // DeleteAccountByID deletes an Account using its ID
-func (c *Client) DeleteAccountByID(id int) error {
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
+func (c *Client) DeleteAccountByID(id string) error {
+	endpoint := fmt.Sprintf("%s/userid/%s", uriAPIAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

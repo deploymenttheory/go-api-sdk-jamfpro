@@ -163,8 +163,8 @@ func (c *Client) UpdateDockItemByName(name string, dockItem *ResourceDockItem) (
 }
 
 // DeleteDockItemsByID deletes a dock item by its ID.
-func (c *Client) DeleteDockItemByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
+func (c *Client) DeleteDockItemByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDockItems, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

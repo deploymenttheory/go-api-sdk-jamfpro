@@ -142,8 +142,8 @@ func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation
 }
 
 // DeleteComputerInvitationByID deletes a computer invitation by its ID.
-func (c *Client) DeleteComputerInvitationByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
+func (c *Client) DeleteComputerInvitationByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerInvitations, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

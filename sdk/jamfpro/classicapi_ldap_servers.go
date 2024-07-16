@@ -339,8 +339,8 @@ func (c *Client) UpdateLDAPServerByName(name string, ldapServer *ResourceLDAPSer
 }
 
 // DeleteLDAPServerByID deletes an LDAP server identified by its ID.
-func (c *Client) DeleteLDAPServerByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriLDAPServers, id)
+func (c *Client) DeleteLDAPServerByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriLDAPServers, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

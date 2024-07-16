@@ -192,8 +192,8 @@ func (c *Client) UpdateDistributionPointByName(name string, dp *ResourceFileShar
 }
 
 // DeleteDistributionPointByID deletes a distribution point by its ID.
-func (c *Client) DeleteDistributionPointByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
+func (c *Client) DeleteDistributionPointByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDistributionPoints, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

@@ -302,8 +302,8 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 }
 
 // DeleteMacOSConfigurationProfileByID deletes a macOS Configuration Profile by its ID from the Jamf Pro server.
-func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
+func (c *Client) DeleteMacOSConfigurationProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMacOSConfigurationProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

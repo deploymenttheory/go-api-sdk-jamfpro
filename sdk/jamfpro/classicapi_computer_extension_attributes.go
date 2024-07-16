@@ -175,8 +175,8 @@ func (c *Client) UpdateComputerExtensionAttributeByName(name string, attribute *
 }
 
 // DeleteComputerExtensionAttributeByID deletes a computer extension attribute by its ID.
-func (c *Client) DeleteComputerExtensionAttributeByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
+func (c *Client) DeleteComputerExtensionAttributeByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerExtensionAttributes, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -191,23 +191,23 @@ func (c *Client) DeleteComputerExtensionAttributeByID(id int) error {
 }
 
 // DeleteComputerExtensionAttributeByNameByID deletes a computer extension attribute by its name.
-func (c *Client) DeleteComputerExtensionAttributeByNameByID(name string) error {
-	attributes, err := c.GetComputerExtensionAttributes()
-	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
-	}
+// func (c *Client) DeleteComputerExtensionAttributeByNameByID(name string) error {
+// 	attributes, err := c.GetComputerExtensionAttributes()
+// 	if err != nil {
+// 		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
+// 	}
 
-	var attributeID int
-	for _, attribute := range attributes.Results {
-		if attribute.Name == name {
-			attributeID = attribute.ID
-			break
-		}
-	}
+// 	var attributeID int
+// 	for _, attribute := range attributes.Results {
+// 		if attribute.Name == name {
+// 			attributeID = attribute.ID
+// 			break
+// 		}
+// 	}
 
-	if attributeID == 0 {
-		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
-	}
+// 	if attributeID == 0 {
+// 		return fmt.Errorf(errMsgFailedDeleteByName, "computer extension attribute", name, err)
+// 	}
 
-	return c.DeleteComputerExtensionAttributeByID(attributeID)
-}
+// 	return c.DeleteComputerExtensionAttributeByID(attributeID)
+// }

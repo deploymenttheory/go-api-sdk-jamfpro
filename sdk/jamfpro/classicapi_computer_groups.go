@@ -192,8 +192,8 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 }
 
 // DeleteComputerGroupByID deletes a computer group by its ID.
-func (c *Client) DeleteComputerGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
+func (c *Client) DeleteComputerGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerGroups, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

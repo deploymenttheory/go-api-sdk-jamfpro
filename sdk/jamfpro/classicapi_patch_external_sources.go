@@ -166,8 +166,8 @@ func (c *Client) UpdateExternalPatchSourceByName(name string, patchSource *Resou
 }
 
 // DeleteExternalPatchSourceByID deletes an external patch source by its ID from the Jamf Pro server.
-func (c *Client) DeleteExternalPatchSourceByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPatchExternalSources, id)
+func (c *Client) DeleteExternalPatchSourceByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPatchExternalSources, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

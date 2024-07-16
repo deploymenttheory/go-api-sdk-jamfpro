@@ -171,8 +171,8 @@ func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *Reso
 }
 
 // DeleteUserExtensionAttributeByID deletes a user extension attribute by its ID.
-func (c *Client) DeleteUserExtensionAttributeByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
+func (c *Client) DeleteUserExtensionAttributeByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserExtensionAttributes, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

@@ -177,8 +177,8 @@ func (c *Client) UpdatePrinterByName(name string, printer *ResourcePrinter) (*Re
 }
 
 // DeletePrinterByID deletes a printer by its ID.
-func (c *Client) DeletePrinterByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
+func (c *Client) DeletePrinterByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPrinters, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

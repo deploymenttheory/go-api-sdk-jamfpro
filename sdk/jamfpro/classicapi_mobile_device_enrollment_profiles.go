@@ -291,8 +291,8 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation stri
 }
 
 // DeleteMobileDeviceEnrollmentProfileByID deletes a mobile device enrollment profile by its ID.
-func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
+func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceEnrollmentProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

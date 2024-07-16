@@ -149,8 +149,8 @@ func (c *Client) UpdateRemovableMACAddressByName(name string, macAddress *Resour
 }
 
 // DeleteRemovableMACAddressByID deletes a removable MAC address by its ID.
-func (c *Client) DeleteRemovableMACAddressByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
+func (c *Client) DeleteRemovableMACAddressByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriRemovableMacAddresses, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

@@ -166,8 +166,8 @@ func (c *Client) UpdateDirectoryBindingByName(name string, binding *ResponseDire
 }
 
 // DeleteDirectoryBindingByID deletes a directory binding by its ID.
-func (c *Client) DeleteDirectoryBindingByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
+func (c *Client) DeleteDirectoryBindingByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDirectoryBindings, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

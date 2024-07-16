@@ -260,8 +260,8 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 }
 
 // DeleteMobileDeviceProvisioningProfileByID deletes a mobile device provisioning profile by ID
-func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
+func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceProvisioningProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

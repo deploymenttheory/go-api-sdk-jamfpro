@@ -176,8 +176,8 @@ func (c *Client) UpdateDiskEncryptionConfigurationByName(name string, config *Re
 }
 
 // DeleteDiskEncryptionConfigurationByID deletes a disk encryption configuration by its ID.
-func (c *Client) DeleteDiskEncryptionConfigurationByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
+func (c *Client) DeleteDiskEncryptionConfigurationByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDiskEncryptionConfigurations, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

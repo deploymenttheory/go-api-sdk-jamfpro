@@ -251,8 +251,8 @@ func (c *Client) UpdateUserByEmail(email string, updatedUser *ResourceUser) (*Re
 }
 
 // DeleteUserByID deletes a user by their ID.
-func (c *Client) DeleteUserByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+func (c *Client) DeleteUserByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUsers, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user", id, err)

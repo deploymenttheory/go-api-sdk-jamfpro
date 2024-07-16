@@ -236,8 +236,8 @@ func (c *Client) UpdateLicensedSoftwareByName(name string, licensedSoftware *Res
 }
 
 // DeleteLicensedSoftwareByID deletes a licensed software item by its ID.
-func (c *Client) DeleteLicensedSoftwareByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
+func (c *Client) DeleteLicensedSoftwareByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriLicensedSoftware, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

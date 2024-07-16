@@ -567,8 +567,8 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Respo
 }
 
 // DeletePolicyByID deletes a policy by its ID.
-func (c *Client) DeletePolicyByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+func (c *Client) DeletePolicyByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPolicies, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete policy: %v", err)

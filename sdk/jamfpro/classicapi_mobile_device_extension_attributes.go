@@ -167,8 +167,8 @@ func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *Re
 }
 
 // DeleteMobileExtensionAttributeByID deletes a mobile extension attribute by its ID.
-func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
+func (c *Client) DeleteMobileExtensionAttributeByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceExtensionAttributes, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

@@ -243,8 +243,8 @@ func (c *Client) UpdatePatchPolicy(policy *ResourcePatchPolicies, softwareTitleC
 }
 
 // DeletePatchPolicyByID deletes a patch policy by its ID.
-func (c *Client) DeletePatchPolicyByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
+func (c *Client) DeletePatchPolicyByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPatchPolicies, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

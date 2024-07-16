@@ -294,8 +294,8 @@ func (c *Client) UpdateMobileDeviceConfigurationProfileByName(name string, profi
 }
 
 // DeleteMobileDeviceConfigurationProfileByID deletes a mobile device configuration profile by its ID from the Jamf Pro server.
-func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
+func (c *Client) DeleteMobileDeviceConfigurationProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceConfigurationProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

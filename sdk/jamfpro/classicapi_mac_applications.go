@@ -313,8 +313,8 @@ func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacAppli
 }
 
 // DeleteMacApplicationByID deletes a MacApplication by its ID.
-func (c *Client) DeleteMacApplicationByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
+func (c *Client) DeleteMacApplicationByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPMacApplications, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

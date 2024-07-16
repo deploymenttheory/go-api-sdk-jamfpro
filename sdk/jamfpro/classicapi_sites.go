@@ -154,8 +154,8 @@ func (c *Client) UpdateSiteByName(name string, site *SharedResourceSite) (*Share
 }
 
 // DeleteSiteByID deletes a site by its ID.
-func (c *Client) DeleteSiteByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
+func (c *Client) DeleteSiteByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSites, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

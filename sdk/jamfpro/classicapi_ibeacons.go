@@ -157,8 +157,8 @@ func (c *Client) UpdateIBeaconByName(name string, beacon *ResourceIBeacons) (*Re
 }
 
 // DeleteIBeaconByID deletes an iBeacon by its ID in Jamf Pro.
-func (c *Client) DeleteIBeaconByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+func (c *Client) DeleteIBeaconByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriIbeacons, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

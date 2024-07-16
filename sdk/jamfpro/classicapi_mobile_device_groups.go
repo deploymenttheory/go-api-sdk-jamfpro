@@ -182,8 +182,8 @@ func (c *Client) UpdateMobileDeviceGroupByName(name string, group *ResourceMobil
 }
 
 // DeleteMobileDeviceGroupByID deletes a mobile device group by its ID.
-func (c *Client) DeleteMobileDeviceGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
+func (c *Client) DeleteMobileDeviceGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceGroups, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

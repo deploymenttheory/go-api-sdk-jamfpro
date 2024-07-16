@@ -168,8 +168,8 @@ func (c *Client) UpdateAccountGroupByName(name string, accountGroup *ResourceAcc
 }
 
 // DeleteAccountGroupByID deletes an Account Group using its ID.
-func (c *Client) DeleteAccountGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
+func (c *Client) DeleteAccountGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/groupid/%s", uriAPIAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

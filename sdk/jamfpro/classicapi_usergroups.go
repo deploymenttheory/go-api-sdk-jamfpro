@@ -189,8 +189,8 @@ func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup
 }
 
 // DeleteUserGroupByID deletes a user group by its ID.
-func (c *Client) DeleteUserGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
+func (c *Client) DeleteUserGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserGroups, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user group", id, err)

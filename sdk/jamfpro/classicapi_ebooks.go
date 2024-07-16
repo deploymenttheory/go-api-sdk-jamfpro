@@ -328,8 +328,8 @@ func (c *Client) UpdateEbookByName(name string, ebook ResourceEbooks) (*Resource
 }
 
 // DeleteEbookByID deletes a ebook by its ID.
-func (c *Client) DeleteEbookByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
+func (c *Client) DeleteEbookByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriEbooks, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

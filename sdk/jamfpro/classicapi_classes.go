@@ -244,8 +244,8 @@ func (c *Client) UpdateClassByName(name string, class *ResourceClass) error {
 }
 
 // DeleteClassByID deletes an existing class with the given ID.
-func (c *Client) DeleteClassByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
+func (c *Client) DeleteClassByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriClasses, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

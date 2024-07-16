@@ -105,8 +105,8 @@ func (c *Client) CreateAllowedFileExtension(extension *ResourceAllowedFileExtens
 }
 
 // DeleteAllowedFileExtensionByID deletes an existing allowed file extension by ID
-func (c *Client) DeleteAllowedFileExtensionByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAllowedFileExtensions, id)
+func (c *Client) DeleteAllowedFileExtensionByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAllowedFileExtensions, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -120,12 +120,12 @@ func (c *Client) DeleteAllowedFileExtensionByID(id int) error {
 	return nil
 }
 
-// DeleteAllowedFileExtensionByNameByID deletes an existing allowed file extension by resolving its name to an ID
-func (c *Client) DeleteAllowedFileExtensionByName(name string) error {
-	extensionDetail, err := c.GetAllowedFileExtensionByName(name)
-	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByName, "allowed file extension", name, err)
-	}
+// // DeleteAllowedFileExtensionByNameByID deletes an existing allowed file extension by resolving its name to an ID
+// func (c *Client) DeleteAllowedFileExtensionByName(name string) error {
+// 	extensionDetail, err := c.GetAllowedFileExtensionByName(name)
+// 	if err != nil {
+// 		return fmt.Errorf(errMsgFailedDeleteByName, "allowed file extension", name, err)
+// 	}
 
-	return c.DeleteAllowedFileExtensionByID(extensionDetail.ID)
-}
+// 	return c.DeleteAllowedFileExtensionByID(extensionDetail.ID)
+// }

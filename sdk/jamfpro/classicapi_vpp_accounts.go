@@ -133,8 +133,8 @@ func (c *Client) UpdateVPPAccountByID(id int, account *ResourceVPPAccount) (*Res
 }
 
 // DeleteVPPAccountByID deletes a specific VPP account by its ID.
-func (c *Client) DeleteVPPAccountByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
+func (c *Client) DeleteVPPAccountByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

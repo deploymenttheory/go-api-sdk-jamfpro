@@ -333,8 +333,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the resource cannot be deleted.
 */
-func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
+func (c *Client) DeleteAdvancedMobileDeviceSearchByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedMobileDeviceSearches, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

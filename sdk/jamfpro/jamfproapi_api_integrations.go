@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -148,8 +149,8 @@ func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *Reso
 }
 
 // DeleteApiIntegrationByID deletes an API integration by its ID
-func (c *Client) DeleteApiIntegrationByID(id int) error {
-	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
+func (c *Client) DeleteApiIntegrationByID(id string) error {
+	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s", id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -170,7 +171,7 @@ func (c *Client) DeleteApiIntegrationByName(name string) error {
 		return fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 	}
 
-	target_id := target.ID
+	target_id := strconv.Itoa(target.ID)
 
 	err = c.DeleteApiIntegrationByID(target_id)
 	if err != nil {

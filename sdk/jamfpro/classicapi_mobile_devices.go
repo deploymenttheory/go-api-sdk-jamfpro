@@ -381,8 +381,8 @@ func (c *Client) UpdateMobileDeviceByName(name string, attribute *ResourceMobile
 }
 
 // DeleteMobileDeviceByID deletes a mobile device by its ID.
-func (c *Client) DeleteMobileDeviceByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
+func (c *Client) DeleteMobileDeviceByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDevices, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

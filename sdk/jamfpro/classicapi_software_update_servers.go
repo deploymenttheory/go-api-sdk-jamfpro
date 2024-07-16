@@ -163,8 +163,8 @@ func (c *Client) UpdateSoftwareUpdateServerByName(name string, server *ResourceS
 }
 
 // DeleteSoftwareUpdateServerByID deletes a software update server by its ID.
-func (c *Client) DeleteSoftwareUpdateServerByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
+func (c *Client) DeleteSoftwareUpdateServerByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSoftwareUpdateServers, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

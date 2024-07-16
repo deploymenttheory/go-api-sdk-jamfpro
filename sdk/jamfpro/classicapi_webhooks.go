@@ -178,8 +178,8 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 }
 
 // DeleteWebhookByID deletes a specific webhook by its ID.
-func (c *Client) DeleteWebhookByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
+func (c *Client) DeleteWebhookByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriWebhooks, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

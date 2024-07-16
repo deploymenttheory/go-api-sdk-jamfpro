@@ -519,8 +519,8 @@ func (c *Client) UpdateComputerByName(name string, computer ResponseComputer) (*
 }
 
 // DeleteComputerByID deletes an existing Computer by its ID
-func (c *Client) DeleteComputerByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
+func (c *Client) DeleteComputerByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputers, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
