@@ -66,8 +66,8 @@ func (c *Client) GetApiIntegrations(sort_filter string) (*ResponseApiIntegration
 }
 
 // GetApiIntegrationByID fetches an API integration by its ID
-func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) {
-	endpoint := fmt.Sprintf("%s/%d", uriApiIntegrations, id)
+func (c *Client) GetApiIntegrationByID(id string) (*ResourceApiIntegration, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriApiIntegrations, id)
 
 	var integration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration)
