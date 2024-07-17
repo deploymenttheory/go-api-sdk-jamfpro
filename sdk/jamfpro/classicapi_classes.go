@@ -148,8 +148,8 @@ func (c *Client) GetClasses() (*ResponseClassesList, error) {
 }
 
 // GetClassesByID retrieves a class by its ID.
-func (c *Client) GetClassByID(id int) (*ResourceClass, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
+func (c *Client) GetClassByID(id string) (*ResourceClass, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriClasses, id)
 
 	var class ResourceClass
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &class)
@@ -206,8 +206,8 @@ func (c *Client) CreateClass(class *ResourceClass) (*ResourceClass, error) {
 }
 
 // UpdateClassByID updates an existing class with the given ID.
-func (c *Client) UpdateClassByID(id int, class *ResourceClass) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriClasses, id)
+func (c *Client) UpdateClassByID(id string, class *ResourceClass) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriClasses, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`

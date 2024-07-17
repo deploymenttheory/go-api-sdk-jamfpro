@@ -116,8 +116,8 @@ func (c *Client) CreateApiIntegration(integration *ResourceApiIntegration) (*Res
 }
 
 // UpdateApiIntegrationByID updates an API integration by its ID
-func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
-	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
+func (c *Client) UpdateApiIntegrationByID(id string, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
+	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s", id)
 
 	var updatedIntegration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, integrationUpdate, &updatedIntegration)
@@ -139,7 +139,7 @@ func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *Reso
 		return nil, fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 	}
 
-	target_id := target.ID
+	target_id := strconv.Itoa(target.ID)
 	resp, err := c.UpdateApiIntegrationByID(target_id, integrationUpdate)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api integration", name, err)

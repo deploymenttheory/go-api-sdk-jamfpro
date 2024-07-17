@@ -60,8 +60,8 @@ func (c *Client) GetPatchExternalSources() (*ResponsePatchExternalSourcesList, e
 }
 
 // GetPatchExternalSourceByID retrieves a specific patch external source by its ID.
-func (c *Client) GetPatchExternalSourceByID(id int) (*ResourcePatchExternalSource, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPatchExternalSources, id)
+func (c *Client) GetPatchExternalSourceByID(id string) (*ResourcePatchExternalSource, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPatchExternalSources, id)
 
 	var externalSource ResourcePatchExternalSource
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &externalSource)
@@ -118,7 +118,7 @@ func (c *Client) CreateExternalPatchSource(patchSource *ResourcePatchExternalSou
 }
 
 // UpdateExternalPatchSourceByID updates an existing external patch source by its ID on the Jamf Pro server.
-func (c *Client) UpdateExternalPatchSourceByID(id int, patchSource *ResourcePatchExternalSource) (*ResourcePatchExternalSource, error) {
+func (c *Client) UpdateExternalPatchSourceByID(id string, patchSource *ResourcePatchExternalSource) (*ResourcePatchExternalSource, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriPatchExternalSources)
 
 	requestBody := struct {

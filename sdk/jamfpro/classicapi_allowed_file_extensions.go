@@ -47,8 +47,8 @@ func (c *Client) GetAllowedFileExtensions() (*ResponseAllowedFileExtensionsList,
 }
 
 // GetAllowedFileExtensionByID retrieves the allowed file extension by its ID
-func (c *Client) GetAllowedFileExtensionByID(id int) (*ResourceAllowedFileExtension, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAllowedFileExtensions, id)
+func (c *Client) GetAllowedFileExtensionByID(id string) (*ResourceAllowedFileExtension, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAllowedFileExtensions, id)
 
 	var extension ResourceAllowedFileExtension
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &extension)

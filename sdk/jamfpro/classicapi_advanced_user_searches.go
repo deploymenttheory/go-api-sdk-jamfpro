@@ -119,8 +119,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the ID is not found.
 */
-func (c *Client) GetAdvancedUserSearchByID(id int) (*ResourceAdvancedUserSearch, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
+func (c *Client) GetAdvancedUserSearchByID(id string) (*ResourceAdvancedUserSearch, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedUserSearches, id)
 
 	var searchDetail ResourceAdvancedUserSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
@@ -240,8 +240,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the resource cannot be updated.
 */
-func (c *Client) UpdateAdvancedUserSearchByID(id int, search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedUserSearches, id)
+func (c *Client) UpdateAdvancedUserSearchByID(id string, search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedUserSearches, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`

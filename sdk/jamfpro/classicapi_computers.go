@@ -403,8 +403,8 @@ func (c *Client) GetComputers() (*ResponseComputersList, error) {
 }
 
 // GetComputerByID retrieves the computer details by its ID.
-func (c *Client) GetComputerByID(id int) (*ResponseComputer, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
+func (c *Client) GetComputerByID(id string) (*ResponseComputer, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputers, id)
 
 	var computer ResponseComputer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computer)
@@ -461,8 +461,8 @@ func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, e
 }
 
 // UpdateComputerByID updates the details of a computer by its ID.
-func (c *Client) UpdateComputerByID(id int, computer ResponseComputer) (*ResponseComputer, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputers, id)
+func (c *Client) UpdateComputerByID(id string, computer ResponseComputer) (*ResponseComputer, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputers, id)
 
 	if computer.General.Site.ID == 0 && computer.General.Site.Name == "" {
 		computer.General.Site.ID = -1

@@ -104,8 +104,8 @@ func (c *Client) GetRestrictedSoftwares() (*ResponseRestrictedSoftwaresList, err
 }
 
 // GetRestrictedSoftwareByID fetches the details of a specific restricted software entry by its ID.
-func (c *Client) GetRestrictedSoftwareByID(id int) (*ResourceRestrictedSoftware, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
+func (c *Client) GetRestrictedSoftwareByID(id string) (*ResourceRestrictedSoftware, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriRestrictedSoftware, id)
 
 	var restrictedSoftware ResourceRestrictedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &restrictedSoftware)
@@ -162,8 +162,8 @@ func (c *Client) CreateRestrictedSoftware(restrictedSoftware *ResourceRestricted
 }
 
 // UpdateRestrictedSoftwareByID updates an existing restricted software entry by its ID.
-func (c *Client) UpdateRestrictedSoftwareByID(id int, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriRestrictedSoftware, id)
+func (c *Client) UpdateRestrictedSoftwareByID(id string, restrictedSoftware *ResourceRestrictedSoftware) (*ResponseRestrictedSoftwareCreateAndUpdate, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriRestrictedSoftware, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"restricted_software"`

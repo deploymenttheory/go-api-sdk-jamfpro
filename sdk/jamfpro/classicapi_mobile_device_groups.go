@@ -76,8 +76,8 @@ func (c *Client) GetMobileDeviceGroups() (*ResponseMobileDeviceGroupsList, error
 }
 
 // GetMobileDeviceGroupsByID retrieves a single mobile device group by its ID.
-func (c *Client) GetMobileDeviceGroupByID(id int) (*ResourceMobileDeviceGroup, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
+func (c *Client) GetMobileDeviceGroupByID(id string) (*ResourceMobileDeviceGroup, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceGroups, id)
 
 	var group ResourceMobileDeviceGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
@@ -134,8 +134,8 @@ func (c *Client) CreateMobileDeviceGroup(group *ResourceMobileDeviceGroup) (*Res
 }
 
 // UpdateMobileDeviceGroupByID updates a mobile device group by its ID.
-func (c *Client) UpdateMobileDeviceGroupByID(id int, group *ResourceMobileDeviceGroup) (*ResourceMobileDeviceGroup, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceGroups, id)
+func (c *Client) UpdateMobileDeviceGroupByID(id string, group *ResourceMobileDeviceGroup) (*ResourceMobileDeviceGroup, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceGroups, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_group"`

@@ -130,8 +130,8 @@ func (c *Client) GetLicensedSoftware() (*ResponseLicensedSoftwareList, error) {
 }
 
 // GetLicensedSoftwareByID retrieves details of a specific licensed software by its ID.
-func (c *Client) GetLicensedSoftwareByID(id int) (*ResourceLicensedSoftware, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
+func (c *Client) GetLicensedSoftwareByID(id string) (*ResourceLicensedSoftware, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriLicensedSoftware, id)
 
 	var licensedSoftware ResourceLicensedSoftware
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &licensedSoftware)
@@ -188,8 +188,8 @@ func (c *Client) CreateLicensedSoftware(licensedSoftware *ResourceLicensedSoftwa
 }
 
 // UpdateLicensedSoftwareByID updates an existing licensed software item by its ID.
-func (c *Client) UpdateLicensedSoftwareByID(id int, licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriLicensedSoftware, id)
+func (c *Client) UpdateLicensedSoftwareByID(id string, licensedSoftware *ResourceLicensedSoftware) (*ResourceLicensedSoftware, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriLicensedSoftware, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"licensed_software"`

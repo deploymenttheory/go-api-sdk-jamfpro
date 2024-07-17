@@ -151,8 +151,8 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 }
 
 // UpdateAccountByID updates an Account using its ID
-func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
+func (c *Client) UpdateAccountByID(id string, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/userid/%s", uriAPIAccounts, id)
 
 	// if account.Site.ID == 0 && account.Site.Name == "" {
 	// 	account.Site = &SharedResourceSite{

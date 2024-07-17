@@ -424,8 +424,8 @@ func (c *Client) GetPolicies() (*ResponsePoliciesList, error) {
 }
 
 // GetPolicyByID retrieves the details of a policy by its ID.
-func (c *Client) GetPolicyByID(id int) (*ResourcePolicy, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+func (c *Client) GetPolicyByID(id string) (*ResourcePolicy, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPolicies, id)
 
 	var policyDetails ResourcePolicy
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails)
@@ -519,8 +519,8 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndU
 }
 
 // UpdatePolicyByID updates an existing policy by its ID.
-func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+func (c *Client) UpdatePolicyByID(id string, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPolicies, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`

@@ -60,8 +60,8 @@ func (c *Client) GetDirectoryBindings() (*ResponseDirectoryBindingsList, error) 
 }
 
 // GetDirectoryBindingByID retrieves a single directory binding by its ID.
-func (c *Client) GetDirectoryBindingByID(id int) (*ResponseDirectoryBinding, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
+func (c *Client) GetDirectoryBindingByID(id string) (*ResponseDirectoryBinding, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDirectoryBindings, id)
 
 	var binding ResponseDirectoryBinding
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &binding)
@@ -118,8 +118,8 @@ func (c *Client) CreateDirectoryBinding(binding *ResponseDirectoryBinding) (*Res
 }
 
 // UpdateDirectoryBindingByID updates a directory binding by its ID.
-func (c *Client) UpdateDirectoryBindingByID(id int, binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDirectoryBindings, id)
+func (c *Client) UpdateDirectoryBindingByID(id string, binding *ResponseDirectoryBinding) (*ResponseDirectoryBinding, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDirectoryBindings, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"directory_binding"`

@@ -166,8 +166,8 @@ type ComputerHistorySubsetApp struct {
 // CRUD Methods
 
 // GetComputerHistoryByComputerID retrieves the historical information of a computer given its ID.
-func (c *Client) GetComputerHistoryByComputerID(id int) (*ResourceComputerHistory, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerHistory, id)
+func (c *Client) GetComputerHistoryByComputerID(id string) (*ResourceComputerHistory, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerHistory, id)
 
 	var computerHistory ResourceComputerHistory
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computerHistory)
@@ -183,8 +183,8 @@ func (c *Client) GetComputerHistoryByComputerID(id int) (*ResourceComputerHistor
 }
 
 // GetComputerHistoryByComputerIDAndDataSubset retrieves a subset of the historical information of a computer given its ID and subset name.
-func (c *Client) GetComputerHistoryByComputerIDAndDataSubset(id int, subset string) (*ResourceComputerHistory, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriComputerHistory, id, subset)
+func (c *Client) GetComputerHistoryByComputerIDAndDataSubset(id string, subset string) (*ResourceComputerHistory, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriComputerHistory, id, subset)
 
 	var computerHistory ResourceComputerHistory
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &computerHistory)

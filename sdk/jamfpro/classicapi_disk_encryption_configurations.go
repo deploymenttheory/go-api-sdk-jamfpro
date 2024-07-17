@@ -70,8 +70,8 @@ func (c *Client) GetDiskEncryptionConfigurations() (*ResponseDiskEncryptionConfi
 }
 
 // GetDiskEncryptionConfigurationByID retrieves a single disk encryption configuration by its ID.
-func (c *Client) GetDiskEncryptionConfigurationByID(id int) (*ResourceDiskEncryptionConfiguration, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
+func (c *Client) GetDiskEncryptionConfigurationByID(id string) (*ResourceDiskEncryptionConfiguration, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDiskEncryptionConfigurations, id)
 
 	var configuration ResourceDiskEncryptionConfiguration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &configuration)
@@ -128,8 +128,8 @@ func (c *Client) CreateDiskEncryptionConfiguration(config *ResourceDiskEncryptio
 }
 
 // UpdateDiskEncryptionConfigurationByID updates a disk encryption configuration by its ID.
-func (c *Client) UpdateDiskEncryptionConfigurationByID(id int, config *ResourceDiskEncryptionConfiguration) (*ResponseDiskEncryptionConfigurationCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDiskEncryptionConfigurations, id)
+func (c *Client) UpdateDiskEncryptionConfigurationByID(id string, config *ResourceDiskEncryptionConfiguration) (*ResponseDiskEncryptionConfigurationCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDiskEncryptionConfigurations, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"disk_encryption_configuration"`

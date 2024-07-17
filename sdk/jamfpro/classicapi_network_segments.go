@@ -67,8 +67,8 @@ func (c *Client) GetNetworkSegments() (*ResponseNetworkSegmentList, error) {
 }
 
 // GetNetworkSegmentByID retrieves a specific network segment by its ID.
-func (c *Client) GetNetworkSegmentByID(id int) (*ResourceNetworkSegment, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
+func (c *Client) GetNetworkSegmentByID(id string) (*ResourceNetworkSegment, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriNetworkSegments, id)
 
 	var segment ResourceNetworkSegment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &segment)
@@ -125,8 +125,8 @@ func (c *Client) CreateNetworkSegment(segment *ResourceNetworkSegment) (*Respons
 }
 
 // UpdateNetworkSegmentByID updates a specific network segment by its ID.
-func (c *Client) UpdateNetworkSegmentByID(id int, segment *ResourceNetworkSegment) (*ResponseNetworkSegmentCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriNetworkSegments, id)
+func (c *Client) UpdateNetworkSegmentByID(id string, segment *ResourceNetworkSegment) (*ResponseNetworkSegmentCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriNetworkSegments, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"network_segment"`

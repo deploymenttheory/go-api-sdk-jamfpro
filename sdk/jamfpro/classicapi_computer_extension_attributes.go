@@ -69,8 +69,8 @@ func (c *Client) GetComputerExtensionAttributes() (*ResponseComputerExtensionAtt
 }
 
 // GetComputerExtensionAttributeByID retrieves a computer extension attribute by its ID.
-func (c *Client) GetComputerExtensionAttributeByID(id int) (*ResourceComputerExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
+func (c *Client) GetComputerExtensionAttributeByID(id string) (*ResourceComputerExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerExtensionAttributes, id)
 
 	var attribute ResourceComputerExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
@@ -127,8 +127,8 @@ func (c *Client) CreateComputerExtensionAttribute(attribute *ResourceComputerExt
 }
 
 // UpdateComputerExtensionAttributeByID updates an existing computer extension attribute by its ID.
-func (c *Client) UpdateComputerExtensionAttributeByID(id int, attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerExtensionAttributes, id)
+func (c *Client) UpdateComputerExtensionAttributeByID(id string, attribute *ResourceComputerExtensionAttribute) (*ResourceComputerExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerExtensionAttributes, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_extension_attribute"`

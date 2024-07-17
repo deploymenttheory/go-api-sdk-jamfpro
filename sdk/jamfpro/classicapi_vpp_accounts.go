@@ -68,8 +68,8 @@ func (c *Client) GetVPPAccounts() (*ResponseVPPAccountsList, error) {
 }
 
 // GetVPPAccountByID retrieves a specific VPP account by its ID.
-func (c *Client) GetVPPAccountByID(id int) (*ResourceVPPAccount, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
+func (c *Client) GetVPPAccountByID(id string) (*ResourceVPPAccount, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAccounts, id)
 
 	var response ResourceVPPAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
@@ -109,8 +109,8 @@ func (c *Client) CreateVPPAccount(account *ResourceVPPAccount) (*ResourceVPPAcco
 }
 
 // UpdateVPPAccount updates an existing VPP account.
-func (c *Client) UpdateVPPAccountByID(id int, account *ResourceVPPAccount) (*ResourceVPPAccount, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAccounts, id)
+func (c *Client) UpdateVPPAccountByID(id string, account *ResourceVPPAccount) (*ResourceVPPAccount, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAccounts, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_account"`

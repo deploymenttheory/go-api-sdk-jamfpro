@@ -43,8 +43,8 @@ func (c *Client) GetRemovableMACAddresses() (*ResponseRemovableMacAddressesList,
 }
 
 // GetRemovableMACAddressByID retrieves the details of a removable MAC address by its ID.
-func (c *Client) GetRemovableMACAddressByID(id int) (*ResourceRemovableMacAddress, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
+func (c *Client) GetRemovableMACAddressByID(id string) (*ResourceRemovableMacAddress, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriRemovableMacAddresses, id)
 
 	var macAddressDetails ResourceRemovableMacAddress
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macAddressDetails)
@@ -101,8 +101,8 @@ func (c *Client) CreateRemovableMACAddress(macAddress *ResourceRemovableMacAddre
 }
 
 // UpdateRemovableMACAddressByID updates an existing removable MAC address by its ID.
-func (c *Client) UpdateRemovableMACAddressByID(id int, macAddress *ResourceRemovableMacAddress) (*ResourceRemovableMacAddress, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriRemovableMacAddresses, id)
+func (c *Client) UpdateRemovableMACAddressByID(id string, macAddress *ResourceRemovableMacAddress) (*ResourceRemovableMacAddress, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriRemovableMacAddresses, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"removable_mac_address"`

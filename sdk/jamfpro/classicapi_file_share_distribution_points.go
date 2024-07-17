@@ -86,8 +86,8 @@ func (c *Client) GetDistributionPoints() (*ResponseDistributionPointsList, error
 }
 
 // GetDistributionPointByID retrieves a single distribution point by its ID.
-func (c *Client) GetDistributionPointByID(id int) (*ResourceFileShareDistributionPoint, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
+func (c *Client) GetDistributionPointByID(id string) (*ResourceFileShareDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDistributionPoints, id)
 
 	var distributionPoint ResourceFileShareDistributionPoint
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoint)
@@ -144,8 +144,8 @@ func (c *Client) CreateDistributionPoint(dp *ResourceFileShareDistributionPoint)
 }
 
 // UpdateDistributionPointByID updates a distribution point by its ID.
-func (c *Client) UpdateDistributionPointByID(id int, dp *ResourceFileShareDistributionPoint) (*ResponseFileShareDistributionPointCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDistributionPoints, id)
+func (c *Client) UpdateDistributionPointByID(id string, dp *ResourceFileShareDistributionPoint) (*ResponseFileShareDistributionPointCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDistributionPoints, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"distribution_point"`

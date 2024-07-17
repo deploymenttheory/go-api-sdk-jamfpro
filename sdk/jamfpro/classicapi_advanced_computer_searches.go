@@ -245,8 +245,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the resource cannot be updated.
 */
-func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
+func (c *Client) UpdateAdvancedComputerSearchByID(id string, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedComputerSearches, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`

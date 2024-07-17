@@ -131,8 +131,8 @@ func (c *Client) GetLDAPServers() (*ResponseLDAPServersList, error) {
 }
 
 // GetLDAPServerByID retrieves the details of a specific LDAP server by its ID.
-func (c *Client) GetLDAPServerByID(id int) (*ResourceLDAPServers, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriLDAPServers, id)
+func (c *Client) GetLDAPServerByID(id string) (*ResourceLDAPServers, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriLDAPServers, id)
 
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
@@ -165,8 +165,8 @@ func (c *Client) GetLDAPServerByName(name string) (*ResourceLDAPServers, error) 
 }
 
 // GetLDAPServerByIDAndUserDataSubset retrieves information about matching users for a specific LDAP server by its ID.
-func (c *Client) GetLDAPServerByIDAndUserDataSubset(id int, user string) (*ResourceLDAPServers, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/user/%s", uriLDAPServers, id, user)
+func (c *Client) GetLDAPServerByIDAndUserDataSubset(id string, user string) (*ResourceLDAPServers, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/user/%s", uriLDAPServers, id, user)
 
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
@@ -182,8 +182,8 @@ func (c *Client) GetLDAPServerByIDAndUserDataSubset(id int, user string) (*Resou
 }
 
 // GetLDAPServerByIDAndGroupDataSubset retrieves information about matching groups for a specific LDAP server by its ID.
-func (c *Client) GetLDAPServerByIDAndGroupDataSubset(id int, group string) (*ResourceLDAPServers, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/group/%s", uriLDAPServers, id, group)
+func (c *Client) GetLDAPServerByIDAndGroupDataSubset(id string, group string) (*ResourceLDAPServers, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/group/%s", uriLDAPServers, id, group)
 
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
@@ -199,8 +199,8 @@ func (c *Client) GetLDAPServerByIDAndGroupDataSubset(id int, group string) (*Res
 }
 
 // GetLDAPServerByIDAndUserMembershipInGroupDataSubset retrieves information about user membership in a group for an LDAP server specified by its ID.
-func (c *Client) GetLDAPServerByIDAndUserMembershipInGroupDataSubset(id int, group, user string) (*ResourceLDAPServers, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/group/%s/user/%s", uriLDAPServers, id, group, user)
+func (c *Client) GetLDAPServerByIDAndUserMembershipInGroupDataSubset(id string, group, user string) (*ResourceLDAPServers, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/group/%s/user/%s", uriLDAPServers, id, group, user)
 
 	var ldapServer ResourceLDAPServers
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ldapServer)
@@ -291,8 +291,8 @@ func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDA
 }
 
 // UpdateLDAPServerByID updates an existing LDAP server identified by its ID.
-func (c *Client) UpdateLDAPServerByID(id int, ldapServer *ResourceLDAPServers) (*ResourceLDAPServers, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriLDAPServers, id)
+func (c *Client) UpdateLDAPServerByID(id string, ldapServer *ResourceLDAPServers) (*ResourceLDAPServers, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriLDAPServers, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ldap_server"`

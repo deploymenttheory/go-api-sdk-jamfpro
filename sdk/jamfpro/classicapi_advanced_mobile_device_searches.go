@@ -124,8 +124,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the ID is not found.
 */
-func (c *Client) GetAdvancedMobileDeviceSearchByID(id int) (*ResourceAdvancedMobileDeviceSearch, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
+func (c *Client) GetAdvancedMobileDeviceSearchByID(id string) (*ResourceAdvancedMobileDeviceSearch, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedMobileDeviceSearches, id)
 
 	var searchDetail ResourceAdvancedMobileDeviceSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &searchDetail)
@@ -245,8 +245,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the resource cannot be updated.
 */
-func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id int, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedMobileDeviceSearches, id)
+func (c *Client) UpdateAdvancedMobileDeviceSearchByID(id string, search *ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedMobileDeviceSearches, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_mobile_device_search"`

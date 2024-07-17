@@ -71,8 +71,8 @@ func (c *Client) GetPrinters() (*ResponsePrintersList, error) {
 }
 
 // GetPrinterByID fetches a specific printer by its ID.
-func (c *Client) GetPrinterByID(id int) (*ResourcePrinter, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
+func (c *Client) GetPrinterByID(id string) (*ResourcePrinter, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPrinters, id)
 
 	var printer ResourcePrinter
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &printer)
@@ -129,8 +129,8 @@ func (c *Client) CreatePrinter(printer *ResourcePrinter) (*ResponsePrinterCreate
 }
 
 // UpdatePrinterByID updates a printer by its ID.
-func (c *Client) UpdatePrinterByID(id int, printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPrinters, id)
+func (c *Client) UpdatePrinterByID(id string, printer *ResourcePrinter) (*ResponsePrinterCreateAndUpdate, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPrinters, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"printer"`

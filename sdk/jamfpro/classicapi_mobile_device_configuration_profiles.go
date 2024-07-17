@@ -154,8 +154,8 @@ func (c *Client) GetMobileDeviceConfigurationProfiles() (*ResponseMobileDeviceCo
 }
 
 // GetMobileDeviceConfigurationProfileByID fetches a specific mobile device configuration profile by its ID.
-func (c *Client) GetMobileDeviceConfigurationProfileByID(id int) (*ResourceMobileDeviceConfigurationProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
+func (c *Client) GetMobileDeviceConfigurationProfileByID(id string) (*ResourceMobileDeviceConfigurationProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceConfigurationProfiles, id)
 
 	var profile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -188,8 +188,8 @@ func (c *Client) GetMobileDeviceConfigurationProfileByName(name string) (*Resour
 }
 
 // GetMobileDeviceConfigurationProfileByIDBySubset fetches a specific mobile device configuration profile by its ID and a specified subset.
-func (c *Client) GetMobileDeviceConfigurationProfileByIDWithSubset(id int, subset string) (*ResourceMobileDeviceConfigurationProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceConfigurationProfiles, id, subset)
+func (c *Client) GetMobileDeviceConfigurationProfileByIDWithSubset(id string, subset string) (*ResourceMobileDeviceConfigurationProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriMobileDeviceConfigurationProfiles, id, subset)
 
 	var profile ResourceMobileDeviceConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -246,8 +246,8 @@ func (c *Client) CreateMobileDeviceConfigurationProfile(profile *ResourceMobileD
 }
 
 // UpdateMobileDeviceConfigurationProfileByID updates a mobile device configuration profile by its ID on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id int, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceConfigurationProfiles, id)
+func (c *Client) UpdateMobileDeviceConfigurationProfileByID(id string, profile *ResourceMobileDeviceConfigurationProfile) (*ResponseMobileDeviceConfigurationProfileCreateAndUpdate, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceConfigurationProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"configuration_profile"`

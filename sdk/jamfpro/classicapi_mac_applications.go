@@ -171,8 +171,8 @@ func (c *Client) GetMacApplications() (*ResponseMacApplicationsList, error) {
 // CRUD
 
 // GetMacApplicationByID retrieves a single Mac application by its ID.
-func (c *Client) GetMacApplicationByID(id int) (*ResourceMacApplications, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
+func (c *Client) GetMacApplicationByID(id string) (*ResourceMacApplications, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPMacApplications, id)
 
 	var macApp ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
@@ -206,8 +206,8 @@ func (c *Client) GetMacApplicationByName(name string) (*ResourceMacApplications,
 
 // GetMacApplicationByNameAndDataSubset retrieves a specific Mac Application by its ID and filters by a specific data subset.
 // Subset values can be General, Scope, SelfService, VPPCodes and VPP.
-func (c *Client) GetMacApplicationByIDAndDataSubset(id int, subset string) (*ResourceMacApplications, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriVPPMacApplications, id, subset)
+func (c *Client) GetMacApplicationByIDAndDataSubset(id string, subset string) (*ResourceMacApplications, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriVPPMacApplications, id, subset)
 
 	var macApp ResourceMacApplications
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &macApp)
@@ -265,8 +265,8 @@ func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*Resource
 }
 
 // UpdateMacApplicationByID updates an existing Mac Application by its ID.
-func (c *Client) UpdateMacApplicationByID(id int, macApp ResourceMacApplications) (*ResourceMacApplications, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPMacApplications, id)
+func (c *Client) UpdateMacApplicationByID(id string, macApp ResourceMacApplications) (*ResourceMacApplications, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPMacApplications, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`

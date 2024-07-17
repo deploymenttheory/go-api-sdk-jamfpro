@@ -161,8 +161,8 @@ type PatchPoliciesSubsetIBeaconItem struct {
 // CRUD
 
 // GetPatchPoliciesByID retrieves the details of a patch policy by its ID.
-func (c *Client) GetPatchPoliciesByID(id int) (*ResourcePatchPolicies, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPatchPolicies, id)
+func (c *Client) GetPatchPoliciesByID(id string) (*ResourcePatchPolicies, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPatchPolicies, id)
 
 	var patchPolicyDetails ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicyDetails)
@@ -178,8 +178,8 @@ func (c *Client) GetPatchPoliciesByID(id int) (*ResourcePatchPolicies, error) {
 }
 
 // GetPatchPolicyByIDAndDataSubset retrieves a specific subset of data for a patch policy by its ID.
-func (c *Client) GetPatchPolicyByIDAndDataSubset(id int, subset string) (*ResourcePatchPolicies, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriPatchPolicies, id, subset)
+func (c *Client) GetPatchPolicyByIDAndDataSubset(id string, subset string) (*ResourcePatchPolicies, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriPatchPolicies, id, subset)
 
 	var patchPolicySubset ResourcePatchPolicies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &patchPolicySubset)

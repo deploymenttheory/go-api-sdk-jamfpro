@@ -205,8 +205,8 @@ func (c *Client) GetEbooks() (*ResponseEbooksList, error) {
 }
 
 // GetEbooksByID retrieves a single ebook by its ID.
-func (c *Client) GetEbookByID(id int) (*ResourceEbooks, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
+func (c *Client) GetEbookByID(id string) (*ResourceEbooks, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriEbooks, id)
 
 	var ebook ResourceEbooks
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &ebook)
@@ -280,8 +280,8 @@ func (c *Client) CreateEbook(ebook ResourceEbooks) (*ResourceEbooks, error) {
 }
 
 // UpdateEbookByID updates an existing ebook by its ID.
-func (c *Client) UpdateEbookByID(id int, ebook ResourceEbooks) (*ResourceEbooks, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriEbooks, id)
+func (c *Client) UpdateEbookByID(id string, ebook ResourceEbooks) (*ResourceEbooks, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriEbooks, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ebook"`
