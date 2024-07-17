@@ -124,8 +124,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the ID is not found.
 */
-func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedComputerSearch, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
+func (c *Client) GetAdvancedComputerSearchByID(id string) (*ResourceAdvancedComputerSearch, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedComputerSearches, id)
 
 	var search ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search)

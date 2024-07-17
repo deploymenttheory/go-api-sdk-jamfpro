@@ -93,8 +93,8 @@ func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
 }
 
 // GetAccountByID retrieves the Account by its ID
-func (c *Client) GetAccountByID(id int) (*ResourceAccount, error) {
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
+func (c *Client) GetAccountByID(id string) (*ResourceAccount, error) {
+	endpoint := fmt.Sprintf("%s/userid/%s", uriAPIAccounts, id)
 
 	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)

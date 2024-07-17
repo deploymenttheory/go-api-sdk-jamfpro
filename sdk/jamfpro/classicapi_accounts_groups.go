@@ -47,8 +47,8 @@ type MemberUser struct {
 // CRUD
 
 // GetAccountGroupByID gets an account group using its ID and returns a response.
-func (c *Client) GetAccountGroupByID(id int) (*ResourceAccountGroup, error) {
-	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
+func (c *Client) GetAccountGroupByID(id string) (*ResourceAccountGroup, error) {
+	endpoint := fmt.Sprintf("%s/groupid/%s", uriAPIAccounts, id)
 
 	var group ResourceAccountGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
