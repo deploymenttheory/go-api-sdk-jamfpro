@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	computerID := 6 // Replace with actual computer ID
+	computerID := "1" // Replace with actual computer ID
 
 	err = client.DeleteComputerByID(computerID)
 	if err != nil {

@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := 8 // Use the actual ID of the profile to be deleted
+	profileID := "8" // Use the actual ID of the profile to be deleted
 
 	err = client.DeleteBYOProfileByID(profileID)
 	if err != nil {

@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID to fetch
-	printerID := 356
+	printerID := "1"
 
 	printer, err := client.GetPrinterByID(printerID)
 	if err != nil {

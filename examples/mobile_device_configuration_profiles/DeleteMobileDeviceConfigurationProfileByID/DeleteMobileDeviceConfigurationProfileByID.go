@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Delete profile by ID
-	if err := client.DeleteMobileDeviceConfigurationProfileByID(2); err != nil {
+	if err := client.DeleteMobileDeviceConfigurationProfileByID("2"); err != nil {
 		fmt.Println("Error deleting profile by ID:", err)
 	} else {
 		fmt.Println("Profile deleted successfully by ID")

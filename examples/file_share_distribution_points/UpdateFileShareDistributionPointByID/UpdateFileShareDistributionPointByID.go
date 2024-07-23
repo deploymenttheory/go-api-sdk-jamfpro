@@ -46,7 +46,7 @@ func main() {
 	}
 
 	// ID of the distribution point to update
-	distributionPointID := 1 // Replace with the actual ID
+	distributionPointID := "1" // Replace with the actual ID
 
 	// Call UpdateDistributionPointByID function
 	updatedDistributionPoint, err := client.UpdateDistributionPointByID(distributionPointID, &updateDistributionPoint)

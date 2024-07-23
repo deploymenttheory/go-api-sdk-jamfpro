@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// ID of the software update server to delete
-	serverID := 1
+	serverID := "1"
 
 	// Call DeleteSoftwareUpdateServerByID
 	err = client.DeleteSoftwareUpdateServerByID(serverID)

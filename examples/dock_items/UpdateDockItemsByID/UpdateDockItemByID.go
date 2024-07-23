@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the ID and details of the dock item to update
-	dockItemID := 1 // Replace with the actual ID
+	dockItemID := "1" // Replace with the actual ID
 	updatedDockItem := &jamfpro.ResourceDockItem{
 		// Set the fields you want to update
 		Name:     "Updated Safari",

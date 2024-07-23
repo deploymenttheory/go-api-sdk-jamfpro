@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// Example device ID to delete
-	deviceID := 1 // Replace with an actual device ID
+	deviceID := "1" // Replace with an actual device ID
 
 	// Delete mobile device by ID
 	err = client.DeleteMobileDeviceByID(deviceID)

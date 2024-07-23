@@ -33,7 +33,7 @@ func main() {
 	}
 
 	// Example usage of UpdateWebhookByID
-	updatedWebhookByID, err := client.UpdateWebhookByID(2, newWebhook) // Replace with the desired webhook ID
+	updatedWebhookByID, err := client.UpdateWebhookByID("1", newWebhook) // Replace with the desired webhook ID
 	if err != nil {
 		fmt.Printf("Error updating webhook by ID: %v\n", err)
 		return

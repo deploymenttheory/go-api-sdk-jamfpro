@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// ID of the advanced user search to retrieve
-	advancedUserSearchID := 29 // Replace with the actual ID
+	advancedUserSearchID := "29" // Replace with the actual ID
 
 	// Call GetAdvancedUserSearchByID function
 	advancedUserSearch, err := client.GetAdvancedUserSearchByID(advancedUserSearchID)

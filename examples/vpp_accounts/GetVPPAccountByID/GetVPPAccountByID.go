@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Example VPP Account ID
-	vppAccountID := 1
+	vppAccountID := "1"
 
 	// Call GetVPPAccountByID
 	vppAccount, err := client.GetVPPAccountByID(vppAccountID)

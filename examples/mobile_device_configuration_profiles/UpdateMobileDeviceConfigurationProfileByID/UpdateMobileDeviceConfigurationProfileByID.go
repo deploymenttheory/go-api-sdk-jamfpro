@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// Update a profile by ID (assuming ID is known)
-	updatedProfileByID, err := client.UpdateMobileDeviceConfigurationProfileByID(2, &newProfile)
+	updatedProfileByID, err := client.UpdateMobileDeviceConfigurationProfileByID("2", &newProfile)
 	if err != nil {
 		fmt.Println("Error updating profile by ID:", err)
 	} else {

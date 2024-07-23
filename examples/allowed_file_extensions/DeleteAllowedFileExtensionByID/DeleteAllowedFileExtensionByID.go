@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the ID of the file extension you want to delete
-	fileExtensionID := 147 // Replace with the ID of the extension you want to delete
+	fileExtensionID := "147" // Replace with the ID of the extension you want to delete
 
 	// Call DeleteAllowedFileExtensionByID function
 	err = client.DeleteAllowedFileExtensionByID(fileExtensionID)

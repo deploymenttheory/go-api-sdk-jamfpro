@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	ebookID := 1 // Replace with the actual eBook ID
+	ebookID := "1" // Replace with the actual eBook ID
 
 	err = client.DeleteEbookByID(ebookID)
 	if err != nil {

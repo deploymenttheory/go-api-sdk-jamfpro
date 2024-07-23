@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example device ID and subset
-	deviceID := 1       // Replace with an actual device ID
+	deviceID := "1"     // Replace with an actual device ID
 	subset := "General" // Replace with the desired subset
 
 	// Get mobile device by ID and subset

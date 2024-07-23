@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -35,7 +36,7 @@ func main() {
 		PPDContents: "string",
 	}
 
-	id := 1 // Replace with the actual printer ID
+	id := "1" // Replace with the actual printer ID
 
 	response, err := client.UpdatePrinterByID(id, updatedPrinter)
 	if err != nil {
@@ -46,7 +47,7 @@ func main() {
 	fmt.Printf("Printer updated successfully, ID: %d\n", response.ID)
 
 	// Fetch the full details of the updated printer
-	updatedPrinterDetails, err := client.GetPrinterByID(response.ID)
+	updatedPrinterDetails, err := client.GetPrinterByID(strconv.Itoa(response.ID))
 	if err != nil {
 		fmt.Println("Error fetching updated printer details:", err)
 		return

@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// Define the computer group ID for deletion
-	groupID := 46 // Replace with the actual ID
+	groupID := "1" // Replace with the actual ID
 
 	// Call DeleteComputerGroupByID function
 	err = client.DeleteComputerGroupByID(groupID)

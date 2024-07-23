@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := 1      // Replace with the actual profile ID
+	profileID := "1"    // Replace with the actual profile ID
 	subset := "general" // Replace with the actual subset (e.g., "general")
 
 	profile, err := client.GetMobileDeviceEnrollmentProfileByIDWithSubset(profileID, subset)

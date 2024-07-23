@@ -46,7 +46,7 @@ func main() {
 		},
 	}
 
-	updateAppID := 123 // Replace 123 with the actual ID
+	updateAppID := "1" // Replace 123 with the actual ID
 	updatedApp, err := client.UpdateMobileDeviceApplicationByID(updateAppID, updateApp)
 	if err != nil {
 		log.Fatalf("Error updating mobile device application: %v", err)

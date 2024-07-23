@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Fetch a mobile device application by ID
-	appByID, err := client.GetMobileDeviceApplicationByID(5) // replace 123 with an actual ID
+	appByID, err := client.GetMobileDeviceApplicationByID("5") // replace 123 with an actual ID
 	if err != nil {
 		fmt.Println("Error fetching by ID:", err)
 	} else {

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 
 	siteIDToDelete := 1 // Replace 1 with the actual site ID
 
-	err = client.DeleteSiteByID(siteIDToDelete)
+	err = client.DeleteSiteByID(strconv.Itoa(siteIDToDelete))
 	if err != nil {
 		log.Fatalf("Error deleting site by ID: %v", err)
 	}

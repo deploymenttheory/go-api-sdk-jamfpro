@@ -41,7 +41,7 @@ func main() {
 	}
 
 	// Replace with the actual ID of the user group you want to update
-	userGroupID := 1
+	userGroupID := "1"
 
 	// Call UpdateUserGroupByID to update the user group
 	updatedGroup, err := client.UpdateUserGroupByID(userGroupID, updatedUserGroup)

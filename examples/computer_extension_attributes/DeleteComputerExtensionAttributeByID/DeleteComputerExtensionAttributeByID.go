@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	AttributeIDToDelete := 1 // Replace 1 with the actual attribute ID
+	AttributeIDToDelete := "1" // Replace 1 with the actual attribute ID
 
 	// Deleting the attribute with specified ID
 	err = client.DeleteComputerExtensionAttributeByID(AttributeIDToDelete)

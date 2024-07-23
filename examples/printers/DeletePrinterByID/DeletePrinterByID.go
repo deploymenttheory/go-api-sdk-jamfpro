@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	id := 1 // Replace with the actual printer ID
+	id := "1" // Replace with the actual printer ID
 
 	err = client.DeletePrinterByID(id)
 	if err != nil {

@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	err = client.DeleteDiskEncryptionConfigurationByID(1)
+	err = client.DeleteDiskEncryptionConfigurationByID("1")
 	if err != nil {
 		log.Fatalf("Error deleting Disk Encryption Configuration by ID: %v", err)
 	}

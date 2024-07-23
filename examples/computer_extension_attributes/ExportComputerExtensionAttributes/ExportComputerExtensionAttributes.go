@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -51,7 +52,7 @@ func main() {
 		log.Printf("Processing extension attribute '%s' (ID: %d)\n", attributeItem.Name, attributeItem.ID)
 
 		// Get details for each attribute
-		attribute, err := client.GetComputerExtensionAttributeByID(attributeItem.ID)
+		attribute, err := client.GetComputerExtensionAttributeByID(strconv.Itoa(attributeItem.ID))
 		if err != nil {
 			log.Printf("Failed to fetch details for attribute %s (ID: %d): %v", attributeItem.Name, attributeItem.ID, err)
 			continue

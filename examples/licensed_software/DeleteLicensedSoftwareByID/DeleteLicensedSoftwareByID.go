@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	licensedSoftwareID := 1 // Set your ID here
+	licensedSoftwareID := "1" // Set your ID here
 
 	// Delete licensed software by ID
 	err = client.DeleteLicensedSoftwareByID(licensedSoftwareID)

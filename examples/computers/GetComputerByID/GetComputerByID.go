@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the computer ID you want to retrieve
-	computerID := 21 // Replace with the actual ID of the computer
+	computerID := "1" // Replace with the actual ID of the computer
 
 	// Call GetComputerByID function
 	computer, err := client.GetComputerByID(computerID)

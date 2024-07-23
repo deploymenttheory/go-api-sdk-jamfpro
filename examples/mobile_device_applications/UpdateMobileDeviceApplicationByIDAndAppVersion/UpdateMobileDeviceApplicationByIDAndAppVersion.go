@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the ID and version of the mobile device application you want to update
-	appID := 123            // Replace with actual ID
+	appID := "1"            // Replace with actual ID
 	appVersion := "10.10.7" // Replace with the actual version
 
 	// Define the mobile device application data for update

@@ -27,7 +27,7 @@ func main() {
 		OverrideDepartments: false,
 	}
 
-	segmentID := 1 // Replace with actual ID
+	segmentID := "1" // Replace with actual ID
 
 	updated, err := client.UpdateNetworkSegmentByID(segmentID, updatedSegment)
 	if err != nil {

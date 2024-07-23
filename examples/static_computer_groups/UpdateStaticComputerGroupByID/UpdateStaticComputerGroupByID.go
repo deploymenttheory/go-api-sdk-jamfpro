@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// The ID of the static computer group you wish to update
-	groupID := 49 // Replace with your actual group ID
+	groupID := "1" // Replace with your actual group ID
 
 	// Define the updated computers for the static group
 	updatedComputers := []jamfpro.ComputerGroupSubsetComputer{

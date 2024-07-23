@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -17,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	classID := 1 // Replace with the actual ID of the class you want to fetch
+	classID := "1" // Replace with the actual ID of the class you want to fetch
 
 	// Get class by ID
 	class, err := client.GetClassByID(classID)
@@ -25,6 +26,6 @@ func main() {
 		log.Fatalf("Error fetching class by ID: %s\n", err)
 	}
 
-	fmt.Printf("Class ID: %d, Name: %s, Description: %s\n", class.ID, class.Name, class.Description)
+	fmt.Printf("Class ID: %v, Name: %s, Description: %s\n", strconv.Itoa(class.ID), class.Name, class.Description)
 	// Output additional class details as needed
 }

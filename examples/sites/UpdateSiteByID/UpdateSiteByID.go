@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	siteID := 123                          // Replace with the actual site name
+	siteID := "1"                          // Replace with the actual site name
 	updatedSiteName := "Updated Site Name" // Replace with the updated site name
 
 	// Define the updated site data

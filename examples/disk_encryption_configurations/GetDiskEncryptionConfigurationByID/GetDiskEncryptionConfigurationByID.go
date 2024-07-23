@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Let's assume you want to get the disk encryption configuration with ID 1
-	configID := 36
+	configID := "1"
 
 	configuration, err := client.GetDiskEncryptionConfigurationByID(configID)
 	if err != nil {

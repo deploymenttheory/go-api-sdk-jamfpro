@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the department ID you want to retrieve
-	eBooksID := 1 // Replace with the desired department ID
+	eBooksID := "1" // Replace with the desired department ID
 
 	// Call GetEbooksByID function
 	ebook, err := client.GetEbookByID(eBooksID)

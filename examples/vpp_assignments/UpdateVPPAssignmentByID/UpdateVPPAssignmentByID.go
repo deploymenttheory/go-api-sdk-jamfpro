@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Specify the ID of the VPP assignment to update
-	vppAssignmentID := 1 // Replace with the actual ID
+	vppAssignmentID := "1" // Replace with the actual ID
 
 	// Define updated VPP assignment details
 	updatedVPPAssignment := &jamfpro.ResourceVPPAssignment{

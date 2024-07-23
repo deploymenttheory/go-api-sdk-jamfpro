@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	invitationID := 1 // Replace with the actual invitation ID you want to retrieve
+	invitationID := "1" // Replace with the actual invitation ID you want to retrieve
 
 	invitation, err := client.GetComputerInvitationByID(invitationID)
 	if err != nil {

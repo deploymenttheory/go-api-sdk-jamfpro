@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// ID of the licensed software to fetch
-	softwareID := 1 // Replace with actual ID
+	softwareID := "1" // Replace with actual ID
 
 	licensedSoftware, err := client.GetLicensedSoftwareByID(softwareID)
 	if err != nil {

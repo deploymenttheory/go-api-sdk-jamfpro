@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// ID of the mobile extension attribute to delete
-	id := 1 // Replace with the actual ID
+	id := "1" // Replace with the actual ID
 
 	if err := client.DeleteMobileExtensionAttributeByID(id); err != nil {
 		log.Fatalf("Error deleting mobile extension attribute by ID: %v", err)

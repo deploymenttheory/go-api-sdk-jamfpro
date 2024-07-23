@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := 1 // Replace with the actual ID
+	profileID := "1" // Replace with the actual ID
 
 	updatedProfile := &jamfpro.ResourceMobileDeviceProvisioningProfile{
 		General: jamfpro.MobileDeviceProvisioningProfileSubsetGeneral{

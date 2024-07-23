@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Replace "123" with an actual ID and "subset" with the desired data subset
-	id := 123
+	id := "1"
 	subset := "General" // General / Scope / Selfservice / VPPCodes / VPP / AppConfiguration
 
 	app, err := client.GetMobileDeviceApplicationByIDAndDataSubset(id, subset)

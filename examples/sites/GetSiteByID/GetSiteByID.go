@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	siteID := 1 // Replace 1 with the actual site ID
+	siteID := "1" // Replace 1 with the actual site ID
 
 	// Fetch the site by ID
 	site, err := client.GetSiteByID(siteID)

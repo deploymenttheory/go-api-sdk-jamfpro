@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// Assume we are updating the account with ID 1
-	updatedResponse, err := client.UpdateVPPAccountByID(1, updatedAccount)
+	updatedResponse, err := client.UpdateVPPAccountByID("1", updatedAccount)
 	if err != nil {
 		log.Fatalf("Error updating VPP account: %v", err)
 	}

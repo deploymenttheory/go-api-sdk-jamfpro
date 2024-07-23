@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Specify the ID of the VPP assignment to retrieve
-	vppAssignmentID := 1 // Replace with the actual ID
+	vppAssignmentID := "1" // Replace with the actual ID
 
 	// Call the GetVPPAssignmentByID function
 	vppAssignment, err := client.GetVPPAssignmentByID(vppAssignmentID)

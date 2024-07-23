@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the application name and the subset you want to retrieve
-	appID := 1          // Replace with the actual application name
+	appID := "1"        // Replace with the actual application name
 	subset := "General" // Subset values can be General, Scope, SelfService, VPPCodes and VPP.
 
 	// Call GetMacApplicationByNameAndDataSubset

@@ -28,7 +28,7 @@ func main() {
 		},
 	}
 
-	profileID := 4 // Use the actual ID of the profile to be updated
+	profileID := "4" // Use the actual ID of the profile to be updated
 
 	// Convert the profile to XML to see the output (optional, for debug purposes)
 	xmlData, err := xml.MarshalIndent(updatedProfile, "", "  ")

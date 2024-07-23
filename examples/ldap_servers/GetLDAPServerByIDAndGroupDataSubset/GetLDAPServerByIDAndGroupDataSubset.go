@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Fetch LDAP server group details by ID
-	ldapServerID := 1 // Replace with actual ID
+	ldapServerID := "1" // Replace with actual ID
 	group := "exampleGroup"
 	ldapServer, err := client.GetLDAPServerByIDAndGroupDataSubset(ldapServerID, group)
 	if err != nil {

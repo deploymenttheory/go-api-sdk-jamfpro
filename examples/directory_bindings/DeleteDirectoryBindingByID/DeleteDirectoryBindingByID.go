@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Example ID of the directory binding to delete
-	bindingID := 1 // Assuming an existing binding ID
+	bindingID := "1" // Assuming an existing binding ID
 
 	// Delete directory binding by ID
 	err = client.DeleteDirectoryBindingByID(bindingID)

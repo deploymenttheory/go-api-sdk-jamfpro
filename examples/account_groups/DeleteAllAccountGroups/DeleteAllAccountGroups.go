@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -30,7 +31,7 @@ func main() {
 		fmt.Printf("Deleting account group ID: %d, Name: %s\n", group.ID, group.Name)
 
 		// Using the function to delete account groups by ID
-		err = client.DeleteAccountGroupByID(group.ID)
+		err = client.DeleteAccountGroupByID(strconv.Itoa(group.ID))
 		if err != nil {
 			log.Printf("Error deleting account group ID %d: %v\n", group.ID, err)
 			continue // Move to the next group if there's an error

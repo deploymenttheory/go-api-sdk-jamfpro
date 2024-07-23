@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	userID := 1 // Example user ID to delete
+	userID := "1" // Example user ID to delete
 
 	err = client.DeleteUserByID(userID)
 	if err != nil {

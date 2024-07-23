@@ -88,7 +88,7 @@ func main() {
 	}
 
 	// Update LDAP server by ID
-	id := 1 // Replace with actual LDAP server ID
+	id := "1" // Replace with actual LDAP server ID
 	updatedServer, err := client.UpdateLDAPServerByID(id, updatedLDAPServer)
 	if err != nil {
 		log.Fatalf("Error updating LDAP server by ID: %v", err)

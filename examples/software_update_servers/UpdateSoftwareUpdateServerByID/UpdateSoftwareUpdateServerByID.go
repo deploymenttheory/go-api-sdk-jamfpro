@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -28,7 +29,7 @@ func main() {
 	}
 
 	// Call UpdateSoftwareUpdateServerByID
-	updatedServer, err := client.UpdateSoftwareUpdateServerByID(serverToUpdate.ID, serverToUpdate)
+	updatedServer, err := client.UpdateSoftwareUpdateServerByID(strconv.Itoa(serverToUpdate.ID), serverToUpdate)
 	if err != nil {
 		log.Fatalf("Error updating software update server by ID: %v", err)
 	}

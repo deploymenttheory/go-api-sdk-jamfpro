@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the ebook to be created
-	ebookID := 1 // Replace with the actual eBook ID
+	ebookID := "1" // Replace with the actual eBook ID
 	ebookToUpdate := jamfpro.ResourceEbooks{
 		General: jamfpro.EbookSubsetGeneral{
 			Name:            "iPhone User Guide for iOS 10.3",

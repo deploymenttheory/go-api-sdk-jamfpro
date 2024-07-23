@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Specify the ID of the user group to delete
-	userGroupID := 1 // Replace with the actual ID
+	userGroupID := "1" // Replace with the actual ID
 
 	// Call DeleteUserGroupByID
 	err = client.DeleteUserGroupByID(userGroupID)

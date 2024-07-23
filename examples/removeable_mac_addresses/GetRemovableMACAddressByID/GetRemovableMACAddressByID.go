@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	macAddressID := 1
+	macAddressID := "1"
 
 	macAddresses, err := client.GetRemovableMACAddressByID(macAddressID)
 	if err != nil {

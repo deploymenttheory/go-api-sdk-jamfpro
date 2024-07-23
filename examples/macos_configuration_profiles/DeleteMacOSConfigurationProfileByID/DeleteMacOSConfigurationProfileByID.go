@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the ID of the macOS Configuration Profile you want to delete
-	profileID := 78
+	profileID := "1"
 
 	// Call the DeleteMacOSConfigurationProfileByID function
 	err = client.DeleteMacOSConfigurationProfileByID(profileID)

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -29,7 +30,7 @@ func main() {
 	for _, extAtt := range extAtts.Results {
 		fmt.Printf("Deleting macOS configuration profile ID: %d, Name: %s\n", extAtt.ID, extAtt.Name)
 
-		err = client.DeleteMacOSConfigurationProfileByID(extAtt.ID)
+		err = client.DeleteMacOSConfigurationProfileByID(strconv.Itoa(extAtt.ID))
 		if err != nil {
 			log.Printf("Error deleting macOS configuration profile ID %d: %v\n", extAtt.ID, err)
 			continue // Move to the next macOS configuration profile if there's an error

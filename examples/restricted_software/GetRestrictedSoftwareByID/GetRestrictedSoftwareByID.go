@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	restrictedSoftwareID := 1 // Replace with actual ID
+	restrictedSoftwareID := "1" // Replace with actual ID
 
 	restrictedSoftware, err := client.GetRestrictedSoftwareByID(restrictedSoftwareID)
 	if err != nil {

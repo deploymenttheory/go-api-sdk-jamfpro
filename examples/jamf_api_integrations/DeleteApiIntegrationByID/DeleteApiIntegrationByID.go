@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	integrationID := 1 // Replace with the actual API Integration ID
+	integrationID := "1" // Replace with the actual API Integration ID
 
 	if err := client.DeleteApiIntegrationByID(integrationID); err != nil {
 		fmt.Println("Error deleting API Integration:", err)

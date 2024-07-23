@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Example usage of DeleteWebhookByID
-	err = client.DeleteWebhookByID(1) // Replace with the desired webhook ID to delete
+	err = client.DeleteWebhookByID("1") // Replace with the desired webhook ID to delete
 	if err != nil {
 		fmt.Printf("Error deleting webhook by ID: %v\n", err)
 		return

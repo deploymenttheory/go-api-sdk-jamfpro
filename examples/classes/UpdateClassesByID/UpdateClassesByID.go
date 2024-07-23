@@ -50,7 +50,7 @@ func main() {
 		// Ensure other fields are aligned with the ResourceClass struct definition
 	}
 
-	classID := 7
+	classID := "7"
 
 	// Call the update function with the class ID and the new details.
 	err = client.UpdateClassByID(classID, updatedClass)

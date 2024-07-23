@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	apiIntegrationID := 1 // Replace with the actual API Integration ID
+	apiIntegrationID := "1" // Replace with the actual API Integration ID
 
 	// Create an instance of the ApiIntegration with updated values
 	integrationUpdate := &jamfpro.ResourceApiIntegration{

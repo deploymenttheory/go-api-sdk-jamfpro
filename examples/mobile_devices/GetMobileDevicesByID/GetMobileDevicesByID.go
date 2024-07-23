@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example device ID
-	deviceID := 1 // Replace with an actual device name
+	deviceID := "1" // Replace with an actual device name
 
 	// Get mobile device by ID
 	deviceByID, err := client.GetMobileDeviceByID(deviceID)

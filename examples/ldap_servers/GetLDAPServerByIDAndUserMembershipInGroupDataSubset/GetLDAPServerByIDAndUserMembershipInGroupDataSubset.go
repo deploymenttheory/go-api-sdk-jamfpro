@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Call the GetLDAPServerByIDAndUserMembershipInGroupDataSubset function
-	ldapServerID := 1 // Replace with actual LDAP server ID
+	ldapServerID := "1" // Replace with actual LDAP server ID
 	group := "exampleGroup"
 	user := "exampleUser1,exampleUser2" // Multiple users separated by a comma
 	ldapServer, err := client.GetLDAPServerByIDAndUserMembershipInGroupDataSubset(ldapServerID, group, user)

@@ -28,7 +28,7 @@ func main() {
 	}
 
 	// Assuming you're updating the attribute with ID = 1
-	updatedAttribute, err := client.UpdateComputerExtensionAttributeByID(1, attributeToUpdate)
+	updatedAttribute, err := client.UpdateComputerExtensionAttributeByID("1", attributeToUpdate)
 	if err != nil {
 		log.Fatalf("Error updating Computer Extension Attribute by ID: %v", err)
 	}

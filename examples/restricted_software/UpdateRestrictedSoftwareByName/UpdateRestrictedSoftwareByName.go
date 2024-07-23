@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -59,7 +60,7 @@ func main() {
 	fmt.Printf("restricted software updated successfully, ID: %d\n", response.ID)
 
 	// Fetch the full details of the updated restricted software
-	updatedPrinterDetails, err := client.GetRestrictedSoftwareByID(response.ID)
+	updatedPrinterDetails, err := client.GetRestrictedSoftwareByID(strconv.Itoa(response.ID))
 	if err != nil {
 		fmt.Println("Error fetching updated restricted software details:", err)
 		return

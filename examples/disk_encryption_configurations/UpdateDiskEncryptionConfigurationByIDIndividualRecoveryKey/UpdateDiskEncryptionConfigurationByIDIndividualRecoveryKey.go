@@ -24,7 +24,7 @@ func main() {
 		FileVaultEnabledUsers: "Management Account",
 	}
 
-	updatedConfig, err := client.UpdateDiskEncryptionConfigurationByID(1, configToUpdate)
+	updatedConfig, err := client.UpdateDiskEncryptionConfigurationByID("1", configToUpdate)
 	if err != nil {
 		log.Fatalf("Error updating Disk Encryption Configuration by ID: %v", err)
 	}

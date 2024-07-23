@@ -18,14 +18,14 @@ func main() {
 	}
 
 	// The ID of the class you want to delete
-	classIDToDelete := 123 // Replace with the actual ID
+	classIDToDelete := "123" // Replace with the actual ID
 
 	// Call the delete function with the class ID
 	err = client.DeleteClassByID(classIDToDelete)
 	if err != nil {
 		log.Fatalf("Error deleting class by ID: %v", err)
 	} else {
-		fmt.Printf("Class with ID %d deleted successfully.\n", classIDToDelete)
+		fmt.Printf("Class with ID %s deleted successfully.\n", classIDToDelete)
 	}
 
 }
