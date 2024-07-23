@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -65,8 +66,8 @@ func (c *Client) GetApiIntegrations(sort_filter string) (*ResponseApiIntegration
 }
 
 // GetApiIntegrationByID fetches an API integration by its ID
-func (c *Client) GetApiIntegrationByID(id int) (*ResourceApiIntegration, error) {
-	endpoint := fmt.Sprintf("%s/%d", uriApiIntegrations, id)
+func (c *Client) GetApiIntegrationByID(id string) (*ResourceApiIntegration, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriApiIntegrations, id)
 
 	var integration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &integration)
@@ -115,8 +116,8 @@ func (c *Client) CreateApiIntegration(integration *ResourceApiIntegration) (*Res
 }
 
 // UpdateApiIntegrationByID updates an API integration by its ID
-func (c *Client) UpdateApiIntegrationByID(id int, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
-	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
+func (c *Client) UpdateApiIntegrationByID(id string, integrationUpdate *ResourceApiIntegration) (*ResourceApiIntegration, error) {
+	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s", id)
 
 	var updatedIntegration ResourceApiIntegration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, integrationUpdate, &updatedIntegration)
@@ -138,7 +139,7 @@ func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *Reso
 		return nil, fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 	}
 
-	target_id := target.ID
+	target_id := strconv.Itoa(target.ID)
 	resp, err := c.UpdateApiIntegrationByID(target_id, integrationUpdate)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByName, "api integration", name, err)
@@ -148,8 +149,8 @@ func (c *Client) UpdateApiIntegrationByName(name string, integrationUpdate *Reso
 }
 
 // DeleteApiIntegrationByID deletes an API integration by its ID
-func (c *Client) DeleteApiIntegrationByID(id int) error {
-	endpoint := fmt.Sprintf(uriApiIntegrations+"/%d", id)
+func (c *Client) DeleteApiIntegrationByID(id string) error {
+	endpoint := fmt.Sprintf(uriApiIntegrations+"/%s", id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -170,7 +171,7 @@ func (c *Client) DeleteApiIntegrationByName(name string) error {
 		return fmt.Errorf(errMsgFailedGetByName, "api integration", name, err)
 	}
 
-	target_id := target.ID
+	target_id := strconv.Itoa(target.ID)
 
 	err = c.DeleteApiIntegrationByID(target_id)
 	if err != nil {

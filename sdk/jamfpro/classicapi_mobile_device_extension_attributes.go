@@ -61,8 +61,8 @@ func (c *Client) GetMobileExtensionAttributes() (*ResponseMobileDeviceExtensionA
 }
 
 // GetMobileExtensionAttributeByID fetches a specific mobile extension attribute by its ID.
-func (c *Client) GetMobileExtensionAttributeByID(id int) (*ResourceMobileExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
+func (c *Client) GetMobileExtensionAttributeByID(id string) (*ResourceMobileExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceExtensionAttributes, id)
 
 	var attribute ResourceMobileExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &attribute)
@@ -119,8 +119,8 @@ func (c *Client) CreateMobileExtensionAttribute(attribute *ResourceMobileExtensi
 }
 
 // UpdateMobileExtensionAttributeByID updates a mobile extension attribute by its ID.
-func (c *Client) UpdateMobileExtensionAttributeByID(id int, attribute *ResourceMobileExtensionAttribute) (*ResourceMobileExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
+func (c *Client) UpdateMobileExtensionAttributeByID(id string, attribute *ResourceMobileExtensionAttribute) (*ResourceMobileExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceExtensionAttributes, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_extension_attribute"`
@@ -167,8 +167,8 @@ func (c *Client) UpdateMobileExtensionAttributeByName(name string, attribute *Re
 }
 
 // DeleteMobileExtensionAttributeByID deletes a mobile extension attribute by its ID.
-func (c *Client) DeleteMobileExtensionAttributeByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceExtensionAttributes, id)
+func (c *Client) DeleteMobileExtensionAttributeByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceExtensionAttributes, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

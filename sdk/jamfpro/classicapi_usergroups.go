@@ -83,8 +83,8 @@ func (c *Client) GetUserGroups() (*ResponseUserGroupsList, error) {
 }
 
 // GetUserGroupsByID retrieves the details of a user group by its ID.
-func (c *Client) GetUserGroupByID(id int) (*ResourceUserGroup, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
+func (c *Client) GetUserGroupByID(id string) (*ResourceUserGroup, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserGroups, id)
 
 	var userGroupDetail ResourceUserGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userGroupDetail)
@@ -141,8 +141,8 @@ func (c *Client) CreateUserGroup(userGroup *ResourceUserGroup) (*ResponseUserGro
 }
 
 // UpdateUserGroupByID updates an existing user group by its ID.
-func (c *Client) UpdateUserGroupByID(id int, userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
+func (c *Client) UpdateUserGroupByID(id string, userGroup *ResourceUserGroup) (*ResponseUserGroupCreateAndUpdate, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserGroups, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"user_group"`
@@ -189,8 +189,8 @@ func (c *Client) UpdateUserGroupByName(name string, userGroup *ResourceUserGroup
 }
 
 // DeleteUserGroupByID deletes a user group by its ID.
-func (c *Client) DeleteUserGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserGroups, id)
+func (c *Client) DeleteUserGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserGroups, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user group", id, err)

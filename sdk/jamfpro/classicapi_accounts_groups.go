@@ -47,8 +47,8 @@ type MemberUser struct {
 // CRUD
 
 // GetAccountGroupByID gets an account group using its ID and returns a response.
-func (c *Client) GetAccountGroupByID(id int) (*ResourceAccountGroup, error) {
-	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
+func (c *Client) GetAccountGroupByID(id string) (*ResourceAccountGroup, error) {
+	endpoint := fmt.Sprintf("%s/groupid/%s", uriAPIAccounts, id)
 
 	var group ResourceAccountGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
@@ -82,8 +82,7 @@ func (c *Client) GetAccountGroupByName(name string) (*ResourceAccountGroup, erro
 
 // CreateAccountGroupByID creates an Account Group using its ID
 func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*ResponseAccountGroupCreated, error) {
-	placeholderID := 0
-	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, placeholderID)
+	endpoint := fmt.Sprintf("%s/groupid/0", uriAPIAccounts)
 
 	requestBody := &struct {
 		XMLName struct{} `xml:"group"`
@@ -106,8 +105,8 @@ func (c *Client) CreateAccountGroup(accountGroup *ResourceAccountGroup) (*Respon
 }
 
 // UpdateAccountGroupByID updates an Account Group using its ID
-func (c *Client) UpdateAccountGroupByID(id int, accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
-	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
+func (c *Client) UpdateAccountGroupByID(id string, accountGroup *ResourceAccountGroup) (*ResourceAccountGroup, error) {
+	endpoint := fmt.Sprintf("%s/groupid/%s", uriAPIAccounts, id)
 
 	// if accountGroup.Site.ID == 0 && accountGroup.Site.Name == "" {
 	// 	accountGroup.Site = &SharedResourceSite{
@@ -168,8 +167,8 @@ func (c *Client) UpdateAccountGroupByName(name string, accountGroup *ResourceAcc
 }
 
 // DeleteAccountGroupByID deletes an Account Group using its ID.
-func (c *Client) DeleteAccountGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/groupid/%d", uriAPIAccounts, id)
+func (c *Client) DeleteAccountGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/groupid/%s", uriAPIAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

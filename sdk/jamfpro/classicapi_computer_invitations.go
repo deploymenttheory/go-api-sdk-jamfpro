@@ -84,8 +84,8 @@ func (c *Client) GetComputerInvitations() (*ResponseComputerInvitationsList, err
 
 // Duplicate function ???
 // GetComputerInvitationByID retrieves a computer invitation by its ID.
-func (c *Client) GetComputerInvitationByID(id int) (*ResourceComputerInvitation, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
+func (c *Client) GetComputerInvitationByID(id string) (*ResourceComputerInvitation, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerInvitations, id)
 
 	var invitation ResourceComputerInvitation
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation)
@@ -101,8 +101,8 @@ func (c *Client) GetComputerInvitationByID(id int) (*ResourceComputerInvitation,
 }
 
 // GetComputerInvitationsByName retrieves a computer invitation by its invitation Name.
-func (c *Client) GetComputerInvitationByInvitationID(id int) (*ResourceComputerInvitation, error) {
-	endpoint := fmt.Sprintf("%s/invitation/%d", uriComputerInvitations, id)
+func (c *Client) GetComputerInvitationByInvitationID(id string) (*ResourceComputerInvitation, error) {
+	endpoint := fmt.Sprintf("%s/invitation/%s", uriComputerInvitations, id)
 
 	var invitation ResourceComputerInvitation
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &invitation)
@@ -142,8 +142,8 @@ func (c *Client) CreateComputerInvitation(invitation *ResourceComputerInvitation
 }
 
 // DeleteComputerInvitationByID deletes a computer invitation by its ID.
-func (c *Client) DeleteComputerInvitationByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerInvitations, id)
+func (c *Client) DeleteComputerInvitationByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerInvitations, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

@@ -52,8 +52,8 @@ func (c *Client) GetIBeacons() (*ResponseIBeaconsList, error) {
 
 // GetIBeaconByID fetches the details of a specific iBeacon by its ID.
 // It returns the iBeacon's ID, name, UUID, major, and minor values.
-func (c *Client) GetIBeaconByID(id int) (*ResourceIBeacons, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+func (c *Client) GetIBeaconByID(id string) (*ResourceIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriIbeacons, id)
 	var beacon ResourceIBeacons
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &beacon)
 	if err != nil {
@@ -109,8 +109,8 @@ func (c *Client) CreateIBeacon(beacon *ResourceIBeacons) (*ResourceIBeacons, err
 }
 
 // UpdateIBeaconByID updates an existing iBeacon by its ID in Jamf Pro.
-func (c *Client) UpdateIBeaconByID(id int, beacon *ResourceIBeacons) (*ResourceIBeacons, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+func (c *Client) UpdateIBeaconByID(id string, beacon *ResourceIBeacons) (*ResourceIBeacons, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriIbeacons, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"ibeacon"`
@@ -157,8 +157,8 @@ func (c *Client) UpdateIBeaconByName(name string, beacon *ResourceIBeacons) (*Re
 }
 
 // DeleteIBeaconByID deletes an iBeacon by its ID in Jamf Pro.
-func (c *Client) DeleteIBeaconByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriIbeacons, id)
+func (c *Client) DeleteIBeaconByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriIbeacons, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

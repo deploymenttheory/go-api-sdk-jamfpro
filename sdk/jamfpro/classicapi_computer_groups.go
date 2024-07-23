@@ -86,8 +86,8 @@ func (c *Client) GetComputerGroups() (*ResponseComputerGroupsList, error) {
 }
 
 // GetComputerGroupByID retrieves a computer group by its ID.
-func (c *Client) GetComputerGroupByID(id int) (*ResourceComputerGroup, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
+func (c *Client) GetComputerGroupByID(id string) (*ResourceComputerGroup, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerGroups, id)
 
 	var group ResourceComputerGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &group)
@@ -144,8 +144,8 @@ func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResponseCom
 }
 
 // UpdateComputerGroupByID updates an existing computer group by its ID.
-func (c *Client) UpdateComputerGroupByID(id int, group *ResourceComputerGroup) (*ResponseComputerGroupreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
+func (c *Client) UpdateComputerGroupByID(id string, group *ResourceComputerGroup) (*ResponseComputerGroupreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerGroups, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
@@ -192,8 +192,8 @@ func (c *Client) UpdateComputerGroupByName(name string, group *ResourceComputerG
 }
 
 // DeleteComputerGroupByID deletes a computer group by its ID.
-func (c *Client) DeleteComputerGroupByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriComputerGroups, id)
+func (c *Client) DeleteComputerGroupByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriComputerGroups, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

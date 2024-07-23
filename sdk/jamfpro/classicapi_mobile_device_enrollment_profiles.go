@@ -110,8 +110,8 @@ func (c *Client) GetMobileDeviceEnrollmentProfiles() (*ResponseMobileDeviceEnrol
 }
 
 // GetMobileDeviceEnrollmentProfileByID fetches a specific mobile device enrollment profile by its ID.
-func (c *Client) GetMobileDeviceEnrollmentProfileByID(id int) (*ResourceMobileDeviceEnrollmentProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
+func (c *Client) GetMobileDeviceEnrollmentProfileByID(id string) (*ResourceMobileDeviceEnrollmentProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceEnrollmentProfiles, id)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -161,8 +161,8 @@ func (c *Client) GetProfileByInvitation(invitation string) (*ResourceMobileDevic
 }
 
 // GetMobileDeviceEnrollmentProfileByIDBySubset fetches a specific mobile device configuration profile by its ID and a specified subset.
-func (c *Client) GetMobileDeviceEnrollmentProfileByIDWithSubset(id int, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceEnrollmentProfiles, id, subset)
+func (c *Client) GetMobileDeviceEnrollmentProfileByIDWithSubset(id string, subset string) (*ResourceMobileDeviceEnrollmentProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriMobileDeviceEnrollmentProfiles, id, subset)
 
 	var profile ResourceMobileDeviceEnrollmentProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -219,8 +219,8 @@ func (c *Client) CreateMobileDeviceEnrollmentProfile(profile *ResourceMobileDevi
 }
 
 // UpdateMobileDeviceEnrollmentProfileByID updates a mobile device enrollment profile by its ID.
-func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id int, profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
+func (c *Client) UpdateMobileDeviceEnrollmentProfileByID(id string, profile *ResourceMobileDeviceEnrollmentProfile) (*ResourceMobileDeviceEnrollmentProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceEnrollmentProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_enrollment_profile"`
@@ -291,8 +291,8 @@ func (c *Client) UpdateMobileDeviceEnrollmentProfileByInvitation(invitation stri
 }
 
 // DeleteMobileDeviceEnrollmentProfileByID deletes a mobile device enrollment profile by its ID.
-func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceEnrollmentProfiles, id)
+func (c *Client) DeleteMobileDeviceEnrollmentProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceEnrollmentProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

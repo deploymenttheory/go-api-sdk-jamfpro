@@ -124,8 +124,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the ID is not found.
 */
-func (c *Client) GetAdvancedComputerSearchByID(id int) (*ResourceAdvancedComputerSearch, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
+func (c *Client) GetAdvancedComputerSearchByID(id string) (*ResourceAdvancedComputerSearch, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedComputerSearches, id)
 
 	var search ResourceAdvancedComputerSearch
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &search)
@@ -245,8 +245,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the resource cannot be updated.
 */
-func (c *Client) UpdateAdvancedComputerSearchByID(id int, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
+func (c *Client) UpdateAdvancedComputerSearchByID(id string, search *ResourceAdvancedComputerSearch) (*ResponseAdvancedComputerSearchCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedComputerSearches, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_computer_search"`
@@ -333,8 +333,8 @@ Example:
 
 Errors: Returns an error if the request fails or if the resource cannot be deleted.
 */
-func (c *Client) DeleteAdvancedComputerSearchByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriAPIAdvancedComputerSearches, id)
+func (c *Client) DeleteAdvancedComputerSearchByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriAPIAdvancedComputerSearches, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

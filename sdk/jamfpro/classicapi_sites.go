@@ -48,8 +48,8 @@ func (c *Client) GetSites() (*ResponseSitesList, error) {
 }
 
 // GetSiteByID retrieves a site by its ID.
-func (c *Client) GetSiteByID(id int) (*SharedResourceSite, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
+func (c *Client) GetSiteByID(id string) (*SharedResourceSite, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSites, id)
 
 	var site SharedResourceSite
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &site)
@@ -106,8 +106,8 @@ func (c *Client) CreateSite(site *SharedResourceSite) (*SharedResourceSite, erro
 }
 
 // UpdateSiteByID updates an existing site by its ID.
-func (c *Client) UpdateSiteByID(id int, site *SharedResourceSite) (*SharedResourceSite, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
+func (c *Client) UpdateSiteByID(id string, site *SharedResourceSite) (*SharedResourceSite, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSites, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"site"`
@@ -154,8 +154,8 @@ func (c *Client) UpdateSiteByName(name string, site *SharedResourceSite) (*Share
 }
 
 // DeleteSiteByID deletes a site by its ID.
-func (c *Client) DeleteSiteByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSites, id)
+func (c *Client) DeleteSiteByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSites, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

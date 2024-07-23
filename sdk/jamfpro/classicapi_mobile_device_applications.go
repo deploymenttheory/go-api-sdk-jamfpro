@@ -207,8 +207,8 @@ func (c *Client) GetMobileDeviceApplications() (*ResponseMobileDeviceApplication
 // CRUD
 
 // GetMobileDeviceApplicationByID fetches a specific mobile device application by its ID from the Jamf Pro server.
-func (c *Client) GetMobileDeviceApplicationByID(id int) (*ResourceMobileDeviceApplication, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceApplications, id)
+func (c *Client) GetMobileDeviceApplicationByID(id string) (*ResourceMobileDeviceApplication, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceApplications, id)
 
 	var app ResourceMobileDeviceApplication
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
@@ -275,8 +275,8 @@ func (c *Client) GetMobileDeviceApplicationByAppBundleIDAndVersion(id string, ve
 }
 
 // GetMobileDeviceApplicationByIDAndDataSubset fetches a specific mobile device application by its ID and a specified data subset from the Jamf Pro server.
-func (c *Client) GetMobileDeviceApplicationByIDAndDataSubset(id int, subset string) (*ResourceMobileDeviceApplication, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDeviceApplications, id, subset)
+func (c *Client) GetMobileDeviceApplicationByIDAndDataSubset(id string, subset string) (*ResourceMobileDeviceApplication, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriMobileDeviceApplications, id, subset)
 
 	var app ResourceMobileDeviceApplication
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &app)
@@ -333,8 +333,8 @@ func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplicat
 }
 
 // UpdateMobileDeviceApplicationByID updates a mobile device application by its ID on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceApplicationByID(id int, app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceApplications, id)
+func (c *Client) UpdateMobileDeviceApplicationByID(id string, app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceApplications, id)
 
 	// Wrap the application with the desired XML name using an anonymous struct
 	requestBody := struct {
@@ -406,8 +406,8 @@ func (c *Client) UpdateMobileDeviceApplicationByApplicationBundleID(id string, a
 }
 
 // UpdateMobileDeviceApplicationByIDAndAppVersion updates a mobile device application by its ID and application version on the Jamf Pro server.
-func (c *Client) UpdateMobileDeviceApplicationByIDAndAppVersion(id int, version string, app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/version/%s", uriMobileDeviceApplications, id, version)
+func (c *Client) UpdateMobileDeviceApplicationByIDAndAppVersion(id string, version string, app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/version/%s", uriMobileDeviceApplications, id, version)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_application"`
@@ -430,8 +430,8 @@ func (c *Client) UpdateMobileDeviceApplicationByIDAndAppVersion(id int, version 
 }
 
 // DeleteMobileDeviceApplicationpByID deletes a mobile device application by its ID from the Jamf Pro server.
-func (c *Client) DeleteMobileDeviceApplicationpByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceApplications, id)
+func (c *Client) DeleteMobileDeviceApplicationpByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceApplications, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

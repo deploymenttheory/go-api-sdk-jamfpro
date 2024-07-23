@@ -65,8 +65,8 @@ func (c *Client) GetUserExtensionAttributes() (*ResponseUserExtensionAttributesL
 }
 
 // GetUserExtensionAttributeByID retrieves a user extension attribute by its ID.
-func (c *Client) GetUserExtensionAttributeByID(id int) (*ResourceUserExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
+func (c *Client) GetUserExtensionAttributeByID(id string) (*ResourceUserExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserExtensionAttributes, id)
 
 	var userExtAttr ResourceUserExtensionAttribute
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userExtAttr)
@@ -123,8 +123,8 @@ func (c *Client) CreateUserExtensionAttribute(attribute *ResourceUserExtensionAt
 }
 
 // UpdateUserExtensionAttributeByID updates a user extension attribute by its ID.
-func (c *Client) UpdateUserExtensionAttributeByID(id int, attribute *ResourceUserExtensionAttribute) (*ResourceUserExtensionAttribute, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
+func (c *Client) UpdateUserExtensionAttributeByID(id string, attribute *ResourceUserExtensionAttribute) (*ResourceUserExtensionAttribute, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserExtensionAttributes, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"user_extension_attribute"`
@@ -171,8 +171,8 @@ func (c *Client) UpdateUserExtensionAttributeByName(name string, attribute *Reso
 }
 
 // DeleteUserExtensionAttributeByID deletes a user extension attribute by its ID.
-func (c *Client) DeleteUserExtensionAttributeByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUserExtensionAttributes, id)
+func (c *Client) DeleteUserExtensionAttributeByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUserExtensionAttributes, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

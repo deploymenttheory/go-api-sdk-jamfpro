@@ -57,8 +57,8 @@ func (c *Client) GetSoftwareUpdateServers() (*ResponseSoftwareUpdateServersList,
 }
 
 // GetSoftwareUpdateServersByID retrieves a specific software update server by its ID.
-func (c *Client) GetSoftwareUpdateServerByID(id int) (*ResourceSoftwareUpdateServer, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
+func (c *Client) GetSoftwareUpdateServerByID(id string) (*ResourceSoftwareUpdateServer, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSoftwareUpdateServers, id)
 
 	var response ResourceSoftwareUpdateServer
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
@@ -115,8 +115,8 @@ func (c *Client) CreateSoftwareUpdateServer(server *ResourceSoftwareUpdateServer
 }
 
 // UpdateSoftwareUpdateServerByID updates a software update server by its ID.
-func (c *Client) UpdateSoftwareUpdateServerByID(id int, server *ResourceSoftwareUpdateServer) (*ResourceSoftwareUpdateServer, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
+func (c *Client) UpdateSoftwareUpdateServerByID(id string, server *ResourceSoftwareUpdateServer) (*ResourceSoftwareUpdateServer, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSoftwareUpdateServers, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"software_update_server"`
@@ -163,8 +163,8 @@ func (c *Client) UpdateSoftwareUpdateServerByName(name string, server *ResourceS
 }
 
 // DeleteSoftwareUpdateServerByID deletes a software update server by its ID.
-func (c *Client) DeleteSoftwareUpdateServerByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriSoftwareUpdateServers, id)
+func (c *Client) DeleteSoftwareUpdateServerByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriSoftwareUpdateServers, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

@@ -57,8 +57,8 @@ func (c *Client) GetDockItems() (*ResponseDockItemsList, error) {
 }
 
 // GetDockItemsByID retrieves a single dock item by its ID.
-func (c *Client) GetDockItemByID(id int) (*ResourceDockItem, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
+func (c *Client) GetDockItemByID(id string) (*ResourceDockItem, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDockItems, id)
 
 	var dockItem ResourceDockItem
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &dockItem)
@@ -115,8 +115,8 @@ func (c *Client) CreateDockItem(dockItem *ResourceDockItem) (*ResourceDockItem, 
 }
 
 // UpdateDockItemByID updates a dock item by its ID.
-func (c *Client) UpdateDockItemByID(id int, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
+func (c *Client) UpdateDockItemByID(id string, dockItem *ResourceDockItem) (*ResourceDockItem, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDockItems, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"dock_item"`
@@ -163,8 +163,8 @@ func (c *Client) UpdateDockItemByName(name string, dockItem *ResourceDockItem) (
 }
 
 // DeleteDockItemsByID deletes a dock item by its ID.
-func (c *Client) DeleteDockItemByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriDockItems, id)
+func (c *Client) DeleteDockItemByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriDockItems, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

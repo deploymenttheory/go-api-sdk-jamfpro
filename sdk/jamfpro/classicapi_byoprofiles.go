@@ -71,8 +71,8 @@ func (c *Client) GetBYOProfiles() (*ResponseBYOProfilesList, error) {
 }
 
 // GetBYOProfileByID retrieves a BYO profile by its ID.
-func (c *Client) GetBYOProfileByID(id int) (*ResourceBYOProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
+func (c *Client) GetBYOProfileByID(id string) (*ResourceBYOProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriBYOProfiles, id)
 
 	var profile ResourceBYOProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -129,8 +129,8 @@ func (c *Client) CreateBYOProfile(profile *ResourceBYOProfile) (*ResponceBYOProf
 }
 
 // UpdateBYOProfileByID updates an existing BYO profile by its ID.
-func (c *Client) UpdateBYOProfileByID(id int, profile *ResourceBYOProfile) (*ResponceBYOProfileCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
+func (c *Client) UpdateBYOProfileByID(id string, profile *ResourceBYOProfile) (*ResponceBYOProfileCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriBYOProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"byoprofile"`
@@ -177,8 +177,8 @@ func (c *Client) UpdateBYOProfileByName(name string, profile *ResourceBYOProfile
 }
 
 // DeleteBYOProfileByID deletes a BYO profile by its ID.
-func (c *Client) DeleteBYOProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriBYOProfiles, id)
+func (c *Client) DeleteBYOProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriBYOProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

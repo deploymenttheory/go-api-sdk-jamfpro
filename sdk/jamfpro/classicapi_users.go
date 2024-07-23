@@ -104,8 +104,8 @@ func (c *Client) GetUsers() (*ResponseUsersList, error) {
 }
 
 // GetUserByID retrieves the details of a user by their ID.
-func (c *Client) GetUserByID(id int) (*ResourceUser, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+func (c *Client) GetUserByID(id string) (*ResourceUser, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUsers, id)
 
 	var userDetail ResourceUser
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
@@ -179,8 +179,8 @@ func (c *Client) CreateUser(newUser *ResourceUser) (*ResourceUser, error) {
 }
 
 // UpdateUserByID updates a user's details by their ID.
-func (c *Client) UpdateUserByID(id int, updatedUser *ResourceUser) (*ResourceUser, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+func (c *Client) UpdateUserByID(id string, updatedUser *ResourceUser) (*ResourceUser, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUsers, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"user"`
@@ -251,8 +251,8 @@ func (c *Client) UpdateUserByEmail(email string, updatedUser *ResourceUser) (*Re
 }
 
 // DeleteUserByID deletes a user by their ID.
-func (c *Client) DeleteUserByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriUsers, id)
+func (c *Client) DeleteUserByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriUsers, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "user", id, err)

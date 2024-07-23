@@ -72,8 +72,8 @@ func (c *Client) GetWebhooks() (*ResponseWebhooksList, error) {
 }
 
 // GetWebhookByID retrieves a specific webhook by its ID.
-func (c *Client) GetWebhookByID(id int) (*ResourceWebhook, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
+func (c *Client) GetWebhookByID(id string) (*ResourceWebhook, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriWebhooks, id)
 
 	var response ResourceWebhook
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
@@ -130,8 +130,8 @@ func (c *Client) CreateWebhook(webhook *ResourceWebhook) (*ResourceWebhook, erro
 }
 
 // UpdateWebhookByID updates a specific webhook by its ID.
-func (c *Client) UpdateWebhookByID(id int, webhook *ResourceWebhook) (*ResourceWebhook, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
+func (c *Client) UpdateWebhookByID(id string, webhook *ResourceWebhook) (*ResourceWebhook, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriWebhooks, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"webhook"`
@@ -178,8 +178,8 @@ func (c *Client) UpdateWebhookByName(name string, webhook *ResourceWebhook) (*Re
 }
 
 // DeleteWebhookByID deletes a specific webhook by its ID.
-func (c *Client) DeleteWebhookByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriWebhooks, id)
+func (c *Client) DeleteWebhookByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriWebhooks, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

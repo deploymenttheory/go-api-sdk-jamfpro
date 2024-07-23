@@ -93,8 +93,8 @@ func (c *Client) GetAccounts() (*ResponseAccountsList, error) {
 }
 
 // GetAccountByID retrieves the Account by its ID
-func (c *Client) GetAccountByID(id int) (*ResourceAccount, error) {
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
+func (c *Client) GetAccountByID(id string) (*ResourceAccount, error) {
+	endpoint := fmt.Sprintf("%s/userid/%s", uriAPIAccounts, id)
 
 	var account ResourceAccount
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &account)
@@ -151,8 +151,8 @@ func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreate
 }
 
 // UpdateAccountByID updates an Account using its ID
-func (c *Client) UpdateAccountByID(id int, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
+func (c *Client) UpdateAccountByID(id string, account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
+	endpoint := fmt.Sprintf("%s/userid/%s", uriAPIAccounts, id)
 
 	// if account.Site.ID == 0 && account.Site.Name == "" {
 	// 	account.Site = &SharedResourceSite{
@@ -213,8 +213,8 @@ func (c *Client) UpdateAccountByName(name string, account *ResourceAccount) (*Re
 }
 
 // DeleteAccountByID deletes an Account using its ID
-func (c *Client) DeleteAccountByID(id int) error {
-	endpoint := fmt.Sprintf("%s/userid/%d", uriAPIAccounts, id)
+func (c *Client) DeleteAccountByID(id string) error {
+	endpoint := fmt.Sprintf("%s/userid/%s", uriAPIAccounts, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

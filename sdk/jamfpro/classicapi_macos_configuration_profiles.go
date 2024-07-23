@@ -16,6 +16,7 @@ package jamfpro
 import (
 	"encoding/xml"
 	"fmt"
+	"strconv"
 )
 
 const uriMacOSConfigurationProfiles = "/JSSResource/osxconfigurationprofiles"
@@ -159,8 +160,8 @@ func (c *Client) GetMacOSConfigurationProfiles() (*ResponseMacOSConfigurationPro
 }
 
 // GetMacOSConfigurationProfileByID fetches a specific macOS Configuration Profile by its ID from the Jamf Pro server.
-func (c *Client) GetMacOSConfigurationProfileByID(id int) (*ResourceMacOSConfigurationProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
+func (c *Client) GetMacOSConfigurationProfileByID(id string) (*ResourceMacOSConfigurationProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMacOSConfigurationProfiles, id)
 
 	var profile ResourceMacOSConfigurationProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -202,15 +203,15 @@ func (c *Client) GetMacOSConfigurationProfileByNameByID(name string) (*ResourceM
 		return nil, fmt.Errorf(errMsgFailedGet, "macOS configuration profiles", err)
 	}
 
-	var profileID int
+	var profileID string
 	for _, profile := range profilesList.Results {
 		if profile.Name == name {
-			profileID = profile.ID
+			profileID = strconv.Itoa(profile.ID)
 			break
 		}
 	}
 
-	if profileID == 0 {
+	if profileID == "0" {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "macOS configuration profile", name, err)
 	}
 
@@ -251,8 +252,8 @@ func (c *Client) CreateMacOSConfigurationProfile(profile *ResourceMacOSConfigura
 
 // UpdateMacOSConfigurationProfileByID updates an existing macOS Configuration Profile by its ID on the Jamf Pro server
 // and returns the ID of the updated profile.
-func (c *Client) UpdateMacOSConfigurationProfileByID(id int, profile *ResourceMacOSConfigurationProfile) (int, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
+func (c *Client) UpdateMacOSConfigurationProfileByID(id string, profile *ResourceMacOSConfigurationProfile) (int, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMacOSConfigurationProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"os_x_configuration_profile"`
@@ -302,8 +303,8 @@ func (c *Client) UpdateMacOSConfigurationProfileByName(name string, profile *Res
 }
 
 // DeleteMacOSConfigurationProfileByID deletes a macOS Configuration Profile by its ID from the Jamf Pro server.
-func (c *Client) DeleteMacOSConfigurationProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMacOSConfigurationProfiles, id)
+func (c *Client) DeleteMacOSConfigurationProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMacOSConfigurationProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

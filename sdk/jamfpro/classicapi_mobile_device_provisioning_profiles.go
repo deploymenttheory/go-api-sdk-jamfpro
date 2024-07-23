@@ -63,8 +63,8 @@ func (c *Client) GetMobileDeviceProvisioningProfiles() (*ResponseMobileDevicePro
 }
 
 // GetMobileDeviceProvisioningProfileByID fetches a specific mobile device provisioning profile by its ID.
-func (c *Client) GetMobileDeviceProvisioningProfileByID(id int) (*ResourceMobileDeviceProvisioningProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
+func (c *Client) GetMobileDeviceProvisioningProfileByID(id string) (*ResourceMobileDeviceProvisioningProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceProvisioningProfiles, id)
 
 	var profile ResourceMobileDeviceProvisioningProfile
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &profile)
@@ -114,8 +114,8 @@ func (c *Client) GetMobileDeviceProvisioningProfileByUUID(uuid string) (*Resourc
 }
 
 // CreateMobileDeviceProvisioningProfileByID creates a new mobile device provisioning profile by its ID.
-func (c *Client) CreateMobileDeviceProvisioningProfile(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
+func (c *Client) CreateMobileDeviceProvisioningProfile(id string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceProvisioningProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
@@ -188,8 +188,8 @@ func (c *Client) CreateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 }
 
 // UpdateMobileDeviceProvisioningProfileByID updates a mobile device provisioning profile by its ID.
-func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id int, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
+func (c *Client) UpdateMobileDeviceProvisioningProfileByID(id string, profile *ResourceMobileDeviceProvisioningProfile) (*ResourceMobileDeviceProvisioningProfile, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceProvisioningProfiles, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device_provisioning_profile"`
@@ -260,8 +260,8 @@ func (c *Client) UpdateMobileDeviceProvisioningProfileByUUID(uuid string, profil
 }
 
 // DeleteMobileDeviceProvisioningProfileByID deletes a mobile device provisioning profile by ID
-func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDeviceProvisioningProfiles, id)
+func (c *Client) DeleteMobileDeviceProvisioningProfileByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDeviceProvisioningProfiles, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

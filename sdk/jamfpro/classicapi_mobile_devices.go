@@ -241,8 +241,8 @@ func (c *Client) GetMobileDevices() (*ResponseMobileDeviceList, error) {
 }
 
 // GetMobileDeviceByID retrieves a specific mobile device by its ID.
-func (c *Client) GetMobileDeviceByID(id int) (*ResourceMobileDevice, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
+func (c *Client) GetMobileDeviceByID(id string) (*ResourceMobileDevice, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDevices, id)
 
 	var device ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &device)
@@ -275,8 +275,8 @@ func (c *Client) GetMobileDeviceByName(name string) (*ResourceMobileDevice, erro
 }
 
 // GetMobileDeviceByIDAndDataSubset retrieves a specific subset of data for a mobile device by its ID.
-func (c *Client) GetMobileDeviceByIDAndDataSubset(id int, subset string) (*ResourceMobileDevice, error) {
-	endpoint := fmt.Sprintf("%s/id/%d/subset/%s", uriMobileDevices, id, subset)
+func (c *Client) GetMobileDeviceByIDAndDataSubset(id string, subset string) (*ResourceMobileDevice, error) {
+	endpoint := fmt.Sprintf("%s/id/%s/subset/%s", uriMobileDevices, id, subset)
 
 	var deviceSubset ResourceMobileDevice
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceSubset)
@@ -333,8 +333,8 @@ func (c *Client) CreateMobileDevice(attribute *ResourceMobileDevice) (*ResourceM
 }
 
 // UpdateMobileDeviceByID updates a mobile device by its ID.
-func (c *Client) UpdateMobileDeviceByID(id int, attribute *ResourceMobileDevice) (*ResourceMobileDevice, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
+func (c *Client) UpdateMobileDeviceByID(id string, attribute *ResourceMobileDevice) (*ResourceMobileDevice, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDevices, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mobile_device"`
@@ -381,8 +381,8 @@ func (c *Client) UpdateMobileDeviceByName(name string, attribute *ResourceMobile
 }
 
 // DeleteMobileDeviceByID deletes a mobile device by its ID.
-func (c *Client) DeleteMobileDeviceByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriMobileDevices, id)
+func (c *Client) DeleteMobileDeviceByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriMobileDevices, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {

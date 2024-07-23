@@ -424,8 +424,8 @@ func (c *Client) GetPolicies() (*ResponsePoliciesList, error) {
 }
 
 // GetPolicyByID retrieves the details of a policy by its ID.
-func (c *Client) GetPolicyByID(id int) (*ResourcePolicy, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+func (c *Client) GetPolicyByID(id string) (*ResourcePolicy, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPolicies, id)
 
 	var policyDetails ResourcePolicy
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &policyDetails)
@@ -519,8 +519,8 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndU
 }
 
 // UpdatePolicyByID updates an existing policy by its ID.
-func (c *Client) UpdatePolicyByID(id int, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+func (c *Client) UpdatePolicyByID(id string, policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPolicies, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
@@ -567,8 +567,8 @@ func (c *Client) UpdatePolicyByName(name string, policy *ResourcePolicy) (*Respo
 }
 
 // DeletePolicyByID deletes a policy by its ID.
-func (c *Client) DeletePolicyByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, id)
+func (c *Client) DeletePolicyByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriPolicies, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf("failed to delete policy: %v", err)

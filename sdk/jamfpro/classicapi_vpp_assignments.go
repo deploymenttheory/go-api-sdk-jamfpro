@@ -107,8 +107,8 @@ func (c *Client) GetVPPAssignments() (*ResponseVPPAssignmentsList, error) {
 }
 
 // GetVPPAssignmentByID fetches a VPP assignment by its ID
-func (c *Client) GetVPPAssignmentByID(id int) (*ResourceVPPAssignment, error) {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
+func (c *Client) GetVPPAssignmentByID(id string) (*ResourceVPPAssignment, error) {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAssignments, id)
 
 	var assignment ResourceVPPAssignment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &assignment)
@@ -149,8 +149,8 @@ func (c *Client) CreateVPPAssignment(assignment *ResourceVPPAssignment) error {
 }
 
 // UpdateVPPAssignmentByID updates a VPP assignment by its ID
-func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignment) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
+func (c *Client) UpdateVPPAssignmentByID(id string, assignment *ResourceVPPAssignment) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAssignments, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"vpp_assignment"`
@@ -174,8 +174,8 @@ func (c *Client) UpdateVPPAssignmentByID(id int, assignment *ResourceVPPAssignme
 }
 
 // DeleteVPPAssignmentByID deletes a VPP assignment by its ID
-func (c *Client) DeleteVPPAssignmentByID(id int) error {
-	endpoint := fmt.Sprintf("%s/id/%d", uriVPPAssignments, id)
+func (c *Client) DeleteVPPAssignmentByID(id string) error {
+	endpoint := fmt.Sprintf("%s/id/%s", uriVPPAssignments, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
