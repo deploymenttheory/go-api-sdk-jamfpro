@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	id := 1 // Replace with your Mac application ID
+	id := "1" // Replace with your Mac application ID
 	macApp, err := client.GetMacApplicationByID(id)
 	if err != nil {
 		log.Fatalf("Error fetching Mac Application by ID: %v", err)

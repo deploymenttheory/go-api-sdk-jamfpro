@@ -58,7 +58,7 @@ func main() {
 		},
 	}
 
-	profileID := 1 // Replace 123 with the actual ID
+	profileID := "1" // Replace 123 with the actual ID
 
 	updatedProfile, err := client.UpdateMobileDeviceEnrollmentProfileByID(profileID, &profileToUpdate)
 	if err != nil {

@@ -50,10 +50,10 @@ func main() {
 		},
 	}
 
-	macAppId := 1 // Replace with your Mac application ID
+	macAppID := "1" // Replace with your Mac application ID
 
 	// Call UpdateMacApplicationByID
-	updatedMacApp, err := client.UpdateMacApplicationByID(macAppId, updateMacApp) // Replace 123 with the actual ID
+	updatedMacApp, err := client.UpdateMacApplicationByID(macAppID, updateMacApp) // Replace 123 with the actual ID
 	if err != nil {
 		log.Fatalf("Error updating Mac Application by ID: %v", err)
 	}

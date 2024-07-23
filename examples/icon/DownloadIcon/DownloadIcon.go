@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Set the icon ID to download
-	iconID := 2 // Replace with your actual icon ID
+	iconID := "1" // Replace with your actual icon ID
 
 	// Set the path where the icon should be saved
 	savePath := "/Users/dafyddwatkins/Downloads/saved-icon.png" // Replace with the actual path where you want to save the icon

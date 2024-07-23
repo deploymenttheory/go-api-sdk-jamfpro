@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the ID of the mobile device application you want to delete
-	appID := 3 // Replace with the actual ID of the application you want to delete
+	appID := "1" // Replace with the actual ID of the application you want to delete
 
 	// Perform the deletion
 	err = client.DeleteMobileDeviceApplicationpByID(appID)

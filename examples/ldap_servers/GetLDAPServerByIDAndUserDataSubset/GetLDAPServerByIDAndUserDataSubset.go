@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Fetch LDAP server details by ID and user data subset
-	ldapServerID := 1 // Replace with actual ID
+	ldapServerID := "1" // Replace with actual ID
 	user := "exampleUser"
 	ldapServer, err := client.GetLDAPServerByIDAndUserDataSubset(ldapServerID, user)
 	if err != nil {

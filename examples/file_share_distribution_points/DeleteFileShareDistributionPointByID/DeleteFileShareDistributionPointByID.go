@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// ID of the distribution point to delete
-	distributionPointID := 1 // Replace with the actual ID
+	distributionPointID := "1" // Replace with the actual ID
 
 	// Call DeleteDistributionPointByID function
 	err = client.DeleteDistributionPointByID(distributionPointID)

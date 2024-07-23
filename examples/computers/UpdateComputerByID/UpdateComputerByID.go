@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the computer ID to update
-	computerID := 6 // Replace with actual computer ID
+	computerID := "1" // Replace with actual computer ID
 
 	// Define the computer configuration to be updated
 	updatedComputer := jamfpro.ResponseComputer{

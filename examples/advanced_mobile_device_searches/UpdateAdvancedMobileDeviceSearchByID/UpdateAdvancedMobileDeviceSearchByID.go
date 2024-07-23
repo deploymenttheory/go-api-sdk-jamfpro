@@ -57,7 +57,7 @@ func main() {
 		},
 	}
 
-	searchID := 14
+	searchID := "14"
 
 	// Convert the profile to XML to see the output (optional, for debug purposes)
 	xmlData, err := xml.MarshalIndent(updatedSearch, "", "  ")

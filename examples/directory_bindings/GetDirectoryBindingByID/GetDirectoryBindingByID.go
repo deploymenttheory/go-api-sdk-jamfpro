@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID of the directory binding to fetch
-	bindingID := 1
+	bindingID := "1"
 
 	// Fetch directory binding by ID
 	binding, err := client.GetDirectoryBindingByID(bindingID)

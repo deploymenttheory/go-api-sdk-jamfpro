@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Example patch policy ID
-	patchPolicyID := 123 // Replace with an actual patch policy ID
+	patchPolicyID := "1" // Replace with an actual patch policy ID
 
 	// Call DeletePatchPolicy function
 	err = client.DeletePatchPolicyByID(patchPolicyID)

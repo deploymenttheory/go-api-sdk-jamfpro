@@ -35,7 +35,7 @@ func main() {
 	}
 
 	// Replace with the actual ID of the user you want to update
-	userID := 1
+	userID := "1"
 
 	// Call UpdateUserByID to update the user
 	updatedUser, err = client.UpdateUserByID(userID, updatedUser)

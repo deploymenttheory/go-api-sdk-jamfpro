@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Call the GetLDAPServerByID function
-	id := 1 // Replace with actual LDAP server ID
+	id := "1" // Replace with actual LDAP server ID
 	ldapServer, err := client.GetLDAPServerByID(id)
 	if err != nil {
 		log.Fatalf("Error retrieving LDAP server by ID: %v", err)

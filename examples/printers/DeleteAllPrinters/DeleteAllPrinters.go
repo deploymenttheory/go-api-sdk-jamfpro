@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -29,7 +30,7 @@ func main() {
 	for _, printer := range printers.Printer {
 		fmt.Printf("deleting printer ID: %d, Name: %s\n", printer.ID, printer.Name)
 
-		err = client.DeletePrinterByID(printer.ID)
+		err = client.DeletePrinterByID(strconv.Itoa(printer.ID))
 		if err != nil {
 			log.Printf("error deleting printer ID %d: %v\n", printer.ID, err)
 			continue // Move to the next printer if there's an error

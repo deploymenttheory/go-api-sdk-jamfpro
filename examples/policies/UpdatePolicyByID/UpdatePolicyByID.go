@@ -144,7 +144,7 @@ func main() {
 	}
 	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
 
-	policyID := 19
+	policyID := "1"
 
 	// Update the policy
 	response, err := client.UpdatePolicyByID(policyID, updatedPolicy)

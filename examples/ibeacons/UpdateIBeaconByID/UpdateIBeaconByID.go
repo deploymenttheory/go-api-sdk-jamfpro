@@ -25,7 +25,7 @@ func main() {
 		Minor: -1,
 	}
 
-	result, err := client.UpdateIBeaconByID(1, updatedBeacon)
+	result, err := client.UpdateIBeaconByID("1", updatedBeacon)
 	if err != nil {
 		log.Fatalf("Error updating iBeacon: %v", err)
 	}

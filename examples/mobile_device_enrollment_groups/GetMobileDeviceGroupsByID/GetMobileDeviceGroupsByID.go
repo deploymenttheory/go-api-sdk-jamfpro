@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Fetching a single mobile device group by ID
-	groupID := 4 // Replace with the actual group ID
+	groupID := "1" // Replace with the actual group ID
 
 	mobileGroup, err := client.GetMobileDeviceGroupByID(groupID)
 	if err != nil {

@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	SearchIDToDelete := 123
+	SearchIDToDelete := "123"
 
 	// Use the client to delete an advanced mobile device search by ID
 	// Replace 123 with the actual ID
@@ -24,6 +24,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error deleting advanced mobile device search by ID: %v", err)
 	} else {
-		log.Printf("Successfully deleted Advanced Mobile Device Search with ID: %d\n", SearchIDToDelete)
+		log.Printf("Successfully deleted Advanced Mobile Device Search with ID: %s\n", SearchIDToDelete)
 	}
 }

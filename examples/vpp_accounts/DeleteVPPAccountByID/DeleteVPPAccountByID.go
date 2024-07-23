@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Assume we are deleting the account with ID 1
-	err = client.DeleteVPPAccountByID(1)
+	err = client.DeleteVPPAccountByID("1")
 	if err != nil {
 		log.Fatalf("Error deleting VPP account: %v", err)
 	}

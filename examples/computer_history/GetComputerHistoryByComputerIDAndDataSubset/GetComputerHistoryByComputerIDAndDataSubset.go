@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the fuction parameters
-	computerID := 18
+	computerID := "1"
 	DataSubset := "General" // General / ComputerUsageLogs / Audits / PolicyLogs / CasperRemoteLogs / ScreenSharingLogs / CasperImagingLogs / Commands / UserLocation / MacAppStoreApplications
 
 	// Call the GetComputerHistoryByComputerIDAndDataSubset function

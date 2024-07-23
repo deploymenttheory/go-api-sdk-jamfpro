@@ -28,7 +28,7 @@ func main() {
 		},
 	}
 
-	updatedAttributeID := 1
+	updatedAttributeID := "1"
 
 	// Update the attribute
 	attribute, err := client.UpdateMobileExtensionAttributeByID(updatedAttributeID, updatedAttribute)

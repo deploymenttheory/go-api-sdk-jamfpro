@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// The ID of the advanced mobile device search you want to retrieve
-	searchID := 13 // Replace with the actual ID you want to retrieve
+	searchID := "13" // Replace with the actual ID you want to retrieve
 
 	// Call the GetAdvancedMobileDeviceSearchByID function
 	search, err := client.GetAdvancedMobileDeviceSearchByID(searchID)
@@ -34,5 +34,5 @@ func main() {
 	}
 
 	// Print the pretty XML
-	fmt.Printf("Advanced Mobile Device Search (ID: %d):\n%s\n", searchID, string(output))
+	fmt.Printf("Advanced Mobile Device Search (ID: %s):\n%s\n", searchID, string(output))
 }

@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	segmentID := 1 // Replace with actual ID of the network segment to delete
+	segmentID := "1" // Replace with actual ID of the network segment to delete
 
 	err = client.DeleteNetworkSegmentByID(segmentID)
 	if err != nil {

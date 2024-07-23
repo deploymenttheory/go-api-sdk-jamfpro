@@ -28,7 +28,7 @@ func main() {
 	}
 
 	// Example ID of the user extension attribute to rupdate
-	attributeID := 1
+	attributeID := "1"
 
 	// Update the attribute
 	updatedAttribute, err := client.UpdateUserExtensionAttributeByID(attributeID, attributeToUpdate) // Use the correct ID

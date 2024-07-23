@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// Delete advanced user search by ID
-	err = client.DeleteAdvancedUserSearchByID(123) // Replace 123 with the actual ID
+	err = client.DeleteAdvancedUserSearchByID("123") // Replace 123 with the actual ID
 	if err != nil {
 		log.Fatalf("Error deleting advanced user search by ID: %v", err)
 	}

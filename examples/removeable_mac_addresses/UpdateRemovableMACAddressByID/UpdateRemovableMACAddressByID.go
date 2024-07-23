@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -24,7 +25,7 @@ func main() {
 		Name: "New_Name", // Replace with the new name
 	}
 
-	macAddress, err := client.UpdateRemovableMACAddressByID(macAddressID, updatedMACAddress)
+	macAddress, err := client.UpdateRemovableMACAddressByID(strconv.Itoa(macAddressID), updatedMACAddress)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return

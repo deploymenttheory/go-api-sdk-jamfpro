@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Replace with the actual ID you want to retrieve
-	profileID := 11
+	profileID := "11"
 
 	profile, err := client.GetBYOProfileByID(profileID)
 	if err != nil {

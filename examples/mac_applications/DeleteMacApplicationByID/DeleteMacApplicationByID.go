@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the ID of the VPP mac application you want to delete
-	profileID := 1
+	profileID := "1"
 
 	// Call the DeleteMacOSConfigurationProfileByID function
 	err = client.DeleteMacApplicationByID(profileID)

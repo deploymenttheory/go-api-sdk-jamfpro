@@ -42,7 +42,7 @@ func main() {
 		},
 	}
 
-	accountGroupID := 2
+	accountGroupID := "1"
 
 	// Call UpdateAccountGroupByID function
 	updatedGroup, err := client.UpdateAccountGroupByID(accountGroupID, updatedAccountGroup)

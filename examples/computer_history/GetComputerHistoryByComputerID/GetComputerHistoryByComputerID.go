@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the fuction parameters
-	computerID := 21
+	computerID := "1"
 
 	// Call the GetComputerHistoryByComputerID function
 	computerHistory, err := client.GetComputerHistoryByComputerID(computerID)

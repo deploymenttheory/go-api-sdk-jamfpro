@@ -29,7 +29,7 @@ func main() {
 		},
 	}
 
-	mobileDeviceID := 1
+	mobileDeviceID := "1"
 
 	// Create the mobile device in Jamf Pro
 	responseDevice, err := client.UpdateMobileDeviceByID(mobileDeviceID, mobileDevice)

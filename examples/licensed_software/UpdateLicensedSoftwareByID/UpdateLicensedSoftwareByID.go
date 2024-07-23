@@ -90,7 +90,7 @@ func main() {
 	}
 
 	// Update the licensed software by ID
-	updatedLicensedSoftware, err := client.UpdateLicensedSoftwareByID(1, licensedSoftware)
+	updatedLicensedSoftware, err := client.UpdateLicensedSoftwareByID("1", licensedSoftware)
 	if err != nil {
 		log.Fatalf("Error updating licensed software by ID: %v", err)
 	}

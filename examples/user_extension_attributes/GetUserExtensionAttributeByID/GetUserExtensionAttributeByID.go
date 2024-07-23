@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID of the user extension attribute to retrieve
-	attributeID := 1
+	attributeID := "1"
 
 	// Fetch user extension attribute by ID
 	attribute, err := client.GetUserExtensionAttributeByID(attributeID)

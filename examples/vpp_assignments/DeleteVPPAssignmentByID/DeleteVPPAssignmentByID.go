@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Specify the ID of the VPP assignment to delete
-	vppAssignmentID := 1 // Replace with the actual ID
+	vppAssignmentID := "1" // Replace with the actual ID
 
 	// Call the DeleteVPPAssignmentByID function
 	err = client.DeleteVPPAssignmentByID(vppAssignmentID)

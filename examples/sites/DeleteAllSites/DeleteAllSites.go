@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -29,7 +30,7 @@ func main() {
 	for _, site := range sites.Site {
 		fmt.Printf("Deleting site ID: %d, Name: %s\n", site.ID, site.Name)
 
-		err = client.DeleteSiteByID(site.ID)
+		err = client.DeleteSiteByID(strconv.Itoa(site.ID))
 		if err != nil {
 			log.Printf("Error deleting site ID %d: %v\n", site.ID, err)
 			continue // Move to the next site if there's an error

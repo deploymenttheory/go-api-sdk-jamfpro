@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Retrieve a network segment by ID
-	id := 1 // Replace with actual ID
+	id := "1" // Replace with actual ID
 	segment, err := client.GetNetworkSegmentByID(id)
 	if err != nil {
 		log.Fatalf("Error fetching network segment by ID: %v", err)

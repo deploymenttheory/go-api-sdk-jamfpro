@@ -41,7 +41,7 @@ func main() {
 		// Include other fields if necessary
 	}
 
-	groupID := 175 // Replace with the actual ID
+	groupID := "1" // Replace with the actual ID
 
 	// Call UpdateComputerGroupByID function
 	updatedGroup, err := client.UpdateComputerGroupByID(groupID, groupUpdate)

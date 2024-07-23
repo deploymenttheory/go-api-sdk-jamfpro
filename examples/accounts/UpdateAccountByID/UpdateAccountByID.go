@@ -46,7 +46,7 @@ func main() {
 	}
 
 	// Let's assume we are updating an account with ID 1.
-	accountID := 501
+	accountID := "501"
 
 	// Call UpdateAccountByID function
 	updatedAccount, err := client.UpdateAccountByID(accountID, accountDetail)

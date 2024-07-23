@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the name of the group you want to update
-	groupID := 1 // Replace with the actual group name
+	groupID := "1" // Replace with the actual group name
 
 	// Define the updated group data with mobile device additions
 	updatedGroup := &jamfpro.ResourceMobileDeviceGroup{

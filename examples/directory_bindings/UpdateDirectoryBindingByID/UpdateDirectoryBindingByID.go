@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// Update directory binding by ID
-	bindingID := 1 // Assuming an existing binding ID
+	bindingID := "1" // Assuming an existing binding ID
 	updatedBindingByID, err := client.UpdateDirectoryBindingByID(bindingID, updateBinding)
 	if err != nil {
 		fmt.Println("Error updating directory binding by ID:", err)

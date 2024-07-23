@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the policy ID to be deleted
-	policyID := 123 // Replace with the actual policy ID
+	policyID := "1" // Replace with the actual policy ID
 
 	// Delete the policy by ID
 	err = client.DeletePolicyByID(policyID) // Changed here from := to =

@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// The ID of the patch policy you want to retrieve
-	patchPolicyID := 1 // Replace with the actual ID you want to retrieve
+	patchPolicyID := "1" // Replace with the actual ID you want to retrieve
 
 	// Call the GetPatchPoliciesByID function
 	patchPolicy, err := client.GetPatchPoliciesByID(patchPolicyID)

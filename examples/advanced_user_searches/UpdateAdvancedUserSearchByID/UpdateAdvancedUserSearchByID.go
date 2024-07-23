@@ -55,7 +55,7 @@ func main() {
 		},
 	}
 
-	searchID := 17 // Replace 123 with the actual ID
+	searchID := "17" // Replace 123 with the actual ID
 
 	// Update by ID
 	updatedByID, err := client.UpdateAdvancedUserSearchByID(searchID, updatedAdvancedUserSearch)

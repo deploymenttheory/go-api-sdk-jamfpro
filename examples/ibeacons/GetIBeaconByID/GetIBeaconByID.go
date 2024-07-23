@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Replace with the actual ID
-	beaconID := 1
+	beaconID := "1"
 
 	iBeacon, err := client.GetIBeaconByID(beaconID)
 	if err != nil {

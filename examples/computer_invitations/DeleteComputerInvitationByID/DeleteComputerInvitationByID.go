@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// The ID of the computer invitation you wish to delete.
-	invitationID := 123 // Replace with the actual ID.
+	invitationID := "1" // Replace with the actual ID.
 
 	// Call the function to delete the computer invitation by ID.
 	err = client.DeleteComputerInvitationByID(invitationID)

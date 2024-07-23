@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// Define the ID of the group you want to delete
-	groupID := 5 // Replace with the actual group ID
+	groupID := "1" // Replace with the actual group ID
 
 	// Call the DeleteMobileDeviceGroupByID function
 	err = client.DeleteMobileDeviceGroupByID(groupID)

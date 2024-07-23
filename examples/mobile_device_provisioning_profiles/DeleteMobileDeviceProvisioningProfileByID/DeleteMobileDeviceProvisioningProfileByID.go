@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := 1 // Replace with the actual ID to delete
+	profileID := "1" // Replace with the actual ID to delete
 
 	err = client.DeleteMobileDeviceProvisioningProfileByID(profileID)
 	if err != nil {

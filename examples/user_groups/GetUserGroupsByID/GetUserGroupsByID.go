@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Replace with the actual user group ID you want to fetch
-	userGroupID := 123
+	userGroupID := "1"
 
 	// Call GetUserGroupsByID to fetch details of a specific user group
 	userGroupDetail, err := client.GetUserGroupByID(userGroupID)

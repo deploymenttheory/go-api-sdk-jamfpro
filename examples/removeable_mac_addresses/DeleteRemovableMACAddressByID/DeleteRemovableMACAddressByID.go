@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	macAddressID := 1 // Replace with the actual MAC address ID
+	macAddressID := "1" // Replace with the actual MAC address ID
 
 	err = client.DeleteRemovableMACAddressByID(macAddressID)
 	if err != nil {

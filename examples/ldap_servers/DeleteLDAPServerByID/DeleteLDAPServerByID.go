@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Delete LDAP server by ID
-	id := 1 // Replace with actual LDAP server ID
+	id := "1" // Replace with actual LDAP server ID
 	err = client.DeleteLDAPServerByID(id)
 	if err != nil {
 		log.Fatalf("Error deleting LDAP server by ID: %v", err)

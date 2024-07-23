@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Replace with the actual invitation ID you want to fetch
-	invitationID := 6
+	invitationID := "1"
 
 	invitation, err := client.GetComputerInvitationByInvitationID(invitationID)
 	if err != nil {

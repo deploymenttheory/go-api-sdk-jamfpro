@@ -18,8 +18,8 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	patchPolicyID := 1  // Example ID
-	subset := "general" // Replace with the desired subset name
+	patchPolicyID := "1" // Example ID
+	subset := "general"  // Replace with the desired subset name
 
 	patchPolicy, err := client.GetPatchPolicyByIDAndDataSubset(patchPolicyID, subset)
 	if err != nil {

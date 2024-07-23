@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -29,7 +30,7 @@ func main() {
 	for _, extAtt := range extAtts.Results {
 		fmt.Printf("Deleting computer extension attribute ID: %d, Name: %s\n", extAtt.ID, extAtt.Name)
 
-		err = client.DeleteComputerExtensionAttributeByID(extAtt.ID)
+		err = client.DeleteComputerExtensionAttributeByID(strconv.Itoa(extAtt.ID))
 		if err != nil {
 			log.Printf("Error deleting computer extension attribute ID %d: %v\n", extAtt.ID, err)
 			continue // Move to the next computer extension attribute if there's an error

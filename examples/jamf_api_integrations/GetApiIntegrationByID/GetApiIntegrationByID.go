@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	integrationID := 1
+	integrationID := "1"
 
 	// Call GetApiIntegrationByID function with an integer ID
 	integration, err := client.GetApiIntegrationByID(integrationID)

@@ -17,7 +17,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	iBeaconID := 1 // Replace with the actual iBeacon ID
+	iBeaconID := "1" // Replace with the actual iBeacon ID
 
 	err = client.DeleteIBeaconByID(iBeaconID)
 	if err != nil {

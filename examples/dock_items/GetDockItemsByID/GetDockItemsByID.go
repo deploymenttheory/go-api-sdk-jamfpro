@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the ID of the dock item to retrieve
-	dockItemID := 9999999999 // Replace with the actual ID of the dock item
+	dockItemID := "1" // Replace with the actual ID of the dock item
 
 	// Call the GetDockItemsByID function
 	dockItem, err := client.GetDockItemByID(dockItemID)

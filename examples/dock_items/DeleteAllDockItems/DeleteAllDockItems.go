@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -29,7 +30,7 @@ func main() {
 	for _, dockItem := range dockItems.DockItems {
 		fmt.Printf("Deleting dock item ID: %d, Name: %s\n", dockItem.ID, dockItem.Name)
 
-		err = client.DeleteDockItemByID(dockItem.ID)
+		err = client.DeleteDockItemByID(strconv.Itoa(dockItem.ID))
 		if err != nil {
 			log.Printf("Error deleting dock item ID %d: %v\n", dockItem.ID, err)
 			continue // Move to the next dock item if there's an error

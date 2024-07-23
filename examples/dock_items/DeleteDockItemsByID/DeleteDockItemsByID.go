@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the ID of the dock item to delete
-	dockItemID := 505 // Replace with the actual ID
+	dockItemID := "1" // Replace with the actual ID
 
 	// Call the DeleteDockItemsByID function
 	err = client.DeleteDockItemByID(dockItemID)

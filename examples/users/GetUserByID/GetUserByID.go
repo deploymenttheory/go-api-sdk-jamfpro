@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Specify the ID of the user you want to retrieve
-	userID := 1 // Replace with the desired user ID
+	userID := "1" // Replace with the desired user ID
 
 	// Call the GetUserByID function
 	user, err := client.GetUserByID(userID)
