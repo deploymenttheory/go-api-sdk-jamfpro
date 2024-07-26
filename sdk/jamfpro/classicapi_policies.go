@@ -123,8 +123,8 @@ type PolicySubsetScope struct {
 	AllJSSUsers    bool                         `xml:"all_jss_users"`
 	Computers      *[]PolicySubsetComputer      `xml:"computers>computer"`
 	ComputerGroups *[]PolicySubsetComputerGroup `xml:"computer_groups>computer_group"`
-	JSSUsers       *[]PolicySubsetJSSUser       `xml:"users>user"`
-	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"user_groups>user_group"`
+	JSSUsers       *[]PolicySubsetJSSUser       `xml:"jss_users>user"`
+	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"jss_user_groups>user_group"`
 	Buildings      *[]PolicySubsetBuilding      `xml:"buildings>building"`
 	Departments    *[]PolicySubsetDepartment    `xml:"departments>department"`
 	// LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
@@ -147,8 +147,8 @@ type PolicySubsetScopeExclusions struct {
 	Buildings       *[]PolicySubsetBuilding       `xml:"buildings>building"`
 	Departments     *[]PolicySubsetDepartment     `xml:"departments>department"`
 	NetworkSegments *[]PolicySubsetNetworkSegment `xml:"network_segments>network_segment"`
-	JSSUsers        *[]PolicySubsetJSSUser        `xml:"users>user"`
-	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"user_groups>user_group"`
+	JSSUsers        *[]PolicySubsetJSSUser        `xml:"jss_users>user"`
+	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"jss_user_groups>user_group"`
 	IBeacons        *[]PolicySubsetIBeacon        `xml:"ibeacons>ibeacon"`
 }
 
