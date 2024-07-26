@@ -123,8 +123,8 @@ type PolicySubsetScope struct {
 	AllJSSUsers    bool                         `xml:"all_jss_users"`
 	Computers      *[]PolicySubsetComputer      `xml:"computers>computer"`
 	ComputerGroups *[]PolicySubsetComputerGroup `xml:"computer_groups>computer_group"`
-	JSSUsers       *[]PolicySubsetJSSUser       `xml:"jss_users>user"`
-	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"jss_user_groups>user_group"`
+	JSSUsers       *[]PolicySubsetJSSUser       `xml:"jss_users>user"`             // May not exist on policy scope?
+	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"jss_user_groups>user_group"` // May not exist on policy scope?
 	Buildings      *[]PolicySubsetBuilding      `xml:"buildings>building"`
 	Departments    *[]PolicySubsetDepartment    `xml:"departments>department"`
 	// LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
@@ -147,8 +147,8 @@ type PolicySubsetScopeExclusions struct {
 	Buildings       *[]PolicySubsetBuilding       `xml:"buildings>building"`
 	Departments     *[]PolicySubsetDepartment     `xml:"departments>department"`
 	NetworkSegments *[]PolicySubsetNetworkSegment `xml:"network_segments>network_segment"`
-	JSSUsers        *[]PolicySubsetJSSUser        `xml:"jss_users>user"`
-	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"jss_user_groups>user_group"`
+	JSSUsers        *[]PolicySubsetJSSUser        `xml:"jss_users>user"`             // May not exist on policy exclusions?
+	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"jss_user_groups>user_group"` // May not exist on policy exclusions?
 	IBeacons        *[]PolicySubsetIBeacon        `xml:"ibeacons>ibeacon"`
 }
 
