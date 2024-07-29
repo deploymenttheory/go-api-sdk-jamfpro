@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.3
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.57.1
 	github.com/deploymenttheory/go-api-http-client v0.2.9-0.20240729085958-f2cfa229bce4
-	github.com/deploymenttheory/go-api-http-client-integrations v0.0.9-0.20240725142158-a6cb65db952e
+	github.com/deploymenttheory/go-api-http-client-integrations v0.0.9-0.20240729110400-71d9a725acdb
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
 )

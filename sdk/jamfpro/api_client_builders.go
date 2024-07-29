@@ -134,6 +134,7 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 	var integration *jamfprointegration.Integration
 	var err error
 
+	prodExecutor := &httpclient.ProdExecutor{Client: &http.Client{}}
 	switch config.AuthMethod {
 	case "oauth2":
 		integration, err = jamfprointegration.BuildWithOAuth(
@@ -143,6 +144,7 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			config.ClientID,
 			config.ClientSecret,
 			config.HideSensitiveData,
+			prodExecutor,
 		)
 	case "basic":
 		integration, err = jamfprointegration.BuildWithBasicAuth(
@@ -152,6 +154,7 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			config.Username,
 			config.Password,
 			config.HideSensitiveData,
+			prodExecutor,
 		)
 	default:
 		return nil, fmt.Errorf("invalid auth method supplied")
