@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -43,7 +44,7 @@ func main() {
 	}
 
 	for _, profile := range profilesList.Results {
-		respProfile, err := client.GetMacOSConfigurationProfileByID(profile.ID)
+		respProfile, err := client.GetMacOSConfigurationProfileByID(strconv.Itoa(profile.ID))
 		if err != nil {
 			log.Printf("Failed to fetch profile with ID %d: %v", profile.ID, err)
 			continue
