@@ -43,7 +43,7 @@ type ResourcePolicy struct {
 	PackageConfiguration *PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
 	Scripts              []PolicySubsetScript              `xml:"scripts>script"`
 	Printers             *PolicySubsetPrinters             `xml:"printers"`
-	DockItems            PolicySubsetDockItems             `xml:"dock_items"`
+	DockItems            []PolicySubsetDockItem            `xml:"dock_items>dock_item"`
 	AccountMaintenance   *PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
 	Maintenance          *PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
 	FilesProcesses       *PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
@@ -219,12 +219,6 @@ type PolicySubsetPrinter struct {
 }
 
 // Dock Items
-
-// PolicySubsetDockItems represents the dock items settings of a policy
-type PolicySubsetDockItems struct {
-	// Size     int                     `xml:"size"`
-	DockItem *[]PolicySubsetDockItem `xml:"dock_item"`
-}
 
 type PolicySubsetDockItem struct {
 	ID     int    `xml:"id"`
