@@ -496,7 +496,6 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, policy.General.ID)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy
@@ -514,7 +513,6 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndU
 		defer resp.Body.Close()
 	}
 
-	// Return the ID of the newly created policy
 	return &ResourcePolicy, nil
 }
 
