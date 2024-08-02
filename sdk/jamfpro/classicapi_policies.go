@@ -41,7 +41,7 @@ type ResourcePolicy struct {
 	Scope                PolicySubsetScope                `xml:"scope,omitempty"`
 	SelfService          PolicySubsetSelfService          `xml:"self_service,omitempty"`
 	PackageConfiguration PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
-	Scripts              []PolicySubsetScript             `xml:"scripts>script,omitempty"`
+	Scripts              []PolicySubsetScript             `xml:"scripts>script"`
 	Printers             PolicySubsetPrinters             `xml:"printers,omitempty"`
 	DockItems            PolicySubsetDockItems            `xml:"dock_items,omitempty"`
 	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
