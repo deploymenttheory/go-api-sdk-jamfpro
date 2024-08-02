@@ -4,8 +4,8 @@ go 1.22.4
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.2.9
-	github.com/deploymenttheory/go-api-http-client-integrations v0.0.9
+	github.com/deploymenttheory/go-api-http-client v0.2.10
+	github.com/deploymenttheory/go-api-http-client-integrations v0.0.10
 )
 
 require (
