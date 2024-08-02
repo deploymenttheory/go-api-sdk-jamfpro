@@ -43,7 +43,7 @@ type ResourcePolicy struct {
 	PackageConfiguration *PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
 	Scripts              []PolicySubsetScript              `xml:"scripts>script"`
 	Printers             *PolicySubsetPrinters             `xml:"printers"`
-	DockItems            *PolicySubsetDockItems            `xml:"dock_items"`
+	DockItems            PolicySubsetDockItems             `xml:"dock_items"`
 	AccountMaintenance   *PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
 	Maintenance          *PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
 	FilesProcesses       *PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
