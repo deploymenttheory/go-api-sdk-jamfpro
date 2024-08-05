@@ -37,19 +37,19 @@ type ResponsePolicyCreateAndUpdate struct {
 
 // ResourcePolicy represents the response structure for a single policy
 type ResourcePolicy struct {
-	General              PolicySubsetGeneral               `xml:"general"`
-	Scope                *PolicySubsetScope                `xml:"scope,omitempty"`
-	SelfService          *PolicySubsetSelfService          `xml:"self_service,omitempty"`
-	PackageConfiguration *PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
-	Scripts              []PolicySubsetScript              `xml:"scripts>script"`
-	Printers             *PolicySubsetPrinters             `xml:"printers"`
-	DockItems            []PolicySubsetDockItem            `xml:"dock_items>dock_item"`
-	AccountMaintenance   *PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
-	Maintenance          *PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
-	FilesProcesses       *PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
-	UserInteraction      *PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`
-	DiskEncryption       *PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`
-	Reboot               *PolicySubsetReboot               `xml:"reboot,omitempty"`
+	General              PolicySubsetGeneral              `xml:"general"`
+	Scope                PolicySubsetScope                `xml:"scope,omitempty"`
+	SelfService          PolicySubsetSelfService          `xml:"self_service,omitempty"`
+	PackageConfiguration PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
+	Scripts              []PolicySubsetScript             `xml:"scripts>script"`
+	Printers             PolicySubsetPrinters             `xml:"printers"`
+	DockItems            []PolicySubsetDockItem           `xml:"dock_items>dock_item"`
+	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
+	Maintenance          PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
+	FilesProcesses       PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
+	UserInteraction      PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`
+	DiskEncryption       PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`
+	Reboot               PolicySubsetReboot               `xml:"reboot,omitempty"`
 }
 
 // Subsets & Containers
