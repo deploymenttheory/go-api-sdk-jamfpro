@@ -24,6 +24,12 @@ type ResourceJamfProtectIntegrationSettings struct {
 	AutoInstall    bool   `json:"autoInstall"`
 }
 
+type ResourceJamfProtectIntegrationCreateSettings struct {
+	ProtectURL string `json:"protectUrl"`
+	ClientID   string `json:"clientId"`
+	Password   string `json:"password"`
+}
+
 // CRUD
 
 func (c *Client) GetJamfProtectIntegrationSettings() (*ResourceJamfProtectIntegrationSettings, error) {
@@ -73,6 +79,22 @@ func (c *Client) DeleteJamfProtectIntegration() error {
 	}
 
 	return nil
+}
+
+func (c *Client) CreateJamfProtectIntegration(createSettings ResourceJamfProtectIntegrationCreateSettings) (*ResourceJamfProtectIntegrationSettings, error) {
+	endpoint := fmt.Sprintf("%s/register", uriJamfProtect)
+	var out ResourceJamfProtectIntegrationSettings
+	resp, err := c.HTTP.DoRequest("POST", endpoint, createSettings, &out)
+
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdate, "jamf protect integration settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
 }
 
 // QUERY are we bothered about the rest of the operations at this endpoint? - no i dont thinik so at this stage
