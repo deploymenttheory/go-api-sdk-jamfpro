@@ -37,19 +37,19 @@ type ResponsePolicyCreateAndUpdate struct {
 
 // ResourcePolicy represents the response structure for a single policy
 type ResourcePolicy struct {
-	General              PolicySubsetGeneral              `xml:"general"`
-	Scope                PolicySubsetScope                `xml:"scope,omitempty"`
-	SelfService          PolicySubsetSelfService          `xml:"self_service,omitempty"`
-	PackageConfiguration PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
-	Scripts              []PolicySubsetScript             `xml:"scripts>script"`
-	Printers             PolicySubsetPrinters             `xml:"printers"`
-	DockItems            []PolicySubsetDockItem           `xml:"dock_items>dock_item"`
-	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
-	Maintenance          PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
-	FilesProcesses       PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
-	UserInteraction      PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`
-	DiskEncryption       PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`
-	Reboot               PolicySubsetReboot               `xml:"reboot,omitempty"`
+	General              PolicySubsetGeneral              `xml:"general"`                       // Required
+	Scope                PolicySubsetScope                `xml:"scope,omitempty"`               // Required? Come back to later
+	SelfService          PolicySubsetSelfService          `xml:"self_service,omitempty"`        // Not required but also not listable
+	PackageConfiguration PolicySubsetPackageConfiguration `xml:"package_configuration"`         // List inside
+	Scripts              []PolicySubsetScript             `xml:"scripts>script"`                // Done
+	Printers             PolicySubsetPrinters             `xml:"printers"`                      // List Inside
+	DockItems            []PolicySubsetDockItem           `xml:"dock_items>dock_item"`          // Done
+	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"` // Come back to
+	Maintenance          PolicySubsetMaintenance          `xml:"maintenance"`                   // Only one
+	FilesProcesses       PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`     // Only one
+	UserInteraction      PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`    // Only one
+	DiskEncryption       PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`     // Only one
+	Reboot               PolicySubsetReboot               `xml:"reboot,omitempty"`              // Only One
 }
 
 // Subsets & Containers
@@ -206,9 +206,8 @@ type PolicySubsetScript struct {
 
 // PolicySubsetPrinters represents the printers settings of a policy
 type PolicySubsetPrinters struct {
-	// Size                 int                   `xml:"size"`
-	LeaveExistingDefault bool                   `xml:"leave_existing_default"`
-	Printer              *[]PolicySubsetPrinter `xml:"printer"`
+	LeaveExistingDefault bool                  `xml:"leave_existing_default"`
+	Printer              []PolicySubsetPrinter `xml:"printer"`
 }
 
 type PolicySubsetPrinter struct {
