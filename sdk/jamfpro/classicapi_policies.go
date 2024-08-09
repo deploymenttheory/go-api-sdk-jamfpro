@@ -154,19 +154,19 @@ type PolicySubsetScopeExclusions struct {
 
 // PolicySubsetSelfService represents the self service settings of a policy
 type PolicySubsetSelfService struct {
-	UseForSelfService           bool                               `xml:"use_for_self_service"`
-	SelfServiceDisplayName      string                             `xml:"self_service_display_name"`
-	InstallButtonText           string                             `xml:"install_button_text"`
-	ReinstallButtonText         string                             `xml:"re_install_button_text"`
-	SelfServiceDescription      string                             `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                               `xml:"force_users_to_view_description"`
-	SelfServiceIcon             *SharedResourceSelfServiceIcon     `xml:"self_service_icon"`
-	FeatureOnMainPage           bool                               `xml:"feature_on_main_page"`
-	SelfServiceCategories       *[]PolicySubsetSelfServiceCategory `xml:"self_service_categories>category"`
-	Notification                bool                               `xml:"notification"`
-	NotificationType            string                             `xml:"notification_type"`
-	NotificationSubject         string                             `xml:"notification_subject"`
-	NotificationMessage         string                             `xml:"notification_message"`
+	UseForSelfService           bool                              `xml:"use_for_self_service"`
+	SelfServiceDisplayName      string                            `xml:"self_service_display_name"`
+	InstallButtonText           string                            `xml:"install_button_text"`
+	ReinstallButtonText         string                            `xml:"re_install_button_text"`
+	SelfServiceDescription      string                            `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                              `xml:"force_users_to_view_description"`
+	SelfServiceIcon             *SharedResourceSelfServiceIcon    `xml:"self_service_icon"`
+	FeatureOnMainPage           bool                              `xml:"feature_on_main_page"`
+	SelfServiceCategories       []PolicySubsetSelfServiceCategory `xml:"self_service_categories>category"`
+	Notification                bool                              `xml:"notification"`
+	NotificationType            string                            `xml:"notification_type"`
+	NotificationSubject         string                            `xml:"notification_subject"`
+	NotificationMessage         string                            `xml:"notification_message"`
 }
 
 // Package Configuration
