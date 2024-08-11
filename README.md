@@ -61,7 +61,7 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
     export BASIC_AUTH_PASSWORD="your_basic_auth_password" # Required if using basic auth
     export CLIENT_ID="your_client_id" # Required if using oauth2
     export CLIENT_SECRET="your_client_secret" # Required if using oauth2
-    export LOG_LEVEL="LogLevelDebug" # or "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
+    export LOG_LEVEL="info" # or "debug" / "info" / "warn" / "dpanic" / "error"
     export LOG_OUTPUT_FORMAT="pretty" # or "json" 
     export LOG_CONSOLE_SEPARATOR=" " # or any other separator
     export LOG_EXPORT_PATH="/your/log/path/" # optional, ensure permissions to file path
@@ -99,7 +99,7 @@ For those who prefer using configuration files for setting up the client, the SD
 
     ```json
     {
-      "log_level": "LogLevelDebug", // or "LogLevelInfo" / "LogLevelWarn" / "LogLevelError" / "LogLevelFatal" / "LogLevelPanic"
+      "log_level": "info", // or "debug" / "info" / "warn" / "dpanic" / "error"
       "log_output_format": "pretty", // or "json"
       "log_console_separator": "  ",
       "log_export_path": "/your/log/path/", // optional, ensure permissions to file path
