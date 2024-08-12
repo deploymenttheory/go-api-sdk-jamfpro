@@ -60,11 +60,11 @@ func (c *Client) GetIconInfoByID(id string) (*ResourceIcon, error) {
 
 // UploadPackage uploads a package to the Jamf Pro server. It requires the ID of an existing package
 // manifest within JamfPro and the file paths.
-func (c *Client) UploadIcon(id string, filePaths []string) (*ResourceIcon, error) {
+func (c *Client) UploadIcon(id string, filepath string) (*ResourceIcon, error) {
 	endpoint := uriIcons
 
 	files := map[string][]string{
-		"file": filePaths,
+		"file": {filepath},
 	}
 
 	formFields := map[string]string{}
