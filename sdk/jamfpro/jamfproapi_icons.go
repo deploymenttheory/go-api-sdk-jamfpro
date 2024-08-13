@@ -67,16 +67,22 @@ func (c *Client) UploadIcon(filepath string) (*ResourceIcon, error) {
 		"file": {filepath},
 	}
 
-	formFields := map[string]string{}
-
-	contentTypes := map[string]string{
-		"file": "multipart/form-data",
+	formDataFields := map[string]string{
+		// "description": "a cat",
 	}
 
-	headersMap := map[string]http.Header{}
+	contentTypes := map[string]string{
+		// "image": "image/png",
+	}
+
+	formDataPartHeaders := map[string]http.Header{
+		// "image": {
+		// 	"Content-Disposition": []string{`form-data; name="a new image"; filename="cat.png"`},
+		// },
+	}
 
 	var response ResourceIcon
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formDataFields, contentTypes, formDataPartHeaders, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload Icon: %v", err)
 	}
