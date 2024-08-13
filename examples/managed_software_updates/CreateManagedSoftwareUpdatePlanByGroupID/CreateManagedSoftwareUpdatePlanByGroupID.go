@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define a sample plan for testing
-	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
+	sampleUpdatePlan := &jamfpro.ResourceCreateManagedSoftwareUpdatePlan{
 		Group: jamfpro.ManagedSoftwareUpdatePlanObject{
 			ObjectType: "COMPUTER_GROUP", // COMPUTER_GROUP / MOBILE_DEVICE_GROUP
 			GroupId:    "55",
@@ -34,7 +34,7 @@ func main() {
 		},
 	}
 
-	// Call CreateManagedSoftwareUpdatePlanByDeviceID function
+	// Call CreateManagedSoftwareUpdatePlanByGroupID function
 	createdPlan, err := client.CreateManagedSoftwareUpdatePlanByGroupID(sampleUpdatePlan)
 	if err != nil {
 		log.Fatalf("Error creating managed software update plan: %v", err)

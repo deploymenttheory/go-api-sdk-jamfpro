@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define a sample plan for testing
-	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
+	sampleUpdatePlan := &jamfpro.ResourceCreateManagedSoftwareUpdatePlan{
 		Devices: []jamfpro.ManagedSoftwareUpdatePlanObject{{
 			ObjectType: "COMPUTER", // COMPUTER / MOBILE_DEVICE / APPLE_TV
 			DeviceId:   "18",
