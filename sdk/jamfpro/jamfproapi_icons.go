@@ -64,7 +64,7 @@ func (c *Client) UploadIcon(filepath string) (*ResourceIcon, error) {
 	endpoint := uriIcons
 
 	files := map[string][]string{
-		"file": {filepath},
+		"image": {filepath},
 	}
 
 	formDataFields := map[string]string{
@@ -72,7 +72,7 @@ func (c *Client) UploadIcon(filepath string) (*ResourceIcon, error) {
 	}
 
 	contentTypes := map[string]string{
-		// "image": "image/png",
+		"image": "image/png",
 	}
 
 	formDataPartHeaders := map[string]http.Header{
