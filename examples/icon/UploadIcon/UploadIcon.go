@@ -3,24 +3,47 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
+	"os"
+	"time"
 
+	"github.com/deploymenttheory/go-api-http-client-integrations/jamf/jamfprointegration"
+	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+	"go.uber.org/zap"
 )
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-
-	// Initialize the Jamf Pro client with the HTTP client configuration
-	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
-	if err != nil {
-		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
+	logger, _ := zap.NewDevelopment()
+	clientIntegration, _ := jamfprointegration.BuildWithOAuth(
+		"https://lbgsandbox.jamfcloud.com",
+		logger.Sugar(),
+		5*time.Second,
+		os.Getenv("CLIENT_ID"),
+		os.Getenv("CLIENT_SECRET"),
+		false,
+		&httpclient.ProdExecutor{Client: &http.Client{}},
+	)
+	clientConfig := httpclient.ClientConfig{
+		Integration:           clientIntegration,
+		Sugar:                 logger.Sugar(),
+		PopulateDefaultValues: true,
+		HideSensitiveData:     false,
+		MaxRetryAttempts:      5,
+		HTTPExecutor:          &httpclient.ProdExecutor{Client: &http.Client{}},
 	}
+
+	libClient, err := clientConfig.Build()
+
+	if err != nil {
+		fmt.Printf("error: %v", err)
+	}
+
+	client := jamfpro.Client{HTTP: libClient}
 
 	// Path to the icon file you want to upload
-	filePath := []string{
-		"/Users/dafyddwatkins/localtesting/terraform/support_files/icons/Icon_macOS.svg.png",
-	}
+	filePath := "/Users/joseph/github/go-api-sdk-jamfpro/examples/icon/UploadIcon/cat.png"
 
 	// Call the UploadIcon function
 	uploadResponse, err := client.UploadIcon(filePath)
@@ -29,6 +52,5 @@ func main() {
 		return
 	}
 
-	// Print out the response from the server
-	fmt.Printf("Icon uploaded successfully!\nURL: %s\nID: %d\n", uploadResponse.URL, uploadResponse.ID)
+	log.Println(uploadResponse)
 }

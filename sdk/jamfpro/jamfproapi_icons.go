@@ -69,7 +69,9 @@ func (c *Client) UploadIcon(filepath string) (*ResourceIcon, error) {
 
 	formFields := map[string]string{}
 
-	contentTypes := map[string]string{}
+	contentTypes := map[string]string{
+		"file": "multipart/form-data",
+	}
 
 	headersMap := map[string]http.Header{}
 
