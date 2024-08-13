@@ -65,3 +65,21 @@ type SharedResourceLdapServer struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`
 }
+
+// ResponseError represents the structure of the error response when the force stop request fails.
+type SharedResourcResponseError struct {
+	HTTPStatus int                         `json:"httpStatus"`
+	Errors     []SharedResourceErrorDetail `json:"errors"`
+}
+
+// ErrorDetail represents the details of an error in the response
+// Used by jamfpro api MDM and managed software updates
+type SharedResourceErrorDetail struct {
+	Device      int    `json:"device"`
+	Group       int    `json:"group"`
+	Reason      string `json:"reason"`
+	Code        string `json:"code"`
+	Field       string `json:"field"`
+	Description string `json:"description"`
+	ID          string `json:"id"`
+}

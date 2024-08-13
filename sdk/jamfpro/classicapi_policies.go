@@ -123,8 +123,8 @@ type PolicySubsetScope struct {
 	AllJSSUsers    bool                         `xml:"all_jss_users"`
 	Computers      *[]PolicySubsetComputer      `xml:"computers>computer"`
 	ComputerGroups *[]PolicySubsetComputerGroup `xml:"computer_groups>computer_group"`
-	JSSUsers       *[]PolicySubsetJSSUser       `xml:"jss_users>jss_user"`
-	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"jss_user_groups>jss_user_group"`
+	JSSUsers       *[]PolicySubsetJSSUser       `xml:"jss_users>user"`             // May not exist on policy scope?
+	JSSUserGroups  *[]PolicySubsetJSSUserGroup  `xml:"jss_user_groups>user_group"` // May not exist on policy scope?
 	Buildings      *[]PolicySubsetBuilding      `xml:"buildings>building"`
 	Departments    *[]PolicySubsetDepartment    `xml:"departments>department"`
 	// LimitToUsers   PolicyLimitToUsers              `xml:"limit_to_users,omitempty"`
@@ -147,8 +147,8 @@ type PolicySubsetScopeExclusions struct {
 	Buildings       *[]PolicySubsetBuilding       `xml:"buildings>building"`
 	Departments     *[]PolicySubsetDepartment     `xml:"departments>department"`
 	NetworkSegments *[]PolicySubsetNetworkSegment `xml:"network_segments>network_segment"`
-	JSSUsers        *[]PolicySubsetJSSUser        `xml:"jss_users>jss_user"`
-	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"jss_user_groups>jss_user_group"`
+	JSSUsers        *[]PolicySubsetJSSUser        `xml:"jss_users>user"`             // May not exist on policy exclusions?
+	JSSUserGroups   *[]PolicySubsetJSSUserGroup   `xml:"jss_user_groups>user_group"` // May not exist on policy exclusions?
 	IBeacons        *[]PolicySubsetIBeacon        `xml:"ibeacons>ibeacon"`
 }
 
@@ -489,7 +489,6 @@ func (c *Client) GetPoliciesByType(createdBy string) (*ResponsePoliciesList, err
 func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndUpdate, error) {
 	endpoint := fmt.Sprintf("%s/id/%d", uriPolicies, policy.General.ID)
 
-	// Wrap the policy with the desired XML name using an anonymous struct
 	requestBody := struct {
 		XMLName xml.Name `xml:"policy"`
 		*ResourcePolicy
@@ -507,7 +506,6 @@ func (c *Client) CreatePolicy(policy *ResourcePolicy) (*ResponsePolicyCreateAndU
 		defer resp.Body.Close()
 	}
 
-	// Return the ID of the newly created policy
 	return &ResourcePolicy, nil
 }
 

@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -29,7 +30,7 @@ func main() {
 	// Iterate through each computer to fetch its history
 	for _, computer := range computers.Results {
 		// Fetch computer history by ID
-		computerHistory, err := client.GetComputerHistoryByComputerID(computer.ID)
+		computerHistory, err := client.GetComputerHistoryByComputerID(strconv.Itoa(computer.ID))
 		if err != nil {
 			log.Printf("Error fetching computer history for ID %d: %v", computer.ID, err)
 			continue

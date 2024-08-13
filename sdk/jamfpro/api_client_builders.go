@@ -99,6 +99,8 @@ func BuildClient(config *ConfigContainer) (*Client, error) {
 		RetryEligiableRequests:      config.RetryEligiableRequests,
 	}
 
+	httpClientConfig.HTTPExecutor = &httpclient.ProdExecutor{Client: &http.Client{}}
+
 	httpClient, err := httpClientConfig.Build()
 	if err != nil {
 		return nil, fmt.Errorf("failed to build HTTP client: %w", err)

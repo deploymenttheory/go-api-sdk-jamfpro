@@ -3,32 +3,37 @@
 // Requires jamf pro v11.5 or later
 package jamfpro
 
+import (
+	"fmt"
+	"path/filepath"
+)
+
 // DoPackageUpload creates a new package and uploads the package file to Jamf Pro
 // Fix this after v2
-// func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-// 	// Step 1. Create package metadata in Jamf Pro
-// 	pkgName := filepath.Base(filePath)
-// 	packageData.FileName = pkgName
+func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+	// Step 1. Create package metadata in Jamf Pro
+	pkgName := filepath.Base(filePath)
+	packageData.FileName = pkgName
 
-// 	metadataResponse, err := c.CreatePackage(*packageData)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
-// 	}
+	metadataResponse, err := c.CreatePackage(*packageData)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
+	}
 
-// 	// Log the package creation response from Jamf Pro
-// 	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %s\n", metadataResponse.ID)
+	// Log the package creation response from Jamf Pro
+	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %s\n", metadataResponse.ID)
 
-// 	// Step 2. Upload the package file using the newly created package ID
-// 	packageID := metadataResponse.ID
+	// Step 2. Upload the package file using the newly created package ID
+	packageID := metadataResponse.ID
 
-// 	filePaths := []string{filePath}
-// 	uploadResponse, err := c.UploadPackage(packageID, filePaths)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to upload package file: %v", err)
-// 	}
+	filePaths := []string{filePath}
+	uploadResponse, err := c.UploadPackage(packageID, filePaths)
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload package file: %v", err)
+	}
 
-// 	fmt.Println("Package file uploaded successfully")
+	fmt.Println("Package file uploaded successfully")
 
-// 	// Return the package creation response and nil for no error
-// 	return uploadResponse, nil
-// }
+	// Return the package creation response and nil for no error
+	return uploadResponse, nil
+}

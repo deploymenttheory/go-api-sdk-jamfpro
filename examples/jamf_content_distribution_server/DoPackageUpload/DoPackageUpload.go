@@ -23,46 +23,40 @@ func main() {
 
 	// Define package metadata
 	packageData := jamfpro.ResourcePackage{
-		Name:     "Microsoft Edge",
-		Category: "Web Browsers",
-		// Filename is a required field to assign the uploaded JCDS2 package to the Jamf Pro package reference.
-		// Without this field the package stays in a pending state. Value must match the filename of the file being uploaded.
-		Filename:                   "microsoft-edge-121-0-2277-106.pkg",
-		Info:                       "Microsoft Edge Browser Package",
-		Notes:                      "Version 121.0.2277.106. This package installs Microsoft Edge on macOS devices.",
-		Priority:                   10,                                      // Set priority (lower number means higher priority)
-		RebootRequired:             false,                                   // Set to true if a reboot is required after installation
-		FillUserTemplate:           false,                                   // Set to true if the package should fill the user template
-		FillExistingUsers:          false,                                   // Set to true if the package should fill existing user directories
-		BootVolumeRequired:         true,                                    // Set to true if the package must be installed on the boot volume
-		AllowUninstalled:           false,                                   // Set to true if the package can be uninstalled
-		OSRequirements:             "macOS 10.15.x, macOS 11.x, macOS 12.x", // Specify OS requirements
-		RequiredProcessor:          "",                                      // Specify if a particular processor is required, leave blank if no specific requirement
-		SwitchWithPackage:          "",                                      // Specify package ID to switch with this package, leave blank if not applicable
-		InstallIfReportedAvailable: false,                                   // Set to true to install the package even if it's reported as available
-		ReinstallOption:            "Do Not Reinstall",                      // Specify reinstall option, possible values might include "Do Not Reinstall", "Reinstall on Same Version", or "Reinstall on Different Version"
-		TriggeringFiles:            "",                                      // Specify triggering files, leave blank if not applicable
-		SendNotification:           false,                                   // Set to true to send a notification when the package is deployed
+		PackageName:          "Microsoft Edge",
+		FileName:             "microsoft-edge-121-0-2277-106.pkg", // Ensure this matches the actual file name
+		CategoryID:           "1",                                 // Set appropriate Category ID
+		Info:                 "Microsoft Edge Browser Package",
+		Notes:                "Version 121.0.2277.106. This package installs Microsoft Edge on macOS devices.",
+		Priority:             10,                                      // Set priority (lower number means higher priority)
+		RebootRequired:       BoolPtr(false),                          // Set to true if a reboot is required after installation
+		FillUserTemplate:     BoolPtr(false),                          // Set to true if the package should fill the user template
+		FillExistingUsers:    BoolPtr(false),                          // Set to true if the package should fill existing user directories
+		OSInstall:            BoolPtr(true),                           // Set to true if this is an OS install package
+		SuppressUpdates:      BoolPtr(false),                          // Set to true to suppress updates
+		SuppressFromDock:     BoolPtr(false),                          // Set to true to suppress from dock
+		SuppressEula:         BoolPtr(false),                          // Set to true to suppress EULA
+		SuppressRegistration: BoolPtr(false),                          // Set to true to suppress registration
+		OSRequirements:       "macOS 10.15.x, macOS 11.x, macOS 12.x", // Specify OS requirements
 	}
 
 	// Call DoPackageUpload with the file path and package metadata
-	fileResponse, packageResponse, err := client.DoPackageUpload(filePath, &packageData)
+	uploadResponse, err := client.DoPackageUpload(filePath, &packageData)
 	if err != nil {
 		log.Fatalf("Failed to upload package: %v", err)
 	}
 
-	// Combine responses into a single map and marshal
-	combinedResponses := map[string]interface{}{
-		"fileUploadResponse":      fileResponse,
-		"packageCreationResponse": packageResponse,
-	}
-
-	combinedResponseBytes, err := json.Marshal(combinedResponses)
+	// Marshal the response to JSON for output
+	responseBytes, err := json.Marshal(uploadResponse)
 	if err != nil {
-		log.Fatalf("Failed to marshal DoPackageUpload responses: %v", err)
+		log.Fatalf("Failed to marshal upload response: %v", err)
 	}
 
 	// Print the response
-	fmt.Println("Response:", string(combinedResponseBytes))
+	fmt.Println("Response:", string(responseBytes))
+}
 
+// Helper function to create a pointer to a bool
+func BoolPtr(b bool) *bool {
+	return &b
 }

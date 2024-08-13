@@ -131,21 +131,14 @@ type PackageManifest struct {
 
 // ResponseDeployPackage represents the response structure for deploying a package
 type ResponseDeployPackage struct {
-	QueuedCommands []QueuedCommand `json:"queuedCommands"`
-	Errors         []ErrorDetail   `json:"errors"`
+	QueuedCommands []QueuedCommand             `json:"queuedCommands"`
+	Errors         []SharedResourceErrorDetail `json:"errors"`
 }
 
 // QueuedCommand represents the details of a queued command in the response
 type QueuedCommand struct {
 	Device      int    `json:"device"`
 	CommandUUID string `json:"commandUuid"`
-}
-
-// ErrorDetail represents the details of an error in the response
-type ErrorDetail struct {
-	Device int    `json:"device"`
-	Group  int    `json:"group"`
-	Reason string `json:"reason"`
 }
 
 // Renew Profile

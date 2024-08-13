@@ -49,6 +49,19 @@ type ManagedSoftwareUpdatePlanListSubsetStatus struct {
 	ErrorReasons []string `json:"errorReasons"`
 }
 
+// ResponseDeclarationsList represents the response structure for the list of declarations.
+type ResponseDeclarationsList struct {
+	Declarations []ResourceDeclaration `json:"declarations"`
+}
+
+// ResourceDeclaration represents the structure of a single declaration associated with a managed software update plan.
+type ResourceDeclaration struct {
+	UUID        string `json:"uuid"`
+	PayloadJson string `json:"payloadJson"`
+	Type        string `json:"type"`
+	Group       string `json:"group"`
+}
+
 // Response
 
 type ResponseManagedSoftwareUpdatePlanCreate struct {
@@ -74,6 +87,26 @@ type ResponseManagedSoftwareUpdateFeatureToggle struct {
 	RecipeEnabled                bool `json:"recipeEnabled"`
 }
 
+// ResponseManagedSoftwareUpdatePlansFeatureToggleStatus represents the response structure for the feature toggle status.
+type ResponseManagedSoftwareUpdatePlansFeatureToggleStatus struct {
+	ToggleOn  *FeatureToggleStatusDetail `json:"toggleOn"`
+	ToggleOff *FeatureToggleStatusDetail `json:"toggleOff"`
+}
+
+// FeatureToggleStatusDetail represents the detailed status of the feature toggle (on/off).
+type FeatureToggleStatusDetail struct {
+	StartTime                string  `json:"startTime"`
+	EndTime                  string  `json:"endTime"`
+	ElapsedTime              int     `json:"elapsedTime"`
+	State                    string  `json:"state"`
+	TotalRecords             int64   `json:"totalRecords"`
+	ProcessedRecords         int64   `json:"processedRecords"`
+	PercentComplete          float64 `json:"percentComplete"`
+	FormattedPercentComplete string  `json:"formattedPercentComplete"`
+	ExitState                string  `json:"exitState"`
+	ExitMessage              string  `json:"exitMessage"`
+}
+
 // Resource
 
 type ResourceAvailableUpdates struct {
@@ -81,8 +114,8 @@ type ResourceAvailableUpdates struct {
 	IOS   []string `json:"iOS"`
 }
 
-// ResourceManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
-type ResourceManagedSoftwareUpdatePlan struct {
+// ResourceCreateManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
+type ResourceCreateManagedSoftwareUpdatePlan struct {
 	Devices []ManagedSoftwareUpdatePlanObject `json:"devices,omitempty"`
 	Group   ManagedSoftwareUpdatePlanObject   `json:"group,omitempty"`
 	Config  ManagedSoftwareUpdatePlanConfig   `json:"config,omitempty"`
@@ -107,6 +140,20 @@ type ManagedSoftwareUpdatePlanConfig struct {
 // ResourceManagedSoftwareUpdateFeatureToggle represents the payload for updating the feature toggle.
 type ResourceManagedSoftwareUpdateFeatureToggle struct {
 	Toggle bool `json:"toggle"`
+}
+
+// ResourceManagedSoftwareUpdatePlan represents the detailed response for a Managed Software Update Plan.
+type ResourceManagedSoftwareUpdatePlan struct {
+	PlanUuid                  string                                    `json:"planUuid"`
+	Device                    ManagedSoftwareUpdatePlanListSubsetDevice `json:"device"`
+	UpdateAction              string                                    `json:"updateAction"`
+	VersionType               string                                    `json:"versionType"`
+	SpecificVersion           string                                    `json:"specificVersion"`
+	BuildVersion              string                                    `json:"buildVersion,omitempty"`
+	MaxDeferrals              int                                       `json:"maxDeferrals"`
+	ForceInstallLocalDateTime string                                    `json:"forceInstallLocalDateTime,omitempty"`
+	RecipeId                  string                                    `json:"recipeId"`
+	Status                    ManagedSoftwareUpdatePlanListSubsetStatus `json:"status"`
 }
 
 // CRUD
@@ -158,7 +205,7 @@ func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseMan
 }
 
 // CreateManagedSoftwareUpdatePlanByDeviceID Creates Managed Software Update Plan by Device ID
-func (c *Client) CreateManagedSoftwareUpdatePlanByDeviceID(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
+func (c *Client) CreateManagedSoftwareUpdatePlanByDeviceID(plan *ResourceCreateManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
 	endpoint := uriManagedSoftwareUpdates + "/plans"
 	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
 
@@ -208,8 +255,43 @@ func (c *Client) UpdateManagedSoftwareUpdateFeatureToggle(payload *ResourceManag
 	return &response, nil
 }
 
+// ForceStopManagedSoftwareUpdateFeatureToggleProcess forcefully stops any ongoing or stalled feature-toggle processes.
+// This "Break Glass" endpoint should not be used under nominal conditions.
+func (c *Client) ForceStopManagedSoftwareUpdateFeatureToggleProcess() (*SharedResourcResponseError, error) {
+	endpoint := fmt.Sprintf("%s/plans/feature-toggle/abandon", uriManagedSoftwareUpdates)
+	var responseError SharedResourcResponseError
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &responseError)
+	if err != nil {
+		return nil, fmt.Errorf("failed to forcefully abandon feature-toggle process: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseError, nil
+}
+
+// GetManagedSoftwareUpdatePlansFeatureToggleStatus retrieves the background status of the Feature Toggle.
+func (c *Client) GetManagedSoftwareUpdatePlansFeatureToggleStatus() (*ResponseManagedSoftwareUpdatePlansFeatureToggleStatus, error) {
+	endpoint := fmt.Sprintf("%s/plans/feature-toggle/status", uriManagedSoftwareUpdates)
+
+	var status ResponseManagedSoftwareUpdatePlansFeatureToggleStatus
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &status)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve feature toggle status: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &status, nil
+}
+
 // CreateManagedSoftwareUpdatePlanByDeviceGroupID creates a managed software update plan by group ID
-func (c *Client) CreateManagedSoftwareUpdatePlanByGroupID(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
+func (c *Client) CreateManagedSoftwareUpdatePlanByGroupID(plan *ResourceCreateManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
 	endpoint := uriManagedSoftwareUpdates + "/plans/group"
 	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
 
@@ -240,4 +322,38 @@ func (c *Client) GetManagedSoftwareUpdatePlansByGroupID(groupId string, groupTyp
 	}
 
 	return &responseManagedSoftwareUpdatePlanList, nil
+}
+
+// GetManagedSoftwareUpdatePlanByUUID retrieves a Managed Software Update Plan by its UUID.
+func (c *Client) GetManagedSoftwareUpdatePlanByUUID(UUID string) (*ResourceManagedSoftwareUpdatePlan, error) {
+	endpoint := fmt.Sprintf("%s/plans/%s", uriManagedSoftwareUpdates, UUID)
+
+	var planDetail ResourceManagedSoftwareUpdatePlan
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &planDetail)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve managed software update plan with ID %s: %v", UUID, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &planDetail, nil
+}
+
+// GetDeclarationsByManagedSoftwareUpdatePlanUUID retrieves all Declarations associated with a Managed Software Update Plan by its UUID.
+func (c *Client) GetDeclarationsByManagedSoftwareUpdatePlanUUID(UUID string) (*ResponseDeclarationsList, error) {
+	endpoint := fmt.Sprintf("%s/plans/%s/declarations", uriManagedSoftwareUpdates, UUID)
+
+	var declarationsList ResponseDeclarationsList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &declarationsList)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve declarations for managed software update plan with ID %s: %v", UUID, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &declarationsList, nil
 }
