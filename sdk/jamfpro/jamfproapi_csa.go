@@ -9,90 +9,74 @@ import "fmt"
 
 const uriCSATokenExchange = "/api/v1/csa/token"
 
-// Structs
+// Response
 
-type ResourceCSATokenExchange struct {
+// ResponseCSATokenExchangeDetails represents the response structure for the CSA token exchange details.
+type ResponseCSATokenExchangeDetails struct {
+	TenantID          string   `json:"tenantId"`
+	Subject           string   `json:"subject"`
 	RefreshExpiration int      `json:"refreshExpiration"`
 	Scopes            []string `json:"scopes"`
 }
 
+// ResponseCSATenantID represents the response structure for the CSA tenant ID.
+type ResponseCSATenantID struct {
+	TenantID string `json:"tenantId"`
+}
+
 // CRUD
 
-func (c *Client) GetCSATokenExchangeInfo() (*ResourceCSATokenExchange, error) {
+// GetCSATokenExchangeDetails retrieves details regarding the CSA token exchange.
+func (c *Client) GetCSATokenExchangeDetails() (*ResponseCSATokenExchangeDetails, error) {
 	endpoint := uriCSATokenExchange
-	var out ResourceCSATokenExchange
+	var details ResponseCSATokenExchangeDetails
 
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &details)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "csa token exchange info", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "csa token exchange details", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &out, nil
+	return &details, nil
 }
 
-func (c *Client) RefreshCSATokenExchange(username, password string) (*ResourceCSATokenExchange, error) {
-	endpoint := uriCSATokenExchange
-	var out ResourceCSATokenExchange
+// GetCSATenantID retrieves the CSA tenant ID.
+func (c *Client) GetCSATenantID() (*ResponseCSATenantID, error) {
+	endpoint := fmt.Sprintf("%s/tenant-id", uriCSATokenExchange)
+	var tenantID ResponseCSATenantID
 
-	payload := struct {
-		Username string
-		Password string
-	}{
-		Username: username,
-		Password: password,
-	}
-
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &out)
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &tenantID)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdate, "csa token exchange", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "CSA tenant ID", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &out, nil
+	return &tenantID, nil
 }
 
-func (c *Client) InitializeCSATokenExchange(username, password string) (*ResourceCSATokenExchange, error) {
+// DeleteCSATokenExchange deletes the CSA token exchange, disabling Jamf Pro's ability to authenticate with cloud-hosted services.
+func (c *Client) DeleteCSATokenExchange() (*SharedResourcResponseError, error) {
 	endpoint := uriCSATokenExchange
-	var out ResourceCSATokenExchange
 
-	payload := struct {
-		Username string
-		Password string
-	}{
-		Username: username,
-		Password: password,
-	}
-
-	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &out)
+	var responseError SharedResourcResponseError
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &responseError)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdate, "csa token exchange", err)
+		return nil, fmt.Errorf(errMsgFailedDelete, "CSA token exchange", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
-	}
-
-	return &out, nil
-}
-
-func (c *Client) DeleteCSATokenExchange() error {
-	endpoint := uriCSATokenExchange
-
-	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
-	if err != nil {
-		return fmt.Errorf(errMsgFailedDelete, "csa token exchange", err)
 	}
 
 	if resp.StatusCode != 204 {
-		return fmt.Errorf(errMsgFailedDelete, "csa token exchange", err)
+		return &responseError, fmt.Errorf("failed to delete CSA token exchange: %v", responseError)
 	}
 
-	return nil
+	return nil, nil
 }
