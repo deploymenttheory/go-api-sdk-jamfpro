@@ -45,8 +45,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/deploymenttheory/go-api-http-client v0.2.11-0.20240801155241-3504d44ae1ef h1:SsCLj+eyB299Fc/w74IELj34Iav+QzXcww5Lhg/iqaE=
 github.com/deploymenttheory/go-api-http-client v0.2.11-0.20240801155241-3504d44ae1ef/go.mod h1:LKDnBcieS6CyikZjTKPpziVdxnTwzBHE6Hx1cuWRcuU=
-github.com/deploymenttheory/go-api-http-client-integrations v0.0.9-0.20240813092127-2049375c9033 h1:Ve3pszgieC6RUFSuOT/GcwRAa6U3yU7Cyxir7sluXV0=
-github.com/deploymenttheory/go-api-http-client-integrations v0.0.9-0.20240813092127-2049375c9033/go.mod h1:lrKMgRWzgLYKRdwAFkDtWA8jE3S9Di9P6VZATLNf0CQ=
+github.com/deploymenttheory/go-api-http-client-integrations v0.0.9-0.20240813093612-60356b3bf69a h1:HIlFFhq/mtL/e/HyLoAwSQmwNyJCxXBkCeRIl5GT1Cg=
+github.com/deploymenttheory/go-api-http-client-integrations v0.0.9-0.20240813093612-60356b3bf69a/go.mod h1:yzHJLElNOxwSFj1hW6i3rnhkdsJoBbwmepWKDVdGd6Y=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da h1:oI5xCqsCo564l8iNU+DwB5epxmsaqB+rhGL0m5jtYqE=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
