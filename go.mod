@@ -4,8 +4,8 @@ go 1.22.4
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.2.10
-	github.com/deploymenttheory/go-api-http-client-integrations v0.0.10
+	github.com/deploymenttheory/go-api-http-client v0.2.11
+	github.com/deploymenttheory/go-api-http-client-integrations v0.0.11
 )
 
 require (
@@ -33,7 +33,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.30.3 // indirect
 	github.com/aws/smithy-go v1.20.3 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 )
 
 require (
@@ -43,6 +44,6 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0
-	golang.org/x/net v0.26.0 // indirect
+	golang.org/x/net v0.28.0 // indirect
 
 )

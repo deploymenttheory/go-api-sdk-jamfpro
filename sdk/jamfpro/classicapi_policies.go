@@ -37,19 +37,19 @@ type ResponsePolicyCreateAndUpdate struct {
 
 // ResourcePolicy represents the response structure for a single policy
 type ResourcePolicy struct {
-	General              PolicySubsetGeneral               `xml:"general"`
-	Scope                *PolicySubsetScope                `xml:"scope,omitempty"`
-	SelfService          *PolicySubsetSelfService          `xml:"self_service,omitempty"`
-	PackageConfiguration *PolicySubsetPackageConfiguration `xml:"package_configuration,omitempty"`
-	Scripts              *[]PolicySubsetScript             `xml:"scripts>script,omitempty"`
-	Printers             *PolicySubsetPrinters             `xml:"printers,omitempty"`
-	DockItems            *PolicySubsetDockItems            `xml:"dock_items,omitempty"`
-	AccountMaintenance   *PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"`
-	Maintenance          *PolicySubsetMaintenance          `xml:"maintenance,omitempty"`
-	FilesProcesses       *PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`
-	UserInteraction      *PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`
-	DiskEncryption       *PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`
-	Reboot               *PolicySubsetReboot               `xml:"reboot,omitempty"`
+	General              PolicySubsetGeneral              `xml:"general"`                       // Required
+	Scope                PolicySubsetScope                `xml:"scope,omitempty"`               // Required? Come back to later
+	SelfService          PolicySubsetSelfService          `xml:"self_service,omitempty"`        // Not required but also not listable
+	PackageConfiguration PolicySubsetPackageConfiguration `xml:"package_configuration"`         // List inside
+	Scripts              []PolicySubsetScript             `xml:"scripts>script"`                // Done
+	Printers             PolicySubsetPrinters             `xml:"printers"`                      // List Inside
+	DockItems            []PolicySubsetDockItem           `xml:"dock_items>dock_item"`          // Done
+	AccountMaintenance   PolicySubsetAccountMaintenance   `xml:"account_maintenance,omitempty"` // Come back to
+	Maintenance          PolicySubsetMaintenance          `xml:"maintenance"`                   // Only one
+	FilesProcesses       PolicySubsetFilesProcesses       `xml:"files_processes,omitempty"`     // Only one
+	UserInteraction      PolicySubsetUserInteraction      `xml:"user_interaction,omitempty"`    // Only one
+	DiskEncryption       PolicySubsetDiskEncryption       `xml:"disk_encryption,omitempty"`     // Only one
+	Reboot               PolicySubsetReboot               `xml:"reboot,omitempty"`              // Only One
 }
 
 // Subsets & Containers
@@ -154,19 +154,19 @@ type PolicySubsetScopeExclusions struct {
 
 // PolicySubsetSelfService represents the self service settings of a policy
 type PolicySubsetSelfService struct {
-	UseForSelfService           bool                               `xml:"use_for_self_service"`
-	SelfServiceDisplayName      string                             `xml:"self_service_display_name"`
-	InstallButtonText           string                             `xml:"install_button_text"`
-	ReinstallButtonText         string                             `xml:"re_install_button_text"`
-	SelfServiceDescription      string                             `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                               `xml:"force_users_to_view_description"`
-	SelfServiceIcon             *SharedResourceSelfServiceIcon     `xml:"self_service_icon"`
-	FeatureOnMainPage           bool                               `xml:"feature_on_main_page"`
-	SelfServiceCategories       *[]PolicySubsetSelfServiceCategory `xml:"self_service_categories>category"`
-	Notification                bool                               `xml:"notification"`
-	NotificationType            string                             `xml:"notification_type"`
-	NotificationSubject         string                             `xml:"notification_subject"`
-	NotificationMessage         string                             `xml:"notification_message"`
+	UseForSelfService           bool                              `xml:"use_for_self_service"`
+	SelfServiceDisplayName      string                            `xml:"self_service_display_name"`
+	InstallButtonText           string                            `xml:"install_button_text"`
+	ReinstallButtonText         string                            `xml:"re_install_button_text"`
+	SelfServiceDescription      string                            `xml:"self_service_description"`
+	ForceUsersToViewDescription bool                              `xml:"force_users_to_view_description"`
+	SelfServiceIcon             *SharedResourceSelfServiceIcon    `xml:"self_service_icon"`
+	FeatureOnMainPage           bool                              `xml:"feature_on_main_page"`
+	SelfServiceCategories       []PolicySubsetSelfServiceCategory `xml:"self_service_categories>category"`
+	Notification                bool                              `xml:"notification"`
+	NotificationType            string                            `xml:"notification_type"`
+	NotificationSubject         string                            `xml:"notification_subject"`
+	NotificationMessage         string                            `xml:"notification_message"`
 }
 
 // Package Configuration
@@ -206,9 +206,8 @@ type PolicySubsetScript struct {
 
 // PolicySubsetPrinters represents the printers settings of a policy
 type PolicySubsetPrinters struct {
-	// Size                 int                   `xml:"size"`
-	LeaveExistingDefault bool                   `xml:"leave_existing_default"`
-	Printer              *[]PolicySubsetPrinter `xml:"printer"`
+	LeaveExistingDefault bool                  `xml:"leave_existing_default"`
+	Printer              []PolicySubsetPrinter `xml:"printer"`
 }
 
 type PolicySubsetPrinter struct {
@@ -219,12 +218,6 @@ type PolicySubsetPrinter struct {
 }
 
 // Dock Items
-
-// PolicySubsetDockItems represents the dock items settings of a policy
-type PolicySubsetDockItems struct {
-	// Size     int                     `xml:"size"`
-	DockItem *[]PolicySubsetDockItem `xml:"dock_item"`
-}
 
 type PolicySubsetDockItem struct {
 	ID     int    `xml:"id"`
