@@ -14,7 +14,6 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file
 	logger, _ := zap.NewDevelopment()
 	clientIntegration, _ := jamfprointegration.BuildWithOAuth(
 		"https://lbgsandbox.jamfcloud.com",
@@ -42,10 +41,10 @@ func main() {
 
 	client := jamfpro.Client{HTTP: libClient}
 
-	// Path to the icon file you want to upload
+	// Client done
+
 	filePath := "/Users/joseph/github/go-api-sdk-jamfpro/examples/icon/UploadIcon/cat.png"
 
-	// Call the UploadIcon function
 	uploadResponse, err := client.UploadIcon(filePath)
 	if err != nil {
 		fmt.Printf("Error uploading icon: %s\n", err)
