@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := "1"
+	profileID := "3798"
 
 	// Call GetMacOSConfigurationProfileByID function
 	profile, err := client.GetMacOSConfigurationProfileByID(profileID)
