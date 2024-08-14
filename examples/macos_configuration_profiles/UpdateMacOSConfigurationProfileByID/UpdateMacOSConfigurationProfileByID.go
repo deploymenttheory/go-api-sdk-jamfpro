@@ -38,7 +38,7 @@ func main() {
 			AllComputers: false,
 			AllJSSUsers:  false,
 		},
-		SelfService: jamfpro.MacOSConfigurationProfileSubsetSelfService{
+		SelfService: &jamfpro.MacOSConfigurationProfileSubsetSelfService{
 			InstallButtonText:           "Install",
 			SelfServiceDescription:      "null",
 			ForceUsersToViewDescription: false,

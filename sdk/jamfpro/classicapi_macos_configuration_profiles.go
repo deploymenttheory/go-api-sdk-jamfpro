@@ -44,9 +44,9 @@ type ResponseMacOSConfigurationProfileCreationUpdate struct {
 
 // ResourceMacOSConfigurationProfiles represents the response structure for a macOS configuration profile.
 type ResourceMacOSConfigurationProfile struct {
-	General     MacOSConfigurationProfileSubsetGeneral     `xml:"general"`
-	Scope       MacOSConfigurationProfileSubsetScope       `xml:"scope,omitempty"`
-	SelfService MacOSConfigurationProfileSubsetSelfService `xml:"self_service,omitempty"`
+	General     MacOSConfigurationProfileSubsetGeneral      `xml:"general"`
+	Scope       MacOSConfigurationProfileSubsetScope        `xml:"scope,omitempty"`
+	SelfService *MacOSConfigurationProfileSubsetSelfService `xml:"self_service,omitempty"`
 }
 
 // Subsets and Containers
