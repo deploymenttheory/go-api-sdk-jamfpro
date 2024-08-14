@@ -47,14 +47,14 @@ func main() {
 				{
 					ID:        5,
 					Name:      "Applications",
-					DisplayIn: true,
-					FeatureIn: true,
+					DisplayIn: jamfpro.TruePtr(),
+					FeatureIn: jamfpro.TruePtr(),
 				},
 				{
 					ID:        162,
 					Name:      "Helpers",
-					DisplayIn: true,
-					FeatureIn: true,
+					DisplayIn: jamfpro.TruePtr(),
+					FeatureIn: jamfpro.TruePtr(),
 				},
 			},
 		},
