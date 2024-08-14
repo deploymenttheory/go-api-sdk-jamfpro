@@ -96,8 +96,8 @@ type MacOSConfigurationProfileSubsetSelfService struct {
 type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 	ID        int    `xml:"id,omitempty"`
 	Name      string `xml:"name,omitempty"`
-	DisplayIn *bool  `xml:"display_in,omitempty"`
-	FeatureIn *bool  `xml:"feature_in,omitempty"`
+	DisplayIn bool   `xml:"display_in,omitempty"`
+	FeatureIn bool   `xml:"feature_in,omitempty"`
 }
 
 // MacOSConfigurationProfileSubsetLimitations represents the limitations subset of a macOS configuration profile.

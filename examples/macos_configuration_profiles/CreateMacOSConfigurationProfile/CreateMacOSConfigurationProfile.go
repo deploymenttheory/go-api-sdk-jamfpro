@@ -29,7 +29,7 @@ func main() {
 			Description:        "",
 			Site:               &jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
 			Category:           &jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
-			DistributionMethod: "Make Available in Self Service",                                      // Install Automatically / Make Available in Self Service
+			DistributionMethod: "Install Automatically",
 			UserRemovable:      false,
 			Level:              "computer",
 			RedeployOnUpdate:   "Newly Assigned",
@@ -43,20 +43,7 @@ func main() {
 			InstallButtonText:           "Install",
 			SelfServiceDescription:      "null",
 			ForceUsersToViewDescription: false,
-			SelfServiceCategories: []jamfpro.MacOSConfigurationProfileSubsetSelfServiceCategory{
-				{
-					ID:        5,
-					Name:      "Applications",
-					DisplayIn: jamfpro.TruePtr(),
-					FeatureIn: jamfpro.TruePtr(),
-				},
-				{
-					ID:        162,
-					Name:      "Helpers",
-					DisplayIn: jamfpro.TruePtr(),
-					FeatureIn: jamfpro.TruePtr(),
-				},
-			},
+			// Add other fields as per the XML example
 		},
 	}
 
