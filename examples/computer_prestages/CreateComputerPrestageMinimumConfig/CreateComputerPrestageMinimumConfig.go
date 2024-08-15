@@ -19,44 +19,45 @@ func main() {
 	}
 
 	// Define the payload for creating a new computer prestage
-	// Manually create a ResourceComputerPrestage struct with mapped values
 	prestage := jamfpro.ResourceComputerPrestage{
-		DisplayName:                       "jamfpro-sdk-example-computerPrestage-config",
-		Mandatory:                         true,
-		MDMRemovable:                      false,
-		SupportPhoneNumber:                "",
-		SupportEmailAddress:               "",
-		Department:                        "",
-		DefaultPrestage:                   false,
+		//ID:                                "-1",
+		DisplayName:                       "jamfpro-sdk-example-computerPrestageMinimum-config",
+		Mandatory:                         jamfpro.TruePtr(),
+		MDMRemovable:                      jamfpro.TruePtr(),
+		SupportPhoneNumber:                "111-222-3333",
+		SupportEmailAddress:               "email@company.com",
+		Department:                        "department name",
+		DefaultPrestage:                   jamfpro.FalsePtr(),
 		EnrollmentSiteId:                  "-1",
-		KeepExistingSiteMembership:        false,
-		KeepExistingLocationInformation:   false,
-		RequireAuthentication:             false,
-		AuthenticationPrompt:              "",
-		PreventActivationLock:             true,
-		EnableDeviceBasedActivationLock:   false,
+		KeepExistingSiteMembership:        jamfpro.FalsePtr(),
+		KeepExistingLocationInformation:   jamfpro.FalsePtr(),
+		RequireAuthentication:             jamfpro.FalsePtr(),
+		AuthenticationPrompt:              "hello welcome to your enterprise managed macOS device",
+		PreventActivationLock:             jamfpro.FalsePtr(),
+		EnableDeviceBasedActivationLock:   jamfpro.FalsePtr(),
 		DeviceEnrollmentProgramInstanceId: "1",
 		SkipSetupItems: jamfpro.ComputerPrestageSubsetSkipSetupItems{
-			Accessibility:     true,
-			Appearance:        true,
-			AppleID:           true,
-			Biometric:         true,
-			Diagnostics:       true,
-			DisplayTone:       true,
-			FileVault:         true,
-			Location:          true,
-			Payment:           true,
-			Privacy:           true,
-			Registration:      true,
-			Restore:           true,
-			ScreenTime:        true,
-			Siri:              true,
-			TOS:               true,
-			TermsOfAddress:    true,
-			ICloudDiagnostics: true,
-			ICloudStorage:     true,
+			Biometric:         jamfpro.FalsePtr(),
+			TermsOfAddress:    jamfpro.FalsePtr(),
+			FileVault:         jamfpro.FalsePtr(),
+			ICloudDiagnostics: jamfpro.FalsePtr(),
+			Diagnostics:       jamfpro.FalsePtr(),
+			Accessibility:     jamfpro.FalsePtr(),
+			AppleID:           jamfpro.FalsePtr(),
+			ScreenTime:        jamfpro.FalsePtr(),
+			Siri:              jamfpro.FalsePtr(),
+			DisplayTone:       jamfpro.FalsePtr(),
+			Restore:           jamfpro.FalsePtr(),
+			Appearance:        jamfpro.FalsePtr(),
+			Privacy:           jamfpro.FalsePtr(),
+			Payment:           jamfpro.FalsePtr(),
+			Registration:      jamfpro.FalsePtr(),
+			TOS:               jamfpro.FalsePtr(),
+			ICloudStorage:     jamfpro.FalsePtr(),
+			Location:          jamfpro.FalsePtr(),
 		},
 		LocationInformation: jamfpro.ComputerPrestageSubsetLocationInformation{
+			ID:           "-1",
 			Username:     "",
 			Realname:     "",
 			Phone:        "",
@@ -65,13 +66,12 @@ func main() {
 			Position:     "",
 			DepartmentId: "-1",
 			BuildingId:   "-1",
-			ID:           "1",
 			VersionLock:  0,
 		},
 		PurchasingInformation: jamfpro.ComputerPrestageSubsetPurchasingInformation{
-			ID:                "1",
-			Leased:            false,
-			Purchased:         true,
+			ID:                "-1",
+			Leased:            jamfpro.FalsePtr(),
+			Purchased:         jamfpro.TruePtr(),
 			AppleCareId:       "",
 			PONumber:          "",
 			Vendor:            "",
@@ -84,38 +84,43 @@ func main() {
 			WarrantyDate:      "1970-01-01",
 			VersionLock:       0,
 		},
-		AnchorCertificates:               []string{},
-		EnrollmentCustomizationId:        "0",
-		Language:                         "en",
-		Region:                           "GB",
-		AutoAdvanceSetup:                 true,
-		InstallProfilesDuringSetup:       true,
-		PrestageInstalledProfileIds:      []string{},
+		EnrollmentCustomizationId:  "0",
+		AutoAdvanceSetup:           jamfpro.FalsePtr(),
+		InstallProfilesDuringSetup: jamfpro.TruePtr(),
+		PrestageInstalledProfileIds: []string{
+			"3847",
+			"3864",
+			"3806",
+		},
 		CustomPackageIds:                 []string{},
 		CustomPackageDistributionPointId: "-1",
-		EnableRecoveryLock:               false,
+		EnableRecoveryLock:               jamfpro.FalsePtr(),
 		RecoveryLockPasswordType:         "MANUAL",
-		RotateRecoveryLockPassword:       false,
-		ID:                               "1",
-		ProfileUuid:                      "C101330EE870D6082D5D08FA013ADE51",
+		RotateRecoveryLockPassword:       jamfpro.FalsePtr(),
+		ProfileUuid:                      "0386E7C8D455A040106850A8A2033968",
 		SiteId:                           "-1",
-		VersionLock:                      3,
 		AccountSettings: jamfpro.ComputerPrestageSubsetAccountSettings{
-			ID:                                      "1",
-			PayloadConfigured:                       true,
-			LocalAdminAccountEnabled:                true,
-			AdminUsername:                           "localAdmin",
-			HiddenAdminAccount:                      true,
-			LocalUserManaged:                        false,
+			ID:                                      "-1",
+			PayloadConfigured:                       jamfpro.TruePtr(),
+			LocalAdminAccountEnabled:                jamfpro.TruePtr(),
+			AdminUsername:                           "Administrator",
+			AdminPassword:                           "Administrator",
+			HiddenAdminAccount:                      jamfpro.TruePtr(),
+			LocalUserManaged:                        jamfpro.FalsePtr(),
 			UserAccountType:                         "ADMINISTRATOR",
-			VersionLock:                             1,
-			PrefillPrimaryAccountInfoFeatureEnabled: false,
-			PrefillType:                             "CUSTOM",
-			PrefillAccountFullName:                  "",
-			PrefillAccountUserName:                  "",
-			PreventPrefillInfoFromModification:      false,
+			PrefillPrimaryAccountInfoFeatureEnabled: jamfpro.TruePtr(),
+			PrefillType:                             "DEVICE_OWNER",
+			PreventPrefillInfoFromModification:      jamfpro.FalsePtr(),
 		},
 	}
+
+	// Marshal the prestage struct to JSON and print it
+	prestageJSON, err := json.MarshalIndent(prestage, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling prestage data: %v", err)
+	}
+	fmt.Println("Prestage configuration to be sent:")
+	fmt.Println(string(prestageJSON))
 
 	// Call the CreateComputerPrestage function
 	createdPrestage, err := client.CreateComputerPrestage(&prestage)
@@ -123,10 +128,11 @@ func main() {
 		log.Fatalf("Error creating computer prestage: %v", err)
 	}
 
-	// Pretty print the computer prestage in JSON
-	prestageJSON, err := json.MarshalIndent(createdPrestage, "", "    ") // Indent with 4 spaces
+	// Pretty print the created computer prestage in JSON
+	createdPrestageJSON, err := json.MarshalIndent(createdPrestage, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling computer prestage data: %v", err)
+		log.Fatalf("Error marshaling created prestage data: %v", err)
 	}
-	fmt.Println("Created computer prestage:\n", string(prestageJSON))
+	fmt.Println("Created computer prestage:")
+	fmt.Println(string(createdPrestageJSON))
 }

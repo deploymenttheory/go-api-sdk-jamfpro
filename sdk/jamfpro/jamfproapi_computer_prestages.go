@@ -48,19 +48,19 @@ type ResponseComputerPrestageCreate struct {
 type ResourceComputerPrestage struct {
 	ID                                string                                      `json:"id"`
 	DisplayName                       string                                      `json:"displayName"`
-	Mandatory                         bool                                        `json:"mandatory"`
-	MDMRemovable                      bool                                        `json:"mdmRemovable"`
+	Mandatory                         *bool                                       `json:"mandatory"`
+	MDMRemovable                      *bool                                       `json:"mdmRemovable"`
 	SupportPhoneNumber                string                                      `json:"supportPhoneNumber,omitempty"`
 	SupportEmailAddress               string                                      `json:"supportEmailAddress,omitempty"`
 	Department                        string                                      `json:"department,omitempty"`
-	DefaultPrestage                   bool                                        `json:"defaultPrestage"`
+	DefaultPrestage                   *bool                                       `json:"defaultPrestage"`
 	EnrollmentSiteId                  string                                      `json:"enrollmentSiteId,omitempty"`
-	KeepExistingSiteMembership        bool                                        `json:"keepExistingSiteMembership"`
-	KeepExistingLocationInformation   bool                                        `json:"keepExistingLocationInformation"`
-	RequireAuthentication             bool                                        `json:"requireAuthentication"`
+	KeepExistingSiteMembership        *bool                                       `json:"keepExistingSiteMembership"`
+	KeepExistingLocationInformation   *bool                                       `json:"keepExistingLocationInformation"`
+	RequireAuthentication             *bool                                       `json:"requireAuthentication"`
 	AuthenticationPrompt              string                                      `json:"authenticationPrompt,omitempty"`
-	PreventActivationLock             bool                                        `json:"preventActivationLock"`
-	EnableDeviceBasedActivationLock   bool                                        `json:"enableDeviceBasedActivationLock"`
+	PreventActivationLock             *bool                                       `json:"preventActivationLock"`
+	EnableDeviceBasedActivationLock   *bool                                       `json:"enableDeviceBasedActivationLock"`
 	DeviceEnrollmentProgramInstanceId string                                      `json:"deviceEnrollmentProgramInstanceId,omitempty"`
 	SkipSetupItems                    ComputerPrestageSubsetSkipSetupItems        `json:"skipSetupItems"`
 	LocationInformation               ComputerPrestageSubsetLocationInformation   `json:"locationInformation"`
@@ -69,15 +69,15 @@ type ResourceComputerPrestage struct {
 	EnrollmentCustomizationId         string                                      `json:"enrollmentCustomizationId,omitempty"`
 	Language                          string                                      `json:"language,omitempty"`
 	Region                            string                                      `json:"region,omitempty"`
-	AutoAdvanceSetup                  bool                                        `json:"autoAdvanceSetup"`
-	InstallProfilesDuringSetup        bool                                        `json:"installProfilesDuringSetup"`
+	AutoAdvanceSetup                  *bool                                       `json:"autoAdvanceSetup"`
+	InstallProfilesDuringSetup        *bool                                       `json:"installProfilesDuringSetup"`
 	PrestageInstalledProfileIds       []string                                    `json:"prestageInstalledProfileIds,omitempty"`
 	CustomPackageIds                  []string                                    `json:"customPackageIds,omitempty"`
 	CustomPackageDistributionPointId  string                                      `json:"customPackageDistributionPointId,omitempty"`
-	EnableRecoveryLock                bool                                        `json:"enableRecoveryLock"`
+	EnableRecoveryLock                *bool                                       `json:"enableRecoveryLock"`
 	RecoveryLockPasswordType          string                                      `json:"recoveryLockPasswordType,omitempty"`
 	RecoveryLockPassword              string                                      `json:"recoveryLockPassword,omitempty"`
-	RotateRecoveryLockPassword        bool                                        `json:"rotateRecoveryLockPassword"`
+	RotateRecoveryLockPassword        *bool                                       `json:"rotateRecoveryLockPassword"`
 	ProfileUuid                       string                                      `json:"profileUuid,omitempty"`
 	SiteId                            string                                      `json:"siteId,omitempty"`
 	VersionLock                       int                                         `json:"versionLock,omitempty"`
@@ -87,24 +87,24 @@ type ResourceComputerPrestage struct {
 // Subsets & Containers
 
 type ComputerPrestageSubsetSkipSetupItems struct {
-	Biometric         bool `json:"Biometric"`
-	TermsOfAddress    bool `json:"TermsOfAddress"`
-	FileVault         bool `json:"FileVault"`
-	ICloudDiagnostics bool `json:"iCloudDiagnostics"`
-	Diagnostics       bool `json:"Diagnostics"`
-	Accessibility     bool `json:"Accessibility"`
-	AppleID           bool `json:"AppleID"`
-	ScreenTime        bool `json:"ScreenTime"`
-	Siri              bool `json:"Siri"`
-	DisplayTone       bool `json:"DisplayTone"`
-	Restore           bool `json:"Restore"`
-	Appearance        bool `json:"Appearance"`
-	Privacy           bool `json:"Privacy"`
-	Payment           bool `json:"Payment"`
-	Registration      bool `json:"Registration"`
-	TOS               bool `json:"TOS"`
-	ICloudStorage     bool `json:"iCloudStorage"`
-	Location          bool `json:"Location"`
+	Biometric         *bool `json:"Biometric"`
+	TermsOfAddress    *bool `json:"TermsOfAddress"`
+	FileVault         *bool `json:"FileVault"`
+	ICloudDiagnostics *bool `json:"iCloudDiagnostics"`
+	Diagnostics       *bool `json:"Diagnostics"`
+	Accessibility     *bool `json:"Accessibility"`
+	AppleID           *bool `json:"AppleID"`
+	ScreenTime        *bool `json:"ScreenTime"`
+	Siri              *bool `json:"Siri"`
+	DisplayTone       *bool `json:"DisplayTone"`
+	Restore           *bool `json:"Restore"`
+	Appearance        *bool `json:"Appearance"`
+	Privacy           *bool `json:"Privacy"`
+	Payment           *bool `json:"Payment"`
+	Registration      *bool `json:"Registration"`
+	TOS               *bool `json:"TOS"`
+	ICloudStorage     *bool `json:"iCloudStorage"`
+	Location          *bool `json:"Location"`
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
@@ -122,8 +122,8 @@ type ComputerPrestageSubsetLocationInformation struct {
 
 type ComputerPrestageSubsetPurchasingInformation struct {
 	ID                string `json:"id,omitempty"`
-	Leased            bool   `json:"leased"`
-	Purchased         bool   `json:"purchased"`
+	Leased            *bool  `json:"leased"`
+	Purchased         *bool  `json:"purchased"`
 	AppleCareId       string `json:"appleCareId"`
 	PONumber          string `json:"poNumber"`
 	Vendor            string `json:"vendor"`
@@ -139,19 +139,19 @@ type ComputerPrestageSubsetPurchasingInformation struct {
 
 type ComputerPrestageSubsetAccountSettings struct {
 	ID                                      string `json:"id,omitempty"`
-	PayloadConfigured                       bool   `json:"payloadConfigured"`
-	LocalAdminAccountEnabled                bool   `json:"localAdminAccountEnabled"`
+	PayloadConfigured                       *bool  `json:"payloadConfigured"`
+	LocalAdminAccountEnabled                *bool  `json:"localAdminAccountEnabled"`
 	AdminUsername                           string `json:"adminUsername,omitempty"`
 	AdminPassword                           string `json:"adminPassword,omitempty"`
-	HiddenAdminAccount                      bool   `json:"hiddenAdminAccount"`
-	LocalUserManaged                        bool   `json:"localUserManaged"`
+	HiddenAdminAccount                      *bool  `json:"hiddenAdminAccount"`
+	LocalUserManaged                        *bool  `json:"localUserManaged"`
 	UserAccountType                         string `json:"userAccountType,omitempty"`
 	VersionLock                             int    `json:"versionLock,omitempty"`
-	PrefillPrimaryAccountInfoFeatureEnabled bool   `json:"prefillPrimaryAccountInfoFeatureEnabled"`
+	PrefillPrimaryAccountInfoFeatureEnabled *bool  `json:"prefillPrimaryAccountInfoFeatureEnabled"`
 	PrefillType                             string `json:"prefillType,omitempty"`
 	PrefillAccountFullName                  string `json:"prefillAccountFullName,omitempty"`
 	PrefillAccountUserName                  string `json:"prefillAccountUserName,omitempty"`
-	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
+	PreventPrefillInfoFromModification      *bool  `json:"preventPrefillInfoFromModification"`
 }
 
 // CRUD
