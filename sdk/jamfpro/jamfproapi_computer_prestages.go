@@ -82,26 +82,26 @@ type ResourceComputerPrestage struct {
 	SiteId                                         string                                      `json:"siteId,omitempty"`
 	VersionLock                                    int                                         `json:"versionLock,omitempty"`
 	AccountSettings                                ComputerPrestageSubsetAccountSettings       `json:"accountSettings,omitempty"`
-	Enabled                                        *bool                                       `json:"enabled"`
-	SsoForEnrollmentEnabled                        *bool                                       `json:"ssoForEnrollmentEnabled"`
-	SsoBypassAllowed                               *bool                                       `json:"ssoBypassAllowed"`
-	SsoEnabled                                     *bool                                       `json:"ssoEnabled"`
-	SsoForMacOsSelfServiceEnabled                  *bool                                       `json:"ssoForMacOsSelfServiceEnabled"`
-	TokenExpirationDisabled                        *bool                                       `json:"tokenExpirationDisabled"`
-	UserAttributeEnabled                           *bool                                       `json:"userAttributeEnabled"`
-	UserAttributeName                              string                                      `json:"userAttributeName"`
-	UserMapping                                    string                                      `json:"userMapping"`
-	EnrollmentSsoForAccountDrivenEnrollmentEnabled *bool                                       `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
-	GroupEnrollmentAccessEnabled                   *bool                                       `json:"groupEnrollmentAccessEnabled"`
-	GroupAttributeName                             string                                      `json:"groupAttributeName"`
-	GroupRdnKey                                    string                                      `json:"groupRdnKey"`
-	GroupEnrollmentAccessName                      string                                      `json:"groupEnrollmentAccessName"`
-	IdpProviderType                                string                                      `json:"idpProviderType"`
-	OtherProviderTypeName                          string                                      `json:"otherProviderTypeName"`
-	MetadataSource                                 string                                      `json:"metadataSource"`
-	SessionTimeout                                 int                                         `json:"sessionTimeout"`
-	DeviceType                                     string                                      `json:"deviceType"`
-	OnboardingItems                                []OnboardingItem                            `json:"onboardingItems"`
+	Enabled                                        *bool                                       `json:"enabled,omitempty"`
+	SsoForEnrollmentEnabled                        *bool                                       `json:"ssoForEnrollmentEnabled,omitempty"`
+	SsoBypassAllowed                               *bool                                       `json:"ssoBypassAllowed,omitempty"`
+	SsoEnabled                                     *bool                                       `json:"ssoEnabled,omitempty"`
+	SsoForMacOsSelfServiceEnabled                  *bool                                       `json:"ssoForMacOsSelfServiceEnabled,omitempty"`
+	TokenExpirationDisabled                        *bool                                       `json:"tokenExpirationDisabled,omitempty"`
+	UserAttributeEnabled                           *bool                                       `json:"userAttributeEnabled,omitempty"`
+	UserAttributeName                              string                                      `json:"userAttributeName,omitempty"`
+	UserMapping                                    string                                      `json:"userMapping,omitempty"`
+	EnrollmentSsoForAccountDrivenEnrollmentEnabled *bool                                       `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled,omitempty"`
+	GroupEnrollmentAccessEnabled                   *bool                                       `json:"groupEnrollmentAccessEnabled,omitempty"`
+	GroupAttributeName                             string                                      `json:"groupAttributeName,omitempty"`
+	GroupRdnKey                                    string                                      `json:"groupRdnKey,omitempty"`
+	GroupEnrollmentAccessName                      string                                      `json:"groupEnrollmentAccessName,omitempty"`
+	IdpProviderType                                string                                      `json:"idpProviderType,omitempty"`
+	OtherProviderTypeName                          string                                      `json:"otherProviderTypeName,omitempty"`
+	MetadataSource                                 string                                      `json:"metadataSource,omitempty"`
+	SessionTimeout                                 int                                         `json:"sessionTimeout,omitempty"`
+	DeviceType                                     string                                      `json:"deviceType,omitempty"`
+	OnboardingItems                                []OnboardingItem                            `json:"onboardingItems,omitempty"`
 }
 
 // Subsets & Containers
