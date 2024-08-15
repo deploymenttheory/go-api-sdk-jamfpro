@@ -17,14 +17,40 @@ const uriReturnToService = "/api/v1/return-to-service"
 // Structs to support JSON data structure
 type ResponseReturnToServiceList struct {
 	TotalCount int                                    `json:"totalCount"`
-	Results    []ResourceReturnToServiceConfiguration `json:"results"`
+	Results    []ResponseReturnToServiceConfiguration `json:"results"`
 }
 
-// Resource
-type ResourceReturnToServiceConfiguration struct {
+// Response
+type ResponseReturnToServiceConfiguration struct {
 	ID            string `json:"id"`
 	DisplayName   string `json:"displayName"`
 	WifiProfileID string `json:"wifiProfileId"`
+}
+
+// Resource
+
+// ResourceReturnToServiceConfiguration represents the structure for a Return to Service configuration
+type ResourceReturnToServiceConfiguration struct {
+	DisplayName                                    string `json:"displayName"`
+	SsoForEnrollmentEnabled                        bool   `json:"ssoForEnrollmentEnabled"`
+	SsoBypassAllowed                               bool   `json:"ssoBypassAllowed"`
+	SsoEnabled                                     bool   `json:"ssoEnabled"`
+	SsoForMacOsSelfServiceEnabled                  bool   `json:"ssoForMacOsSelfServiceEnabled"`
+	TokenExpirationDisabled                        bool   `json:"tokenExpirationDisabled"`
+	UserAttributeEnabled                           bool   `json:"userAttributeEnabled"`
+	UserAttributeName                              string `json:"userAttributeName"`
+	UserMapping                                    string `json:"userMapping"`
+	EnrollmentSsoForAccountDrivenEnrollmentEnabled bool   `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
+	GroupEnrollmentAccessEnabled                   bool   `json:"groupEnrollmentAccessEnabled"`
+	GroupAttributeName                             string `json:"groupAttributeName"`
+	GroupRdnKey                                    string `json:"groupRdnKey"`
+	GroupEnrollmentAccessName                      string `json:"groupEnrollmentAccessName"`
+	IdpProviderType                                string `json:"idpProviderType"`
+	OtherProviderTypeName                          string `json:"otherProviderTypeName"`
+	MetadataSource                                 string `json:"metadataSource"`
+	SessionTimeout                                 int    `json:"sessionTimeout"`
+	DeviceType                                     string `json:"deviceType"`
+	Enabled                                        bool   `json:"enabled"`
 }
 
 // GetReturnToServiceConfigurations fetches a list of devices that are in the Return to Service state.
@@ -44,9 +70,9 @@ func (c *Client) GetReturnToServiceConfigurations() ([]ResponseReturnToServiceLi
 }
 
 // GetReturnToServiceConfigurationByID fetches a specific Return to Service configuration by ID.
-func (c *Client) GetReturnToServiceConfigurationByID(id string) (*ResourceReturnToServiceConfiguration, error) {
+func (c *Client) GetReturnToServiceConfigurationByID(id string) (*ResponseReturnToServiceConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriReturnToService, id)
-	var out ResourceReturnToServiceConfiguration
+	var out ResponseReturnToServiceConfiguration
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "Return To Service Configuration", id, err)
@@ -60,9 +86,9 @@ func (c *Client) GetReturnToServiceConfigurationByID(id string) (*ResourceReturn
 }
 
 // CreateReturnToServiceConfiguration creates a new Return to Service configuration.
-func (c *Client) CreateReturnToServiceConfiguration(config ResourceReturnToServiceConfiguration) (*ResourceReturnToServiceConfiguration, error) {
+func (c *Client) CreateReturnToServiceConfiguration(config ResourceReturnToServiceConfiguration) (*ResponseReturnToServiceConfiguration, error) {
 	endpoint := uriReturnToService
-	var out ResourceReturnToServiceConfiguration
+	var out ResponseReturnToServiceConfiguration
 	resp, err := c.HTTP.DoRequest("POST", endpoint, config, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "Return To Service Configuration", err)
@@ -76,9 +102,9 @@ func (c *Client) CreateReturnToServiceConfiguration(config ResourceReturnToServi
 }
 
 // UpdateReturnToServiceConfigurationByID updates an existing Return to Service configuration by ID.
-func (c *Client) UpdateReturnToServiceConfigurationByID(id string, config ResourceReturnToServiceConfiguration) (*ResourceReturnToServiceConfiguration, error) {
+func (c *Client) UpdateReturnToServiceConfigurationByID(id string, config ResourceReturnToServiceConfiguration) (*ResponseReturnToServiceConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriReturnToService, id)
-	var out ResourceReturnToServiceConfiguration
+	var out ResponseReturnToServiceConfiguration
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, config, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "Return To Service Configuration", id, err)
