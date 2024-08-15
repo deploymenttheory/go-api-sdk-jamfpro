@@ -27,6 +27,11 @@ type ResponseReturnToServiceConfiguration struct {
 	WifiProfileID string `json:"wifiProfileId"`
 }
 
+type ResponseReturnToServiceCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
 // Resource
 
 // ResourceReturnToServiceConfiguration represents the structure for a Return to Service configuration
@@ -86,9 +91,9 @@ func (c *Client) GetReturnToServiceConfigurationByID(id string) (*ResponseReturn
 }
 
 // CreateReturnToServiceConfiguration creates a new Return to Service configuration.
-func (c *Client) CreateReturnToServiceConfiguration(config ResourceReturnToServiceConfiguration) (*ResponseReturnToServiceConfiguration, error) {
+func (c *Client) CreateReturnToServiceConfiguration(config ResourceReturnToServiceConfiguration) (*ResponseReturnToServiceCreate, error) {
 	endpoint := uriReturnToService
-	var out ResponseReturnToServiceConfiguration
+	var out ResponseReturnToServiceCreate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, config, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "Return To Service Configuration", err)
