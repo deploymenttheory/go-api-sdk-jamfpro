@@ -46,65 +46,85 @@ type ResponseComputerPrestageCreate struct {
 // Resource
 
 type ResourceComputerPrestage struct {
-	ID                                string                                      `json:"id"`
-	DisplayName                       string                                      `json:"displayName"`
-	Mandatory                         bool                                        `json:"mandatory"`
-	MDMRemovable                      bool                                        `json:"mdmRemovable"`
-	SupportPhoneNumber                string                                      `json:"supportPhoneNumber,omitempty"`
-	SupportEmailAddress               string                                      `json:"supportEmailAddress,omitempty"`
-	Department                        string                                      `json:"department,omitempty"`
-	DefaultPrestage                   bool                                        `json:"defaultPrestage"`
-	EnrollmentSiteId                  string                                      `json:"enrollmentSiteId,omitempty"`
-	KeepExistingSiteMembership        bool                                        `json:"keepExistingSiteMembership"`
-	KeepExistingLocationInformation   bool                                        `json:"keepExistingLocationInformation"`
-	RequireAuthentication             bool                                        `json:"requireAuthentication"`
-	AuthenticationPrompt              string                                      `json:"authenticationPrompt,omitempty"`
-	PreventActivationLock             bool                                        `json:"preventActivationLock"`
-	EnableDeviceBasedActivationLock   bool                                        `json:"enableDeviceBasedActivationLock"`
-	DeviceEnrollmentProgramInstanceId string                                      `json:"deviceEnrollmentProgramInstanceId,omitempty"`
-	SkipSetupItems                    ComputerPrestageSubsetSkipSetupItems        `json:"skipSetupItems"`
-	LocationInformation               ComputerPrestageSubsetLocationInformation   `json:"locationInformation"`
-	PurchasingInformation             ComputerPrestageSubsetPurchasingInformation `json:"purchasingInformation"`
-	AnchorCertificates                []string                                    `json:"anchorCertificates,omitempty"`
-	EnrollmentCustomizationId         string                                      `json:"enrollmentCustomizationId,omitempty"`
-	Language                          string                                      `json:"language,omitempty"`
-	Region                            string                                      `json:"region,omitempty"`
-	AutoAdvanceSetup                  bool                                        `json:"autoAdvanceSetup"`
-	InstallProfilesDuringSetup        bool                                        `json:"installProfilesDuringSetup"`
-	PrestageInstalledProfileIds       []string                                    `json:"prestageInstalledProfileIds,omitempty"`
-	CustomPackageIds                  []string                                    `json:"customPackageIds,omitempty"`
-	CustomPackageDistributionPointId  string                                      `json:"customPackageDistributionPointId,omitempty"`
-	EnableRecoveryLock                bool                                        `json:"enableRecoveryLock"`
-	RecoveryLockPasswordType          string                                      `json:"recoveryLockPasswordType,omitempty"`
-	RecoveryLockPassword              string                                      `json:"recoveryLockPassword,omitempty"`
-	RotateRecoveryLockPassword        bool                                        `json:"rotateRecoveryLockPassword"`
-	ProfileUuid                       string                                      `json:"profileUuid,omitempty"`
-	SiteId                            string                                      `json:"siteId,omitempty"`
-	VersionLock                       int                                         `json:"versionLock,omitempty"`
-	AccountSettings                   ComputerPrestageSubsetAccountSettings       `json:"accountSettings"`
+	ID                                             string                                      `json:"id"`
+	DisplayName                                    string                                      `json:"displayName"`
+	Mandatory                                      *bool                                       `json:"mandatory"`
+	MDMRemovable                                   *bool                                       `json:"mdmRemovable"`
+	SupportPhoneNumber                             string                                      `json:"supportPhoneNumber"`
+	SupportEmailAddress                            string                                      `json:"supportEmailAddress"`
+	Department                                     string                                      `json:"department"`
+	DefaultPrestage                                *bool                                       `json:"defaultPrestage"`
+	EnrollmentSiteId                               string                                      `json:"enrollmentSiteId"`
+	KeepExistingSiteMembership                     *bool                                       `json:"keepExistingSiteMembership"`
+	KeepExistingLocationInformation                *bool                                       `json:"keepExistingLocationInformation"`
+	RequireAuthentication                          *bool                                       `json:"requireAuthentication"`
+	AuthenticationPrompt                           string                                      `json:"authenticationPrompt"`
+	PreventActivationLock                          *bool                                       `json:"preventActivationLock"`
+	EnableDeviceBasedActivationLock                *bool                                       `json:"enableDeviceBasedActivationLock"`
+	DeviceEnrollmentProgramInstanceId              string                                      `json:"deviceEnrollmentProgramInstanceId"`
+	SkipSetupItems                                 ComputerPrestageSubsetSkipSetupItems        `json:"skipSetupItems,omitempty"`
+	LocationInformation                            ComputerPrestageSubsetLocationInformation   `json:"locationInformation"`
+	PurchasingInformation                          ComputerPrestageSubsetPurchasingInformation `json:"purchasingInformation"`
+	AnchorCertificates                             []string                                    `json:"anchorCertificates,omitempty"`
+	EnrollmentCustomizationId                      string                                      `json:"enrollmentCustomizationId,omitempty"`
+	Language                                       string                                      `json:"language,omitempty"`
+	Region                                         string                                      `json:"region,omitempty"`
+	AutoAdvanceSetup                               *bool                                       `json:"autoAdvanceSetup"`
+	InstallProfilesDuringSetup                     *bool                                       `json:"installProfilesDuringSetup"`
+	PrestageInstalledProfileIds                    []string                                    `json:"prestageInstalledProfileIds"`
+	CustomPackageIds                               []string                                    `json:"customPackageIds"`
+	CustomPackageDistributionPointId               string                                      `json:"customPackageDistributionPointId"`
+	EnableRecoveryLock                             *bool                                       `json:"enableRecoveryLock"`
+	RecoveryLockPasswordType                       string                                      `json:"recoveryLockPasswordType,omitempty"`
+	RecoveryLockPassword                           string                                      `json:"recoveryLockPassword,omitempty"`
+	RotateRecoveryLockPassword                     *bool                                       `json:"rotateRecoveryLockPassword"`
+	ProfileUuid                                    string                                      `json:"profileUuid,omitempty"`
+	SiteId                                         string                                      `json:"siteId,omitempty"`
+	VersionLock                                    int                                         `json:"versionLock,omitempty"`
+	AccountSettings                                ComputerPrestageSubsetAccountSettings       `json:"accountSettings,omitempty"`
+	Enabled                                        *bool                                       `json:"enabled,omitempty"`
+	SsoForEnrollmentEnabled                        *bool                                       `json:"ssoForEnrollmentEnabled,omitempty"`
+	SsoBypassAllowed                               *bool                                       `json:"ssoBypassAllowed,omitempty"`
+	SsoEnabled                                     *bool                                       `json:"ssoEnabled,omitempty"`
+	SsoForMacOsSelfServiceEnabled                  *bool                                       `json:"ssoForMacOsSelfServiceEnabled,omitempty"`
+	TokenExpirationDisabled                        *bool                                       `json:"tokenExpirationDisabled,omitempty"`
+	UserAttributeEnabled                           *bool                                       `json:"userAttributeEnabled,omitempty"`
+	UserAttributeName                              string                                      `json:"userAttributeName,omitempty"`
+	UserMapping                                    string                                      `json:"userMapping,omitempty"`
+	EnrollmentSsoForAccountDrivenEnrollmentEnabled *bool                                       `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled,omitempty"`
+	GroupEnrollmentAccessEnabled                   *bool                                       `json:"groupEnrollmentAccessEnabled,omitempty"`
+	GroupAttributeName                             string                                      `json:"groupAttributeName,omitempty"`
+	GroupRdnKey                                    string                                      `json:"groupRdnKey,omitempty"`
+	GroupEnrollmentAccessName                      string                                      `json:"groupEnrollmentAccessName,omitempty"`
+	IdpProviderType                                string                                      `json:"idpProviderType,omitempty"`
+	OtherProviderTypeName                          string                                      `json:"otherProviderTypeName,omitempty"`
+	MetadataSource                                 string                                      `json:"metadataSource,omitempty"`
+	SessionTimeout                                 int                                         `json:"sessionTimeout,omitempty"`
+	DeviceType                                     string                                      `json:"deviceType,omitempty"`
+	OnboardingItems                                []OnboardingItem                            `json:"onboardingItems,omitempty"`
 }
 
 // Subsets & Containers
 
 type ComputerPrestageSubsetSkipSetupItems struct {
-	Biometric         bool `json:"Biometric"`
-	TermsOfAddress    bool `json:"TermsOfAddress"`
-	FileVault         bool `json:"FileVault"`
-	ICloudDiagnostics bool `json:"iCloudDiagnostics"`
-	Diagnostics       bool `json:"Diagnostics"`
-	Accessibility     bool `json:"Accessibility"`
-	AppleID           bool `json:"AppleID"`
-	ScreenTime        bool `json:"ScreenTime"`
-	Siri              bool `json:"Siri"`
-	DisplayTone       bool `json:"DisplayTone"`
-	Restore           bool `json:"Restore"`
-	Appearance        bool `json:"Appearance"`
-	Privacy           bool `json:"Privacy"`
-	Payment           bool `json:"Payment"`
-	Registration      bool `json:"Registration"`
-	TOS               bool `json:"TOS"`
-	ICloudStorage     bool `json:"iCloudStorage"`
-	Location          bool `json:"Location"`
+	Biometric         *bool `json:"Biometric"`
+	TermsOfAddress    *bool `json:"TermsOfAddress"`
+	FileVault         *bool `json:"FileVault"`
+	ICloudDiagnostics *bool `json:"iCloudDiagnostics"`
+	Diagnostics       *bool `json:"Diagnostics"`
+	Accessibility     *bool `json:"Accessibility"`
+	AppleID           *bool `json:"AppleID"`
+	ScreenTime        *bool `json:"ScreenTime"`
+	Siri              *bool `json:"Siri"`
+	DisplayTone       *bool `json:"DisplayTone"`
+	Restore           *bool `json:"Restore"`
+	Appearance        *bool `json:"Appearance"`
+	Privacy           *bool `json:"Privacy"`
+	Payment           *bool `json:"Payment"`
+	Registration      *bool `json:"Registration"`
+	TOS               *bool `json:"TOS"`
+	ICloudStorage     *bool `json:"iCloudStorage"`
+	Location          *bool `json:"Location"`
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
@@ -114,16 +134,16 @@ type ComputerPrestageSubsetLocationInformation struct {
 	Email        string `json:"email"`
 	Room         string `json:"room"`
 	Position     string `json:"position"`
-	DepartmentId string `json:"departmentId,omitempty"`
-	BuildingId   string `json:"buildingId,omitempty"`
+	DepartmentId string `json:"departmentId"`
+	BuildingId   string `json:"buildingId"`
 	ID           string `json:"id,omitempty"`
 	VersionLock  int    `json:"versionLock"`
 }
 
 type ComputerPrestageSubsetPurchasingInformation struct {
-	ID                string `json:"id,omitempty"`
-	Leased            bool   `json:"leased"`
-	Purchased         bool   `json:"purchased"`
+	ID                string `json:"id"`
+	Leased            *bool  `json:"leased"`
+	Purchased         *bool  `json:"purchased"`
 	AppleCareId       string `json:"appleCareId"`
 	PONumber          string `json:"poNumber"`
 	Vendor            string `json:"vendor"`
@@ -131,27 +151,34 @@ type ComputerPrestageSubsetPurchasingInformation struct {
 	LifeExpectancy    int    `json:"lifeExpectancy"`
 	PurchasingAccount string `json:"purchasingAccount"`
 	PurchasingContact string `json:"purchasingContact"`
-	LeaseDate         string `json:"leaseDate,omitempty"`
-	PODate            string `json:"poDate,omitempty"`
-	WarrantyDate      string `json:"warrantyDate,omitempty"`
+	LeaseDate         string `json:"leaseDate"`
+	PODate            string `json:"poDate"`
+	WarrantyDate      string `json:"warrantyDate"`
 	VersionLock       int    `json:"versionLock"`
 }
 
 type ComputerPrestageSubsetAccountSettings struct {
 	ID                                      string `json:"id,omitempty"`
-	PayloadConfigured                       bool   `json:"payloadConfigured"`
-	LocalAdminAccountEnabled                bool   `json:"localAdminAccountEnabled"`
+	PayloadConfigured                       *bool  `json:"payloadConfigured"`
+	LocalAdminAccountEnabled                *bool  `json:"localAdminAccountEnabled"`
 	AdminUsername                           string `json:"adminUsername,omitempty"`
 	AdminPassword                           string `json:"adminPassword,omitempty"`
-	HiddenAdminAccount                      bool   `json:"hiddenAdminAccount"`
-	LocalUserManaged                        bool   `json:"localUserManaged"`
+	HiddenAdminAccount                      *bool  `json:"hiddenAdminAccount"`
+	LocalUserManaged                        *bool  `json:"localUserManaged"`
 	UserAccountType                         string `json:"userAccountType,omitempty"`
 	VersionLock                             int    `json:"versionLock,omitempty"`
-	PrefillPrimaryAccountInfoFeatureEnabled bool   `json:"prefillPrimaryAccountInfoFeatureEnabled"`
+	PrefillPrimaryAccountInfoFeatureEnabled *bool  `json:"prefillPrimaryAccountInfoFeatureEnabled"`
 	PrefillType                             string `json:"prefillType,omitempty"`
 	PrefillAccountFullName                  string `json:"prefillAccountFullName,omitempty"`
 	PrefillAccountUserName                  string `json:"prefillAccountUserName,omitempty"`
-	PreventPrefillInfoFromModification      bool   `json:"preventPrefillInfoFromModification"`
+	PreventPrefillInfoFromModification      *bool  `json:"preventPrefillInfoFromModification"`
+}
+
+type OnboardingItem struct {
+	SelfServiceEntityType string `json:"selfServiceEntityType"`
+	ID                    string `json:"id"`
+	EntityId              string `json:"entityId"`
+	Priority              int    `json:"priority"`
 }
 
 // CRUD

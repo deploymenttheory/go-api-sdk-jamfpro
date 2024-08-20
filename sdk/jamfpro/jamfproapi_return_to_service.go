@@ -54,8 +54,10 @@ type ResourceReturnToServiceConfiguration struct {
 	OtherProviderTypeName                          string `json:"otherProviderTypeName"`
 	MetadataSource                                 string `json:"metadataSource"`
 	SessionTimeout                                 int    `json:"sessionTimeout"`
-	DeviceType                                     string `json:"deviceType"`
-	Enabled                                        bool   `json:"enabled"`
+	Title                                          string `json:"title"`
+	Description                                    string `json:"description"`
+	Priority                                       int    `json:"priority"`
+	WifiProfileID                                  string `json:"wifiProfileId"`
 }
 
 // GetReturnToServiceConfigurations fetches a list of devices that are in the Return to Service state.
