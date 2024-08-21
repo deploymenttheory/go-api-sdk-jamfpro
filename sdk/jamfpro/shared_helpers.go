@@ -23,11 +23,12 @@ func FalsePtr() *bool {
 	return BoolPtr(false)
 }
 
-// Helper function
+// IncrementStringID increments the given ID string.
+// It returns the incremented ID as a string or panics if the input is not convertible to an integer.
 func IncrementStringID(currentID string) string {
 	id, err := strconv.Atoi(currentID)
 	if err != nil {
-		return fmt.Sprintf("Error converting ID to int: %v", err)
+		panic(fmt.Sprintf("Error converting ID to int: %v", err))
 	}
 	return strconv.Itoa(id + 1)
 }
