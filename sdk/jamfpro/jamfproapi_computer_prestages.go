@@ -2,7 +2,7 @@
 // Jamf Pro Api - Computer Prestages
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-computer-prestages-scope
 // Jamf Pro API requires the structs to support a JSON data structure.
-
+// Endpoint uses optimistic locking, https://developer.jamf.com/jamf-pro/docs/optimistic-locking
 package jamfpro
 
 import (
