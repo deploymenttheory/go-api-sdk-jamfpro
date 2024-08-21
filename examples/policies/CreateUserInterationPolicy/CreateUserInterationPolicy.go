@@ -42,7 +42,7 @@ func main() {
 				Name: "No category assigned",
 			},
 		},
-		SelfService: &jamfpro.PolicySubsetSelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           false,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
@@ -52,7 +52,7 @@ func main() {
 			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
 			FeatureOnMainPage: false,
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
 				Action:                "doNotChange",
 				ManagedPassword:       "",
@@ -64,7 +64,7 @@ func main() {
 				OfPasswordSHA256: "",
 			},
 		},
-		Maintenance: &jamfpro.PolicySubsetMaintenance{
+		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
 			ResetName:                false,
 			InstallAllCachedPackages: false,
@@ -76,7 +76,7 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		FilesProcesses: &jamfpro.PolicySubsetFilesProcesses{
+		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
 			SpotlightSearch:      "",
@@ -84,14 +84,14 @@ func main() {
 			KillProcess:          false,
 			RunCommand:           "",
 		},
-		UserInteraction: &jamfpro.PolicySubsetUserInteraction{
+		UserInteraction: jamfpro.PolicySubsetUserInteraction{
 			MessageStart:          "",
 			AllowUserToDefer:      true,
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		Reboot: &jamfpro.PolicySubsetReboot{
+		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",

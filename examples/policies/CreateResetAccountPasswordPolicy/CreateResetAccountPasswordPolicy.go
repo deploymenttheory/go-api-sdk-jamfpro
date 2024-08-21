@@ -39,7 +39,7 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			// Create reset local account password
 			Accounts: &[]jamfpro.PolicySubsetAccountMaintenanceAccount{
 				{

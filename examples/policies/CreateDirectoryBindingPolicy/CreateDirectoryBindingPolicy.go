@@ -38,7 +38,7 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			DirectoryBindings: &[]jamfpro.PolicySubsetAccountMaintenanceDirectoryBindings{
 				{
 					ID:   2,

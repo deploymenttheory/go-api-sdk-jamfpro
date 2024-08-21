@@ -38,16 +38,14 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		DockItems: &jamfpro.PolicySubsetDockItems{
-			DockItem: &[]jamfpro.PolicySubsetDockItem{
-				{
-					ID:     1352,
-					Name:   "Test",
-					Action: "Add To End", // Add To Beginning / Add To End / Remove
-				},
+		DockItems: []jamfpro.PolicySubsetDockItem{
+			{
+				ID:     1352,
+				Name:   "Test",
+				Action: "Add To End", // Add To Beginning / Add To End / Remove
 			},
 		},
-		SelfService: &jamfpro.PolicySubsetSelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",

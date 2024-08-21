@@ -39,7 +39,7 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			// Create new local account
 			Accounts: &[]jamfpro.PolicySubsetAccountMaintenanceAccount{
 				{

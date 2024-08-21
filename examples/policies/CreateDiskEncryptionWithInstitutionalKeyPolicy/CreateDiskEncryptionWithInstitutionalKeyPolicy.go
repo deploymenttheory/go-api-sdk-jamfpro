@@ -38,16 +38,16 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		DiskEncryption: &jamfpro.PolicySubsetDiskEncryption{
+		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
 			Action:                        "apply",
 			DiskEncryptionConfigurationID: 3,
 			AuthRestart:                   false,
 		},
-		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
+		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
 			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
 			DistributionPoint: "default",
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
 				Action:                "doNotChange",
 				ManagedPassword:       "",

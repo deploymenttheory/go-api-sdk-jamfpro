@@ -40,9 +40,9 @@ func main() {
 			Offline:                    false,
 		},
 		// Printers
-		Printers: &jamfpro.PolicySubsetPrinters{
+		Printers: jamfpro.PolicySubsetPrinters{
 			LeaveExistingDefault: false,
-			Printer: &[]jamfpro.PolicySubsetPrinter{
+			Printer: []jamfpro.PolicySubsetPrinter{
 				{
 					ID:          1740,
 					Name:        "HP 9th Floor 2",

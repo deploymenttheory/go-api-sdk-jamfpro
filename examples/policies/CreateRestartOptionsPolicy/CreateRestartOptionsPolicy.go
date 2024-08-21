@@ -40,7 +40,7 @@ func main() {
 			Offline:                    false,
 		},
 		// Restart options
-		Reboot: &jamfpro.PolicySubsetReboot{
+		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",

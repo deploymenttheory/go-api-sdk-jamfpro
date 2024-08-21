@@ -40,7 +40,7 @@ func main() {
 			Offline:                    false,
 		},
 		// Self Service policy settings
-		SelfService: &jamfpro.PolicySubsetSelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "some text here",
 			InstallButtonText:           "Install",
@@ -53,7 +53,7 @@ func main() {
 				URI:      "https://euw2.ics.services.jamfcloud.com/icon/hash_f6d371a96ce011c4c297bcc09641bdce76e90c53e79bb212f8ca3024cbb53034",
 			},
 			FeatureOnMainPage: true,
-			SelfServiceCategories: &[]jamfpro.PolicySubsetSelfServiceCategory{
+			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
 				{
 					ID:        6,
 					Name:      "Productivity",

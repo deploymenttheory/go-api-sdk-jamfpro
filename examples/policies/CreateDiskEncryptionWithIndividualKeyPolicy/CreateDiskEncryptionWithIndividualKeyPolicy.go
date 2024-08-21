@@ -38,13 +38,13 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		DiskEncryption: &jamfpro.PolicySubsetDiskEncryption{
+		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
 			Action:                        "remediate",
 			DiskEncryptionConfigurationID: 0,
 			AuthRestart:                   false,
 			RemediateKeyType:              "Individual",
 		},
-		SelfService: &jamfpro.PolicySubsetSelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
