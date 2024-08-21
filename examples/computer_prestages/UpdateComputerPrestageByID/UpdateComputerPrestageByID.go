@@ -82,7 +82,7 @@ func main() {
 
 	// Update LocationInformation
 	update.LocationInformation = jamfpro.ComputerPrestageSubsetLocationInformation{
-		ID:           jamfpro.IncrementID(currentPrestage.LocationInformation.ID),
+		ID:           jamfpro.IncrementStringID(currentPrestage.LocationInformation.ID),
 		Username:     "dafydd",
 		Realname:     "",
 		Phone:        "",
@@ -96,7 +96,7 @@ func main() {
 
 	// Update PurchasingInformation
 	update.PurchasingInformation = jamfpro.ComputerPrestageSubsetPurchasingInformation{
-		ID:                jamfpro.IncrementID(currentPrestage.PurchasingInformation.ID),
+		ID:                jamfpro.IncrementStringID(currentPrestage.PurchasingInformation.ID),
 		Leased:            jamfpro.FalsePtr(),
 		Purchased:         jamfpro.TruePtr(),
 		AppleCareId:       "",
@@ -114,7 +114,7 @@ func main() {
 
 	// Update AccountSettings
 	update.AccountSettings = jamfpro.ComputerPrestageSubsetAccountSettings{
-		ID:                                      jamfpro.IncrementID(currentPrestage.AccountSettings.ID),
+		ID:                                      jamfpro.IncrementStringID(currentPrestage.AccountSettings.ID),
 		PayloadConfigured:                       jamfpro.TruePtr(),
 		LocalAdminAccountEnabled:                jamfpro.TruePtr(),
 		AdminUsername:                           "testadmin",
