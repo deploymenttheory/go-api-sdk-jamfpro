@@ -3,6 +3,8 @@
 // and not an empty value.
 package jamfpro
 
+import "strconv"
+
 // BoolPtr returns a pointer to a bool value
 func BoolPtr(b bool) *bool {
 	return &b
@@ -16,4 +18,13 @@ func TruePtr() *bool {
 // FalsePtr returns a pointer to a false bool value
 func FalsePtr() *bool {
 	return BoolPtr(false)
+}
+
+// Helper function
+func IncrementID(currentID string) string {
+	id, err := strconv.Atoi(currentID)
+	if err != nil || id == -1 {
+		return "1"
+	}
+	return strconv.Itoa(id + 1)
 }
