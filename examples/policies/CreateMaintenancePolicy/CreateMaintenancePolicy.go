@@ -40,7 +40,7 @@ func main() {
 			Offline:                    false,
 		},
 		// Create Maintenance Policy
-		Maintenance: &jamfpro.PolicySubsetMaintenance{
+		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    true,
 			ResetName:                true,
 			InstallAllCachedPackages: true,

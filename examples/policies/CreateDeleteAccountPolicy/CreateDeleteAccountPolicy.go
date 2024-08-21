@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define a new policy with all required fields
-	newPolicy := &jamfpro.ResourcePolicy{
+	newPolicy := jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "jamfpro-sdk-example-DeleteAccount-policy-config2",
 			Enabled:                    false,
@@ -38,7 +38,7 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			Accounts: &[]jamfpro.PolicySubsetAccountMaintenanceAccount{
 				{
 					Action:                 "Delete",
@@ -65,7 +65,7 @@ func main() {
 	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
 
 	// Call CreatePolicy function
-	createdPolicy, err := client.CreatePolicy(newPolicy)
+	createdPolicy, err := client.CreatePolicy(&newPolicy)
 	if err != nil {
 		log.Fatalf("Error creating policy: %v", err)
 	}

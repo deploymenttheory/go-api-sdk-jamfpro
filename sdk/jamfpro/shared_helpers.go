@@ -3,6 +3,11 @@
 // and not an empty value.
 package jamfpro
 
+import (
+	"fmt"
+	"strconv"
+)
+
 // BoolPtr returns a pointer to a bool value
 func BoolPtr(b bool) *bool {
 	return &b
@@ -16,4 +21,14 @@ func TruePtr() *bool {
 // FalsePtr returns a pointer to a false bool value
 func FalsePtr() *bool {
 	return BoolPtr(false)
+}
+
+// IncrementStringID increments the given ID string.
+// It returns the incremented ID as a string or panics if the input is not convertible to an integer.
+func IncrementStringID(currentID string) string {
+	id, err := strconv.Atoi(currentID)
+	if err != nil {
+		panic(fmt.Sprintf("Error converting ID to int: %v", err))
+	}
+	return strconv.Itoa(id + 1)
 }

@@ -2,7 +2,7 @@
 // Jamf Pro Api - Computer Prestages
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-computer-prestages-scope
 // Jamf Pro API requires the structs to support a JSON data structure.
-
+// Endpoint uses optimistic locking, https://developer.jamf.com/jamf-pro/docs/optimistic-locking
 package jamfpro
 
 import (
@@ -128,6 +128,7 @@ type ComputerPrestageSubsetSkipSetupItems struct {
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
+	ID           string `json:"id"`
 	Username     string `json:"username"`
 	Realname     string `json:"realname"`
 	Phone        string `json:"phone"`
@@ -136,7 +137,6 @@ type ComputerPrestageSubsetLocationInformation struct {
 	Position     string `json:"position"`
 	DepartmentId string `json:"departmentId"`
 	BuildingId   string `json:"buildingId"`
-	ID           string `json:"id,omitempty"`
 	VersionLock  int    `json:"versionLock"`
 }
 
@@ -165,12 +165,12 @@ type ComputerPrestageSubsetAccountSettings struct {
 	AdminPassword                           string `json:"adminPassword,omitempty"`
 	HiddenAdminAccount                      *bool  `json:"hiddenAdminAccount"`
 	LocalUserManaged                        *bool  `json:"localUserManaged"`
-	UserAccountType                         string `json:"userAccountType,omitempty"`
+	UserAccountType                         string `json:"userAccountType"`
 	VersionLock                             int    `json:"versionLock,omitempty"`
 	PrefillPrimaryAccountInfoFeatureEnabled *bool  `json:"prefillPrimaryAccountInfoFeatureEnabled"`
 	PrefillType                             string `json:"prefillType,omitempty"`
-	PrefillAccountFullName                  string `json:"prefillAccountFullName,omitempty"`
-	PrefillAccountUserName                  string `json:"prefillAccountUserName,omitempty"`
+	PrefillAccountFullName                  string `json:"prefillAccountFullName"`
+	PrefillAccountUserName                  string `json:"prefillAccountUserName"`
 	PreventPrefillInfoFromModification      *bool  `json:"preventPrefillInfoFromModification"`
 }
 

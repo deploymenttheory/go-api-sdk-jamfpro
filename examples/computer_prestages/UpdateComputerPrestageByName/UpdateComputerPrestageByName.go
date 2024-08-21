@@ -18,11 +18,11 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// The ID of the computer prestage you want to update
-	prestageID := "61"
+	// The name of the computer prestage you want to update
+	prestageName := "YOUR_PRESTAGE_NAME_HERE"
 
 	// First, get the current prestage to obtain the current version lock
-	currentPrestage, err := client.GetComputerPrestageByID(prestageID)
+	currentPrestage, err := client.GetComputerPrestageByName(prestageName)
 	if err != nil {
 		log.Fatalf("Error fetching current computer prestage: %v", err)
 	}
@@ -122,16 +122,16 @@ func main() {
 		HiddenAdminAccount:                      jamfpro.TruePtr(),
 		LocalUserManaged:                        jamfpro.FalsePtr(),
 		UserAccountType:                         "ADMINISTRATOR",
-		VersionLock:                             0,
+		VersionLock:                             currentPrestage.AccountSettings.VersionLock + 1,
 		PrefillPrimaryAccountInfoFeatureEnabled: jamfpro.TruePtr(),
-		PrefillType:                             "CUSTOM",            // UNKNOWN / DEVICE_OWNER / CUSTOM
-		PrefillAccountFullName:                  "Firstname.Surname", // Required if PrefillType is CUSTOM
-		PrefillAccountUserName:                  "Firstname.Surname", // Required if PrefillType is CUSTOM
+		PrefillType:                             "CUSTOM",
+		PrefillAccountFullName:                  "Firstname.Surname",
+		PrefillAccountUserName:                  "Firstname.Surname",
 		PreventPrefillInfoFromModification:      jamfpro.FalsePtr(),
 	}
 
-	// Call UpdateComputerPrestageByID to update the prestage
-	updatedPrestage, err := client.UpdateComputerPrestageByID(prestageID, update)
+	// Call UpdateComputerPrestageByName to update the prestage
+	updatedPrestage, err := client.UpdateComputerPrestageByName(prestageName, update)
 	if err != nil {
 		log.Fatalf("Error updating computer prestage: %v", err)
 	}

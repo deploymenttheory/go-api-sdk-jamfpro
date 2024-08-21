@@ -40,7 +40,7 @@ func main() {
 			Offline:                    false,
 		},
 		// scripts
-		Scripts: &[]jamfpro.PolicySubsetScript{
+		Scripts: []jamfpro.PolicySubsetScript{
 			{
 				ID:         "7484",
 				Name:       "tf-ghatest-correct-application-permissions-v1.0",

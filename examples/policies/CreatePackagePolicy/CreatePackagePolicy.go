@@ -39,7 +39,7 @@ func main() {
 			Offline:                    false,
 		},
 		// Package Configuration
-		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
+		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
 			Packages: []jamfpro.PolicySubsetPackageConfigurationPackage{
 				{
 					ID:                232, // Replace with actual package ID

@@ -20,7 +20,6 @@ func main() {
 
 	// Define the payload for creating a new computer prestage
 	prestage := jamfpro.ResourceComputerPrestage{
-		//ID:                                "-1",
 		DisplayName:                       "jamfpro-sdk-example-computerPrestageMinimum-config",
 		Mandatory:                         jamfpro.TruePtr(),
 		MDMRemovable:                      jamfpro.TruePtr(),
@@ -57,7 +56,7 @@ func main() {
 			Location:          jamfpro.FalsePtr(),
 		},
 		LocationInformation: jamfpro.ComputerPrestageSubsetLocationInformation{
-			//ID:           "-1",
+			ID:           "-1", // Required
 			Username:     "",
 			Realname:     "",
 			Phone:        "",
@@ -69,7 +68,7 @@ func main() {
 			VersionLock:  0,
 		},
 		PurchasingInformation: jamfpro.ComputerPrestageSubsetPurchasingInformation{
-			//ID:                "-1",
+			ID:                "-1", // Required
 			Leased:            jamfpro.FalsePtr(),
 			Purchased:         jamfpro.TruePtr(),
 			AppleCareId:       "",
@@ -84,14 +83,10 @@ func main() {
 			WarrantyDate:      "1970-01-01",
 			VersionLock:       0,
 		},
-		EnrollmentCustomizationId:  "0",
-		AutoAdvanceSetup:           jamfpro.FalsePtr(),
-		InstallProfilesDuringSetup: jamfpro.TruePtr(),
-		PrestageInstalledProfileIds: []string{
-			"3847",
-			"3864",
-			"3806",
-		},
+		EnrollmentCustomizationId:        "0",
+		AutoAdvanceSetup:                 jamfpro.FalsePtr(),
+		InstallProfilesDuringSetup:       jamfpro.TruePtr(),
+		PrestageInstalledProfileIds:      []string{},
 		CustomPackageIds:                 []string{},
 		CustomPackageDistributionPointId: "-1",
 		EnableRecoveryLock:               jamfpro.FalsePtr(),
@@ -101,7 +96,6 @@ func main() {
 		SiteId:                           "-1",
 		VersionLock:                      0,
 		AccountSettings: jamfpro.ComputerPrestageSubsetAccountSettings{
-			//ID:                                      "-1",
 			PayloadConfigured:                       jamfpro.TruePtr(),
 			LocalAdminAccountEnabled:                jamfpro.FalsePtr(),
 			AdminUsername:                           "",
@@ -112,6 +106,8 @@ func main() {
 			VersionLock:                             0,
 			PrefillPrimaryAccountInfoFeatureEnabled: jamfpro.FalsePtr(),
 			PrefillType:                             "UNKNOWN",
+			PrefillAccountFullName:                  "",
+			PrefillAccountUserName:                  "",
 			PreventPrefillInfoFromModification:      jamfpro.FalsePtr(),
 		},
 	}

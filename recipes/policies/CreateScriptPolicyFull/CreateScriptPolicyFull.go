@@ -64,7 +64,7 @@ func main() {
 			},
 		},
 		// scripts
-		Scripts: &[]jamfpro.PolicySubsetScript{
+		Scripts: []jamfpro.PolicySubsetScript{
 			{
 				ID:         "4521",
 				Name:       "tf-ghatest-add-or-remove-group-membership-v4.0",
@@ -78,7 +78,7 @@ func main() {
 		},
 
 		// Self Service
-		SelfService: &jamfpro.PolicySubsetSelfService{
+		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
 			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
@@ -87,11 +87,11 @@ func main() {
 			ForceUsersToViewDescription: false,
 			FeatureOnMainPage:           false,
 		},
-		PackageConfiguration: &jamfpro.PolicySubsetPackageConfiguration{
+		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
 			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{}, // Empty packages list
 			DistributionPoint: "default",
 		},
-		AccountMaintenance: &jamfpro.PolicySubsetAccountMaintenance{
+		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
 			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
 				Action:                "doNotChange",
 				ManagedPassword:       "",
@@ -103,7 +103,7 @@ func main() {
 				OfPasswordSHA256: "",
 			},
 		},
-		Maintenance: &jamfpro.PolicySubsetMaintenance{
+		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
 			ResetName:                false,
 			InstallAllCachedPackages: false,
@@ -115,7 +115,7 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		FilesProcesses: &jamfpro.PolicySubsetFilesProcesses{
+		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
 			SpotlightSearch:      "",
@@ -123,14 +123,14 @@ func main() {
 			KillProcess:          false,
 			RunCommand:           "",
 		},
-		UserInteraction: &jamfpro.PolicySubsetUserInteraction{
+		UserInteraction: jamfpro.PolicySubsetUserInteraction{
 			MessageStart:          "",
 			AllowUserToDefer:      false,
 			AllowDeferralUntilUtc: "",
 			AllowDeferralMinutes:  0,
 			MessageFinish:         "",
 		},
-		Reboot: &jamfpro.PolicySubsetReboot{
+		Reboot: jamfpro.PolicySubsetReboot{
 			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
 			SpecifyStartup:              "",
