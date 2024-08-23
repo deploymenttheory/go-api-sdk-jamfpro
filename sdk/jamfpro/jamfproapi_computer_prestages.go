@@ -48,6 +48,7 @@ type ResponseComputerPrestageCreate struct {
 type ResourceComputerPrestage struct {
 	ID                                             string                                      `json:"id"`
 	DisplayName                                    string                                      `json:"displayName"`
+	VersionLock                                    int                                         `json:"versionLock"`
 	Mandatory                                      *bool                                       `json:"mandatory"`
 	MDMRemovable                                   *bool                                       `json:"mdmRemovable"`
 	SupportPhoneNumber                             string                                      `json:"supportPhoneNumber"`
@@ -80,7 +81,6 @@ type ResourceComputerPrestage struct {
 	RotateRecoveryLockPassword                     *bool                                       `json:"rotateRecoveryLockPassword"`
 	ProfileUuid                                    string                                      `json:"profileUuid,omitempty"`
 	SiteId                                         string                                      `json:"siteId,omitempty"`
-	VersionLock                                    int                                         `json:"versionLock,omitempty"`
 	AccountSettings                                ComputerPrestageSubsetAccountSettings       `json:"accountSettings,omitempty"`
 	Enabled                                        *bool                                       `json:"enabled,omitempty"`
 	SsoForEnrollmentEnabled                        *bool                                       `json:"ssoForEnrollmentEnabled,omitempty"`
@@ -129,6 +129,7 @@ type ComputerPrestageSubsetSkipSetupItems struct {
 
 type ComputerPrestageSubsetLocationInformation struct {
 	ID           string `json:"id"`
+	VersionLock  int    `json:"versionLock"`
 	Username     string `json:"username"`
 	Realname     string `json:"realname"`
 	Phone        string `json:"phone"`
@@ -137,11 +138,11 @@ type ComputerPrestageSubsetLocationInformation struct {
 	Position     string `json:"position"`
 	DepartmentId string `json:"departmentId"`
 	BuildingId   string `json:"buildingId"`
-	VersionLock  int    `json:"versionLock"`
 }
 
 type ComputerPrestageSubsetPurchasingInformation struct {
 	ID                string `json:"id"`
+	VersionLock       int    `json:"versionLock"`
 	Leased            *bool  `json:"leased"`
 	Purchased         *bool  `json:"purchased"`
 	AppleCareId       string `json:"appleCareId"`
@@ -154,11 +155,11 @@ type ComputerPrestageSubsetPurchasingInformation struct {
 	LeaseDate         string `json:"leaseDate"`
 	PODate            string `json:"poDate"`
 	WarrantyDate      string `json:"warrantyDate"`
-	VersionLock       int    `json:"versionLock"`
 }
 
 type ComputerPrestageSubsetAccountSettings struct {
-	ID                                      string `json:"id,omitempty"`
+	ID                                      string `json:"id"`
+	VersionLock                             int    `json:"versionLock"`
 	PayloadConfigured                       *bool  `json:"payloadConfigured"`
 	LocalAdminAccountEnabled                *bool  `json:"localAdminAccountEnabled"`
 	AdminUsername                           string `json:"adminUsername,omitempty"`
@@ -166,7 +167,6 @@ type ComputerPrestageSubsetAccountSettings struct {
 	HiddenAdminAccount                      *bool  `json:"hiddenAdminAccount"`
 	LocalUserManaged                        *bool  `json:"localUserManaged"`
 	UserAccountType                         string `json:"userAccountType"`
-	VersionLock                             int    `json:"versionLock,omitempty"`
 	PrefillPrimaryAccountInfoFeatureEnabled *bool  `json:"prefillPrimaryAccountInfoFeatureEnabled"`
 	PrefillType                             string `json:"prefillType,omitempty"`
 	PrefillAccountFullName                  string `json:"prefillAccountFullName"`
