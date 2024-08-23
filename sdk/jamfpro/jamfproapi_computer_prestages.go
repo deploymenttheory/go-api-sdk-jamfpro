@@ -47,8 +47,8 @@ type ResponseComputerPrestageCreate struct {
 
 type ResourceComputerPrestage struct {
 	ID                                             string                                      `json:"id"`
-	DisplayName                                    string                                      `json:"displayName"`
 	VersionLock                                    int                                         `json:"versionLock"`
+	DisplayName                                    string                                      `json:"displayName"`
 	Mandatory                                      *bool                                       `json:"mandatory"`
 	MDMRemovable                                   *bool                                       `json:"mdmRemovable"`
 	SupportPhoneNumber                             string                                      `json:"supportPhoneNumber"`
@@ -158,7 +158,7 @@ type ComputerPrestageSubsetPurchasingInformation struct {
 }
 
 type ComputerPrestageSubsetAccountSettings struct {
-	ID                                      string `json:"id"`
+	ID                                      string `json:"id,omitempty"`
 	VersionLock                             int    `json:"versionLock"`
 	PayloadConfigured                       *bool  `json:"payloadConfigured"`
 	LocalAdminAccountEnabled                *bool  `json:"localAdminAccountEnabled"`
