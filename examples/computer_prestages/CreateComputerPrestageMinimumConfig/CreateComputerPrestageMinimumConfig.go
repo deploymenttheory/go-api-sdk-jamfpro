@@ -65,7 +65,7 @@ func main() {
 			Position:     "",
 			DepartmentId: "-1",
 			BuildingId:   "-1",
-			VersionLock:  0,
+			VersionLock:  0, // Not required for creates
 		},
 		PurchasingInformation: jamfpro.ComputerPrestageSubsetPurchasingInformation{
 			ID:                "-1", // Required
@@ -81,7 +81,7 @@ func main() {
 			LeaseDate:         "1970-01-01",
 			PODate:            "1970-01-01",
 			WarrantyDate:      "1970-01-01",
-			VersionLock:       0,
+			VersionLock:       0, // Not required for creates
 		},
 		EnrollmentCustomizationId:        "0",
 		AutoAdvanceSetup:                 jamfpro.FalsePtr(),
@@ -94,7 +94,7 @@ func main() {
 		RotateRecoveryLockPassword:       jamfpro.FalsePtr(),
 		ProfileUuid:                      "0386E7C8D455A040106850A8A2033968",
 		SiteId:                           "-1",
-		VersionLock:                      0,
+		VersionLock:                      0, // Not required for creates
 		AccountSettings: jamfpro.ComputerPrestageSubsetAccountSettings{
 			PayloadConfigured:                       jamfpro.TruePtr(),
 			LocalAdminAccountEnabled:                jamfpro.FalsePtr(),
@@ -103,7 +103,7 @@ func main() {
 			HiddenAdminAccount:                      jamfpro.FalsePtr(),
 			LocalUserManaged:                        jamfpro.FalsePtr(),
 			UserAccountType:                         "ADMINISTRATOR",
-			VersionLock:                             0,
+			VersionLock:                             0, // Not required for creates
 			PrefillPrimaryAccountInfoFeatureEnabled: jamfpro.FalsePtr(),
 			PrefillType:                             "UNKNOWN",
 			PrefillAccountFullName:                  "",
