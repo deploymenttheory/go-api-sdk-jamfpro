@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// The ID of the computer prestage you want to update
-	prestageID := "61"
+	prestageID := "83"
 
 	// First, get the current prestage to obtain the current version lock
 	currentPrestage, err := client.GetComputerPrestageByID(prestageID)
@@ -32,12 +32,12 @@ func main() {
 		DisplayName:                       "jamfpro-sdk-example-computerPrestageMinimum-config",
 		Mandatory:                         jamfpro.TruePtr(),
 		MDMRemovable:                      jamfpro.TruePtr(),
-		SupportPhoneNumber:                "111-222-3333",
+		SupportPhoneNumber:                "111-222-3344",
 		SupportEmailAddress:               "email@company.com",
 		Department:                        "department name",
 		DefaultPrestage:                   jamfpro.FalsePtr(),
 		EnrollmentSiteId:                  "-1",
-		KeepExistingSiteMembership:        jamfpro.FalsePtr(),
+		KeepExistingSiteMembership:        jamfpro.TruePtr(),
 		KeepExistingLocationInformation:   jamfpro.FalsePtr(),
 		RequireAuthentication:             jamfpro.FalsePtr(),
 		AuthenticationPrompt:              "hello welcome to your enterprise managed macOS device",
@@ -53,7 +53,6 @@ func main() {
 		EnableRecoveryLock:                jamfpro.FalsePtr(),
 		RecoveryLockPasswordType:          "MANUAL",
 		RotateRecoveryLockPassword:        jamfpro.FalsePtr(),
-		ProfileUuid:                       "0386E7C8D455A040106850A8A2033968",
 		SiteId:                            "-1",
 		VersionLock:                       currentPrestage.VersionLock,
 	}
