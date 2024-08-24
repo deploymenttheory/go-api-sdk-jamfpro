@@ -1,3 +1,4 @@
+// This example demonstrates how to initialize the Jamf Pro client using the client configuration file.
 package main
 
 import (

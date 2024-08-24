@@ -1,37 +1,40 @@
+// this file is used to demonstrate how to set up the client with a manual configuration
 package main
 
 import (
 	"fmt"
 	"log"
-	"time"
 
-	"github.com/deploymenttheory/go-api-http-client/httpclient"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
 func main() {
-	// Manually define the client configuration
-	config := httpclient.ClientConfig{
-		Environment: httpclient.EnvironmentConfig{
-			InstanceName:       "your-instance-name",
-			OverrideBaseDomain: "",        // Only required if you are not on jamfcloud.com
-			APIType:            "jamfpro", // Required to specify the API type
-		},
-		Auth: httpclient.AuthConfig{
-			ClientID:     "your-client-id",
-			ClientSecret: "your-client-secret",
-		},
-		ClientOptions: httpclient.ClientOptions{
-			LogLevel:                  "LogLevelDebug",
-			LogOutputFormat:           "console",
-			HideSensitiveData:         true,
-			MaxRetryAttempts:          5,
-			EnableDynamicRateLimiting: true,
-			MaxConcurrentRequests:     10,
-			TokenRefreshBufferPeriod:  5 * time.Minute,
-			TotalRetryDuration:        60 * time.Second,
-			CustomTimeout:             30 * time.Second,
-		},
+	// Define the configuration based on the new ConfigContainer struct
+	config := &jamfpro.ConfigContainer{
+		LogLevel:          "warning",
+		LogExportPath:     "", // Set this if you want to export logs to a file
+		HideSensitiveData: true,
+
+		InstanceDomain:       "your-instance-domain",
+		AuthMethod:           "oauth2", // Use "basic" for basic authentication
+		ClientID:             "your-client-id",
+		ClientSecret:         "your-client-secret",
+		Username:             "", // Set this if using basic auth
+		Password:             "", // Set this if using basic auth
+		JamfLoadBalancerLock: true,
+
+		CustomCookies:               []jamfpro.CustomCookie{},
+		MaxRetryAttempts:            3,
+		MaxConcurrentRequests:       1,
+		EnableDynamicRateLimiting:   false,
+		CustomTimeout:               60,  // in seconds
+		TokenRefreshBufferPeriod:    300, // in seconds
+		TotalRetryDuration:          60,  // in seconds
+		FollowRedirects:             true,
+		MaxRedirects:                5,
+		EnableConcurrencyManagement: true,
+		MandatoryRequestDelay:       0, // in milliseconds
+		RetryEligiableRequests:      true,
 	}
 
 	// Initialize the Jamf Pro client with the given configuration
