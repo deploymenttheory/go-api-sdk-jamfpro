@@ -246,10 +246,10 @@ func (c *Client) CreateJamfAppCatalogDeployment(payload *ResourceJamfAppCatalogD
 	return &response, nil
 }
 
-// UpdateJamfAppCatalogDeploymentByID updates Jamf App Catalog Deployment by provided ID & returns ResponseJamfAppCatalogDeploymentCreateAndUpdate
-func (c *Client) UpdateJamfAppCatalogDeploymentByID(id string, payload *ResourceJamfAppCatalogDeployment) (*ResponseJamfAppCatalogDeploymentCreateAndUpdate, error) {
+// UpdateJamfAppCatalogDeploymentByID updates Jamf App Catalog Deployment by provided ID & returns ResourceJamfAppCatalogDeployment
+func (c *Client) UpdateJamfAppCatalogDeploymentByID(id string, payload *ResourceJamfAppCatalogDeployment) (*ResourceJamfAppCatalogDeployment, error) {
 	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
-	var response ResponseJamfAppCatalogDeploymentCreateAndUpdate
+	var response ResourceJamfAppCatalogDeployment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &response)
 
 	if err != nil {

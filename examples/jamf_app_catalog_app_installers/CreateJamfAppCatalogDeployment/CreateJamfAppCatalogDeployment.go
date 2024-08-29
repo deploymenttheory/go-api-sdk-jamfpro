@@ -1,3 +1,4 @@
+// Successful creates require that the acceptance of the T&C's is enabled in the Jamf Pro server settings for account performing the create.
 package main
 
 import (
