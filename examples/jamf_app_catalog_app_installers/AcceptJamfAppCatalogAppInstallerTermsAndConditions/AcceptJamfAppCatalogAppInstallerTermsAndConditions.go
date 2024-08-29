@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,10 +19,15 @@ func main() {
 	}
 
 	// Accept the terms and conditions
-	err = client.AcceptJamfAppCatalogAppInstallerTermsAndConditions()
+	status, err := client.AcceptJamfAppCatalogAppInstallerTermsAndConditions()
 	if err != nil {
-		log.Fatalf("Error: %v", err)
+		log.Fatalf("Error fetching Terms And Conditions Status: %v", err)
 	}
 
-	fmt.Println("Successfully accepted Jamf App Catalog App Installer terms and conditions.")
+	// Pretty print the fetched Terms And Conditions Status using JSON marshaling
+	statusJSON, err := json.MarshalIndent(status, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling Terms And Conditions Status data: %v", err)
+	}
+	fmt.Println("Fetched Terms And Conditions Status:", string(statusJSON))
 }

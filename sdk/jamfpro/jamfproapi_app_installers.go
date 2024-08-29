@@ -133,19 +133,20 @@ func (c *Client) GetJamfAppCatalogAppInstallerTermsAndConditionsStatus() (*Respo
 
 // AcceptJamfAppCatalogAppInstallerTermsAndConditions accepts the terms and conditions for the Jamf App Catalog
 // This is required on an account by account basis.
-func (c *Client) AcceptJamfAppCatalogAppInstallerTermsAndConditions() error {
-	endpoint := fmt.Sprintf("%s/terms-and-conditions", uriJamfAppCatalogAppInstaller)
+func (c *Client) AcceptJamfAppCatalogAppInstallerTermsAndConditions() (*ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus, error) {
+	endpoint := fmt.Sprintf("%s/terms-and-conditions/accept", uriJamfAppCatalogAppInstaller)
 
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+	var globalSettings ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &globalSettings)
 	if err != nil {
-		return fmt.Errorf("failed to accept terms and conditions: %v", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "printers", err)
 	}
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return &globalSettings, nil
 }
 
 // Gets full list of Get Jamf App Catalog App Installer Titles & handles pagination
