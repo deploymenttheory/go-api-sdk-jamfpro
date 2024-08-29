@@ -56,7 +56,7 @@ func main() {
 		VersionRemoved:         BoolPtr(false),
 	}
 
-	resourceID := "8"
+	resourceID := "6"
 
 	// Call UpdateJamfAppCatalogDeploymentByID function
 	updateResource, err := client.UpdateJamfAppCatalogDeploymentByID(resourceID, deployment)
