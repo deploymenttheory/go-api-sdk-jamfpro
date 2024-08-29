@@ -92,7 +92,6 @@ func main() {
 		EnableRecoveryLock:               jamfpro.FalsePtr(),
 		RecoveryLockPasswordType:         "MANUAL",
 		RotateRecoveryLockPassword:       jamfpro.FalsePtr(),
-		ProfileUuid:                      "0386E7C8D455A040106850A8A2033968",
 		SiteId:                           "-1",
 		VersionLock:                      0, // Not required for creates
 		AccountSettings: jamfpro.ComputerPrestageSubsetAccountSettings{

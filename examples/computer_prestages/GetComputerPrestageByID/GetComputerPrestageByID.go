@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// ID of the computer prestage you want to retrieve
-	prestageID := "61" // Replace with the actual ID
+	prestageID := "82" // Replace with the actual ID
 
 	// Call the GetComputerPrestageByID function
 	prestage, err := client.GetComputerPrestageByID(prestageID)

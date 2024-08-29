@@ -28,6 +28,11 @@ type ResponseJamfAppCatalogDeploymentCreateAndUpdate struct {
 	Href string `json:"href"`
 }
 
+type ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus struct {
+	Accepted       bool   `json:"accepted"`
+	AcceptanceTime string `json:"acceptanceTime"`
+}
+
 // Resource
 
 type ResourceJamfAppCatalogAppInstaller struct {
@@ -61,13 +66,12 @@ type JamfAppCatalogAppInstallerSubsetMediaSource struct {
 
 // Struct which represents AppInstallers object JSON from Pro API
 type ResourceJamfAppCatalogDeployment struct {
-	ID             string `json:"id"`
-	Name           string `json:"name,omitempty"`
-	Enabled        *bool  `json:"enabled"`
-	AppTitleId     string `json:"appTitleId,omitempty"`
-	DeploymentType string `json:"deploymentType,omitempty"`
-	UpdateBehavior string `json:"updateBehavior,omitempty"`
-	// TODO why is this not the object?
+	ID                              string                                             `json:"id"`
+	Name                            string                                             `json:"name,omitempty"`
+	Enabled                         *bool                                              `json:"enabled"`
+	AppTitleId                      string                                             `json:"appTitleId,omitempty"`
+	DeploymentType                  string                                             `json:"deploymentType,omitempty"`
+	UpdateBehavior                  string                                             `json:"updateBehavior,omitempty"`
 	CategoryId                      string                                             `json:"categoryId,omitempty"`
 	SiteId                          string                                             `json:"siteId,omitempty"`
 	SmartGroupId                    string                                             `json:"smartGroupId,omitempty"`
@@ -109,6 +113,40 @@ type JamfAppCatalogDeploymentSubsetCategory struct {
 }
 
 // CRUD
+
+// GetJamfAppCatalogAppInstallerTermsAndConditionsStatus returns the terms and conditions status for the Jamf App Catalog
+func (c *Client) GetJamfAppCatalogAppInstallerTermsAndConditionsStatus() (*ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus, error) {
+	endpoint := fmt.Sprintf("%s/terms-and-conditions", uriJamfAppCatalogAppInstaller)
+
+	var globalSettings ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &globalSettings)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "printers", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &globalSettings, nil
+}
+
+// AcceptJamfAppCatalogAppInstallerTermsAndConditions accepts the terms and conditions for the Jamf App Catalog
+// This is required on an account by account basis.
+func (c *Client) AcceptJamfAppCatalogAppInstallerTermsAndConditions() error {
+	endpoint := fmt.Sprintf("%s/terms-and-conditions", uriJamfAppCatalogAppInstaller)
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to accept terms and conditions: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
 
 // Gets full list of Get Jamf App Catalog App Installer Titles & handles pagination
 func (c *Client) GetJamfAppCatalogAppInstallerTitles(sort_filter string) (*ResponseJamfAppCatalogTitleList, error) {
