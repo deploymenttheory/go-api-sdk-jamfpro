@@ -20,8 +20,8 @@ func main() {
 	// Define the ID of the Jamf App Catalog Deployment you want to delete
 	resourceID := "8"
 
-	// Call the DeleteJamfAppCatalogDeploymentByID function
-	err = client.DeleteJamfAppCatalogDeploymentByID(resourceID)
+	// Call the DeleteJamfAppCatalogAppInstallerDeploymentByID function
+	err = client.DeleteJamfAppCatalogAppInstallerDeploymentByID(resourceID)
 	if err != nil {
 		log.Fatalf("Failed to delete Jamf App Catalog Deployment with ID %s: %v", resourceID, err)
 	}

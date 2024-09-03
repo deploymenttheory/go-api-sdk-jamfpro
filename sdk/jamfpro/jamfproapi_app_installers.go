@@ -213,7 +213,7 @@ func (c *Client) GetJamfAppCatalogAppInstallerGlobalSettings(id string) (*JamfAp
 }
 
 // Retrieves Jamf App Catalog installer deployment by provided ID & returns ResourceJamfAppCatalogDeployment
-func (c *Client) GetJamfAppCatalogDeploymentByID(id string) (*ResourceJamfAppCatalogDeployment, error) {
+func (c *Client) GetJamfAppCatalogAppInstallerDeploymentByID(id string) (*ResourceJamfAppCatalogDeployment, error) {
 	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
 	var appInstaller ResourceJamfAppCatalogDeployment
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &appInstaller)
@@ -230,7 +230,7 @@ func (c *Client) GetJamfAppCatalogDeploymentByID(id string) (*ResourceJamfAppCat
 }
 
 // Creates Jamf App Catalog Deployment from ResponseJamfAppCatalogDeploymentCreateAndUpdate struct
-func (c *Client) CreateJamfAppCatalogDeployment(payload *ResourceJamfAppCatalogDeployment) (*ResponseJamfAppCatalogDeploymentCreateAndUpdate, error) {
+func (c *Client) CreateJamfAppCatalogAppInstallerDeployment(payload *ResourceJamfAppCatalogDeployment) (*ResponseJamfAppCatalogDeploymentCreateAndUpdate, error) {
 	endpoint := uriJamfAppCatalogAppInstaller + "/deployments"
 	var response ResponseJamfAppCatalogDeploymentCreateAndUpdate
 
@@ -247,7 +247,7 @@ func (c *Client) CreateJamfAppCatalogDeployment(payload *ResourceJamfAppCatalogD
 }
 
 // UpdateJamfAppCatalogDeploymentByID updates Jamf App Catalog Deployment by provided ID & returns ResourceJamfAppCatalogDeployment
-func (c *Client) UpdateJamfAppCatalogDeploymentByID(id string, payload *ResourceJamfAppCatalogDeployment) (*ResourceJamfAppCatalogDeployment, error) {
+func (c *Client) UpdateJamfAppCatalogAppInstallerDeploymentByID(id string, payload *ResourceJamfAppCatalogDeployment) (*ResourceJamfAppCatalogDeployment, error) {
 	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
 	var response ResourceJamfAppCatalogDeployment
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &response)
@@ -265,7 +265,7 @@ func (c *Client) UpdateJamfAppCatalogDeploymentByID(id string, payload *Resource
 }
 
 // DeleteJamfAppCatalogDeploymentByID deletes deployment by provided ID & returns ResponseJamfAppCatalogDeploymentCreateAndUpdate
-func (c *Client) DeleteJamfAppCatalogDeploymentByID(id string) error {
+func (c *Client) DeleteJamfAppCatalogAppInstallerDeploymentByID(id string) error {
 	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
 	var response interface{}
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response)

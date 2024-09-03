@@ -57,8 +57,8 @@ func main() {
 		VersionRemoved:         BoolPtr(false),
 	}
 
-	// Call CreateJamfAppCatalogDeployment function
-	createdDeployment, err := client.CreateJamfAppCatalogDeployment(deployment)
+	// Call CreateJamfAppCatalogAppInstallerDeployment function
+	createdDeployment, err := client.CreateJamfAppCatalogAppInstallerDeployment(deployment)
 	if err != nil {
 		log.Fatalf("Error creating deployment: %v", err)
 	}

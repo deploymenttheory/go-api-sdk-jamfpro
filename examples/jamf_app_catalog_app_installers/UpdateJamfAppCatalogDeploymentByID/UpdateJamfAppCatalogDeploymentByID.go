@@ -58,8 +58,8 @@ func main() {
 
 	resourceID := "6"
 
-	// Call UpdateJamfAppCatalogDeploymentByID function
-	updateResource, err := client.UpdateJamfAppCatalogDeploymentByID(resourceID, deployment)
+	// Call UpdateJamfAppCatalogAppInstallerDeploymentByID function
+	updateResource, err := client.UpdateJamfAppCatalogAppInstallerDeploymentByID(resourceID, deployment)
 	if err != nil {
 		log.Fatalf("Error updating jamf app catalog deployment: %v", err)
 	}

@@ -22,9 +22,9 @@ func main() {
 	appInstallerID := "1"
 
 	// Call GetJamfAppCatalogDeploymentByID function
-	appInstaller, err := client.GetJamfAppCatalogDeploymentByID(appInstallerID)
+	appInstaller, err := client.GetJamfAppCatalogAppInstallerDeploymentByID(appInstallerID)
 	if err != nil {
-		log.Fatalf("Error fetching JamfAppCatalogAppInstaller by ID: %v", err)
+		log.Fatalf("Error fetching Jamf App Installer Deployment by ID: %v", err)
 	}
 
 	// Pretty print the app Installer in JSON
