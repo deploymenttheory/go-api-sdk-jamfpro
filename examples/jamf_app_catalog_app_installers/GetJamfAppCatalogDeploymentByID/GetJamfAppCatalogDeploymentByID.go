@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define a app installer ID for testing
-	appInstallerID := "1"
+	appInstallerID := "23"
 
 	// Call GetJamfAppCatalogDeploymentByID function
 	appInstaller, err := client.GetJamfAppCatalogAppInstallerDeploymentByID(appInstallerID)

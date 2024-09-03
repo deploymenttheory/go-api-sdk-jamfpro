@@ -94,7 +94,7 @@ type JamfAppCatalogDeploymentSubsetNotificationSettings struct {
 	QuitDelay            int    `json:"quitDelay,omitempty"`
 	CompleteMessage      string `json:"completeMessage,omitempty"`
 	Relaunch             *bool  `json:"relaunch"`
-	Suppress             string `json:"suppress,omitempty"`
+	Suppress             *bool  `json:"suppress,omitempty"`
 }
 
 // JamfAppCatalogDeploymentSubsetSelfServiceSettings struct represents the self-service settings within ResourceJamfAppCatalogAppInstaller
