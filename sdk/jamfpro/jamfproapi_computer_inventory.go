@@ -538,7 +538,7 @@ func (c *Client) GetComputersInventory(sort_filter string) (*ResponseComputerInv
 		uriComputersInventory,
 		standardPageSize,
 		startingPageNumber,
-		"",
+		sort_filter,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computers-inventories", err)
