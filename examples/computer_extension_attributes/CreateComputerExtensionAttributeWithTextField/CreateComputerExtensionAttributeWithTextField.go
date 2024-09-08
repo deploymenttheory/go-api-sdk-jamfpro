@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -20,12 +20,14 @@ func main() {
 
 	// Define the new computer extension attribute
 	attribute := &jamfpro.ResourceComputerExtensionAttribute{
-		Name:             "Battery Cycle Count",
-		Description:      "Number of charge cycles logged on the current battery",
-		DataType:         "String",                                                              // String / Integer / Date (YYYY-MM-DD hh:mm:ss)
-		InputType:        jamfpro.ComputerExtensionAttributeSubsetInputType{Type: "Text Field"}, //  Text Field / Pop Up Menu / Script
-		InventoryDisplay: "General",                                                             // General / Hardware / Operating System / User and Location / Purchasing / Extension Attribute
-		ReconDisplay:     "Extension Attributes",
+		Name:                          "Battery Cycle Count",
+		Description:                   "Number of charge cycles logged on the current battery",
+		DataType:                      "STRING",
+		Enabled:                       true,
+		InventoryDisplayType:          "GENERAL",
+		InputType:                     "TEXT_FIELD",
+		LDAPAttributeMapping:          "",
+		LDAPExtensionAttributeAllowed: false,
 	}
 
 	// Call CreateComputerExtensionAttribute function
@@ -34,10 +36,10 @@ func main() {
 		log.Fatalf("Error creating Computer Extension Attribute: %v", err)
 	}
 
-	// Pretty print the created attribute in XML
-	createdAttributeXML, err := xml.MarshalIndent(createdAttribute, "", "    ") // Indent with 4 spaces
+	// Pretty print the created attribute in JSON
+	createdAttributeJSON, err := json.MarshalIndent(createdAttribute, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling created Computer Extension Attribute data: %v", err)
 	}
-	fmt.Println("Created Computer Extension Attribute:\n", string(createdAttributeXML))
+	fmt.Println("Created Computer Extension Attribute:\n", string(createdAttributeJSON))
 }

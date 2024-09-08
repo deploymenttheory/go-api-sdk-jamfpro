@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Call GetComputerExtensionAttributes function
-	attributes, err := client.GetComputerExtensionAttributes()
+	attributes, err := client.GetComputerExtensionAttributes("")
 	if err != nil {
 		log.Fatalf("Error fetching Computer Extension Attributes: %v", err)
 	}

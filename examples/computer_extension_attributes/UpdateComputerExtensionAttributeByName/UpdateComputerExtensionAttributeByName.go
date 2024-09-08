@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -19,12 +19,14 @@ func main() {
 	}
 
 	attributeToUpdate := &jamfpro.ResourceComputerExtensionAttribute{
-		Name:             "Battery Cycle Count Updated", // Notice the "Updated" suffix for demonstration
-		Description:      "Number of charge cycles logged on the current battery",
-		DataType:         "String",
-		InputType:        jamfpro.ComputerExtensionAttributeSubsetInputType{Type: "Text Field"},
-		InventoryDisplay: "General",
-		ReconDisplay:     "Extension Attributes",
+		Name:                          "Battery Cycle Count Updated", // Notice the "Updated" suffix for demonstration
+		Description:                   "Number of charge cycles logged on the current battery",
+		DataType:                      "STRING",
+		Enabled:                       true,
+		InventoryDisplayType:          "GENERAL",
+		InputType:                     "TEXT_FIELD",
+		LDAPAttributeMapping:          "",
+		LDAPExtensionAttributeAllowed: false,
 	}
 
 	// Updating the attribute with name "Battery Cycle Count" to "Battery Cycle Count Updated"
@@ -33,9 +35,9 @@ func main() {
 		log.Fatalf("Error updating Computer Extension Attribute by Name: %v", err)
 	}
 
-	attributeXML, err := xml.MarshalIndent(updatedAttribute, "", "    ")
+	attributeJSON, err := json.MarshalIndent(updatedAttribute, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling updated Computer Extension Attribute data: %v", err)
 	}
-	fmt.Println("Updated Computer Extension Attribute by Name:\n", string(attributeXML))
+	fmt.Println("Updated Computer Extension Attribute by Name:\n", string(attributeJSON))
 }

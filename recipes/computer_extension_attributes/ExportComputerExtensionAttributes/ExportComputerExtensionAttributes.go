@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"strconv"
 	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -42,27 +41,20 @@ func main() {
 	}
 
 	// Get a list of all computer extension attributes
-	attributesList, err := client.GetComputerExtensionAttributes()
+	attributesList, err := client.GetComputerExtensionAttributes("")
 	if err != nil {
 		log.Fatalf("Failed to fetch Computer Extension Attributes: %v", err)
 	}
 
-	for _, attributeItem := range attributesList.Results {
+	for _, attribute := range attributesList.Results {
 		// Log to indicate which extension attribute is being processed
-		log.Printf("Processing extension attribute '%s' (ID: %d)\n", attributeItem.Name, attributeItem.ID)
-
-		// Get details for each attribute
-		attribute, err := client.GetComputerExtensionAttributeByID(strconv.Itoa(attributeItem.ID))
-		if err != nil {
-			log.Printf("Failed to fetch details for attribute %s (ID: %d): %v", attributeItem.Name, attributeItem.ID, err)
-			continue
-		}
+		log.Printf("Processing extension attribute '%s' (ID: %s)\n", attribute.Name, attribute.ID)
 
 		// Log the type of the attribute for debugging
-		log.Printf("Attribute '%s' is of type '%s'\n", attribute.Name, attribute.InputType.Type)
+		log.Printf("Attribute '%s' is of type '%s'\n", attribute.Name, attribute.InputType)
 
-		// Check if the type is "Script"
-		if strings.ToLower(attribute.InputType.Type) == "script" {
+		// Check if the type is "SCRIPT"
+		if attribute.InputType == "SCRIPT" {
 			// Sanitize the attribute name to be used as a filename
 			sanitizedFileName := sanitizeFileName(attribute.Name)
 
@@ -87,14 +79,14 @@ func main() {
 			}
 			defer file.Close()
 
-			_, err = file.WriteString(attribute.InputType.Script)
+			_, err = file.WriteString(attribute.ScriptContents)
 			if err != nil {
 				log.Printf("Failed to write script for attribute '%s' to file '%s': %v", attribute.Name, scriptFileName, err)
 				continue
 			}
 			fmt.Printf("Exported script for attribute '%s' to file '%s'\n", attribute.Name, scriptFileName)
 		} else {
-			log.Printf("Attribute '%s' is not of type 'Script', skipping export.\n", attribute.Name)
+			log.Printf("Attribute '%s' is not of type 'SCRIPT', skipping export.\n", attribute.Name)
 		}
 
 		if err != nil {
