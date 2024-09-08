@@ -164,3 +164,27 @@ func (c *Client) DeleteComputerExtensionAttributeByName(name string) error {
 
 	return c.DeleteComputerExtensionAttributeByID(target.ID)
 }
+
+// DeleteMultipleComputerExtensionAttributeByID deletes multiple computer extension attributes by their IDs
+func (c *Client) DeleteMultipleComputerExtensionAttributeByID(ids []string) error {
+	endpoint := fmt.Sprintf("%s/delete-multiple", uriComputerExtensionAttributes)
+
+	// Create the request body
+	requestBody := struct {
+		IDs []string `json:"ids"`
+	}{
+		IDs: ids,
+	}
+
+	// Send the request
+	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteMultiple, "computer extension attributes", ids, err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
