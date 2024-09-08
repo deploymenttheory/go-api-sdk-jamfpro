@@ -23,11 +23,11 @@ func main() {
 		Name:                          "Battery Cycle Count",
 		Description:                   "Number of charge cycles logged on the current battery",
 		DataType:                      "STRING",
-		Enabled:                       true,
+		Enabled:                       jamfpro.BoolPtr(true),
 		InventoryDisplayType:          "GENERAL",
-		InputType:                     "TEXT_FIELD",
+		InputType:                     "TEXT",
 		LDAPAttributeMapping:          "",
-		LDAPExtensionAttributeAllowed: false,
+		LDAPExtensionAttributeAllowed: jamfpro.BoolPtr(false),
 	}
 
 	// Call CreateComputerExtensionAttribute function

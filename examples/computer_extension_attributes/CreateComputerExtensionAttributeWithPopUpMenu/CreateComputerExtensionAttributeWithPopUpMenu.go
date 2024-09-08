@@ -26,12 +26,12 @@ func main() {
 		Name:                          "Pop Up Menu Test",
 		Description:                   "Pop Up Menu Test",
 		DataType:                      "STRING",
-		Enabled:                       true,
+		Enabled:                       jamfpro.BoolPtr(true),
 		InventoryDisplayType:          "GENERAL",
-		InputType:                     "POP_UP_MENU",
+		InputType:                     "POPUP",
 		PopupMenuChoices:              choices,
 		LDAPAttributeMapping:          "",
-		LDAPExtensionAttributeAllowed: false,
+		LDAPExtensionAttributeAllowed: jamfpro.BoolPtr(false),
 	}
 
 	// Call CreateComputerExtensionAttribute function

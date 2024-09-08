@@ -22,11 +22,11 @@ func main() {
 		Name:                          "Battery Cycle Count Updated", // Notice the "Updated" suffix for demonstration
 		Description:                   "Number of charge cycles logged on the current battery",
 		DataType:                      "STRING",
-		Enabled:                       true,
+		Enabled:                       jamfpro.BoolPtr(true),
 		InventoryDisplayType:          "GENERAL",
 		InputType:                     "TEXT_FIELD",
 		LDAPAttributeMapping:          "",
-		LDAPExtensionAttributeAllowed: false,
+		LDAPExtensionAttributeAllowed: jamfpro.BoolPtr(false),
 	}
 
 	// Updating the attribute with name "Battery Cycle Count" to "Battery Cycle Count Updated"

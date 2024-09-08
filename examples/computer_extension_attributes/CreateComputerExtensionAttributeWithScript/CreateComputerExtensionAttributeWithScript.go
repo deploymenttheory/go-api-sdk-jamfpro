@@ -36,15 +36,13 @@ func main() {
 
 	// Define the new computer extension attribute
 	attribute := &jamfpro.ResourceComputerExtensionAttribute{
-		Name:                          "Computer Extension Attribute Script Test",
-		Description:                   "Computer Extension Attribute Script Test",
-		DataType:                      "STRING",
-		Enabled:                       true,
-		InventoryDisplayType:          "GENERAL",
-		InputType:                     "SCRIPT",
-		ScriptContents:                scriptContent,
-		LDAPAttributeMapping:          "",
-		LDAPExtensionAttributeAllowed: false,
+		Name:                 "Computer Extension Attribute Script Test",
+		Description:          "Computer Extension Attribute Script Test",
+		DataType:             "STRING",
+		Enabled:              jamfpro.BoolPtr(true),
+		InventoryDisplayType: "GENERAL",
+		InputType:            "SCRIPT",
+		ScriptContents:       scriptContent,
 	}
 
 	// Call CreateComputerExtensionAttribute function

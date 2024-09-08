@@ -18,15 +18,15 @@ type ResponseComputerExtensionAttributesList struct {
 type ResourceComputerExtensionAttribute struct {
 	ID                            string   `json:"id"`
 	Name                          string   `json:"name"`
-	Description                   string   `json:"description"`
+	Description                   string   `json:"description,omitempty"`
 	DataType                      string   `json:"dataType"`
-	Enabled                       bool     `json:"enabled"`
+	Enabled                       *bool    `json:"enabled"`
 	InventoryDisplayType          string   `json:"inventoryDisplayType"`
 	InputType                     string   `json:"inputType"`
-	ScriptContents                string   `json:"scriptContents"`
-	PopupMenuChoices              []string `json:"popupMenuChoices"`
-	LDAPAttributeMapping          string   `json:"ldapAttributeMapping"`
-	LDAPExtensionAttributeAllowed bool     `json:"ldapExtensionAttributeAllowed"`
+	ScriptContents                string   `json:"scriptContents,omitempty"`
+	PopupMenuChoices              []string `json:"popupMenuChoices,omitempty"`
+	LDAPAttributeMapping          string   `json:"ldapAttributeMapping,omitempty"`
+	LDAPExtensionAttributeAllowed *bool    `json:"ldapExtensionAttributeAllowed,omitempty"`
 }
 
 // ResponseComputerExtensionAttributeCreated represents the response for a created computer extension attribute

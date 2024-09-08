@@ -22,11 +22,11 @@ func main() {
 		Name:                          "Battery Cycle Count - Updated",
 		Description:                   "Number of charge cycles logged on the current battery",
 		DataType:                      "STRING",
-		Enabled:                       true,
+		Enabled:                       jamfpro.BoolPtr(true),
 		InventoryDisplayType:          "GENERAL",
 		InputType:                     "TEXT_FIELD",
 		LDAPAttributeMapping:          "",
-		LDAPExtensionAttributeAllowed: false,
+		LDAPExtensionAttributeAllowed: jamfpro.BoolPtr(false),
 	}
 
 	// Assuming you're updating the attribute with ID = 1
