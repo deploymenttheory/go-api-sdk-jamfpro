@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/modules"
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
@@ -21,7 +21,7 @@ func main() {
 	// Read the payload from a file
 	payloadFilePath := "/Users/dafyddwatkins/localtesting/terraform/support_files/mobileconfigurationprofiles/mobile-wifi.mobileconfig"
 
-	payload, err := readPayloadFromFile(payloadFilePath)
+	payload, err := modules.ReadPayloadFromFile(payloadFilePath)
 	if err != nil {
 		log.Fatalf("Error reading payload from file: %v", err)
 	}
@@ -66,13 +66,4 @@ func main() {
 // Helper function to get a pointer from a string
 func stringPtr(s string) *string {
 	return &s
-}
-
-// readPayloadFromFile loads config profile for upload
-func readPayloadFromFile(filePath string) (string, error) {
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
 }
