@@ -79,6 +79,8 @@ type ResourceComputerPrestage struct {
 	RecoveryLockPasswordType                       string                                      `json:"recoveryLockPasswordType,omitempty"`
 	RecoveryLockPassword                           string                                      `json:"recoveryLockPassword,omitempty"`
 	RotateRecoveryLockPassword                     *bool                                       `json:"rotateRecoveryLockPassword"`
+	PrestageMinimumOsTargetVersionType             string                                      `json:"prestageMinimumOsTargetVersionType,omitempty"`
+	MinimumOsSpecificVersion                       string                                      `json:"minimumOsSpecificVersion,omitempty"`
 	ProfileUuid                                    string                                      `json:"profileUuid,omitempty"`
 	SiteId                                         string                                      `json:"siteId,omitempty"`
 	AccountSettings                                ComputerPrestageSubsetAccountSettings       `json:"accountSettings,omitempty"`
@@ -107,24 +109,28 @@ type ResourceComputerPrestage struct {
 // Subsets & Containers
 
 type ComputerPrestageSubsetSkipSetupItems struct {
-	Biometric         *bool `json:"Biometric"`
-	TermsOfAddress    *bool `json:"TermsOfAddress"`
-	FileVault         *bool `json:"FileVault"`
-	ICloudDiagnostics *bool `json:"iCloudDiagnostics"`
-	Diagnostics       *bool `json:"Diagnostics"`
-	Accessibility     *bool `json:"Accessibility"`
-	AppleID           *bool `json:"AppleID"`
-	ScreenTime        *bool `json:"ScreenTime"`
-	Siri              *bool `json:"Siri"`
-	DisplayTone       *bool `json:"DisplayTone"`
-	Restore           *bool `json:"Restore"`
-	Appearance        *bool `json:"Appearance"`
-	Privacy           *bool `json:"Privacy"`
-	Payment           *bool `json:"Payment"`
-	Registration      *bool `json:"Registration"`
-	TOS               *bool `json:"TOS"`
-	ICloudStorage     *bool `json:"iCloudStorage"`
-	Location          *bool `json:"Location"`
+	Biometric          *bool `json:"Biometric"`
+	TermsOfAddress     *bool `json:"TermsOfAddress"`
+	FileVault          *bool `json:"FileVault"`
+	ICloudDiagnostics  *bool `json:"iCloudDiagnostics"`
+	Diagnostics        *bool `json:"Diagnostics"`
+	Accessibility      *bool `json:"Accessibility"`
+	AppleID            *bool `json:"AppleID"`
+	ScreenTime         *bool `json:"ScreenTime"`
+	Siri               *bool `json:"Siri"`
+	DisplayTone        *bool `json:"DisplayTone"`
+	Restore            *bool `json:"Restore"`
+	Appearance         *bool `json:"Appearance"`
+	Privacy            *bool `json:"Privacy"`
+	Payment            *bool `json:"Payment"`
+	Registration       *bool `json:"Registration"`
+	TOS                *bool `json:"TOS"`
+	ICloudStorage      *bool `json:"iCloudStorage"`
+	Location           *bool `json:"Location"`
+	Intelligence       *bool `json:"Intelligence"`
+	EnableLockdownMode *bool `json:"EnableLockdownMode"`
+	Welcome            *bool `json:"Welcome"`
+	Wallpaper          *bool `json:"Wallpaper"`
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
