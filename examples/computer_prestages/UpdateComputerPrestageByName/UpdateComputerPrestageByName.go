@@ -29,7 +29,7 @@ func main() {
 
 	// Prepare the update using values from the create code
 	update := &jamfpro.ResourceComputerPrestage{
-		DisplayName:                        "jamfpro-sdk-example-computerPrestageFull-config",
+		DisplayName:                        "Updated-computer-Prestage-config",
 		Mandatory:                          jamfpro.TruePtr(),
 		MDMRemovable:                       jamfpro.TruePtr(),
 		SupportPhoneNumber:                 "111-222-3333",
@@ -87,7 +87,7 @@ func main() {
 
 	// Update LocationInformation
 	update.LocationInformation = jamfpro.ComputerPrestageSubsetLocationInformation{
-		ID:           jamfpro.IncrementStringID(currentPrestage.LocationInformation.ID),
+		ID:           "-1", // As we are updating the prestage, we need to set the ID to -1. Jamf will increment the ID for us.
 		Username:     "Deployment",
 		Realname:     "Theory",
 		Phone:        "+44-1234-567890",
@@ -101,7 +101,7 @@ func main() {
 
 	// Update PurchasingInformation
 	update.PurchasingInformation = jamfpro.ComputerPrestageSubsetPurchasingInformation{
-		ID:                jamfpro.IncrementStringID(currentPrestage.PurchasingInformation.ID),
+		ID:                "-1", // As we are updating the prestage, we need to set the ID to -1. Jamf will increment the ID for us.
 		Leased:            jamfpro.FalsePtr(),
 		Purchased:         jamfpro.TruePtr(),
 		AppleCareId:       "",
@@ -119,7 +119,7 @@ func main() {
 
 	// Update AccountSettings
 	update.AccountSettings = jamfpro.ComputerPrestageSubsetAccountSettings{
-		ID:                                      jamfpro.IncrementStringID(currentPrestage.AccountSettings.ID),
+		ID:                                      "-1", // As we are updating the prestage, we need to set the ID to -1. Jamf will increment the ID for us.
 		PayloadConfigured:                       jamfpro.TruePtr(),
 		LocalAdminAccountEnabled:                jamfpro.TruePtr(),
 		AdminUsername:                           "testadmin",
