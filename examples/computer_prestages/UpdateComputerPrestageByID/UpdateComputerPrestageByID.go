@@ -27,7 +27,6 @@ func main() {
 		log.Fatalf("Error fetching current computer prestage: %v", err)
 	}
 
-	// Prepare the update using values from the create code
 	update := &jamfpro.ResourceComputerPrestage{
 		DisplayName:                        "jamfpro-sdk-example-computerPrestageFull-config",
 		Mandatory:                          jamfpro.TruePtr(),
