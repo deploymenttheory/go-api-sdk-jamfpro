@@ -21,30 +21,33 @@ type ResponseManagedSoftwareUpdateList struct {
 	AvailableUpdates ResourceAvailableUpdates `json:"availableUpdates"`
 }
 
+// Response
+
 type ResponseManagedSoftwareUpdatePlanList struct {
-	TotalCount int                                     `json:"totalCount"`
-	Results    []ResourceManagedSoftwareUpdatePlanList `json:"results"`
+	TotalCount int                                 `json:"totalCount"`
+	Results    []ResponseManagedSoftwareUpdatePlan `json:"results"`
 }
 
-type ResourceManagedSoftwareUpdatePlanList struct {
-	PlanUuid                  string                                    `json:"planUuid,omitempty"`
-	Device                    ManagedSoftwareUpdatePlanListSubsetDevice `json:"device,omitempty"`
-	UpdateAction              string                                    `json:"updateAction,omitempty"`
-	VersionType               string                                    `json:"versionType,omitempty"`
-	SpecificVersion           string                                    `json:"specificVersion,omitempty"`
-	MaxDeferrals              int                                       `json:"maxDeferrals,omitempty"`
-	ForceInstallLocalDateTime string                                    `json:"forceInstallLocalDateTime,omitempty"`
-	RecipeId                  string                                    `json:"recipeId,omitempty"`
-	Status                    ManagedSoftwareUpdatePlanListSubsetStatus `json:"status,omitempty"`
+type ResponseManagedSoftwareUpdatePlan struct {
+	PlanUuid                  string                                        `json:"planUuid,omitempty"`
+	Device                    ResponseManagedSoftwareUpdatePlanSubsetDevice `json:"device,omitempty"`
+	UpdateAction              string                                        `json:"updateAction,omitempty"`
+	VersionType               string                                        `json:"versionType,omitempty"`
+	SpecificVersion           string                                        `json:"specificVersion,omitempty"`
+	BuildVersion              string                                        `json:"buildVersion,omitempty"`
+	MaxDeferrals              int                                           `json:"maxDeferrals,omitempty"`
+	ForceInstallLocalDateTime string                                        `json:"forceInstallLocalDateTime,omitempty"`
+	RecipeId                  string                                        `json:"recipeId,omitempty"`
+	Status                    ResponseManagedSoftwareUpdatePlanSubsetStatus `json:"status,omitempty"`
 }
 
-type ManagedSoftwareUpdatePlanListSubsetDevice struct {
+type ResponseManagedSoftwareUpdatePlanSubsetDevice struct {
 	DeviceId   string `json:"deviceId,omitempty"`
 	ObjectType string `json:"objectType,omitempty"`
 	Href       string `json:"href,omitempty"`
 }
 
-type ManagedSoftwareUpdatePlanListSubsetStatus struct {
+type ResponseManagedSoftwareUpdatePlanSubsetStatus struct {
 	State        string   `json:"state,omitempty"`
 	ErrorReasons []string `json:"errorReasons"`
 }
@@ -61,8 +64,6 @@ type ResourceDeclaration struct {
 	Type        string `json:"type"`
 	Group       string `json:"group"`
 }
-
-// Response
 
 type ResponseManagedSoftwareUpdatePlanCreate struct {
 	Plans []ManagedSoftwareUpdatePlanCreateSubsetPlan `json:"plans"`
@@ -89,12 +90,12 @@ type ResponseManagedSoftwareUpdateFeatureToggle struct {
 
 // ResponseManagedSoftwareUpdatePlansFeatureToggleStatus represents the response structure for the feature toggle status.
 type ResponseManagedSoftwareUpdatePlansFeatureToggleStatus struct {
-	ToggleOn  *FeatureToggleStatusDetail `json:"toggleOn"`
-	ToggleOff *FeatureToggleStatusDetail `json:"toggleOff"`
+	ToggleOn  *FeatureEnablementToggleStatus `json:"toggleOn"`
+	ToggleOff *FeatureEnablementToggleStatus `json:"toggleOff"`
 }
 
 // FeatureToggleStatusDetail represents the detailed status of the feature toggle (on/off).
-type FeatureToggleStatusDetail struct {
+type FeatureEnablementToggleStatus struct {
 	StartTime                string  `json:"startTime"`
 	EndTime                  string  `json:"endTime"`
 	ElapsedTime              int     `json:"elapsedTime"`
@@ -114,25 +115,26 @@ type ResourceAvailableUpdates struct {
 	IOS   []string `json:"iOS"`
 }
 
-// ResourceCreateManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
-type ResourceCreateManagedSoftwareUpdatePlan struct {
-	Devices []ManagedSoftwareUpdatePlanObject `json:"devices,omitempty"`
-	Group   ManagedSoftwareUpdatePlanObject   `json:"group,omitempty"`
-	Config  ManagedSoftwareUpdatePlanConfig   `json:"config,omitempty"`
+// ResourceManagedSoftwareUpdatePlan represents the payload structure for creating a managed software update plan.
+type ResourceManagedSoftwareUpdatePlan struct {
+	Devices []ResourcManagedSoftwareUpdatePlanObject `json:"devices,omitempty"`
+	Group   ResourcManagedSoftwareUpdatePlanObject   `json:"group,omitempty"`
+	Config  ResourcManagedSoftwareUpdatePlanConfig   `json:"config,omitempty"`
 }
 
-// ManagedSoftwareUpdatePlanDevice defines the structure for device objects in the managed software update plan.
-type ManagedSoftwareUpdatePlanObject struct {
+// ResourcManagedSoftwareUpdatePlanDevice defines the structure for device objects in the managed software update plan.
+type ResourcManagedSoftwareUpdatePlanObject struct {
 	ObjectType string `json:"objectType,omitempty"`
 	DeviceId   string `json:"deviceId,omitempty"`
 	GroupId    string `json:"groupId,omitempty"`
 }
 
-// ManagedSoftwareUpdatePlanConfig defines the configuration for a managed software update plan.
-type ManagedSoftwareUpdatePlanConfig struct {
+// ResourcManagedSoftwareUpdatePlanConfig defines the configuration for a managed software update plan.
+type ResourcManagedSoftwareUpdatePlanConfig struct {
 	UpdateAction              string `json:"updateAction,omitempty"`
 	VersionType               string `json:"versionType,omitempty"`
 	SpecificVersion           string `json:"specificVersion,omitempty"`
+	BuildVersion              string `json:"buildVersion,omitempty"`
 	MaxDeferrals              int    `json:"maxDeferrals,omitempty"`
 	ForceInstallLocalDateTime string `json:"forceInstallLocalDateTime,omitempty"`
 }
@@ -140,20 +142,6 @@ type ManagedSoftwareUpdatePlanConfig struct {
 // ResourceManagedSoftwareUpdateFeatureToggle represents the payload for updating the feature toggle.
 type ResourceManagedSoftwareUpdateFeatureToggle struct {
 	Toggle bool `json:"toggle"`
-}
-
-// ResourceManagedSoftwareUpdatePlan represents the detailed response for a Managed Software Update Plan.
-type ResourceManagedSoftwareUpdatePlan struct {
-	PlanUuid                  string                                    `json:"planUuid"`
-	Device                    ManagedSoftwareUpdatePlanListSubsetDevice `json:"device"`
-	UpdateAction              string                                    `json:"updateAction"`
-	VersionType               string                                    `json:"versionType"`
-	SpecificVersion           string                                    `json:"specificVersion"`
-	BuildVersion              string                                    `json:"buildVersion,omitempty"`
-	MaxDeferrals              int                                       `json:"maxDeferrals"`
-	ForceInstallLocalDateTime string                                    `json:"forceInstallLocalDateTime,omitempty"`
-	RecipeId                  string                                    `json:"recipeId"`
-	Status                    ManagedSoftwareUpdatePlanListSubsetStatus `json:"status"`
 }
 
 // CRUD
@@ -192,7 +180,7 @@ func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseMan
 	out.TotalCount = resp.Size
 
 	for _, value := range resp.Results {
-		var newObj ResourceManagedSoftwareUpdatePlanList
+		var newObj ResponseManagedSoftwareUpdatePlan
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
 			return nil, fmt.Errorf(errMsgFailedMapstruct, "script", err)
@@ -205,7 +193,7 @@ func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseMan
 }
 
 // CreateManagedSoftwareUpdatePlanByDeviceID Creates Managed Software Update Plan by Device ID
-func (c *Client) CreateManagedSoftwareUpdatePlanByDeviceID(plan *ResourceCreateManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
+func (c *Client) CreateManagedSoftwareUpdatePlanByDeviceID(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
 	endpoint := uriManagedSoftwareUpdates + "/plans"
 	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
 
@@ -291,7 +279,7 @@ func (c *Client) GetManagedSoftwareUpdatePlansFeatureToggleStatus() (*ResponseMa
 }
 
 // CreateManagedSoftwareUpdatePlanByDeviceGroupID creates a managed software update plan by group ID
-func (c *Client) CreateManagedSoftwareUpdatePlanByGroupID(plan *ResourceCreateManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
+func (c *Client) CreateManagedSoftwareUpdatePlanByGroupID(plan *ResourceManagedSoftwareUpdatePlan) (*ResponseManagedSoftwareUpdatePlanCreate, error) {
 	endpoint := uriManagedSoftwareUpdates + "/plans/group"
 	var responseManagedSoftwareUpdatePlanCreate ResponseManagedSoftwareUpdatePlanCreate
 
@@ -325,10 +313,10 @@ func (c *Client) GetManagedSoftwareUpdatePlansByGroupID(groupId string, groupTyp
 }
 
 // GetManagedSoftwareUpdatePlanByUUID retrieves a Managed Software Update Plan by its UUID.
-func (c *Client) GetManagedSoftwareUpdatePlanByUUID(UUID string) (*ResourceManagedSoftwareUpdatePlan, error) {
+func (c *Client) GetManagedSoftwareUpdatePlanByUUID(UUID string) (*ResponseManagedSoftwareUpdatePlan, error) {
 	endpoint := fmt.Sprintf("%s/plans/%s", uriManagedSoftwareUpdates, UUID)
 
-	var planDetail ResourceManagedSoftwareUpdatePlan
+	var planDetail ResponseManagedSoftwareUpdatePlan
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &planDetail)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve managed software update plan with ID %s: %v", UUID, err)
