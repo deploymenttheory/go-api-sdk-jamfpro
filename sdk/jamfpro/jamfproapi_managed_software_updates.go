@@ -124,15 +124,15 @@ type ResourceManagedSoftwareUpdatePlan struct {
 
 // ResourcManagedSoftwareUpdatePlanDevice defines the structure for device objects in the managed software update plan.
 type ResourcManagedSoftwareUpdatePlanObject struct {
-	ObjectType string `json:"objectType,omitempty"`
+	ObjectType string `json:"objectType"`
 	DeviceId   string `json:"deviceId,omitempty"`
 	GroupId    string `json:"groupId,omitempty"`
 }
 
 // ResourcManagedSoftwareUpdatePlanConfig defines the configuration for a managed software update plan.
 type ResourcManagedSoftwareUpdatePlanConfig struct {
-	UpdateAction              string `json:"updateAction,omitempty"`
-	VersionType               string `json:"versionType,omitempty"`
+	UpdateAction              string `json:"updateAction"`
+	VersionType               string `json:"versionType"`
 	SpecificVersion           string `json:"specificVersion,omitempty"`
 	BuildVersion              string `json:"buildVersion,omitempty"`
 	MaxDeferrals              int    `json:"maxDeferrals,omitempty"`
