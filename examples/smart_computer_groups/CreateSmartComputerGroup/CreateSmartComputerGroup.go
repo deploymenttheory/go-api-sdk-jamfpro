@@ -33,7 +33,7 @@ func main() {
 					Priority:   0,
 					AndOr:      "and",
 					SearchType: "like",
-					Value:      "macOS 14",
+					Value:      "macOS 15",
 				},
 			},
 		},
