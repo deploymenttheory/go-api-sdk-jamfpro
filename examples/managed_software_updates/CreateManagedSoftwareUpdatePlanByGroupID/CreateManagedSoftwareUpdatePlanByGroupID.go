@@ -22,7 +22,7 @@ func main() {
 	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
 		Group: jamfpro.ResourcManagedSoftwareUpdatePlanObject{
 			ObjectType: "COMPUTER_GROUP", // COMPUTER_GROUP / MOBILE_DEVICE_GROUP
-			GroupId:    "55",
+			GroupId:    "3",
 			// Do not set DeviceId for a group request
 		},
 		Config: jamfpro.ResourcManagedSoftwareUpdatePlanConfig{

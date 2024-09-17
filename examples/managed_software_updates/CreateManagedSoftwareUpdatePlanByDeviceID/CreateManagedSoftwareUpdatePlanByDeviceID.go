@@ -22,7 +22,7 @@ func main() {
 	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
 		Devices: []jamfpro.ResourcManagedSoftwareUpdatePlanObject{{
 			ObjectType: "COMPUTER", // COMPUTER / MOBILE_DEVICE / APPLE_TV
-			DeviceId:   "18",
+			DeviceId:   "21",
 		}},
 		Config: jamfpro.ResourcManagedSoftwareUpdatePlanConfig{
 			UpdateAction:    "DOWNLOAD_INSTALL_ALLOW_DEFERRAL", // DOWNLOAD_ONLY / DOWNLOAD_INSTALL / DOWNLOAD_INSTALL_ALLOW_DEFERRAL / DOWNLOAD_INSTALL_RESTART / DOWNLOAD_INSTALL_SCHEDULE / UNKNOWN
