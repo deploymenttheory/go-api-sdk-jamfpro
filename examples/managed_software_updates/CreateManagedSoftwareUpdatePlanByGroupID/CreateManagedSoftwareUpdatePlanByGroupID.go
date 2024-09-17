@@ -19,13 +19,13 @@ func main() {
 	}
 
 	// Define a sample plan for testing
-	sampleUpdatePlan := &jamfpro.ResourceCreateManagedSoftwareUpdatePlan{
-		Group: jamfpro.ManagedSoftwareUpdatePlanObject{
+	sampleUpdatePlan := &jamfpro.ResourceManagedSoftwareUpdatePlan{
+		Group: jamfpro.ResourcManagedSoftwareUpdatePlanObject{
 			ObjectType: "COMPUTER_GROUP", // COMPUTER_GROUP / MOBILE_DEVICE_GROUP
 			GroupId:    "55",
 			// Do not set DeviceId for a group request
 		},
-		Config: jamfpro.ManagedSoftwareUpdatePlanConfig{
+		Config: jamfpro.ResourcManagedSoftwareUpdatePlanConfig{
 			UpdateAction:    "DOWNLOAD_INSTALL_ALLOW_DEFERRAL", // DOWNLOAD_ONLY / DOWNLOAD_INSTALL / DOWNLOAD_INSTALL_ALLOW_DEFERRAL / DOWNLOAD_INSTALL_RESTART / DOWNLOAD_INSTALL_SCHEDULE / UNKNOWN
 			VersionType:     "LATEST_MAJOR",                    // LATEST_MAJOR / LATEST_MINOR / LATEST_ANY / SPECIFIC_VERSION / UNKNOWN
 			SpecificVersion: "NO_SPECIFIC_VERSION",             // NO_SPECIFIC_VERSION / 14.4.1 etc
