@@ -19,17 +19,27 @@ func main() {
 
 	// Example usage of CreateWebhook
 	newWebhook := &jamfpro.ResourceWebhook{
-		Name:               "Webhook",
+		Name:               "go-api-sdk-Webhook",
 		Enabled:            true,
 		URL:                "https://server.com",
 		ContentType:        "application/json",
 		Event:              "SmartGroupComputerMembershipChange",
 		ConnectionTimeout:  5,
 		ReadTimeout:        2,
-		AuthenticationType: "BASIC",
-		Username:           "Sample User",
-		Password:           "SamplePassword",
-		SmartGroupID:       1,
+		AuthenticationType: "HEADER",
+		// AuthenticationHeaders: `{
+		// 	"headers": {
+		// 		"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+		// 		"Accept-Encoding": "gzip, deflate, br",
+		// 		"Accept-Language": "en-US,en;q=0.5",
+		// 		"Connection": "keep-alive",
+		// 		"Host": "www.example.com",
+		// 		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0"
+		// 	}
+		// }`,
+		Username:     "Sample User",
+		Password:     "SamplePassword",
+		SmartGroupID: 1,
 	}
 
 	createdWebhook, err := client.CreateWebhook(newWebhook)
