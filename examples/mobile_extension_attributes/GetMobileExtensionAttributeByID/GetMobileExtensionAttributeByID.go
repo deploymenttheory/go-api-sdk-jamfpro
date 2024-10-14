@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Replace with an actual ID
-	id := "1"
+	id := "3"
 
 	extensionAttributes, err := client.GetMobileExtensionAttributeByID(id)
 	if err != nil {

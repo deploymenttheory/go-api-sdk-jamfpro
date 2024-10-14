@@ -25,7 +25,7 @@ type MobileDeviceExtensionAttributesListItem struct {
 
 // Resource
 
-// ResourceMobileExtensionAttributes represents the response structure for a mobile extension attribute.
+// ResourceMobileExtensionAttribute represents the response structure for a mobile extension attribute.
 type ResourceMobileExtensionAttribute struct {
 	ID               int                                     `xml:"id"`
 	Name             string                                  `xml:"name"`
@@ -38,7 +38,12 @@ type ResourceMobileExtensionAttribute struct {
 // Subsets
 
 type MobileExtensionAttributeSubsetInputType struct {
-	Type string `xml:"type,omitempty"`
+	Type         string       `xml:"type,omitempty"`
+	PopupChoices PopupChoices `xml:"popup_choices,omitempty"`
+}
+
+type PopupChoices struct {
+	Choice []string `xml:"choice"`
 }
 
 // CRUD
