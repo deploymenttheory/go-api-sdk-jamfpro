@@ -25,6 +25,18 @@ type ErrorInstance struct {
 	ID          string `json:"id"`
 }
 
+// ResponseStatusItems represents the response structure for status items.
+type ResponseStatusItems struct {
+	StatusItems []StatusItem `json:"statusItems"`
+}
+
+// StatusItem represents a single status item in the status report.
+type StatusItem struct {
+	Key            string `json:"key"`
+	Value          string `json:"value"`
+	LastUpdateTime string `json:"lastUpdateTime"`
+}
+
 // ForceDDMSync initiates a DDM synchronization for a specific client management ID
 func (c *Client) ForceDDMSync(clientManagementId string) error {
 	endpoint := fmt.Sprintf("%s/%s/sync", uriDeclarativeDeviceManagement, clientManagementId)
@@ -45,4 +57,38 @@ func (c *Client) ForceDDMSync(clientManagementId string) error {
 	}
 
 	return nil
+}
+
+// GetDDMStatusItems retrieves the latest status report items for a specific device by its client management ID.
+func (c *Client) GetDDMStatusItems(clientManagementId string) (*ResponseStatusItems, error) {
+	endpoint := fmt.Sprintf("%s/%s/status-items", uriDeclarativeDeviceManagement, clientManagementId)
+
+	var response ResponseStatusItems
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get DDM status items for client management ID %s: %v", clientManagementId, err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// GetDDMStatusItem retrieves the latest status report item for a specific device by its client management ID and status item key.
+func (c *Client) GetDDMStatusItem(clientManagementId string, key string) (*StatusItem, error) {
+	endpoint := fmt.Sprintf("%s/%s/status-items/%s", uriDeclarativeDeviceManagement, clientManagementId, key)
+
+	var response StatusItem
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get status item for client management ID %s and key %s: %v", clientManagementId, key, err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }

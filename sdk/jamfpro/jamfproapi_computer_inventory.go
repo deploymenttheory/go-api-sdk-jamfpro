@@ -521,13 +521,21 @@ type FileVaultInventory struct {
 	DiskEncryptionConfigurationName     string                                                `json:"diskEncryptionConfigurationName"`
 }
 
+// ResponseRecoveryLockPassword represents the response structure for a recovery lock password.
 type ResponseRecoveryLockPassword struct {
 	RecoveryLockPassword string `json:"recoveryLockPassword"`
 }
 
+// ResponseUploadAttachment represents the response structure for uploading an attachment.
 type ResponseUploadAttachment struct {
 	ID   string `json:"id"`
 	Href string `json:"href"`
+}
+
+// ResponseRemoveMDMProfile represents the response structure for removing an MDM profile.
+type ResponseRemoveMDMProfile struct {
+	DeviceID    string `json:"deviceId"`
+	CommandUUID string `json:"commandUuid"`
 }
 
 // CRUD
@@ -740,4 +748,21 @@ func (c *Client) DeleteAttachmentByIDAndComputerID(computerID, attachmentID stri
 	}
 
 	return nil
+}
+
+// RemoveComputerMDMProfile removes the MDM profile from a computer by its ID.
+func (c *Client) RemoveComputerMDMProfile(id string) (*ResponseRemoveMDMProfile, error) {
+	endpoint := fmt.Sprintf("%s/%s/remove-mdm-profile", uriComputersInventory, id)
+
+	var response ResponseRemoveMDMProfile
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to remove MDM profile for computer ID %s: %v", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }
