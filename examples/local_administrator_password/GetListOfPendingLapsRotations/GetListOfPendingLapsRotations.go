@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,19 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define a policy ID for testing
-	policyID := "51" // Replace with the actual policy ID you want to fetch
-
-	// Call GetPolicyByID function
-	policy, err := client.GetPolicyByID(policyID)
+	// Call Function to get pending LAPS rotations
+	pendingRotations, err := client.GetListOfPendingLapsRotations()
 	if err != nil {
-		log.Fatalf("Error fetching policy by ID: %v", err)
+		log.Fatalf("Error fetching pending LAPS rotations: %v", err)
 	}
 
-	// Pretty print the policy details in XML
-	policyXML, err := xml.MarshalIndent(policy, "", "    ") // Indent with 4 spaces
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(pendingRotations, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling policy details data: %v", err)
+		log.Fatalf("Error marshaling pending LAPS rotations data: %v", err)
 	}
-	fmt.Println("Fetched Policy Details:\n", string(policyXML))
+	fmt.Println("Fetched pending LAPS rotations:\n", string(response))
 }
