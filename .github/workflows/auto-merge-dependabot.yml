@@ -30,10 +30,9 @@ jobs:
       - name: Check security and compatibility
         id: security_check
         run: |
-          # Parse the updated dependencies JSON for detailed info
           DEPS_JSON='${{ steps.metadata.outputs.updated-dependencies-json }}'
           
-          # Check if this is a security update
+          # Perform checks
           if [ "${{ steps.metadata.outputs.alert-state }}" = "OPEN" ]; then
             echo "⚠️ Security alert detected (GHSA: ${{ steps.metadata.outputs.ghsa-id }})"
             echo "CVSS Score: ${{ steps.metadata.outputs.cvss }}"
@@ -42,7 +41,6 @@ jobs:
             echo "is_security_update=false" >> $GITHUB_OUTPUT
           fi
           
-          # Check compatibility score
           if [ "${{ steps.metadata.outputs.compatibility-score }}" -lt 75 ]; then
             echo "⚠️ Low compatibility score: ${{ steps.metadata.outputs.compatibility-score }}"
             echo "is_compatible=false" >> $GITHUB_OUTPUT
@@ -50,7 +48,6 @@ jobs:
             echo "is_compatible=true" >> $GITHUB_OUTPUT
           fi
           
-          # Check for maintainer changes
           if [ "${{ steps.metadata.outputs.maintainer-changes }}" = "true" ]; then
             echo "⚠️ Maintainer changes detected"
             echo "has_maintainer_changes=true" >> $GITHUB_OUTPUT
@@ -58,7 +55,6 @@ jobs:
             echo "has_maintainer_changes=false" >> $GITHUB_OUTPUT
           fi
 
-      # Process Go dependencies
       - name: Checkout repository
         uses: actions/checkout@v4
         if: ${{ steps.metadata.outputs.package-ecosystem == 'gomod' }}
@@ -72,7 +68,6 @@ jobs:
       - name: Process Go dependencies
         if: ${{ steps.metadata.outputs.package-ecosystem == 'gomod' }}
         run: |
-          # Function to log dependency update details
           log_update_details() {
             local pr_number=$1
             echo "::group::Dependency Update Details for PR #$pr_number"
@@ -85,7 +80,6 @@ jobs:
             echo "::endgroup::"
           }
 
-          # Get all open Go-related Dependabot PRs ordered by creation date
           echo "🔍 Fetching all Go-related Dependabot PRs..."
           GO_PRS=$(gh pr list \
             --author "dependabot[bot]" \
@@ -114,12 +108,10 @@ jobs:
               PRIORITY_MERGE=true
             fi
 
-            # Checkout and update the PR
             git fetch origin $HEAD_BRANCH
             git checkout $HEAD_BRANCH
             git pull origin $HEAD_BRANCH
             
-            # Run go mod tidy then Commit and push 
             echo "🛠️ Running go mod tidy for PR #$PR_NUMBER"
             go mod tidy
             
