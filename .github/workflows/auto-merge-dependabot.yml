@@ -1,8 +1,13 @@
 name: auto-merge dependabot updates
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [ main ]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
 
 permissions:
   pull-requests: write
@@ -18,9 +23,38 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v2.2.0
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.DEPENDABOT_PAT }}"  # Using PAT for enhanced features, alert-lookup, and compat-lookup
+          alert-lookup: true    # Enable security alert information
+          compat-lookup: true   # Enable compatibility score checking
 
-      # Process Go dependencies
+      - name: Check security and compatibility
+        id: security_check
+        run: |
+          DEPS_JSON='${{ steps.metadata.outputs.updated-dependencies-json }}'
+          
+          # Perform checks
+          if [ "${{ steps.metadata.outputs.alert-state }}" = "OPEN" ]; then
+            echo "⚠️ Security alert detected (GHSA: ${{ steps.metadata.outputs.ghsa-id }})"
+            echo "CVSS Score: ${{ steps.metadata.outputs.cvss }}"
+            echo "is_security_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_security_update=false" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ "${{ steps.metadata.outputs.compatibility-score }}" -lt 75 ]; then
+            echo "⚠️ Low compatibility score: ${{ steps.metadata.outputs.compatibility-score }}"
+            echo "is_compatible=false" >> $GITHUB_OUTPUT
+          else
+            echo "is_compatible=true" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ "${{ steps.metadata.outputs.maintainer-changes }}" = "true" ]; then
+            echo "⚠️ Maintainer changes detected"
+            echo "has_maintainer_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_maintainer_changes=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v4
         if: ${{ steps.metadata.outputs.package-ecosystem == 'gomod' }}
@@ -31,73 +65,58 @@ jobs:
         with:
           go-version: 'stable'
 
-      - name: Process Go dependencies sequentially
+      - name: Process Go dependencies
         if: ${{ steps.metadata.outputs.package-ecosystem == 'gomod' }}
         run: |
-          # Function to create a summary block in the logs
-          create_update_summary() {
+          log_update_details() {
             local pr_number=$1
-            local dep_names=$2
-            local previous_version=$3
-            local new_version=$4
-            
-            echo "::group::Dependency Update Summary for PR #$pr_number"
-            echo "🔄 Dependencies being updated:"
-            echo "$dep_names" | tr ',' '\n' | while read -r dep; do
-              if [ ! -z "$dep" ]; then
-                echo "  • $dep"
-              fi
-            done
-            echo "📦 Version: $previous_version → $new_version"
+            echo "::group::Dependency Update Details for PR #$pr_number"
+            echo "🔄 Dependencies: ${{ steps.metadata.outputs.dependency-names }}"
+            echo "📦 Type: ${{ steps.metadata.outputs.dependency-type }}"
+            echo "📈 Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
+            echo "📂 Directory: ${{ steps.metadata.outputs.directory }}"
+            [ "${{ steps.security_check.outputs.is_security_update }}" = "true" ] && \
+              echo "🚨 Security update (CVSS: ${{ steps.metadata.outputs.cvss }})"
             echo "::endgroup::"
           }
-          
-          # Get all open Go-related Dependabot PRs
+
           echo "🔍 Fetching all Go-related Dependabot PRs..."
           GO_PRS=$(gh pr list \
             --author "dependabot[bot]" \
-            --json number,title,headRefName,body,baseRefName \
+            --json number,title,createdAt,headRefName \
             --state open \
-            --jq '.[] | select(.body | contains("go.mod"))')
+            --jq 'sort_by(.createdAt) | .[] | select(.title | contains("go.mod"))')
+
+          CURRENT_PR_PROCESSED=false
           
-          # Process each PR sequentially
           echo "$GO_PRS" | while read -r pr; do
             PR_NUMBER=$(echo "$pr" | jq -r .number)
             HEAD_BRANCH=$(echo "$pr" | jq -r .headRefName)
-            BASE_BRANCH=$(echo "$pr" | jq -r .baseRefName)
             
-            # Fetch metadata for this specific PR
-            PR_METADATA=$(gh pr view $PR_NUMBER --json title,body)
+            log_update_details $PR_NUMBER
             
-            echo "⚙️ Processing PR #$PR_NUMBER ($HEAD_BRANCH)"
-            
-            # Get dependency metadata for this PR
-            TEMP_META=$(gh api /repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/dependency-metadata)
-            DEP_NAMES=$(echo "$TEMP_META" | jq -r '.dependency-names')
-            PREV_VERSION=$(echo "$TEMP_META" | jq -r '.previous-version')
-            NEW_VERSION=$(echo "$TEMP_META" | jq -r '.new-version')
-            
-            # Create summary for this PR
-            create_update_summary "$PR_NUMBER" "$DEP_NAMES" "$PREV_VERSION" "$NEW_VERSION"
-            
-            # Ensure we're on a clean state
-            git fetch origin $BASE_BRANCH
-            git checkout $BASE_BRANCH
-            git pull origin $BASE_BRANCH
-            
-            # Checkout the PR branch
-            echo "📥 Checking out PR branch $HEAD_BRANCH"
+            # Skip indirect dependencies unless they're security updates
+            if [ "${{ steps.metadata.outputs.dependency-type }}" = "indirect" ] && \
+               [ "${{ steps.security_check.outputs.is_security_update }}" != "true" ]; then
+              echo "⏭️ Skipping indirect dependency update"
+              continue
+            fi
+
+            # Special handling for security updates
+            if [ "${{ steps.security_check.outputs.is_security_update }}" = "true" ]; then
+              echo "🚨 Processing security update with priority"
+              PRIORITY_MERGE=true
+            fi
+
             git fetch origin $HEAD_BRANCH
             git checkout $HEAD_BRANCH
             git pull origin $HEAD_BRANCH
             
-            # Run go mod tidy for this PR
             echo "🛠️ Running go mod tidy for PR #$PR_NUMBER"
             go mod tidy
             
-            # Commit and push changes if any
             if git diff --quiet; then
-              echo "✨ No changes after go mod tidy for PR #$PR_NUMBER"
+              echo "✨ No changes required for PR #$PR_NUMBER"
             else
               echo "💾 Committing changes for PR #$PR_NUMBER"
               git config --global user.name "GitHub Actions"
@@ -106,59 +125,47 @@ jobs:
               git push origin $HEAD_BRANCH
             fi
             
-            # If this is the current PR and it's not a major version update, enable auto-merge
-            if [ "$PR_NUMBER" = "$CURRENT_PR_NUMBER" ] && \
-               [ "$UPDATE_TYPE" != "version-update:semver-major" ]; then
-              echo "🤖 Enabling auto-merge for PR #$PR_NUMBER"
-              gh pr merge --auto --merge "$CURRENT_PR_URL"
+            # Auto-merge decision logic
+            if [ "$PR_NUMBER" = "$CURRENT_PR_NUMBER" ]; then
+              CURRENT_PR_PROCESSED=true
+              if { [ "$UPDATE_TYPE" != "version-update:semver-major" ] || \
+                  [ "${{ steps.security_check.outputs.is_security_update }}" = "true" ]; } && \
+                  [ "${{ steps.security_check.outputs.is_compatible }}" = "true" ] && \
+                  [ "${{ steps.security_check.outputs.has_maintainer_changes }}" = "false" ]; then
+                echo "🤖 Enabling auto-merge for current PR #$PR_NUMBER"
+                gh pr merge --auto --merge "$PR_URL"
+              fi
+            elif [ "$CURRENT_PR_PROCESSED" = false ]; then
+              echo "🔄 Processing older PR #$PR_NUMBER first"
+              gh pr merge --auto --merge "$PR_NUMBER"
             fi
-            
-            echo "✅ Completed processing PR #$PR_NUMBER"
-            echo "-------------------------------------------"
           done
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPENDABOT_PAT }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
           CURRENT_PR_NUMBER: ${{ github.event.pull_request.number }}
-          CURRENT_PR_URL: ${{ github.event.pull_request.html_url }}
           UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
 
-      # Auto-merge pipeline dependencies
+      # Handle other dependencies with security awareness
       - name: Enable auto-merge for pipeline dependencies
         if: |
-          steps.metadata.outputs.update-type != 'version-update:semver-major' && 
+          steps.security_check.outputs.is_compatible == 'true' &&
+          steps.security_check.outputs.has_maintainer_changes == 'false' &&
+          (steps.metadata.outputs.update-type != 'version-update:semver-major' || steps.security_check.outputs.is_security_update == 'true') && 
           contains(steps.metadata.outputs.directory, '.github/workflows')
-        run: |
-          echo "::group::Pipeline Dependency Update Summary"
-          echo "🔄 Dependencies being updated:"
-          echo "${{ steps.metadata.outputs.dependency-names }}" | tr ',' '\n' | while read -r dep; do
-            if [ ! -z "$dep" ]; then
-              echo "  • $dep"
-            fi
-          done
-          echo "📦 Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
-          echo "::endgroup::"
-          gh pr merge --auto --merge "$PR_URL"
+        run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.DEPENDABOT_PAT}}
 
-      # Auto-merge other dependencies
       - name: Enable auto-merge for other dependencies
         if: |
-          steps.metadata.outputs.update-type != 'version-update:semver-major' && 
+          steps.security_check.outputs.is_compatible == 'true' &&
+          steps.security_check.outputs.has_maintainer_changes == 'false' &&
+          (steps.metadata.outputs.update-type != 'version-update:semver-major' || steps.security_check.outputs.is_security_update == 'true') && 
           steps.metadata.outputs.package-ecosystem != 'gomod' &&
           !contains(steps.metadata.outputs.directory, '.github/workflows')
-        run: |
-          echo "::group::Other Dependency Update Summary"
-          echo "🔄 Dependencies being updated:"
-          echo "${{ steps.metadata.outputs.dependency-names }}" | tr ',' '\n' | while read -r dep; do
-            if [ ! -z "$dep" ]; then
-              echo "  • $dep"
-            fi
-          done
-          echo "📦 Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
-          echo "::endgroup::"
-          gh pr merge --auto --merge "$PR_URL"
+        run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.DEPENDABOT_PAT}}
