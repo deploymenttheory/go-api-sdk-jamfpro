@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -16,14 +17,14 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the computer group ID for deletion
-	groupID := "1" // Replace with the actual ID
+	// Define group ID to delete
+	groupID := "1"
 
-	// Call DeleteComputerGroupByID function
-	err = client.DeleteComputerGroupByID(groupID)
+	// Call function
+	err = client.DeleteSmartComputerGroupByID(groupID)
 	if err != nil {
-		log.Fatalf("Error deleting Computer Group by ID: %v", err)
+		log.Fatalf("Error deleting smart computer group: %v", err)
 	}
 
-	log.Println("Successfully deleted the Computer Group.")
+	fmt.Printf("Successfully deleted smart computer group with ID %s\n", groupID)
 }

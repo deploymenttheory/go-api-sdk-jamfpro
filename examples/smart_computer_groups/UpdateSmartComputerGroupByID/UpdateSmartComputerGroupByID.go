@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,41 +18,37 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the computer group details for update
-	groupUpdate := &jamfpro.ResourceComputerGroup{
-		Name:    "jamfpro-go-sdk-test-group-update-by-id",
-		IsSmart: true,
-		Site: &jamfpro.SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		},
-		Criteria: &jamfpro.ComputerGroupSubsetContainerCriteria{
-			Size: 1, // Assuming there is only one criterion
-			Criterion: &[]jamfpro.SharedSubsetCriteria{
-				{
-					Name:       "Operating System Version",
-					Priority:   0,
-					AndOr:      "and",
-					SearchType: "like",
-					Value:      "macOS 14",
-				},
+	// Define group ID to update
+	groupID := "1"
+	siteID := "-1"
+
+	// Create update data
+	updateGroup := jamfpro.ResourceSmartComputerGroup{
+		Name: "Updated Smart Group",
+		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
+			{
+				Name:         "Account",
+				Priority:     0,
+				AndOr:        "and",
+				SearchType:   "is",
+				Value:        "test",
+				OpeningParen: false,
+				ClosingParen: true,
 			},
 		},
-		// Include other fields if necessary
+		SiteId: &siteID,
 	}
 
-	groupID := "1" // Replace with the actual ID
-
-	// Call UpdateComputerGroupByID function
-	updatedGroup, err := client.UpdateComputerGroupByID(groupID, groupUpdate)
+	// Call function
+	updated, err := client.UpdateSmartComputerGroupByID(groupID, updateGroup)
 	if err != nil {
-		log.Fatalf("Error updating Computer Group by ID: %v", err)
+		log.Fatalf("Error updating smart computer group: %v", err)
 	}
 
-	// Pretty print the updated computer group in XML
-	updatedGroupXML, err := xml.MarshalIndent(updatedGroup, "", "    ") // Indent with 4 spaces
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(updated, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling updated Computer Group data: %v", err)
+		log.Fatalf("Error marshaling updated group data: %v", err)
 	}
-	fmt.Println("Updated Computer Group:\n", string(updatedGroupXML))
+	fmt.Println("Updated Smart Computer Group:\n", string(response))
 }

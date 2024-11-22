@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,16 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetComputerGroups function
-	groups, err := client.GetComputerGroups()
+	// Call function to get all smart computer groups
+	groups, err := client.GetSmartComputerGroups()
 	if err != nil {
-		log.Fatalf("Error fetching Computer Groups: %v", err)
+		log.Fatalf("Error fetching smart computer groups: %v", err)
 	}
 
-	// Pretty print the groups in XML
-	groupsXML, err := xml.MarshalIndent(groups, "", "    ") // Indent with 4 spaces
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(groups, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling Computer Groups data: %v", err)
+		log.Fatalf("Error marshaling smart computer groups data: %v", err)
 	}
-	fmt.Println("Fetched Computer Groups:\n", string(groupsXML))
+	fmt.Println("Fetched Smart Computer Groups:\n", string(response))
 }

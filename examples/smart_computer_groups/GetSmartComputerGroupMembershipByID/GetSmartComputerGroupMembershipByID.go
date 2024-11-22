@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -16,14 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the computer group name for deletion
-	groupName := "NewGroupName" // Replace with the actual name
+	// Define the group ID
+	groupID := "1"
 
-	// Call DeleteComputerGroupByName function
-	err = client.DeleteComputerGroupByName(groupName)
+	// Call function
+	membership, err := client.GetSmartComputerGroupMembershipByID(groupID)
 	if err != nil {
-		log.Fatalf("Error deleting Computer Group by Name: %v", err)
+		log.Fatalf("Error fetching smart computer group membership: %v", err)
 	}
 
-	log.Println("Successfully deleted the Computer Group by name.")
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(membership, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling membership data: %v", err)
+	}
+	fmt.Println("Fetched Smart Computer Group Membership:\n", string(response))
 }
