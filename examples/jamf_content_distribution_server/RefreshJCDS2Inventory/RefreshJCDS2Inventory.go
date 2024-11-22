@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -16,14 +17,11 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the computer group name for deletion
-	groupName := "NewGroupName" // Replace with the actual name
-
-	// Call DeleteComputerGroupByName function
-	err = client.DeleteComputerGroupByName(groupName)
+	// Call Function to refresh JCDS2 inventory
+	err = client.RefreshJCDS2Inventory()
 	if err != nil {
-		log.Fatalf("Error deleting Computer Group by Name: %v", err)
+		log.Fatalf("Error refreshing JCDS 2.0 inventory: %v", err)
 	}
 
-	log.Println("Successfully deleted the Computer Group by name.")
+	fmt.Println("Successfully refreshed JCDS 2.0 inventory")
 }

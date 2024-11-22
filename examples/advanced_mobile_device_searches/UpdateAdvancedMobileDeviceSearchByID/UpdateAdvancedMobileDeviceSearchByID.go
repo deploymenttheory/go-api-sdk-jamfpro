@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,66 +18,46 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the advanced mobile device search details
-	updatedSearch := &jamfpro.ResourceAdvancedMobileDeviceSearch{
-		Name:   "jamf api sdk advanced search",
-		ViewAs: "Standard Web Page",
-		Criteria: jamfpro.SharedContainerCriteria{
-			Size: 1,
-			Criterion: []jamfpro.SharedSubsetCriteria{
-				{
-					Name:         "Last Inventory Update",
-					Priority:     0,
-					AndOr:        "and",
-					SearchType:   "more than x days ago",
-					Value:        "7",
-					OpeningParen: false,
-					ClosingParen: false,
-				},
+	// ID of the search to update
+	searchID := "94"
+	siteID := "-1"
+
+	// Create updated search
+	updatedSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
+		Name: "Updated Test Search",
+		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
+			{
+				Name:         "Identity",
+				AndOr:        "and",
+				SearchType:   "is",
+				Value:        "test",
+				OpeningParen: true,
+				ClosingParen: false,
+			},
+			{
+				Name:         "Languages",
+				Priority:     1,
+				AndOr:        "and",
+				SearchType:   "is",
+				Value:        "test",
+				OpeningParen: false,
+				ClosingParen: true,
 			},
 		},
-		DisplayFields: []jamfpro.DisplayField{
-			{
-				Name: "Activation Lock Manageable",
-			},
-			{
-				Name: "Apple Silicon",
-			},
-			{
-				Name: "Architecture Type",
-			},
-			{
-				Name: "Available RAM Slots",
-			},
-		},
-
-		Site: &jamfpro.SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		},
+		DisplayFields: []string{"App Name", "Device Name"},
+		SiteId:        &siteID,
 	}
 
-	searchID := "14"
-
-	// Convert the profile to XML to see the output (optional, for debug purposes)
-	xmlData, err := xml.MarshalIndent(updatedSearch, "", "  ")
+	// Call Function
+	updated, err := client.UpdateAdvancedMobileDeviceSearchByID(searchID, updatedSearch)
 	if err != nil {
-		log.Fatalf("Error marshaling XML: %v", err)
-	}
-	fmt.Printf("XML Request: %s\n", xmlData)
-
-	// Create the advanced mobile device search
-	updatedSearchResp, err := client.UpdateAdvancedMobileDeviceSearchByID(searchID, updatedSearch)
-	if err != nil {
-		fmt.Println("Error updating advanced mobile device search:", err)
-		return
+		log.Fatalf("Error updating advanced mobile device search: %v", err)
 	}
 
-	// Print the created advanced mobile device search details
-	createdSearchXML, err := xml.MarshalIndent(updatedSearchResp, "", "  ")
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(updated, "", "    ")
 	if err != nil {
-		fmt.Println("Error marshaling created search to XML:", err)
-		return
+		log.Fatalf("Error marshaling updated search data: %v", err)
 	}
-	fmt.Printf("updated Advanced mobile device Search:\n%s\n", string(createdSearchXML))
+	fmt.Println("Updated Advanced Mobile Device Search:\n", string(response))
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -17,14 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define group ID to delete
-	groupID := "1"
+	// Set sorting filter (optional)
+	sortFilter := "name:asc"
 
 	// Call function
-	err = client.DeleteSmartComputerGroupByID(groupID)
+	groups, err := client.GetSmartComputerGroupsV2(sortFilter)
 	if err != nil {
-		log.Fatalf("Error deleting smart computer group: %v", err)
+		log.Fatalf("Error fetching smart computer groups v2: %v", err)
 	}
 
-	fmt.Printf("Successfully deleted smart computer group with ID %s\n", groupID)
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(groups, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling groups data: %v", err)
+	}
+	fmt.Println("Fetched Smart Computer Groups V2:\n", string(response))
 }

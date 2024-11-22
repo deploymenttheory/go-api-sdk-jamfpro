@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,38 +18,34 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Sample data for creating a new computer group (replace with actual data as needed)
-	newSmartGroup := &jamfpro.ResourceComputerGroup{
-		Name:    "Operating System Version like 15",
-		IsSmart: true,
-		Site: &jamfpro.SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		},
-		Criteria: &jamfpro.ComputerGroupSubsetContainerCriteria{
-			Criterion: &[]jamfpro.SharedSubsetCriteria{
-				{
-					Name:       "Operating System Version",
-					Priority:   0,
-					AndOr:      "and",
-					SearchType: "like",
-					Value:      "macOS 15",
-				},
+	// Create new smart computer group
+	siteID := "-1"
+	newGroup := jamfpro.ResourceSmartComputerGroup{
+		Name: "Test Smart Group",
+		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
+			{
+				Name:         "Application Title",
+				Priority:     0,
+				AndOr:        "and",
+				SearchType:   "is",
+				Value:        "test",
+				OpeningParen: false,
+				ClosingParen: false,
 			},
 		},
-		// Include other fields if necessary
+		SiteId: &siteID,
 	}
 
-	// Call CreateComputerGroup function
-	createdGroup, err := client.CreateComputerGroup(newSmartGroup)
+	// Call function
+	created, err := client.CreateSmartComputerGroup(newGroup)
 	if err != nil {
-		log.Fatalf("Error creating Computer Group: %v", err)
+		log.Fatalf("Error creating smart computer group: %v", err)
 	}
 
-	// Pretty print the created group in XML
-	groupXML, err := xml.MarshalIndent(createdGroup, "", "    ") // Indent with 4 spaces
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(created, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling Computer Group data: %v", err)
+		log.Fatalf("Error marshaling created group data: %v", err)
 	}
-	fmt.Println("Created Computer Group:\n", string(groupXML))
+	fmt.Println("Created Smart Computer Group:\n", string(response))
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -18,16 +17,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetComputerGroups function
-	groups, err := client.GetComputerGroups()
-	if err != nil {
-		log.Fatalf("Error fetching Computer Groups: %v", err)
+	// Set up the device pin request
+	devicePin := jamfpro.RequestEraseDeviceComputer{
+		Pin: nil, // or the six-character : Pin: &"123456" for Find My.
 	}
 
-	// Pretty print the groups in XML
-	groupsXML, err := xml.MarshalIndent(groups, "", "    ") // Indent with 4 spaces
+	// Call Function to erase computer with ID "1"
+	err = client.EraseComputerByID("1", devicePin)
 	if err != nil {
-		log.Fatalf("Error marshaling Computer Groups data: %v", err)
+		log.Fatalf("Error erasing computer: %v", err)
 	}
-	fmt.Println("Fetched Computer Groups:\n", string(groupsXML))
+
+	fmt.Printf("Successfully initiated erase for computer with ID: %s\n", "1")
 }

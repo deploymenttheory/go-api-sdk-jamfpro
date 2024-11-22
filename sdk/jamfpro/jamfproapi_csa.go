@@ -13,10 +13,11 @@ const uriCSATokenExchange = "/api/v1/csa/token"
 
 // ResponseCSATokenExchangeDetails represents the response structure for the CSA token exchange details.
 type ResponseCSATokenExchangeDetails struct {
-	TenantID          string   `json:"tenantId"`
-	Subject           string   `json:"subject"`
-	RefreshExpiration int      `json:"refreshExpiration"`
-	Scopes            []string `json:"scopes"`
+	TenantID                string   `json:"tenantId"`
+	Subject                 string   `json:"subject"`
+	RefreshExpiration       int      `json:"refreshExpiration"`
+	Scopes                  []string `json:"scopes"`
+	LegacyJamfSalesforceIds []string `json:"legacyJamfSalesforceIds"`
 }
 
 // ResponseCSATenantID represents the response structure for the CSA tenant ID.

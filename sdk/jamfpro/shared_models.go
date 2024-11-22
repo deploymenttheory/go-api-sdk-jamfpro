@@ -61,6 +61,17 @@ type SharedSubsetCriteria struct {
 	ClosingParen bool   `json:"closing_paren,omitempty" xml:"closing_paren,omitempty"`
 }
 
+// SharedSubsetCriteriaJamfProAPI represents the criteria for an Search item for jamfprom api
+type SharedSubsetCriteriaJamfProAPI struct {
+	Name         string `json:"name"`
+	Priority     int    `json:"priority"`
+	AndOr        string `json:"andOr"`
+	SearchType   string `json:"searchType"`
+	Value        string `json:"value"`
+	OpeningParen bool   `json:"openingParen,omitempty"`
+	ClosingParen bool   `json:"closingParen,omitempty"`
+}
+
 type SharedResourceLdapServer struct {
 	ID   int    `json:"id,omitempty" xml:"id,omitempty"`
 	Name string `json:"name,omitempty" xml:"name,omitempty"`

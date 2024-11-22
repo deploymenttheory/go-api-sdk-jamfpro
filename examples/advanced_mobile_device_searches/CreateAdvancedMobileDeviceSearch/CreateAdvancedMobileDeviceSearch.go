@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,57 +18,43 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the advanced mobile device search request based on the provided XML
+	// Create a new search
+	siteID := "-1"
 	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
-		Name:   "Advanced Search Name",
-		ViewAs: "Standard Web Page",
-		Criteria: jamfpro.SharedContainerCriteria{
-			Size: 1,
-			Criterion: []jamfpro.SharedSubsetCriteria{
-				{
-					Name:         "Last Inventory Update",
-					Priority:     0,
-					AndOr:        "and",
-					SearchType:   "more than x days ago",
-					Value:        "7",
-					OpeningParen: false,
-					ClosingParen: false,
-				},
+		Name: "Test Search",
+		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
+			{
+				Name:         "Building",
+				AndOr:        "and",
+				SearchType:   "is",
+				Value:        "test",
+				OpeningParen: true,
+				ClosingParen: false,
+			},
+			{
+				Name:         "iTunes Store Account",
+				Priority:     1,
+				AndOr:        "and",
+				SearchType:   "is",
+				Value:        "test",
+				OpeningParen: false,
+				ClosingParen: true,
 			},
 		},
-		DisplayFields: []jamfpro.DisplayField{
-			{
-				Name: "Activation Lock Manageable",
-			},
-			{
-				Name: "Apple Silicon",
-			},
-			{
-				Name: "Architecture Type",
-			},
-			{
-				Name: "Available RAM Slots",
-			},
-		},
-
-		Site: &jamfpro.SharedResourceSite{
-			ID:   -1,
-			Name: "None",
-		},
+		DisplayFields: []string{"App Name", "Device Name"},
+		SiteId:        &siteID,
 	}
 
-	// Create the advanced mobile search
-	createdSearch, err := client.CreateAdvancedMobileDeviceSearch(&newSearch)
+	// Call Function
+	created, err := client.CreateAdvancedMobileDeviceSearch(newSearch)
 	if err != nil {
-		fmt.Println("Error creating advanced mobile search:", err)
-		return
+		log.Fatalf("Error creating advanced mobile device search: %v", err)
 	}
 
-	// Print the created advanced mobile search details
-	createdSearchXML, err := xml.MarshalIndent(createdSearch, "", "  ")
+	// Pretty print the JSON
+	response, err := json.MarshalIndent(created, "", "    ")
 	if err != nil {
-		fmt.Println("Error marshaling created search to XML:", err)
-		return
+		log.Fatalf("Error marshaling created search data: %v", err)
 	}
-	fmt.Printf("Created Advanced Mobile Device Search:\n%s\n", string(createdSearchXML))
+	fmt.Println("Created Advanced Mobile Device Search:\n", string(response))
 }
