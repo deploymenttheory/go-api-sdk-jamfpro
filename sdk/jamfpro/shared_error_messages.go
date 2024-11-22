@@ -37,6 +37,10 @@ const (
 	errMsgFailedDeleteMultiple = "failed to delete multiple %s, by ids: %v, error: %v"
 	errMsgFailedDeleteByString = "failed to delete %s by %s: %s, error: %v"
 
+	// Action
+
+	errMsgFailedActionByID = "failed to perform action on %s by id: %v, error: %v"
+
 	// Mapstructure - type: string, error: any
 	errMsgFailedMapstruct = "failed to map interfaced %s to structs, error: %v"
 

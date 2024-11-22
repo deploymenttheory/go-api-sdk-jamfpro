@@ -538,6 +538,13 @@ type ResponseRemoveMDMProfile struct {
 	CommandUUID string `json:"commandUuid"`
 }
 
+// Request
+
+// RequestEraseDeviceComputer represents the request structure for erasing a device.
+type RequestEraseDeviceComputer struct {
+	Pin *string `json:"pin,omitempty"`
+}
+
 // CRUD
 
 // GetComputersInventory retrieves all computer inventory information with optional sorting and section filters.
@@ -765,4 +772,20 @@ func (c *Client) RemoveComputerMDMProfile(id string) (*ResponseRemoveMDMProfile,
 	}
 
 	return &response, nil
+}
+
+// EraseComputerByID erases a computer by its ID.
+func (c *Client) EraseComputerByID(id string, devicePin RequestEraseDeviceComputer) error {
+	endpoint := fmt.Sprintf("%s/%s/erase", uriComputersInventory, id)
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, devicePin, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedActionByID, "erase computer", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
 }
