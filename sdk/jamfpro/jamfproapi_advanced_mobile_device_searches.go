@@ -25,7 +25,7 @@ type ResponseAdvancedMobileDeviceSearchesList struct {
 
 // ResourceAdvancedMobileSearch represents a single Advanced Mobile Device Search
 type ResourceAdvancedMobileDeviceSearch struct {
-	ID            string                           `json:"id"`
+	ID            string                           `json:"id,omitempty"`
 	Name          string                           `json:"name"`
 	Criteria      []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
 	DisplayFields []string                         `json:"displayFields"`
