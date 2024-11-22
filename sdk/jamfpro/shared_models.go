@@ -64,7 +64,7 @@ type SharedSubsetCriteria struct {
 // SharedSubsetCriteriaJamfProAPI represents the criteria for an Search item for jamfprom api
 type SharedSubsetCriteriaJamfProAPI struct {
 	Name         string `json:"name"`
-	Priority     int    `json:"priority,omitempty"`
+	Priority     int    `json:"priority"`
 	AndOr        string `json:"andOr"`
 	SearchType   string `json:"searchType"`
 	Value        string `json:"value"`

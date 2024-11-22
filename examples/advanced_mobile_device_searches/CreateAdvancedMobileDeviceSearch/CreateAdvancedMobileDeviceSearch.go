@@ -21,10 +21,11 @@ func main() {
 	// Create a new search
 	siteID := "-1"
 	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
-		Name: "Test Search 3",
+		Name: "Test Search 2",
 		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
 				Name:         "Building",
+				Priority:     0,
 				AndOr:        "and",
 				SearchType:   "is",
 				Value:        "test",
@@ -41,7 +42,7 @@ func main() {
 				ClosingParen: true,
 			},
 		},
-		DisplayFields: []string{"App Name", "Device Name"},
+		DisplayFields: []string{"Building", "iTunes Store Account"},
 		SiteId:        &siteID,
 	}
 
