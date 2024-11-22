@@ -6,9 +6,7 @@ Filename: jamfproapi_advanced_mobile_searches.go
 - Data Structure: XML
 
 Shared data structure resources in this endpoint:
-- SharedResourceSite
-- SharedContainerCriteria
-- SharedAdvancedSearchSubsetDisplayField
+- SharedSubsetCriteriaJamfProAPI
 */
 
 package jamfpro
@@ -27,24 +25,11 @@ type ResponseAdvancedMobileDeviceSearchesList struct {
 
 // ResourceAdvancedMobileSearch represents a single Advanced Mobile Device Search
 type ResourceAdvancedMobileDeviceSearch struct {
-	ID            string                                     `json:"id"`
-	Name          string                                     `json:"name"`
-	Criteria      []AdvancedMobileDeviceSearchSubsetCriteria `json:"criteria"`
-	DisplayFields []string                                   `json:"displayFields"`
-	SiteId        *string                                    `json:"siteId"`
-}
-
-// Subsets & Containers
-
-// AdvancedMobileDeviceSearchSubsetCriteria represents the criteria for an Advanced Mobile Device Search
-type AdvancedMobileDeviceSearchSubsetCriteria struct {
-	Name         string `json:"name"`
-	Priority     int    `json:"priority"`
-	AndOr        string `json:"andOr"`
-	SearchType   string `json:"searchType"`
-	Value        string `json:"value"`
-	OpeningParen bool   `json:"openingParen"`
-	ClosingParen bool   `json:"closingParen"`
+	ID            string                           `json:"id"`
+	Name          string                           `json:"name"`
+	Criteria      []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
+	DisplayFields []string                         `json:"displayFields"`
+	SiteId        *string                          `json:"siteId"`
 }
 
 // Responses
