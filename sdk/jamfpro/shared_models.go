@@ -68,8 +68,8 @@ type SharedSubsetCriteriaJamfProAPI struct {
 	AndOr        string `json:"andOr"`
 	SearchType   string `json:"searchType"`
 	Value        string `json:"value"`
-	OpeningParen bool   `json:"openingParen,omitempty"`
-	ClosingParen bool   `json:"closingParen,omitempty"`
+	OpeningParen *bool  `json:"openingParen,omitempty"`
+	ClosingParen *bool  `json:"closingParen,omitempty"`
 }
 
 type SharedResourceLdapServer struct {
