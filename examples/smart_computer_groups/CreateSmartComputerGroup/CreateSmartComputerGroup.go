@@ -24,13 +24,13 @@ func main() {
 		Name: "Test Smart Group",
 		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
-				Name:         "Account",
+				Name:         "Application Title",
 				Priority:     0,
 				AndOr:        "and",
 				SearchType:   "is",
 				Value:        "test",
 				OpeningParen: false,
-				ClosingParen: true,
+				ClosingParen: false,
 			},
 		},
 		SiteId: &siteID,
