@@ -25,7 +25,7 @@ func main() {
 	// Create updated search
 	updatedSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
 		Name: "Updated Test Search",
-		Criteria: []jamfpro.AdvancedMobileDeviceSearchSubsetCriteria{
+		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
 				Name:         "Identity",
 				AndOr:        "and",

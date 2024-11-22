@@ -22,7 +22,7 @@ func main() {
 	siteID := "-1"
 	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
 		Name: "Test Search",
-		Criteria: []jamfpro.AdvancedMobileDeviceSearchSubsetCriteria{
+		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
 				Name:         "Building",
 				AndOr:        "and",
