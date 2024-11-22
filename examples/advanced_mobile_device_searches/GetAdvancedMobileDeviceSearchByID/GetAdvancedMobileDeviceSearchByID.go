@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// The ID of the advanced mobile device search you want to retrieve
-	searchID := "13" // Replace with the actual ID you want to retrieve
+	searchID := "94" // Replace with the actual ID you want to retrieve
 
 	// Call the GetAdvancedMobileDeviceSearchByID function
 	search, err := client.GetAdvancedMobileDeviceSearchByID(searchID)
