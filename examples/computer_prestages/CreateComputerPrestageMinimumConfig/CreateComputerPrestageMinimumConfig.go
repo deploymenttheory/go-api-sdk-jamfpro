@@ -92,7 +92,7 @@ func main() {
 		InstallProfilesDuringSetup:         jamfpro.TruePtr(),
 		PrestageInstalledProfileIds:        []string{},
 		CustomPackageIds:                   []string{},
-		CustomPackageDistributionPointId:   "-1",
+		CustomPackageDistributionPointId:   "-1", // -2 for all cloud distribution points , -1 for not used, then id for all distribution points
 		EnableRecoveryLock:                 jamfpro.FalsePtr(),
 		RecoveryLockPasswordType:           "",
 		RecoveryLockPassword:               "",
