@@ -31,6 +31,8 @@ type ResourceSelfServiceBrandingDetail struct {
 	BrandingNameSecondary string `json:"brandingNameSecondary"`
 	IconId                int    `json:"iconId"`
 	BrandingHeaderImageId int    `json:"brandingHeaderImageId"`
+	HomeHeading           string `json:"homeHeading"`
+	HomeSubheading        string `json:"homeSubheading"`
 }
 
 // CRUD
