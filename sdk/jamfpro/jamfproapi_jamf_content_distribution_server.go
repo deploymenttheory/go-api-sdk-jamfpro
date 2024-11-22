@@ -235,3 +235,19 @@ func (c *Client) DeleteJCDS2PackageV2(filePath string) error {
 	fmt.Printf("File '%s' successfully deleted from JCDS 2.0.\n", filepath.Base(filePath))
 	return nil
 }
+
+// RefreshJCDS2Inventory refreshes the inventory and status of uploads in Jamf Pro.
+func (c *Client) RefreshJCDS2Inventory() error {
+	endpoint := fmt.Sprintf("%s/refresh-inventory", uriJCDS2)
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedAction, "refresh JCDS 2.0 inventory", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}

@@ -40,6 +40,7 @@ const (
 	// Action
 
 	errMsgFailedActionByID = "failed to perform action on %s by id: %v, error: %v"
+	errMsgFailedAction     = "failed to perform action %s, error: %v"
 
 	// Mapstructure - type: string, error: any
 	errMsgFailedMapstruct = "failed to map interfaced %s to structs, error: %v"
