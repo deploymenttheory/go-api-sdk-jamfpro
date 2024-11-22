@@ -21,7 +21,7 @@ func main() {
 	// Create a new search
 	siteID := "-1"
 	newSearch := jamfpro.ResourceAdvancedMobileDeviceSearch{
-		Name: "Test Search",
+		Name: "Test Search 3",
 		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
 				Name:         "Building",

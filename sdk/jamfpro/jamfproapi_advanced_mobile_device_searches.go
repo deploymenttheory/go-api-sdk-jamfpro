@@ -39,6 +39,12 @@ type ResponseAdvancedMobileDeviceSearchChoices struct {
 	Choices []string `json:"choices"`
 }
 
+// ResponseAdvancedMobileDeviceSearchCreate represents the response structure for creating a Smart Computer Group
+type ResponseAdvancedMobileDeviceSearchCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
 // GetAdvancedMobileDeviceSearches retrieves all Advanced Mobile Device Searches
 func (c *Client) GetAdvancedMobileDeviceSearches() (*ResponseAdvancedMobileDeviceSearchesList, error) {
 	endpoint := uriAdvancedMobileSearches
@@ -91,10 +97,10 @@ func (c *Client) GetAdvancedMobileDeviceSearchChoices(criteria, site, contains s
 }
 
 // CreateAdvancedMobileDeviceSearch creates a new Advanced Mobile Device Search
-func (c *Client) CreateAdvancedMobileDeviceSearch(search ResourceAdvancedMobileDeviceSearch) (*ResourceAdvancedMobileDeviceSearch, error) {
+func (c *Client) CreateAdvancedMobileDeviceSearch(search ResourceAdvancedMobileDeviceSearch) (*ResponseAdvancedMobileDeviceSearchCreate, error) {
 	endpoint := uriAdvancedMobileSearches
 
-	var response ResourceAdvancedMobileDeviceSearch
+	var response ResponseAdvancedMobileDeviceSearchCreate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, search, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "advanced mobile device search", err)

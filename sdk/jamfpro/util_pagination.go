@@ -4,6 +4,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"log"
 )
 
 type StandardPaginatedResponse struct {
@@ -55,7 +56,7 @@ func (c *Client) DoPaginatedGet(
 
 	for {
 		endpoint := fmt.Sprintf("%s?page=%d&page-size=%d%s", endpoint_root, startingPageNumber, maxPageSize, sort_filter)
-		fmt.Fprintf(os.Stderr, "%s\n", endpoint)
+		log.Printf("DEBUG: Fetching from endpoint: %s", endpoint)
 		resp, err := c.HTTP.DoRequest(
 			"GET",
 			endpoint,
