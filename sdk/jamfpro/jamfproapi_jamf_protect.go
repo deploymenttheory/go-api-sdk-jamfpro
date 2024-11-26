@@ -1,3 +1,8 @@
+// jamfproapi_jamf_protect.go
+// Jamf Pro Api - Jamf Protect
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-jamf-protect
+// Jamf Pro API requires the structs to support an JSON data structure.
+
 package jamfpro
 
 import (
@@ -77,6 +82,7 @@ type ResourceJamfProtectRegisterResponse struct {
 
 // CRUD
 
+// GetJamfProtectIntegrationSettings retrieves the current Jamf Protect integration settings
 func (c *Client) GetJamfProtectIntegrationSettings() (*ResourceJamfProtectIntegrationSettings, error) {
 	endpoint := uriJamfProtect
 	var out ResourceJamfProtectIntegrationSettings
@@ -93,6 +99,7 @@ func (c *Client) GetJamfProtectIntegrationSettings() (*ResourceJamfProtectIntegr
 	return &out, nil
 }
 
+// UpdateJamfProtectIntegrationSettings updates the Jamf Protect integration settings
 func (c *Client) UpdateJamfProtectIntegrationSettings(updatedSettings ResourceJamfProtectIntegrationSettings) (*ResourceJamfProtectIntegrationSettings, error) {
 	endpoint := uriJamfProtect
 	var out ResourceJamfProtectIntegrationSettings
@@ -109,6 +116,7 @@ func (c *Client) UpdateJamfProtectIntegrationSettings(updatedSettings ResourceJa
 	return &out, nil
 }
 
+// CreateJamfProtectIntegration creates a new Jamf Protect integration
 func (c *Client) CreateJamfProtectIntegration(autoInstall bool) (*ResourceJamfProtectIntegrationSettings, error) {
 	endpoint := uriJamfProtect
 	requestBody := ResourceJamfProtectIntegrationRequest{
@@ -128,6 +136,7 @@ func (c *Client) CreateJamfProtectIntegration(autoInstall bool) (*ResourceJamfPr
 	return &out, nil
 }
 
+// DeleteJamfProtectIntegration deletes the current Jamf Protect integration
 func (c *Client) DeleteJamfProtectIntegration() error {
 	endpoint := uriJamfProtect
 
