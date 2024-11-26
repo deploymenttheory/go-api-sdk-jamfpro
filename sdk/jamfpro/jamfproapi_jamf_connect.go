@@ -60,6 +60,11 @@ type ResourceJamfConnectConfigProfile struct {
 	AutoDeploymentType      string `json:"autoDeploymentType"`
 }
 
+// ResourceJamfConnectTaskRetry represents the request structure for task retry
+type ResourceJamfConnectTaskRetry struct {
+	IDs []string `json:"ids"`
+}
+
 // ResourceJamfConnectConfigProfileUpdate represents the updateable fields for a Jamf Connect profile
 type ResourceJamfConnectConfigProfileUpdate struct {
 	Version            string `json:"version"`
@@ -131,4 +136,25 @@ func (c *Client) UpdateJamfConnectConfigProfileByID(id string, profileUpdate *Re
 	}
 
 	return &updatedProfile, nil
+}
+
+// RetryJamfConnectDeploymentTasks requests a retry of Connect install tasks for a specified computers
+// asscoiated with a specific jamf connect configuration profile.
+func (c *Client) RetryJamfConnectDeploymentTasksByID(configProfileUUID string, computerIDs []string) error {
+	endpoint := fmt.Sprintf("%s/deployments/%s/tasks/retry", uriJamfConnect, configProfileUUID)
+
+	requestBody := &ResourceJamfConnectTaskRetry{
+		IDs: computerIDs,
+	}
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, requestBody, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedCreate, "retry jamf connect tasks", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
 }
