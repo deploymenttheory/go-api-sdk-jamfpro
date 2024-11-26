@@ -12,8 +12,8 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.32.5
 	github.com/aws/aws-sdk-go-v2/config v1.28.5
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.46
-	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.40
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.68.0
+	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.41
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.69.0
 	github.com/mitchellh/mapstructure v1.5.0
 	howett.net/plist v1.0.1
 )
