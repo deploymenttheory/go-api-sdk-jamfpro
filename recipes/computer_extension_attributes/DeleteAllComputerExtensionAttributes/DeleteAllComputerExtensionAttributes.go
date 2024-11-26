@@ -23,21 +23,29 @@ func main() {
 		log.Fatalf("Error fetching computer extension attributes: %v", err)
 	}
 
-	fmt.Println("computer extension attributes fetched. Starting deletion process:")
+	fmt.Printf("Found %d computer extension attributes. Starting deletion process:\n", extAtts.TotalCount)
+
+	successCount := 0
+	failureCount := 0
 
 	// Iterate over each computer extension attribute and delete
 	for _, extAtt := range extAtts.Results {
-		fmt.Printf("Deleting computer extension attribute ID: %d, Name: %s\n", extAtt.ID, extAtt.Name)
+		fmt.Printf("Attempting to delete computer extension attribute - ID: %s, Name: %s\n", extAtt.ID, extAtt.Name)
 
 		err = client.DeleteComputerExtensionAttributeByID(extAtt.ID)
 		if err != nil {
-			log.Printf("Error deleting computer extension attribute ID %d: %v\n", extAtt.ID, err)
+			log.Printf("Error deleting computer extension attribute ID %s (%s): %v\n", extAtt.ID, extAtt.Name, err)
+			failureCount++
 			continue // Move to the next computer extension attribute if there's an error
 		}
 
-		fmt.Printf("computer extension attribute ID %d deleted successfully.\n", extAtt.ID)
+		fmt.Printf("Successfully deleted computer extension attribute ID %s (%s)\n", extAtt.ID, extAtt.Name)
+		successCount++
 	}
 
-	fmt.Println("computer extension attribute deletion process completed.")
-
+	// Print summary
+	fmt.Printf("\nComputer extension attribute deletion process completed.\n")
+	fmt.Printf("Successfully deleted: %d attributes\n", successCount)
+	fmt.Printf("Failed to delete: %d attributes\n", failureCount)
+	fmt.Printf("Total processed: %d attributes\n", extAtts.TotalCount)
 }
