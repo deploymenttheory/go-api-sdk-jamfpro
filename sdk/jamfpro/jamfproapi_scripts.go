@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -169,34 +170,36 @@ func (c *Client) UpdateScriptByName(name string, scriptUpdate *ResourceScript) (
 }
 
 // Deletes script with provided ID
-func (c *Client) DeleteScriptByID(id string) error {
+func (c *Client) DeleteScriptByID(id string) (*http.Response, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
 	var response interface{}
+
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByID, "script", id, err)
+		return nil, fmt.Errorf(errMsgFailedDeleteByID, "script", id, err)
 	}
 
 	if resp != nil {
 		defer resp.Body.Close()
 	}
 
-	return nil
+	return resp, nil
 }
 
 // Leverages DeleteScriptByID and GetScripts to delete script by Name
-func (c *Client) DeleteScriptByName(name string) error {
+func (c *Client) DeleteScriptByName(name string) (*http.Response, error) {
 	target, err := c.GetScriptByName(name)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedGetByName, "script", name, err)
+		return nil, fmt.Errorf(errMsgFailedGetByName, "script", name, err)
 	}
 
 	target_id := target.ID
+	var resp *http.Response
 
-	err = c.DeleteScriptByID(target_id)
+	resp, err = c.DeleteScriptByID(target_id)
 	if err != nil {
-		return fmt.Errorf(errMsgFailedDeleteByName, "script", name, err)
+		return nil, fmt.Errorf(errMsgFailedDeleteByName, "script", name, err)
 	}
 
-	return nil
+	return resp, nil
 }
