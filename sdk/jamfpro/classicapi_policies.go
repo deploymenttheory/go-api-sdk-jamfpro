@@ -60,22 +60,22 @@ type ResourcePolicy struct {
 type PolicySubsetGeneral struct {
 	ID                         int                                     `xml:"id"`
 	Name                       string                                  `xml:"name"`
-	Enabled                    *bool                                   `xml:"enabled"`
+	Enabled                    bool                                    `xml:"enabled"`
 	Trigger                    string                                  `xml:"trigger,omitempty"` // NOTE: appears to always be USER_INITIATED
-	TriggerCheckin             *bool                                   `xml:"trigger_checkin"`
-	TriggerEnrollmentComplete  *bool                                   `xml:"trigger_enrollment_complete"`
-	TriggerLogin               *bool                                   `xml:"trigger_login"`
-	TriggerLogout              *bool                                   `xml:"trigger_logout"`
-	TriggerNetworkStateChanged *bool                                   `xml:"trigger_network_state_changed"`
-	TriggerStartup             *bool                                   `xml:"trigger_startup"`
+	TriggerCheckin             bool                                    `xml:"trigger_checkin"`
+	TriggerEnrollmentComplete  bool                                    `xml:"trigger_enrollment_complete"`
+	TriggerLogin               bool                                    `xml:"trigger_login"`
+	TriggerLogout              bool                                    `xml:"trigger_logout"`
+	TriggerNetworkStateChanged bool                                    `xml:"trigger_network_state_changed"`
+	TriggerStartup             bool                                    `xml:"trigger_startup"`
 	TriggerOther               string                                  `xml:"trigger_other"`
 	Frequency                  string                                  `xml:"frequency,omitempty"`
 	RetryEvent                 string                                  `xml:"retry_event,omitempty"`
 	RetryAttempts              int                                     `xml:"retry_attempts,omitempty"`
-	NotifyOnEachFailedRetry    *bool                                   `xml:"notify_on_each_failed_retry"`
-	LocationUserOnly           *bool                                   `xml:"location_user_only"`
+	NotifyOnEachFailedRetry    bool                                    `xml:"notify_on_each_failed_retry"`
+	LocationUserOnly           bool                                    `xml:"location_user_only"`
 	TargetDrive                string                                  `xml:"target_drive,omitempty"`
-	Offline                    *bool                                   `xml:"offline"`
+	Offline                    bool                                    `xml:"offline"`
 	Category                   *SharedResourceCategory                 `xml:"category,omitempty"`
 	DateTimeLimitations        *PolicySubsetGeneralDateTimeLimitations `xml:"date_time_limitations,omitempty"`
 	NetworkLimitations         *PolicySubsetGeneralNetworkLimitations  `xml:"network_limitations,omitempty"`
@@ -103,14 +103,14 @@ type PolicySubsetGeneralDateTimeLimitations struct {
 
 type PolicySubsetGeneralNetworkLimitations struct {
 	MinimumNetworkConnection string `xml:"minimum_network_connection"`
-	AnyIPAddress             *bool  `xml:"any_ip_address"`
+	AnyIPAddress             bool   `xml:"any_ip_address"`
 	NetworkSegments          string `xml:"network_segments"`
 }
 
 type PolicySubsetGeneralOverrideSettings struct {
 	TargetDrive       string `xml:"target_drive"`
 	DistributionPoint string `xml:"distribution_point"`
-	ForceAfpSmb       *bool  `xml:"force_afp_smb"`
+	ForceAfpSmb       bool   `xml:"force_afp_smb"`
 	SUS               string `xml:"sus"`
 	NetbootServer     string `xml:"netboot_server"`
 }
@@ -119,8 +119,8 @@ type PolicySubsetGeneralOverrideSettings struct {
 
 // PolicySubsetScope represents the scope of the policy
 type PolicySubsetScope struct {
-	AllComputers   *bool                         `xml:"all_computers"`
-	AllJSSUsers    *bool                         `xml:"all_jss_users"`
+	AllComputers   bool                          `xml:"all_computers"`
+	AllJSSUsers    bool                          `xml:"all_jss_users"`
 	Computers      *[]PolicySubsetComputer       `xml:"computers>computer"`
 	ComputerGroups *[]PolicySubsetComputerGroup  `xml:"computer_groups>computer_group"`
 	JSSUsers       *[]PolicySubsetJSSUser        `xml:"jss_users>user"`             // May not exist on policy scope?
@@ -154,16 +154,16 @@ type PolicySubsetScopeExclusions struct {
 
 // PolicySubsetSelfService represents the self service settings of a policy
 type PolicySubsetSelfService struct {
-	UseForSelfService           *bool                             `xml:"use_for_self_service"`
+	UseForSelfService           bool                              `xml:"use_for_self_service"`
 	SelfServiceDisplayName      string                            `xml:"self_service_display_name"`
 	InstallButtonText           string                            `xml:"install_button_text"`
 	ReinstallButtonText         string                            `xml:"reinstall_button_text"`
 	SelfServiceDescription      string                            `xml:"self_service_description"`
-	ForceUsersToViewDescription *bool                             `xml:"force_users_to_view_description"`
+	ForceUsersToViewDescription bool                              `xml:"force_users_to_view_description"`
 	SelfServiceIcon             *SharedResourceSelfServiceIcon    `xml:"self_service_icon"`
-	FeatureOnMainPage           *bool                             `xml:"feature_on_main_page"`
+	FeatureOnMainPage           bool                              `xml:"feature_on_main_page"`
 	SelfServiceCategories       []PolicySubsetSelfServiceCategory `xml:"self_service_categories>category"`
-	Notification                *bool                             `xml:"notification"`
+	Notification                bool                              `xml:"notification"`
 	NotificationType            string                            `xml:"notification_type"`
 	NotificationSubject         string                            `xml:"notification_subject"`
 	NotificationMessage         string                            `xml:"notification_message"`
@@ -181,9 +181,9 @@ type PolicySubsetPackageConfigurationPackage struct {
 	ID                int    `xml:"id"`
 	Name              string `xml:"name,omitempty"`
 	Action            string `xml:"action"`
-	FillUserTemplate  *bool  `xml:"fut"`
-	FillExistingUsers *bool  `xml:"feu"`
-	UpdateAutorun     *bool  `xml:"update_autorun"`
+	FillUserTemplate  bool   `xml:"fut"`
+	FillExistingUsers bool   `xml:"feu"`
+	UpdateAutorun     bool   `xml:"update_autorun"`
 }
 
 // Scripts
@@ -206,7 +206,7 @@ type PolicySubsetScript struct {
 
 // PolicySubsetPrinters represents the printers settings of a policy
 type PolicySubsetPrinters struct {
-	LeaveExistingDefault *bool                 `xml:"leave_existing_default"`
+	LeaveExistingDefault bool                  `xml:"leave_existing_default"`
 	Printer              []PolicySubsetPrinter `xml:"printer"`
 }
 
@@ -214,7 +214,7 @@ type PolicySubsetPrinter struct {
 	ID          int    `xml:"id"`
 	Name        string `xml:"name"`
 	Action      string `xml:"action"`
-	MakeDefault *bool  `xml:"make_default"`
+	MakeDefault bool   `xml:"make_default"`
 }
 
 // Dock Items
@@ -240,13 +240,13 @@ type PolicySubsetAccountMaintenanceAccount struct {
 	Username               string `xml:"username"`
 	Realname               string `xml:"realname"`
 	Password               string `xml:"password"`
-	ArchiveHomeDirectory   *bool  `xml:"archive_home_directory"`
+	ArchiveHomeDirectory   bool   `xml:"archive_home_directory"`
 	ArchiveHomeDirectoryTo string `xml:"archive_home_directory_to"`
 	Home                   string `xml:"home"`
 	Hint                   string `xml:"hint"`
 	Picture                string `xml:"picture"`
-	Admin                  *bool  `xml:"admin"`
-	FilevaultEnabled       *bool  `xml:"filevault_enabled"`
+	Admin                  bool   `xml:"admin"`
+	FilevaultEnabled       bool   `xml:"filevault_enabled"`
 	PasswordSha256         string `xml:"password_sha256"`
 }
 
@@ -271,16 +271,16 @@ type PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword struct {
 
 // PolicySubsetMaintenance represents the maintenance settings of a policy
 type PolicySubsetMaintenance struct {
-	Recon                    *bool `xml:"recon"`
-	ResetName                *bool `xml:"reset_name"`
-	InstallAllCachedPackages *bool `xml:"install_all_cached_packages"`
-	Heal                     *bool `xml:"heal"`
-	Prebindings              *bool `xml:"prebindings"`
-	Permissions              *bool `xml:"permissions"`
-	Byhost                   *bool `xml:"byhost"`
-	SystemCache              *bool `xml:"system_cache"`
-	UserCache                *bool `xml:"user_cache"`
-	Verify                   *bool `xml:"verify"`
+	Recon                    bool `xml:"recon"`
+	ResetName                bool `xml:"reset_name"`
+	InstallAllCachedPackages bool `xml:"install_all_cached_packages"`
+	Heal                     bool `xml:"heal"`
+	Prebindings              bool `xml:"prebindings"`
+	Permissions              bool `xml:"permissions"`
+	Byhost                   bool `xml:"byhost"`
+	SystemCache              bool `xml:"system_cache"`
+	UserCache                bool `xml:"user_cache"`
+	Verify                   bool `xml:"verify"`
 }
 
 // Files Processes
@@ -288,12 +288,12 @@ type PolicySubsetMaintenance struct {
 // PolicySubsetFilesProcesses represents the files and processes settings of a policy
 type PolicySubsetFilesProcesses struct {
 	SearchByPath         string `xml:"search_by_path"`
-	DeleteFile           *bool  `xml:"delete_file"`
+	DeleteFile           bool   `xml:"delete_file"`
 	LocateFile           string `xml:"locate_file"`
-	UpdateLocateDatabase *bool  `xml:"update_locate_database"`
+	UpdateLocateDatabase bool   `xml:"update_locate_database"`
 	SpotlightSearch      string `xml:"spotlight_search"`
 	SearchForProcess     string `xml:"search_for_process"`
-	KillProcess          *bool  `xml:"kill_process"`
+	KillProcess          bool   `xml:"kill_process"`
 	RunCommand           string `xml:"run_command"`
 }
 
@@ -302,7 +302,7 @@ type PolicySubsetFilesProcesses struct {
 // PolicySubsetUserInteraction represents the user interaction settings of a policy
 type PolicySubsetUserInteraction struct {
 	MessageStart          string `xml:"message_start"`
-	AllowUsersToDefer     *bool  `xml:"allow_users_to_defer"`
+	AllowUsersToDefer     bool   `xml:"allow_users_to_defer"`
 	AllowDeferralUntilUtc string `xml:"allow_deferral_until_utc"`
 	AllowDeferralMinutes  int    `xml:"allow_deferral_minutes"`
 	MessageFinish         string `xml:"message_finish"`
@@ -314,7 +314,7 @@ type PolicySubsetUserInteraction struct {
 type PolicySubsetDiskEncryption struct {
 	Action                                 string `xml:"action"`
 	DiskEncryptionConfigurationID          int    `xml:"disk_encryption_configuration_id"`
-	AuthRestart                            *bool  `xml:"auth_restart"`
+	AuthRestart                            bool   `xml:"auth_restart"`
 	RemediateKeyType                       string `xml:"remediate_key_type"`
 	RemediateDiskEncryptionConfigurationID int    `xml:"remediate_disk_encryption_configuration_id"`
 }
@@ -329,8 +329,8 @@ type PolicySubsetReboot struct {
 	NoUserLoggedIn              string `xml:"no_user_logged_in"`
 	UserLoggedIn                string `xml:"user_logged_in"`
 	MinutesUntilReboot          int    `xml:"minutes_until_reboot"`
-	StartRebootTimerImmediately *bool  `xml:"start_reboot_timer_immediately"`
-	FileVault2Reboot            *bool  `xml:"file_vault_2_reboot"`
+	StartRebootTimerImmediately bool   `xml:"start_reboot_timer_immediately"`
+	FileVault2Reboot            bool   `xml:"file_vault_2_reboot"`
 }
 
 // Shared
@@ -338,8 +338,8 @@ type PolicySubsetReboot struct {
 type PolicySubsetSelfServiceCategory struct {
 	ID        int    `xml:"id"`
 	Name      string `xml:"name"`
-	DisplayIn *bool  `xml:"display_in"`
-	FeatureIn *bool  `xml:"feature_in"`
+	DisplayIn bool   `xml:"display_in"`
+	FeatureIn bool   `xml:"feature_in"`
 }
 
 type PolicySubsetComputer struct {
