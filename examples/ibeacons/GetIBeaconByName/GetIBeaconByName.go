@@ -27,9 +27,9 @@ func main() {
 	}
 
 	// Pretty print the iBeacon details
-	accountsXML, err := xml.MarshalIndent(iBeacon, "", "    ") // Indent with 4 spaces
+	XML, err := xml.MarshalIndent(iBeacon, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling accounts data: %v", err)
 	}
-	fmt.Println("Fetched Accounts List:", string(accountsXML))
+	fmt.Println("Fetched Accounts List:", string(XML))
 }

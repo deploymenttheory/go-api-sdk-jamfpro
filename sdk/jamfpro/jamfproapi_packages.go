@@ -273,7 +273,7 @@ func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageC
 	headersMap := map[string]http.Header{}
 
 	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, "raw", &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload package: %v", err)
 	}
@@ -382,7 +382,7 @@ func (c *Client) AssignManifestToPackageByID(id string, manifestFilePath string)
 	headersMap := map[string]http.Header{}
 
 	var response ResponsePackageCreatedAndUpdated
-	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
+	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, "raw", &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to assign manifest to package: %v", err)
 	}
