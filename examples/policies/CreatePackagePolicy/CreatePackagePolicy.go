@@ -22,21 +22,21 @@ func main() {
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "jamfpro-sdk-example-package-policy-config",
-			Enabled:                    jamfpro.FalsePtr(),
+			Enabled:                    false,
 			TriggerOther:               "EVENT",
-			TriggerCheckin:             jamfpro.FalsePtr(),
-			TriggerEnrollmentComplete:  jamfpro.FalsePtr(),
-			TriggerLogin:               jamfpro.FalsePtr(),
-			TriggerLogout:              jamfpro.FalsePtr(),
-			TriggerNetworkStateChanged: jamfpro.FalsePtr(),
-			TriggerStartup:             jamfpro.FalsePtr(),
+			TriggerCheckin:             false,
+			TriggerEnrollmentComplete:  false,
+			TriggerLogin:               false,
+			TriggerLogout:              false,
+			TriggerNetworkStateChanged: false,
+			TriggerStartup:             false,
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
-			NotifyOnEachFailedRetry:    jamfpro.FalsePtr(),
-			LocationUserOnly:           jamfpro.FalsePtr(),
+			NotifyOnEachFailedRetry:    false,
+			LocationUserOnly:           false,
 			TargetDrive:                "/",
-			Offline:                    jamfpro.FalsePtr(),
+			Offline:                    false,
 		},
 		// Package Configuration
 		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
@@ -44,10 +44,10 @@ func main() {
 				{
 					ID:                232, // Replace with actual package ID
 					Name:              "Microsoft Edge",
-					Action:            "Install",         // Options: Install, Cache, Remove
-					FillUserTemplate:  jamfpro.TruePtr(), // FUT - Fill User Template
-					FillExistingUsers: jamfpro.TruePtr(), // FEU - Fill Existing Users
-					//UpdateAutorun:     jamfpro.TruePtr(),    // Update Auto-run
+					Action:            "Install", // Options: Install, Cache, Remove
+					FillUserTemplate:  true,      // FUT - Fill User Template
+					FillExistingUsers: true,      // FEU - Fill Existing Users
+					//UpdateAutorun:     true,    // Update Auto-run
 				},
 				// ... add more packages as needed ...
 			},

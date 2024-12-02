@@ -23,21 +23,21 @@ func main() {
 		// General
 		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "jamfpro-sdk-example-restartoptions-policy-config",
-			Enabled:                    jamfpro.FalsePtr(),
-			TriggerCheckin:             jamfpro.FalsePtr(),
-			TriggerEnrollmentComplete:  jamfpro.FalsePtr(),
-			TriggerLogin:               jamfpro.FalsePtr(),
-			TriggerLogout:              jamfpro.FalsePtr(),
-			TriggerNetworkStateChanged: jamfpro.FalsePtr(),
-			TriggerStartup:             jamfpro.FalsePtr(),
+			Enabled:                    false,
+			TriggerCheckin:             false,
+			TriggerEnrollmentComplete:  false,
+			TriggerLogin:               false,
+			TriggerLogout:              false,
+			TriggerNetworkStateChanged: false,
+			TriggerStartup:             false,
 			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
-			NotifyOnEachFailedRetry:    jamfpro.FalsePtr(),
-			LocationUserOnly:           jamfpro.FalsePtr(),
+			NotifyOnEachFailedRetry:    false,
+			LocationUserOnly:           false,
 			TargetDrive:                "/",
-			Offline:                    jamfpro.FalsePtr(),
+			Offline:                    false,
 		},
 		// Restart options
 		Reboot: jamfpro.PolicySubsetReboot{
@@ -47,8 +47,8 @@ func main() {
 			NoUserLoggedIn:              "Restart if a package or update requires it", // Restart if a package or update requires it / Restart immediately
 			UserLoggedIn:                "Restart if a package or update requires it", // Restart if a package or update requires it / Restart
 			MinutesUntilReboot:          5,
-			StartRebootTimerImmediately: jamfpro.TruePtr(),
-			FileVault2Reboot:            jamfpro.TruePtr(),
+			StartRebootTimerImmediately: true,
+			FileVault2Reboot:            true,
 		},
 	}
 
