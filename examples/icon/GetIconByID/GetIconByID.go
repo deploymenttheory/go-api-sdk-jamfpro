@@ -16,13 +16,10 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the path to the icon file
-	iconPath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/icon/UploadIcon/cat.png"
-
-	response, err := client.UploadIcon(iconPath)
+	iconID := 27 // Replace with your icon ID
+	response, err := client.GetIconByID(iconID)
 	if err != nil {
-		fmt.Println("Error uploading icon:", err)
-		return
+		log.Fatalf("Failed to get icon: %v", err)
 	}
 
 	// Pretty print the icon details

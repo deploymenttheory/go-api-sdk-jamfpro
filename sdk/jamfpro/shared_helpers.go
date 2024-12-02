@@ -4,8 +4,13 @@
 package jamfpro
 
 import (
+	"encoding/hex"
 	"fmt"
+	"io"
+	"os"
 	"strconv"
+
+	"golang.org/x/crypto/sha3"
 )
 
 // BoolPtr returns a pointer to a bool value
@@ -31,4 +36,20 @@ func IncrementStringID(currentID string) string {
 		panic(fmt.Sprintf("Error converting ID to int: %v", err))
 	}
 	return strconv.Itoa(id + 1)
+}
+
+// CalculateSHA3_512 calculates the SHA3-512 hash of the supplied file in the path.
+func CalculateSHA3_512(filePath string) (string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", fmt.Errorf("failed to open file for SHA3-512 calculation: %v", err)
+	}
+	defer file.Close()
+
+	hash := sha3.New512()
+	if _, err := io.Copy(hash, file); err != nil {
+		return "", fmt.Errorf("failed to calculate SHA3-512: %v", err)
+	}
+
+	return hex.EncodeToString(hash.Sum(nil)), nil
 }
