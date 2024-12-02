@@ -21,15 +21,15 @@ func main() {
 	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-example-FileAndProcesses-policy-config",
+			Name:                       "example-policy-with-minimum-viable-config",
 			Enabled:                    false,
-			TriggerOther:               "EVENT",
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
 			TriggerLogout:              false,
 			TriggerNetworkStateChanged: false,
 			TriggerStartup:             false,
+			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
@@ -41,47 +41,32 @@ func main() {
 				ID:   -1,
 				Name: "No category assigned",
 			},
-			DateTimeLimitations: &jamfpro.PolicySubsetGeneralDateTimeLimitations{
-				// Initialize as needed
-			},
 			NetworkLimitations: &jamfpro.PolicySubsetGeneralNetworkLimitations{
 				MinimumNetworkConnection: "No Minimum",
-				AnyIPAddress:             true,
+				AnyIPAddress:             false,
 				NetworkSegments:          "",
-			},
-			OverrideDefaultSettings: &jamfpro.PolicySubsetGeneralOverrideSettings{
-				TargetDrive:       "/",
-				DistributionPoint: "default",
-				ForceAfpSmb:       false,
-				SUS:               "default",
 			},
 			NetworkRequirements: "Any",
 			Site: &jamfpro.SharedResourceSite{
 				ID:   -1,
-				Name: "None",
+				Name: "NONE",
 			},
+		},
+		Scope: jamfpro.PolicySubsetScope{
+			AllComputers: false,
+			AllJSSUsers:  false,
 		},
 		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
-			SelfServiceDisplayName:      "",
 			InstallButtonText:           "Install",
-			ReinstallButtonText:         "",
-			SelfServiceDescription:      "",
+			ReinstallButtonText:         "REINSTALL",
 			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
+			FeatureOnMainPage:           false,
+			Notification:                false,
 		},
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "doNotChange",
-				ManagedPassword:       "",
-				ManagedPasswordLength: 0,
-			},
-			OpenFirmwareEfiPassword: &jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
-				OfMode:           "none",
-				OfPassword:       "",
-				OfPasswordSHA256: "",
-			},
+		Scripts: []jamfpro.PolicySubsetScript{},
+		Printers: jamfpro.PolicySubsetPrinters{
+			LeaveExistingDefault: false,
 		},
 		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
@@ -95,7 +80,6 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
-		// File and processes policy
 		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			SearchByPath:         "thing",
 			DeleteFile:           true,
@@ -107,19 +91,18 @@ func main() {
 			RunCommand:           "thing",
 		},
 		UserInteraction: jamfpro.PolicySubsetUserInteraction{
-			MessageStart:          "thing",
-			AllowUsersToDefer:     true,
-			AllowDeferralUntilUtc: "",
-			AllowDeferralMinutes:  1440,
-			MessageFinish:         "thing",
+			AllowUsersToDefer:    false,
+			AllowDeferralMinutes: 0,
+		},
+		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
+			Action:                        "",
+			DiskEncryptionConfigurationID: 0,
+			AuthRestart:                   false,
+			RemediateKeyType:              "Individual",
 		},
 		Reboot: jamfpro.PolicySubsetReboot{
-			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
-			SpecifyStartup:              "",
-			NoUserLoggedIn:              "Do not restart",
-			UserLoggedIn:                "Do not restart",
-			MinutesUntilReboot:          5,
+			MinutesUntilReboot:          0,
 			StartRebootTimerImmediately: false,
 			FileVault2Reboot:            false,
 		},
