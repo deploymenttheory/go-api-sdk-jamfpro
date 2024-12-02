@@ -23,31 +23,31 @@ func main() {
 		// General
 		General: jamfpro.PolicySubsetGeneral{
 			Name:                       "jamfpro-sdk-example-printer-policy-config",
-			Enabled:                    false,
-			TriggerCheckin:             false,
-			TriggerEnrollmentComplete:  false,
-			TriggerLogin:               false,
-			TriggerLogout:              false,
-			TriggerNetworkStateChanged: false,
-			TriggerStartup:             false,
+			Enabled:                    jamfpro.FalsePtr(),
+			TriggerCheckin:             jamfpro.FalsePtr(),
+			TriggerEnrollmentComplete:  jamfpro.FalsePtr(),
+			TriggerLogin:               jamfpro.FalsePtr(),
+			TriggerLogout:              jamfpro.FalsePtr(),
+			TriggerNetworkStateChanged: jamfpro.FalsePtr(),
+			TriggerStartup:             jamfpro.FalsePtr(),
 			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
-			NotifyOnEachFailedRetry:    false,
-			LocationUserOnly:           false,
+			NotifyOnEachFailedRetry:    jamfpro.FalsePtr(),
+			LocationUserOnly:           jamfpro.FalsePtr(),
 			TargetDrive:                "/",
-			Offline:                    false,
+			Offline:                    jamfpro.FalsePtr(),
 		},
 		// Printers
 		Printers: jamfpro.PolicySubsetPrinters{
-			LeaveExistingDefault: false,
+			LeaveExistingDefault: jamfpro.FalsePtr(),
 			Printer: []jamfpro.PolicySubsetPrinter{
 				{
 					ID:          1740,
 					Name:        "HP 9th Floor 2",
 					Action:      "install", // install / uninstall
-					MakeDefault: true,
+					MakeDefault: jamfpro.TruePtr(),
 				},
 			},
 		},
