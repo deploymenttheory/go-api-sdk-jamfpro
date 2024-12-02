@@ -6,18 +6,18 @@ package jamfpro
 import (
 	"fmt"
 	"path/filepath"
+	"time"
 )
 
+// DoPackageUpload
 func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-	initialHash, err := calculateSHA3_512(filePath)
+	initialHash, err := CalculateSHA3_512(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to calculate initial SHA3_512: %v", err)
 	}
 
 	pkgName := filepath.Base(filePath)
 	packageData.FileName = pkgName
-	packageData.HashType = "SHA3_512"
-	packageData.HashValue = initialHash
 
 	metadataResponse, err := c.CreatePackage(*packageData)
 	if err != nil {
@@ -33,17 +33,20 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 		return nil, fmt.Errorf("failed to upload package file: %v", err)
 	}
 
-	fmt.Println("Package file uploaded successfully")
+	fmt.Printf("Package %s file uploaded successfully\n", pkgName)
+
+	time.Sleep(3 * time.Second)
 
 	uploadedPackage, err := c.GetPackageByID(packageID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to verify uploaded package: %v", err)
 	}
 
-	if uploadedPackage.HashValue != initialHash {
-		return nil, fmt.Errorf("SHA3_512 verification failed: initial=%s, uploaded=%s", initialHash, uploadedPackage.HashValue)
+	if uploadedPackage.HashType != "SHA3_512" || uploadedPackage.HashValue != initialHash {
+		return nil, fmt.Errorf("hash verification failed: initial=%s, uploaded=%s (type: %s)",
+			initialHash, uploadedPackage.HashValue, uploadedPackage.HashType)
 	}
 
-	fmt.Printf("Package SHA3_512 verification was successful with validated hash of %s\n", uploadedPackage.HashValue)
+	fmt.Printf("Package %s SHA3_512 verification was successful with validated hash of %s\n", pkgName, uploadedPackage.HashValue)
 	return uploadResponse, nil
 }

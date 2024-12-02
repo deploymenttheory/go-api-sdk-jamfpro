@@ -38,8 +38,8 @@ func IncrementStringID(currentID string) string {
 	return strconv.Itoa(id + 1)
 }
 
-// calculateSHA3_512 calculates the SHA3-512 hash of the supplied file in the path.
-func calculateSHA3_512(filePath string) (string, error) {
+// CalculateSHA3_512 calculates the SHA3-512 hash of the supplied file in the path.
+func CalculateSHA3_512(filePath string) (string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return "", fmt.Errorf("failed to open file for SHA3-512 calculation: %v", err)
