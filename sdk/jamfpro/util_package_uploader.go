@@ -44,6 +44,6 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 		return nil, fmt.Errorf("SHA3_512 verification failed: initial=%s, uploaded=%s", initialHash, uploadedPackage.HashValue)
 	}
 
-	fmt.Printf("Package SHA3_512 verification successful with validated hash of %s\n", uploadedPackage.HashValue)
+	fmt.Printf("Package SHA3_512 verification was successful with validated hash of %s\n", uploadedPackage.HashValue)
 	return uploadResponse, nil
 }
