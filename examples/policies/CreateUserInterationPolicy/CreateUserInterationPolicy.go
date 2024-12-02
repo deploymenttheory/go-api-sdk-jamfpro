@@ -18,18 +18,17 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define a new policy with all required fields
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "jamfpro-sdk-userinteration-policy-config",
+			Name:                       "example-user-interaction-policy-config",
 			Enabled:                    false,
-			TriggerOther:               "EVENT",
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
 			TriggerLogout:              false,
 			TriggerNetworkStateChanged: false,
 			TriggerStartup:             false,
+			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
@@ -41,28 +40,32 @@ func main() {
 				ID:   -1,
 				Name: "No category assigned",
 			},
+			NetworkLimitations: &jamfpro.PolicySubsetGeneralNetworkLimitations{
+				MinimumNetworkConnection: "No Minimum",
+				AnyIPAddress:             false,
+				NetworkSegments:          "",
+			},
+			NetworkRequirements: "Any",
+			Site: &jamfpro.SharedResourceSite{
+				ID:   -1,
+				Name: "NONE",
+			},
+		},
+		Scope: jamfpro.PolicySubsetScope{
+			AllComputers: false,
+			AllJSSUsers:  false,
 		},
 		SelfService: jamfpro.PolicySubsetSelfService{
-			UseForSelfService:           false,
-			SelfServiceDisplayName:      "",
+			UseForSelfService:           true,
 			InstallButtonText:           "Install",
-			ReinstallButtonText:         "",
-			SelfServiceDescription:      "",
+			ReinstallButtonText:         "REINSTALL",
 			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
+			FeatureOnMainPage:           false,
+			Notification:                false,
 		},
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "doNotChange",
-				ManagedPassword:       "",
-				ManagedPasswordLength: 0,
-			},
-			OpenFirmwareEfiPassword: &jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
-				OfMode:           "none",
-				OfPassword:       "",
-				OfPasswordSHA256: "",
-			},
+		Scripts: []jamfpro.PolicySubsetScript{},
+		Printers: jamfpro.PolicySubsetPrinters{
+			LeaveExistingDefault: false,
 		},
 		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
@@ -79,25 +82,23 @@ func main() {
 		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
-			SpotlightSearch:      "",
-			SearchForProcess:     "",
 			KillProcess:          false,
-			RunCommand:           "",
 		},
 		UserInteraction: jamfpro.PolicySubsetUserInteraction{
-			MessageStart:          "",
-			AllowUsersToDefer:     true,
-			AllowDeferralUntilUtc: "",
-			AllowDeferralMinutes:  0,
-			MessageFinish:         "",
+			MessageStart:         "This is the message that will be displayed to the user at the start of the policy.",
+			AllowUsersToDefer:    true,
+			AllowDeferralMinutes: 1440,
+			MessageFinish:        "This is the message that will be displayed to the user at the end of the policy.",
+		},
+		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
+			Action:                        "",
+			DiskEncryptionConfigurationID: 0,
+			AuthRestart:                   false,
+			RemediateKeyType:              "Individual",
 		},
 		Reboot: jamfpro.PolicySubsetReboot{
-			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
-			SpecifyStartup:              "",
-			NoUserLoggedIn:              "Do not restart",
-			UserLoggedIn:                "Do not restart",
-			MinutesUntilReboot:          5,
+			MinutesUntilReboot:          0,
 			StartRebootTimerImmediately: false,
 			FileVault2Reboot:            false,
 		},

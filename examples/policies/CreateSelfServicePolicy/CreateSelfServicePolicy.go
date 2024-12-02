@@ -21,15 +21,15 @@ func main() {
 	// Define a new policy with the fetched values
 	newPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "sample-self-service-policy",
-			Enabled:                    true,
+			Name:                       "example-self-service-policy-config",
+			Enabled:                    false,
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
 			TriggerLogin:               false,
 			TriggerLogout:              false,
 			TriggerNetworkStateChanged: false,
 			TriggerStartup:             false,
-			TriggerOther:               "",
+			TriggerOther:               "EVENT",
 			Frequency:                  "Once per computer",
 			RetryEvent:                 "none",
 			RetryAttempts:              -1,
@@ -41,27 +41,10 @@ func main() {
 				ID:   -1,
 				Name: "No category assigned",
 			},
-			DateTimeLimitations: &jamfpro.PolicySubsetGeneralDateTimeLimitations{
-				ActivationDate:      "",
-				ActivationDateEpoch: 0,
-				ActivationDateUTC:   "",
-				ExpirationDate:      "",
-				ExpirationDateEpoch: 0,
-				ExpirationDateUTC:   "",
-				NoExecuteStart:      "",
-				NoExecuteEnd:        "",
-			},
 			NetworkLimitations: &jamfpro.PolicySubsetGeneralNetworkLimitations{
 				MinimumNetworkConnection: "No Minimum",
-				AnyIPAddress:             true,
+				AnyIPAddress:             false,
 				NetworkSegments:          "",
-			},
-			OverrideDefaultSettings: &jamfpro.PolicySubsetGeneralOverrideSettings{
-				TargetDrive:       "/",
-				DistributionPoint: "default",
-				ForceAfpSmb:       false,
-				SUS:               "default",
-				NetbootServer:     "",
 			},
 			NetworkRequirements: "Any",
 			Site: &jamfpro.SharedResourceSite{
@@ -72,8 +55,6 @@ func main() {
 		Scope: jamfpro.PolicySubsetScope{
 			AllComputers: false,
 			AllJSSUsers:  false,
-			Limitations:  &jamfpro.PolicySubsetScopeLimitations{},
-			Exclusions:   &jamfpro.PolicySubsetScopeExclusions{},
 		},
 		SelfService: jamfpro.PolicySubsetSelfService{
 			UseForSelfService:           true,
@@ -97,20 +78,9 @@ func main() {
 			NotificationSubject: "test",
 			NotificationMessage: "",
 		},
-		PackageConfiguration: jamfpro.PolicySubsetPackageConfiguration{
-			Packages:          []jamfpro.PolicySubsetPackageConfigurationPackage{},
-			DistributionPoint: "default",
-		},
-		Scripts: []jamfpro.PolicySubsetScript{
-			{
-				ID:       "14009",
-				Name:     "Sample Script",
-				Priority: "Before",
-			},
-		},
+		Scripts: []jamfpro.PolicySubsetScript{},
 		Printers: jamfpro.PolicySubsetPrinters{
 			LeaveExistingDefault: false,
-			Printer:              []jamfpro.PolicySubsetPrinter{},
 		},
 		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
@@ -124,13 +94,24 @@ func main() {
 			UserCache:                false,
 			Verify:                   false,
 		},
+		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
+			DeleteFile:           false,
+			UpdateLocateDatabase: false,
+			KillProcess:          false,
+		},
+		UserInteraction: jamfpro.PolicySubsetUserInteraction{
+			AllowUsersToDefer:    false,
+			AllowDeferralMinutes: 0,
+		},
+		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
+			Action:                        "",
+			DiskEncryptionConfigurationID: 0,
+			AuthRestart:                   false,
+			RemediateKeyType:              "Individual",
+		},
 		Reboot: jamfpro.PolicySubsetReboot{
-			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
-			SpecifyStartup:              "",
-			NoUserLoggedIn:              "Do not restart",
-			UserLoggedIn:                "Do not restart",
-			MinutesUntilReboot:          5,
+			MinutesUntilReboot:          0,
 			StartRebootTimerImmediately: false,
 			FileVault2Reboot:            false,
 		},

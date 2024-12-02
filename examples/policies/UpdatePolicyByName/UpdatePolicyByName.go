@@ -21,7 +21,7 @@ func main() {
 	// Define a new policy with all required fields
 	updatedPolicy := &jamfpro.ResourcePolicy{
 		General: jamfpro.PolicySubsetGeneral{
-			Name:                       "disk-encryption-sdk",
+			Name:                       "example-script-policy-config",
 			Enabled:                    false,
 			TriggerCheckin:             false,
 			TriggerEnrollmentComplete:  false,
@@ -38,59 +38,54 @@ func main() {
 			TargetDrive:                "/",
 			Offline:                    false,
 			Category: &jamfpro.SharedResourceCategory{
-				ID:   -1,
-				Name: "No category assigned",
+				ID: 4135,
 			},
-			DateTimeLimitations: &jamfpro.PolicySubsetGeneralDateTimeLimitations{
-				ActivationDate:      "",
-				ActivationDateEpoch: 0,
-				ActivationDateUTC:   "",
-				ExpirationDate:      "",
-				ExpirationDateEpoch: 0,
-				ExpirationDateUTC:   "",
-				NoExecuteStart:      "",
-				NoExecuteEnd:        "",
-			},
+			// Category: &jamfpro.SharedResourceCategory{
+			// 	ID:   -1,
+			// 	Name: "No category assigned",
+			// },
 			NetworkLimitations: &jamfpro.PolicySubsetGeneralNetworkLimitations{
 				MinimumNetworkConnection: "No Minimum",
-				AnyIPAddress:             true,
+				AnyIPAddress:             false,
 				NetworkSegments:          "",
 			},
 			NetworkRequirements: "Any",
 			Site: &jamfpro.SharedResourceSite{
-				ID:   -1,
-				Name: "None",
+				ID: 3855,
 			},
+			// Site: &jamfpro.SharedResourceSite{
+			// 	ID:   -1,
+			// 	Name: "NONE",
+			// },
+		},
+		Scope: jamfpro.PolicySubsetScope{
+			AllComputers: false,
+			AllJSSUsers:  false,
 		},
 		SelfService: jamfpro.PolicySubsetSelfService{
-			UseForSelfService:           false,
-			SelfServiceDisplayName:      "",
+			UseForSelfService:           true,
 			InstallButtonText:           "Install",
-			ReinstallButtonText:         "",
-			SelfServiceDescription:      "",
+			ReinstallButtonText:         "REINSTALL",
 			ForceUsersToViewDescription: false,
-			//SelfServiceIcon:             jamfpro.PolicySelfServiceIcon{ID: -1, Filename: "", URI: ""},
-			FeatureOnMainPage: false,
-			SelfServiceCategories: []jamfpro.PolicySubsetSelfServiceCategory{
-				{
-					ID:        -1,
-					Name:      "None",
-					DisplayIn: false, // or true, depending on your requirements
-					FeatureIn: false, // or true, depending on your requirements
-				},
+			FeatureOnMainPage:           false,
+			Notification:                false,
+		},
+		Scripts: []jamfpro.PolicySubsetScript{
+			{
+				ID:          "14011",
+				Priority:    "After",
+				Parameter4:  "param_value_4",
+				Parameter5:  "param_value_5",
+				Parameter6:  "param_value_6",
+				Parameter7:  "param_value_7",
+				Parameter8:  "param_value_8",
+				Parameter9:  "param_value_9",
+				Parameter10: "param_value_10",
+				Parameter11: "param_value_11",
 			},
 		},
-		AccountMaintenance: jamfpro.PolicySubsetAccountMaintenance{
-			ManagementAccount: &jamfpro.PolicySubsetAccountMaintenanceManagementAccount{
-				Action:                "rotate",
-				ManagedPassword:       "",
-				ManagedPasswordLength: 0,
-			},
-			OpenFirmwareEfiPassword: &jamfpro.PolicySubsetAccountMaintenanceOpenFirmwareEfiPassword{
-				OfMode:           "none",
-				OfPassword:       "",
-				OfPasswordSHA256: "",
-			},
+		Printers: jamfpro.PolicySubsetPrinters{
+			LeaveExistingDefault: false,
 		},
 		Maintenance: jamfpro.PolicySubsetMaintenance{
 			Recon:                    false,
@@ -107,32 +102,21 @@ func main() {
 		FilesProcesses: jamfpro.PolicySubsetFilesProcesses{
 			DeleteFile:           false,
 			UpdateLocateDatabase: false,
-			SpotlightSearch:      "",
-			SearchForProcess:     "",
 			KillProcess:          false,
-			RunCommand:           "",
 		},
 		UserInteraction: jamfpro.PolicySubsetUserInteraction{
-			MessageStart:          "",
-			AllowUsersToDefer:     false,
-			AllowDeferralUntilUtc: "",
-			AllowDeferralMinutes:  0,
-			MessageFinish:         "",
+			AllowUsersToDefer:    false,
+			AllowDeferralMinutes: 0,
 		},
 		DiskEncryption: jamfpro.PolicySubsetDiskEncryption{
-			Action:                        "apply",
-			DiskEncryptionConfigurationID: 1,
-			AuthRestart:                   true,
-			//RemediateKeyType:                       "",
-			//RemediateDiskEncryptionConfigurationID: 0,
+			Action:                        "",
+			DiskEncryptionConfigurationID: 0,
+			AuthRestart:                   false,
+			RemediateKeyType:              "Individual",
 		},
 		Reboot: jamfpro.PolicySubsetReboot{
-			Message:                     "This computer will restart in 5 minutes. Please save anything you are working on and log out by choosing Log Out from the bottom of the Apple menu.",
 			StartupDisk:                 "Current Startup Disk",
-			SpecifyStartup:              "",
-			NoUserLoggedIn:              "Do not restart",
-			UserLoggedIn:                "Do not restart",
-			MinutesUntilReboot:          5,
+			MinutesUntilReboot:          0,
 			StartRebootTimerImmediately: false,
 			FileVault2Reboot:            false,
 		},
