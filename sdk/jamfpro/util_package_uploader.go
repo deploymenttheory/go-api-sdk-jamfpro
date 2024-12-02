@@ -8,24 +8,25 @@ import (
 	"path/filepath"
 )
 
-// DoPackageUpload creates a new package and uploads the package file to Jamf Pro
-// Fix this after v2
 func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
-	// Step 1. Create package metadata in Jamf Pro
+	initialHash, err := calculateSHA3_512(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to calculate initial SHA3_512: %v", err)
+	}
+
 	pkgName := filepath.Base(filePath)
 	packageData.FileName = pkgName
+	packageData.HashType = "SHA3_512"
+	packageData.HashValue = initialHash
 
 	metadataResponse, err := c.CreatePackage(*packageData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)
 	}
 
-	// Log the package creation response from Jamf Pro
 	fmt.Printf("Jamf Pro package metadata created successfully with package ID: %s\n", metadataResponse.ID)
 
-	// Step 2. Upload the package file using the newly created package ID
 	packageID := metadataResponse.ID
-
 	filePaths := []string{filePath}
 	uploadResponse, err := c.UploadPackage(packageID, filePaths)
 	if err != nil {
@@ -34,6 +35,15 @@ func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) 
 
 	fmt.Println("Package file uploaded successfully")
 
-	// Return the package creation response and nil for no error
+	uploadedPackage, err := c.GetPackageByID(packageID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to verify uploaded package: %v", err)
+	}
+
+	if uploadedPackage.HashValue != initialHash {
+		return nil, fmt.Errorf("SHA3_512 verification failed: initial=%s, uploaded=%s", initialHash, uploadedPackage.HashValue)
+	}
+
+	fmt.Printf("Package SHA3_512 verification successful with validated hash of %s\n", uploadedPackage.HashValue)
 	return uploadResponse, nil
 }

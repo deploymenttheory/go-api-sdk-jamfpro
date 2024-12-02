@@ -124,18 +124,12 @@ func main() {
 			SuppressRegistration: uploader.BoolPtr(false),
 		}
 
-		response, err := client.CreatePackage(pkg)
-		if err != nil {
-			log.Fatalf("Error creating package in Jamf Pro: %v", err)
-		}
-		fmt.Printf("Package created with ID: %s\n", response.ID)
-
-		_, err = client.UploadPackage(response.ID, []string{filePath})
+		_, err = client.DoPackageUpload(filePath, &pkg)
 		if err != nil {
 			log.Fatalf("Error uploading package to Jamf Pro: %v", err)
 		}
-		fmt.Printf("Package %s uploaded successfully.\n", fileName)
 
+		fmt.Printf("Package %s uploaded and verified successfully.\n", fileName)
 		fmt.Println("-------------------------------------------------")
 	}
 }
