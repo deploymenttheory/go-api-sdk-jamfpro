@@ -107,20 +107,12 @@ func main() {
 		},
 	}
 
-	policyXML, err := xml.MarshalIndent(newPolicy, "", "    ")
-	if err != nil {
-		log.Fatalf("Error marshaling policy data: %v", err)
-	}
-	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
-
-	// Call CreatePolicy function
 	createdPolicy, err := client.CreatePolicy(newPolicy)
 	if err != nil {
 		log.Fatalf("Error creating policy: %v", err)
 	}
 
-	// Pretty print the created policy details in XML
-	policyXML, err = xml.MarshalIndent(createdPolicy, "", "    ") // Indent with 4 spaces and use '='
+	policyXML, err := xml.MarshalIndent(createdPolicy, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling policy details data: %v", err)
 	}
