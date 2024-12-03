@@ -17,13 +17,21 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	computerID := "8"                                                                                                                                                              // Example computer ID
-	filePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/ebooks_pdf/Apple-Developer-Program-License-Agreement-20230828-English.pdf" // File to be uploaded
+	// Define the computer ID and file path
+	computerID := "21"
+	filePath := "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/icon/UploadIcon/cat.png"
 
-	response, err := client.UploadAttachmentAndAssignToComputerByID(computerID, filePath)
+	// Create a slice with the single file path as required by the updated function
+	filePaths := []string{filePath}
+
+	// Upload the attachment
+	response, err := client.UploadAttachmentAndAssignToComputerByID(computerID, filePaths)
 	if err != nil {
 		log.Fatalf("Error uploading attachment: %v", err)
 	}
 
-	fmt.Printf("Attachment uploaded successfully. ID: %s, Href: %s\n", response.ID, response.Href)
+	// Print the response details
+	fmt.Printf("Attachment uploaded successfully:\n")
+	fmt.Printf("  ID: %s\n", response.ID)
+	fmt.Printf("  Href: %s\n", response.Href)
 }

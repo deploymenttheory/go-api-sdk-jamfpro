@@ -8,32 +8,24 @@ import (
 )
 
 func main() {
-	// Define the path to the JSON configuration file
 	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
 
-	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the parameters for the file upload
-	resource := "policies" // Example resource, adjust as needed
-	idType := "id"         // Can be id or name, Name is supported for all but the peripherals resource
-	id := "7"              // Example ID of the resource to attach the file upload to. can be a numeral or a resource name as needed
-
-	// Define the files to be uploaded
-	files := map[string]string{
-		"fileFieldName": "/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/printer_ppd/cnadv400x1g.ppd", // Replace with your actual file and field name
-	}
-
-	// Call the CreateFileAttachments method
-	resp, err := client.CreateFileAttachments(resource, idType, id, files)
+	// Example: Upload a file to a computer with ID 2
+	err = client.CreateFileAttachment(
+		"policies", // resource type / computers / mobiledevices / enrollment profiles / printers / peripherals / policies /  ebooks / mobiledeviceapplicationsicon / mobiledeviceapplicationsipa / diskencryptionconfigurations
+		"id",       // idType - can be either 'id' or 'name'.
+		"2419",     // identifier
+		"/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/icon/UploadIcon/cat.png", // filePath
+		false, // forceIpaUpload
+	)
 	if err != nil {
-		fmt.Printf("Error uploading file attachments: %v\n", err)
-		return
+		log.Fatalf("Failed to upload file: %v", err)
 	}
 
-	// Process the response as needed
-	fmt.Println("File attachments uploaded successfully:", resp.Status)
+	fmt.Println("File uploaded successfully")
 }

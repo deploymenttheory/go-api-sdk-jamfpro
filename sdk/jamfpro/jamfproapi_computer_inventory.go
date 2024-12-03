@@ -12,6 +12,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -706,35 +707,51 @@ func (c *Client) GetComputerRecoveryLockPasswordByID(id string) (*ResponseRecove
 
 // UploadAttachmentAndAssignToComputerByID uploads a file attachment to a computer by computer ID.
 // Api supports single file upload only.
-// TODO fix this with multipart
-// func (c *Client) UploadAttachmentAndAssignToComputerByID(id, filePaths []string) (*ResponseUploadAttachment, error) {
-// 	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
+func (c *Client) UploadAttachmentAndAssignToComputerByID(id string, filePaths []string) (*ResponseUploadAttachment, error) {
+	// Validate input
+	if len(filePaths) == 0 {
+		return nil, fmt.Errorf("no file paths provided")
+	}
+	if len(filePaths) > 1 {
+		return nil, fmt.Errorf("API only supports single file upload, %d files provided", len(filePaths))
+	}
 
-// 	// Create a map for the files to be uploaded
-// 	files := map[string][]string{
-// 		"file": filePaths,
-// 	}
+	endpoint := fmt.Sprintf("%s/%s/attachments", uriComputersInventory, id)
 
-// 	// Include form fields if needed (currently none based on docs)
-// 	formFields := map[string]string{}
+	files := map[string][]string{
+		"file": filePaths,
+	}
 
-// 	// No custom content types for this request
-// 	contentTypes := map[string]string{}
+	// Include form fields if needed (currently none required by API)
+	formFields := map[string]string{}
 
-// 	// No additional headers for this request
-// 	headersMap := map[string]http.Header{}
+	// No custom content types needed, will default to application/octet-stream
+	contentTypes := map[string]string{}
 
-// 	var response ResponseUploadAttachment
-// 	resp, err := c.HTTP.DoMultiPartRequest("POST", endpoint, files, formFields, contentTypes, headersMap, &response)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to upload package: %v", err)
-// 	}
-// 	if resp != nil && resp.Body != nil {
-// 		defer resp.Body.Close()
-// 	}
+	// No additional headers needed for this request
+	headersMap := map[string]http.Header{}
 
-// 	return &response, nil
-// }
+	var response ResponseUploadAttachment
+	resp, err := c.HTTP.DoMultiPartRequest(
+		http.MethodPost,
+		endpoint,
+		files,
+		formFields,
+		contentTypes,
+		headersMap,
+		"byte",
+		&response,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload attachment: %v", err)
+	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
 
 // DeleteAttachmentByIDAndComputerID deletes a computer's inventory attached by computer ID
 // and the computer's attachment ID. Multiple attachments can be assigned to a single computer resource.
