@@ -1,9 +1,7 @@
 // jamfproapi_icon.go
 // Jamf Pro Api - Icons
-// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-jcds-files
+// api reference: https://developer.jamf.com/jamf-pro/reference/post_v1-icon
 // Jamf Pro API requires the structs to support an JSON data structure.
-// Ref: https://grahamrpugh.com/2023/08/21/introducing-jcds2.html
-// Ref: https://aws.github.io/aws-sdk-go-v2/docs/sdk-utilities/s3/
 
 package jamfpro
 
