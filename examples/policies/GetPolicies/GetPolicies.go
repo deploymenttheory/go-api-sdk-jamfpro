@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"log"
 
@@ -22,8 +23,9 @@ func main() {
 		log.Fatalf("Error fetching policies: %v", err)
 	}
 
-	fmt.Println("Retrieved Policies:")
-	for _, policy := range policies.Policy {
-		fmt.Printf("ID: %d, Name: %s\n", policy.ID, policy.Name)
+	policyXML, err := xml.MarshalIndent(policies, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling policy details data: %v", err)
 	}
+	fmt.Println("Created Policy Details:\n", string(policyXML))
 }

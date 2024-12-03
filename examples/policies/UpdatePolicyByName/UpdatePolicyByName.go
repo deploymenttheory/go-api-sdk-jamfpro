@@ -122,12 +122,6 @@ func main() {
 		},
 	}
 
-	policyXML, err := xml.MarshalIndent(updatedPolicy, "", "    ")
-	if err != nil {
-		log.Fatalf("Error marshaling policy data: %v", err)
-	}
-	fmt.Println("Policy Details to be Sent:\n", string(policyXML))
-
 	policyName := "disk-encryption-sdk"
 
 	// Update the policy
@@ -136,6 +130,10 @@ func main() {
 		log.Fatalf("Error updating policy: %v", err)
 	}
 
-	// Print the ID of the updated policy
-	fmt.Printf("Updated Policy ID: %d\n", response.ID)
+	policyXML, err := xml.MarshalIndent(response, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling policy details data: %v", err)
+	}
+	fmt.Println("Created Policy Details:\n", string(policyXML))
+
 }
