@@ -15,6 +15,15 @@ import (
 // Constants for API endpoints
 const uriIcon = "/api/v1/icon"
 
+// Resource
+type ResourceIconUpload struct {
+	ID   int    `json:"id"`
+	URL  string `json:"url"`
+	Name string `json:"name"`
+}
+
+// Response
+
 // ResponseIconUpload represents the response from the icon upload endpoint
 type ResponseIconUpload struct {
 	ID   int    `json:"id"`
@@ -52,7 +61,7 @@ func (c *Client) UploadIcon(filePath string) (*ResponseIconUpload, error) {
 	headersMap := map[string]http.Header{}
 
 	var response ResponseIconUpload
-	resp, err := c.HTTP.DoMultiPartRequest(http.MethodPost, uriIcon, files, formFields, contentTypes, headersMap, "raw", &response)
+	resp, err := c.HTTP.DoMultiPartRequest(http.MethodPost, uriIcon, files, formFields, contentTypes, headersMap, "byte", &response)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to upload icon: %v", err)
