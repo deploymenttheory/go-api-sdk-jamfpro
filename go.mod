@@ -15,7 +15,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.43
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.71.0
 	github.com/mitchellh/mapstructure v1.5.0
-	golang.org/x/crypto v0.29.0
+	golang.org/x/crypto v0.30.0
 	howett.net/plist v1.0.1
 )
 
@@ -34,8 +34,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.28.6 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.33.2 // indirect
 	github.com/aws/smithy-go v1.22.1 // indirect
-	golang.org/x/sys v0.27.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 )
 
 require (
