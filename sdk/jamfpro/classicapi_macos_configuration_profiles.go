@@ -81,6 +81,7 @@ type MacOSConfigurationProfileSubsetScope struct {
 
 // MacOSConfigurationProfileSubsetSelfService represents the self-service subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetSelfService struct {
+	SelfServiceDisplayName      string                                               `xml:"self_service_display_name,omitempty"`
 	InstallButtonText           string                                               `xml:"install_button_text,omitempty"`
 	SelfServiceDescription      string                                               `xml:"self_service_description,omitempty"`
 	ForceUsersToViewDescription bool                                                 `xml:"force_users_to_view_description"`
