@@ -85,21 +85,16 @@ type PolicySubsetGeneral struct {
 }
 
 type PolicySubsetGeneralDateTimeLimitations struct {
-	ActivationDate      string `xml:"activation_date"`
-	ActivationDateEpoch int    `xml:"activation_date_epoch"`
-	ActivationDateUTC   string `xml:"activation_date_utc"`
-	ExpirationDate      string `xml:"expiration_date"`
-	ExpirationDateEpoch int    `xml:"expiration_date_epoch"`
-	ExpirationDateUTC   string `xml:"expiration_date_utc"`
-	// NoExecuteOn         []PolicySubsetGeneralDateTimeLimitationsNoExecuteOn `xml:"no_execute_on>day,omitempty"`
-	NoExecuteStart string `xml:"no_execute_start"`
-	NoExecuteEnd   string `xml:"no_execute_end"`
+	ActivationDate      string   `xml:"activation_date"`
+	ActivationDateEpoch int      `xml:"activation_date_epoch"`
+	ActivationDateUTC   string   `xml:"activation_date_utc"`
+	ExpirationDate      string   `xml:"expiration_date"`
+	ExpirationDateEpoch int      `xml:"expiration_date_epoch"`
+	ExpirationDateUTC   string   `xml:"expiration_date_utc"`
+	NoExecuteOn         []string `xml:"no_execute_on>day,omitempty"`
+	NoExecuteStart      string   `xml:"no_execute_start"`
+	NoExecuteEnd        string   `xml:"no_execute_end"`
 }
-
-// TODO solve this weird stuff later
-// type PolicySubsetGeneralDateTimeLimitationsNoExecuteOn struct {
-// 	Day string `xml:",chardata"`
-// }
 
 type PolicySubsetGeneralNetworkLimitations struct {
 	MinimumNetworkConnection string `xml:"minimum_network_connection"`
