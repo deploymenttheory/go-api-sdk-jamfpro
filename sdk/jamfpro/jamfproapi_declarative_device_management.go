@@ -11,20 +11,6 @@ import (
 
 const uriDeclarativeDeviceManagement = "/api/v1/ddm"
 
-// ResponseError represents the structure of an error response from the API
-type ResponseError struct {
-	HTTPStatus int             `json:"httpStatus"`
-	Errors     []ErrorInstance `json:"errors"`
-}
-
-// ErrorInstance represents a single error in the error response
-type ErrorInstance struct {
-	Code        string `json:"code"`
-	Field       string `json:"field"`
-	Description string `json:"description"`
-	ID          string `json:"id"`
-}
-
 // ResponseStatusItems represents the response structure for status items.
 type ResponseStatusItems struct {
 	StatusItems []StatusItem `json:"statusItems"`
