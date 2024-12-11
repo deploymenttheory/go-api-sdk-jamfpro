@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -27,6 +28,10 @@ type ResponseEnrollmentCustomizationList struct {
 type ResponseEnrollmentCustomizationCreate struct {
 	Id   string `json:"id"`
 	Href string `json:"href"`
+}
+
+type ResponseEnrollmentCustomizationUpload struct {
+	Url string `json:"url"`
 }
 
 // Resource
@@ -51,7 +56,6 @@ type EnrollmentCustomizationSubsetBrandingSettings struct {
 
 // CRUD
 
-// TODO Upload an image - https://developer.jamf.com/jamf-pro/reference/post_v2-enrollment-customizations-images
 // TODO Download an image - https://developer.jamf.com/jamf-pro/reference/get_v2-enrollment-customizations-images-id
 
 // Returns paginated list of Enrollment Customization
@@ -150,4 +154,40 @@ func (c *Client) DeleteEnrollmentCustomizationByID(id string) error {
 	}
 
 	return nil
+}
+
+// UploadEnrollmentCustomizationsImage uploads an enrollment image file using the custom multipart format
+func (c *Client) UploadEnrollmentCustomizationsImage(filePath string) (*ResponseEnrollmentCustomizationUpload, error) {
+	endpoint := fmt.Sprintf("%s/images", uriEnrollmentCustomizationSettings)
+
+	files := map[string][]string{
+		"file": {filePath},
+	}
+
+	formFields := map[string]string{}
+	contentTypes := map[string]string{
+		"file": "image/png",
+	}
+	headersMap := map[string]http.Header{}
+
+	var response ResponseEnrollmentCustomizationUpload
+	resp, err := c.HTTP.DoMultiPartRequest(
+		http.MethodPost,
+		endpoint,
+		files,
+		formFields,
+		contentTypes,
+		headersMap,
+		"byte",
+		&response,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload icon: %v", err)
+	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }
