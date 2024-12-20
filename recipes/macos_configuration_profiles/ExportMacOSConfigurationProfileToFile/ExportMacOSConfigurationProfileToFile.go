@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -18,7 +17,8 @@ import (
 // Global configuration variables
 var (
 	configFilePath = "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-	exportDir      = "/Users/dafyddwatkins/localtesting/jamfpro/joe-test"
+	exportDir      = "/Users/dafyddwatkins/localtesting/terraform/support_files/macosconfigurationprofiles/imazing/post-jamfpro-upload"
+	profileID      = "5498" // Set your desired profile ID here
 )
 
 func main() {
@@ -28,64 +28,46 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profilesList, err := client.GetMacOSConfigurationProfiles()
+	// Fetch single profile by ID
+	respProfile, err := client.GetMacOSConfigurationProfileByID(profileID)
 	if err != nil {
-		log.Fatalf("Failed to fetch macOS Configuration Profiles: %v", err)
+		log.Fatalf("Failed to fetch profile with ID %s: %v", profileID, err)
 	}
 
-	fmt.Println("Found the following macOS Configuration Profiles:")
-	for _, profile := range profilesList.Results {
-		fmt.Printf("ID: %d, Name: %s\n", profile.ID, profile.Name)
-	}
-	fmt.Println("These profiles will be exported.")
+	fmt.Printf("Exporting profile: %s (ID: %s)\n", respProfile.General.Name, profileID)
 
 	if err := os.MkdirAll(exportDir, 0750); err != nil {
 		log.Fatalf("Failed to create export directory: %v", err)
 	}
 
-	for _, profile := range profilesList.Results {
-		respProfile, err := client.GetMacOSConfigurationProfileByID(strconv.Itoa(profile.ID))
-		if err != nil {
-			log.Printf("Failed to fetch profile with ID %d: %v", profile.ID, err)
-			continue
-		}
-
-		xmlData, err := xml.MarshalIndent(respProfile, "", "  ")
-		if err != nil {
-			log.Printf("Failed to convert profile with ID %d to XML: %v", profile.ID, err)
-			continue
-		}
-
-		payloadsContent := extractPayloads(string(xmlData))
-		if payloadsContent == "" {
-			log.Printf("No <payloads> content found for profile ID %d", profile.ID)
-			continue
-		}
-
-		// Remove escaped characters
-		reformattedPayloads, err := removeEscapedCharacters(payloadsContent)
-		if err != nil {
-			log.Printf("Failed to reformat payloads for profile with ID %d: %v", profile.ID, err)
-			continue
-		}
-
-		filename := filepath.Join(exportDir, profile.Name+".mobileconfig")
-		file, err := os.Create(filename)
-		if err != nil {
-			log.Printf("Failed to create file for profile with ID %d: %v", profile.ID, err)
-			continue
-		}
-		defer file.Close()
-
-		if _, err := file.WriteString(reformattedPayloads); err != nil {
-			log.Printf("Failed to write to file for profile with ID %d: %v", profile.ID, err)
-			continue
-		}
-
-		fmt.Printf("Exported profile with ID %d to %s\n", profile.ID, filename)
+	xmlData, err := xml.MarshalIndent(respProfile, "", "  ")
+	if err != nil {
+		log.Fatalf("Failed to convert profile to XML: %v", err)
 	}
 
-	fmt.Println("Export completed!")
+	payloadsContent := extractPayloads(string(xmlData))
+	if payloadsContent == "" {
+		log.Fatal("No <payloads> content found in the profile")
+	}
+
+	// Remove escaped characters
+	reformattedPayloads, err := removeEscapedCharacters(payloadsContent)
+	if err != nil {
+		log.Fatalf("Failed to reformat payloads: %v", err)
+	}
+
+	filename := filepath.Join(exportDir, respProfile.General.Name+".mobileconfig")
+	file, err := os.Create(filename)
+	if err != nil {
+		log.Fatalf("Failed to create file: %v", err)
+	}
+	defer file.Close()
+
+	if _, err := file.WriteString(reformattedPayloads); err != nil {
+		log.Fatalf("Failed to write to file: %v", err)
+	}
+
+	fmt.Printf("Successfully exported profile to %s\n", filename)
 }
 
 // extractPayloads extracts the payloads from the XML data

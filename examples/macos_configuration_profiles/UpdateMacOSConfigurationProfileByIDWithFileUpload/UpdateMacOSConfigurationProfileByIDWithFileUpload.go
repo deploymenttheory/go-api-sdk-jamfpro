@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Load payload from file
-	payloads, err := readPayloadFromFile("/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/support_files/accessibility-chara-nosub-test.mobileconfig")
+	payloads, err := readPayloadFromFile("/Users/dafyddwatkins/localtesting/terraform/support_files/macosconfigurationprofiles/imazing/post-jamfpro-upload/restrictions-jamfpro-export-with-gui-updates.mobileconfig")
 	if err != nil {
 		log.Fatalf("Failed to read payload: %v", err)
 	}
@@ -28,7 +28,7 @@ func main() {
 	// Define the macOS Configuration Profile as per the given XML structure
 	profile := jamfpro.ResourceMacOSConfigurationProfile{
 		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
-			Name:               "WiFi Test",
+			Name:               "restrictions-jamfpro-export-with-api-updates-and-new-uuid-at-root", // this must match the name of the existing profile in Jamf Pro that you want to update by ID
 			Description:        "",
 			Site:               &jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
 			Category:           &jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
@@ -51,7 +51,7 @@ func main() {
 	}
 
 	// Set the config profile ID you want to update
-	id := "1" // Replace with the actual ID of the profile you want to update
+	id := "5498" // Replace with the actual ID of the profile you want to update
 
 	// Call the UpdateMacOSConfigurationProfileByID function
 	updatedProfileID, err := client.UpdateMacOSConfigurationProfileByID(id, &profile)
