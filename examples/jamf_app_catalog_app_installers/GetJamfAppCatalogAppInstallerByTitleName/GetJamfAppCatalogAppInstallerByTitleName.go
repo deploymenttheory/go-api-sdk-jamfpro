@@ -22,7 +22,7 @@ func main() {
 	appTitleName := "1Password 7" // Replace with actual app title name
 
 	// Call GetJamfAppCatalogAppInstallerByName function
-	appInstaller, err := client.GetJamfAppCatalogAppInstallerByName(appTitleName)
+	appInstaller, err := client.GetJamfAppCatalogAppInstallerByTitleName(appTitleName)
 	if err != nil {
 		log.Fatalf("Error fetching JamfAppCatalogAppInstallerTitle by name: %v", err)
 	}

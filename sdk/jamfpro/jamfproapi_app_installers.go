@@ -212,8 +212,8 @@ func (c *Client) GetJamfAppCatalogAppInstallerByID(id string) (*ResourceJamfAppC
 	return &appInstaller, nil
 }
 
-// GetJamfAppCatalogAppInstallerByName retrieves title by name & returns ResourceJamfAppCatalogAppInstaller
-func (c *Client) GetJamfAppCatalogAppInstallerByName(name string) (*ResourceJamfAppCatalogAppInstaller, error) {
+// GetJamfAppCatalogAppInstallerByTitleName retrieves title by name & returns ResourceJamfAppCatalogAppInstaller
+func (c *Client) GetJamfAppCatalogAppInstallerByTitleName(name string) (*ResourceJamfAppCatalogAppInstaller, error) {
 	titles, err := c.GetJamfAppCatalogAppInstallerTitles("")
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf App Catalog Titles", err)
