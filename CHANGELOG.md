@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.16.1...v1.17.0) (2024-12-20)
+
+
+### Features
+
+* add GetJamfAppCatalogAppInstallerByName function and example usage ([92fea22](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/92fea22d0323c7f1aaf622c07b77df25f1630de3))
+
 ## [1.16.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.16.0...v1.16.1) (2024-12-20)
 
 
