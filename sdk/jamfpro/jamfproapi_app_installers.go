@@ -212,6 +212,31 @@ func (c *Client) GetJamfAppCatalogAppInstallerByID(id string) (*ResourceJamfAppC
 	return &appInstaller, nil
 }
 
+// GetJamfAppCatalogAppInstallerByName retrieves deployment by name & returns ResourceJamfAppCatalogDeployment
+func (c *Client) GetJamfAppCatalogAppInstallerByName(name string) (*ResourceJamfAppCatalogDeployment, error) {
+	// First, get all deployments
+	endpoint := fmt.Sprintf("%s/deployments", uriJamfAppCatalogAppInstaller)
+	var deployments struct {
+		Results []ResourceJamfAppCatalogDeployment `json:"results"`
+	}
+
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deployments)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get deployments: %v", err)
+	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	for _, deployment := range deployments.Results {
+		if deployment.Name == name {
+			return &deployment, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no deployment found with name: %s", name)
+}
+
 // GetJamfAppCatalogAppInstallerByTitleName retrieves title by name & returns ResourceJamfAppCatalogAppInstaller
 func (c *Client) GetJamfAppCatalogAppInstallerByTitleName(name string) (*ResourceJamfAppCatalogAppInstaller, error) {
 	titles, err := c.GetJamfAppCatalogAppInstallerTitles("")
