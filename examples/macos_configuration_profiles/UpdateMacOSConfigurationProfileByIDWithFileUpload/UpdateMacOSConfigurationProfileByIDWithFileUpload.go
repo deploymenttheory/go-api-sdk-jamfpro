@@ -28,7 +28,7 @@ func main() {
 	// Define the macOS Configuration Profile as per the given XML structure
 	profile := jamfpro.ResourceMacOSConfigurationProfile{
 		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
-			Name:               "restrictions-jamfpro-export-with-api-updates-and-new-uuid-at-root",
+			Name:               "restrictions-jamfpro-export-with-api-updates-and-new-uuid-at-root", // this must match the name of the existing profile in Jamf Pro that you want to update by ID
 			Description:        "",
 			Site:               &jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
 			Category:           &jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
