@@ -19,10 +19,10 @@ func main() {
 	}
 
 	// ID of the computer prestage you want to retrieve
-	prestageID := "113" // Replace with the actual ID
+	prestageName := "jamfpro-sdk-example-computerPrestageMinimum-config" // Replace with the actual ID
 
 	// Call the GetComputerPrestageByID function
-	prestage, err := client.GetComputerPrestageByID(prestageID)
+	prestage, err := client.GetComputerPrestageByName(prestageName)
 	if err != nil {
 		log.Fatalf("Error fetching computer prestage by ID: %v", err)
 	}

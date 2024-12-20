@@ -131,9 +131,8 @@ func (c *Client) GetSmartComputerGroupsV2(sort_filter string) (*ResponseSmartCom
 }
 
 // GetSmartComputerGroupByID retrieves a specific Smart Computer Group by ID
-// This is a place holder function. this api endpoint doesnt support GET By ID yet.
 func (c *Client) GetSmartComputerGroupByID(id string) (*ResourceSmartComputerGroup, error) {
-	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV2SmartComputerGroups, id)
+	endpoint := fmt.Sprintf("%s/%s", uriAPISmartComputerGroups, id)
 
 	var response ResourceSmartComputerGroup
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
@@ -146,6 +145,28 @@ func (c *Client) GetSmartComputerGroupByID(id string) (*ResourceSmartComputerGro
 	}
 
 	return &response, nil
+}
+
+// GetSmartComputerGroupByName retrieves a Smart Computer Group by name
+func (c *Client) GetSmartComputerGroupByName(name string) (*ResourceComputerGroup, error) {
+	groups, err := c.GetSmartComputerGroups()
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "smart computer groups", err)
+	}
+
+	var groupID string
+	for _, group := range *groups {
+		if group.Name == name {
+			groupID = group.ID
+			break
+		}
+	}
+
+	if groupID == "" {
+		return nil, fmt.Errorf(errMsgFailedGetByName, "smart computer group", name, errMsgNoName)
+	}
+	// mixing the pro and classic api endpoint as GetSmartComputerGroupByID is not available in pro api yet. 20/12/2024
+	return c.GetComputerGroupByID(groupID)
 }
 
 // CreateSmartComputerGroup creates a new Smart Computer Group

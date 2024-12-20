@@ -21,16 +21,25 @@ func main() {
 	// Create new smart computer group
 	siteID := "-1"
 	newGroup := jamfpro.ResourceSmartComputerGroup{
-		Name: "Test Smart Group",
+		Name: "Operating System Version like 15",
 		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
-				Name:         "Application Title",
+				Name:         "Operating System Version",
 				Priority:     0,
 				AndOr:        "and",
-				SearchType:   "is",
-				Value:        "test",
-				OpeningParen: jamfpro.FalsePtr(),
+				SearchType:   "like",
+				Value:        "macOS 15",
+				OpeningParen: jamfpro.TruePtr(),
 				ClosingParen: jamfpro.FalsePtr(),
+			},
+			{
+				Name:         "Model",
+				Priority:     1,
+				AndOr:        "and",
+				SearchType:   "like",
+				Value:        "macbook",
+				OpeningParen: jamfpro.FalsePtr(),
+				ClosingParen: jamfpro.TruePtr(),
 			},
 		},
 		SiteId: &siteID,

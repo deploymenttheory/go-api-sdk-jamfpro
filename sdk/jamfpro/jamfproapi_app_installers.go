@@ -178,8 +178,8 @@ func (c *Client) GetJamfAppCatalogAppInstallerTitles(sort_filter string) (*Respo
 
 }
 
-// GetJamfAppCatalogAppInstallerTitleByID retrieves by title ID & returns ResourceJamfAppCatalogAppInstaller
-func (c *Client) GetJamfAppCatalogAppInstallerTitleByID(id string) (*ResourceJamfAppCatalogAppInstaller, error) {
+// GetJamfAppCatalogAppInstallerByTitleID retrieves by title ID & returns ResourceJamfAppCatalogAppInstaller
+func (c *Client) GetJamfAppCatalogAppInstallerByTitleID(id string) (*ResourceJamfAppCatalogAppInstaller, error) {
 	endpoint := fmt.Sprintf("%s/titles/%s", uriJamfAppCatalogAppInstaller, id)
 	var appInstaller ResourceJamfAppCatalogAppInstaller
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &appInstaller)
@@ -193,6 +193,50 @@ func (c *Client) GetJamfAppCatalogAppInstallerTitleByID(id string) (*ResourceJam
 	}
 
 	return &appInstaller, nil
+}
+
+// Retrieves Jamf App Catalog installer deployment by provided ID & returns ResourceJamfAppCatalogDeployment
+func (c *Client) GetJamfAppCatalogAppInstallerByID(id string) (*ResourceJamfAppCatalogDeployment, error) {
+	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
+	var appInstaller ResourceJamfAppCatalogDeployment
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &appInstaller)
+
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "jamf app catalog deployments", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &appInstaller, nil
+}
+
+// GetJamfAppCatalogAppInstallerByName retrieves title by name & returns ResourceJamfAppCatalogAppInstaller
+func (c *Client) GetJamfAppCatalogAppInstallerByName(name string) (*ResourceJamfAppCatalogAppInstaller, error) {
+	titles, err := c.GetJamfAppCatalogAppInstallerTitles("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf App Catalog Titles", err)
+	}
+
+	var titleID string
+	for _, value := range titles.Results {
+		if value.TitleName == name {
+			titleID = value.ID
+			break
+		}
+	}
+
+	if titleID == "" {
+		return nil, fmt.Errorf(errMsgFailedGetByName, "Jamf App Catalog Title", name, errMsgNoName)
+	}
+
+	fullResource, err := c.GetJamfAppCatalogAppInstallerByTitleID(titleID)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "Jamf App Catalog Title", titleID, err)
+	}
+
+	return fullResource, nil
 }
 
 // GetJamfAppCatalogAppInstallerGlobalSettings retrieves the global settings for the app catalog & returns ResourceJamfAppCatalogAppInstaller
@@ -210,23 +254,6 @@ func (c *Client) GetJamfAppCatalogAppInstallerGlobalSettings(id string) (*JamfAp
 	}
 
 	return &globalSettings, nil
-}
-
-// Retrieves Jamf App Catalog installer deployment by provided ID & returns ResourceJamfAppCatalogDeployment
-func (c *Client) GetJamfAppCatalogAppInstallerDeploymentByID(id string) (*ResourceJamfAppCatalogDeployment, error) {
-	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
-	var appInstaller ResourceJamfAppCatalogDeployment
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &appInstaller)
-
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "jamf app catalog deployments", id, err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &appInstaller, nil
 }
 
 // Creates Jamf App Catalog Deployment from ResponseJamfAppCatalogDeploymentCreateAndUpdate struct

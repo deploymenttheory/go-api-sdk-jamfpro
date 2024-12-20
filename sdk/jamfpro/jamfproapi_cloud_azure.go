@@ -93,6 +93,35 @@ func (c *Client) GetCloudIdentityProviderByID(id string) (*ResourceCloudIdp, err
 	return &cloudIDP, nil
 }
 
+// GetCloudIdentityProviderByName retrieves Cloud Identity Provider by name
+func (c *Client) GetCloudIdentityProviderByName(name string) (*ResourceCloudIdp, error) {
+	endpoint := uriCloudIdentityProvider
+
+	var cloudIDPs []ResourceCloudIdp
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &cloudIDPs)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "Azure Cloud IDP", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	var cloudIdpID string
+	for _, idp := range cloudIDPs {
+		if idp.CloudIdPCommon.DisplayName == name {
+			cloudIdpID = idp.Server.ID
+			break
+		}
+	}
+
+	if cloudIdpID == "" {
+		return nil, fmt.Errorf(errMsgFailedGetByName, "Azure Cloud IDP", name, errMsgNoName)
+	}
+
+	return c.GetCloudIdentityProviderByID(cloudIdpID)
+}
+
 // CreateCloudIdentityProvider creates a new Cloud Identity Provider.
 func (c *Client) CreateCloudIdentityProvider(cloudIdP *ResourceCloudIdp) (*ResponseCloudIdpCreate, error) {
 	endpoint := uriCloudIdentityProvider

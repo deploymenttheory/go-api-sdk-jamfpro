@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Provide the name of the computer extension attribute you want to fetch
-	attributeName := "Pop Up Menu Test" // You can change this name as required
+	attributeName := "Computer Extension Attribute Script Test" // You can change this name as required
 
 	// Call GetComputerExtensionAttributeByName function
 	attribute, err := client.GetComputerExtensionAttributeByName(attributeName)

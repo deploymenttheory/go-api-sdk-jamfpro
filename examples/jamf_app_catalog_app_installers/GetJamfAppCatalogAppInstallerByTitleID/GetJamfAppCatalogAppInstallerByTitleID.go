@@ -19,18 +19,18 @@ func main() {
 	}
 
 	// Define a app installer ID for testing
-	appInstallerID := "23"
+	appInstallerID := "0F8"
 
-	// Call GetJamfAppCatalogDeploymentByID function
-	appInstaller, err := client.GetJamfAppCatalogAppInstallerDeploymentByID(appInstallerID)
+	// Call GetJamfAppCatalogAppInstallerByTitleID function
+	appInstaller, err := client.GetJamfAppCatalogAppInstallerByTitleID(appInstallerID)
 	if err != nil {
-		log.Fatalf("Error fetching Jamf App Installer Deployment by ID: %v", err)
+		log.Fatalf("Error fetching JamfAppCatalogAppInstallerTitle by ID: %v", err)
 	}
 
 	// Pretty print the app Installer in JSON
 	appInstallerJSON, err := json.MarshalIndent(appInstaller, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling Jamf App Catalog App Installer list data: %v", err)
+		log.Fatalf("Error marshaling Jamf App Catalog App Title data: %v", err)
 	}
-	fmt.Println("Fetched Jamf App Catalog App Installer list:\n", string(appInstallerJSON))
+	fmt.Println("Fetched Jamf App Catalog App Title:\n", string(appInstallerJSON))
 }
