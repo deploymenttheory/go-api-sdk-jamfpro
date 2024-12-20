@@ -18,8 +18,8 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetComputerGroupByID function
-	groupID := "1" // Placeholder ID, replace with a valid ID
+	groupID := "13" // Placeholder ID, replace with a valid ID
+
 	group, err := client.GetComputerGroupByID(groupID)
 	if err != nil {
 		log.Fatalf("Error fetching Computer Group by ID: %v", err)

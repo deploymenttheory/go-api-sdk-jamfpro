@@ -79,6 +79,22 @@ func (c *Client) GetAdvancedMobileDeviceSearchByID(id string) (*ResourceAdvanced
 	return &search, nil
 }
 
+// GetAdvancedMobileDeviceSearchByName retrieves a specific Advanced Mobile Device Search by name
+func (c *Client) GetAdvancedMobileDeviceSearchByName(name string) (*ResourceAdvancedMobileDeviceSearch, error) {
+	searches, err := c.GetAdvancedMobileDeviceSearches()
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "advanced mobile searches", err)
+	}
+
+	for _, search := range searches.Results {
+		if search.Name == name {
+			return &search, nil
+		}
+	}
+
+	return nil, fmt.Errorf(errMsgFailedGetByName, "advanced mobile device search", name, errMsgNoName)
+}
+
 // GetAdvancedMobileDeviceSearchChoices retrieves criteria choices for Advanced Mobile Device Searches
 func (c *Client) GetAdvancedMobileDeviceSearchChoices(criteria, site, contains string) (*ResponseAdvancedMobileDeviceSearchChoices, error) {
 	endpoint := fmt.Sprintf("%s/choices?criteria=%s&site=%s&contains=%s", uriAdvancedMobileSearches, criteria, site, contains)

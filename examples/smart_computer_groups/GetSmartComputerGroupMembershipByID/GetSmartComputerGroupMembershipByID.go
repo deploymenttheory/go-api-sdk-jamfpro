@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the group ID
-	groupID := "11"
+	groupID := "5"
 
 	// Call function
 	membership, err := client.GetSmartComputerGroupMembershipByID(groupID)
