@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Load payload from file
-	payloads, err := readPayloadFromFile("/Users/dafyddwatkins/localtesting/terraform/support_files/macosconfigurationprofiles/imazing/post-jamfpro-upload/restrictions-jamfpro-export-with-gui-updates.mobileconfig")
+	payloads, err := readPayloadFromFile("/Users/dafyddwatkins/GitHub/deploymenttheory/go-api-sdk-jamfpro/examples/macos_configuration_profiles/UpdateMacOSConfigurationProfileByIDWithFileUpload/DOCK.mobileconfig")
 	if err != nil {
 		log.Fatalf("Failed to read payload: %v", err)
 	}
@@ -28,7 +28,7 @@ func main() {
 	// Define the macOS Configuration Profile as per the given XML structure
 	profile := jamfpro.ResourceMacOSConfigurationProfile{
 		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
-			Name:               "restrictions-jamfpro-export-with-api-updates-and-new-uuid-at-root", // this must match the name of the existing profile in Jamf Pro that you want to update by ID
+			Name:               "DOCK", // this must match the name of the existing profile in Jamf Pro that you want to update by ID
 			Description:        "",
 			Site:               &jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
 			Category:           &jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
@@ -41,6 +41,13 @@ func main() {
 		Scope: jamfpro.MacOSConfigurationProfileSubsetScope{
 			AllComputers: false,
 			AllJSSUsers:  false,
+			Computers: []jamfpro.MacOSConfigurationProfileSubsetComputer{
+				{
+					MacOSConfigurationProfileSubsetScopeEntity: jamfpro.MacOSConfigurationProfileSubsetScopeEntity{
+						ID: 23,
+					},
+				},
+			},
 		},
 		SelfService: jamfpro.MacOSConfigurationProfileSubsetSelfService{
 			InstallButtonText:           "Install",
@@ -51,7 +58,7 @@ func main() {
 	}
 
 	// Set the config profile ID you want to update
-	id := "5498" // Replace with the actual ID of the profile you want to update
+	id := "5502" // Replace with the actual ID of the profile you want to update
 
 	// Call the UpdateMacOSConfigurationProfileByID function
 	updatedProfileID, err := client.UpdateMacOSConfigurationProfileByID(id, &profile)
