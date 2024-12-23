@@ -150,6 +150,22 @@ func (c *Client) GetPackageByID(id string) (*ResourcePackage, error) {
 	return &response, nil
 }
 
+// GetPackageByName retrieves a package by name, returns ResourcePackage
+func (c *Client) GetPackageByName(name string) (*ResourcePackage, error) {
+	packages, err := c.GetPackages("", "")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "packages", err)
+	}
+
+	for _, value := range packages.Results {
+		if value.PackageName == name {
+			return &value, nil
+		}
+	}
+
+	return nil, fmt.Errorf(errMsgFailedGetByName, "package", name, errMsgNoName)
+}
+
 // GetPackageHistoryByPackageID retrieves the history of a specific package by its ID with pagination, sorting, and filtering.
 func (c *Client) GetPackageHistoryByPackageID(id string, sort, filter string) (*ResponsePackageHistoryList, error) {
 	const maxPageSize = 200
