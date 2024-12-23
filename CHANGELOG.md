@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.18.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.17.0...v1.18.0) (2024-12-23)
+
+
+### Features
+
+* add GetPackageByName function to retrieve packages by name and include example usage ([b311881](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b31188125254e44b0597bd42e67821e95e2cc92d))
+* update macOS configuration profile example with new payload and ID ([7d4fa46](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/7d4fa46598a42cdc98752e43006a4441cb61e1fd))
+
 ## [1.17.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.16.1...v1.17.0) (2024-12-20)
 
 
