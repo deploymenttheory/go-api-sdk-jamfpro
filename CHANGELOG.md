@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.17.1...v1.18.0) (2025-01-06)
+
+
+### Features
+
+* add examples for log flushing tasks and settings in Jamf Pro API ([132dc2c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/132dc2ce7405ba220fd2e0e7a51d90a4817d089d))
+
 ## [1.17.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.16.1...v1.17.0) (2024-12-20)
 
 
