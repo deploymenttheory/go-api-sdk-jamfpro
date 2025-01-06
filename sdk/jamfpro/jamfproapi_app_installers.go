@@ -121,7 +121,7 @@ func (c *Client) GetJamfAppCatalogAppInstallerTermsAndConditionsStatus() (*Respo
 	var globalSettings ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &globalSettings)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "printers", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "Jamf App Catalog Titles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -139,7 +139,7 @@ func (c *Client) AcceptJamfAppCatalogAppInstallerTermsAndConditions() (*Response
 	var globalSettings ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus
 	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &globalSettings)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "printers", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "Jamf App Catalog Titles", err)
 	}
 
 	if resp != nil && resp.Body != nil {
