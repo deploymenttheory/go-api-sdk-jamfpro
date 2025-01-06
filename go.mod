@@ -13,7 +13,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.28.7
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.48
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.44
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.71.1
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.72.0
 	github.com/mitchellh/mapstructure v1.5.0
 	golang.org/x/crypto v0.31.0
 	howett.net/plist v1.0.1
