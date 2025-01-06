@@ -26,7 +26,7 @@ func main() {
 	}
 
 	// Call function to create log flushing task
-	createdTask, err := client.CreateLogFlushingTask(newTask)
+	createdTask, err := client.QueueLogFlushingTask(newTask)
 	if err != nil {
 		log.Fatalf("Error creating log flushing task: %v", err)
 	}

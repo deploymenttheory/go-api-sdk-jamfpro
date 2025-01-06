@@ -94,8 +94,8 @@ func (c *Client) GetLogFlushingSettings() (*ResponseLogFlushingSettings, error) 
 	return &out, nil
 }
 
-// QueueLogFlushingTaskLogFlushingTask creates a new log flushing task in Jamf Pro
-func (c *Client) QueueLogFlushingTaskLogFlushingTask(task *ResourceLogFlushingTask) (*ResponseLogFlushingTaskCreated, error) {
+// QueueLogFlushingTaskcreates a new log flushing task in Jamf Pro
+func (c *Client) QueueLogFlushingTask(task *ResourceLogFlushingTask) (*ResponseLogFlushingTaskCreated, error) {
 	endpoint := fmt.Sprintf("%s/task", uriLogFlushing)
 
 	var response ResponseLogFlushingTaskCreated
