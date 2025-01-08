@@ -19,18 +19,16 @@ func main() {
 
 	// Create a new PatchSoftwareTitleConfiguration
 	newConfig := &jamfpro.ResourcePatchSoftwareTitleConfiguration{
-		DisplayName:        "CCleaner",
-		CategoryID:         "-1",
-		SiteID:             "-1",
-		UiNotifications:    true,
-		EmailNotifications: true,
-		SoftwareTitleID:    "10",
-		ExtensionAttributes: []jamfpro.PatchSoftwareTitleConfigurationSubsetExtensionAttribute{
-			{
-				Accepted: true,
-				EaID:     "CCleaner-ea",
-			},
-		},
+		DisplayName:            "Adobe Audition CC 2015",
+		CategoryID:             "-1",
+		SiteID:                 "-1",
+		UiNotifications:        true,
+		EmailNotifications:     true,
+		SoftwareTitleNameId:    "048",
+		SoftwareTitleName:      "Adobe Audition CC 2015",
+		SoftwareTitlePublisher: "Adobe",
+		JamfOfficial:           true,
+		PatchSourceName:        "Jamf",
 	}
 
 	// Call the CreatePatchSoftwareTitleConfiguration method

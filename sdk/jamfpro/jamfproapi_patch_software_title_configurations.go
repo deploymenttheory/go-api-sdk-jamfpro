@@ -7,24 +7,18 @@ package jamfpro
 
 import "fmt"
 
-const uriPatchSoftwareTitleConfigurations = "/api/v2/patch-software-title-configurations/"
+const uriPatchSoftwareTitleConfigurations = "/api/v2/patch-software-title-configurations"
 
 // Structs
 
 // List
 
-type ResponsePatchSoftwareTitleConfigurationList struct {
-	Results []ResourcePatchSoftwareTitleConfiguration
-}
-
-type ResponsePatchSoftwareTitleConfigurationCreate struct {
-	ID   string `json:"id"`
-	Href string `json:"href"`
-}
+type ResponsePatchSoftwareTitleConfigurationList []ResourcePatchSoftwareTitleConfiguration
 
 // Resource
 
 type ResourcePatchSoftwareTitleConfiguration struct {
+	ID                     string                                                    `json:"id"`
 	DisplayName            string                                                    `json:"displayName"`
 	CategoryID             string                                                    `json:"categoryId"`
 	SiteID                 string                                                    `json:"siteId"`
@@ -35,7 +29,9 @@ type ResourcePatchSoftwareTitleConfiguration struct {
 	SoftwareTitleName      string                                                    `json:"softwareTitleName"`
 	SoftwareTitleNameId    string                                                    `json:"softwareTitleNameId"`
 	SoftwareTitlePublisher string                                                    `json:"softwareTitlePublisher"`
-	ID                     string                                                    `json:"id"`
+	JamfOfficial           bool                                                      `json:"jamfOfficial"`
+	PatchSourceName        string                                                    `json:"patchSourceName"`
+	PatchSourceEnabled     bool                                                      `json:"patchSourceEnabled"`
 	Packages               []PatchSoftwareTitleConfigurationSubsetPackage            `json:"packages"`
 }
 
@@ -50,6 +46,13 @@ type PatchSoftwareTitleConfigurationSubsetPackage struct {
 	PackageId   string `json:"packageId"`
 	Version     string `json:"version"`
 	DisplayName string `json:"displayName"`
+}
+
+// Response
+
+type ResponsePatchSoftwareTitleConfigurationCreate struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
 }
 
 // CRUD
@@ -87,14 +90,14 @@ func (c *Client) GetPatchSoftwareTitleConfigurationById(id string) (*ResourcePat
 	return &out, nil
 }
 
-// GetPatchSoftwareTitleConfigurationByName retrieves a department by Name.
+// GetPatchSoftwareTitleConfigurationByName retrieves a patch software title configuration by Name.
 func (c *Client) GetPatchSoftwareTitleConfigurationByName(name string) (*ResourcePatchSoftwareTitleConfiguration, error) {
-	patchSoftwareTitle, err := c.GetPatchSoftwareTitleConfigurations()
+	patchSoftwareTitles, err := c.GetPatchSoftwareTitleConfigurations()
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch software title configuration", err)
 	}
 
-	for _, value := range patchSoftwareTitle.Results {
+	for _, value := range *patchSoftwareTitles {
 		if value.DisplayName == name {
 			return &value, nil
 		}
