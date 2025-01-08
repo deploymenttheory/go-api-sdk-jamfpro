@@ -19,16 +19,19 @@ func main() {
 
 	// Create a new PatchSoftwareTitleConfiguration
 	newConfig := &jamfpro.ResourcePatchSoftwareTitleConfiguration{
-		DisplayName:            "Adobe Audition CC 2015",
-		CategoryID:             "-1",
-		SiteID:                 "-1",
-		UiNotifications:        true,
-		EmailNotifications:     true,
-		SoftwareTitleNameId:    "048",
-		SoftwareTitleName:      "Adobe Audition CC 2015",
-		SoftwareTitlePublisher: "Adobe",
-		JamfOfficial:           true,
-		PatchSourceName:        "Jamf",
+		DisplayName:        "firefox test",
+		CategoryID:         "-1",
+		SiteID:             "-1",
+		UiNotifications:    true,
+		EmailNotifications: true,
+		SoftwareTitleID:    "***",
+		Packages: []jamfpro.PatchSoftwareTitleConfigurationSubsetPackage{
+			{
+				PackageId:   "38",
+				Version:     "133.0.3",
+				DisplayName: "Firefox 133.0.3.pkg",
+			},
+		},
 	}
 
 	// Call the CreatePatchSoftwareTitleConfiguration method
