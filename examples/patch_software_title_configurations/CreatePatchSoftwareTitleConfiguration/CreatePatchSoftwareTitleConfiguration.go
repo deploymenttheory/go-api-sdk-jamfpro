@@ -19,17 +19,29 @@ func main() {
 
 	// Create a new PatchSoftwareTitleConfiguration
 	newConfig := &jamfpro.ResourcePatchSoftwareTitleConfiguration{
-		DisplayName:        "firefox test",
-		CategoryID:         "-1",
-		SiteID:             "-1",
-		UiNotifications:    true,
-		EmailNotifications: true,
-		SoftwareTitleID:    "***",
+		JamfOfficial:           true,
+		DisplayName:            "Adobe AIR",
+		CategoryID:             "-1",
+		SiteID:                 "-1",
+		UiNotifications:        true,
+		EmailNotifications:     true,
+		SoftwareTitleID:        "11",
+		SoftwareTitleName:      "Adobe AIR",
+		SoftwareTitleNameId:    "0AE",
+		SoftwareTitlePublisher: "HARMAN",
+		PatchSourceName:        "Jamf",
+		PatchSourceEnabled:     true,
 		Packages: []jamfpro.PatchSoftwareTitleConfigurationSubsetPackage{
 			{
 				PackageId:   "38",
-				Version:     "133.0.3",
 				DisplayName: "Firefox 133.0.3.pkg",
+				Version:     "51.1.2.2",
+			},
+		},
+		ExtensionAttributes: []jamfpro.PatchSoftwareTitleConfigurationSubsetExtensionAttribute{
+			{
+				Accepted: false,
+				EaID:     "jamf-patch-adobe-air",
 			},
 		},
 	}
