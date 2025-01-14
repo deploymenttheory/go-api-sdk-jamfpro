@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -19,18 +19,18 @@ func main() {
 	}
 
 	// Example display name
-	patchSoftwareTitleConfigurationName := "1Password 7" // Replace with an actual device name
+	patchSoftwareTitleConfigurationId := "4" // Replace with an actual device name
 
 	// Get patch software title configuration by name
-	patchTitle, err := client.GetPatchSoftwareTitleConfigurationByName(patchSoftwareTitleConfigurationName)
+	response, err := client.GetPatchSoftwareTitleConfigurationById(patchSoftwareTitleConfigurationId)
 	if err != nil {
 		log.Fatalf("Error fetching patch software title configuration by name: %v", err)
 	}
 
-	// Pretty print the network segments in XML
-	mobileDeviceXML, err := xml.MarshalIndent(patchTitle, "", "    ") // Indent with 4 spaces
+	// Pretty print the network segments in JSON
+	mobileDeviceJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling network segments data: %v", err)
 	}
-	fmt.Println("Network Segments:\n", string(mobileDeviceXML))
+	fmt.Println("Network Segments:\n", string(mobileDeviceJSON))
 }
