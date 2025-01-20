@@ -17,10 +17,10 @@ func main() {
 	}
 
 	// Example config profile UUID and computer IDs to retry
-	configProfileUUID := "24a7bb2a-9871-4895-9009-d1be07ed31b1"
+	configProfileUUID := "5ec9527a-40da-4633-9ccc-7fc3fecea1dc"
 	computerIDs := []string{"1", "2"}
 
-	err = client.RetryJamfConnectDeploymentTasksByID(configProfileUUID, computerIDs)
+	err = client.RetryJamfConnectDeploymentTasksByConfigProfileUUID(configProfileUUID, computerIDs)
 	if err != nil {
 		log.Fatalf("Error retrying tasks: %v", err)
 	}

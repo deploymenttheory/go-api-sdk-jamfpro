@@ -52,12 +52,13 @@ type ResourceJamfConnect struct {
 
 // Struct representing a Jamf Connect config profile
 type ResourceJamfConnectConfigProfile struct {
-	UUID                    string `json:"uuid"`
-	ProfileID               string `json:"profileId"`
-	ProfileName             string `json:"profileName"`
-	ProfileScopeDescription string `json:"profileScopeDescription"`
-	Version                 string `json:"version"`
-	AutoDeploymentType      string `json:"autoDeploymentType"`
+	UUID               string `json:"uuid"`
+	ProfileID          int    `json:"profileId"`
+	ProfileName        string `json:"profileName"`
+	ScopeDescription   string `json:"scopeDescription"`
+	SiteID             string `json:"siteId"`
+	Version            string `json:"version"`
+	AutoDeploymentType string `json:"autoDeploymentType"`
 }
 
 // ResourceJamfConnectTaskRetry represents the request structure for task retry
@@ -67,8 +68,8 @@ type ResourceJamfConnectTaskRetry struct {
 
 // ResourceJamfConnectConfigProfileUpdate represents the updateable fields for a Jamf Connect profile
 type ResourceJamfConnectConfigProfileUpdate struct {
-	Version            string `json:"version"`
-	AutoDeploymentType string `json:"autoDeploymentType"`
+	JamfConnectVersion string `json:"version,omitempty"`
+	AutoDeploymentType string `json:"autoDeploymentType,omitempty"`
 }
 
 // CRUD
@@ -90,7 +91,7 @@ func (c *Client) GetJamfConnectSettings() (*ResourceJamfConnect, error) {
 	return &jamfConnect, nil
 }
 
-// GetJamfConnectConfigProfiles Gets full list of Jamf Connect config profiles & handles pagination
+// GetJamfConnectConfigProfiles gets full list of Jamf Connect config profiles & handles pagination
 func (c *Client) GetJamfConnectConfigProfiles(sort_filter string) (*ResponseJamfConnectConfigProfilesList, error) {
 	endpoint := fmt.Sprintf("%s/config-profiles", uriJamfConnect)
 
@@ -120,15 +121,15 @@ func (c *Client) GetJamfConnectConfigProfiles(sort_filter string) (*ResponseJamf
 	return &out, nil
 }
 
-// UpdateJamfConnectConfigProfile updates the way the Jamf Connect app gets updated on computers within scope of the associated configuration profile.
+// UpdateJamfConnectConfigProfileByConfigProfileUUID updates the way the Jamf Connect app gets updated on computers within scope of the associated configuration profile.
 // The profile is identified by its UUID.
-func (c *Client) UpdateJamfConnectConfigProfileByID(id string, profileUpdate *ResourceJamfConnectConfigProfileUpdate) (*ResourceJamfConnectConfigProfile, error) {
-	endpoint := fmt.Sprintf("%s/config-profiles/%s", uriJamfConnect, id)
+func (c *Client) UpdateJamfConnectConfigProfileByConfigProfileUUID(configProfileUUID string, profileUpdate *ResourceJamfConnectConfigProfileUpdate) (*ResourceJamfConnectConfigProfile, error) {
+	endpoint := fmt.Sprintf("%s/config-profiles/%s", uriJamfConnect, configProfileUUID)
 	var updatedProfile ResourceJamfConnectConfigProfile
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, profileUpdate, &updatedProfile)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdateByID, "jamf connect config profile", id, err)
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "jamf connect config profile", configProfileUUID, err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -138,9 +139,9 @@ func (c *Client) UpdateJamfConnectConfigProfileByID(id string, profileUpdate *Re
 	return &updatedProfile, nil
 }
 
-// RetryJamfConnectDeploymentTasks requests a retry of Connect install tasks for a specified computers
+// RetryJamfConnectDeploymentTasksByConfigProfileUUID requests a retry of Connect install tasks for a specified computers
 // asscoiated with a specific jamf connect configuration profile.
-func (c *Client) RetryJamfConnectDeploymentTasksByID(configProfileUUID string, computerIDs []string) error {
+func (c *Client) RetryJamfConnectDeploymentTasksByConfigProfileUUID(configProfileUUID string, computerIDs []string) error {
 	endpoint := fmt.Sprintf("%s/deployments/%s/tasks/retry", uriJamfConnect, configProfileUUID)
 
 	requestBody := &ResourceJamfConnectTaskRetry{

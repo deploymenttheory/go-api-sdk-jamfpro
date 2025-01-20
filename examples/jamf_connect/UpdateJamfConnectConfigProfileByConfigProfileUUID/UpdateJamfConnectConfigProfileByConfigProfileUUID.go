@@ -20,14 +20,14 @@ func main() {
 
 	// Create update payload
 	profileUpdate := &jamfpro.ResourceJamfConnectConfigProfileUpdate{
-		Version:            "2.3.0",
-		AutoDeploymentType: "PATCH_UPDATES", // Can be PATCH_UPDATES, MINOR_AND_PATCH_UPDATES, INITIAL_INSTALLATION_ONLY, or NONE
+		JamfConnectVersion: "2.43.0",                  // 2.43.0 / 2.42.0 / 2.41.0 / 2.41.0 / 2.40.0 / 2.39.0 / 2.38.0 / 2.37.0 / 2.36.1 / 2.36.0
+		AutoDeploymentType: "MINOR_AND_PATCH_UPDATES", // "NONE" / "PATCH_UPDATES" / "MINOR_AND_PATCH_UPDATES"
 	}
 
 	// Define the UUID of the profile to update
-	profileUUID := "d265dfd3-8fde-4bf2-aa56-b167c8b68069"
+	profileUUID := "e9224719-906e-4879-b393-f302fa40e89d"
 
-	updatedProfile, err := client.UpdateJamfConnectConfigProfileByID(profileUUID, profileUpdate)
+	updatedProfile, err := client.UpdateJamfConnectConfigProfileByConfigProfileUUID(profileUUID, profileUpdate)
 	if err != nil {
 		log.Fatalf("Error updating Jamf Connect config profile: %v", err)
 	}
