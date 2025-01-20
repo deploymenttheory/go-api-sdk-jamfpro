@@ -33,10 +33,10 @@ type ResponsePatchExternalSourcesListItem struct {
 
 // ResourcePatchExternalSource represents the root element of the patch external source.
 type ResourcePatchExternalSource struct {
+	ID         int    `xml:"id" json:"id"`
 	HostName   string `xml:"host_name,omitempty" json:"host_name"`
 	SSLEnabled bool   `xml:"ssl_enabled" json:"ssl_enabled"`
-	Port       int    `xml:"port" json:"port"`
-	ID         int    `xml:"id" json:"id"`
+	Port       int    `xml:"port,omitempty" json:"port"`
 	Name       string `xml:"name,omitempty" json:"name"`
 }
 
