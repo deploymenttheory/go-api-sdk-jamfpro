@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.18.1...v1.19.0) (2025-01-20)
+
+
+### Features
+
+* add AcceptPatchManagementDisclaimer example for Jamf Pro client ([a9785e5](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/a9785e57b2fed29795409f934cdc428b7c43640e))
+* add examples for managing external patch sources in Jamf Pro SDK ([4c06f01](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4c06f01db9eadd02803ea029f509138b7f5dad3c))
+
 ## [1.18.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.17.1...v1.18.0) (2025-01-06)
 
 
