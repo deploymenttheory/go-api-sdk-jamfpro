@@ -67,14 +67,14 @@ type ResourcePatchSoftwareTitleExtensionAttribute struct {
 // Subsets
 
 type PatchSoftwareTitleConfigurationSubsetExtensionAttribute struct {
-	Accepted bool   `json:"accepted"`
-	EaID     string `json:"eaId"`
+	Accepted bool   `json:"accepted,omitempty"`
+	EaID     string `json:"eaId,omitempty"`
 }
 
 type PatchSoftwareTitleConfigurationSubsetPackage struct {
-	PackageId   string `json:"packageId"`
-	Version     string `json:"version"`
-	DisplayName string `json:"displayName"`
+	PackageId   string `json:"packageId,omitempty"`
+	Version     string `json:"version,omitempty"`
+	DisplayName string `json:"displayName,omitempty"`
 }
 
 type PatchSoftwareTitleDefinitionSubsetKillApp struct {
@@ -245,13 +245,15 @@ func (c *Client) CreatePatchSoftwareTitleConfiguration(configuration ResourcePat
 	return &out, nil
 }
 
-// UpdatePatchSoftwareTitleConfigurationById Updates a single PatchSoftwareTitleConfiguration with given ID
-func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedConfiguration ResourcePatchSoftwareTitleConfiguration) (*ResponsePatchSoftwareTitleConfigurationCreate, error) {
+// UpdatePatchSoftwareTitleConfigurationById updates a single PatchSoftwareTitleConfiguration with the given ID
+func (c *Client) UpdatePatchSoftwareTitleConfigurationById(id string, updatedConfiguration ResourcePatchSoftwareTitleConfiguration) (*ResourcePatchSoftwareTitleConfiguration, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriPatchSoftwareTitleConfigurations, id)
-	var out ResponsePatchSoftwareTitleConfigurationCreate
+
+	var out ResourcePatchSoftwareTitleConfiguration
+
 	resp, err := c.HTTP.DoRequest("PATCH", endpoint, updatedConfiguration, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedCreate, "patch software title configuration", err)
+		return nil, fmt.Errorf("failed to update patch software title configuration: %v", err)
 	}
 
 	if resp != nil {
