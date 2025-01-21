@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example software title ID and sort parameters
-	titleID := "12"                     // Example ID from previous logs
+	titleID := "14"                     // Example ID from previous logs
 	sortFilter := "absoluteOrderId:asc" // Example sort filter
 
 	// Get the patch software title definitions
