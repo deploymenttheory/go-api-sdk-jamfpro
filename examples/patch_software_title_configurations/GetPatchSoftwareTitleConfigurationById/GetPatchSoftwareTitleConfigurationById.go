@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example display name
-	patchSoftwareTitleConfigurationId := "4" // Replace with an actual device name
+	patchSoftwareTitleConfigurationId := "13" // Replace with an actual device name
 
 	// Get patch software title configuration by name
 	response, err := client.GetPatchSoftwareTitleConfigurationById(patchSoftwareTitleConfigurationId)
