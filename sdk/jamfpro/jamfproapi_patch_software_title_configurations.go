@@ -5,7 +5,11 @@
 
 package jamfpro
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/mitchellh/mapstructure"
+)
 
 const uriPatchSoftwareTitleConfigurations = "/api/v2/patch-software-title-configurations"
 
@@ -18,21 +22,46 @@ type ResponsePatchSoftwareTitleConfigurationList []ResourcePatchSoftwareTitleCon
 // Resource
 
 type ResourcePatchSoftwareTitleConfiguration struct {
-	ID                     string                                                    `json:"id"`
+	ID                     string                                                    `json:"id,omitempty"`
 	DisplayName            string                                                    `json:"displayName"`
-	CategoryID             string                                                    `json:"categoryId"`
-	SiteID                 string                                                    `json:"siteId"`
-	UiNotifications        bool                                                      `json:"uiNotifications"`
-	EmailNotifications     bool                                                      `json:"emailNotifications"`
 	SoftwareTitleID        string                                                    `json:"softwareTitleId"`
-	ExtensionAttributes    []PatchSoftwareTitleConfigurationSubsetExtensionAttribute `json:"extensionAttributes"`
-	SoftwareTitleName      string                                                    `json:"softwareTitleName"`
-	SoftwareTitleNameId    string                                                    `json:"softwareTitleNameId"`
-	SoftwareTitlePublisher string                                                    `json:"softwareTitlePublisher"`
-	JamfOfficial           bool                                                      `json:"jamfOfficial"`
-	PatchSourceName        string                                                    `json:"patchSourceName"`
-	PatchSourceEnabled     bool                                                      `json:"patchSourceEnabled"`
-	Packages               []PatchSoftwareTitleConfigurationSubsetPackage            `json:"packages"`
+	CategoryID             string                                                    `json:"categoryId,omitempty"`
+	SiteID                 string                                                    `json:"siteId,omitempty"`
+	UiNotifications        bool                                                      `json:"uiNotifications,omitempty"`
+	EmailNotifications     bool                                                      `json:"emailNotifications,omitempty"`
+	ExtensionAttributes    []PatchSoftwareTitleConfigurationSubsetExtensionAttribute `json:"extensionAttributes,omitempty"`
+	SoftwareTitleName      string                                                    `json:"softwareTitleName,omitempty"`
+	SoftwareTitleNameId    string                                                    `json:"softwareTitleNameId,omitempty"`
+	SoftwareTitlePublisher string                                                    `json:"softwareTitlePublisher,omitempty"`
+	JamfOfficial           bool                                                      `json:"jamfOfficial,omitempty"`
+	PatchSourceName        string                                                    `json:"patchSourceName,omitempty"`
+	PatchSourceEnabled     bool                                                      `json:"patchSourceEnabled,omitempty"`
+	Packages               []PatchSoftwareTitleConfigurationSubsetPackage            `json:"packages,omitempty"`
+}
+
+// Resource struct for a patch software title definition
+type ResourcePatchSoftwareTitleDefinition struct {
+	Version                string                                      `json:"version"`
+	MinimumOperatingSystem string                                      `json:"minimumOperatingSystem"`
+	ReleaseDate            string                                      `json:"releaseDate"`
+	RebootRequired         bool                                        `json:"rebootRequired"`
+	KillApps               []PatchSoftwareTitleDefinitionSubsetKillApp `json:"killApps"`
+	Standalone             bool                                        `json:"standalone"`
+	AbsoluteOrderID        string                                      `json:"absoluteOrderId"`
+}
+
+// Resource struct for patch software title dependency
+type ResourcePatchSoftwareTitleDependency struct {
+	SmartGroupID   string `json:"smartGroupId"`
+	SmartGroupName string `json:"smartGroupName"`
+}
+
+// Resource struct for patch software title extension attribute
+type ResourcePatchSoftwareTitleExtensionAttribute struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Enabled     bool   `json:"enabled"`
 }
 
 // Subsets
@@ -48,12 +77,31 @@ type PatchSoftwareTitleConfigurationSubsetPackage struct {
 	DisplayName string `json:"displayName"`
 }
 
+type PatchSoftwareTitleDefinitionSubsetKillApp struct {
+	AppName string `json:"appName"`
+}
+
 // Response
 
 type ResponsePatchSoftwareTitleConfigurationCreate struct {
 	ID   string `json:"id"`
 	Href string `json:"href"`
 }
+
+// Response struct for patch software title definitions list
+type ResponsePatchSoftwareTitleDefinitionsList struct {
+	TotalCount int                                    `json:"totalCount"`
+	Results    []ResourcePatchSoftwareTitleDefinition `json:"results"`
+}
+
+// Response struct for patch software title configuration dependencies
+type ResponsePatchSoftwareTitleDependenciesList struct {
+	TotalCount int                                    `json:"totalCount"`
+	Results    []ResourcePatchSoftwareTitleDependency `json:"results"`
+}
+
+// ResponsePatchSoftwareTitleExtensionAttributesList represents a list of extension attributes
+type ResponsePatchSoftwareTitleExtensionAttributesList []ResourcePatchSoftwareTitleExtensionAttribute
 
 // CRUD
 
@@ -104,6 +152,81 @@ func (c *Client) GetPatchSoftwareTitleConfigurationByName(name string) (*Resourc
 	}
 
 	return nil, fmt.Errorf(errMsgFailedGetByName, "patch software title configuration", name, errMsgNoName)
+}
+
+// GetPatchSoftwareTitleDefinitions retrieves patch software title definitions with the supplied id
+func (c *Client) GetPatchSoftwareTitleDefinitions(id string, sortFilter string) (*ResponsePatchSoftwareTitleDefinitionsList, error) {
+	if id == "" {
+		return nil, fmt.Errorf("patch software title id cannot be empty")
+	}
+
+	endpoint := fmt.Sprintf("%s/%s/definitions", uriPatchSoftwareTitleConfigurations, id)
+
+	resp, err := c.DoPaginatedGet(
+		endpoint,
+		standardPageSize,
+		startingPageNumber,
+		sortFilter,
+	)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch software title definitions", err)
+	}
+
+	var out ResponsePatchSoftwareTitleDefinitionsList
+	out.TotalCount = resp.Size
+
+	for _, value := range resp.Results {
+		var newObj ResourcePatchSoftwareTitleDefinition
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "patch software title definition", err)
+		}
+		out.Results = append(out.Results, newObj)
+	}
+
+	return &out, nil
+}
+
+// GetPatchSoftwareTitleDependencies retrieves list of dependencies for a patch software title configuration
+func (c *Client) GetPatchSoftwareTitleDependencies(id string) (*ResponsePatchSoftwareTitleDependenciesList, error) {
+	if id == "" {
+		return nil, fmt.Errorf("patch software title configuration id cannot be empty")
+	}
+
+	endpoint := fmt.Sprintf("%s/%s/dependencies", uriPatchSoftwareTitleConfigurations, id)
+
+	var out ResponsePatchSoftwareTitleDependenciesList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "patch software title dependencies", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// GetPatchSoftwareTitleExtensionAttributes retrieves extension attributes for a patch software title configuration
+func (c *Client) GetPatchSoftwareTitleExtensionAttributes(id string) (*ResponsePatchSoftwareTitleExtensionAttributesList, error) {
+	if id == "" {
+		return nil, fmt.Errorf("patch software title id cannot be empty")
+	}
+
+	endpoint := fmt.Sprintf("%s/%s/extension-attributes", uriPatchSoftwareTitleConfigurations, id)
+
+	var out ResponsePatchSoftwareTitleExtensionAttributesList
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "patch software title extension attributes", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
 }
 
 // CreatePatchSoftwareTitleConfiguration Creates a new PatchSoftwareTitleConfiguration

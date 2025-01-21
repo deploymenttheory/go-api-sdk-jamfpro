@@ -19,29 +19,19 @@ func main() {
 
 	// Create a new PatchSoftwareTitleConfiguration
 	newConfig := &jamfpro.ResourcePatchSoftwareTitleConfiguration{
-		JamfOfficial:           true,
-		DisplayName:            "Adobe AIR",
-		CategoryID:             "-1",
-		SiteID:                 "-1",
-		UiNotifications:        true,
-		EmailNotifications:     true,
-		SoftwareTitleID:        "11",
-		SoftwareTitleName:      "Adobe AIR",
-		SoftwareTitleNameId:    "0AE",
-		SoftwareTitlePublisher: "HARMAN",
-		PatchSourceName:        "Jamf",
-		PatchSourceEnabled:     true,
-		Packages: []jamfpro.PatchSoftwareTitleConfigurationSubsetPackage{
-			{
-				PackageId:   "38",
-				DisplayName: "Firefox 133.0.3.pkg",
-				Version:     "51.1.2.2",
-			},
-		},
+		// Required fields
+		DisplayName:     "Adobe After Effects CC", // %patch_software_title_name%
+		SoftwareTitleID: "2B8",                    // %patch_softwaretitle_id%
+
+		// Optional fields with defaults
+		CategoryID:         "-1", // Optional, defaults to "-1"
+		SiteID:             "-1", // Optional, defaults to "-1"
+		UiNotifications:    true, // Optional, defaults to false
+		EmailNotifications: true, // Optional, defaults to false
 		ExtensionAttributes: []jamfpro.PatchSoftwareTitleConfigurationSubsetExtensionAttribute{
 			{
-				Accepted: false,
-				EaID:     "jamf-patch-adobe-air",
+				EaID:     "jamf-patch-adobe-after-effects-cc", // Required if extension attributes are included
+				Accepted: false,                               // Optional, defaults to false
 			},
 		},
 	}
@@ -49,8 +39,7 @@ func main() {
 	// Call the CreatePatchSoftwareTitleConfiguration method
 	response, err := client.CreatePatchSoftwareTitleConfiguration(*newConfig)
 	if err != nil {
-		fmt.Println("Error creating Patch Software Title Configuration:", err)
-		return
+		log.Fatalf("Error creating Patch Software Title Configuration: %v", err)
 	}
 
 	// Print the response

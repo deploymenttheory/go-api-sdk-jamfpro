@@ -17,21 +17,21 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create the patch policy request
-	policyRequest := &jamfpro.ResourcePatchPolicyClassicAPI{
+	// Create the patch policy update request
+	policyUpdate := &jamfpro.ResourcePatchPolicyClassicAPI{
 		General: jamfpro.ResourcePatchPolicyCreateRequestGeneral{
 			Name:               "Google Chrome - 66.0.3359.117",
 			Enabled:            true,
-			TargetVersion:      "12.2.1",
-			ReleaseDate:        "2014-02-13T00:31:29Z",
+			TargetVersion:      "66.0.3359.117",
+			ReleaseDate:        "1509048027663",
 			IncrementalUpdates: false,
 			Reboot:             true,
 			MinimumOS:          "10.9",
 			KillApps: jamfpro.ResourcePatchPolicyCreateRequestKillApps{
 				KillApp: []jamfpro.ResourcePatchPolicyCreateRequestKillApp{
 					{
-						KillAppName:     "Adobe After Effects CC",
-						KillAppBundleID: "",
+						KillAppName:     "Google Chrome.app",
+						KillAppBundleID: "com.google.Chrome",
 					},
 				},
 			},
@@ -65,16 +65,15 @@ func main() {
 				Message:             "$APP_NAMES will quit in $DELAY_MINUTES minutes so that $SOFTWARE_TITLE can be updated. Save anything you are working on and quit the app(s)",
 			},
 		},
-		SoftwareTitleConfigurationID: "12",
+		SoftwareTitleConfigurationID: "1",
 	}
 
-	patchSoftwareTitleConfigurationID := "12"
+	policyID := "1"
 
-	// Create the patch policy
-	err = client.CreatePatchPolicy(patchSoftwareTitleConfigurationID, policyRequest)
+	err = client.UpdatePatchPolicyByID(policyID, policyUpdate)
 	if err != nil {
-		log.Fatalf("Error creating patch policy: %v", err)
+		log.Fatalf("Error updating patch policy: %v", err)
 	}
 
-	fmt.Println("Successfully created patch policy for Google Chrome")
+	fmt.Printf("Successfully updated patch policy with ID: %s\n", policyID)
 }

@@ -17,14 +17,14 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Example patch policy ID to delete
-	policyID := "1"
+	// Specify the patch policy ID to remove from the dashboard
+	policyID := "5"
 
-	// Delete the patch policy
-	err = client.DeletePatchPolicyByID(policyID)
+	// Remove the patch policy from the dashboard
+	err = client.DeletePatchPolicyFromDashboard(policyID)
 	if err != nil {
-		log.Fatalf("Error deleting patch policy: %v", err)
+		log.Fatalf("Error removing patch policy from dashboard: %v", err)
 	}
 
-	fmt.Printf("Successfully deleted patch policy with ID: %s\n", policyID)
+	fmt.Printf("Successfully removed patch policy ID %s from the dashboard\n", policyID)
 }

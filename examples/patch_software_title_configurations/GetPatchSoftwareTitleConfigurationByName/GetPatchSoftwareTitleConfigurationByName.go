@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example display name
-	patchSoftwareTitleConfigurationName := "1Password 7" // Replace with an actual device name
+	patchSoftwareTitleConfigurationName := "Microsoft Word 365" // Replace with an actual device name
 
 	// Get patch software title configuration by name
 	patchTitle, err := client.GetPatchSoftwareTitleConfigurationByName(patchSoftwareTitleConfigurationName)
