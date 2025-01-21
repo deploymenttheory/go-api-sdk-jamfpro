@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,18 +18,19 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	patchPolicyID := "1" // Example ID
-	subset := "general"  // Replace with the desired subset name
+	// Specify the patch policy ID to retrieve
+	policyID := "5"
 
-	patchPolicy, err := client.GetPatchPolicyByIDAndDataSubset(patchPolicyID, subset)
+	// Get the patch policy by ID
+	policy, err := client.GetPatchPolicyByID(policyID)
 	if err != nil {
-		log.Fatalf("Error fetching patch policy by ID and subset: %v", err)
+		log.Fatalf("Error getting patch policy: %v", err)
 	}
 
-	output, err := xml.MarshalIndent(patchPolicy, "", "  ")
+	// Pretty print the JSON response
+	response, err := json.MarshalIndent(policy, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling patch policy to XML: %v", err)
+		log.Fatalf("Error marshaling patch policy data: %v", err)
 	}
-
-	fmt.Printf("Patch Policy Subset (ID: %d, Subset: %s):\n%s\n", patchPolicyID, subset, string(output))
+	fmt.Printf("Found patch policy with ID %s:\n%s\n", policyID, string(response))
 }

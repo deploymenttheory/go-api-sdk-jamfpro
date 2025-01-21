@@ -88,6 +88,46 @@ func (c *Client) GetPatchPolicies(sortFilter string) (*ResponsePatchPoliciesList
 	return &out, nil
 }
 
+// GetPatchPolicyByID retrieves a specific patch policy by ID
+func (c *Client) GetPatchPolicyByID(id string) (*ResourcePatchPolicy, error) {
+	if id == "" {
+		return nil, fmt.Errorf("patch policy ID cannot be empty")
+	}
+
+	policies, err := c.GetPatchPolicies("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "patch policy", err)
+	}
+
+	for _, policy := range policies.Results {
+		if policy.ID == id {
+			return &policy, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no patch policy found with ID: %s", id)
+}
+
+// GetPatchPolicyByName retrieves a specific patch policy by name
+func (c *Client) GetPatchPolicyByName(name string) (*ResourcePatchPolicy, error) {
+	if name == "" {
+		return nil, fmt.Errorf("patch policy name cannot be empty")
+	}
+
+	policies, err := c.GetPatchPolicies("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "patch policy", err)
+	}
+
+	for _, policy := range policies.Results {
+		if policy.Name == name {
+			return &policy, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no patch policy found with name: %s", name)
+}
+
 // GetPatchPolicyDashboardStatus checks if a patch policy is on the dashboard
 func (c *Client) GetPatchPolicyDashboardStatus(id string) (*ResponsePatchPolicyDashboardStatus, error) {
 	endpoint := fmt.Sprintf("%s/%s/dashboard", uriPatchPoliciesJamfProAPI, id)
@@ -126,7 +166,7 @@ func (c *Client) AddPatchPolicyToDashboard(id string) error {
 	return nil
 }
 
-// RemovePatchPolicyFromDashboard removes a patch policy from the dashboard
+// DeletePatchPolicyFromDashboard removes a patch policy from the dashboard
 func (c *Client) DeletePatchPolicyFromDashboard(id string) error {
 	endpoint := fmt.Sprintf("%s/%s/dashboard", uriPatchPoliciesJamfProAPI, id)
 
