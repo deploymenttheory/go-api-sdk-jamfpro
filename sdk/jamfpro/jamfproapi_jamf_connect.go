@@ -91,6 +91,66 @@ func (c *Client) GetJamfConnectSettings() (*ResourceJamfConnect, error) {
 	return &jamfConnect, nil
 }
 
+// GetJamfConnectConfigProfileByConfigProfileUUID retrieves a specific Jamf Connect config profile by UUID
+func (c *Client) GetJamfConnectConfigProfileByConfigProfileUUID(uuid string) (*ResourceJamfConnectConfigProfile, error) {
+	if uuid == "" {
+		return nil, fmt.Errorf("uuid cannot be empty")
+	}
+
+	profiles, err := c.GetJamfConnectConfigProfiles("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
+	}
+
+	for _, profile := range profiles.Results {
+		if profile.UUID == uuid {
+			return &profile, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no jamf connect config profile found with UUID: %s", uuid)
+}
+
+// GetJamfConnectConfigProfileByID retrieves a specific Jamf Connect config profile by ID
+func (c *Client) GetJamfConnectConfigProfileByID(profileID int) (*ResourceJamfConnectConfigProfile, error) {
+	if profileID <= 0 {
+		return nil, fmt.Errorf("profile ID must be greater than 0")
+	}
+
+	profiles, err := c.GetJamfConnectConfigProfiles("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
+	}
+
+	for _, profile := range profiles.Results {
+		if profile.ProfileID == profileID {
+			return &profile, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no jamf connect config profile found with ID: %d", profileID)
+}
+
+// GetJamfConnectConfigProfileByName retrieves a specific Jamf Connect config profile by name
+func (c *Client) GetJamfConnectConfigProfileByName(name string) (*ResourceJamfConnectConfigProfile, error) {
+	if name == "" {
+		return nil, fmt.Errorf("name cannot be empty")
+	}
+
+	profiles, err := c.GetJamfConnectConfigProfiles("")
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
+	}
+
+	for _, profile := range profiles.Results {
+		if profile.ProfileName == name {
+			return &profile, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no jamf connect config profile found with name: %s", name)
+}
+
 // GetJamfConnectConfigProfiles gets full list of Jamf Connect config profiles & handles pagination
 func (c *Client) GetJamfConnectConfigProfiles(sort_filter string) (*ResponseJamfConnectConfigProfilesList, error) {
 	endpoint := fmt.Sprintf("%s/config-profiles", uriJamfConnect)
@@ -137,6 +197,25 @@ func (c *Client) UpdateJamfConnectConfigProfileByConfigProfileUUID(configProfile
 	}
 
 	return &updatedProfile, nil
+}
+
+// UpdateJamfConnectConfigProfileByID updates the Jamf Connect app update settings for a profile specified by ID
+func (c *Client) UpdateJamfConnectConfigProfileByID(profileID int, profileUpdate *ResourceJamfConnectConfigProfileUpdate) (*ResourceJamfConnectConfigProfile, error) {
+	if profileID <= 0 {
+		return nil, fmt.Errorf("profile ID must be greater than 0")
+	}
+
+	profile, err := c.GetJamfConnectConfigProfileByID(profileID)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
+	}
+
+	updatedProfile, err := c.UpdateJamfConnectConfigProfileByConfigProfileUUID(profile.UUID, profileUpdate)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "jamf connect config profile", profileID, err)
+	}
+
+	return updatedProfile, nil
 }
 
 // RetryJamfConnectDeploymentTasksByConfigProfileUUID requests a retry of Connect install tasks for a specified computers
