@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.20.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.19.0...v1.20.0) (2025-01-21)
+
+
+### Features
+
+* add examples for managing patch policies in Jamf Pro SDK using jamf pro api. deprecated old endpoint ([4b01255](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4b012551662223fe9d0245b4b602533a67ad0251))
+* add functions to retrieve and update Jamf Connect config profiles by UUID, ID, and name ([7663601](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/76636011676093ef0a3c62e8a90699147701d686))
+* refactored patch policies, patch_software_title_configurations and updated examples ([947a087](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/947a08718055bfb51584e5b2d64dfb66b9aa4600))
+
 ## [1.19.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.18.1...v1.19.0) (2025-01-20)
 
 
