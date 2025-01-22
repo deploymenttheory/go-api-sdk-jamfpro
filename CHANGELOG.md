@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.21.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.20.0...v1.21.0) (2025-01-22)
+
+
+### Features
+
+* add examples for device enrollment management in Jamf Pro SDK ([b32d204](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b32d2046c4f2f56714c3bdb6bf3d62e02da7e292))
+
+
+### Bug Fixes
+
+* for DoPackageUpload utility + recipe for patch policies ([4dc6336](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4dc6336036ecdad7b5d14809781735c1e4fa44e2))
+
 ## [1.20.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.19.0...v1.20.0) (2025-01-21)
 
 
