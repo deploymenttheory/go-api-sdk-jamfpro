@@ -20,16 +20,14 @@ func main() {
 
 	integrationName := "API Integration Name" // Replace with the actual API Integration name
 
-	// Call GetApiIntegrationNameByID function
-	integration, err := client.GetApiIntegrationByName(integrationName)
+	response, err := client.GetApiIntegrationByName(integrationName)
 	if err != nil {
 		log.Fatalf("Error fetching Jamf API Integration by name: %v", err)
 	}
 
-	// Pretty print the integration in JSON
-	integrationJSON, err := json.MarshalIndent(integration, "", "    ") // Indent with 4 spaces
+	responseJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling Jamf API Integration data: %v", err)
+		log.Fatalf("Error marshaling API role privileges data: %v", err)
 	}
-	fmt.Println("Fetched Jamf API Integration:\n", string(integrationJSON))
+	fmt.Println("Fetched API Role Privileges:", string(responseJSON))
 }

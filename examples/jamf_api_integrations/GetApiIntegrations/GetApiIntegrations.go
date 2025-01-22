@@ -19,15 +19,14 @@ func main() {
 	}
 
 	// Call GetApiIntegrations function
-	integrations, err := client.GetApiIntegrations("")
+	response, err := client.GetApiIntegrations("")
 	if err != nil {
 		log.Fatalf("Error fetching API Integrations: %v", err)
 	}
 
-	// Pretty print the integrations in JSON
-	integrationsJSON, err := json.MarshalIndent(integrations, "", "    ") // Indent with 4 spaces
+	responseJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling API Integrations data: %v", err)
+		log.Fatalf("Error marshaling API role privileges data: %v", err)
 	}
-	fmt.Println("Fetched API Integrations:\n", string(integrationsJSON))
+	fmt.Println("Fetched API Role Privileges:", string(responseJSON))
 }

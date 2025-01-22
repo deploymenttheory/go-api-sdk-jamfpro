@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -32,8 +33,9 @@ func main() {
 		return
 	}
 
-	fmt.Println(response)
-
-	// Print the response
-	fmt.Printf("Created API Integration with ID: %d and Display Name: %s\n", response.ID, response.DisplayName)
+	privilegesJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling API role privileges data: %v", err)
+	}
+	fmt.Println("Fetched API Role Privileges:", string(privilegesJSON))
 }

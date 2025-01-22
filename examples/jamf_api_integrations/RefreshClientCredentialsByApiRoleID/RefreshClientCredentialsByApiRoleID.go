@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -17,7 +18,7 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	integrationID := "1" // Replace with the actual API Integration ID
+	integrationID := "5" // Replace with the actual API Integration ID
 
 	// Reset client credentials for the given API Integration ID
 	response, err := client.RefreshClientCredentialsByApiRoleID(integrationID)
@@ -26,6 +27,9 @@ func main() {
 		return
 	}
 
-	// Print the updated credentials
-	fmt.Printf("Refreshed client credentials - Client ID: %s, Client Secret: %s\n", response.ClientID, response.ClientSecret)
+	privilegesJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling API role privileges data: %v", err)
+	}
+	fmt.Println("Fetched API Role Privileges:", string(privilegesJSON))
 }

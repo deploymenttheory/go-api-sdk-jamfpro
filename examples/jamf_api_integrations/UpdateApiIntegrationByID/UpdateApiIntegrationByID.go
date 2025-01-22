@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -28,12 +29,15 @@ func main() {
 	}
 
 	// Update the API Integration using its ID
-	updatedIntegration, err := client.UpdateApiIntegrationByID(apiIntegrationID, integrationUpdate)
+	response, err := client.UpdateApiIntegrationByID(apiIntegrationID, integrationUpdate)
 	if err != nil {
 		fmt.Println("Error updating API Integration:", err)
 		return
 	}
 
-	// Print the response
-	fmt.Printf("Updated API Integration with ID: %d and Display Name: %s\n", apiIntegrationID, updatedIntegration.DisplayName)
+	responseJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	if err != nil {
+		log.Fatalf("Error marshaling API role privileges data: %v", err)
+	}
+	fmt.Println("Fetched API Role Privileges:", string(responseJSON))
 }
