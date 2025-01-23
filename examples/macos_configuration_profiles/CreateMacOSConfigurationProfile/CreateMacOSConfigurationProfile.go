@@ -25,7 +25,7 @@ func main() {
 	// Define the macOS Configuration Profile as per the given XML structure
 	profile := jamfpro.ResourceMacOSConfigurationProfile{
 		General: jamfpro.MacOSConfigurationProfileSubsetGeneral{
-			Name:               "WiFi Test",
+			Name:               "WiFi Test SDK",
 			Description:        "",
 			Site:               &jamfpro.SharedResourceSite{ID: -1, Name: "None"},                     // Optional, the Create fuction will set default values if no site is set
 			Category:           &jamfpro.SharedResourceCategory{ID: -1, Name: "No category assigned"}, // Optional, the Create fuction will set default values if no category is set
@@ -41,9 +41,11 @@ func main() {
 		},
 		SelfService: jamfpro.MacOSConfigurationProfileSubsetSelfService{
 			InstallButtonText:           "Install",
-			SelfServiceDescription:      "null",
+			SelfServiceDescription:      "WiFi Configuration Profile",
 			ForceUsersToViewDescription: false,
-			// Add other fields as per the XML example
+			Notification:                "Self Service", // Options: "Self Service" or "Self Service and Email"
+			NotificationSubject:         "New WiFi Profile Available",
+			NotificationMessage:         "A new WiFi configuration profile is available for installation. Please install it through Self Service.",
 		},
 	}
 
