@@ -26,7 +26,7 @@ func main() {
 		LoginSettings: jamfpro.LoginSettings{
 			UserLoginLevel:  "Anonymous",
 			AllowRememberMe: false,
-			AuthType:        "Saml",
+			AuthType:        "Saml", // Basic / Saml
 		},
 		ConfigurationSettings: jamfpro.ConfigurationSettings{
 			NotificationsEnabled:  true,

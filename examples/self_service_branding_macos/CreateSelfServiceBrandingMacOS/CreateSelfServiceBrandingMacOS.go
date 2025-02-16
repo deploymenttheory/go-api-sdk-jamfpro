@@ -19,11 +19,13 @@ func main() {
 	}
 
 	newBranding := jamfpro.ResourceSelfServiceBrandingDetail{
-		ApplicationName:       "Self Service",
-		BrandingName:          "Self Service",
+		ApplicationName:       "Self Service", // Name to display for the application in Finder, Dock, and the menu bar (e.g., "My Company's Self Service")
+		BrandingName:          "test",
 		BrandingNameSecondary: "Self Service",
-		//IconId:                1, // IconId should match the icon image ID uploaded seperately
-		//BrandingHeaderImageId: 1, // BrandingHeaderImageId should match the icon image ID uploaded seperately
+		HomeHeading:           "Self Service",
+		HomeSubheading:        "Self Service",
+		IconId:                5, // IconId should match the icon image ID uploaded seperately
+		BrandingHeaderImageId: 6, // BrandingHeaderImageId should match the icon image ID uploaded seperately
 	}
 
 	createdBranding, err := client.CreateSelfServiceBrandingMacOS(&newBranding)

@@ -21,21 +21,22 @@ type ResourceSelfServiceSettings struct {
 
 type InstallSettings struct {
 	InstallAutomatically bool   `json:"installAutomatically"`
-	InstallLocation      string `json:"installLocation,omitempty"`
+	InstallLocation      string `json:"installLocation"`
 }
 
 type LoginSettings struct {
-	UserLoginLevel  string `json:"userLoginLevel,omitempty"`
+	UserLoginLevel  string `json:"userLoginLevel"`
 	AllowRememberMe bool   `json:"allowRememberMe"`
-	AuthType        string `json:"authType,omitempty"`
+	UseFido2        bool   `json:"useFido2"`
+	AuthType        string `json:"authType"`
 }
 
 type ConfigurationSettings struct {
 	NotificationsEnabled  bool   `json:"notificationsEnabled"`
 	AlertUserApprovedMdm  bool   `json:"alertUserApprovedMdm"`
-	DefaultLandingPage    string `json:"defaultLandingPage,omitempty"`
-	DefaultHomeCategoryId int    `json:"defaultHomeCategoryId,omitempty"`
-	BookmarksName         string `json:"bookmarksName,omitempty"`
+	DefaultLandingPage    string `json:"defaultLandingPage"`
+	DefaultHomeCategoryId int    `json:"defaultHomeCategoryId"`
+	BookmarksName         string `json:"bookmarksName"`
 }
 
 // CRUD

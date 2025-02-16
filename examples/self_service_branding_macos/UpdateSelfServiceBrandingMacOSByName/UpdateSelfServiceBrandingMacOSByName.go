@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -37,7 +38,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	// If there are no errors, print the updated branding information
-	fmt.Printf("Updated Branding ID: %s, Application Name: %s, Branding Name: %s\n",
-		updatedBranding.ID, updatedBranding.ApplicationName, updatedBranding.BrandingName)
+	createdScriptJSON, err := json.MarshalIndent(updatedBranding, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling created script data: %v", err)
+	}
+	fmt.Println("Created Script Details:\n", string(createdScriptJSON))
 }
