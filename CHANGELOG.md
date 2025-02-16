@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.21.0...v1.21.1) (2025-02-16)
+
+
+### Bug Fixes
+
+* added UseFido2 field to self service settings ([981b31c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/981b31ceffcc2c1150701c787fa5e12806ba2f4f))
+
 ## [1.21.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.20.0...v1.21.0) (2025-01-22)
 
 
