@@ -27,7 +27,7 @@ func main() {
 		StartupLog:                       true,
 		StartupPolicies:                  true,
 		StartupSsh:                       true,
-		EnableLocalConfigurationProfiles: false,
+		EnableLocalConfigurationProfiles: true,
 	}
 
 	clientChecinInfo, err := client.UpdateClientCheckinSettings(settingsUpdate)
