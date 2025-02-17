@@ -20,27 +20,68 @@ func main() {
 
 	// Define new SMTP server settings
 	newSMTPSettings := &jamfpro.ResourceSMTPServer{
-		Enabled:                true,
-		Server:                 "smtp.sendgrid.net",
-		Port:                   587,
-		EncryptionType:         "", // Specify the encryption type if applicable, for example "SSL" or "TLS"
-		ConnectionTimeout:      5,
-		SenderDisplayName:      "Jamf Pro Server",
-		SenderEmailAddress:     "user@company.com",
-		RequiresAuthentication: true,
-		Username:               "sample-username",
+		Enabled:            true,
+		AuthenticationType: "BASIC", // Can be NONE, BASIC, GRAPH_API, or GOOGLE_MAIL
+
+		ConnectionSettings: jamfpro.ResourceSMTPServerConnectionSettings{
+			Host:              "smtp.sendgrid.net",
+			Port:              587,
+			EncryptionType:    "TLS_1_2",
+			ConnectionTimeout: 5,
+		},
+
+		SenderSettings: jamfpro.ResourceSMTPServerSenderSettings{
+			DisplayName:  "Jamf Pro Server",
+			EmailAddress: "user@company.com",
+		},
+
+		// Include the appropriate credentials based on AuthenticationType
+		BasicAuthCredentials: &jamfpro.ResourceSMTPServerBasicAuthCredentials{
+			Username: "sample-username",
+		},
+
+		// Example of including other credential types
+		/*
+		   GraphApiCredentials: &jamfpro.ResourceSMTPServerGraphApiCredentials{
+		       TenantId: "tenant-id",
+		       ClientId: "client-id",
+		   },
+
+		   GoogleMailCredentials: &jamfpro.ResourceSMTPServerGoogleMailCredentials{
+		       ClientId: "client-id",
+		       Authentications: []jamfpro.ResourceSMTPServerAuthentication{
+		           {
+		               EmailAddress: "user@company.com",
+		               Status:      "AUTHENTICATED",
+		           },
+		       },
+		   },
+		*/
 	}
 
 	// Call the UpdateSMTPServerInformation function
-	err = client.UpdateSMTPServerInformation(newSMTPSettings)
+	updatedSettings, err := client.UpdateSMTPServerInformation(newSMTPSettings)
 	if err != nil {
 		log.Fatalf("Error updating SMTP server information: %v", err)
 	}
 
-	// Pretty print the details in XML
-	smtpInfoJSON, err := json.MarshalIndent(newSMTPSettings, "", "    ") // Indent with 4 spaces
+	// Pretty print the updated settings in JSON
+	smtpInfoJSON, err := json.MarshalIndent(updatedSettings, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling server data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(smtpInfoJSON))
+	fmt.Println("Updated SMTP Server Settings:\n", string(smtpInfoJSON))
+
+	// Get and display current SMTP settings
+	currentSettings, err := client.GetSMTPServerInformation()
+	if err != nil {
+		log.Fatalf("Error getting SMTP server information: %v", err)
+	}
+
+	// Pretty print the current settings
+	currentSettingsJSON, err := json.MarshalIndent(currentSettings, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling current settings: %v", err)
+	}
+	fmt.Println("\nCurrent SMTP Server Settings:\n", string(currentSettingsJSON))
 }
