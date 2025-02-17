@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.23.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.22.1...v1.23.0) (2025-02-17)
+
+
+### Features
+
+* added examples for device communication settings ([2b09dcd](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/2b09dcddd439d1138b7a460bf3dd8af05df2024e))
+* updated smtp server to use v2 endpoint ([735a7d4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/735a7d4b33d0504480dd863cc13fe0d0bb3d725d))
+
 ## [1.22.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.21.0...v1.22.0) (2025-02-17)
 
 
