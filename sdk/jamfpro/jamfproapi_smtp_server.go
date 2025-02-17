@@ -11,8 +11,8 @@ const uriSMTPServer = "/api/v2/smtp-server"
 type ResourceSMTPServer struct {
 	Enabled               bool                                     `json:"enabled"`
 	AuthenticationType    string                                   `json:"authenticationType"`
-	ConnectionSettings    ResourceSMTPServerConnectionSettings     `json:"connectionSettings"`
-	SenderSettings        ResourceSMTPServerSenderSettings         `json:"senderSettings"`
+	ConnectionSettings    *ResourceSMTPServerConnectionSettings    `json:"connectionSettings,omitempty"`
+	SenderSettings        *ResourceSMTPServerSenderSettings        `json:"senderSettings,omitempty"`
 	BasicAuthCredentials  *ResourceSMTPServerBasicAuthCredentials  `json:"basicAuthCredentials,omitempty"`
 	GraphApiCredentials   *ResourceSMTPServerGraphApiCredentials   `json:"graphApiCredentials,omitempty"`
 	GoogleMailCredentials *ResourceSMTPServerGoogleMailCredentials `json:"googleMailCredentials,omitempty"`
@@ -28,19 +28,21 @@ type ResourceSMTPServerConnectionSettings struct {
 
 // Sender Settings struct
 type ResourceSMTPServerSenderSettings struct {
-	DisplayName  string `json:"displayName"`
+	DisplayName  string `json:"displayName,omitempty"`
 	EmailAddress string `json:"emailAddress"`
 }
 
 // Basic Auth Credentials struct
 type ResourceSMTPServerBasicAuthCredentials struct {
 	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 // Graph API Credentials struct
 type ResourceSMTPServerGraphApiCredentials struct {
-	TenantId string `json:"tenantId"`
-	ClientId string `json:"clientId"`
+	TenantId     string `json:"tenantId"`
+	ClientId     string `json:"clientId"`
+	ClientSecret string `json:"clientSecret"`
 }
 
 // Authentication struct
@@ -52,6 +54,7 @@ type ResourceSMTPServerAuthentication struct {
 // Google Mail Credentials struct
 type ResourceSMTPServerGoogleMailCredentials struct {
 	ClientId        string                             `json:"clientId"`
+	ClientSecret    string                             `json:"clientSecret"`
 	Authentications []ResourceSMTPServerAuthentication `json:"authentications,omitempty"`
 }
 

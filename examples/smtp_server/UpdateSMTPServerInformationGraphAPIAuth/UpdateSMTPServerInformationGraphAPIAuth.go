@@ -18,46 +18,26 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define new SMTP server settings
+	// Define new SMTP server settings for Graph API
 	newSMTPSettings := &jamfpro.ResourceSMTPServer{
 		Enabled:            true,
-		AuthenticationType: "BASIC", // Can be NONE, BASIC, GRAPH_API, or GOOGLE_MAIL
-
-		ConnectionSettings: jamfpro.ResourceSMTPServerConnectionSettings{
-			Host:              "smtp.sendgrid.net",
-			Port:              587,
-			EncryptionType:    "TLS_1_2",
-			ConnectionTimeout: 5,
+		AuthenticationType: "GRAPH_API",
+		SenderSettings: &jamfpro.ResourceSMTPServerSenderSettings{
+			EmailAddress: "noreply@yourdomain.onmicrosoft.com",
 		},
-
-		SenderSettings: jamfpro.ResourceSMTPServerSenderSettings{
-			DisplayName:  "Jamf Pro Server",
-			EmailAddress: "user@company.com",
+		GraphApiCredentials: &jamfpro.ResourceSMTPServerGraphApiCredentials{
+			TenantId:     "c84b7b82-c277-411b-975d-7431b4ce40ac",
+			ClientId:     "5294f9d1-f723-419c-93db-ff040bf7c947",
+			ClientSecret: "password",
 		},
-
-		// Include the appropriate credentials based on AuthenticationType
-		BasicAuthCredentials: &jamfpro.ResourceSMTPServerBasicAuthCredentials{
-			Username: "sample-username",
-		},
-
-		// Example of including other credential types
-		/*
-		   GraphApiCredentials: &jamfpro.ResourceSMTPServerGraphApiCredentials{
-		       TenantId: "tenant-id",
-		       ClientId: "client-id",
-		   },
-
-		   GoogleMailCredentials: &jamfpro.ResourceSMTPServerGoogleMailCredentials{
-		       ClientId: "client-id",
-		       Authentications: []jamfpro.ResourceSMTPServerAuthentication{
-		           {
-		               EmailAddress: "user@company.com",
-		               Status:      "AUTHENTICATED",
-		           },
-		       },
-		   },
-		*/
 	}
+
+	// Print the request JSON before sending
+	requestJSON, err := json.MarshalIndent(newSMTPSettings, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling request data: %v", err)
+	}
+	fmt.Println("Request Payload:\n", string(requestJSON))
 
 	// Call the UpdateSMTPServerInformation function
 	updatedSettings, err := client.UpdateSMTPServerInformation(newSMTPSettings)
@@ -70,7 +50,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling server data: %v", err)
 	}
-	fmt.Println("Updated SMTP Server Settings:\n", string(smtpInfoJSON))
+	fmt.Println("\nUpdated SMTP Server Settings:\n", string(smtpInfoJSON))
 
 	// Get and display current SMTP settings
 	currentSettings, err := client.GetSMTPServerInformation()
