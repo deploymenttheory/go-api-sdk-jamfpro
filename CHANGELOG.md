@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.22.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.21.0...v1.22.0) (2025-02-17)
+
+
+### Features
+
+* added policy properties to the sdk with examples ([9e0fceb](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/9e0fceb8860a3bbc31b0d28906538221b110c17a))
+
+
+### Bug Fixes
+
+* added UseFido2 field to self service settings ([981b31c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/981b31ceffcc2c1150701c787fa5e12806ba2f4f))
+
 ## [1.21.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.20.0...v1.21.0) (2025-01-22)
 
 
