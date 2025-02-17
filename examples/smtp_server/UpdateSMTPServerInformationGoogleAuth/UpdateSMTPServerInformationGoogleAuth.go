@@ -33,13 +33,6 @@ func main() {
 		},
 	}
 
-	// Print the request JSON before sending
-	requestJSON, err := json.MarshalIndent(newSMTPSettings, "", "    ")
-	if err != nil {
-		log.Fatalf("Error marshaling request data: %v", err)
-	}
-	fmt.Println("Request Payload:\n", string(requestJSON))
-
 	// Call the UpdateSMTPServerInformation function
 	updatedSettings, err := client.UpdateSMTPServerInformation(newSMTPSettings)
 	if err != nil {
