@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.23.0...v1.23.1) (2025-02-17)
+
+
+### Bug Fixes
+
+* Updated SMTP server settings examples ([104fc6c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/104fc6c1064b8b2b37ad92c4386fac97e9a9cc59))
+
 ## [1.23.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.22.1...v1.23.0) (2025-02-17)
 
 
