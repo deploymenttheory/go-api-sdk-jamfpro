@@ -65,7 +65,7 @@ func (c *Client) GetAccountPreferences() (*ResourceAccountPreferences, error) {
 
 // UpdateAccountPreferences updates the jamf pro account settings.
 func (c *Client) UpdateAccountPreferences(updatedSettings ResourceAccountPreferences) (*ResourceAccountPreferences, error) {
-	endpoint := uriUserEnrollmentTokenSettings
+	endpoint := uriAccountPreferences
 	var out ResourceAccountPreferences
 
 	resp, err := c.HTTP.DoRequest("PATCH", endpoint, updatedSettings, &out)
