@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.24.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.23.2...v1.24.0) (2025-02-18)
+
+
+### Features
+
+* added locales to the SDK ([9b7d3b5](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/9b7d3b5937df48363a5816ddabc539bd2d402cf0))
+* added time zones to sdk ([986d85f](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/986d85f900ba751c22f352c86151f0c117468dbb))
+
 ## [1.23.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.23.1...v1.23.2) (2025-02-18)
 
 
