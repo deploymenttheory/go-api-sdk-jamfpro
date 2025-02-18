@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.23.1...v1.23.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* changed account-preferences to correct uri for PATCH method ([f64a2a2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/f64a2a2fc5962134985b9689dc5fcec5d09be801))
+
 ## [1.23.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.23.0...v1.23.1) (2025-02-17)
 
 
