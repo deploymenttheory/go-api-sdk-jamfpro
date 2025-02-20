@@ -18,13 +18,13 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the ID of the enrollment customization you want to retrieve
-	customizationID := "1" // Replace with your actual ID
+	// Define the name you want to search for
+	customizationName := "test" // Replace with your actual name
 
-	// Get the enrollment customization by ID
-	customization, err := client.GetEnrollmentCustomizationByID(customizationID)
+	// Get the enrollment customization by name
+	customization, err := client.GetEnrollmentCustomizationByName(customizationName)
 	if err != nil {
-		log.Fatalf("Failed to get enrollment customization: %v", err)
+		log.Fatalf("Failed to get enrollment customization by name: %v", err)
 	}
 
 	// Pretty print the enrollment customization details in JSON

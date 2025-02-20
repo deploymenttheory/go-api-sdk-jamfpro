@@ -6,10 +6,9 @@
 package jamfpro
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"github.com/mitchellh/mapstructure"
 )
 
 const uriEnrollmentCustomizationSettings = "/api/v2/enrollment-customizations"
@@ -19,8 +18,8 @@ const uriEnrollmentCustomizationSettings = "/api/v2/enrollment-customizations"
 // List
 
 type ResponseEnrollmentCustomizationList struct {
-	TotalCount int `json:"totalCount"`
-	Results    []ResourceEnrollmentCustomization
+	TotalCount int                               `json:"totalCount"`
+	Results    []ResourceEnrollmentCustomization `json:"results"`
 }
 
 // Responses
@@ -74,17 +73,19 @@ func (c *Client) GetEnrollmentCustomizations(sort_filter string) (*ResponseEnrol
 
 	var out ResponseEnrollmentCustomizationList
 	out.TotalCount = resp.Size
-	for _, value := range resp.Results {
-		var newObj ResourceEnrollmentCustomization
-		err := mapstructure.Decode(value, &newObj)
-		if err != nil {
-			return nil, fmt.Errorf(errMsgFailedMapstruct, "enrollment customization", err)
-		}
-		out.Results = append(out.Results, newObj)
+
+	// Convert the raw results to JSON and back to properly handle the nested structures
+	resultJSON, err := json.Marshal(resp.Results)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal results: %v", err)
+	}
+
+	err = json.Unmarshal(resultJSON, &out.Results)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal results: %v", err)
 	}
 
 	return &out, nil
-
 }
 
 // Returns single ResourceEnrollmentCustomization object matching given id
@@ -103,6 +104,28 @@ func (c *Client) GetEnrollmentCustomizationByID(id string) (*ResourceEnrollmentC
 	}
 
 	return &out, nil
+}
+
+// GetEnrollmentCustomizationByName retrieves an enrollment customization by its display name
+func (c *Client) GetEnrollmentCustomizationByName(name string) (*ResourceEnrollmentCustomization, error) {
+	customizations, err := c.GetEnrollmentCustomizations("")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get enrollment customizations list: %v", err)
+	}
+
+	var targetID string
+	for _, customization := range customizations.Results {
+		if customization.DisplayName == name {
+			targetID = customization.ID
+			break
+		}
+	}
+
+	if targetID == "" {
+		return nil, fmt.Errorf("no enrollment customization found with name: %s", name)
+	}
+
+	return c.GetEnrollmentCustomizationByID(targetID)
 }
 
 // Creates new resource enrollment customization
