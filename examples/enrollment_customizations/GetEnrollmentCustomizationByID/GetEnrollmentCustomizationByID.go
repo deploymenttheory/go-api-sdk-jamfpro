@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Define the ID of the enrollment customization you want to retrieve
-	customizationID := "1" // Replace with your actual ID
+	customizationID := "5" // Replace with your actual ID
 
 	// Get the enrollment customization by ID
 	customization, err := client.GetEnrollmentCustomizationByID(customizationID)
