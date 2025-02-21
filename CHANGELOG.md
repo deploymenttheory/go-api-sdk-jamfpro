@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.25.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.24.0...v1.25.0) (2025-02-21)
+
+
+### Features
+
+* added extra examples for updates ([1f10854](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1f10854e2f50f895d631eaefff8216ae867ccd20))
+* added undocumented api endpoints for enrollment customization prestage panes with examples ([3952b15](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3952b15d0b4b3bf5d65605e795b753e73f1cff71))
+* numerous fixes and new examples for Enrollment Customization ([8fc84b7](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/8fc84b72a382b0940ce7b03932e95c4b98777f4e))
+
+
+### Bug Fixes
+
+* removed redundant code ([fe8fc7e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/fe8fc7e417391e154f200717f8dce2120b0e4f9e))
+
 ## [1.24.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.23.2...v1.24.0) (2025-02-18)
 
 
