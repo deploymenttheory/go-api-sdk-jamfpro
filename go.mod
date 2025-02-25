@@ -1,6 +1,7 @@
 module github.com/deploymenttheory/go-api-sdk-jamfpro
 
 go 1.22.4
+toolchain go1.23.6
 
 // Deploymenttheory
 require (
@@ -15,7 +16,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.63
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.77.1
 	github.com/mitchellh/mapstructure v1.5.0
-	golang.org/x/crypto v0.33.0
+	golang.org/x/crypto v0.35.0
 	howett.net/plist v1.0.1
 )
 
