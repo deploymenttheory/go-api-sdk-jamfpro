@@ -14,7 +14,9 @@
 ### 1. Open Developer Tools
 
 - Log into Jamf Pro
+
 ![001](/docs/screen_shots/debug_api_calls/001.png)
+
 - Right-click on the webpage and select "Inspect"
 - Or press F12 (or Ctrl+Shift+J on Windows/Linux, Command+Option+J on macOS)
 
@@ -24,9 +26,11 @@
 
 - Click on the "Network" tab in DevTools
 ![003](/docs/screen_shots/debug_api_calls/003.png)
+
 - Make sure recording is enabled (it should be by default)
 - Filter the logs with XHR and Fetch
 ![004](/docs/screen_shots/debug_api_calls/004.png)
+
 - You may want to clear the current log by clicking the 🗑️ icon
 
 ### 3. Trigger the API Call
@@ -40,6 +44,7 @@
 - Look for requests in the Network Log that appear to be API calls
 - These often have jamf pro resource name in log
 ![006](/docs/screen_shots/debug_api_calls/006.png)
+
 - XHR and Fetch request types usually indicate API calls
 
 ### 5. Extract API Information
@@ -49,21 +54,25 @@
   - Request URL (the endpoint)
   - Request Method (GET, POST, PUT, DELETE, etc.)
   - Request headers (including authorization)
+
 ![007](/docs/screen_shots/debug_api_calls/007.png)
 
 - Go to the **Payload** tab to see:
   - For POST/PUT requests: The formatted request data
   - For all requests: The formatted response data
+
 ![008](/docs/screen_shots/debug_api_calls/008.png)
 
 - Go to the **Preview** tab to see:
   - For POST/PUT requests: The formatted request data
   - For all requests: The formatted response data
+
 ![009](/docs/screen_shots/debug_api_calls/009.png)
 
 - Go to the **Response** tab to see:
   - For POST/PUT requests: The formatted response data for create and update
   - For all other requests: The formatted response data e.g for GET
+
 ![010](/docs/screen_shots/debug_api_calls/010.png)
   
 ### 6. Additional Tips
