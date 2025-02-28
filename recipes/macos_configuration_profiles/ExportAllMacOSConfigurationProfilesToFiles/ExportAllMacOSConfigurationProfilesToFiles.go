@@ -18,7 +18,7 @@ import (
 // Global configuration variables
 var (
 	configFilePath = "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-	exportDir      = "/Users/dafyddwatkins/localtesting/jamfpro/joe-test"
+	exportDir      = "/Users/dafyddwatkins/localtesting/jamfpro/profile_export"
 )
 
 func main() {
