@@ -1,7 +1,5 @@
-# API Documentation Index
+# SDK Documentation Index
 
-## Endpoints
+## Misc
 
-- [advancedcomputersearches](markdown/advancedcomputersearches.md)
-- [advancedmobiledevicesearches](markdown/advancedmobiledevicesearches.md)
-- [advancedusersearches](markdown/advancedusersearches.md)
+- [debug api calls](markdown/debug_api_calls.md)
