@@ -6,8 +6,8 @@ toolchain go1.23.6
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.2.18
-	github.com/deploymenttheory/go-api-http-client-integrations v0.0.12
+	github.com/deploymenttheory/go-api-http-client v0.3.0
+	github.com/deploymenttheory/go-api-http-client-integrations v0.0.13
 )
 
 require (
@@ -41,12 +41,12 @@ require (
 )
 
 require (
-	github.com/antchfx/xmlquery v1.4.2 // indirect
-	github.com/antchfx/xpath v1.3.2 // indirect
+	github.com/antchfx/xmlquery v1.4.4 // indirect
+	github.com/antchfx/xpath v1.3.3 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0
-	golang.org/x/net v0.31.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
 
 )
