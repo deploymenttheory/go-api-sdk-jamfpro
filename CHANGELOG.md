@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.26.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.25.0...v1.26.0) (2025-03-04)
+
+
+### Features
+
+* added recipe for delete all config profiles ([a6a5fcb](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/a6a5fcb3c789a4ff5aa82e7926061e4f359b3671))
+* added undocumented endpoints forconfiguration_profile_custom_settings ([764e1c8](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/764e1c8eaca7435ba8b4476e21eeb0e4b3ce0c19))
+
+
+### Bug Fixes
+
+* typo ([63981b1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/63981b140eda99a9fb3de281222ef3f4ab5c1482))
+
 ## [1.25.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.24.0...v1.25.0) (2025-02-21)
 
 
