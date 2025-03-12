@@ -10,10 +10,12 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 // URI for Packages in the Jamf Pro Classic API
 const uriPackages = "/api/v1/packages"
+const packagesHttpTimeout = 10 * time.Minute
 
 // ResponsePackagesList struct to capture the JSON response for packages list
 type ResponsePackagesList struct {
@@ -273,6 +275,9 @@ func (c *Client) CreatePackage(packageMetadata ResourcePackage) (*ResponsePackag
 // manifest within JamfPro and the file paths.
 func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/%s/upload", uriPackages, id)
+
+	c.HTTP.ModifyHttpTimeout(packagesHttpTimeout)
+	defer c.HTTP.ResetTimeout()
 
 	// Create a map for the files to be uploaded
 	files := map[string][]string{
