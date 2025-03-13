@@ -90,7 +90,7 @@ func BuildClient(config *ConfigContainer) (*Client, error) {
 		MaxRetryAttempts:            config.MaxRetryAttempts,
 		MaxConcurrentRequests:       config.MaxConcurrentRequests,
 		EnableDynamicRateLimiting:   config.EnableDynamicRateLimiting,
-		CustomTimeout:               time.Duration(config.CustomTimeout) * time.Second,
+		Timeout:                     time.Duration(config.CustomTimeout) * time.Second,
 		TokenRefreshBufferPeriod:    time.Duration(config.TokenRefreshBufferPeriod) * time.Second,
 		TotalRetryDuration:          time.Duration(config.TotalRetryDuration) * time.Second,
 		MaxRedirects:                config.MaxRedirects,
