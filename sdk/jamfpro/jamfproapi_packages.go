@@ -276,9 +276,6 @@ func (c *Client) CreatePackage(packageMetadata ResourcePackage) (*ResponsePackag
 func (c *Client) UploadPackage(id string, filePaths []string) (*ResponsePackageCreatedAndUpdated, error) {
 	endpoint := fmt.Sprintf("%s/%s/upload", uriPackages, id)
 
-	c.HTTP.ModifyHttpTimeout(packagesHttpTimeout)
-	defer c.HTTP.ResetTimeout()
-
 	// Create a map for the files to be uploaded
 	files := map[string][]string{
 		"file": filePaths,
