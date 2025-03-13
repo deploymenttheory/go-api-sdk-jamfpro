@@ -6,7 +6,7 @@ toolchain go1.23.6
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.4.1-0.20250313160429-7f2d380798dc
+	github.com/deploymenttheory/go-api-http-client v0.4.1-0.20250313162137-7021984674b1
 	github.com/deploymenttheory/go-api-http-client-integrations v0.0.13
 )
 
