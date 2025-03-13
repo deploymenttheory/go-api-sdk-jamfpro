@@ -10,12 +10,10 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"time"
 )
 
 // URI for Packages in the Jamf Pro Classic API
 const uriPackages = "/api/v1/packages"
-const packagesHttpTimeout = 10 * time.Minute
 
 // ResponsePackagesList struct to capture the JSON response for packages list
 type ResponsePackagesList struct {
