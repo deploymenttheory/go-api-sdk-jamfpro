@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.25.2...v1.26.0) (2025-03-14)
+
+
+### Features
+
+* removed mandatory package timeout, made it adjustable via funcs ([5cb0eb3](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/5cb0eb38080672ff912a93c2467196a0a22ea676))
+
 ## [1.25.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.24.0...v1.25.0) (2025-02-21)
 
 
