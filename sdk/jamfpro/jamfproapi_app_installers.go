@@ -35,6 +35,10 @@ type ResponseJamfAppCatalogDeploymentTermsAndConditionsStatus struct {
 
 // Resource
 
+type ResponseJamfAppCatalogGlobalSettings struct {
+	EndUserExperienceSettings JamfAppCatalogDeploymentSubsetNotificationSettings `json:"endUserExperienceSettings"`
+}
+
 type ResourceJamfAppCatalogAppInstaller struct {
 	ID                       string                                        `json:"id"`
 	BundleId                 string                                        `json:"bundleId,omitempty"`
@@ -264,21 +268,37 @@ func (c *Client) GetJamfAppCatalogAppInstallerByTitleName(name string) (*Resourc
 	return fullResource, nil
 }
 
-// GetJamfAppCatalogAppInstallerGlobalSettings retrieves the global settings for the app catalog & returns ResourceJamfAppCatalogAppInstaller
-func (c *Client) GetJamfAppCatalogAppInstallerGlobalSettings(id string) (*JamfAppCatalogDeploymentSubsetNotificationSettings, error) {
+// GetJamfAppCatalogAppInstallerGlobalSettings retrieves the global end-user experience settings for the App Catalog
+func (c *Client) GetJamfAppCatalogAppInstallerGlobalSettings() (*JamfAppCatalogDeploymentSubsetNotificationSettings, error) {
 	endpoint := fmt.Sprintf("%s/global-settings", uriJamfAppCatalogAppInstaller)
-	var globalSettings JamfAppCatalogDeploymentSubsetNotificationSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &globalSettings)
 
+	var response ResponseJamfAppCatalogGlobalSettings
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "Jamf App Catalog Title", id, err)
+		return nil, fmt.Errorf(errMsgFailedGet, "Jamf App Catalog Global Settings", err)
 	}
-
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &globalSettings, nil
+	return &response.EndUserExperienceSettings, nil
+}
+
+// UpdateJamfAppCatalogAppInstallerGlobalSettings updates the global end-user experience settings for the Jamf App Catalog
+func (c *Client) UpdateJamfAppCatalogAppInstallerGlobalSettings(payload *ResponseJamfAppCatalogGlobalSettings) (*ResponseJamfAppCatalogGlobalSettings, error) {
+	endpoint := fmt.Sprintf("%s/global-settings", uriJamfAppCatalogAppInstaller)
+	var response ResponseJamfAppCatalogGlobalSettings
+
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, payload, &response)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "Jamf App Catalog Global Settings", "global-settings", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }
 
 // Creates Jamf App Catalog Deployment from ResponseJamfAppCatalogDeploymentCreateAndUpdate struct

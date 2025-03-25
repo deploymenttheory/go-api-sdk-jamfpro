@@ -19,15 +19,15 @@ func main() {
 	}
 
 	// Call GetJamfAppCatalogAppInstallerGlobalSettings function
-	appInstallers, err := client.GetJamfAppCatalogAppInstallerGlobalSettings("")
+	appInstallers, err := client.GetJamfAppCatalogAppInstallerGlobalSettings()
 	if err != nil {
-		log.Fatalf("Error fetching Jamf App Catalog App Installer list: %v", err)
+		log.Fatalf("Error fetching Jamf App Catalog App Installer Global Settings: %v", err)
 	}
 
 	// Pretty print the app Installer in JSON
 	appInstallerJSON, err := json.MarshalIndent(appInstallers, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling Jamf App Catalog App Installer list data: %v", err)
+		log.Fatalf("Error marshaling Jamf App Catalog App Installer Global Settings: %v", err)
 	}
-	fmt.Println("Fetched Jamf App Catalog App Installer list:\n", string(appInstallerJSON))
+	fmt.Println("Fetched Jamf App Catalog App Installer Global Settings:\n", string(appInstallerJSON))
 }
