@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.0...v1.26.1) (2025-03-25)
+
+
+### Bug Fixes
+
+* added update support for global jamf pro app catalog settings ([8dfa37c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/8dfa37c7f5eb03760a82d1471062d8daf6b72429))
+
 ## [1.26.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.25.2...v1.26.0) (2025-03-14)
 
 
