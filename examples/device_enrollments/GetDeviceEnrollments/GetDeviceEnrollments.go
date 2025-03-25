@@ -21,13 +21,13 @@ func main() {
 	// Fetch Device Enrollments
 	response, err := client.GetDeviceEnrollments("")
 	if err != nil {
-		log.Fatalf("Error fetching API role privileges: %v", err)
+		log.Fatalf("Error fetching Device enrollment instances: %v", err)
 	}
 
-	// Pretty print the fetched API role privileges using JSON marshaling
+	// Pretty print the fetched Device enrollment instances using JSON marshaling
 	responseJSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling API role privileges data: %v", err)
+		log.Fatalf("Error marshaling Device enrollment instances data: %v", err)
 	}
-	fmt.Println("Fetched API Role Privileges:", string(responseJSON))
+	fmt.Println("Fetched Device enrollment instances:", string(responseJSON))
 }
