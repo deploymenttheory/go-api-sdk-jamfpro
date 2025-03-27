@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.1...v1.26.2) (2025-03-27)
+
+
+### Bug Fixes
+
+* for returning list ([a5aa08c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/a5aa08c5cafd651899409344f071747cdfb03607))
+
 ## [1.26.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.0...v1.26.1) (2025-03-25)
 
 
