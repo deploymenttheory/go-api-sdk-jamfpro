@@ -22,7 +22,7 @@ func main() {
 	newGroup := jamfpro.ResourceAccountDrivenUserEnrollmentAccessGroup{
 		GroupID:                            "cccdad37-ec0e-4738-956c-3f8c0203dace", // Example Group ID
 		LdapServerID:                       "1006",                                 // Example LDAP Server ID
-		Name:                               "TestGG_SSPR_Global",
+		Name:                               "some-group-name",
 		SiteID:                             "-1", // Example Site ID (global)
 		EnterpriseEnrollmentEnabled:        false,
 		PersonalEnrollmentEnabled:          false,
