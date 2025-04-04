@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.26.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.1...v1.26.2) (2025-04-04)
+
+
+### Bug Fixes
+
+* added language code validation step to get/update/delete enrollment message by language id functions ([da5b3c9](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/da5b3c9fd27e5d07bb56af6b9f01f5ae8879b2db))
+* added language code validation step to get/update/delete enrollment message by language id functions ([e9d9f7c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/e9d9f7cad1550bf52d8732f99932d8d6d481f36d))
+* for returning list ([a5aa08c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/a5aa08c5cafd651899409344f071747cdfb03607))
+
 ## [1.26.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.0...v1.26.1) (2025-03-25)
 
 
