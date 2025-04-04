@@ -510,46 +510,46 @@ func (c *Client) DeleteMultipleEnrollmentMessagesByLanguageIDs(languageIds []str
 		return fmt.Errorf("failed to retrieve language codes for validation: %v", err)
 	}
 
-	// Create a map of valid language codes for faster lookup
+	// Create a map of valid language codes
 	validCodes := make(map[string]bool)
 	for _, code := range languageCodes {
 		validCodes[code.Value] = true
 	}
 
-	// Validate each language ID against available codes
+	// Validate input list
 	var invalidIDs []string
 	for _, id := range languageIds {
 		if !validCodes[id] {
 			invalidIDs = append(invalidIDs, id)
 		}
 	}
-
 	if len(invalidIDs) > 0 {
 		return fmt.Errorf("invalid language IDs found: %v", invalidIDs)
 	}
 
-	// Proceed with the API call for valid language IDs
+	// Send delete request
 	endpoint := fmt.Sprintf("%s/languages/delete-multiple", uriEnrollmentV3)
-
-	// Create request body
-	request := RequestDeleteMultipleLanguages{
-		IDs: languageIds,
-	}
+	request := RequestDeleteMultipleLanguages{IDs: languageIds}
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, request, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDelete, "multiple enrollment language messages", err)
 	}
+	defer func() {
+		if resp != nil && resp.Body != nil {
+			resp.Body.Close()
+		}
+	}()
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
+	// No content? Success!
+	if resp.StatusCode == 204 {
+		return nil
 	}
 
+	// If we *did* get content, try to decode error
 	var respErr ResponseError
-	if err := json.NewDecoder(resp.Body).Decode(&respErr); err == nil {
-		if respErr.HTTPStatus != 0 {
-			return fmt.Errorf("deletion failed for multiple enrollment languages with status %d: %v", respErr.HTTPStatus, respErr.Errors)
-		}
+	if err := json.NewDecoder(resp.Body).Decode(&respErr); err == nil && respErr.HTTPStatus != 0 {
+		return fmt.Errorf("deletion failed for multiple enrollment languages with status %d: %v", respErr.HTTPStatus, respErr.Errors)
 	}
 
 	return nil

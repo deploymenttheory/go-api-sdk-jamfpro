@@ -85,6 +85,10 @@ func main() {
 	}
 
 	// Specify the Two letter ISO 639-1 Language Code to update used as ur Path Params
+	/* Needs to match the req fields
+	LanguageCode:     "fr",
+	Name:             "French",
+	*/
 	languageId := "fr"
 
 	// Call UpdateEnrollmentMessageByLanguageID function
