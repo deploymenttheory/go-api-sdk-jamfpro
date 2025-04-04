@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// Define the language IDs to delete
-	languageIds := []string{"en", "fr", "es"}
+	languageIds := []string{"fr", "ji"}
 
 	// Call DeleteMultipleEnrollmentMessagesByLanguageIDs function
 	err = client.DeleteMultipleEnrollmentMessagesByLanguageIDs(languageIds)

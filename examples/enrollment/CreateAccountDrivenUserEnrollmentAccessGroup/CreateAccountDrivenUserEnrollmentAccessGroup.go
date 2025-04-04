@@ -20,26 +20,30 @@ func main() {
 
 	// Define the new ADUE access group details
 	newGroup := jamfpro.ResourceAccountDrivenUserEnrollmentAccessGroup{
-		GroupID:                            "1", // Example Group ID, replace with actual
-		LdapServerID:                       "4", // Example LDAP Server ID, replace with actual
-		Name:                               "New Access Group",
-		SiteID:                             "-1", // Example Site ID, replace with actual
-		EnterpriseEnrollmentEnabled:        true,
+		GroupID:                            "cccdad37-ec0e-4738-956c-3f8c0203dace", // Example Group ID
+		LdapServerID:                       "1006",                                 // Example LDAP Server ID
+		Name:                               "some-group-name",
+		SiteID:                             "-1", // Example Site ID (global)
+		EnterpriseEnrollmentEnabled:        false,
 		PersonalEnrollmentEnabled:          false,
-		AccountDrivenUserEnrollmentEnabled: true,
+		AccountDrivenUserEnrollmentEnabled: false,
 		RequireEula:                        false,
 	}
 
-	// Create the new ADUE access group using the client
+	payload, err := json.MarshalIndent(newGroup, "", "    ")
+	if err != nil {
+		log.Fatalf("Failed to marshal request payload: %v", err)
+	}
+	fmt.Println("Request Payload to be sent to Jamf Pro API:\n", string(payload))
+
 	response, err := client.CreateAccountDrivenUserEnrollmentAccessGroup(&newGroup)
 	if err != nil {
 		log.Fatalf("Failed to create ADUE access group: %v", err)
 	}
 
-	// Pretty print the created script details in XML
-	JSON, err := json.MarshalIndent(response, "", "    ") // Indent with 4 spaces
+	JSON, err := json.MarshalIndent(response, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling created script data: %v", err)
+		log.Fatalf("Error marshaling created group data: %v", err)
 	}
-	fmt.Println("Created Script Details:\n", string(JSON))
+	fmt.Println("Created Group Response:\n", string(JSON))
 }
