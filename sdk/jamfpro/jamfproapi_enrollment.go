@@ -12,6 +12,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
+const uriEnrollmentV2 = "/api/v2/enrollment"
 const uriEnrollmentV3 = "/api/v3/enrollment"
 const uriEnrollmentV4 = "/api/v4/enrollment"
 
@@ -37,6 +38,21 @@ type RequestDeleteMultipleLanguages struct {
 }
 
 // Resource
+
+// ResponseEnrollmentHistory represents the structure of the enrollment history response
+type ResponseEnrollmentHistory struct {
+	TotalCount int                         `json:"totalCount"`
+	Results    []ResourceEnrollmentHistory `json:"results"`
+}
+
+// ResourceEnrollmentHistory represents an individual enrollment history record
+type ResourceEnrollmentHistory struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Date     string `json:"date"`
+	Note     string `json:"note"`
+	Details  string `json:"details"`
+}
 
 type ResourceAccountDrivenUserEnrollmentAccessGroup struct {
 	ID                                 string `json:"id"`
@@ -149,6 +165,28 @@ type ResourceLanguageCode struct {
 }
 
 // CRUD
+
+// GetEnrollmentHistory fetches the enrollment history from the Jamf Pro API
+func (c *Client) GetEnrollmentHistory(sort_filter string) (*ResponseEnrollmentHistory, error) {
+	endpoint := fmt.Sprintf("%s/history", uriEnrollmentV2)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Enrollment History", err)
+	}
+
+	var outStruct ResponseEnrollmentHistory
+	outStruct.TotalCount = resp.Size
+	for _, value := range resp.Results {
+		var newObj ResourceEnrollmentHistory
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "Enrollment History", err)
+		}
+		outStruct.Results = append(outStruct.Results, newObj)
+	}
+
+	return &outStruct, nil
+}
 
 // GetAccountDrivenUserEnrollmentAccessGroups fetches all ADUE access groups
 func (c *Client) GetAccountDrivenUserEnrollmentAccessGroups(sort_filter string) (*ResponseAccountDrivenUserEnrollmentAccessGroupsList, error) {
@@ -323,7 +361,28 @@ func (c *Client) UpdateEnrollment(enrollmentUpdate *ResourceEnrollment) (*Resour
 }
 
 // GetEnrollmentMessageByLanguageID retrieves the enrollment language messaging for a specific language ID
+// with validation against available language codes
 func (c *Client) GetEnrollmentMessageByLanguageID(languageId string) (*ResourceEnrollmentLanguage, error) {
+	// First, retrieve all available language codes to validate the requested ID
+	languageCodes, err := c.GetEnrollmentLanguageCodes()
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve language codes for validation: %v", err)
+	}
+
+	// Validate the language ID against available codes
+	validLanguage := false
+	for _, code := range languageCodes {
+		if code.Value == languageId {
+			validLanguage = true
+			break
+		}
+	}
+
+	if !validLanguage {
+		return nil, fmt.Errorf("invalid language ID '%s': is not an available Jamf Pro ISO 639-1 language code", languageId)
+	}
+
+	// Proceed with the API call for the valid language ID
 	endpoint := fmt.Sprintf("%s/languages/%s", uriEnrollmentV3, languageId)
 	var languageMsg ResourceEnrollmentLanguage
 
@@ -332,7 +391,7 @@ func (c *Client) GetEnrollmentMessageByLanguageID(languageId string) (*ResourceE
 		return nil, fmt.Errorf("failed to get enrollment language messaging for language ID '%s': %v", languageId, err)
 	}
 
-	if resp != nil {
+	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
@@ -341,6 +400,26 @@ func (c *Client) GetEnrollmentMessageByLanguageID(languageId string) (*ResourceE
 
 // UpdateEnrollmentMessageByLanguageID updates the enrollment messaging for a specific language ID
 func (c *Client) UpdateEnrollmentMessageByLanguageID(languageId string, enrollmentMessage *ResourceEnrollmentLanguage) (*ResourceEnrollmentLanguage, error) {
+	// First, retrieve all available language codes to validate the requested ID
+	languageCodes, err := c.GetEnrollmentLanguageCodes()
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve language codes for validation: %v", err)
+	}
+
+	// Validate the language ID against available codes
+	validLanguage := false
+	for _, code := range languageCodes {
+		if code.Value == languageId {
+			validLanguage = true
+			break
+		}
+	}
+
+	if !validLanguage {
+		return nil, fmt.Errorf("invalid language ID '%s': not found in available language codes", languageId)
+	}
+
+	// Proceed with the API call for the valid language ID
 	endpoint := fmt.Sprintf("%s/languages/%s", uriEnrollmentV3, languageId)
 	var updatedMessage ResourceEnrollmentLanguage
 
@@ -358,6 +437,26 @@ func (c *Client) UpdateEnrollmentMessageByLanguageID(languageId string, enrollme
 
 // DeleteEnrollmentMessageByLanguageID deletes the enrollment messaging for a specific language ID
 func (c *Client) DeleteEnrollmentMessageByLanguageID(languageId string) error {
+	// First, retrieve all available language codes to validate the requested ID
+	languageCodes, err := c.GetEnrollmentLanguageCodes()
+	if err != nil {
+		return fmt.Errorf("failed to retrieve language codes for validation: %v", err)
+	}
+
+	// Validate the language ID against available codes
+	validLanguage := false
+	for _, code := range languageCodes {
+		if code.Value == languageId {
+			validLanguage = true
+			break
+		}
+	}
+
+	if !validLanguage {
+		return fmt.Errorf("invalid language ID '%s': not found in available language codes", languageId)
+	}
+
+	// Proceed with the API call for the valid language ID
 	endpoint := fmt.Sprintf("%s/languages/%s", uriEnrollmentV3, languageId)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
@@ -381,6 +480,31 @@ func (c *Client) DeleteEnrollmentMessageByLanguageID(languageId string) error {
 
 // DeleteMultipleEnrollmentMessagesByLanguageIDs deletes multiple enrollment language messages by their IDs
 func (c *Client) DeleteMultipleEnrollmentMessagesByLanguageIDs(languageIds []string) error {
+	// First, retrieve all available language codes to validate the requested IDs
+	languageCodes, err := c.GetEnrollmentLanguageCodes()
+	if err != nil {
+		return fmt.Errorf("failed to retrieve language codes for validation: %v", err)
+	}
+
+	// Create a map of valid language codes for faster lookup
+	validCodes := make(map[string]bool)
+	for _, code := range languageCodes {
+		validCodes[code.Value] = true
+	}
+
+	// Validate each language ID against available codes
+	var invalidIDs []string
+	for _, id := range languageIds {
+		if !validCodes[id] {
+			invalidIDs = append(invalidIDs, id)
+		}
+	}
+
+	if len(invalidIDs) > 0 {
+		return fmt.Errorf("invalid language IDs found: %v", invalidIDs)
+	}
+
+	// Proceed with the API call for valid language IDs
 	endpoint := fmt.Sprintf("%s/languages/delete-multiple", uriEnrollmentV3)
 
 	// Create request body
