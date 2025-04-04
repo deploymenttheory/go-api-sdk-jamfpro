@@ -360,6 +360,30 @@ func (c *Client) UpdateEnrollment(enrollmentUpdate *ResourceEnrollment) (*Resour
 	return &out, nil
 }
 
+// GetEnrollmentMessages returns all currently configured enrollment language messages
+func (c *Client) GetEnrollmentMessages() ([]ResourceEnrollmentLanguage, error) {
+	endpoint := fmt.Sprintf("%s/languages", uriEnrollmentV3)
+
+	// Response structure for paginated language messages
+	type responseEnrollmentMessages struct {
+		TotalCount int                          `json:"totalCount"`
+		Results    []ResourceEnrollmentLanguage `json:"results"`
+	}
+
+	var out responseEnrollmentMessages
+
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get configured enrollment messages: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return out.Results, nil
+}
+
 // GetEnrollmentMessageByLanguageID retrieves the enrollment language messaging for a specific language ID
 // with validation against available language codes
 func (c *Client) GetEnrollmentMessageByLanguageID(languageId string) (*ResourceEnrollmentLanguage, error) {
