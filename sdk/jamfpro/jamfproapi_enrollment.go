@@ -246,7 +246,7 @@ func (c *Client) GetAccountDrivenUserEnrollmentAccessGroupByName(name string) (*
 
 // CreateAccountDrivenUserEnrollmentAccessGroup creates a new ADUE access group
 func (c *Client) CreateAccountDrivenUserEnrollmentAccessGroup(script *ResourceAccountDrivenUserEnrollmentAccessGroup) (*ResponseAccountDrivenUserEnrollmentAccessGroupCreateAndUpdate, error) {
-	endpoint := uriEnrollmentV3
+	endpoint := fmt.Sprintf("%s/access-groups", uriEnrollmentV3)
 	var out ResponseAccountDrivenUserEnrollmentAccessGroupCreateAndUpdate
 
 	resp, err := c.HTTP.DoRequest("POST", endpoint, script, &out)

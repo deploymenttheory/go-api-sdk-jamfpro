@@ -19,18 +19,18 @@ func main() {
 	}
 
 	// Define the ID of the group to update
-	groupID := "1"
+	groupID := "12"
 
 	groupUpdate := &jamfpro.ResourceAccountDrivenUserEnrollmentAccessGroup{
 		ID:                                 groupID,
-		GroupID:                            "12345",
-		LdapServerID:                       "1",
-		Name:                               "Updated ADUE Access Group",
-		SiteID:                             "-1",
-		EnterpriseEnrollmentEnabled:        true,
+		GroupID:                            "cccdad37-ec0e-4738-956c-3f8c0203dace", // Example Group ID
+		LdapServerID:                       "1006",                                 // Example LDAP Server ID
+		Name:                               "TestGG_SSPR_Global",
+		SiteID:                             "-1", // Example Site ID (global)
+		EnterpriseEnrollmentEnabled:        false,
 		PersonalEnrollmentEnabled:          false,
-		AccountDrivenUserEnrollmentEnabled: true,
-		RequireEula:                        true,
+		AccountDrivenUserEnrollmentEnabled: false,
+		RequireEula:                        false,
 	}
 
 	updatedGroup, err := client.UpdateAccountDrivenUserEnrollmentAccessGroupByID(groupID, groupUpdate)
