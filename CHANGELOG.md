@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.26.4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.3...v1.26.4) (2025-04-04)
+
+
+### Bug Fixes
+
+* for CreateAccountDrivenUserEnrollmentAccessGroup URL construction ([9bd9bfa](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/9bd9bfa76240e3bc5134441525b0df7aa938de04))
+* url construction for CreateAccountDrivenUserEnrollmentAccessGroup ([13c9fd4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/13c9fd461de97ad418a247b0a7a760251966227e))
+
 ## [1.26.3](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.2...v1.26.3) (2025-04-04)
 
 
