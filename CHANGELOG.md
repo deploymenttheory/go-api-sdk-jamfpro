@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.26.3](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.2...v1.26.3) (2025-04-04)
+
+
+### Bug Fixes
+
+* added missing func GetEnrollmentMessages to return a list ([5b197b2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/5b197b21738a97490aac368282f572a207c13e0b))
+* added missing func GetEnrollmentMessages to return a list ([75618b9](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/75618b9f89902133b585b85b2e264180fdf45efb))
+
 ## [1.26.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.1...v1.26.2) (2025-04-04)
 
 
