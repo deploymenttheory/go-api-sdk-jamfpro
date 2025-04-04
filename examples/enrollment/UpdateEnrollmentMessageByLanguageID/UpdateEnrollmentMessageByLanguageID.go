@@ -20,8 +20,8 @@ func main() {
 
 	// Create enrollment message configuration with all available fields
 	enrollmentMessage := &jamfpro.ResourceEnrollmentLanguage{
-		LanguageCode:     "en",
-		Name:             "English",
+		LanguageCode:     "fr",
+		Name:             "French",
 		Title:            "Enroll Your Device",
 		LoginDescription: "Log in to enroll your device.",
 		Username:         "Username",
@@ -84,8 +84,8 @@ func main() {
 		LogoutButton:           "Log Out",
 	}
 
-	// Specify the language ID to update
-	languageId := "en"
+	// Specify the Two letter ISO 639-1 Language Code to update used as ur Path Params
+	languageId := "fr"
 
 	// Call UpdateEnrollmentMessageByLanguageID function
 	updatedMessage, err := client.UpdateEnrollmentMessageByLanguageID(languageId, enrollmentMessage)
