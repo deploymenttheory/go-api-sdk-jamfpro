@@ -24,7 +24,7 @@ func main() {
 	}
 
 	// Define the computer ID you want to update
-	computerID := "8" // Replace with the actual computer ID
+	computerID := "14" // Replace with the actual computer ID
 
 	// Read the content of the embedded file
 	data, err := fsys.ReadFile("payload.json")
