@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -18,18 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	profileID := "6052"
+	displayName := "idp-name"
 
-	// Call GetMacOSConfigurationProfileByID function
-	profile, err := client.GetMacOSConfigurationProfileByID(profileID)
+	cloudIdp, err := client.GetCloudIdentityProviderConfigurationByName(displayName)
 	if err != nil {
-		log.Fatalf("Error fetching macOS Configuration Profile by ID: %v", err)
+		log.Fatalf("Error fetching cloud identity provider: %v", err)
 	}
 
-	// Pretty print the profile in XML
-	profileXML, err := xml.MarshalIndent(profile, "", "    ") // Indent with 4 spaces
+	JSON, err := json.MarshalIndent(cloudIdp, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling macOS Configuration Profile data: %v", err)
+		log.Fatalf("Error marshaling cloud identity provider data: %v", err)
 	}
-	fmt.Println("Fetched macOS Configuration Profile:\n", string(profileXML))
+	fmt.Printf("Cloud Identity Provider (Name: %s):\n%s\n", displayName, string(JSON))
 }
