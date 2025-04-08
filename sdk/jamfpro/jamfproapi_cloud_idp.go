@@ -77,3 +77,19 @@ func (c *Client) GetCloudIdentityProviderConfigurationByID(id string) (*Resource
 
 	return &cloudIdp, nil
 }
+
+// GetCloudIdentityProviderConfigurationByName retrieves a cloud identity provider by its display name
+func (c *Client) GetCloudIdentityProviderConfigurationByName(name string) (*ResourceCloudIdentityProvider, error) {
+	providers, err := c.GetCloudIdentityProviders("")
+	if err != nil {
+		return nil, fmt.Errorf("failed to get cloud identity providers: %v", err)
+	}
+
+	for _, provider := range providers.Results {
+		if provider.DisplayName == name {
+			return &provider, nil
+		}
+	}
+
+	return nil, fmt.Errorf("no cloud identity provider found with name: %s", name)
+}
