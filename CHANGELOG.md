@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.27.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.4...v1.27.0) (2025-04-08)
+
+
+### Features
+
+* added notifications and command flushes with new recipes ([840e8ad](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/840e8adf185ed4cd4bc514a32ab7bcb7a27402de))
+* added notifications and command flushes with new recipes ([8123cac](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/8123cac7b6126a57f2686dea9b14da481ed875bc))
+
+
+### Bug Fixes
+
+* added GetCloudIdentityProviderConfigurationByName ([4796644](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4796644ce84a463bb5ada1ae7830dd5dc8e92f39))
+* added GetCloudIdentityProviderConfigurationByName ([2227aca](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/2227aca14e21a760a986f7c9f936cb24a15f926b))
+
 ## [1.26.4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.3...v1.26.4) (2025-04-04)
 
 
