@@ -28,6 +28,7 @@ type EnrollmentSubsetCertificateSettings struct {
 	FlushLocationHistoryInformation     bool                               `json:"flushLocationHistoryInformation"`
 	FlushPolicyHistory                  bool                               `json:"flushPolicyHistory"`
 	FlushExtensionAttributes            bool                               `json:"flushExtensionAttributes"`
+	FlushSoftwareUpdatePlans            bool                               `json:"flushSoftwareUpdatePlans"`
 	FlushMdmCommandsOnReenroll          string                             `json:"flushMdmCommandsOnReenroll"`
 	MacOsEnterpriseEnrollmentEnabled    bool                               `json:"macOsEnterpriseEnrollmentEnabled"`
 	ManagementUsername                  string                             `json:"managementUsername"`
