@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.27.0...v1.27.1) (2025-04-14)
+
+
+### Bug Fixes
+
+* Add FlushSoftwareUpdatePlans to jamfproapi_enrollment_settings.go ([bdc5592](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/bdc5592a359786175cd7544c447d9b251ef59ab5))
+
 ## [1.27.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.26.4...v1.27.0) (2025-04-08)
 
 
