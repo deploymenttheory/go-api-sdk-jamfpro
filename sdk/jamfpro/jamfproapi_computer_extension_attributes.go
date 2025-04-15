@@ -2,6 +2,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -36,12 +37,12 @@ type ResponseComputerExtensionAttributeCreated struct {
 }
 
 // GetComputerExtensionAttributes retrieves all computer extension attributes with pagination
-func (c *Client) GetComputerExtensionAttributes(sortFilter string) (*ResponseComputerExtensionAttributesList, error) {
+func (c *Client) GetComputerExtensionAttributes(params url.Values) (*ResponseComputerExtensionAttributesList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriComputerExtensionAttributes,
 		standardPageSize,
 		startingPageNumber,
-		sortFilter,
+		params,
 	)
 
 	if err != nil {
@@ -82,7 +83,7 @@ func (c *Client) GetComputerExtensionAttributeByID(id string) (*ResourceComputer
 
 // GetComputerExtensionAttributeByName retrieves a computer extension attribute by its name
 func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResourceComputerExtensionAttribute, error) {
-	attributes, err := c.GetComputerExtensionAttributes("")
+	attributes, err := c.GetComputerExtensionAttributes(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer extension attributes", err)
 	}

@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -130,9 +131,9 @@ type MobileDevicePrestageSubsetNamesName struct {
 // CRUD
 
 // GetMobileDevicePrestages retrieves a list of all mobile prestages
-func (c *Client) GetMobileDevicePrestages(sort_filter string) (*ResponseMobileDevicePrestagesList, error) {
+func (c *Client) GetMobileDevicePrestages(params url.Values) (*ResponseMobileDevicePrestagesList, error) {
 	endpoint := uriMobileDevicePrestages
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sort_filter)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "mobile device prestages", err)
 	}

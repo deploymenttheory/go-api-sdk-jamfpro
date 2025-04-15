@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 )
 
 const uriEnrollmentCustomizationSettingsV1 = "/api/v1/enrollment-customization"
@@ -136,13 +137,13 @@ type EnrollmentCustomizationSubsetBrandingSettings struct {
 // TODO Download an image - https://developer.jamf.com/jamf-pro/reference/get_v2-enrollment-customizations-images-id
 
 // Returns paginated list of Enrollment Customization
-func (c *Client) GetEnrollmentCustomizations(sort_filter string) (*ResponseEnrollmentCustomizationList, error) {
+func (c *Client) GetEnrollmentCustomizations(params url.Values) (*ResponseEnrollmentCustomizationList, error) {
 	endpoint := uriEnrollmentCustomizationSettingsV2
 	resp, err := c.DoPaginatedGet(
 		endpoint,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 
 	if err != nil {
@@ -186,7 +187,7 @@ func (c *Client) GetEnrollmentCustomizationByID(id string) (*ResourceEnrollmentC
 
 // GetEnrollmentCustomizationByName retrieves an enrollment customization by its display name
 func (c *Client) GetEnrollmentCustomizationByName(name string) (*ResourceEnrollmentCustomization, error) {
-	customizations, err := c.GetEnrollmentCustomizations("")
+	customizations, err := c.GetEnrollmentCustomizations(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to get enrollment customizations list: %v", err)
 	}

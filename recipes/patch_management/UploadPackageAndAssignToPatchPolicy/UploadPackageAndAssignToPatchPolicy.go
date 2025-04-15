@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"net/url"
 	"path/filepath"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -126,7 +127,7 @@ func main() {
 	fmt.Printf("Patch Software Title Configuration Response: %s\n", string(responseJson))
 
 	// Step 4: Get the Patch Software Title Definitions to retrieve missing values
-	softwareTitleDefinitions, err := client.GetPatchSoftwareTitleDefinitions(softwareTitle.ID, "")
+	softwareTitleDefinitions, err := client.GetPatchSoftwareTitleDefinitions(softwareTitle.ID, url.Values{})
 	if err != nil {
 		log.Fatalf("Failed to get patch software title definitions: %v", err)
 	}

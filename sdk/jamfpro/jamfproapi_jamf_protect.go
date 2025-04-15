@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -173,10 +174,10 @@ func (c *Client) RetryJamfProtectInstallTasks(deploymentID string, taskIDs []str
 }
 
 // GetJamfProtectHistory retrieves the history of Jamf Protect actions
-func (c *Client) GetJamfProtectHistory(sortFilter string) (*ResponseJamfProtectHistoryList, error) {
+func (c *Client) GetJamfProtectHistory(params url.Values) (*ResponseJamfProtectHistoryList, error) {
 	endpoint := fmt.Sprintf("%s/history", uriJamfProtect)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sortFilter)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf Protect history", err)
 	}
@@ -197,10 +198,10 @@ func (c *Client) GetJamfProtectHistory(sortFilter string) (*ResponseJamfProtectH
 }
 
 // GetJamfProtectPlans retrieves all previously synced Jamf Protect Plans with their associated configuration profile information
-func (c *Client) GetJamfProtectPlans(sortFilter string) (*ResponseJamfProtectPlansList, error) {
+func (c *Client) GetJamfProtectPlans(params url.Values) (*ResponseJamfProtectPlansList, error) {
 	endpoint := fmt.Sprintf("%s/plans", uriJamfProtect)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sortFilter)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf Protect plans", err)
 	}

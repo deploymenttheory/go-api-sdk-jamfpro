@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Fetch API roles
-	apiRoles, err := client.GetJamfAPIRoles("")
+	apiRoles, err := client.GetJamfAPIRoles(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching API roles: %v", err)
 	}

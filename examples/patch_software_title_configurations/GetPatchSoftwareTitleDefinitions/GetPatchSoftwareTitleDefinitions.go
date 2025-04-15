@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,11 +20,12 @@ func main() {
 	}
 
 	// Example software title ID and sort parameters
-	titleID := "14"                     // Example ID from previous logs
-	sortFilter := "absoluteOrderId:asc" // Example sort filter
+	titleID := "14" // Example ID from previous logs
+	params := url.Values{}
+	params.Add("sort", "absoluteOrderId:asc")
 
 	// Get the patch software title definitions
-	definitions, err := client.GetPatchSoftwareTitleDefinitions(titleID, sortFilter)
+	definitions, err := client.GetPatchSoftwareTitleDefinitions(titleID, params)
 	if err != nil {
 		log.Fatalf("Error getting patch software title definitions: %v", err)
 	}

@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -33,13 +34,13 @@ type ResourceDepartment struct {
 }
 
 // GetDepartments retrieves a list of all departments in list
-func (c *Client) GetDepartments(sort_filter string) (*ResponseDepartmentsList, error) {
+func (c *Client) GetDepartments(params url.Values) (*ResponseDepartmentsList, error) {
 	endpoint := uriDepartments
 	resp, err := c.DoPaginatedGet(
 		endpoint,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "departments", err)
@@ -79,7 +80,7 @@ func (c *Client) GetDepartmentByID(id string) (*ResourceDepartment, error) {
 
 // GetDepartmentByName retrieves a department by Name.
 func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
-	depts, err := c.GetDepartments("")
+	depts, err := c.GetDepartments(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "departments", err)
 	}

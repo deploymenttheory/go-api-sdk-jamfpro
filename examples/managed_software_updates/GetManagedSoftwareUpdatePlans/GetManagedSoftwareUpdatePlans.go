@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Call GetManagedSoftwareUpdatePlans function
-	updatePlans, err := client.GetManagedSoftwareUpdatePlans("")
+	updatePlans, err := client.GetManagedSoftwareUpdatePlans(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching managed software update plans: %v", err)
 	}

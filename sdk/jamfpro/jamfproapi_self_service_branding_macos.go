@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -38,12 +39,12 @@ type ResourceSelfServiceBrandingDetail struct {
 // CRUD
 
 // GetSelfServiceBrandingMacOS retrieves the list of self-service branding configurations for macOS.
-func (c *Client) GetSelfServiceBrandingMacOS(sort_filter string) (*ResponseSelfServiceBrandingList, error) {
+func (c *Client) GetSelfServiceBrandingMacOS(params url.Values) (*ResponseSelfServiceBrandingList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriSelfServiceBrandingMacOS,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "self service branding", err)
@@ -85,7 +86,7 @@ func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*ResourceSelfServic
 
 // GetSelfServiceBrandingMacOSByNameByID retrieves a specific self-service branding configuration for macOS by its name.
 func (c *Client) GetSelfServiceBrandingMacOSByName(name string) (*ResourceSelfServiceBrandingDetail, error) {
-	all_ssbrandings, err := c.GetSelfServiceBrandingMacOS("")
+	all_ssbrandings, err := c.GetSelfServiceBrandingMacOS(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "self service brandings", err)
 	}

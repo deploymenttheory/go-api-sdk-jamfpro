@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -20,7 +21,7 @@ func main() {
 
 	// Fetch Device Enrollment History
 	deviceEnrollmentID := "1" // Using the known device enrollment ID from the system
-	response, err := client.GetDeviceEnrollmentHistory(deviceEnrollmentID, "")
+	response, err := client.GetDeviceEnrollmentHistory(deviceEnrollmentID, url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching device enrollment history: %v", err)
 	}

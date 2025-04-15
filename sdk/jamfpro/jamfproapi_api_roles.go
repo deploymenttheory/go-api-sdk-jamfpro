@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -33,10 +34,10 @@ type ResourceAPIRole struct {
 // CRUD
 
 // GetJamfAPIRoles fetches a list of Jamf API roles
-func (c *Client) GetJamfAPIRoles(sort_filter string) (*ResponseApiRolesList, error) {
+func (c *Client) GetJamfAPIRoles(params url.Values) (*ResponseApiRolesList, error) {
 	endpoint := uriApiRoles
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api roles", err)
 	}
@@ -74,7 +75,7 @@ func (c *Client) GetJamfApiRoleByID(id string) (*ResourceAPIRole, error) {
 
 // GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
 func (c *Client) GetJamfApiRoleByName(name string) (*ResourceAPIRole, error) {
-	roles, err := c.GetJamfAPIRoles("")
+	roles, err := c.GetJamfAPIRoles(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api role", err)
 	}

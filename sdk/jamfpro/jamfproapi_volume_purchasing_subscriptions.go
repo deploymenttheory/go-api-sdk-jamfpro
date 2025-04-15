@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -48,12 +49,12 @@ type VolumePurchasingSubscriptionSubsetExternalRecipients struct {
 // CRUD
 
 // GetVolumePurchasingSubscriptions retrieves all volume purchasing subscriptions
-func (c *Client) GetVolumePurchasingSubscriptions(sort_filter string) (*ResponseVolumePurchasingSubscriptionsList, error) {
+func (c *Client) GetVolumePurchasingSubscriptions(params url.Values) (*ResponseVolumePurchasingSubscriptionsList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriVolumePurchasingSubscriptions,
 		maxPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "volume purchasing subscriptions", err)
@@ -93,7 +94,7 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolume
 
 // GetVolumePurchasingSubscriptionByNameByID fetches a volume purchasing subscription by its display name and retrieves its details using its ID.
 func (c *Client) GetVolumePurchasingSubscriptionByName(name string) (*ResourceVolumePurchasingSubscription, error) {
-	vpSubcriptions, err := c.GetVolumePurchasingSubscriptions("")
+	vpSubcriptions, err := c.GetVolumePurchasingSubscriptions(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "volume purchasing subscriptions", err)
 	}

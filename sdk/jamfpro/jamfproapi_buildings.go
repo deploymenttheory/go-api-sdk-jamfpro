@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -61,12 +62,12 @@ type ResourceBuildingResourceHistory struct {
 // CRUD
 
 // GetBuildings retrieves all building information with optional sorting.
-func (c *Client) GetBuildings(sort_filter string) (*ResponseBuildingsList, error) {
+func (c *Client) GetBuildings(params url.Values) (*ResponseBuildingsList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriBuildings,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 
 	if err != nil {
@@ -107,7 +108,7 @@ func (c *Client) GetBuildingByID(id string) (*ResourceBuilding, error) {
 
 // GetBuildingByNameByID retrieves a single building information by its name using GetBuildingByID.
 func (c *Client) GetBuildingByName(name string) (*ResourceBuilding, error) {
-	buildings, err := c.GetBuildings("")
+	buildings, err := c.GetBuildings(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "building", err)
 	}
@@ -229,10 +230,10 @@ func (c *Client) DeleteMultipleBuildingsByID(ids []string) error {
 }
 
 // GetBuildingResourceHistoryByID retrieves the resource history of a specific building by its ID.
-func (c *Client) GetBuildingResourceHistoryByID(id, sort_filter string) (*ResponseBuildingResourceHistoryList, error) {
+func (c *Client) GetBuildingResourceHistoryByID(id string, params url.Values) (*ResponseBuildingResourceHistoryList, error) {
 	endpoint := fmt.Sprintf("%s/%s/history", uriBuildings, id)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, sort_filter)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "building histories", err)
 	}

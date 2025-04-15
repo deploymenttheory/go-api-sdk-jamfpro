@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -43,8 +44,8 @@ type ResponseCategoryCreateAndUpdate struct {
 // Parameters:
 // - sort: A string specifying the sorting order of the returned categories.
 // - filter: A string to filter the categories based on certain criteria.
-func (c *Client) GetCategories(sort_filter string) (*ResponseCategoriesList, error) {
-	resp, err := c.DoPaginatedGet(uriCategories, standardPageSize, startingPageNumber, sort_filter)
+func (c *Client) GetCategories(params url.Values) (*ResponseCategoriesList, error) {
+	resp, err := c.DoPaginatedGet(uriCategories, standardPageSize, startingPageNumber, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
 	}
@@ -83,7 +84,7 @@ func (c *Client) GetCategoryByID(id string) (*ResourceCategory, error) {
 
 // GetCategoryNameByID retrieves a category by its name and then retrieves its details using its ID
 func (c *Client) GetCategoryByName(name string) (*ResourceCategory, error) {
-	categories, err := c.GetCategories("")
+	categories, err := c.GetCategories(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
 	}

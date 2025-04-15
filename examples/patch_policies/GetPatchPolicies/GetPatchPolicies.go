@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -20,7 +21,7 @@ func main() {
 
 	// Call GetPatchPolicies function to fetch policies
 	// You can provide sort parameters like "status:asc,updated:desc" or leave empty "" for default sorting
-	policies, err := client.GetPatchPolicies("")
+	policies, err := client.GetPatchPolicies(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching patch policies: %v", err)
 	}

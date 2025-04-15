@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Fetch Device Enrollments
-	response, err := client.GetDeviceEnrollments("")
+	response, err := client.GetDeviceEnrollments(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Device enrollment instances: %v", err)
 	}

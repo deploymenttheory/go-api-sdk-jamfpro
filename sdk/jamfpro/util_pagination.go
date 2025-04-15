@@ -5,6 +5,8 @@ package jamfpro
 import (
 	"fmt"
 	"log"
+	"net/url"
+	"strconv"
 )
 
 type StandardPaginatedResponse struct {
@@ -24,7 +26,7 @@ type StandardPaginatedResponse struct {
 //     parameters will be appended.
 //   - maxPageSize: Maximum number of items to be fetched in each paginated request. If set to 0, defaults to 200.
 //   - startingPageNumber: The page number from which to start the paginated fetching.
-//   - sort_filter: A string specifying the sorting criteria. It follows the format
+//   - params: A string specifying the sorting criteria. It follows the format
 //     'sort=<field_name>[:sort_direction][,<secondary_sort_field_name>[:sort_direction]]*'. The default sort
 //     direction is 'asc' (Ascending). Use 'desc' for Descending ordering. Additional sort parameters are
 //     supported and determine the order of results that have equivalent values for previous sort parameters.
@@ -42,12 +44,11 @@ type StandardPaginatedResponse struct {
 func (c *Client) DoPaginatedGet(
 	endpoint_root string,
 	maxPageSize, startingPageNumber int,
-	sort_filter string,
+	params url.Values,
 ) (*StandardPaginatedResponse, error) {
 
-	if maxPageSize == 0 {
-		maxPageSize = 200
-	}
+	params.Add("page", strconv.Itoa(startingPageNumber))
+	params.Add("page-size", strconv.Itoa(maxPageSize))
 
 	var OutStruct StandardPaginatedResponse
 	var TargetObjectAccumulator StandardPaginatedResponse
@@ -55,7 +56,7 @@ func (c *Client) DoPaginatedGet(
 	var page = startingPageNumber
 
 	for {
-		endpoint := fmt.Sprintf("%s?page=%d&page-size=%d%s", endpoint_root, startingPageNumber, maxPageSize, sort_filter)
+		endpoint := fmt.Sprintf("%s?page=%d&page-size=%d%s", endpoint_root, startingPageNumber, maxPageSize, params)
 		log.Printf("DEBUG: Fetching from endpoint: %s", endpoint)
 		resp, err := c.HTTP.DoRequest(
 			"GET",

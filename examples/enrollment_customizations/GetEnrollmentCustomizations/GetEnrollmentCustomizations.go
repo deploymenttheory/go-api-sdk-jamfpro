@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -18,13 +19,8 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Optional: Define sort and filter parameters
-	// Example: sort=displayName:asc
-	// Leave empty string "" for no sorting/filtering
-	sortFilter := ""
-
 	// Get all enrollment customizations
-	customizations, err := client.GetEnrollmentCustomizations(sortFilter)
+	customizations, err := client.GetEnrollmentCustomizations(url.Values{})
 	if err != nil {
 		log.Fatalf("Failed to get enrollment customizations: %v", err)
 	}

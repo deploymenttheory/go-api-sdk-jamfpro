@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,10 +20,11 @@ func main() {
 	}
 
 	// Define sorting parameters
-	sortFilter := "name" // Example: "name" for sorting by name
+	params := url.Values{} // Example: "name" for sorting by name
+	params.Add("sort", "name")
 
 	// Fetch computer prestages using the V3 API
-	prestages, err := client.GetComputerPrestages(sortFilter)
+	prestages, err := client.GetComputerPrestages(params)
 	if err != nil {
 		log.Fatalf("Error fetching computer prestages: %v", err)
 	}

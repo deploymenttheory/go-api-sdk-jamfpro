@@ -12,6 +12,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -104,12 +105,12 @@ func (c *Client) GetSmartComputerGroupMembershipByID(id string) (*ResponseSmartC
 }
 
 // GetSmartComputerGroupsV2 retrieves a paginated list of all Smart Computer Groups using V2 API
-func (c *Client) GetSmartComputerGroupsV2(sort_filter string) (*ResponseSmartComputerGroupsListV2, error) {
+func (c *Client) GetSmartComputerGroupsV2(params url.Values) (*ResponseSmartComputerGroupsListV2, error) {
 	resp, err := c.DoPaginatedGet(
 		fmt.Sprintf("%s/smart-groups", uriAPIV2SmartComputerGroups),
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "smart computer groups", err)

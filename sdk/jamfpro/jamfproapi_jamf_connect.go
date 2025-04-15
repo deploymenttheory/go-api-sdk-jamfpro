@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -97,7 +98,7 @@ func (c *Client) GetJamfConnectConfigProfileByConfigProfileUUID(uuid string) (*R
 		return nil, fmt.Errorf("uuid cannot be empty")
 	}
 
-	profiles, err := c.GetJamfConnectConfigProfiles("")
+	profiles, err := c.GetJamfConnectConfigProfiles(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
 	}
@@ -117,7 +118,7 @@ func (c *Client) GetJamfConnectConfigProfileByID(profileID int) (*ResourceJamfCo
 		return nil, fmt.Errorf("profile ID must be greater than 0")
 	}
 
-	profiles, err := c.GetJamfConnectConfigProfiles("")
+	profiles, err := c.GetJamfConnectConfigProfiles(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
 	}
@@ -137,7 +138,7 @@ func (c *Client) GetJamfConnectConfigProfileByName(name string) (*ResourceJamfCo
 		return nil, fmt.Errorf("name cannot be empty")
 	}
 
-	profiles, err := c.GetJamfConnectConfigProfiles("")
+	profiles, err := c.GetJamfConnectConfigProfiles(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
 	}
@@ -152,14 +153,14 @@ func (c *Client) GetJamfConnectConfigProfileByName(name string) (*ResourceJamfCo
 }
 
 // GetJamfConnectConfigProfiles gets full list of Jamf Connect config profiles & handles pagination
-func (c *Client) GetJamfConnectConfigProfiles(sort_filter string) (*ResponseJamfConnectConfigProfilesList, error) {
+func (c *Client) GetJamfConnectConfigProfiles(params url.Values) (*ResponseJamfConnectConfigProfilesList, error) {
 	endpoint := fmt.Sprintf("%s/config-profiles", uriJamfConnect)
 
 	resp, err := c.DoPaginatedGet(
 		endpoint,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 
 	if err != nil {

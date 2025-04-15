@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -36,7 +37,7 @@ func main() {
 	// sections := []string{"GENERAL", "DISK_ENCRYPTION", "STORAGE"} // Example sections
 
 	// Call the GetComputersInventory function
-	inventoryList, err := client.GetComputersInventory("")
+	inventoryList, err := client.GetComputersInventory(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching computer inventory: %v", err)
 	}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Call GetAccountDrivenUserEnrollmentAccessGroups function
-	ADUEAccessGroups, err := client.GetAccountDrivenUserEnrollmentAccessGroups("")
+	ADUEAccessGroups, err := client.GetAccountDrivenUserEnrollmentAccessGroups(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching ADUE Access Groups: %v", err)
 	}

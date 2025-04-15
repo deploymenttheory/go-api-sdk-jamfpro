@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,10 +20,10 @@ func main() {
 	}
 
 	// Optional: Define sort filter (e.g., "id:asc" or "displayName:desc")
-	sortFilter := "id:desc"
+	params := url.Values{}
 
 	// Call GetCloudIdentityProviders function
-	cloudIdps, err := client.GetCloudIdentityProviders(sortFilter)
+	cloudIdps, err := client.GetCloudIdentityProviders(params)
 	if err != nil {
 		log.Fatalf("Error fetching cloud identity providers: %v", err)
 	}

@@ -13,6 +13,7 @@ package jamfpro
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -549,12 +550,12 @@ type RequestEraseDeviceComputer struct {
 // CRUD
 
 // GetComputersInventory retrieves all computer inventory information with optional sorting and section filters.
-func (c *Client) GetComputersInventory(sort_filter string) (*ResponseComputerInventoryList, error) {
+func (c *Client) GetComputersInventory(params url.Values) (*ResponseComputerInventoryList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriComputersInventory,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computers-inventories", err)
@@ -595,7 +596,7 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory
 
 // GetComputerInventoryByName retrieves a specific computer's inventory information by its name.
 func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInventory, error) {
-	inventories, err := c.GetComputersInventory("")
+	inventories, err := c.GetComputersInventory(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer inventory", err)
 	}
@@ -643,13 +644,13 @@ func (c *Client) DeleteComputerInventoryByID(id string) error {
 }
 
 // GetComputersFileVaultInventory retrieves all computer inventory filevault information.
-func (c *Client) GetComputersFileVaultInventory(sort_filter string) (*FileVaultInventoryList, error) {
+func (c *Client) GetComputersFileVaultInventory(params url.Values) (*FileVaultInventoryList, error) {
 	endpoint := fmt.Sprintf("%s/filevault", uriComputersInventory)
 	resp, err := c.DoPaginatedGet(
 		endpoint,
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "filevault inventories", err)

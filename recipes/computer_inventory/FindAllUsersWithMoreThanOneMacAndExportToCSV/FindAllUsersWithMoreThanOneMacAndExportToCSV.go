@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 	"strings"
 
@@ -27,8 +28,8 @@ func main() {
 	}
 
 	// Get computer inventory with all data
-	sortFilter := "id:asc"
-	inventoryList, err := client.GetComputersInventory(sortFilter)
+	params := url.Values{}
+	inventoryList, err := client.GetComputersInventory(params)
 	if err != nil {
 		log.Fatalf("Failed to get computer inventory data: %v", err)
 	}

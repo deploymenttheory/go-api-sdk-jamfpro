@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -164,12 +165,12 @@ func (c *Client) GetManagedSoftwareUpdates() (*ResponseManagedSoftwareUpdateList
 }
 
 // GetManagedSoftwareUpdatePlans retrieves a list of all available managed software updates
-func (c *Client) GetManagedSoftwareUpdatePlans(sort_filter string) (*ResponseManagedSoftwareUpdatePlanList, error) {
+func (c *Client) GetManagedSoftwareUpdatePlans(params url.Values) (*ResponseManagedSoftwareUpdatePlanList, error) {
 	resp, err := c.DoPaginatedGet(
 		uriManagedSoftwareUpdates+"/plans",
 		standardPageSize,
 		startingPageNumber,
-		sort_filter,
+		params,
 	)
 
 	if err != nil {

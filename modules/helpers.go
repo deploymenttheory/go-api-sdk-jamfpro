@@ -3,6 +3,7 @@ package modules
 import (
 	"fmt"
 	"math/rand"
+	"net/url"
 	"time"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -28,7 +29,7 @@ func GenerateRandomRecoveryLockPassword() string {
 
 // GetManagementIDByDeviceName retrieves the management ID for a device by its name.
 func GetManagementIDByDeviceName(client *jamfpro.Client, deviceName string) (string, error) {
-	inventories, err := client.GetComputersInventory("")
+	inventories, err := client.GetComputersInventory(url.Values{})
 	if err != nil {
 		return "", fmt.Errorf("failed to get computer inventory: %w", err)
 	}

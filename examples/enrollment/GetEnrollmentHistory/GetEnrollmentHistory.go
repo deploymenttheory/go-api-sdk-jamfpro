@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -20,7 +21,7 @@ func main() {
 
 	// Call GetEnrollmentHistory function
 	// You can add sorting parameters like "sort=date:desc" to sort by date in descending order
-	history, err := client.GetEnrollmentHistory("")
+	history, err := client.GetEnrollmentHistory(url.Values{})
 	if err != nil {
 		log.Fatalf("Error getting enrollment history: %v", err)
 	}

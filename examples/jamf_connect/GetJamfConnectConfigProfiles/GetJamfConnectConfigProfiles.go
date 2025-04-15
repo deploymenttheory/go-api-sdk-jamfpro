@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -20,7 +21,7 @@ func main() {
 
 	// Call GetJamfConnectConfigProfiles function to fetch profiles
 	// You can provide sort parameters like "status:asc,updated:desc" or leave empty "" for default sorting
-	profiles, err := client.GetJamfConnectConfigProfiles("")
+	profiles, err := client.GetJamfConnectConfigProfiles(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Jamf Connect config profiles: %v", err)
 	}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Call GetApiIntegrations function
-	response, err := client.GetApiIntegrations("")
+	response, err := client.GetApiIntegrations(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching API Integrations: %v", err)
 	}

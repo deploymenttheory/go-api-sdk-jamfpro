@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 
 	"github.com/mitchellh/mapstructure"
@@ -44,9 +45,9 @@ type ResourceClientCredentials struct {
 // CRUD
 
 // GetApiIntegrations fetches all API integrations
-func (c *Client) GetApiIntegrations(sort_filter string) (*ResponseApiIntegrationsList, error) {
+func (c *Client) GetApiIntegrations(params url.Values) (*ResponseApiIntegrationsList, error) {
 	endpoint := uriApiIntegrations
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
+	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}
@@ -84,7 +85,7 @@ func (c *Client) GetApiIntegrationByID(id string) (*ResourceApiIntegration, erro
 
 // GetApiIntegrationNameByID fetches an API integration by its display name and then retrieves its details using its ID
 func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, error) {
-	integrations, err := c.GetApiIntegrations("")
+	integrations, err := c.GetApiIntegrations(url.Values{})
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integration", err)
 	}

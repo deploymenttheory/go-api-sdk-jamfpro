@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,10 +20,11 @@ func main() {
 	}
 
 	// Define a sort filter (you can modify this as needed)
-	sortFilter := "sort=date:desc"
+	params := url.Values{}
+	params.Add("sort", "date:desc")
 
 	// Call GetJamfProtectHistory function
-	history, err := client.GetJamfProtectHistory(sortFilter)
+	history, err := client.GetJamfProtectHistory(params)
 	if err != nil {
 		log.Fatalf("Error fetching Jamf Protect history: %v", err)
 	}

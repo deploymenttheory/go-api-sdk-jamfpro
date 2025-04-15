@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 	"strings"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/modules"
@@ -41,7 +42,7 @@ func main() {
 	fmt.Printf("Hardware UUID: %s\n", macUUID)
 
 	// Get computers inventory to find computer by UUID
-	inventory, err := client.GetComputersInventory("")
+	inventory, err := client.GetComputersInventory(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching computer inventory: %v", err)
 	}

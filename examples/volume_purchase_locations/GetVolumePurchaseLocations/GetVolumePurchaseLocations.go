@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -20,7 +21,7 @@ func main() {
 
 	// Example of calling GetVolumePurchaseLocations
 	fmt.Println("Fetching all volume purchasing locations...")
-	vplList, err := client.GetVolumePurchaseLocations("") // Pass nil or empty for no sort/filter
+	vplList, err := client.GetVolumePurchaseLocations(url.Values{}) // Pass nil or empty for no sort/filter
 	if err != nil {
 		fmt.Printf("Error fetching volume purchasing locations: %v\n", err)
 		return

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Call GetJamfAppCatalogAppInstallerTitles function
-	appInstallers, err := client.GetJamfAppCatalogAppInstallerTitles("")
+	appInstallers, err := client.GetJamfAppCatalogAppInstallerTitles(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Jamf App Catalog App Installer list: %v", err)
 	}

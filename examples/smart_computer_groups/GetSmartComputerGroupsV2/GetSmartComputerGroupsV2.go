@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,10 +20,12 @@ func main() {
 	}
 
 	// Set sorting filter (optional)
-	sortFilter := "name:asc"
+
+	params := url.Values{}
+	params.Add("sort", "name:asc")
 
 	// Call function
-	groups, err := client.GetSmartComputerGroupsV2(sortFilter)
+	groups, err := client.GetSmartComputerGroupsV2(params)
 	if err != nil {
 		log.Fatalf("Error fetching smart computer groups v2: %v", err)
 	}

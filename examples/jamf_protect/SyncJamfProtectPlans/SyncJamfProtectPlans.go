@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -28,7 +29,7 @@ func main() {
 
 	// Optional: You could add additional operations here, such as fetching and displaying the synced plans
 	// For example:
-	plans, err := client.GetJamfProtectPlans("")
+	plans, err := client.GetJamfProtectPlans(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Jamf Protect plans: %v", err)
 	}

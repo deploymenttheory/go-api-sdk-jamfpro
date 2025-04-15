@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	// Call GetScripts function
-	scripts, err := client.GetScripts("")
+	scripts, err := client.GetScripts(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching scripts: %v", err)
 	}

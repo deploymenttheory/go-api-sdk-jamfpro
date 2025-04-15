@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,7 +22,7 @@ func main() {
 	}
 
 	// Fetch all API integrations
-	integrations, err := client.GetApiIntegrations("")
+	integrations, err := client.GetApiIntegrations(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching API integrations: %v", err)
 	}
@@ -53,7 +54,7 @@ func main() {
 	// Process each integration
 	for _, integration := range integrations.Results {
 		// Fetch API roles for this integration
-		roles, err := client.GetJamfAPIRoles("")
+		roles, err := client.GetJamfAPIRoles(url.Values{})
 		if err != nil {
 			log.Printf("Error fetching API roles for integration %d: %v", integration.ID, err)
 			continue
