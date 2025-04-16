@@ -4,7 +4,6 @@ package jamfpro
 
 import (
 	"fmt"
-	"log"
 	"net/url"
 	"strconv"
 )
@@ -53,7 +52,6 @@ func (c *Client) DoPaginatedGet(
 
 	params.Add("page", strconv.Itoa(startingPageNumber))
 	params.Add("page-size", strconv.Itoa(maxPageSize))
-	encodedParams := params.Encode()
 
 	var OutStruct StandardPaginatedResponse
 	var TargetObjectAccumulator StandardPaginatedResponse
@@ -61,8 +59,8 @@ func (c *Client) DoPaginatedGet(
 	var page = startingPageNumber
 
 	for {
+		encodedParams := params.Encode()
 		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
-		log.Printf("DEBUG: Fetching from endpoint: %s", endpoint)
 		resp, err := c.HTTP.DoRequest(
 			"GET",
 			endpoint,
@@ -87,6 +85,8 @@ func (c *Client) DoPaginatedGet(
 		}
 
 		page++
+		params.Del("page")
+		params.Add("page", strconv.Itoa(page))
 
 	}
 
