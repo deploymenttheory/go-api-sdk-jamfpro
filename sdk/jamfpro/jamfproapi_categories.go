@@ -50,6 +50,8 @@ func (c *Client) GetCategories(params url.Values) (*ResponseCategoriesList, erro
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
 	}
 
+	fmt.Println(resp.Results)
+
 	var out ResponseCategoriesList
 	out.TotalCount = resp.Size
 
