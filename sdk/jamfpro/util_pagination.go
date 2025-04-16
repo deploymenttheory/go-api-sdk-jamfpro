@@ -50,8 +50,13 @@ func (c *Client) DoPaginatedGet(
 		params = url.Values{}
 	}
 
-	params.Add("page", strconv.Itoa(startingPageNumber))
-	params.Add("page-size", strconv.Itoa(maxPageSize))
+	if params.Get("page") == "" {
+		params.Add("page", strconv.Itoa(startingPageNumber))
+	}
+
+	if params.Get("page-size") == "" {
+		params.Add("page-size", strconv.Itoa(maxPageSize))
+	}
 
 	var OutStruct StandardPaginatedResponse
 	var TargetObjectAccumulator StandardPaginatedResponse
