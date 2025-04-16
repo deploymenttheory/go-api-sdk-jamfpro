@@ -64,13 +64,14 @@ func (c *Client) DoPaginatedGet(
 	var page = startingPageNumber
 
 	for {
+		TargetObjectAccumulator := StandardPaginatedResponse{}
 		encodedParams := params.Encode()
 		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
 		resp, err := c.HTTP.DoRequest(
 			"GET",
 			endpoint,
 			nil,
-			&TargetObjectAccumulator,
+			TargetObjectAccumulator,
 		)
 
 		if err != nil {
