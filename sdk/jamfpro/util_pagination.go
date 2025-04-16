@@ -47,6 +47,10 @@ func (c *Client) DoPaginatedGet(
 	params url.Values,
 ) (*StandardPaginatedResponse, error) {
 
+	if params == nil {
+		params = url.Values{}
+	}
+
 	params.Add("page", strconv.Itoa(startingPageNumber))
 	params.Add("page-size", strconv.Itoa(maxPageSize))
 	encodedParams := params.Encode()
