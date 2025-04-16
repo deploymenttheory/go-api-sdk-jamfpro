@@ -56,7 +56,7 @@ func (c *Client) DoPaginatedGet(
 	var page = startingPageNumber
 
 	for {
-		endpoint := fmt.Sprintf("%s?page=%d&page-size=%d%s", endpoint_root, startingPageNumber, maxPageSize, params)
+		endpoint := fmt.Sprintf("%s?%s", endpoint_root, params.Encode())
 		log.Printf("DEBUG: Fetching from endpoint: %s", endpoint)
 		resp, err := c.HTTP.DoRequest(
 			"GET",
