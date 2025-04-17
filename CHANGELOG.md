@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v2.0.0...v2.0.1) (2025-04-17)
+
+
+### Bug Fixes
+
+* release please to release type go ([af961b5](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/af961b5cb3de7c9df1ec53b1dcf60aecfbae00f9))
+
 ## [2.0.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.27.1...v2.0.0) (2025-04-17)
 
 
