@@ -24,8 +24,8 @@ func main() {
 			DeviceName:   "iPad",
 			Name:         "iPad",
 			AssetTag:     "string",
-			SerialNumber: "C02Q7KHTGFWD",
-			UDID:         "270aae10800b6e61a2ee2bbc285eb967050b6984",
+			SerialNumber: "C02Q7KHTGFW2",
+			UDID:         "270aae10800b6e61a2ee2bbc285eb967050b6112",
 		},
 	}
 
