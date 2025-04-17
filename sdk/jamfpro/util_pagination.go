@@ -33,7 +33,7 @@ func (c *Client) DoPaginatedGet(
 	}
 
 	if params.Get("page") == "" {
-		// Some warning logic should be here
+		// Some warning log should be here
 		params.Add("page", startingPageNumber)
 	}
 
