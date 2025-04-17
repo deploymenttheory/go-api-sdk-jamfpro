@@ -23,10 +23,7 @@ type StandardPaginatedResponse struct {
 //   - params: Query parameters including optional "page", "page-size", and "sort".
 //
 // Returns a combined StandardPaginatedResponse or an error if a request fails.
-func (c *Client) DoPaginatedGet(
-	endpoint_root string,
-	params url.Values,
-) (*StandardPaginatedResponse, error) {
+func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*StandardPaginatedResponse, error) {
 
 	if params == nil {
 		params = url.Values{}
