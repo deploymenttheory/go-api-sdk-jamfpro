@@ -51,14 +51,10 @@ func (c *Client) GetCategories(params url.Values) (*ResponseCategoriesList, erro
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
 	}
 
-	fmt.Println(resp.Results)
-
 	var out ResponseCategoriesList
 	out.TotalCount = resp.Size
 
 	for _, value := range resp.Results {
-		fmt.Println("LOOP")
-		fmt.Println(value)
 		var newObj ResourceCategory
 		err := mapstructure.Decode(value, &newObj)
 		if err != nil {
