@@ -48,7 +48,7 @@ func (c *Client) DoPaginatedGet(
 	var page, err = strconv.Atoi(params.Get("page"))
 
 	if err != nil {
-		return nil, fmt.Errorf("error getting page number: %v", err)
+		return nil, fmt.Errorf("error converting page number: %v", err)
 	}
 
 	for {
@@ -64,7 +64,7 @@ func (c *Client) DoPaginatedGet(
 		)
 
 		if err != nil {
-			return nil, fmt.Errorf("failed to fetch obj %v", err)
+			return nil, fmt.Errorf("failed to fetch page %v", err)
 		}
 
 		if resp != nil {
