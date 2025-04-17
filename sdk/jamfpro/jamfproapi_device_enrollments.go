@@ -87,12 +87,8 @@ type ResponseDeviceEnrollmentTokenUpload struct {
 
 // GetDeviceEnrollments retrieves a paginated list of device enrollments.
 func (c *Client) GetDeviceEnrollments(params url.Values) (*ResponseDeviceEnrollmentsList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriDeviceEnrollments,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriDeviceEnrollments, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "device enrollments", err)
 	}

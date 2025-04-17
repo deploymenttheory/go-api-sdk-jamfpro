@@ -38,12 +38,7 @@ type ResponseComputerExtensionAttributeCreated struct {
 
 // GetComputerExtensionAttributes retrieves all computer extension attributes with pagination
 func (c *Client) GetComputerExtensionAttributes(params url.Values) (*ResponseComputerExtensionAttributesList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriComputerExtensionAttributes,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriComputerExtensionAttributes, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer extension attributes", err)

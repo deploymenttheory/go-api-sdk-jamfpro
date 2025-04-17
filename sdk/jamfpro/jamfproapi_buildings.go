@@ -63,12 +63,7 @@ type ResourceBuildingResourceHistory struct {
 
 // GetBuildings retrieves all building information with optional sorting.
 func (c *Client) GetBuildings(params url.Values) (*ResponseBuildingsList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriBuildings,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriBuildings, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "buildings", err)
@@ -233,7 +228,7 @@ func (c *Client) DeleteMultipleBuildingsByID(ids []string) error {
 func (c *Client) GetBuildingResourceHistoryByID(id string, params url.Values) (*ResponseBuildingResourceHistoryList, error) {
 	endpoint := fmt.Sprintf("%s/%s/history", uriBuildings, id)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "building histories", err)
 	}

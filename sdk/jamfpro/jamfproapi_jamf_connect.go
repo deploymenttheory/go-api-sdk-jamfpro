@@ -156,12 +156,7 @@ func (c *Client) GetJamfConnectConfigProfileByName(name string) (*ResourceJamfCo
 func (c *Client) GetJamfConnectConfigProfiles(params url.Values) (*ResponseJamfConnectConfigProfilesList, error) {
 	endpoint := fmt.Sprintf("%s/config-profiles", uriJamfConnect)
 
-	resp, err := c.DoPaginatedGet(
-		endpoint,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "jamf connect config profiles", err)

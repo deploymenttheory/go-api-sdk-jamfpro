@@ -40,12 +40,8 @@ type ResourceSelfServiceBrandingDetail struct {
 
 // GetSelfServiceBrandingMacOS retrieves the list of self-service branding configurations for macOS.
 func (c *Client) GetSelfServiceBrandingMacOS(params url.Values) (*ResponseSelfServiceBrandingList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriSelfServiceBrandingMacOS,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriSelfServiceBrandingMacOS, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "self service branding", err)
 	}

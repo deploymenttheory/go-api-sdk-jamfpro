@@ -177,7 +177,7 @@ func (c *Client) RetryJamfProtectInstallTasks(deploymentID string, taskIDs []str
 func (c *Client) GetJamfProtectHistory(params url.Values) (*ResponseJamfProtectHistoryList, error) {
 	endpoint := fmt.Sprintf("%s/history", uriJamfProtect)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf Protect history", err)
 	}
@@ -201,7 +201,7 @@ func (c *Client) GetJamfProtectHistory(params url.Values) (*ResponseJamfProtectH
 func (c *Client) GetJamfProtectPlans(params url.Values) (*ResponseJamfProtectPlansList, error) {
 	endpoint := fmt.Sprintf("%s/plans", uriJamfProtect)
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf Protect plans", err)
 	}

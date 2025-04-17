@@ -35,8 +35,8 @@ type ResourceCloudIdentityProvider struct {
 
 // GetCloudIdentityProviders retrieves all cloud identity provider configurations
 func (c *Client) GetCloudIdentityProviders(params url.Values) (*ResponseCloudIdentityProvidersList, error) {
-	endpoint := uriCloudIdp
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
+
+	resp, err := c.DoPaginatedGet(uriCloudIdp, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "cloud identity providers", err)
 	}

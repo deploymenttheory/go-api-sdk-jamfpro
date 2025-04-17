@@ -142,12 +142,8 @@ Example:
 	fmt.Println(history)
 */
 func (c *Client) GetGSXConnectionHistory(params url.Values) (*ResponseGSXConnectionHistoryList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriGSXConnection,
-		maxPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriGSXConnection, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "gsx connection history", err)
 	}

@@ -139,12 +139,7 @@ type EnrollmentCustomizationSubsetBrandingSettings struct {
 // Returns paginated list of Enrollment Customization
 func (c *Client) GetEnrollmentCustomizations(params url.Values) (*ResponseEnrollmentCustomizationList, error) {
 	endpoint := uriEnrollmentCustomizationSettingsV2
-	resp, err := c.DoPaginatedGet(
-		endpoint,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "enrollment customization", err)

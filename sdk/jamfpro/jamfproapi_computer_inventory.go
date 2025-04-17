@@ -551,12 +551,8 @@ type RequestEraseDeviceComputer struct {
 
 // GetComputersInventory retrieves all computer inventory information with optional sorting and section filters.
 func (c *Client) GetComputersInventory(params url.Values) (*ResponseComputerInventoryList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriComputersInventory,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriComputersInventory, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computers-inventories", err)
 	}
@@ -646,12 +642,8 @@ func (c *Client) DeleteComputerInventoryByID(id string) error {
 // GetComputersFileVaultInventory retrieves all computer inventory filevault information.
 func (c *Client) GetComputersFileVaultInventory(params url.Values) (*FileVaultInventoryList, error) {
 	endpoint := fmt.Sprintf("%s/filevault", uriComputersInventory)
-	resp, err := c.DoPaginatedGet(
-		endpoint,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(endpoint, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "filevault inventories", err)
 	}

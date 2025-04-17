@@ -48,12 +48,7 @@ type ResourceBookmark struct {
 
 // GetBookmarks retrieves all bookmark information with optional sorting
 func (c *Client) GetBookmarks(params url.Values) (*ResponseBookmarksList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriBookmarks,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriBookmarks, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "bookmarks", err)

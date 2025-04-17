@@ -46,8 +46,7 @@ type ResourceClientCredentials struct {
 
 // GetApiIntegrations fetches all API integrations
 func (c *Client) GetApiIntegrations(params url.Values) (*ResponseApiIntegrationsList, error) {
-	endpoint := uriApiIntegrations
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
+	resp, err := c.DoPaginatedGet(uriApiIntegrations, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integrations", err)
 	}

@@ -36,12 +36,8 @@ type ResourceDepartment struct {
 // GetDepartments retrieves a list of all departments in list
 func (c *Client) GetDepartments(params url.Values) (*ResponseDepartmentsList, error) {
 	endpoint := uriDepartments
-	resp, err := c.DoPaginatedGet(
-		endpoint,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(endpoint, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "departments", err)
 	}

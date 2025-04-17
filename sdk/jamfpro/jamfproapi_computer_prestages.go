@@ -192,12 +192,7 @@ type OnboardingItem struct {
 
 // GetComputerPrestagesV3 retrieves all computer prestage information with optional sorting.
 func (c *Client) GetComputerPrestages(params url.Values) (*ResponseComputerPrestagesList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriComputerPrestagesV3,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriComputerPrestagesV3, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)

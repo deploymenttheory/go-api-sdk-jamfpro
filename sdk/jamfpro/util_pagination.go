@@ -42,7 +42,6 @@ type StandardPaginatedResponse struct {
 // the maximum page size, indicating that it is the last page.
 func (c *Client) DoPaginatedGet(
 	endpoint_root string,
-	maxPageSize, startingPageNumber int,
 	params url.Values,
 ) (*StandardPaginatedResponse, error) {
 
@@ -51,17 +50,23 @@ func (c *Client) DoPaginatedGet(
 	}
 
 	if params.Get("page") == "" {
-		params.Add("page", strconv.Itoa(startingPageNumber))
+		// Some warning logic should be here
+		params.Add("page", startingPageNumber)
 	}
 
 	if params.Get("page-size") == "" {
-		params.Add("page-size", strconv.Itoa(maxPageSize))
+		// and here
+		params.Add("page-size", standardPageSize)
 	}
 
 	var OutStruct StandardPaginatedResponse
 	var TargetObjectAccumulator StandardPaginatedResponse
 	var OutData []interface{}
-	var page = startingPageNumber
+	var page, err = strconv.Atoi(params.Get("page"))
+
+	if err != nil {
+		return nil, fmt.Errorf("error getting page number: %v", err)
+	}
 
 	for {
 		TargetObjectAccumulator := StandardPaginatedResponse{}
@@ -85,7 +90,6 @@ func (c *Client) DoPaginatedGet(
 		OutData = append(OutData, TargetObjectAccumulator.Results...)
 
 		if len(OutData) >= TargetObjectAccumulator.Size ||
-			len(TargetObjectAccumulator.Results) < maxPageSize ||
 			len(TargetObjectAccumulator.Results) == 0 {
 			break
 		}

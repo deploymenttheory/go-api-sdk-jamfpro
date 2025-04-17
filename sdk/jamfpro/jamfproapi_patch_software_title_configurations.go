@@ -163,12 +163,8 @@ func (c *Client) GetPatchSoftwareTitleDefinitions(id string, params url.Values) 
 
 	endpoint := fmt.Sprintf("%s/%s/definitions", uriPatchSoftwareTitleConfigurations, id)
 
-	resp, err := c.DoPaginatedGet(
-		endpoint,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(endpoint, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch software title definitions", err)
 	}

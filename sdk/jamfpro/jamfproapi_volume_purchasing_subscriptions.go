@@ -50,12 +50,8 @@ type VolumePurchasingSubscriptionSubsetExternalRecipients struct {
 
 // GetVolumePurchasingSubscriptions retrieves all volume purchasing subscriptions
 func (c *Client) GetVolumePurchasingSubscriptions(params url.Values) (*ResponseVolumePurchasingSubscriptionsList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriVolumePurchasingSubscriptions,
-		maxPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriVolumePurchasingSubscriptions, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "volume purchasing subscriptions", err)
 	}

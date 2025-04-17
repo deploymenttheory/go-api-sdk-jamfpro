@@ -45,7 +45,8 @@ type ResponseCategoryCreateAndUpdate struct {
 // - sort: A string specifying the sorting order of the returned categories.
 // - filter: A string to filter the categories based on certain criteria.
 func (c *Client) GetCategories(params url.Values) (*ResponseCategoriesList, error) {
-	resp, err := c.DoPaginatedGet(uriCategories, 1, 0, params)
+	resp, err := c.DoPaginatedGet(uriCategories, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
 	}

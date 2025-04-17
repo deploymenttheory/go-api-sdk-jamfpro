@@ -170,7 +170,7 @@ type ResourceLanguageCode struct {
 // GetEnrollmentHistory fetches the enrollment history from the Jamf Pro API
 func (c *Client) GetEnrollmentHistory(params url.Values) (*ResponseEnrollmentHistory, error) {
 	endpoint := fmt.Sprintf("%s/history", uriEnrollmentV2)
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Enrollment History", err)
 	}
@@ -192,7 +192,7 @@ func (c *Client) GetEnrollmentHistory(params url.Values) (*ResponseEnrollmentHis
 // GetAccountDrivenUserEnrollmentAccessGroups fetches all ADUE access groups
 func (c *Client) GetAccountDrivenUserEnrollmentAccessGroups(params url.Values) (*ResponseAccountDrivenUserEnrollmentAccessGroupsList, error) {
 	endpoint := fmt.Sprintf("%s/access-groups", uriEnrollmentV3)
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "ADUE Access Group List", err)
 	}

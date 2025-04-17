@@ -133,7 +133,7 @@ type MobileDevicePrestageSubsetNamesName struct {
 // GetMobileDevicePrestages retrieves a list of all mobile prestages
 func (c *Client) GetMobileDevicePrestages(params url.Values) (*ResponseMobileDevicePrestagesList, error) {
 	endpoint := uriMobileDevicePrestages
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, startingPageNumber, params)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "mobile device prestages", err)
 	}

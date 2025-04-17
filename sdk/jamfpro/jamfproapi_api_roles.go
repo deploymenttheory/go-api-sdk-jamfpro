@@ -35,9 +35,8 @@ type ResourceAPIRole struct {
 
 // GetJamfAPIRoles fetches a list of Jamf API roles
 func (c *Client) GetJamfAPIRoles(params url.Values) (*ResponseApiRolesList, error) {
-	endpoint := uriApiRoles
 
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, params)
+	resp, err := c.DoPaginatedGet(uriApiRoles, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api roles", err)
 	}

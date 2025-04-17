@@ -156,12 +156,7 @@ func (c *Client) AcceptJamfAppCatalogAppInstallerTermsAndConditions() (*Response
 
 // Gets full list of Get Jamf App Catalog App Installer Titles & handles pagination
 func (c *Client) GetJamfAppCatalogAppInstallerTitles(params url.Values) (*ResponseJamfAppCatalogTitleList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriJamfAppCatalogAppInstaller+"/titles",
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriJamfAppCatalogAppInstaller+"/titles", params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf App Catalog Titles", err)

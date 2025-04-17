@@ -57,12 +57,7 @@ type ResourceScript struct {
 
 // Gets full list of scripts & handles pagination
 func (c *Client) GetScripts(params url.Values) (*ResponseScriptsList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriScripts,
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriScripts, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "scripts", err)

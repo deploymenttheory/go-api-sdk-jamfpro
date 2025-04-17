@@ -136,12 +136,7 @@ type ResourcePatchPolicyCreateRequestGracePeriod struct {
 
 // GetPatchPolicies gets the full list of patch policies & handles pagination
 func (c *Client) GetPatchPolicies(params url.Values) (*ResponsePatchPoliciesList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriPatchPoliciesJamfProAPI+"/policy-details",
-		standardPageSize,
-		startingPageNumber,
-		params,
-	)
+	resp, err := c.DoPaginatedGet(uriPatchPoliciesJamfProAPI+"/policy-details", params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch policies", err)
