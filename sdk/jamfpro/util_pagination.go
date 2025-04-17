@@ -31,12 +31,12 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Stand
 
 	if params.Get("page") == "" {
 		// Some warning log should be here
-		params.Add("page", startingPageNumber)
+		params.Add("page", "0")
 	}
 
 	if params.Get("page-size") == "" {
 		// and here
-		params.Add("page-size", standardPageSize)
+		params.Add("page-size", "100")
 	}
 
 	var outStruct StandardPaginatedResponse
