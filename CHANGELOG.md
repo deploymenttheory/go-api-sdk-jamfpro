@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.28.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.27.1...v1.28.0) (2025-04-17)
+
+
+### Features
+
+* new pagination logic ([90fe99c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/90fe99c54de569c62a0be0ecb903dc83005775c1))
+
 ## [2.0.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v2.0.0...v2.0.1) (2025-04-17)
 
 
