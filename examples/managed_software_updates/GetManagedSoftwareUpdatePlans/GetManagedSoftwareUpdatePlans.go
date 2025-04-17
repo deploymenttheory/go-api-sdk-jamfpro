@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,12 +20,13 @@ func main() {
 	}
 
 	// Call GetManagedSoftwareUpdatePlans function
-	updatePlans, err := client.GetManagedSoftwareUpdatePlans("")
+	updatePlans, err := client.GetManagedSoftwareUpdatePlans(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching managed software update plans: %v", err)
 	}
 
 	// Pretty print the managed software update plans in json
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	updatePlansJSON, err := json.MarshalIndent(updatePlans, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling managed software update plans data: %v", err)

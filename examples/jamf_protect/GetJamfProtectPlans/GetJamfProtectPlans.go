@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,10 +20,12 @@ func main() {
 	}
 
 	// Define a sort filter (you can modify this as needed)
-	sortFilter := "sort=name:asc"
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	params := url.Values{}
+	params.Add("sort", "name:asc")
 
 	// Call GetJamfProtectPlans function
-	plans, err := client.GetJamfProtectPlans(sortFilter)
+	plans, err := client.GetJamfProtectPlans(params)
 	if err != nil {
 		log.Fatalf("Error fetching Jamf Protect plans: %v", err)
 	}

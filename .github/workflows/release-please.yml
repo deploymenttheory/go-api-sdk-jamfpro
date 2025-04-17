@@ -16,5 +16,5 @@ jobs:
     steps:
     - uses: googleapis/release-please-action@v4.2.0
       with:
-        release-type: simple
+        release-type: go
         token: ${{ secrets.RELEASE_PLEASE_PAT }}

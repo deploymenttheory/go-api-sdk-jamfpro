@@ -6,6 +6,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -46,13 +47,8 @@ type ResourceBookmark struct {
 // CRUD
 
 // GetBookmarks retrieves all bookmark information with optional sorting
-func (c *Client) GetBookmarks(sort_filter string) (*ResponseBookmarksList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriBookmarks,
-		standardPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
+func (c *Client) GetBookmarks(params url.Values) (*ResponseBookmarksList, error) {
+	resp, err := c.DoPaginatedGet(uriBookmarks, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "bookmarks", err)
@@ -92,7 +88,7 @@ func (c *Client) GetBookmarkByID(id string) (*ResourceBookmark, error) {
 
 // GetBookmarkByName retrieves a single bookmark information by its name
 func (c *Client) GetBookmarkByName(name string) (*ResourceBookmark, error) {
-	bookmarks, err := c.GetBookmarks("")
+	bookmarks, err := c.GetBookmarks(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "bookmark", err)
 	}

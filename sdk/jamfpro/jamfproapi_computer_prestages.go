@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -190,13 +191,8 @@ type OnboardingItem struct {
 // CRUD
 
 // GetComputerPrestagesV3 retrieves all computer prestage information with optional sorting.
-func (c *Client) GetComputerPrestages(sort_filter string) (*ResponseComputerPrestagesList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriComputerPrestagesV3,
-		standardPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
+func (c *Client) GetComputerPrestages(params url.Values) (*ResponseComputerPrestagesList, error) {
+	resp, err := c.DoPaginatedGet(uriComputerPrestagesV3, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
@@ -235,7 +231,7 @@ func (c *Client) GetComputerPrestageByID(id string) (*ResourceComputerPrestage, 
 
 // GetComputerPrestageByName retrieves a specific computer prestage by its name.
 func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPrestage, error) {
-	prestages, err := c.GetComputerPrestages("")
+	prestages, err := c.GetComputerPrestages(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
 	}

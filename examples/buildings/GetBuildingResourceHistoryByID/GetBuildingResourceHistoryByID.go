@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -18,8 +19,9 @@ func main() {
 	}
 
 	// Example: Fetch the resource history of a building by ID
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	buildingID := "" // Replace with a real building ID
-	history, err := client.GetBuildingResourceHistoryByID(buildingID, "")
+	history, err := client.GetBuildingResourceHistoryByID(buildingID, url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching building resource history: %v", err)
 	}

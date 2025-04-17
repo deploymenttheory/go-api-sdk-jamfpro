@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -18,7 +19,8 @@ func main() {
 	}
 
 	// Fetch all departments
-	departments, err := client.GetDepartments("")
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	departments, err := client.GetDepartments(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching departments: %v", err)
 	}

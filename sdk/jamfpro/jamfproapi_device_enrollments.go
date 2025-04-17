@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -85,13 +86,9 @@ type ResponseDeviceEnrollmentTokenUpload struct {
 // CRUD
 
 // GetDeviceEnrollments retrieves a paginated list of device enrollments.
-func (c *Client) GetDeviceEnrollments(sort_filter string) (*ResponseDeviceEnrollmentsList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriDeviceEnrollments,
-		standardPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
+func (c *Client) GetDeviceEnrollments(params url.Values) (*ResponseDeviceEnrollmentsList, error) {
+	resp, err := c.DoPaginatedGet(uriDeviceEnrollments, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "device enrollments", err)
 	}
@@ -130,7 +127,7 @@ func (c *Client) GetDeviceEnrollmentByID(id string) (*ResourceDeviceEnrollment, 
 
 // GetDeviceEnrollmentByName retrieves a device enrollment by Name.
 func (c *Client) GetDeviceEnrollmentByName(name string) (*ResourceDeviceEnrollment, error) {
-	enrollments, err := c.GetDeviceEnrollments("")
+	enrollments, err := c.GetDeviceEnrollments(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "device enrollments", err)
 	}
@@ -145,7 +142,7 @@ func (c *Client) GetDeviceEnrollmentByName(name string) (*ResourceDeviceEnrollme
 }
 
 // GetDeviceEnrollmentHistory retrieves the history for a specific device enrollment
-func (c *Client) GetDeviceEnrollmentHistory(id string, sort_filter string) (*ResponseDeviceEnrollmentHistory, error) {
+func (c *Client) GetDeviceEnrollmentHistory(id string, params url.Values) (*ResponseDeviceEnrollmentHistory, error) {
 	endpoint := fmt.Sprintf("%s/%s/history", uriDeviceEnrollments, id)
 	var out ResponseDeviceEnrollmentHistory
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)

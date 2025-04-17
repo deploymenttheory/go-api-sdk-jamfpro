@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
@@ -20,10 +21,12 @@ func main() {
 	}
 
 	// Sort filter
-	sortFilter := "sort=id:desc"
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	params := url.Values{}
+	params.Add("sort", "id:desc")
 
 	// Call the GetSelfServiceBrandingMacOS function and handle any errors
-	branding, err := client.GetSelfServiceBrandingMacOS(sortFilter)
+	branding, err := client.GetSelfServiceBrandingMacOS(params)
 	if err != nil {
 		// If there's an error, log it to stderr and exit with a non-zero status code
 		fmt.Fprintf(os.Stderr, "Error fetching self-service branding for macOS: %v\n", err)
