@@ -103,7 +103,7 @@ func (c *Client) GetBuildingByID(id string) (*ResourceBuilding, error) {
 
 // GetBuildingByNameByID retrieves a single building information by its name using GetBuildingByID.
 func (c *Client) GetBuildingByName(name string) (*ResourceBuilding, error) {
-	buildings, err := c.GetBuildings(url.Values{})
+	buildings, err := c.GetBuildings(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "building", err)
 	}

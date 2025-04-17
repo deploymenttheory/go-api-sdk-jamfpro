@@ -78,7 +78,7 @@ func (c *Client) GetComputerExtensionAttributeByID(id string) (*ResourceComputer
 
 // GetComputerExtensionAttributeByName retrieves a computer extension attribute by its name
 func (c *Client) GetComputerExtensionAttributeByName(name string) (*ResourceComputerExtensionAttribute, error) {
-	attributes, err := c.GetComputerExtensionAttributes(url.Values{})
+	attributes, err := c.GetComputerExtensionAttributes(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer extension attributes", err)
 	}

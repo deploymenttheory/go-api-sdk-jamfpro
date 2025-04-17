@@ -85,7 +85,7 @@ func (c *Client) GetCategoryByID(id string) (*ResourceCategory, error) {
 
 // GetCategoryNameByID retrieves a category by its name and then retrieves its details using its ID
 func (c *Client) GetCategoryByName(name string) (*ResourceCategory, error) {
-	categories, err := c.GetCategories(url.Values{})
+	categories, err := c.GetCategories(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "categories", err)
 	}

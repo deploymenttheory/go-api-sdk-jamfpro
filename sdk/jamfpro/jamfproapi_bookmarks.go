@@ -88,7 +88,7 @@ func (c *Client) GetBookmarkByID(id string) (*ResourceBookmark, error) {
 
 // GetBookmarkByName retrieves a single bookmark information by its name
 func (c *Client) GetBookmarkByName(name string) (*ResourceBookmark, error) {
-	bookmarks, err := c.GetBookmarks(url.Values{})
+	bookmarks, err := c.GetBookmarks(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "bookmark", err)
 	}

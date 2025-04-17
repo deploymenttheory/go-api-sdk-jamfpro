@@ -98,7 +98,7 @@ func (c *Client) GetScriptByID(id string) (*ResourceScript, error) {
 
 // Retrieves script by Name by leveraging GetScripts(), returns ResourceScript
 func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
-	scripts, err := c.GetScripts(url.Values{})
+	scripts, err := c.GetScripts(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "scripts", err)
 	}

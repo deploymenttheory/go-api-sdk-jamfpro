@@ -74,7 +74,7 @@ func (c *Client) GetJamfApiRoleByID(id string) (*ResourceAPIRole, error) {
 
 // GetJamfApiRolesNameById fetches a Jamf API role by its display name and then retrieves its details using its ID.
 func (c *Client) GetJamfApiRoleByName(name string) (*ResourceAPIRole, error) {
-	roles, err := c.GetJamfAPIRoles(url.Values{})
+	roles, err := c.GetJamfAPIRoles(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api role", err)
 	}

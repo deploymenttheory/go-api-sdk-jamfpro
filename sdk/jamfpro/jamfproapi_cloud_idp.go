@@ -81,7 +81,7 @@ func (c *Client) GetCloudIdentityProviderConfigurationByID(id string) (*Resource
 
 // GetCloudIdentityProviderConfigurationByName retrieves a cloud identity provider by its display name
 func (c *Client) GetCloudIdentityProviderConfigurationByName(name string) (*ResourceCloudIdentityProvider, error) {
-	providers, err := c.GetCloudIdentityProviders(url.Values{})
+	providers, err := c.GetCloudIdentityProviders(nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get cloud identity providers: %v", err)
 	}

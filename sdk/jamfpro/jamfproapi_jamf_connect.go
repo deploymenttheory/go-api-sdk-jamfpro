@@ -98,7 +98,7 @@ func (c *Client) GetJamfConnectConfigProfileByConfigProfileUUID(uuid string) (*R
 		return nil, fmt.Errorf("uuid cannot be empty")
 	}
 
-	profiles, err := c.GetJamfConnectConfigProfiles(url.Values{})
+	profiles, err := c.GetJamfConnectConfigProfiles(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
 	}
@@ -118,7 +118,7 @@ func (c *Client) GetJamfConnectConfigProfileByID(profileID int) (*ResourceJamfCo
 		return nil, fmt.Errorf("profile ID must be greater than 0")
 	}
 
-	profiles, err := c.GetJamfConnectConfigProfiles(url.Values{})
+	profiles, err := c.GetJamfConnectConfigProfiles(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
 	}
@@ -138,7 +138,7 @@ func (c *Client) GetJamfConnectConfigProfileByName(name string) (*ResourceJamfCo
 		return nil, fmt.Errorf("name cannot be empty")
 	}
 
-	profiles, err := c.GetJamfConnectConfigProfiles(url.Values{})
+	profiles, err := c.GetJamfConnectConfigProfiles(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "jamf connect config profile", err)
 	}

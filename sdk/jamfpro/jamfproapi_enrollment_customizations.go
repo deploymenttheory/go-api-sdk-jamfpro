@@ -182,7 +182,7 @@ func (c *Client) GetEnrollmentCustomizationByID(id string) (*ResourceEnrollmentC
 
 // GetEnrollmentCustomizationByName retrieves an enrollment customization by its display name
 func (c *Client) GetEnrollmentCustomizationByName(name string) (*ResourceEnrollmentCustomization, error) {
-	customizations, err := c.GetEnrollmentCustomizations(url.Values{})
+	customizations, err := c.GetEnrollmentCustomizations(nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get enrollment customizations list: %v", err)
 	}

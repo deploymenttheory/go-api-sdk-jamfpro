@@ -90,7 +90,7 @@ func (c *Client) GetVolumePurchasingSubscriptionByID(id string) (*ResourceVolume
 
 // GetVolumePurchasingSubscriptionByNameByID fetches a volume purchasing subscription by its display name and retrieves its details using its ID.
 func (c *Client) GetVolumePurchasingSubscriptionByName(name string) (*ResourceVolumePurchasingSubscription, error) {
-	vpSubcriptions, err := c.GetVolumePurchasingSubscriptions(url.Values{})
+	vpSubcriptions, err := c.GetVolumePurchasingSubscriptions(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "volume purchasing subscriptions", err)
 	}

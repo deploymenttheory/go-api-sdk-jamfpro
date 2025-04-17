@@ -82,7 +82,7 @@ func (c *Client) GetSelfServiceBrandingMacOSByID(id string) (*ResourceSelfServic
 
 // GetSelfServiceBrandingMacOSByNameByID retrieves a specific self-service branding configuration for macOS by its name.
 func (c *Client) GetSelfServiceBrandingMacOSByName(name string) (*ResourceSelfServiceBrandingDetail, error) {
-	all_ssbrandings, err := c.GetSelfServiceBrandingMacOS(url.Values{})
+	all_ssbrandings, err := c.GetSelfServiceBrandingMacOS(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "self service brandings", err)
 	}

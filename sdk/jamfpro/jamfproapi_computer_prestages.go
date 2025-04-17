@@ -231,7 +231,7 @@ func (c *Client) GetComputerPrestageByID(id string) (*ResourceComputerPrestage, 
 
 // GetComputerPrestageByName retrieves a specific computer prestage by its name.
 func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPrestage, error) {
-	prestages, err := c.GetComputerPrestages(url.Values{})
+	prestages, err := c.GetComputerPrestages(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer prestages", err)
 	}

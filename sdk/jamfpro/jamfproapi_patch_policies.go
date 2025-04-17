@@ -163,7 +163,7 @@ func (c *Client) GetPatchPolicyByID(id string) (*ResourcePatchPolicyJamfProAPI, 
 		return nil, fmt.Errorf("patch policy ID cannot be empty")
 	}
 
-	policies, err := c.GetPatchPolicies(url.Values{})
+	policies, err := c.GetPatchPolicies(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "patch policy", err)
 	}
@@ -183,7 +183,7 @@ func (c *Client) GetPatchPolicyByName(name string) (*ResourcePatchPolicyJamfProA
 		return nil, fmt.Errorf("patch policy name cannot be empty")
 	}
 
-	policies, err := c.GetPatchPolicies(url.Values{})
+	policies, err := c.GetPatchPolicies(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "patch policy", err)
 	}

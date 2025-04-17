@@ -127,7 +127,7 @@ func (c *Client) GetDeviceEnrollmentByID(id string) (*ResourceDeviceEnrollment, 
 
 // GetDeviceEnrollmentByName retrieves a device enrollment by Name.
 func (c *Client) GetDeviceEnrollmentByName(name string) (*ResourceDeviceEnrollment, error) {
-	enrollments, err := c.GetDeviceEnrollments(url.Values{})
+	enrollments, err := c.GetDeviceEnrollments(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "device enrollments", err)
 	}

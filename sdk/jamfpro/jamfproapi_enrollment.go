@@ -231,7 +231,7 @@ func (c *Client) GetAccountDrivenUserEnrollmentAccessGroupByID(id string) (*Reso
 
 // GetAccountDrivenUserEnrollmentAccessGroupByName retrieves an Account Driven User Enrollment Access Group by its name
 func (c *Client) GetAccountDrivenUserEnrollmentAccessGroupByName(name string) (*ResourceAccountDrivenUserEnrollmentAccessGroup, error) {
-	accessGroupsList, err := c.GetAccountDrivenUserEnrollmentAccessGroups(url.Values{})
+	accessGroupsList, err := c.GetAccountDrivenUserEnrollmentAccessGroups(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "ADUE access group", err)
 	}

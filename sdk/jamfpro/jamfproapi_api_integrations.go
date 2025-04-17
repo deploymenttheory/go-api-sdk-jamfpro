@@ -84,7 +84,7 @@ func (c *Client) GetApiIntegrationByID(id string) (*ResourceApiIntegration, erro
 
 // GetApiIntegrationNameByID fetches an API integration by its display name and then retrieves its details using its ID
 func (c *Client) GetApiIntegrationByName(name string) (*ResourceApiIntegration, error) {
-	integrations, err := c.GetApiIntegrations(url.Values{})
+	integrations, err := c.GetApiIntegrations(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "api integration", err)
 	}

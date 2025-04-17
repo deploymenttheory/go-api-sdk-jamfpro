@@ -592,7 +592,7 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory
 
 // GetComputerInventoryByName retrieves a specific computer's inventory information by its name.
 func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInventory, error) {
-	inventories, err := c.GetComputersInventory(url.Values{})
+	inventories, err := c.GetComputersInventory(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer inventory", err)
 	}

@@ -76,7 +76,7 @@ func (c *Client) GetDepartmentByID(id string) (*ResourceDepartment, error) {
 
 // GetDepartmentByName retrieves a department by Name.
 func (c *Client) GetDepartmentByName(name string) (*ResourceDepartment, error) {
-	depts, err := c.GetDepartments(url.Values{})
+	depts, err := c.GetDepartments(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "departments", err)
 	}
