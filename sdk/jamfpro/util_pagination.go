@@ -42,9 +42,9 @@ func (c *Client) DoPaginatedGet(
 		params.Add("page-size", standardPageSize)
 	}
 
-	var OutStruct StandardPaginatedResponse
-	var TargetObjectAccumulator StandardPaginatedResponse
-	var OutData []interface{}
+	var outStruct StandardPaginatedResponse
+	var targetObjectAccumulator StandardPaginatedResponse
+	var outData []interface{}
 	var page, err = strconv.Atoi(params.Get("page"))
 
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *Client) DoPaginatedGet(
 	}
 
 	for {
-		TargetObjectAccumulator := StandardPaginatedResponse{}
+		targetObjectAccumulator := StandardPaginatedResponse{}
 		encodedParams := params.Encode()
 		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
 
@@ -60,7 +60,7 @@ func (c *Client) DoPaginatedGet(
 			"GET",
 			endpoint,
 			nil,
-			&TargetObjectAccumulator,
+			&targetObjectAccumulator,
 		)
 
 		if err != nil {
@@ -71,10 +71,10 @@ func (c *Client) DoPaginatedGet(
 			defer resp.Body.Close()
 		}
 
-		OutData = append(OutData, TargetObjectAccumulator.Results...)
+		outData = append(outData, targetObjectAccumulator.Results...)
 
-		if len(OutData) >= TargetObjectAccumulator.Size ||
-			len(TargetObjectAccumulator.Results) == 0 {
+		if len(outData) >= targetObjectAccumulator.Size ||
+			len(targetObjectAccumulator.Results) == 0 {
 			break
 		}
 
@@ -84,9 +84,9 @@ func (c *Client) DoPaginatedGet(
 
 	}
 
-	OutStruct.Size = TargetObjectAccumulator.Size
-	OutStruct.Results = OutData
+	outStruct.Size = targetObjectAccumulator.Size
+	outStruct.Results = outData
 
-	return &OutStruct, nil
+	return &outStruct, nil
 
 }
