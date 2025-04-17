@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-type StandardPaginatedResponse struct {
+type ResponsePaginated struct {
 	Size    int           `json:"totalCount"`
 	Results []interface{} `json:"results"`
 }
@@ -23,7 +23,7 @@ type StandardPaginatedResponse struct {
 //   - params: Query parameters including optional "page", "page-size", and "sort".
 //
 // Returns a combined StandardPaginatedResponse or an error if a request fails.
-func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*StandardPaginatedResponse, error) {
+func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*ResponsePaginated, error) {
 
 	if params == nil {
 		params = url.Values{}
@@ -39,8 +39,8 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Stand
 		params.Add("page-size", "100")
 	}
 
-	var outStruct StandardPaginatedResponse
-	var targetObjectAccumulator StandardPaginatedResponse
+	var outStruct ResponsePaginated
+	var targetObjectAccumulator ResponsePaginated
 	var outData []interface{}
 	var page, err = strconv.Atoi(params.Get("page"))
 
@@ -49,7 +49,7 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Stand
 	}
 
 	for {
-		targetObjectAccumulator := StandardPaginatedResponse{}
+		targetObjectAccumulator := ResponsePaginated{}
 		encodedParams := params.Encode()
 		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
 
