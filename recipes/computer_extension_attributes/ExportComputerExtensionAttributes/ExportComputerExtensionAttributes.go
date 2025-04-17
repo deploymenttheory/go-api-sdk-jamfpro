@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -41,7 +42,8 @@ func main() {
 	}
 
 	// Get a list of all computer extension attributes
-	attributesList, err := client.GetComputerExtensionAttributes("")
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	attributesList, err := client.GetComputerExtensionAttributes(url.Values{})
 	if err != nil {
 		log.Fatalf("Failed to fetch Computer Extension Attributes: %v", err)
 	}

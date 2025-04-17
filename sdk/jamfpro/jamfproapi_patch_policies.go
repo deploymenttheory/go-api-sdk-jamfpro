@@ -9,6 +9,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -134,13 +135,8 @@ type ResourcePatchPolicyCreateRequestGracePeriod struct {
 // CRUD
 
 // GetPatchPolicies gets the full list of patch policies & handles pagination
-func (c *Client) GetPatchPolicies(sortFilter string) (*ResponsePatchPoliciesList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriPatchPoliciesJamfProAPI+"/policy-details",
-		standardPageSize,
-		startingPageNumber,
-		sortFilter,
-	)
+func (c *Client) GetPatchPolicies(params url.Values) (*ResponsePatchPoliciesList, error) {
+	resp, err := c.DoPaginatedGet(uriPatchPoliciesJamfProAPI+"/policy-details", params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch policies", err)
@@ -167,7 +163,7 @@ func (c *Client) GetPatchPolicyByID(id string) (*ResourcePatchPolicyJamfProAPI, 
 		return nil, fmt.Errorf("patch policy ID cannot be empty")
 	}
 
-	policies, err := c.GetPatchPolicies("")
+	policies, err := c.GetPatchPolicies(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "patch policy", err)
 	}
@@ -187,7 +183,7 @@ func (c *Client) GetPatchPolicyByName(name string) (*ResourcePatchPolicyJamfProA
 		return nil, fmt.Errorf("patch policy name cannot be empty")
 	}
 
-	policies, err := c.GetPatchPolicies("")
+	policies, err := c.GetPatchPolicies(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "patch policy", err)
 	}

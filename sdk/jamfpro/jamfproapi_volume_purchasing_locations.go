@@ -79,8 +79,8 @@ type VolumePurchasingSubsetContent struct {
 // VPP Locations
 
 // GetVolumePurchaseLocations retrieves all volume purchasing locations with optional sorting and filtering.
-func (c *Client) GetVolumePurchaseLocations(sort_filter string) (*ResponseVolumePurchasingList, error) {
-	resp, err := c.DoPaginatedGet(uriVolumePurchasingLocations, standardPageSize, startingPageNumber, sort_filter)
+func (c *Client) GetVolumePurchaseLocations(params url.Values) (*ResponseVolumePurchasingList, error) {
+	resp, err := c.DoPaginatedGet(uriVolumePurchasingLocations, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "vpp locations", err)
 	}

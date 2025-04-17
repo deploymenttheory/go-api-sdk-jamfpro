@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -18,7 +19,8 @@ func main() {
 	}
 
 	// Call the function with desired parameters
-	subscriptions, err := client.GetVolumePurchasingSubscriptions("")
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	subscriptions, err := client.GetVolumePurchasingSubscriptions(url.Values{})
 	if err != nil {
 		fmt.Printf("Error fetching volume purchasing subscriptions: %s\n", err)
 		return

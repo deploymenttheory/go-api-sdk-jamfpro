@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -155,19 +156,15 @@ func (c *Client) GetPatchSoftwareTitleConfigurationByName(name string) (*Resourc
 }
 
 // GetPatchSoftwareTitleDefinitions retrieves patch software title definitions with the supplied id
-func (c *Client) GetPatchSoftwareTitleDefinitions(id string, sortFilter string) (*ResponsePatchSoftwareTitleDefinitionsList, error) {
+func (c *Client) GetPatchSoftwareTitleDefinitions(id string, params url.Values) (*ResponsePatchSoftwareTitleDefinitionsList, error) {
 	if id == "" {
 		return nil, fmt.Errorf("patch software title id cannot be empty")
 	}
 
 	endpoint := fmt.Sprintf("%s/%s/definitions", uriPatchSoftwareTitleConfigurations, id)
 
-	resp, err := c.DoPaginatedGet(
-		endpoint,
-		standardPageSize,
-		startingPageNumber,
-		sortFilter,
-	)
+	resp, err := c.DoPaginatedGet(endpoint, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "patch software title definitions", err)
 	}

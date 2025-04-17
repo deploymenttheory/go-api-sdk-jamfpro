@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,7 +20,8 @@ func main() {
 	}
 
 	// Call GetComputerExtensionAttributes function
-	attributes, err := client.GetComputerExtensionAttributes("")
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	attributes, err := client.GetComputerExtensionAttributes(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Computer Extension Attributes: %v", err)
 	}

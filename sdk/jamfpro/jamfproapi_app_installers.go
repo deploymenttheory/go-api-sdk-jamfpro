@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -154,13 +155,8 @@ func (c *Client) AcceptJamfAppCatalogAppInstallerTermsAndConditions() (*Response
 }
 
 // Gets full list of Get Jamf App Catalog App Installer Titles & handles pagination
-func (c *Client) GetJamfAppCatalogAppInstallerTitles(sort_filter string) (*ResponseJamfAppCatalogTitleList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriJamfAppCatalogAppInstaller+"/titles",
-		standardPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
+func (c *Client) GetJamfAppCatalogAppInstallerTitles(params url.Values) (*ResponseJamfAppCatalogTitleList, error) {
+	resp, err := c.DoPaginatedGet(uriJamfAppCatalogAppInstaller+"/titles", params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf App Catalog Titles", err)
@@ -243,7 +239,7 @@ func (c *Client) GetJamfAppCatalogAppInstallerByName(name string) (*ResourceJamf
 
 // GetJamfAppCatalogAppInstallerByTitleName retrieves title by name & returns ResourceJamfAppCatalogAppInstaller
 func (c *Client) GetJamfAppCatalogAppInstallerByTitleName(name string) (*ResourceJamfAppCatalogAppInstaller, error) {
-	titles, err := c.GetJamfAppCatalogAppInstallerTitles("")
+	titles, err := c.GetJamfAppCatalogAppInstallerTitles(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Jamf App Catalog Titles", err)
 	}

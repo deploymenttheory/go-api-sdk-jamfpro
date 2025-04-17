@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -128,7 +129,7 @@ Method: GET
 Path: /api/v1/gsx-connection/history
 Description: Retrieves all GSX connection history.
 Parameters:
-  - sort_filter (string): A string specifying the sorting criteria.
+  - params (string): A string specifying the sorting criteria.
 
 Returns: ResponseGSXConnectionHistoryList - A list of GSX connection history.
 Errors: Returns an error if the request fails.
@@ -140,13 +141,9 @@ Example:
 	}
 	fmt.Println(history)
 */
-func (c *Client) GetGSXConnectionHistory(sort_filter string) (*ResponseGSXConnectionHistoryList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriGSXConnection,
-		maxPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
+func (c *Client) GetGSXConnectionHistory(params url.Values) (*ResponseGSXConnectionHistoryList, error) {
+	resp, err := c.DoPaginatedGet(uriGSXConnection, params)
+
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "gsx connection history", err)
 	}

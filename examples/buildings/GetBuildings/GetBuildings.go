@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -18,8 +19,10 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+
 	// Call GetBuildings function
-	accountsList, err := client.GetBuildings("")
+	accountsList, err := client.GetBuildings(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching accounts: %v", err)
 	}

@@ -4,89 +4,86 @@ package jamfpro
 
 import (
 	"fmt"
-	"log"
+	"net/url"
+	"strconv"
 )
 
-type StandardPaginatedResponse struct {
+type ResponsePaginated struct {
 	Size    int           `json:"totalCount"`
 	Results []interface{} `json:"results"`
 }
 
-// DoPaginatedGet performs a paginated GET request to a specified endpoint in the Jamf Pro API.
+// DoPaginatedGet retrieves paginated results from a Jamf Pro API endpoint.
 //
-// This method is designed to fetch data in a paginated manner from Jamf Pro's RESTful API. It constructs
-// the API endpoint using the provided parameters, handles the pagination logic, and accumulates the results
-// into a single response structure. It's particularly useful for endpoints where the response is expected to
-// contain a large number of items that might be paginated by the server.
+// It constructs the request with optional sorting and pagination parameters, performs repeated GETs
+// until all pages are fetched (based on reported total size or final page), and accumulates results.
 //
 // Parameters:
-//   - endpoint_root: The root URL of the API endpoint. This is the base URL to which pagination and sorting
-//     parameters will be appended.
-//   - maxPageSize: Maximum number of items to be fetched in each paginated request. If set to 0, defaults to 200.
-//   - startingPageNumber: The page number from which to start the paginated fetching.
-//   - sort_filter: A string specifying the sorting criteria. It follows the format
-//     'sort=<field_name>[:sort_direction][,<secondary_sort_field_name>[:sort_direction]]*'. The default sort
-//     direction is 'asc' (Ascending). Use 'desc' for Descending ordering. Additional sort parameters are
-//     supported and determine the order of results that have equivalent values for previous sort parameters.
+//   - endpoint_root: Base URL for the API resource.
+//   - params: Query parameters including optional "page", "page-size", and "sort".
 //
-// The method returns a pointer to a StandardPaginatedResponse containing the aggregated results from all
-// fetched pages, or an error if the fetch operation fails at any point.
-//
-// Example usage:
-// client.GetSelfServiceBrandingMacOS("sort=id:desc")
-//
-// Note:
-// The method appends the results from each page to a slice and breaks the loop when the total number of items
-// fetched matches the reported total count from the server, or when a fetched page contains fewer items than
-// the maximum page size, indicating that it is the last page.
-func (c *Client) DoPaginatedGet(
-	endpoint_root string,
-	maxPageSize, startingPageNumber int,
-	sort_filter string,
-) (*StandardPaginatedResponse, error) {
+// Returns a combined StandardPaginatedResponse or an error if a request fails.
+func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*ResponsePaginated, error) {
 
-	if maxPageSize == 0 {
-		maxPageSize = 200
+	if params == nil {
+		params = url.Values{}
 	}
 
-	var OutStruct StandardPaginatedResponse
-	var TargetObjectAccumulator StandardPaginatedResponse
-	var OutData []interface{}
-	var page = startingPageNumber
+	if params.Get("page") == "" {
+		// Some warning log should be here
+		params.Add("page", "0")
+	}
+
+	if params.Get("page-size") == "" {
+		// and here
+		params.Add("page-size", "100")
+	}
+
+	var outStruct ResponsePaginated
+	var targetObjectAccumulator ResponsePaginated
+	var outData []interface{}
+	var page, err = strconv.Atoi(params.Get("page"))
+
+	if err != nil {
+		return nil, fmt.Errorf("error converting page number: %v", err)
+	}
 
 	for {
-		endpoint := fmt.Sprintf("%s?page=%d&page-size=%d%s", endpoint_root, startingPageNumber, maxPageSize, sort_filter)
-		log.Printf("DEBUG: Fetching from endpoint: %s", endpoint)
+		targetObjectAccumulator := ResponsePaginated{}
+		encodedParams := params.Encode()
+		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
+
 		resp, err := c.HTTP.DoRequest(
 			"GET",
 			endpoint,
 			nil,
-			&TargetObjectAccumulator,
+			&targetObjectAccumulator,
 		)
 
 		if err != nil {
-			return nil, fmt.Errorf("failed to fetch obj %v", err)
+			return nil, fmt.Errorf("failed to fetch page %v", err)
 		}
 
 		if resp != nil {
 			defer resp.Body.Close()
 		}
 
-		OutData = append(OutData, TargetObjectAccumulator.Results...)
+		outData = append(outData, targetObjectAccumulator.Results...)
 
-		if len(OutData) >= TargetObjectAccumulator.Size ||
-			len(TargetObjectAccumulator.Results) < maxPageSize ||
-			len(TargetObjectAccumulator.Results) == 0 {
+		if len(outData) >= targetObjectAccumulator.Size ||
+			len(targetObjectAccumulator.Results) == 0 {
 			break
 		}
 
 		page++
+		params.Del("page")
+		params.Add("page", strconv.Itoa(page))
 
 	}
 
-	OutStruct.Size = TargetObjectAccumulator.Size
-	OutStruct.Results = OutData
+	outStruct.Size = targetObjectAccumulator.Size
+	outStruct.Results = outData
 
-	return &OutStruct, nil
+	return &outStruct, nil
 
 }

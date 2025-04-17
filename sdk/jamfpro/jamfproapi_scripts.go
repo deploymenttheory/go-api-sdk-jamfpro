@@ -7,6 +7,7 @@ package jamfpro
 
 import (
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -55,13 +56,8 @@ type ResourceScript struct {
 // CRUD
 
 // Gets full list of scripts & handles pagination
-func (c *Client) GetScripts(sort_filter string) (*ResponseScriptsList, error) {
-	resp, err := c.DoPaginatedGet(
-		uriScripts,
-		standardPageSize,
-		startingPageNumber,
-		sort_filter,
-	)
+func (c *Client) GetScripts(params url.Values) (*ResponseScriptsList, error) {
+	resp, err := c.DoPaginatedGet(uriScripts, params)
 
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "scripts", err)
@@ -102,7 +98,7 @@ func (c *Client) GetScriptByID(id string) (*ResourceScript, error) {
 
 // Retrieves script by Name by leveraging GetScripts(), returns ResourceScript
 func (c *Client) GetScriptByName(name string) (*ResourceScript, error) {
-	scripts, err := c.GetScripts("")
+	scripts, err := c.GetScripts(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "scripts", err)
 	}

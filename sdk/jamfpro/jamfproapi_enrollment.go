@@ -8,6 +8,7 @@ package jamfpro
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -167,9 +168,9 @@ type ResourceLanguageCode struct {
 // CRUD
 
 // GetEnrollmentHistory fetches the enrollment history from the Jamf Pro API
-func (c *Client) GetEnrollmentHistory(sort_filter string) (*ResponseEnrollmentHistory, error) {
+func (c *Client) GetEnrollmentHistory(params url.Values) (*ResponseEnrollmentHistory, error) {
 	endpoint := fmt.Sprintf("%s/history", uriEnrollmentV2)
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "Enrollment History", err)
 	}
@@ -189,9 +190,9 @@ func (c *Client) GetEnrollmentHistory(sort_filter string) (*ResponseEnrollmentHi
 }
 
 // GetAccountDrivenUserEnrollmentAccessGroups fetches all ADUE access groups
-func (c *Client) GetAccountDrivenUserEnrollmentAccessGroups(sort_filter string) (*ResponseAccountDrivenUserEnrollmentAccessGroupsList, error) {
+func (c *Client) GetAccountDrivenUserEnrollmentAccessGroups(params url.Values) (*ResponseAccountDrivenUserEnrollmentAccessGroupsList, error) {
 	endpoint := fmt.Sprintf("%s/access-groups", uriEnrollmentV3)
-	resp, err := c.DoPaginatedGet(endpoint, standardPageSize, 0, sort_filter)
+	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "ADUE Access Group List", err)
 	}
@@ -230,7 +231,7 @@ func (c *Client) GetAccountDrivenUserEnrollmentAccessGroupByID(id string) (*Reso
 
 // GetAccountDrivenUserEnrollmentAccessGroupByName retrieves an Account Driven User Enrollment Access Group by its name
 func (c *Client) GetAccountDrivenUserEnrollmentAccessGroupByName(name string) (*ResourceAccountDrivenUserEnrollmentAccessGroup, error) {
-	accessGroupsList, err := c.GetAccountDrivenUserEnrollmentAccessGroups("")
+	accessGroupsList, err := c.GetAccountDrivenUserEnrollmentAccessGroups(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "ADUE access group", err)
 	}

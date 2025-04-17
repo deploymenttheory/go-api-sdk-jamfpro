@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,10 +20,12 @@ func main() {
 	}
 
 	// Sort filter
-	sortFilter := "sort=id:desc"
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	params := url.Values{}
+	params.Add("sort", "id:desc")
 
 	// Call the GetComputersFileVaultInventory function
-	fileVaultInventory, err := client.GetComputersFileVaultInventory(sortFilter)
+	fileVaultInventory, err := client.GetComputersFileVaultInventory(params)
 	if err != nil {
 		log.Fatalf("Error fetching FileVault inventory: %v", err)
 	}
