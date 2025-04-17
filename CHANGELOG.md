@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.27.1...v2.0.0) (2025-04-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* Pagination func filter passing refactored ([#760](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/760))
+
+### Features
+
+* Pagination func filter passing refactored ([#760](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/760)) ([5199c4e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/5199c4e81489c30b8da64849d29fec5919b80a9f))
+
 ## [1.27.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.27.0...v1.27.1) (2025-04-14)
 
 
