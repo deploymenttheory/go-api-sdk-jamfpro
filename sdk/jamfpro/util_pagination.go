@@ -55,6 +55,7 @@ func (c *Client) DoPaginatedGet(
 		TargetObjectAccumulator := StandardPaginatedResponse{}
 		encodedParams := params.Encode()
 		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
+
 		resp, err := c.HTTP.DoRequest(
 			"GET",
 			endpoint,
