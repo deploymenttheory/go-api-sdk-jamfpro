@@ -19,7 +19,8 @@ func main() {
 	}
 
 	// Define the sort and filter query parameters
-	// none
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+
 	// Call the GetCategories function
 	categories, err := client.GetCategories(url.Values{}) // Will return all results by default
 	if err != nil {

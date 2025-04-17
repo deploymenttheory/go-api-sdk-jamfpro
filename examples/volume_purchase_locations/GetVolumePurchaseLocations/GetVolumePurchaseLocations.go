@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Example of calling GetVolumePurchaseLocations
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	fmt.Println("Fetching all volume purchasing locations...")
 	vplList, err := client.GetVolumePurchaseLocations(url.Values{}) // Pass nil or empty for no sort/filter
 	if err != nil {

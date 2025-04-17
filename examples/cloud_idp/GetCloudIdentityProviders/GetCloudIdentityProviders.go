@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Optional: Define sort filter (e.g., "id:asc" or "displayName:desc")
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	params := url.Values{}
 
 	// Call GetCloudIdentityProviders function

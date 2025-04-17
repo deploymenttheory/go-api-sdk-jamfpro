@@ -19,6 +19,7 @@ func main() {
 	}
 
 	// Fetch all scripts
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	scripts, err := client.GetScripts(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching scripts: %v", err)

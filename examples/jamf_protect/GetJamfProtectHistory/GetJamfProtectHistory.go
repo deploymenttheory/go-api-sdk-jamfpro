@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Define a sort filter (you can modify this as needed)
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	params := url.Values{}
 	params.Add("sort", "date:desc")
 

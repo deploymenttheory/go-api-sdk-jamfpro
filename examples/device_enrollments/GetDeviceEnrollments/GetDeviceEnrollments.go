@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Fetch Device Enrollments
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	response, err := client.GetDeviceEnrollments(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Device enrollment instances: %v", err)

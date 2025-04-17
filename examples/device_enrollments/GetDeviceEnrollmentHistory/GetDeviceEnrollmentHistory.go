@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Fetch Device Enrollment History
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	deviceEnrollmentID := "1" // Using the known device enrollment ID from the system
 	response, err := client.GetDeviceEnrollmentHistory(deviceEnrollmentID, url.Values{})
 	if err != nil {

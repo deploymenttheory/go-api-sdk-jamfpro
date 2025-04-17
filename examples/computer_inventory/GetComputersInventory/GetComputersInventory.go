@@ -37,6 +37,7 @@ func main() {
 	// sections := []string{"GENERAL", "DISK_ENCRYPTION", "STORAGE"} // Example sections
 
 	// Call the GetComputersInventory function
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	inventoryList, err := client.GetComputersInventory(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching computer inventory: %v", err)

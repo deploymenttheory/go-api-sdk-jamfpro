@@ -21,6 +21,7 @@ func main() {
 
 	// Call GetEnrollmentHistory function
 	// You can add sorting parameters like "sort=date:desc" to sort by date in descending order
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	history, err := client.GetEnrollmentHistory(url.Values{})
 	if err != nil {
 		log.Fatalf("Error getting enrollment history: %v", err)

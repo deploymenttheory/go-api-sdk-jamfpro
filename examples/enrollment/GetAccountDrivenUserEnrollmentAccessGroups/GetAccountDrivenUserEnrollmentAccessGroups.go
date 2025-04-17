@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Call GetAccountDrivenUserEnrollmentAccessGroups function
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	ADUEAccessGroups, err := client.GetAccountDrivenUserEnrollmentAccessGroups(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching ADUE Access Groups: %v", err)

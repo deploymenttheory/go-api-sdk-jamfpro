@@ -28,6 +28,7 @@ func main() {
 	fmt.Println("Jamf Protect plans synced successfully")
 
 	// Optional: You could add additional operations here, such as fetching and displaying the synced plans
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	// For example:
 	plans, err := client.GetJamfProtectPlans(url.Values{})
 	if err != nil {

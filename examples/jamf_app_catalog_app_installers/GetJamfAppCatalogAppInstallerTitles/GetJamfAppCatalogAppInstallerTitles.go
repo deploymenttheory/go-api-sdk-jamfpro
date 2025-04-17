@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Call GetJamfAppCatalogAppInstallerTitles function
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	appInstallers, err := client.GetJamfAppCatalogAppInstallerTitles(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Jamf App Catalog App Installer list: %v", err)

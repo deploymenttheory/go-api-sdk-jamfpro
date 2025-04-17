@@ -20,7 +20,8 @@ func main() {
 	}
 
 	// Define sorting parameters
-	params := url.Values{} // Example: "name" for sorting by name
+	// For more information on how to add parameters to this request, see docs/url_queries.md
+	params := url.Values{}
 	params.Add("sort", "name")
 
 	// Fetch computer prestages using the V3 API

@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Get all enrollment customizations
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	customizations, err := client.GetEnrollmentCustomizations(url.Values{})
 	if err != nil {
 		log.Fatalf("Failed to get enrollment customizations: %v", err)

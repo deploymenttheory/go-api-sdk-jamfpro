@@ -21,6 +21,7 @@ func main() {
 	}
 
 	// Sort filter
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	params := url.Values{}
 	params.Add("sort", "id:desc")
 

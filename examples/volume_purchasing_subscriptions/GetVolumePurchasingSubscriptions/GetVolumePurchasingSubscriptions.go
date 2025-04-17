@@ -19,6 +19,7 @@ func main() {
 	}
 
 	// Call the function with desired parameters
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	subscriptions, err := client.GetVolumePurchasingSubscriptions(url.Values{})
 	if err != nil {
 		fmt.Printf("Error fetching volume purchasing subscriptions: %s\n", err)

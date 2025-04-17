@@ -28,6 +28,7 @@ func GenerateRandomRecoveryLockPassword() string {
 }
 
 // GetManagementIDByDeviceName retrieves the management ID for a device by its name.
+// For more information on how to add parameters to this request, see docs/url_queries.md
 func GetManagementIDByDeviceName(client *jamfpro.Client, deviceName string) (string, error) {
 	inventories, err := client.GetComputersInventory(url.Values{})
 	if err != nil {

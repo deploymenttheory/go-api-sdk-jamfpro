@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Call GetDepartments function
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	departments, err := client.GetDepartments(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching departments: %v", err)

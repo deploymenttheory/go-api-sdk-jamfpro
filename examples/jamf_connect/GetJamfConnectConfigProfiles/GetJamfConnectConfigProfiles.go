@@ -20,7 +20,7 @@ func main() {
 	}
 
 	// Call GetJamfConnectConfigProfiles function to fetch profiles
-	// You can provide sort parameters like "status:asc,updated:desc" or leave empty "" for default sorting
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	profiles, err := client.GetJamfConnectConfigProfiles(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Jamf Connect config profiles: %v", err)

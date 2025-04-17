@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Call GetComputerExtensionAttributes function
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	attributes, err := client.GetComputerExtensionAttributes(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching Computer Extension Attributes: %v", err)

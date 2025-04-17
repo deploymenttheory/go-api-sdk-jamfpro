@@ -22,6 +22,7 @@ func main() {
 	}
 
 	// Fetch all API integrations
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	integrations, err := client.GetApiIntegrations(url.Values{})
 	if err != nil {
 		log.Fatalf("Error fetching API integrations: %v", err)
@@ -54,6 +55,7 @@ func main() {
 	// Process each integration
 	for _, integration := range integrations.Results {
 		// Fetch API roles for this integration
+		// For more information on how to add parameters to this request, see docs/url_queries.md
 		roles, err := client.GetJamfAPIRoles(url.Values{})
 		if err != nil {
 			log.Printf("Error fetching API roles for integration %d: %v", integration.ID, err)

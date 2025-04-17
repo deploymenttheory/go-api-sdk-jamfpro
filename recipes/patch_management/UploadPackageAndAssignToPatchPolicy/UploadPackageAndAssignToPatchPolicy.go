@@ -127,6 +127,7 @@ func main() {
 	fmt.Printf("Patch Software Title Configuration Response: %s\n", string(responseJson))
 
 	// Step 4: Get the Patch Software Title Definitions to retrieve missing values
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	softwareTitleDefinitions, err := client.GetPatchSoftwareTitleDefinitions(softwareTitle.ID, url.Values{})
 	if err != nil {
 		log.Fatalf("Failed to get patch software title definitions: %v", err)

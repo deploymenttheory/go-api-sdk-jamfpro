@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Example software title ID and sort parameters
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 	titleID := "14" // Example ID from previous logs
 	params := url.Values{}
 	params.Add("sort", "absoluteOrderId:asc")

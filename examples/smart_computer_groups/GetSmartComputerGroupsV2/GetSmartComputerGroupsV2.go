@@ -20,6 +20,7 @@ func main() {
 	}
 
 	// Set sorting filter (optional)
+	// For more information on how to add parameters to this request, see docs/url_queries.md
 
 	params := url.Values{}
 	params.Add("sort", "name:asc")
