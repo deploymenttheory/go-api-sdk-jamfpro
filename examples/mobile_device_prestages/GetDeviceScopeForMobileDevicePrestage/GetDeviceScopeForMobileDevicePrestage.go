@@ -18,17 +18,17 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// ID of the mobile device prestage you want to retrieve
-	prestageID := "3" // Replace with the actual ID
+	// The ID of the mobile device prestage to retrieve the device scope for
+	prestageID := "4" // Replace with the actual ID
 
-	// Call the GetMobileDevicePrestageByID function
-	prestage, err := client.GetMobileDevicePrestageByID(prestageID)
+	// Fetch the device scope for the specified mobile device prestage
+	deviceScope, err := client.GetDeviceScopeForMobileDevicePrestageByID(prestageID)
 	if err != nil {
-		log.Fatalf("Error fetching mobile device prestage by ID: %v", err)
+		log.Fatalf("Error fetching device scope for mobile device prestage: %v", err)
 	}
 
-	// Pretty print the mobile device prestage in JSON
-	prestageJSON, err := json.MarshalIndent(prestage, "", "    ") // Indent with 4 spaces
+	// Pretty print the computer prestage in JSON
+	prestageJSON, err := json.MarshalIndent(deviceScope, "", "    ") // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling mobile device prestage data: %v", err)
 	}

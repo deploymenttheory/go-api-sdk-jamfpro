@@ -17,11 +17,11 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// The ID of the mobile device prestage you want to delete
-	prestageID := "12"
+	// The name of the mobile device prestage you want to delete
+	prestageName := "jamfpro-sdk-example-mobiledevicePrestage-config"
 
 	// Call DeleteMobileDevicePrestageByID to delete the prestage
-	err = client.DeleteMobileDevicePrestageByID(prestageID)
+	err = client.DeleteMobileDevicePrestageByName(prestageName)
 	if err != nil {
 		log.Fatalf("Error deleting mobile device prestage: %v", err)
 	}
