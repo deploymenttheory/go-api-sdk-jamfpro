@@ -28,6 +28,11 @@ func FalsePtr() *bool {
 	return BoolPtr(false)
 }
 
+// IntPtr returns a pointer to an int value
+func IntPtr(i int) *int {
+	return &i
+}
+
 // IncrementStringID increments the given ID string.
 // It returns the incremented ID as a string or panics if the input is not convertible to an integer.
 func IncrementStringID(currentID string) string {
