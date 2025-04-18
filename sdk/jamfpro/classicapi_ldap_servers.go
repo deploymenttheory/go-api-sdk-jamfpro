@@ -109,6 +109,7 @@ type LDAPServerSubsetMappingUserGroupMemberships struct {
 	Username                          string `xml:"username"`
 	GroupID                           string `xml:"group_id"`
 	UserGroupMembershipUseLDAPCompare bool   `xml:"user_group_membership_use_ldap_compare"`
+	MembershipScopingOptimization     bool   `xml:"membership_scoping_optimization"`
 }
 
 // CRUD
