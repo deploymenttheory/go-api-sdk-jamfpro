@@ -18,11 +18,11 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// The ID of the mobile device prestage you want to update
-	prestageID := "12"
+	// The Name of the mobile device prestage you want to update
+	prestageName := "jamfpro-sdk-example-mobiledevicePrestage-config"
 
 	// First, get the current prestage to obtain the current version lock
-	currentPrestage, err := client.GetMobileDevicePrestageByID(prestageID)
+	currentPrestage, err := client.GetMobileDevicePrestageByName(prestageName)
 	if err != nil {
 		log.Fatalf("Error fetching current mobile device prestage: %v", err)
 	}
@@ -31,7 +31,7 @@ func main() {
 		DisplayName:                            "jamfpro-sdk-example-mobiledevicePrestage-config",
 		Mandatory:                              jamfpro.TruePtr(),
 		MdmRemovable:                           jamfpro.FalsePtr(),
-		SupportPhoneNumber:                     "111-222-3333",
+		SupportPhoneNumber:                     "333-222-1111",
 		SupportEmailAddress:                    "email@company.com",
 		Department:                             "department name",
 		DefaultPrestage:                        jamfpro.FalsePtr(),
@@ -64,8 +64,8 @@ func main() {
 		UserSessionTimeout:                     nil,
 		SiteId:                                 "-1",
 		VersionLock:                            currentPrestage.VersionLock,
-		PrestageMinimumOsTargetVersionTypeIos:  "MINIMUM_OS_SPECIFIC_VERSION",
-		MinimumOsSpecificVersionIos:            "18.4",
+		PrestageMinimumOsTargetVersionTypeIos:  "MINIMUM_OS_LATEST_MINOR_VERSION",
+		MinimumOsSpecificVersionIos:            "",
 		PrestageMinimumOsTargetVersionTypeIpad: "MINIMUM_OS_LATEST_MINOR_VERSION",
 		MinimumOsSpecificVersionIpad:           "",
 		RTSConfigProfileId:                     nil,
@@ -156,7 +156,7 @@ func main() {
 	}
 
 	// Call UpdateMobileDevicePrestageByID to update the prestage
-	updatedPrestage, err := client.UpdateMobileDevicePrestageByID(prestageID, update)
+	updatedPrestage, err := client.UpdateMobileDevicePrestageByName(prestageName, update)
 	if err != nil {
 		log.Fatalf("Error updating mobile device prestage: %v", err)
 	}

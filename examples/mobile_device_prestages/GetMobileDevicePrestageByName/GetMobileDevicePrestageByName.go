@@ -19,12 +19,12 @@ func main() {
 	}
 
 	// ID of the mobile device prestage you want to retrieve
-	prestageID := "3" // Replace with the actual ID
+	prestageName := "jamfpro-sdk-example-mobiledevicePrestage-config" // Replace with the actual Name
 
 	// Call the GetMobileDevicePrestageByID function
-	prestage, err := client.GetMobileDevicePrestageByID(prestageID)
+	prestage, err := client.GetMobileDevicePrestageByName(prestageName)
 	if err != nil {
-		log.Fatalf("Error fetching mobile device prestage by ID: %v", err)
+		log.Fatalf("Error fetching mobile device prestage by Name: %v", err)
 	}
 
 	// Pretty print the mobile device prestage in JSON
