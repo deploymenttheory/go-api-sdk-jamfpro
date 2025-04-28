@@ -79,7 +79,7 @@ type LDAPServerSubsetMappingUsers struct {
 	MapDepartment            string `xml:"map_department"`
 	MapBuilding              string `xml:"map_building"`
 	MapRoom                  string `xml:"map_room"`
-	MapTelephone             string `xml:"map_telephone"`
+	MapPhone                 string `xml:"map_phone"`
 	MapPosition              string `xml:"map_position"`
 	MapUserUUID              string `xml:"map_user_uuid"`
 }
@@ -95,21 +95,22 @@ type LDAPServerSubsetMappingUserGroups struct {
 }
 
 type LDAPServerSubsetMappingUserGroupMemberships struct {
-	UserGroupMembershipStoredIn       string `xml:"user_group_membership_stored_in"`
-	MapGroupMembershipToUserField     string `xml:"map_group_membership_to_user_field"`
-	AppendToUsername                  string `xml:"append_to_username"`
-	UseDN                             bool   `xml:"use_dn"`
-	RecursiveLookups                  bool   `xml:"recursive_lookups"`
-	MapUserMembershipToGroupField     bool   `xml:"map_user_membership_to_group_field"`
-	MapUserMembershipUseDN            bool   `xml:"map_user_membership_use_dn"`
-	MapObjectClassToAnyOrAll          string `xml:"map_object_class_to_any_or_all"`
-	ObjectClasses                     string `xml:"object_classes"`
-	SearchBase                        string `xml:"search_base"`
-	SearchScope                       string `xml:"search_scope"`
-	Username                          string `xml:"username"`
-	GroupID                           string `xml:"group_id"`
-	UserGroupMembershipUseLDAPCompare bool   `xml:"user_group_membership_use_ldap_compare"`
-	MembershipScopingOptimization     bool   `xml:"membership_scoping_optimization"`
+	UserGroupMembershipStoredIn                      string `xml:"user_group_membership_stored_in"`
+	MapGroupMembershipToUserField                    string `xml:"map_group_membership_to_user_field"`
+	AppendToUsername                                 string `xml:"append_to_username"`
+	UseDN                                            bool   `xml:"use_dn"`
+	RecursiveLookups                                 bool   `xml:"recursive_lookups"`
+	GroupMembershipEnabledWhenUserMembershipSelected bool   `xml:"group_membership_enabled_when_user_membership_selected"`
+	MapUserMembershipToGroupField                    string `xml:"map_user_membership_to_group_field"`
+	MapUserMembershipUseDN                           bool   `xml:"map_user_membership_use_dn"`
+	MapObjectClassToAnyOrAll                         string `xml:"map_object_class_to_any_or_all"`
+	ObjectClasses                                    string `xml:"object_classes"`
+	SearchBase                                       string `xml:"search_base"`
+	SearchScope                                      string `xml:"search_scope"`
+	Username                                         string `xml:"username"`
+	GroupID                                          string `xml:"group_id"`
+	UserGroupMembershipUseLDAPCompare                bool   `xml:"user_group_membership_use_ldap_compare"`
+	MembershipScopingOptimization                    bool   `xml:"membership_scoping_optimization"`
 }
 
 // CRUD
@@ -268,7 +269,7 @@ func (c *Client) GetLDAPServerByNameAndUserMembershipInGroupDataSubset(name, gro
 }
 
 // CreateLDAPServer creates a new LDAP server in Jamf Pro.
-func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDAPServers, error) {
+func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*LDAPServersListItem, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriLDAPServers)
 
 	requestBody := struct {
@@ -278,17 +279,26 @@ func (c *Client) CreateLDAPServer(ldapServer *ResourceLDAPServers) (*ResourceLDA
 		ResourceLDAPServers: ldapServer,
 	}
 
-	var responseLDAPServer ResourceLDAPServers
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseLDAPServer)
+	var createResp struct {
+		ID int `xml:"id"`
+	}
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createResp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "ldap server", err)
 	}
-
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	return &responseLDAPServer, nil
+	if createResp.ID == 0 {
+		return nil, fmt.Errorf("no ID found in LDAP server creation response")
+	}
+
+	return &LDAPServersListItem{
+		ID:   createResp.ID,
+		Name: ldapServer.Connection.Name,
+	}, nil
 }
 
 // UpdateLDAPServerByID updates an existing LDAP server identified by its ID.
