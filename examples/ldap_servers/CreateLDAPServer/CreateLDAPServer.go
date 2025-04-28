@@ -50,7 +50,7 @@ func main() {
 				MapDepartment:            "department",
 				MapBuilding:              "streetAddress",
 				MapRoom:                  "room",
-				MapTelephone:             "telephoneNumber",
+				MapPhone:                 "telephoneNumber",
 				MapPosition:              "title",
 				MapUserUUID:              "objectGUID",
 				// Additional fields if necessary...
@@ -71,7 +71,7 @@ func main() {
 				AppendToUsername:                  "company.com",
 				UseDN:                             true,
 				RecursiveLookups:                  true,
-				MapUserMembershipToGroupField:     true,
+				MapUserMembershipToGroupField:     "member",
 				MapUserMembershipUseDN:            true,
 				MapObjectClassToAnyOrAll:          "all",
 				ObjectClasses:                     "group",
