@@ -78,13 +78,7 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Respo
 		page++
 		params.Del("page")
 		params.Add("page", strconv.Itoa(page))
-
-		c.HTTP.Sugar.Debug("LOGHERE")
-		c.HTTP.Sugar.Debug(targetObjectAccumulator.Size)
 	}
-
-	c.HTTP.Sugar.Debug("LOGHERE-2")
-	c.HTTP.Sugar.Debug(targetObjectAccumulator.Size)
 
 	outStruct.Size = targetObjectAccumulator.Size
 	outStruct.Results = outData
