@@ -49,7 +49,7 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Respo
 	}
 
 	for {
-		targetObjectAccumulator := ResponsePaginated{}
+		targetObjectAccumulator = ResponsePaginated{}
 		encodedParams := params.Encode()
 		endpoint := fmt.Sprintf("%s?%s", endpoint_root, encodedParams)
 
@@ -78,7 +78,6 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Respo
 		page++
 		params.Del("page")
 		params.Add("page", strconv.Itoa(page))
-
 	}
 
 	outStruct.Size = targetObjectAccumulator.Size
