@@ -59,7 +59,7 @@ func main() {
 		UseStorageQuotaSize:                    jamfpro.FalsePtr(),
 		TemporarySessionOnly:                   jamfpro.FalsePtr(),
 		EnforceTemporarySessionTimeout:         jamfpro.FalsePtr(),
-		TemporarySessionTimeout:                0,
+		TemporarySessionTimeout:                nil,
 		EnforceUserSessionTimeout:              jamfpro.FalsePtr(),
 		UserSessionTimeout:                     nil,
 		SiteId:                                 "-1",

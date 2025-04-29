@@ -33,6 +33,11 @@ func IntPtr(i int) *int {
 	return &i
 }
 
+// StringPtr returns a pointer to a string value
+func StringPtr(s string) *string {
+	return &s
+}
+
 // IncrementStringID increments the given ID string.
 // It returns the incremented ID as a string or panics if the input is not convertible to an integer.
 func IncrementStringID(currentID string) string {

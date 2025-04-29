@@ -61,13 +61,13 @@ type ResourceMobileDevicePrestage struct {
 	PreventActivationLock                  *bool                                           `json:"preventActivationLock"`
 	EnableDeviceBasedActivationLock        *bool                                           `json:"enableDeviceBasedActivationLock"`
 	DeviceEnrollmentProgramInstanceID      string                                          `json:"deviceEnrollmentProgramInstanceId"`
-	SkipSetupItems                         MobileDevicePrestageSubsetSkipSetupItems        `json:"skipSetupItems"`
+	SkipSetupItems                         MobileDevicePrestageSubsetSkipSetupItems        `json:"skipSetupItems,omitempty"`
 	LocationInformation                    MobileDevicePrestageSubsetLocationInformation   `json:"locationInformation"`
 	PurchasingInformation                  MobileDevicePrestageSubsetPurchasingInformation `json:"purchasingInformation"`
-	AnchorCertificates                     []string                                        `json:"anchorCertificates"`
-	EnrollmentCustomizationID              string                                          `json:"enrollmentCustomizationId"`
-	Language                               string                                          `json:"language"`
-	Region                                 string                                          `json:"region"`
+	AnchorCertificates                     []string                                        `json:"anchorCertificates,omitempty"`
+	EnrollmentCustomizationID              string                                          `json:"enrollmentCustomizationId,omitempty"`
+	Language                               string                                          `json:"language,omitempty"`
+	Region                                 string                                          `json:"region,omitempty"`
 	AutoAdvanceSetup                       *bool                                           `json:"autoAdvanceSetup"`
 	AllowPairing                           *bool                                           `json:"allowPairing"`
 	MultiUser                              *bool                                           `json:"multiUser"`
@@ -81,17 +81,17 @@ type ResourceMobileDevicePrestage struct {
 	UseStorageQuotaSize                    *bool                                           `json:"useStorageQuotaSize"`
 	TemporarySessionOnly                   *bool                                           `json:"temporarySessionOnly"`
 	EnforceTemporarySessionTimeout         *bool                                           `json:"enforceTemporarySessionTimeout"`
-	TemporarySessionTimeout                int                                             `json:"temporarySessionTimeout"`
+	TemporarySessionTimeout                *int                                            `json:"temporarySessionTimeout,omitempty"`
 	EnforceUserSessionTimeout              *bool                                           `json:"enforceUserSessionTimeout"`
-	UserSessionTimeout                     *int                                            `json:"userSessionTimeout"`
+	UserSessionTimeout                     *int                                            `json:"userSessionTimeout,omitempty"`
 	ID                                     string                                          `json:"id"`
-	ProfileUuid                            string                                          `json:"profileUuid"`
-	SiteId                                 string                                          `json:"siteId"`
+	ProfileUuid                            string                                          `json:"profileUuid,omitempty"`
+	SiteId                                 string                                          `json:"siteId,omitempty"`
 	VersionLock                            int                                             `json:"versionLock"`
-	PrestageMinimumOsTargetVersionTypeIos  string                                          `json:"prestageMinimumOsTargetVersionTypeIos"`
-	MinimumOsSpecificVersionIos            string                                          `json:"minimumOsSpecificVersionIos"`
-	PrestageMinimumOsTargetVersionTypeIpad string                                          `json:"prestageMinimumOsTargetVersionTypeIpad"`
-	MinimumOsSpecificVersionIpad           string                                          `json:"minimumOsSpecificVersionIpad"`
+	PrestageMinimumOsTargetVersionTypeIos  string                                          `json:"prestageMinimumOsTargetVersionTypeIos,omitempty"`
+	MinimumOsSpecificVersionIos            string                                          `json:"minimumOsSpecificVersionIos,omitempty"`
+	PrestageMinimumOsTargetVersionTypeIpad string                                          `json:"prestageMinimumOsTargetVersionTypeIpad,omitempty"`
+	MinimumOsSpecificVersionIpad           string                                          `json:"minimumOsSpecificVersionIpad,omitempty"`
 	RTSConfigProfileId                     *string                                         `json:"rtsConfigProfileId"`
 }
 
