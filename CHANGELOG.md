@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.29.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.28.0...v1.29.0) (2025-04-29)
+
+
+### Features
+
+* add IntPtr function to return a pointer to an int value ([dc473b4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/dc473b4283447804041c4c87ed7cfaacbbc48508))
+* add membership scoping optimization field to LDAPServerSubsetMappingUserGroupMemberships ([0ca14bc](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/0ca14bc9b654791e82ff9bce13020e9e68302480))
+* add membership scoping optimization field to LDAPServerSubsetMappingUserGroupMemberships ([c311192](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/c311192c8e41085e50f0b9b31c803a5c91cb7e2e))
+* added jamf service status check to recipes ([e3a1ecf](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/e3a1ecfd54a17c2710c19cadbc481546eed5c79b))
+* implement CRUD examples for mobile device prestages ([32626b6](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/32626b603f37b088d9195d8fc51253d3ea4f67c3))
+* Update ResourceMobileDevicePrestage structure to Jamf Pro 11.15.1 ([4e63159](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4e63159688445e18f90e17bd090846be3e4aee51))
+
+
+### Bug Fixes
+
+* Add missing fields to ldapservers and correct existing fields ([755dc3c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/755dc3cb4394f8f46ff0624bb5f59704af7ffb10))
+* Add missing fields to ldapservers and existing field mappings/data type corrections ([b2991c0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b2991c0aac695a3572a15f95022d6ae5431ce5e2))
+* Pagination size not returning ([3f98119](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3f98119b0af4d6e721ae3078e31bec245a3fa61a))
+
 ## [1.28.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.27.1...v1.28.0) (2025-04-17)
 
 
