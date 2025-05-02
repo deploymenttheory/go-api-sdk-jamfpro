@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.29.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.29.0...v1.29.1) (2025-05-02)
+
+
+### Bug Fixes
+
+* mobile_device_prestages updates ([087f326](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/087f3266f2c223150f4bbb8374fc4e386b619304))
+* mobile_device_prestages updates ([1a2e5cd](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1a2e5cdbf355c25506e61aa5ad86cee38a2deab8))
+
 ## [1.29.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.28.0...v1.29.0) (2025-04-29)
 
 
