@@ -1,4 +1,4 @@
-// jamfproapi_sso_cert.go
+// jamfproapi_sso_certificate.go
 package jamfpro
 
 import (
