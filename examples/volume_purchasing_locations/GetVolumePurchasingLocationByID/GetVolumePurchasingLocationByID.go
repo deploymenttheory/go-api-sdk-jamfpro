@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Example ID to fetch a specific volume purchasing location
-	specificID := "1" // Replace with a valid ID
+	specificID := "13" // Replace with a valid ID
 
 	// Example of calling GetVolumePurchasingLocationByID
 	fmt.Printf("Fetching volume purchasing location with ID %s...\n", specificID)

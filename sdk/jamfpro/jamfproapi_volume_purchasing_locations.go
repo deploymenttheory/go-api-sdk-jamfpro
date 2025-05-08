@@ -75,6 +75,16 @@ type VolumePurchasingSubsetContent struct {
 	AdamId               string   `json:"adamId"`
 }
 
+// VolumePurchasingLocationCreateUpdateRequest represents the request structure for creating or updating a volume purchasing location.
+type VolumePurchasingLocationCreateUpdateRequest struct {
+	Name                                  string `json:"name,omitempty"`
+	AutomaticallyPopulatePurchasedContent bool   `json:"automaticallyPopulatePurchasedContent"`
+	SendNotificationWhenNoLongerAssigned  bool   `json:"sendNotificationWhenNoLongerAssigned"`
+	AutoRegisterManagedUsers              bool   `json:"autoRegisterManagedUsers"`
+	SiteID                                string `json:"siteId,omitempty"`
+	ServiceToken                          string `json:"serviceToken"`
+}
+
 // CRUD
 // VPP Locations
 
@@ -117,11 +127,11 @@ func (c *Client) GetVolumePurchasingLocationByID(id string) (*ResourceVolumePurc
 }
 
 // CreateVolumePurchasingLocation creates a new volume purchasing location.
-func (c *Client) CreateVolumePurchasingLocation(request *ResourceVolumePurchasingLocation) (*ResponseVolumePurchasingLocationCreate, error) {
+func (c *Client) CreateVolumePurchasingLocation(request *VolumePurchasingLocationCreateUpdateRequest) (*ResponseVolumePurchasingLocationCreate, error) {
 	endpoint := uriVolumePurchasingLocations
 
-	var response ResponseVolumePurchasingLocationCreate
-	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
+	var responseLocation ResponseVolumePurchasingLocationCreate
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &responseLocation)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create volume purchasing location: %v", err)
 	}
@@ -130,16 +140,17 @@ func (c *Client) CreateVolumePurchasingLocation(request *ResourceVolumePurchasin
 		defer resp.Body.Close()
 	}
 
-	return &response, nil
+	return &responseLocation, nil
 }
 
 // UpdateVolumePurchasingLocationByID updates a specific volume purchasing location by its ID.
-func (c *Client) UpdateVolumePurchasingLocationByID(id string) (*ResourceVolumePurchasingLocation, error) {
+func (c *Client) UpdateVolumePurchasingLocationByID(id string, request *VolumePurchasingLocationCreateUpdateRequest) (*ResourceVolumePurchasingLocation, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
+
 	var responseLocation ResourceVolumePurchasingLocation
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, nil, &responseLocation)
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, request, &responseLocation)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGetByID, "vpp locations", id, err)
+		return nil, fmt.Errorf("failed to update volume purchasing location: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -151,7 +162,7 @@ func (c *Client) UpdateVolumePurchasingLocationByID(id string) (*ResourceVolumeP
 
 // DeleteVolumePurchasingLocationByID deletes a specific volume purchasing location by its ID.
 func (c *Client) DeleteVolumePurchasingLocationByID(id string) error {
-	endpoint := uriVolumePurchasingLocations
+	endpoint := fmt.Sprintf("%s/%s", uriVolumePurchasingLocations, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "vpp location", id, err)
