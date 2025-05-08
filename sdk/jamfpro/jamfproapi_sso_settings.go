@@ -1,76 +1,70 @@
-// jamfproapi_sso_settings.go
+// jamfproapi_sso_settings_v3.go
 // Jamf Pro Api - SSO Settings
-// api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-sso
+// api reference: https://developer.jamf.com/jamf-pro/reference/put_v3-sso
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
 
 import "fmt"
 
-const uriSsoSettings = "/api/v2/sso"
-const uriSsoDependencies = "/api/v2/sso/dependencies"
+const uriSsoSettings = "/api/v3/sso"
 
 // Structs
 
 // SSO Settings
 // Resource
-
 type ResourceSsoSettings struct {
-	SsoForEnrollmentEnabled                        bool                                 `json:"ssoForEnrollmentEnabled"`
-	SsoBypassAllowed                               bool                                 `json:"ssoBypassAllowed"`
-	SsoEnabled                                     bool                                 `json:"ssoEnabled"`
-	SsoForMacOsSelfServiceEnabled                  bool                                 `json:"ssoForMacOsSelfServiceEnabled"`
-	TokenExpirationDisabled                        bool                                 `json:"tokenExpirationDisabled"`
-	UserAttributeEnabled                           bool                                 `json:"userAttributeEnabled"`
-	UserAttributeName                              string                               `json:"userAttributeName"`
-	UserMapping                                    string                               `json:"userMapping"`
-	EnrollmentSsoForAccountDrivenEnrollmentEnabled bool                                 `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
-	EnrollmentSsoConfig                            SsoSettingsSubsetEnrollmentSsoConfig `json:"enrollmentSsoConfig"`
-	GroupEnrollmentAccessEnabled                   bool                                 `json:"groupEnrollmentAccessEnabled"`
-	GroupAttributeName                             string                               `json:"groupAttributeName"`
-	GroupRdnKey                                    string                               `json:"groupRdnKey"`
-	GroupEnrollmentAccessName                      string                               `json:"groupEnrollmentAccessName"`
-	IdpProviderType                                string                               `json:"idpProviderType"`
-	IdpUrl                                         string                               `json:"idpUrl"`
-	EntityId                                       string                               `json:"entityId"`
-	MetadataFileName                               string                               `json:"metadataFileName"`
-	OtherProviderTypeName                          string                               `json:"otherProviderTypeName"`
-	FederationMetadataFile                         string                               `json:"federationMetadataFile"`
-	MetadataSource                                 string                               `json:"metadataSource"`
-	SessionTimeout                                 int                                  `json:"sessionTimeout"`
+	SsoEnabled                                     bool                `json:"ssoEnabled"`
+	ConfigurationType                              string              `json:"configurationType"` // enum: SAML, OIDC, OIDC_WITH_SAML
+	OidcSettings                                   OidcSettings        `json:"oidcSettings"`
+	SamlSettings                                   SamlSettings        `json:"samlSettings"`
+	SsoBypassAllowed                               bool                `json:"ssoBypassAllowed"`
+	SsoForEnrollmentEnabled                        bool                `json:"ssoForEnrollmentEnabled"`
+	SsoForMacOsSelfServiceEnabled                  bool                `json:"ssoForMacOsSelfServiceEnabled"`
+	EnrollmentSsoForAccountDrivenEnrollmentEnabled bool                `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
+	GroupEnrollmentAccessEnabled                   bool                `json:"groupEnrollmentAccessEnabled"`
+	GroupEnrollmentAccessName                      string              `json:"groupEnrollmentAccessName"`
+	EnrollmentSsoConfig                            EnrollmentSsoConfig `json:"enrollmentSsoConfig,omitempty"`
 }
 
-// Subsets
-
-type SsoSettingsSubsetEnrollmentSsoConfig struct {
-	Hosts          []string `json:"hosts"`
-	ManagementHint string   `json:"managementHint"`
+// OIDC Settings
+type OidcSettings struct {
+	UserMapping string `json:"userMapping"` // enum: USERNAME, EMAIL
 }
 
-// Enrollment Customizations Using SSO
-// Resource
-
-type ResponseSsoSubsetEnrollmentCustomizationDependencyList struct {
-	Dependencies []SsoSubsetSubsetEnrollmentCustomizationDependency
+// SAML Settings
+type SamlSettings struct {
+	IdpUrl                  string `json:"idpUrl,omitempty"`
+	EntityId                string `json:"entityId,omitempty"`
+	MetadataSource          string `json:"metadataSource,omitempty"`  // enum: URL, FILE, UNKNOWN
+	UserMapping             string `json:"userMapping,omitempty"`     // enum: USERNAME, EMAIL
+	IdpProviderType         string `json:"idpProviderType,omitempty"` // enum: ADFS, OKTA, GOOGLE, SHIBBOLETH, ONELOGIN, PING, CENTRIFY, AZURE, OTHER
+	GroupRdnKey             string `json:"groupRdnKey"`
+	UserAttributeName       string `json:"userAttributeName"`
+	GroupAttributeName      string `json:"groupAttributeName,omitempty"`
+	UserAttributeEnabled    bool   `json:"userAttributeEnabled"`
+	MetadataFileName        string `json:"metadataFileName,omitempty"`
+	OtherProviderTypeName   string `json:"otherProviderTypeName"`
+	FederationMetadataFile  string `json:"federationMetadataFile,omitempty"`
+	TokenExpirationDisabled bool   `json:"tokenExpirationDisabled"`
+	SessionTimeout          int    `json:"sessionTimeout,omitempty"`
 }
 
-// Subset
-
-type SsoSubsetSubsetEnrollmentCustomizationDependency struct {
-	Name              string `json:"name"`
-	HumanReadableName string `json:"humanReadableName"`
-	Hyperlink         string `json:"hyperlink"`
+// Enrollment SSO Config
+type EnrollmentSsoConfig struct {
+	Hosts          []string `json:"hosts,omitempty"`
+	ManagementHint string   `json:"managementHint,omitempty"`
 }
 
 // CRUD
 
-// GetSsoSettings retrieves current Jamf Sso settings
+// GetSsoSettings retrieves current Jamf SSO settings using v3 endpoint
 func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "sso settings", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "sso settings v3", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -80,13 +74,13 @@ func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	return &out, nil
 }
 
-// UpdateSsoSettings Updates SSO Settings with ResourceSsoSettings struct data
+// UpdateSsoSettings Updates SSO Settings with ResourceSsoSettings struct data using v3 endpoint
 func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdate, "sso settings", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "sso settings v3", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -95,21 +89,3 @@ func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*Resour
 
 	return &out, nil
 }
-
-// GetSsoEnrollmentCustomizationDependencies shows which enrollment customizations are dependent on which sso settings // NOTE I think?
-func (c *Client) GetSsoEnrollmentCustomizationDependencies() (*ResponseSsoSubsetEnrollmentCustomizationDependencyList, error) {
-	endpoint := uriSsoDependencies
-	var out ResponseSsoSubsetEnrollmentCustomizationDependencyList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "sso enrollment customization dependencies", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &out, nil
-}
-
-// QUERY What other endpoints do we need to cover here? It's a bit of a mix mash
