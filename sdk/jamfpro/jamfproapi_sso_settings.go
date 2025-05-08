@@ -14,17 +14,17 @@ const uriSsoSettings = "/api/v3/sso"
 // SSO Settings
 // Resource
 type ResourceSsoSettings struct {
-	SsoEnabled                                     bool                `json:"ssoEnabled"`
-	ConfigurationType                              string              `json:"configurationType"` // enum: SAML, OIDC, OIDC_WITH_SAML
-	OidcSettings                                   OidcSettings        `json:"oidcSettings"`
-	SamlSettings                                   SamlSettings        `json:"samlSettings"`
-	SsoBypassAllowed                               bool                `json:"ssoBypassAllowed"`
-	SsoForEnrollmentEnabled                        bool                `json:"ssoForEnrollmentEnabled"`
-	SsoForMacOsSelfServiceEnabled                  bool                `json:"ssoForMacOsSelfServiceEnabled"`
-	EnrollmentSsoForAccountDrivenEnrollmentEnabled bool                `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
-	GroupEnrollmentAccessEnabled                   bool                `json:"groupEnrollmentAccessEnabled"`
-	GroupEnrollmentAccessName                      string              `json:"groupEnrollmentAccessName"`
-	EnrollmentSsoConfig                            EnrollmentSsoConfig `json:"enrollmentSsoConfig,omitempty"`
+	SsoEnabled                                     bool                 `json:"ssoEnabled"`
+	ConfigurationType                              string               `json:"configurationType"` // enum: SAML, OIDC, OIDC_WITH_SAML
+	OidcSettings                                   *OidcSettings        `json:"oidcSettings"`
+	SamlSettings                                   *SamlSettings        `json:"samlSettings"`
+	SsoBypassAllowed                               bool                 `json:"ssoBypassAllowed"`
+	SsoForEnrollmentEnabled                        bool                 `json:"ssoForEnrollmentEnabled"`
+	SsoForMacOsSelfServiceEnabled                  bool                 `json:"ssoForMacOsSelfServiceEnabled"`
+	EnrollmentSsoForAccountDrivenEnrollmentEnabled bool                 `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
+	GroupEnrollmentAccessEnabled                   bool                 `json:"groupEnrollmentAccessEnabled"`
+	GroupEnrollmentAccessName                      string               `json:"groupEnrollmentAccessName"`
+	EnrollmentSsoConfig                            *EnrollmentSsoConfig `json:"enrollmentSsoConfig,omitempty"`
 }
 
 // OIDC Settings
@@ -58,13 +58,13 @@ type EnrollmentSsoConfig struct {
 
 // CRUD
 
-// GetSsoSettings retrieves current Jamf SSO settings using v3 endpoint
+// GetSsoSettings retrieves current Jamf SSO settings
 func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "sso settings v3", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "sso settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -74,13 +74,13 @@ func (c *Client) GetSsoSettings() (*ResourceSsoSettings, error) {
 	return &out, nil
 }
 
-// UpdateSsoSettings Updates SSO Settings with ResourceSsoSettings struct data using v3 endpoint
+// UpdateSsoSettings Updates SSO Settings with ResourceSsoSettings struct data
 func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*ResourceSsoSettings, error) {
 	endpoint := uriSsoSettings
 	var out ResourceSsoSettings
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdate, "sso settings v3", err)
+		return nil, fmt.Errorf(errMsgFailedUpdate, "sso settings", err)
 	}
 
 	if resp != nil && resp.Body != nil {

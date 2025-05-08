@@ -31,10 +31,10 @@ func main() {
 	// Define the SSO settings to update
 	updateSettings := &jamfpro.ResourceSsoSettings{
 		ConfigurationType: "SAML",
-		OidcSettings: jamfpro.OidcSettings{
+		OidcSettings: &jamfpro.OidcSettings{
 			UserMapping: "USERNAME",
 		},
-		SamlSettings: jamfpro.SamlSettings{
+		SamlSettings: &jamfpro.SamlSettings{
 			TokenExpirationDisabled: false,
 			UserAttributeEnabled:    false,
 			UserAttributeName:       " ",
@@ -55,7 +55,7 @@ func main() {
 		SsoEnabled:                    false,
 		SsoForMacOsSelfServiceEnabled: false,
 		EnrollmentSsoForAccountDrivenEnrollmentEnabled: false,
-		EnrollmentSsoConfig: jamfpro.EnrollmentSsoConfig{
+		EnrollmentSsoConfig: &jamfpro.EnrollmentSsoConfig{
 			Hosts: []string{
 				"dev-12324233.okta.com",
 				"example.okta.com",
