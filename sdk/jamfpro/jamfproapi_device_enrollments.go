@@ -175,6 +175,23 @@ func (c *Client) GetDeviceEnrollmentSyncStates(id string) ([]ResourceDeviceEnrol
 	return out, nil
 }
 
+// GetDeviceEnrollmentsPublicKey retrieves the public key for device enrollments
+func (c *Client) GetDeviceEnrollmentsPublicKey() (string, error) {
+	endpoint := fmt.Sprintf("%s/public-key", uriDeviceEnrollments)
+
+	var out []byte
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return "", fmt.Errorf(errMsgFailedGet, "device enrollment public key", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return string(out), nil
+}
+
 // CreateDeviceEnrollmentWithMDMServerToken creates a new device enrollment instance using
 // The downloaded token base 64 encoded from the MDM server to be used to create a new Device Enrollment Instance.
 func (c *Client) CreateDeviceEnrollmentWithMDMServerToken(tokenUpload *ResourceDeviceEnrollmentTokenUpload) (*ResponseDeviceEnrollmentTokenUpload, error) {
