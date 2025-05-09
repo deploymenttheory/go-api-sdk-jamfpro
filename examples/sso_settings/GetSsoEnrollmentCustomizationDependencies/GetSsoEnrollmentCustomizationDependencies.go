@@ -18,18 +18,18 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Fetch SSO settings
-	fmt.Println("Fetching SSO settings...")
-	ssoSettings, err := client.GetSsoSettings()
+	// Fetch SSO dependencies
+	fmt.Println("Fetching SSO dependencies...")
+	ssoDependencies, err := client.GetSsoEnrollmentCustomizationDependencies()
 	if err != nil {
-		fmt.Printf("Error fetching SSO settings: %v\n", err)
+		fmt.Printf("Error fetching SSO dependencies: %v\n", err)
 		return
 	}
 
-	// Pretty print the JSON response for SSO settings
-	jsonData, err := json.MarshalIndent(ssoSettings, "", "  ")
+	// Pretty print the JSON response for SSO dependencies
+	dependenciesJSON, err := json.MarshalIndent(ssoDependencies, "", "  ")
 	if err != nil {
-		log.Fatalf("Failed to marshal JSON: %v", err)
+		log.Fatalf("Failed to marshal SSO dependencies JSON: %v", err)
 	}
-	fmt.Printf("SSO Settings: %s\n", jsonData)
+	fmt.Printf("SSO Dependencies:\n%s\n", dependenciesJSON)
 }
