@@ -5,7 +5,9 @@
 
 package jamfpro
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // TODO - Figure out if we need this.
 
@@ -13,6 +15,10 @@ const uriCloudLdaps = "/api/v2/cloud-ldaps"
 
 // Responses
 
+type ResponseCloudIdentityProviderLdapCreated struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
 type ResponseCloudIdentityProviderDefaultMappings struct {
 	CloudIdentityProviderDefaultMappingsSubsetUserMappings       CloudIdentityProviderDefaultMappingsSubsetUserMappings       `json:"userMappings"`
 	CloudIdentityProviderDefaultMappingsSubsetGroupMappings      CloudIdentityProviderDefaultMappingsSubsetGroupMappings      `json:"groupMappings"`
@@ -50,7 +56,7 @@ type CloudIdentityProviderDefaultMappingsSubsetGroupMappings struct {
 }
 
 type CloudIdentityProviderDefaultMappingsSubsetMembershipMappings struct {
-	GroupMembershipMapping string `json:"memberOf"`
+	GroupMembershipMapping string `json:"groupMembershipMapping"`
 }
 
 type ResourceCloudLdap struct {
@@ -60,6 +66,7 @@ type ResourceCloudLdap struct {
 }
 
 type CloudIdPCommon struct {
+	ID           string `json:"id,omitempty"`
 	ProviderName string `json:"providerName"` // GOOGLE or AZURE
 	DisplayName  string `json:"displayName"`
 }
@@ -109,12 +116,11 @@ func (c *Client) GetDefaultCloudIdentityProviderDefaultMappings(providerName str
 }
 
 // CreateCloudIdentityProviderLdap creates a new Cloud Identity Provider configuration
-func (c *Client) CreateCloudIdentityProviderLdap(config *ResourceCloudLdap) (*ResponseCloudIdentityProviderDefaultMappings, error) {
+func (c *Client) CreateCloudIdentityProviderLdap(config *ResourceCloudLdap) (*ResponseCloudIdentityProviderLdapCreated, error) {
 	endpoint := uriCloudLdaps
 
-	// Send the request
-	var out ResponseCloudIdentityProviderDefaultMappings
-	resp, err := c.HTTP.DoRequest("POST", endpoint, config, &out)
+	var response ResponseCloudIdentityProviderLdapCreated
+	resp, err := c.HTTP.DoRequest("POST", endpoint, config, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "cloud identity provider", err)
 	}
@@ -123,5 +129,55 @@ func (c *Client) CreateCloudIdentityProviderLdap(config *ResourceCloudLdap) (*Re
 		defer resp.Body.Close()
 	}
 
+	return &response, nil
+}
+
+// GetCloudIdentityProviderLdapByID retrieves a specific Cloud Identity Provider LDAP configuration by ID
+func (c *Client) GetCloudIdentityProviderLdapByID(id string) (*ResourceCloudLdap, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriCloudLdaps, id)
+
+	var out ResourceCloudLdap
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "cloud identity provider LDAP", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
 	return &out, nil
+}
+
+// UpdateCloudIdentityProviderLdap updates an existing Cloud Identity Provider LDAP configuration
+func (c *Client) UpdateCloudIdentityProviderLdap(id string, config *ResourceCloudLdap) (*ResourceCloudLdap, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriCloudLdaps, id)
+
+	var out ResourceCloudLdap
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, config, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdate, "cloud identity provider LDAP", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// DeleteCloudIdentityProviderLdapByID deletes a Cloud Identity Provider LDAP configuration by ID
+func (c *Client) DeleteCloudIdentityProviderLdapByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s", uriCloudLdaps, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDelete, "cloud identity provider LDAP", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
 }

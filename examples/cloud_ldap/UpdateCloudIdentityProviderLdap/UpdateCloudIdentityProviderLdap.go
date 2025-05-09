@@ -18,18 +18,22 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Create the request body
+	// Define the ID of the Cloud LDAP configuration you want to update
+	ldapID := "1022" // Replace with your actual LDAP configuration ID
+
+	// Create the update request body
 	request := &jamfpro.ResourceCloudLdap{
 		CloudIdPCommon: &jamfpro.CloudIdPCommon{
+			ID:           ldapID,
 			ProviderName: "GOOGLE",
-			DisplayName:  "Google LDAP",
+			DisplayName:  "Google LDAP Updated", // Example of updated display name
 		},
 		Server: &jamfpro.CloudLdapServer{
 			Enabled: true,
 			Keystore: &jamfpro.CloudLdapKeystore{
 				Password:  "supersecretpassword",
 				FileBytes: "MIIJsQIBAzCCCXcGCSqGS...",
-				FileName:  "keystore.p12", // Added example filename
+				FileName:  "keystore.p12",
 			},
 			UseWildcards:                             true,
 			ConnectionType:                           "LDAPS",
@@ -73,16 +77,31 @@ func main() {
 		},
 	}
 
-	// Create the Cloud LDAP configuration
-	resp, err := client.CreateCloudIdentityProviderLdap(request)
+	// Update the Cloud LDAP configuration
+	resp, err := client.UpdateCloudIdentityProviderLdap(ldapID, request)
 	if err != nil {
-		log.Fatalf("Error creating cloud LDAP configuration: %v", err)
+		log.Fatalf("Error updating cloud LDAP configuration: %v", err)
 	}
 
-	// Pretty print the response in JSON
-	responseJSON, err := json.MarshalIndent(resp, "", "    ") // Indent with 4 spaces
+	// Pretty print the response
+	responseJSON, err := json.MarshalIndent(resp, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling response data: %v", err)
 	}
-	fmt.Println("Created Cloud LDAP Configuration:\n", string(responseJSON))
+
+	fmt.Printf("Successfully updated Cloud LDAP configuration with ID %s:\n%s\n", ldapID, string(responseJSON))
+
+	// Optionally fetch and display the updated configuration
+	updatedConfig, err := client.GetCloudIdentityProviderLdapByID(ldapID)
+	if err != nil {
+		log.Fatalf("Error fetching updated configuration: %v", err)
+	}
+
+	// Pretty print the updated configuration
+	updatedJSON, err := json.MarshalIndent(updatedConfig, "", "    ")
+	if err != nil {
+		log.Fatalf("Error marshaling updated configuration data: %v", err)
+	}
+
+	fmt.Printf("\nFull Updated Configuration:\n%s\n", string(updatedJSON))
 }
