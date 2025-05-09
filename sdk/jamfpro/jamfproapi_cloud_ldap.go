@@ -86,9 +86,12 @@ type CloudLdapServer struct {
 }
 
 type CloudLdapKeystore struct {
-	Password  string `json:"password"`
-	FileBytes string `json:"fileBytes"`
-	FileName  string `json:"fileName"`
+	Type           string `json:"type,omitempty"`
+	ExpirationDate string `json:"expirationDate,omitempty"`
+	Subject        string `json:"subject,omitempty"`
+	FileName       string `json:"fileName,omitempty"`
+	Password       string `json:"password,omitempty"`
+	FileBytes      string `json:"fileBytes,omitempty"`
 }
 
 type CloudLdapMappings struct {
