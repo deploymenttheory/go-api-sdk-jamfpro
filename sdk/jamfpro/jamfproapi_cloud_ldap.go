@@ -19,6 +19,7 @@ type ResponseCloudIdentityProviderLdapCreated struct {
 	ID   string `json:"id"`
 	Href string `json:"href"`
 }
+
 type ResponseCloudIdentityProviderDefaultMappings struct {
 	CloudIdentityProviderDefaultMappingsSubsetUserMappings       CloudIdentityProviderDefaultMappingsSubsetUserMappings       `json:"userMappings"`
 	CloudIdentityProviderDefaultMappingsSubsetGroupMappings      CloudIdentityProviderDefaultMappingsSubsetGroupMappings      `json:"groupMappings"`
