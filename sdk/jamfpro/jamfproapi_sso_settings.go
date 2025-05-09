@@ -8,6 +8,7 @@ package jamfpro
 import "fmt"
 
 const uriSsoSettings = "/api/v3/sso"
+const uriSsoEnrollmentCustomizationDependencies = "/api/v3/sso/dependencies"
 
 // Structs
 
@@ -56,6 +57,18 @@ type EnrollmentSsoConfig struct {
 	ManagementHint string   `json:"managementHint,omitempty"`
 }
 
+// SSO Enrollment Customization Dependencies
+type ResponseSsoEnrollmentCustomizationDependencies struct {
+	Dependencies []EnrollmentCustomizationDependency `json:"dependencies"`
+}
+
+// Enrollment Customization Dependency
+type EnrollmentCustomizationDependency struct {
+	Name              string `json:"name"`
+	Hyperlink         string `json:"hyperlink"`
+	HumanReadableName string `json:"humanReadableName"`
+}
+
 // CRUD
 
 // GetSsoSettings retrieves current Jamf SSO settings
@@ -81,6 +94,22 @@ func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*Resour
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, updatedSettings, &out)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdate, "sso settings", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// GetSsoEnrollmentCustomizationDependencies retrieves current SSO Enrollment Customization dependencies
+func (c *Client) GetSsoEnrollmentCustomizationDependencies() (*ResponseSsoEnrollmentCustomizationDependencies, error) {
+	endpoint := uriSsoEnrollmentCustomizationDependencies
+	var out ResponseSsoEnrollmentCustomizationDependencies
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "sso dependencies", err)
 	}
 
 	if resp != nil && resp.Body != nil {
