@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.30.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.29.1...v1.30.0) (2025-05-12)
+
+
+### Features
+
+* add SSO certificate support ([#779](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/779)) ([811ebe8](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/811ebe8cb7b629d1ad9e4ee67879f879d63d2fbe))
+* add support for device-enrollments/public-key retrieval ([#776](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/776)) ([230f3fe](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/230f3fed74a748dece91965a1753ba26b56a59a0))
+* add volume purchasing location management examples and update SDK methods ([#777](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/777)) ([408ed30](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/408ed303f7b5be1bb39226123163cb1556a2a421))
+* fix/complete cloud-ldaps support ([#781](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/781)) ([06dbd6a](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/06dbd6a5621dd0bf74c1dfe05b2a198063f34734))
+* update support for /v3/sso (sso-settings)  ([#780](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/780)) ([56e95d2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/56e95d2066feda8adfbbc034d75696113241a289))
+
+
+### Bug Fixes
+
+* HTTP response handling in SyncJamfProtectPlans ([#782](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/782)) ([6db7da4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/6db7da426442232661f97ee46e9a2efbffb64b65))
+
 ## [1.29.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.29.0...v1.29.1) (2025-05-02)
 
 
