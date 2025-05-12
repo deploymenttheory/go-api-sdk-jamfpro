@@ -225,19 +225,17 @@ func (c *Client) GetJamfProtectPlans(params url.Values) (*ResponseJamfProtectPla
 func (c *Client) SyncJamfProtectPlans() error {
 	endpoint := fmt.Sprintf("%s/plans/sync", uriJamfProtect)
 
-	var errorResponse SharedResourcResponseError
-	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, &errorResponse)
-	if err != nil {
-		return fmt.Errorf(errMsgFailedUpdate, "sync Jamf Protect plans", err)
+	resp, _ := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+	if resp == nil {
+		return fmt.Errorf("failed to sync Jamf Protect plans: no response received")
 	}
 
-	if resp != nil && resp.Body != nil {
+	if resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
-	// Check if the response contains errors
-	if errorResponse.HTTPStatus != 0 {
-		return fmt.Errorf("failed to sync Jamf Protect plans: HTTP %d - %+v", errorResponse.HTTPStatus, errorResponse.Errors)
+	if resp.StatusCode != 204 {
+		return fmt.Errorf("failed to sync Jamf Protect plans: unexpected status code %d", resp.StatusCode)
 	}
 
 	return nil
