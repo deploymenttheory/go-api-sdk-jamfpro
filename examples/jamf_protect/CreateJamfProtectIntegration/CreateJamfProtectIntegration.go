@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -18,20 +18,26 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Set the autoInstall parameter
-	autoInstall := true
+	// Create a Jamf Protect registration request using the new struct
+	registration := jamfpro.ResourceJamfProtectRegistration{
+		ProtectURL: "https://instance.protect.jamfcloud.com/graphql",
+		ClientID:   "supersecretclientid",
+		Password:   "supersecretpassword",
+	}
 
-	// Call CreateJamfProtectIntegration function
-	integrationSettings, err := client.CreateJamfProtectIntegration(autoInstall)
+	// Create the Jamf Protect integration with auto-install enabled
+	response, err := client.CreateJamfProtectIntegration(registration, true)
 	if err != nil {
 		log.Fatalf("Error creating Jamf Protect integration: %v", err)
 	}
 
-	// Optionally, you can also print the entire response as JSON
-	settingsJSON, err := json.MarshalIndent(integrationSettings, "", "    ")
+	// Convert the response struct to pretty-printed JSON
+	responseJSON, err := json.MarshalIndent(response, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshalling Jamf Protect integration settings to JSON: %v", err)
+		log.Fatalf("Error marshalling Jamf Protect integration response to JSON: %v", err)
 	}
-	fmt.Println("\nJamf Protect Integration Settings (JSON):")
-	fmt.Println(string(settingsJSON))
+
+	// Print the pretty-printed JSON
+	fmt.Println("Jamf Protect Integration Response:")
+	fmt.Println(string(responseJSON))
 }
