@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.30.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.30.0...v1.30.1) (2025-05-14)
+
+
+### Bug Fixes
+
+* refactor Jamf Protect functions ([#783](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/783)) ([b9203f4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b9203f4d096c32264317c5b27b0a34743e4a9ee4))
+
 ## [1.30.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.29.1...v1.30.0) (2025-05-12)
 
 
