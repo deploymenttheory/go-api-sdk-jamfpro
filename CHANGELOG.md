@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.31.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.30.1...v1.31.0) (2025-05-15)
+
+
+### Features
+
+* add support for v2/engage ([#785](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/785)) ([ce74dc3](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ce74dc3c5c287031e5396986878ed7557f0a9d1d))
+
 ## [1.30.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.30.0...v1.30.1) (2025-05-14)
 
 
