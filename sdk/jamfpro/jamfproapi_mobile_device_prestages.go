@@ -92,6 +92,7 @@ type ResourceMobileDevicePrestage struct {
 	MinimumOsSpecificVersionIos            string                                          `json:"minimumOsSpecificVersionIos,omitempty"`
 	PrestageMinimumOsTargetVersionTypeIpad string                                          `json:"prestageMinimumOsTargetVersionTypeIpad,omitempty"`
 	MinimumOsSpecificVersionIpad           string                                          `json:"minimumOsSpecificVersionIpad,omitempty"`
+	RTSEnabled                             *bool                                           `json:"rtsEnabled"`
 	RTSConfigProfileId                     *string                                         `json:"rtsConfigProfileId"`
 }
 
@@ -137,6 +138,7 @@ type MobileDevicePrestageSubsetSkipSetupItems struct {
 	OnBoarding            *bool `json:"OnBoarding"`
 	TOS                   *bool `json:"TOS"`
 	Welcome               *bool `json:"Welcome"`
+	SafetyAndHandling     *bool `json:"SafetyAndHandling"`
 	TapToSetup            *bool `json:"TapToSetup"`
 }
 
