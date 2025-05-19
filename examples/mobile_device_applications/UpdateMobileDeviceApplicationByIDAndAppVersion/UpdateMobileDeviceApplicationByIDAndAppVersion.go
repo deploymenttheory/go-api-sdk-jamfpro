@@ -29,7 +29,7 @@ func main() {
 			Description: "Jamf Self Service empowers you to be more productive...",
 			BundleID:    "com.jamfsoftware.selfservice",
 			Version:     "10.10.6",
-			InternalApp: true,
+			InternalApp: jamfpro.BoolPtr(true),
 			OsType:      "iOS", // iOS or tvOS
 			Category: &jamfpro.SharedResourceCategory{
 				ID:   -1,
