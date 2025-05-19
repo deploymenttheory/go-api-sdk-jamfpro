@@ -31,50 +31,51 @@ type MobileDeviceApplicationsListItem struct {
 	DisplayName string `xml:"display_name"`
 	BundleID    string `xml:"bundle_id"`
 	Version     string `xml:"version"`
-	InternalApp bool   `xml:"internal_app"`
+	InternalApp *bool  `xml:"internal_app"`
 }
 
 // Resource
 
 // ResourceMobileDeviceApplication represents the detailed structure of a single mobile device application.
 type ResourceMobileDeviceApplication struct {
-	General MobileDeviceApplicationSubsetGeneral `xml:"general"`
+	General          MobileDeviceApplicationSubsetGeneral                 `xml:"general"`
+	Scope            MobileDeviceApplicationSubsetScope                   `xml:"scope"`
+	SelfService      MobileDeviceApplicationSubsetGeneralSelfService      `xml:"self_service"`
+	VPP              MobileDeviceApplicationSubsetGeneralVPP              `xml:"vpp,omitempty"`
+	AppConfiguration MobileDeviceApplicationSubsetGeneralAppConfiguration `xml:"app_configuration,omitempty"`
 }
 
 // Subsets and Containers
 
 type MobileDeviceApplicationSubsetGeneral struct {
-	ID                               int                                                  `xml:"id,omitempty"`
-	Name                             string                                               `xml:"name"`
-	DisplayName                      string                                               `xml:"display_name"`
-	Description                      string                                               `xml:"description,omitempty"`
-	BundleID                         string                                               `xml:"bundle_id"`
-	Version                          string                                               `xml:"version"`
-	InternalApp                      bool                                                 `xml:"internal_app,omitempty"`
-	OsType                           string                                               `xml:"os_type,omitempty"`
-	Category                         *SharedResourceCategory                              `xml:"category"`
-	IPA                              MobileDeviceApplicationSubsetGeneralIPA              `xml:"ipa,omitempty"`
-	Icon                             MobileDeviceApplicationSubsetIcon                    `xml:"icon"`
-	ProvisioningProfile              int                                                  `xml:"mobile_device_provisioning_profile,omitempty"`
-	ITunesStoreURL                   string                                               `xml:"itunes_store_url,omitempty"`
-	MakeAvailableAfterInstall        bool                                                 `xml:"make_available_after_install,omitempty"`
-	ITunesCountryRegion              string                                               `xml:"itunes_country_region,omitempty"`
-	ITunesSyncTime                   int                                                  `xml:"itunes_sync_time,omitempty"`
-	DeploymentType                   string                                               `xml:"deployment_type,omitempty"`
-	DeployAutomatically              bool                                                 `xml:"deploy_automatically,omitempty"`
-	DeployAsManagedApp               bool                                                 `xml:"deploy_as_managed_app,omitempty"`
-	RemoveAppWhenMDMProfileIsRemoved bool                                                 `xml:"remove_app_when_mdm_profile_is_removed,omitempty"`
-	PreventBackupOfAppData           bool                                                 `xml:"prevent_backup_of_app_data,omitempty"`
-	KeepDescriptionAndIconUpToDate   bool                                                 `xml:"keep_description_and_icon_up_to_date,omitempty"`
-	Free                             bool                                                 `xml:"free,omitempty"`
-	TakeOverManagement               bool                                                 `xml:"take_over_management,omitempty"`
-	HostExternally                   bool                                                 `xml:"host_externally,omitempty"`
-	ExternalURL                      string                                               `xml:"external_url,omitempty"`
-	Site                             *SharedResourceSite                                  `xml:"site"`
-	Scope                            MobileDeviceApplicationSubsetScope                   `xml:"scope"`
-	SelfService                      MobileDeviceApplicationSubsetGeneralSelfService      `xml:"self_service"`
-	VPP                              MobileDeviceApplicationSubsetGeneralVPP              `xml:"vpp,omitempty"`
-	AppConfiguration                 MobileDeviceApplicationSubsetGeneralAppConfiguration `xml:"app_configuration,omitempty"`
+	ID                               int                                     `xml:"id,omitempty"`
+	Name                             string                                  `xml:"name"`
+	DisplayName                      string                                  `xml:"display_name"`
+	Description                      string                                  `xml:"description,omitempty"`
+	BundleID                         string                                  `xml:"bundle_id"`
+	Version                          string                                  `xml:"version"`
+	InternalApp                      *bool                                   `xml:"internal_app,omitempty"`
+	OsType                           string                                  `xml:"os_type,omitempty"`
+	Category                         *SharedResourceCategory                 `xml:"category"`
+	IPA                              MobileDeviceApplicationSubsetGeneralIPA `xml:"ipa,omitempty"`
+	Icon                             MobileDeviceApplicationSubsetIcon       `xml:"icon"`
+	ProvisioningProfile              int                                     `xml:"mobile_device_provisioning_profile,omitempty"`
+	ITunesStoreURL                   string                                  `xml:"itunes_store_url,omitempty"`
+	MakeAvailableAfterInstall        bool                                    `xml:"make_available_after_install,omitempty"`
+	ITunesCountryRegion              string                                  `xml:"itunes_country_region,omitempty"`
+	ITunesSyncTime                   int                                     `xml:"itunes_sync_time,omitempty"`
+	DeploymentType                   string                                  `xml:"deployment_type,omitempty"`
+	DeployAutomatically              *bool                                   `xml:"deploy_automatically,omitempty"`
+	DeployAsManagedApp               *bool                                   `xml:"deploy_as_managed_app,omitempty"`
+	RemoveAppWhenMDMProfileIsRemoved *bool                                   `xml:"remove_app_when_mdm_profile_is_removed,omitempty"`
+	PreventBackupOfAppData           *bool                                   `xml:"prevent_backup_of_app_data,omitempty"`
+	KeepDescriptionAndIconUpToDate   *bool                                   `xml:"keep_description_and_icon_up_to_date,omitempty"`
+	KeepAppUpdatedOnDevices          *bool                                   `xml:"keep_app_updated_on_devices,omitempty"`
+	Free                             *bool                                   `xml:"free,omitempty"`
+	TakeOverManagement               *bool                                   `xml:"take_over_management,omitempty"`
+	HostExternally                   *bool                                   `xml:"host_externally,omitempty"`
+	ExternalURL                      string                                  `xml:"external_url,omitempty"`
+	Site                             *SharedResourceSite                     `xml:"site"`
 }
 
 type MobileDeviceApplicationSubsetGeneralIPA struct {
@@ -86,27 +87,27 @@ type MobileDeviceApplicationSubsetGeneralIPA struct {
 type MobileDeviceApplicationSubsetGeneralSelfService struct {
 	SelfServiceDescription string                              `xml:"self_service_description,omitempty"`
 	SelfServiceIcon        MobileDeviceApplicationSubsetIcon   `xml:"self_service_icon,omitempty"`
-	FeatureOnMainPage      bool                                `xml:"feature_on_main_page,omitempty"`
+	FeatureOnMainPage      *bool                               `xml:"feature_on_main_page,omitempty"`
 	SelfServiceCategories  []SharedResourceSelfServiceCategory `xml:"self_service_categories>category,omitempty"`
-	Notification           bool                                `xml:"notification,omitempty"`
+	Notification           *bool                               `xml:"notification,omitempty"`
 	NotificationSubject    string                              `xml:"notification_subject,omitempty"`
 	NotificationMessage    string                              `xml:"notification_message,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetGeneralVPP struct {
-	AssignVPPDeviceBasedLicenses bool `xml:"assign_vpp_device_based_licenses,omitempty"`
-	VPPAdminAccountID            int  `xml:"vpp_admin_account_id,omitempty"`
+	AssignVPPDeviceBasedLicenses *bool `xml:"assign_vpp_device_based_licenses,omitempty"`
+	VPPAdminAccountID            int   `xml:"vpp_admin_account_id,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetGeneralAppConfiguration struct {
-	Preferences string `xml:"preferences,omitempty"`
+	Preferences string `xml:"preferences"`
 }
 
 // Shared Structs
 
 type MobileDeviceApplicationSubsetScope struct {
-	AllMobileDevices   bool                                             `xml:"all_mobile_devices,omitempty"`
-	AllJSSUsers        bool                                             `xml:"all_jss_users,omitempty"`
+	AllMobileDevices   *bool                                            `xml:"all_mobile_devices,omitempty"`
+	AllJSSUsers        *bool                                            `xml:"all_jss_users,omitempty"`
 	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`
 	Buildings          []MobileDeviceApplicationSubsetBuilding          `xml:"buildings>building,omitempty"`
 	Departments        []MobileDeviceApplicationSubsetDepartment        `xml:"departments>department,omitempty"`
@@ -309,7 +310,7 @@ func (c *Client) GetMobileDeviceApplicationByNameAndDataSubset(name string, subs
 }
 
 // CreateMobileDeviceApplication creates a new mobile device application on the Jamf Pro server.
-func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplication) (*ResourceMobileDeviceApplication, error) {
+func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplication) (*MobileDeviceApplicationsListItem, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriMobileDeviceApplications)
 
 	requestBody := struct {
@@ -319,8 +320,11 @@ func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplicat
 		ResourceMobileDeviceApplication: app,
 	}
 
-	var responseApp ResourceMobileDeviceApplication
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &responseApp)
+	var createResp struct {
+		ID int `xml:"id"`
+	}
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createResp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device application", err)
 	}
@@ -329,7 +333,14 @@ func (c *Client) CreateMobileDeviceApplication(app *ResourceMobileDeviceApplicat
 		defer resp.Body.Close()
 	}
 
-	return &responseApp, nil
+	if createResp.ID == 0 {
+		return nil, fmt.Errorf("no ID found in mobile device application creation response")
+	}
+
+	return &MobileDeviceApplicationsListItem{
+		ID:   createResp.ID,
+		Name: app.General.Name,
+	}, nil
 }
 
 // UpdateMobileDeviceApplicationByID updates a mobile device application by its ID on the Jamf Pro server.
