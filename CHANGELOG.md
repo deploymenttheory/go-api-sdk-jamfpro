@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.31.0...v1.32.0) (2025-05-19)
+
+
+### Features
+
+* add new 11.16 fields for mobile device prestages and webhooks ([#787](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/787)) ([4b66f79](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4b66f792ff4a60c95cfc20055615d994057579d1))
+
 ## [1.31.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.30.1...v1.31.0) (2025-05-15)
 
 

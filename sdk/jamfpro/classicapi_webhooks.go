@@ -47,6 +47,7 @@ type ResourceWebhook struct {
 	Password                    string         `xml:"password,omitempty"`
 	EnableDisplayFieldsForGroup bool           `xml:"enable_display_fields_for_group_object,omitempty"`
 	DisplayFields               []DisplayField `xml:"display_fields>display_field,omitempty"`
+	Header                      string         `xml:"header,omitempty"`
 	SmartGroupID                int            `xml:"smart_group_id,omitempty"`
 }
 
