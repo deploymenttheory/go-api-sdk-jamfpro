@@ -179,11 +179,6 @@ func (c *Client) CreateJamfProtectIntegration(registration ResourceJamfProtectRe
 		return nil, fmt.Errorf("failed to update settings: %v", err)
 	}
 
-	err = c.SyncJamfProtectPlans()
-	if err != nil {
-		return nil, fmt.Errorf("failed to sync plans: %v", err)
-	}
-
 	return updateResp, nil
 }
 
