@@ -106,31 +106,34 @@ type MobileDeviceApplicationSubsetGeneralAppConfiguration struct {
 // Shared Structs
 
 type MobileDeviceApplicationSubsetScope struct {
-	AllMobileDevices   *bool                                            `xml:"all_mobile_devices,omitempty"`
-	AllJSSUsers        *bool                                            `xml:"all_jss_users,omitempty"`
-	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`
-	Buildings          []MobileDeviceApplicationSubsetBuilding          `xml:"buildings>building,omitempty"`
-	Departments        []MobileDeviceApplicationSubsetDepartment        `xml:"departments>department,omitempty"`
-	MobileDeviceGroups []MobileDeviceApplicationSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group,omitempty"`
-	JSSUsers           []MobileDeviceApplicationSubsetJSSUser           `xml:"jss_users>user,omitempty"`
-	JSSUserGroups      []MobileDeviceApplicationSubsetJSSUserGroup      `xml:"jss_user_groups>user_group,omitempty"`
-	Limitations        MobileDeviceApplicationSubsetLimitation          `xml:"limitations,omitempty"`
-	Exclusions         MobileDeviceApplicationSubsetExclusion           `xml:"exclusions,omitempty"`
+	AllMobileDevices   *bool                                       `xml:"all_mobile_devices,omitempty"`
+	AllJSSUsers        *bool                                       `xml:"all_jss_users,omitempty"`
+	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice `xml:"mobile_devices>mobile_device,omitempty"`
+	Buildings          []MobileDeviceApplicationSubsetScopeEntity  `xml:"buildings>building,omitempty"`
+	Departments        []MobileDeviceApplicationSubsetScopeEntity  `xml:"departments>department,omitempty"`
+	MobileDeviceGroups []MobileDeviceApplicationSubsetScopeEntity  `xml:"mobile_device_groups>mobile_device_group,omitempty"`
+	JSSUsers           []MobileDeviceApplicationSubsetScopeEntity  `xml:"jss_users>user,omitempty"`
+	JSSUserGroups      []MobileDeviceApplicationSubsetScopeEntity  `xml:"jss_user_groups>user_group,omitempty"`
+	Limitations        MobileDeviceApplicationSubsetLimitation     `xml:"limitations,omitempty"`
+	Exclusions         MobileDeviceApplicationSubsetExclusion      `xml:"exclusions,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetLimitation struct {
-	Users           []MobileDeviceApplicationSubsetUser           `xml:"users>user,omitempty"`
-	UserGroups      []MobileDeviceApplicationSubsetUserGroup      `xml:"user_groups>user_group,omitempty"`
+	Users           []MobileDeviceApplicationSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups      []MobileDeviceApplicationSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
 	NetworkSegments []MobileDeviceApplicationSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetExclusion struct {
-	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice      `xml:"mobile_devices>mobile_device,omitempty"`
-	Buildings          []MobileDeviceApplicationSubsetBuilding          `xml:"buildings>building,omitempty"`
-	Departments        []MobileDeviceApplicationSubsetDepartment        `xml:"departments>department,omitempty"`
-	MobileDeviceGroups []MobileDeviceApplicationSubsetMobileDeviceGroup `xml:"mobile_device_groups>mobile_device_group,omitempty"`
-	JSSUsers           []MobileDeviceApplicationSubsetJSSUser           `xml:"jss_users>user,omitempty"`
-	JSSUserGroups      []MobileDeviceApplicationSubsetJSSUserGroup      `xml:"jss_user_groups>user_group,omitempty"`
+	MobileDevices      []MobileDeviceApplicationSubsetMobileDevice   `xml:"mobile_devices>mobile_device,omitempty"`
+	Buildings          []MobileDeviceApplicationSubsetScopeEntity    `xml:"buildings>building,omitempty"`
+	Users              []MobileDeviceApplicationSubsetScopeEntity    `xml:"users>user,omitempty"`
+	UserGroups         []MobileDeviceApplicationSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	Departments        []MobileDeviceApplicationSubsetScopeEntity    `xml:"departments>department,omitempty"`
+	MobileDeviceGroups []MobileDeviceApplicationSubsetScopeEntity    `xml:"mobile_device_groups>mobile_device_group,omitempty"`
+	NetworkSegments    []MobileDeviceApplicationSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
+	JSSUsers           []MobileDeviceApplicationSubsetScopeEntity    `xml:"jss_users>user,omitempty"`
+	JSSUserGroups      []MobileDeviceApplicationSubsetScopeEntity    `xml:"jss_user_groups>user_group,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetIcon struct {
@@ -141,50 +144,22 @@ type MobileDeviceApplicationSubsetIcon struct {
 }
 
 type MobileDeviceApplicationSubsetMobileDevice struct {
-	ID             int    `xml:"id,omitempty"`
+	ID             int    `xml:"id"`
 	Name           string `xml:"name,omitempty"`
 	UDID           string `xml:"udid,omitempty"`
 	WifiMacAddress string `xml:"wifi_mac_address,omitempty"`
 }
 
-type MobileDeviceApplicationSubsetBuilding struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
+// Entity
 
-type MobileDeviceApplicationSubsetDepartment struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MobileDeviceApplicationSubsetMobileDeviceGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MobileDeviceApplicationSubsetJSSUser struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MobileDeviceApplicationSubsetJSSUserGroup struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MobileDeviceApplicationSubsetUser struct {
-	ID   int    `xml:"id,omitempty"`
-	Name string `xml:"name,omitempty"`
-}
-
-type MobileDeviceApplicationSubsetUserGroup struct {
-	ID   int    `xml:"id,omitempty"`
+// Generic Entity struct for common use
+type MobileDeviceApplicationSubsetScopeEntity struct {
+	ID   int    `xml:"id"`
 	Name string `xml:"name,omitempty"`
 }
 
 type MobileDeviceApplicationSubsetNetworkSegment struct {
-	ID   int    `xml:"id,omitempty"`
-	UID  string `xml:"uid,omitempty"`
+	MobileDeviceApplicationSubsetScopeEntity
 	Name string `xml:"name,omitempty"`
 }
 
