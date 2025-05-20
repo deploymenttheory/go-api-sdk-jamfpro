@@ -152,6 +152,10 @@ func (c *Client) SyncJamfProtectPlans() error {
 
 	resp, _ := c.HTTP.DoRequest("POST", endpoint, nil, nil)
 
+	if resp == nil {
+		return fmt.Errorf("failed to sync Jamf Protect plans: received nil response")
+	}
+
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
@@ -177,6 +181,11 @@ func (c *Client) CreateJamfProtectIntegration(registration ResourceJamfProtectRe
 	updateResp, err := c.UpdateJamfProtectSettings(settings)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update settings: %v", err)
+	}
+
+	err = c.SyncJamfProtectPlans()
+	if err != nil {
+		return nil, fmt.Errorf("failed to sync plans: %v", err)
 	}
 
 	return updateResp, nil
