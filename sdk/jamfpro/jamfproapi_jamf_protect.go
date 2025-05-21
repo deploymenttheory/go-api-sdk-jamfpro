@@ -156,7 +156,7 @@ func (c *Client) SyncJamfProtectPlans() error {
 		return fmt.Errorf("failed to sync Jamf Protect plans: received nil response")
 	}
 
-	if resp != nil && resp.Body != nil {
+	if resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
