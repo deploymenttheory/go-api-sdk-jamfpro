@@ -152,7 +152,11 @@ func (c *Client) SyncJamfProtectPlans() error {
 
 	resp, _ := c.HTTP.DoRequest("POST", endpoint, nil, nil)
 
-	if resp != nil && resp.Body != nil {
+	if resp == nil {
+		return fmt.Errorf("failed to sync Jamf Protect plans: received nil response")
+	}
+
+	if resp.Body != nil {
 		defer resp.Body.Close()
 	}
 
