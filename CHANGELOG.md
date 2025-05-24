@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.32.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.32.0...v1.32.1) (2025-05-24)
+
+
+### Bug Fixes
+
+* add error handling for SyncJamfProtectPlans ([#790](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/790)) ([3840423](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/38404231fa72117866fd22ce218cf24dbcf4efc2))
+
 ## [1.32.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.31.0...v1.32.0) (2025-05-19)
 
 
