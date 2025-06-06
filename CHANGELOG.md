@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.33.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.32.0...v1.33.0) (2025-06-06)
+
+
+### Features
+
+* Add functions for GetCloudDistributionPoint and GetCloudDistributionPointTestConnection ([#797](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/797)) ([eae7257](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/eae725721f24a066424a44aaccf0359f98531ff4))
+* add reclaim functionality for volume purchasing locations ([#791](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/791)) ([7f39971](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/7f39971f4dadc51eb62ffbb9a7b056afbb7c9976))
+
+
+### Bug Fixes
+
+* add error handling for SyncJamfProtectPlans ([#790](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/790)) ([3840423](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/38404231fa72117866fd22ce218cf24dbcf4efc2))
+* mobile device applications - various ([#789](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/789)) ([5791e63](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/5791e631d7293dcaff4c6072ed8758e6859e2647))
+
 ## [1.32.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.31.0...v1.32.0) (2025-05-19)
 
 
