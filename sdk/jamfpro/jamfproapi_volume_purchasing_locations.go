@@ -140,6 +140,11 @@ func (c *Client) CreateVolumePurchasingLocation(request *VolumePurchasingLocatio
 		defer resp.Body.Close()
 	}
 
+	err = c.ReclaimVolumePurchasingLocationByID(responseLocation.ID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to reclaim volume purchasing location: %v", err)
+	}
+
 	return &responseLocation, nil
 }
 
@@ -157,6 +162,11 @@ func (c *Client) UpdateVolumePurchasingLocationByID(id string, request *VolumePu
 		defer resp.Body.Close()
 	}
 
+	err = c.ReclaimVolumePurchasingLocationByID(responseLocation.ID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to reclaim volume purchasing location: %v", err)
+	}
+
 	return &responseLocation, nil
 }
 
@@ -170,6 +180,27 @@ func (c *Client) DeleteVolumePurchasingLocationByID(id string) error {
 
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// ReclaimVolumePurchasingLocationByID reclaims a specific volume purchasing location by its ID
+func (c *Client) ReclaimVolumePurchasingLocationByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s/reclaim", uriVolumePurchasingLocations, id)
+
+	resp, _ := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+
+	if resp == nil {
+		return fmt.Errorf("failed to reclaim volume purchasing location: received nil response")
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	if resp.StatusCode != 202 {
+		return fmt.Errorf("failed to reclaim volume purchasing location: unexpected status code %d", resp.StatusCode)
 	}
 
 	return nil
