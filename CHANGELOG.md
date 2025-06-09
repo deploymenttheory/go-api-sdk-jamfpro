@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.33.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.0...v1.33.1) (2025-06-09)
+
+
+### Bug Fixes
+
+* add allow_user_to_delete field to MobileDeviceapplicationSubsetGeneral struct ([#799](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/799)) ([1b9441e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1b9441eeb6f117349d5c9de441bad48565339fb5))
+
 ## [1.33.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.32.0...v1.33.0) (2025-06-06)
 
 
