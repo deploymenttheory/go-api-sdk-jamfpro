@@ -16,7 +16,7 @@ func main() {
 
 	// Load the client OAuth configuration
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "./clientconfig.json"
 
 	// Print the ASCII art
 	uploader.PrintASCIILogo()
