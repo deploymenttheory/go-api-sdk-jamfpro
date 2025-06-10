@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	configFilePath := "./clientconfig.json"
+	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
 
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
 	if err != nil {
