@@ -105,7 +105,7 @@ For those who prefer using configuration files for setting up the client, the SD
       "log_export_path": "/your/log/path/", // optional, ensure permissions to file path
       "export_logs": true, // or false
       "hide_sensitive_data": false, // redact sensitive data from logs
-      "instance_domain": "https://lbgsandbox.jamfcloud.com",
+      "instance_domain": "https://yourinstance.jamfcloud.com",
       "auth_method": "oauth2", // or "basic"
       "client_id": "your_client_id", // Required if using oauth2
       "client_secret": "your_client_secret", // Required if using oauth2
