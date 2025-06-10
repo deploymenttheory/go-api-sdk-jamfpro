@@ -69,6 +69,7 @@ type MobileDeviceApplicationSubsetGeneral struct {
 	DeployAsManagedApp               *bool                                   `xml:"deploy_as_managed_app,omitempty"`
 	RemoveAppWhenMDMProfileIsRemoved *bool                                   `xml:"remove_app_when_mdm_profile_is_removed,omitempty"`
 	PreventBackupOfAppData           *bool                                   `xml:"prevent_backup_of_app_data,omitempty"`
+	AllowUserToDelete                *bool                                   `xml:"allow_user_to_delete,omitempty"`
 	KeepDescriptionAndIconUpToDate   *bool                                   `xml:"keep_description_and_icon_up_to_date,omitempty"`
 	KeepAppUpdatedOnDevices          *bool                                   `xml:"keep_app_updated_on_devices,omitempty"`
 	Free                             *bool                                   `xml:"free,omitempty"`
