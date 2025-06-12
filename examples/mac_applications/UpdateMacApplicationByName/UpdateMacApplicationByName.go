@@ -21,13 +21,14 @@ func main() {
 	// Define the Mac Application to be updated
 	updateMacApp := jamfpro.ResourceMacApplications{
 		General: jamfpro.MacApplicationsSubsetGeneral{
-			Name:     "TextWrangler.app",
-			Version:  "5.5.2",
-			IsFree:   jamfpro.BoolPtr(true),
-			BundleID: "com.barebones.textwrangler",
-			URL:      "https://itunes.apple.com/us/app/textwrangler/id404010395?mt=12&uo=4",
-			Category: &jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
-			Site:     &jamfpro.SharedResourceSite{ID: -1, Name: "None"},
+			Name:           "TextWrangler.app",
+			Version:        "5.5.2",
+			IsFree:         jamfpro.BoolPtr(true),
+			BundleID:       "com.barebones.textwrangler",
+			URL:            "https://itunes.apple.com/us/app/textwrangler/id404010395?mt=12&uo=4",
+			Category:       &jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
+			Site:           &jamfpro.SharedResourceSite{ID: -1, Name: "None"},
+			DeploymentType: "Install Automatically/Prompt Users to Install",
 		},
 		Scope: jamfpro.MacApplicationsSubsetScope{
 			AllComputers: jamfpro.BoolPtr(false),
