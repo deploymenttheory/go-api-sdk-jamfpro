@@ -42,21 +42,22 @@ type ResourceMacApplications struct {
 // General
 
 type MacApplicationsSubsetGeneral struct {
-	ID       int                     `xml:"id"`
-	Name     string                  `xml:"name"`
-	Version  string                  `xml:"version"`
-	IsFree   bool                    `xml:"is_free"`
-	BundleID string                  `xml:"bundle_id"`
-	URL      string                  `xml:"url"`
-	Category *SharedResourceCategory `xml:"category"`
-	Site     *SharedResourceSite     `xml:"site"`
+	ID             int                     `xml:"id"`
+	Name           string                  `xml:"name"`
+	Version        string                  `xml:"version"`
+	IsFree         *bool                   `xml:"is_free"`
+	BundleID       string                  `xml:"bundle_id"`
+	URL            string                  `xml:"url"`
+	Category       *SharedResourceCategory `xml:"category"`
+	Site           *SharedResourceSite     `xml:"site"`
+	DeploymentType string                  `xml:"deployment_type"`
 }
 
 // Scope
 
 type MacApplicationsSubsetScope struct {
-	AllComputers   bool                             `xml:"all_computers"`
-	AllJSSUsers    bool                             `xml:"all_jss_users"`
+	AllComputers   *bool                            `xml:"all_computers"`
+	AllJSSUsers    *bool                            `xml:"all_jss_users"`
 	Buildings      []MacAppSubsetScopeBuilding      `xml:"buildings>building"`
 	Departments    []MacAppSubsetScopeDepartment    `xml:"departments>department"`
 	Computers      []MacAppSubsetScopeComputer      `xml:"computers>computer"`
@@ -90,9 +91,9 @@ type MacAppScopeExclusions struct {
 type MacAppSubsetSelfService struct {
 	InstallButtonText           string                              `xml:"install_button_text"`
 	SelfServiceDescription      string                              `xml:"self_service_description"`
-	ForceUsersToViewDescription bool                                `xml:"force_users_to_view_description"`
+	ForceUsersToViewDescription *bool                               `xml:"force_users_to_view_description"`
 	SelfServiceIcon             SharedResourceSelfServiceIcon       `xml:"self_service_icon"`
-	FeatureOnMainPage           bool                                `xml:"feature_on_main_page"`
+	FeatureOnMainPage           *bool                               `xml:"feature_on_main_page"`
 	SelfServiceCategories       []MacAppSubsetSelfServiceCategories `xml:"self_service_categories>category"`
 	Notification                string                              `xml:"notification"`
 	NotificationSubject         string                              `xml:"notification_subject"`
@@ -103,13 +104,13 @@ type MacAppSubsetSelfService struct {
 type MacAppSubsetSelfServiceCategories struct {
 	ID        int    `xml:"id"`
 	Name      string `xml:"name"`
-	DisplayIn bool   `xml:"display_in"`
-	FeatureIn bool   `xml:"feature_in"`
+	DisplayIn *bool  `xml:"display_in"`
+	FeatureIn *bool  `xml:"feature_in"`
 }
 
 type MacAppSubsetSelfServiceVPP struct {
-	AssignVPPDeviceBasedLicenses bool `xml:"assign_vpp_device_based_licenses"`
-	VPPAdminAccountID            int  `xml:"vpp_admin_account_id"`
+	AssignVPPDeviceBasedLicenses *bool `xml:"assign_vpp_device_based_licenses"`
+	VPPAdminAccountID            int   `xml:"vpp_admin_account_id"`
 }
 
 // Shared In Resource
