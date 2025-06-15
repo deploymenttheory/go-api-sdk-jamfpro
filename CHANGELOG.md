@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.33.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.1...v1.33.2) (2025-06-15)
+
+
+### Bug Fixes
+
+* Update mac_applications structs ([#812](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/812)) ([3417515](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3417515c26a4ad88dd623d0012fd308c449ed33b))
+
 ## [1.33.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.0...v1.33.1) (2025-06-09)
 
 
