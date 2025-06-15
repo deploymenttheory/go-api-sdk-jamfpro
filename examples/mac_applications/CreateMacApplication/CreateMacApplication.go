@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -21,30 +21,31 @@ func main() {
 	// Define a new Mac Application
 	newMacApp := jamfpro.ResourceMacApplications{
 		General: jamfpro.MacApplicationsSubsetGeneral{
-			Name:     "TextWrangler.app",
-			Version:  "5.5.2",
-			IsFree:   true,
-			BundleID: "com.barebones.textwrangler",
-			URL:      "https://itunes.apple.com/us/app/textwrangler/id404010395?mt=12&uo=4",
-			Category: &jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
-			Site:     &jamfpro.SharedResourceSite{ID: -1, Name: "None"},
+			Name:           "TextWrangler.app",
+			Version:        "5.5.2",
+			IsFree:         jamfpro.BoolPtr(true),
+			BundleID:       "com.barebones.textwrangler",
+			URL:            "https://itunes.apple.com/us/app/textwrangler/id404010395?mt=12&uo=4",
+			Category:       &jamfpro.SharedResourceCategory{ID: -1, Name: "Unknown"},
+			Site:           &jamfpro.SharedResourceSite{ID: -1, Name: "None"},
+			DeploymentType: "Install Automatically/Prompt Users to Install",
 		},
 		Scope: jamfpro.MacApplicationsSubsetScope{
-			AllComputers: false,
-			AllJSSUsers:  false,
+			AllComputers: jamfpro.BoolPtr(false),
+			AllJSSUsers:  jamfpro.BoolPtr(false),
 		},
 		SelfService: jamfpro.MacAppSubsetSelfService{
 			InstallButtonText:           "Install",
 			SelfServiceDescription:      "Installs the TextWrangler application",
-			ForceUsersToViewDescription: true,
+			ForceUsersToViewDescription: jamfpro.BoolPtr(true),
 			SelfServiceIcon:             jamfpro.SharedResourceSelfServiceIcon{},
-			FeatureOnMainPage:           true,
+			FeatureOnMainPage:           jamfpro.BoolPtr(true),
 			SelfServiceCategories:       []jamfpro.MacAppSubsetSelfServiceCategories{},
 			Notification:                "string",
 			NotificationSubject:         "TextWrangler is Available to Install",
 			NotificationMessage:         "You can install TextWrangler by clicking this link or going to Self Service",
 			VPP: jamfpro.MacAppSubsetSelfServiceVPP{
-				AssignVPPDeviceBasedLicenses: false,
+				AssignVPPDeviceBasedLicenses: jamfpro.BoolPtr(false),
 				VPPAdminAccountID:            -1,
 			},
 		},
