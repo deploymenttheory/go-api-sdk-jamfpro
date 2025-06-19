@@ -44,10 +44,10 @@ func main() {
 			Notification:                "string",
 			NotificationSubject:         "TextWrangler is Available to Install",
 			NotificationMessage:         "You can install TextWrangler by clicking this link or going to Self Service",
-			VPP: jamfpro.MacAppSubsetSelfServiceVPP{
-				AssignVPPDeviceBasedLicenses: jamfpro.BoolPtr(false),
-				VPPAdminAccountID:            -1,
-			},
+		},
+		VPP: jamfpro.MacAppSubsetVPP{
+			AssignVPPDeviceBasedLicenses: jamfpro.BoolPtr(false),
+			VPPAdminAccountID:            -1,
 		},
 	}
 
