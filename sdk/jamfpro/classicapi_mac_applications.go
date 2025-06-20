@@ -300,12 +300,12 @@ func (c *Client) UpdateMacApplicationByID(id string, macApp *ResourceMacApplicat
 }
 
 // UpdateMacApplicationByName updates an existing Mac Application by its name.
-func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacApplications) (*ResourceMacApplications, error) {
+func (c *Client) UpdateMacApplicationByName(name string, macApp *ResourceMacApplications) (*ResourceMacApplications, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriVPPMacApplications, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`
-		ResourceMacApplications
+		*ResourceMacApplications
 	}{
 		ResourceMacApplications: macApp,
 	}

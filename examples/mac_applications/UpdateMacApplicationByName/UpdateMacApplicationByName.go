@@ -53,7 +53,7 @@ func main() {
 
 	macAppName := "TextWrangler.app" // Replace with your vpp Mac application name
 	// Call UpdateMacApplicationByName
-	updatedMacApp, err := client.UpdateMacApplicationByName(macAppName, updateMacApp)
+	updatedMacApp, err := client.UpdateMacApplicationByName(macAppName, &updateMacApp)
 	if err != nil {
 		log.Fatalf("Error updating Mac Application by Name: %v", err)
 	}
