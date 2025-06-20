@@ -37,6 +37,7 @@ type ResourceMacApplications struct {
 	General     MacApplicationsSubsetGeneral `xml:"general"`
 	Scope       MacApplicationsSubsetScope   `xml:"scope"`
 	SelfService MacAppSubsetSelfService      `xml:"self_service"`
+	VPP         MacAppSubsetVPP              `xml:"vpp,omitempty"`
 }
 
 // General
@@ -98,7 +99,6 @@ type MacAppSubsetSelfService struct {
 	Notification                string                              `xml:"notification"`
 	NotificationSubject         string                              `xml:"notification_subject"`
 	NotificationMessage         string                              `xml:"notification_message"`
-	VPP                         MacAppSubsetSelfServiceVPP          `xml:"vpp"`
 }
 
 type MacAppSubsetSelfServiceCategories struct {
@@ -108,7 +108,7 @@ type MacAppSubsetSelfServiceCategories struct {
 	FeatureIn *bool  `xml:"feature_in"`
 }
 
-type MacAppSubsetSelfServiceVPP struct {
+type MacAppSubsetVPP struct {
 	AssignVPPDeviceBasedLicenses *bool `xml:"assign_vpp_device_based_licenses"`
 	VPPAdminAccountID            int   `xml:"vpp_admin_account_id"`
 }
@@ -242,18 +242,21 @@ func (c *Client) GetMacApplicationByNameAndDataSubset(name, subset string) (*Res
 }
 
 // CreateMacApplication creates a new Mac Application.
-func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*ResourceMacApplications, error) {
+func (c *Client) CreateMacApplication(macApp *ResourceMacApplications) (*MacApplicationsListItem, error) {
 	endpoint := fmt.Sprintf("%s/id/0", uriVPPMacApplications)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`
-		ResourceMacApplications
+		*ResourceMacApplications
 	}{
 		ResourceMacApplications: macApp,
 	}
 
-	var response ResourceMacApplications
-	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &response)
+	var createResp struct {
+		ID int `xml:"id"`
+	}
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, &requestBody, &createResp)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "mac application", err)
 	}
@@ -262,16 +265,23 @@ func (c *Client) CreateMacApplication(macApp ResourceMacApplications) (*Resource
 		defer resp.Body.Close()
 	}
 
-	return &response, nil
+	if createResp.ID == 0 {
+		return nil, fmt.Errorf("no ID found in mac application creation response")
+	}
+
+	return &MacApplicationsListItem{
+		ID:   createResp.ID,
+		Name: macApp.General.Name,
+	}, nil
 }
 
 // UpdateMacApplicationByID updates an existing Mac Application by its ID.
-func (c *Client) UpdateMacApplicationByID(id string, macApp ResourceMacApplications) (*ResourceMacApplications, error) {
+func (c *Client) UpdateMacApplicationByID(id string, macApp *ResourceMacApplications) (*ResourceMacApplications, error) {
 	endpoint := fmt.Sprintf("%s/id/%s", uriVPPMacApplications, id)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`
-		ResourceMacApplications
+		*ResourceMacApplications
 	}{
 		ResourceMacApplications: macApp,
 	}
@@ -290,12 +300,12 @@ func (c *Client) UpdateMacApplicationByID(id string, macApp ResourceMacApplicati
 }
 
 // UpdateMacApplicationByName updates an existing Mac Application by its name.
-func (c *Client) UpdateMacApplicationByName(name string, macApp ResourceMacApplications) (*ResourceMacApplications, error) {
+func (c *Client) UpdateMacApplicationByName(name string, macApp *ResourceMacApplications) (*ResourceMacApplications, error) {
 	endpoint := fmt.Sprintf("%s/name/%s", uriVPPMacApplications, name)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"mac_application"`
-		ResourceMacApplications
+		*ResourceMacApplications
 	}{
 		ResourceMacApplications: macApp,
 	}
