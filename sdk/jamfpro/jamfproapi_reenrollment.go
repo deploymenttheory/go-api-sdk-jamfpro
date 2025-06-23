@@ -14,12 +14,12 @@ const uriReenrollmentSettings = "/api/v1/reenrollment"
 // Resource
 
 type ResourceReenrollmentSettings struct {
-	FlushPolicyHistory bool `json:"isFlushPolicyHistoryEnabled"`
-	FlushLocationInformation bool `json:"isFlushLocationInformationEnabled"`
-	FlushLocationInformationHistory bool `json:"isFlushLocationInformationHistoryEnabled"`
-	FlushExtensionAttributes bool `json:"isFlushExtensionAttributesEnabled"`
-	FlushSoftwareUpdatePlans bool `json:"isFlushSoftwareUpdatePlansEnabled"`
-	FlushMdmQueue bool `json:"flushMDMQueue"`
+	FlushPolicyHistory              bool   `json:"isFlushPolicyHistoryEnabled"`
+	FlushLocationInformation        bool   `json:"isFlushLocationInformationEnabled"`
+	FlushLocationInformationHistory bool   `json:"isFlushLocationInformationHistoryEnabled"`
+	FlushExtensionAttributes        bool   `json:"isFlushExtensionAttributesEnabled"`
+	FlushSoftwareUpdatePlans        bool   `json:"isFlushSoftwareUpdatePlansEnabled"`
+	FlushMdmQueue                   string `json:"flushMDMQueue"`
 }
 
 // CRUD
