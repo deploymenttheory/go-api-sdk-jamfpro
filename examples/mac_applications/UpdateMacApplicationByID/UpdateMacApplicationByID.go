@@ -43,17 +43,17 @@ func main() {
 			Notification:                "string",
 			NotificationSubject:         "TextWrangler is Available to Install",
 			NotificationMessage:         "You can install TextWrangler by clicking this link or going to Self Service",
-			VPP: jamfpro.MacAppSubsetSelfServiceVPP{
-				AssignVPPDeviceBasedLicenses: jamfpro.BoolPtr(false),
-				VPPAdminAccountID:            -1,
-			},
+		},
+		VPP: jamfpro.MacAppSubsetVPP{
+			AssignVPPDeviceBasedLicenses: jamfpro.BoolPtr(false),
+			VPPAdminAccountID:            -1,
 		},
 	}
 
 	macAppID := "1" // Replace with your Mac application ID
 
 	// Call UpdateMacApplicationByID
-	updatedMacApp, err := client.UpdateMacApplicationByID(macAppID, updateMacApp) // Replace 123 with the actual ID
+	updatedMacApp, err := client.UpdateMacApplicationByID(macAppID, &updateMacApp) // Replace 123 with the actual ID
 	if err != nil {
 		log.Fatalf("Error updating Mac Application by ID: %v", err)
 	}
