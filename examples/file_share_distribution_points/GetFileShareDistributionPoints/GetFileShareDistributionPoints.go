@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/lloyds/Documents/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// Pretty print the distribution points in XML
-	distributionPointsXML, err := xml.MarshalIndent(distributionPoints, "", "    ") // Indent with 4 spaces
+	distributionPointsXML, err := json.Marshal(distributionPoints) // Indent with 4 spaces
 	if err != nil {
 		log.Fatalf("Error marshaling distribution points data: %v", err)
 	}
