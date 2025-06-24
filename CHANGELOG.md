@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.33.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.1...v1.33.2) (2025-06-23)
+
+
+### Bug Fixes
+
+* Refactor VPP handling in Mac Applications API and update CreateMacApplication signature ([#821](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/821)) ([1373588](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1373588bd2e26ec32f0045822e7835e5775e9d20))
+* Update mac_applications structs ([#812](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/812)) ([3417515](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3417515c26a4ad88dd623d0012fd308c449ed33b))
+
 ## [1.33.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.0...v1.33.1) (2025-06-09)
 
 
