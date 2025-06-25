@@ -68,7 +68,6 @@ func main() {
 		MinimumOsSpecificVersionIos:            "18.4",
 		PrestageMinimumOsTargetVersionTypeIpad: "MINIMUM_OS_LATEST_MINOR_VERSION",
 		MinimumOsSpecificVersionIpad:           "",
-		RTSConfigProfileId:                     nil,
 	}
 
 	update.SkipSetupItems = jamfpro.MobileDevicePrestageSubsetSkipSetupItems{

@@ -30,7 +30,8 @@ type ResourceSsoSettings struct {
 
 // OIDC Settings
 type OidcSettings struct {
-	UserMapping string `json:"userMapping"` // enum: USERNAME, EMAIL
+	UserMapping                 string `json:"userMapping"` // enum: USERNAME, EMAIL
+	JamfIdAuthenticationEnabled *bool  `json:"jamfIdAuthenticationEnabled,omitempty"`
 }
 
 // SAML Settings

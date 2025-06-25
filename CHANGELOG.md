@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.34.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.2...v1.34.0) (2025-06-25)
+
+
+### Features
+
+* /api/v3/sso add JamfIdAuthenticationEnabled to OidcSettings struct ([#824](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/824)) ([2add29f](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/2add29f75d96b06093cccdc596b5184645b50211))
+* add support for /v1/self-service-plus/settings ([#823](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/823)) ([b535816](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b5358160b4259ce8da852ca6fc410e0383bfb833))
+* add support for /v4/enrollment/access-management ([#826](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/826)) ([4f2de0c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4f2de0c5214677116601eef888c085389d4041e0))
+
+## [1.33.2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.1...v1.33.2) (2025-06-23)
+
+
+### Bug Fixes
+
+* Refactor VPP handling in Mac Applications API and update CreateMacApplication signature ([#821](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/821)) ([1373588](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1373588bd2e26ec32f0045822e7835e5775e9d20))
+* Update mac_applications structs ([#812](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/812)) ([3417515](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3417515c26a4ad88dd623d0012fd308c449ed33b))
+
 ## [1.33.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.0...v1.33.1) (2025-06-09)
 
 

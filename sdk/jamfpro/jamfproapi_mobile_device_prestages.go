@@ -92,8 +92,8 @@ type ResourceMobileDevicePrestage struct {
 	MinimumOsSpecificVersionIos            string                                          `json:"minimumOsSpecificVersionIos,omitempty"`
 	PrestageMinimumOsTargetVersionTypeIpad string                                          `json:"prestageMinimumOsTargetVersionTypeIpad,omitempty"`
 	MinimumOsSpecificVersionIpad           string                                          `json:"minimumOsSpecificVersionIpad,omitempty"`
-	RTSEnabled                             *bool                                           `json:"rtsEnabled"`
-	RTSConfigProfileId                     *string                                         `json:"rtsConfigProfileId"`
+	RTSEnabled                             *bool                                           `json:"rtsEnabled,omitempty"`
+	RTSConfigProfileId                     string                                          `json:"rtsConfigProfileId,omitempty"`
 }
 
 // Subsets & Containers

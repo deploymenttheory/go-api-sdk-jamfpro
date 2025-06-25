@@ -60,7 +60,6 @@ func main() {
 		MinimumOsSpecificVersionIos:            "18.3",
 		PrestageMinimumOsTargetVersionTypeIpad: "MINIMUM_OS_LATEST_MAJOR_VERSION",
 		MinimumOsSpecificVersionIpad:           "",
-		RTSConfigProfileId:                     nil,
 
 		SkipSetupItems: jamfpro.MobileDevicePrestageSubsetSkipSetupItems{
 			// Selected items are not displayed in the Setup Assistant during enrollment
