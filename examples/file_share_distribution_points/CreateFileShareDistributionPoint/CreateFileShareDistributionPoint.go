@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,49 +10,75 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-
+	configFilePath := "/Users/lloyds/Documents/clientconfig.json"
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
+	// Define variables for pointer fields
+
+	// // New distribution point to create
+	// newDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
+	// 	ID:                        "323",
+	// 	Name:                      "distribution-point-example",
+	// 	ServerName:                "servername",
+	// 	Principal:                 false,
+	// 	BackupDistributionPointID: "",
+	// 	FileSharingConnectionType: "",
+	// 	HTTPSEnabled:              true,
+	// 	HTTPSPort:                 443,
+	// 	HTTPSSecurityType:         "",
+	// 	HTTPSContext:              "mebo",
+	// 	HTTPSUsername:             "meep",
+	// 	EnableLoadBalancing:       false,
+	// 	ShareName:                 "sharename",
+	// 	Workgroup:                 "workgroup",
+	// 	Port:                      443,
+	// 	ReadWriteUsername:         "username",
+	// 	ReadWritePassword:         "password",
+	// 	ReadOnlyUsername:          "username",
+	// 	ReadOnlyPassword:          "password",
+	// 	SSHUsername:               "username",
+	// 	SSHPassword:               "password",
+	// 	LocalPathToShare:          "parf",
+	// }
+
 	// New distribution point to create
 	newDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
-		Name:                     "New York Share",
-		IPAddress:                "ny.company.com",
-		IsMaster:                 true,
-		EnableLoadBalancing:      false,
-		SSHUsername:              "casperadmin",
-		Password:                 "password",
-		ConnectionType:           "SMB",
-		ShareName:                "Caspershare",
-		WorkgroupOrDomain:        "COMPANY",
-		SharePort:                139,
-		ReadOnlyUsername:         "casperinstall",
-		ReadOnlyPassword:         "password",
-		ReadWriteUsername:        "casperwrite",
-		ReadWritePassword:        "password",
-		HTTPDownloadsEnabled:     true,
-		HTTPURL:                  "http://ny.company.com/CasperShare",
-		Context:                  "CasperShare",
-		Protocol:                 "http",
-		Port:                     80,
-		NoAuthenticationRequired: false,
-		UsernamePasswordRequired: true,
-		HTTPUsername:             "casperinstall",
-		HTTPPassword:             "password",
+		// ID:                        "323",
+		Name:       "distribution-point-examplesswwsssssw",
+		ServerName: "servername",
+		// Principal:                 false,
+		// BackupDistributionPointID: "",
+		FileSharingConnectionType: "NONE",
+		HTTPSEnabled:              true,
+		HTTPSPort:                 443,
+		HTTPSSecurityType:         "NONE",
+		// HTTPSContext:              "mebo",
+		// HTTPSUsername:             "meep",
+		// EnableLoadBalancing:       false,
+		// ShareName:                 "sharename",
+		// Workgroup:                 "workgroup",
+		// Port:                      443,
+		// ReadWriteUsername:         "username",
+		// ReadWritePassword:         "password",
+		// ReadOnlyUsername:          "username",
+		// ReadOnlyPassword:          "password",
+		// SSHUsername:               "username",
+		// SSHPassword:               "password",
+		// LocalPathToShare:          "parf",
 	}
 
 	// Call CreateDistributionPoint function
 	createdDistributionPoint, err := client.CreateDistributionPoint(&newDistributionPoint)
 	if err != nil {
-		log.Fatalf("Error creating distribution point: %v", err)
+		log.Fatalf("Error creating distribution point: %v, %v", err, newDistributionPoint)
 	}
 
 	// Pretty print the newly created distribution point in XML
-	createdDistributionPointXML, err := xml.MarshalIndent(createdDistributionPoint, "", "    ")
+	createdDistributionPointXML, err := json.MarshalIndent(createdDistributionPoint, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
