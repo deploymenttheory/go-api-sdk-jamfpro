@@ -145,7 +145,7 @@ func (c *Client) ClearPendingMobileDeviceMDMCommandsByMobileDeviceGroupID(mobile
 
 // ClearFailedAndPendingMDMCommandsByComputerID clears all failed & pending MDM commands for a specific computer.
 func (c *Client) ClearFailedAndPendingComputerMDMCommandsByComputerID(computerId string) error {
-	endpoint := fmt.Sprintf("%s/computers/id/%s/status/Pending%2BFailed", uriCommandFlush, computerId)
+	endpoint := fmt.Sprintf("%s/computers/id/%s/status/Pending+Failed", uriCommandFlush, computerId)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -162,7 +162,7 @@ func (c *Client) ClearFailedAndPendingComputerMDMCommandsByComputerID(computerId
 // ClearFailedAndPendingComputerMDMCommandsByComputerGroupID clears all failed & pending MDM commands for a specific
 // smart or static computer group.
 func (c *Client) ClearFailedAndPendingComputerMDMCommandsByComputerGroupID(computerGroupId string) error {
-	endpoint := fmt.Sprintf("%s/computergroups/id/%s/status/Pending%2BFailed", uriCommandFlush, computerGroupId)
+	endpoint := fmt.Sprintf("%s/computergroups/id/%s/status/Pending+Failed", uriCommandFlush, computerGroupId)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -179,7 +179,7 @@ func (c *Client) ClearFailedAndPendingComputerMDMCommandsByComputerGroupID(compu
 // ClearFailedAndPendingMobileDeviceMDMCommandsByMobileDeviceID clears all failed & pending MDM commands
 // for a specific mobile device.
 func (c *Client) ClearFailedAndPendingMobileDeviceMDMCommandsByMobileDeviceID(mobileDeviceID string) error {
-	endpoint := fmt.Sprintf("%s/mobiledevices/id/%s/status/Pending%2BFailed", uriCommandFlush, mobileDeviceID)
+	endpoint := fmt.Sprintf("%s/mobiledevices/id/%s/status/Pending+Failed", uriCommandFlush, mobileDeviceID)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
@@ -196,7 +196,7 @@ func (c *Client) ClearFailedAndPendingMobileDeviceMDMCommandsByMobileDeviceID(mo
 // ClearFailedAndPendingMobileDeviceMDMCommandsByMobileDeviceGroupID clears all failed MDM commands
 // for a specific mobile device group.
 func (c *Client) ClearFailedAndPendingMobileDeviceMDMCommandsByMobileDeviceGroupID(mobileDeviceGroupId string) error {
-	endpoint := fmt.Sprintf("%s/mobiledevicegroups/id/%s/status/Pending%2BFailed", uriCommandFlush, mobileDeviceGroupId)
+	endpoint := fmt.Sprintf("%s/mobiledevicegroups/id/%s/status/Pending+Failed", uriCommandFlush, mobileDeviceGroupId)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
