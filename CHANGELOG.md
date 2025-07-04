@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.36.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.35.0...v1.36.0) (2025-07-04)
+
+
+### Features
+
+* add support for v1/groups ([#834](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/834)) ([56a341e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/56a341e2b663332d40216d48d0009de64d94cf1a))
+
 ## [1.34.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.34.0...v1.34.1) (2025-06-26)
 
 
