@@ -76,18 +76,66 @@ func (c *Client) GetGroupByID(id string) (*ResourceGroup, error) {
 	return &group, nil
 }
 
-// Retrieves group by Name by leveraging GetGroups(), returns ResourceGroup
-func (c *Client) GetGroupByName(name string) (*ResourceGroup, error) {
+// Retrieves computer group by JamfProName (groupName) and groupType COMPUTER
+func (c *Client) GetComputerGroupByJamfProName(name string) (*ResourceGroup, error) {
 	groups, err := c.GetGroups(nil)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "groups", err)
 	}
 
 	for _, value := range groups.Results {
-		if value.GroupName == name {
+		if value.GroupName == name && value.GroupType == "COMPUTER" {
 			return &value, nil
 		}
 	}
 
-	return nil, fmt.Errorf(errMsgFailedGetByName, "group", name, errMsgNoName)
+	return nil, fmt.Errorf("failed to get computer group by name: %s, error: resource with name does not exist", name)
+}
+
+// Retrieves mobile group by JamfProName (groupName) and groupType MOBILE
+func (c *Client) GetMobileGroupByJamfProName(name string) (*ResourceGroup, error) {
+	groups, err := c.GetGroups(nil)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "groups", err)
+	}
+
+	for _, value := range groups.Results {
+		if value.GroupName == name && value.GroupType == "MOBILE" {
+			return &value, nil
+		}
+	}
+
+	return nil, fmt.Errorf("failed to get mobile group by name: %s, error: resource with name does not exist", name)
+}
+
+// Retrieves computer group by JamfProID (groupJamfProId) and groupType COMPUTER
+func (c *Client) GetComputerGroupByJamfProID(id string) (*ResourceGroup, error) {
+	groups, err := c.GetGroups(nil)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "groups", err)
+	}
+
+	for _, value := range groups.Results {
+		if value.GroupJamfProId == id && value.GroupType == "COMPUTER" {
+			return &value, nil
+		}
+	}
+
+	return nil, fmt.Errorf("failed to get computer group by id: %s, error: resource with id does not exist", id)
+}
+
+// Retrieves mobile group by JamfProID (groupJamfProId) and groupType MOBILE
+func (c *Client) GetMobileGroupByJamfProID(id string) (*ResourceGroup, error) {
+	groups, err := c.GetGroups(nil)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "groups", err)
+	}
+
+	for _, value := range groups.Results {
+		if value.GroupJamfProId == id && value.GroupType == "MOBILE" {
+			return &value, nil
+		}
+	}
+
+	return nil, fmt.Errorf("failed to get mobile group by id: %s, error: resource with id does not exist", id)
 }
