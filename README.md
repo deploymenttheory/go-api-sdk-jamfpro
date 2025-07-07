@@ -1129,7 +1129,7 @@ This documentation provides details on the API endpoints available for managing 
 
 - Total Operations Covered: 8
 
-### Jamf Pro Classic API - Distribution Points
+### Jamf Pro API - Distribution Points
 
 This documentation outlines the operations available for managing Distribution Points within Jamf Pro using the Classic API, which supports XML data structures.
 
@@ -1161,10 +1161,22 @@ This documentation outlines the operations available for managing Distribution P
 <!-- - [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`
   - `DeleteDistributionPointByName` operation deletes a distribution point by its name. -->
 
+- [] ❌ **POST** `/v1/distribution-points/delete-multiple`
+  - Currently not implemented
+
+- [] ❌ **PATCH** `/v1/distribution-points/{id}`
+  - Currently not implemented
+
+- [] ❌ **GET** `/v1/distribution-points/{id}/history`
+  - Currently not implemented
+
+- [] ❌ **POST** `/v1/distribution-points/{id}/history`
+  - Currently not implemented
+
 ## Summary
 
 - Total Endpoints Covered: 3
-  - `/v1/distribution-points
+  - `/v1/distribution-points`
   - `/v1/distribution-points/{id}`
 
 - Total Operations Covered: 5
