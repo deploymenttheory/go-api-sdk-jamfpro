@@ -1,7 +1,6 @@
 package jamfpro
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -51,7 +50,7 @@ func (c *Client) GetDistributionPoints() (*ResponseDistributionPointList, error)
 	_, err := c.HTTP.DoRequest("GET", endpoint, nil, &distributionPoints)
 
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "distribution point", err)
+		return nil, fmt.Errorf(errMsgFailedGet, "file share distribution point", err)
 	}
 
 	return &distributionPoints, nil
@@ -62,18 +61,9 @@ func (c *Client) CreateDistributionPoint(payload *ResourceFileShareDistributionP
 	endpoint := uriDistributionPoints
 	var createdResponseObject ResponseFileShareDistributionPointCreatedAndUpdated
 
-	//TODO: Remove
-	fmt.Println("DEBUBDEBUGDBEUG")
-	// Marshal and log the payload
-	payloadBytes, err := json.MarshalIndent(payload, "", "    ")
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal payload: %v", err)
-	}
-	fmt.Printf("Distribution Point Payload:\n%s\n", string(payloadBytes))
-
 	resp, err := c.HTTP.DoRequest("POST", endpoint, payload, &createdResponseObject)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedCreate, "distribution point", err)
+		return nil, fmt.Errorf(errMsgFailedCreate, "file share distribution point", err)
 	}
 
 	if resp != nil && resp.Body != nil {
@@ -84,26 +74,51 @@ func (c *Client) CreateDistributionPoint(payload *ResourceFileShareDistributionP
 	// return nil, nil
 }
 
-// func (c *Client) getDistributonPointsByName() {
+func (c *Client) GetDistributionPointByID(id string) (*ResourceFileShareDistributionPoint, error) {
+	var out ResourceFileShareDistributionPoint
+	endpoint := fmt.Sprintf("%s/%s", uriDistributionPoints, id)
 
-// }
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 
-// func (c *Client) CreateDistributionPoint() {
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// }
+	if err != nil {
+		fmt.Printf(errMsgFailedGetByID, "file share distribution point", id, err)
+		return nil, err
+	}
 
-// func (c *Client) updateDistributionPointByID() {
+	return &out, nil
+}
 
-// }
+func (c *Client) UpdateDistributionPointByID(id string, distributionPointUpdate *ResourceFileShareDistributionPoint) (*ResourceFileShareDistributionPoint, error) {
+	endpoint := fmt.Sprintf("%s/%s", uriDistributionPoints, id)
 
-// func (c *Client) updateDistributionPointByName() {
+	var response ResourceFileShareDistributionPoint
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, distributionPointUpdate, &response)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "file share distribution point", id, err)
+	}
 
-// }
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
 
-// func (c *Client) deleteDistributionPointByID() {
+	return &response, nil
+}
 
-// }
+func (c *Client) DeleteDistributionPointByID(id string) error {
+	endpoint := fmt.Sprintf("%s/%s", uriDistributionPoints, id)
 
-// func (c *Client) DeleteDistributionPointByName() {
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "file share distribution point", id, err)
+	}
 
-// }
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
