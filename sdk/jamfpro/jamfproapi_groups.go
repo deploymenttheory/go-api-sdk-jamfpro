@@ -78,13 +78,15 @@ func (c *Client) GetGroupByID(id string) (*ResourceGroup, error) {
 
 // Retrieves computer group by JamfProName (groupName) and groupType COMPUTER
 func (c *Client) GetComputerGroupByJamfProName(name string) (*ResourceGroup, error) {
-	groups, err := c.GetGroups(nil)
+	params := url.Values{}
+	params.Set("filter", fmt.Sprintf("groupName==\"%s\"", name))
+	groups, err := c.GetGroups(params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "groups", err)
 	}
 
 	for _, value := range groups.Results {
-		if value.GroupName == name && value.GroupType == "COMPUTER" {
+		if value.GroupType == "COMPUTER" {
 			return &value, nil
 		}
 	}
@@ -94,13 +96,15 @@ func (c *Client) GetComputerGroupByJamfProName(name string) (*ResourceGroup, err
 
 // Retrieves mobile group by JamfProName (groupName) and groupType MOBILE
 func (c *Client) GetMobileGroupByJamfProName(name string) (*ResourceGroup, error) {
-	groups, err := c.GetGroups(nil)
+	params := url.Values{}
+	params.Set("filter", fmt.Sprintf("groupName==\"%s\"", name))
+	groups, err := c.GetGroups(params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "groups", err)
 	}
 
 	for _, value := range groups.Results {
-		if value.GroupName == name && value.GroupType == "MOBILE" {
+		if value.GroupType == "MOBILE" {
 			return &value, nil
 		}
 	}
