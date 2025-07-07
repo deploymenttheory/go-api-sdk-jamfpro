@@ -22,8 +22,8 @@ func main() {
 	// List of distribution points to create
 	distributionPoints := []jamfpro.ResourceFileShareDistributionPoint{
 		{
-			Name:       "example-distribution-point-min",
-			ServerName: "servername",
+			Name:                      "example-distribution-point-min",
+			ServerName:                "servername",
 			FileSharingConnectionType: "NONE",
 			HTTPSEnabled:              true,
 			HTTPSPort:                 443,

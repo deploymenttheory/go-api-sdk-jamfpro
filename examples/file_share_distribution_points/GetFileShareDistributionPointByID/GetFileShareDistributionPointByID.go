@@ -8,7 +8,6 @@ import (
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
 
-
 func main() {
 	// Define the path to the JSON configuration file
 	configFilePath := "/Users/lloyds/Documents/clientconfig.json"
@@ -22,7 +21,6 @@ func main() {
 	// ID of the distribution point to delete
 	distributionPointID := "135" // Replace with the actual ID
 
-	fmt.Print("\nhello???")
 	// Call GetDistributionPointByID function
 	distributionPoint, err := client.GetDistributionPointByID(distributionPointID)
 	if err != nil {
@@ -34,7 +32,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
-	fmt.Println("Created Distribution Point:\n", string(distributionPointJSON))
+	fmt.Println("Retrieved Distribution Point:\n", string(distributionPointJSON))
 
 	fmt.Println("Distribution Point retrieved successfully")
 }

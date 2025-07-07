@@ -22,7 +22,6 @@ func main() {
 	// List of distribution points to create
 	updatedDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
 
-		
 		Name:       "example-updated-distribution-pointss",
 		ServerName: "servername",
 		Principal:  false,
@@ -47,14 +46,12 @@ func main() {
 		SSHUsername:               "username",
 		SSHPassword:               "password",
 		LocalPathToShare:          "parf",
-		
 	}
 
 	targetDistributionPoint := "135"
 
 	// Loop through the list and create each distribution point
 	updateDistributionPointandLog(client, updatedDistributionPoint, targetDistributionPoint)
-
 
 }
 
