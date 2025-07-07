@@ -1133,40 +1133,41 @@ This documentation provides details on the API endpoints available for managing 
 
 This documentation outlines the operations available for managing Distribution Points within Jamf Pro using the Classic API, which supports XML data structures.
 
+<!-- TODO: Add by name functionality -->
+
 ## Operations
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints`
+- [x] ✅ **GET** `/v1/distribution-points`
   - `GetDistributionPoints` operation retrieves a serialized list of all distribution points.
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints/id/{id}`
+- [x] ✅ **GET** `/v1/distribution-points/{id}`
   - `GetDistributionPointByID` operation fetches a single distribution point by its ID.
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`
-  - `GetDistributionPointByName` operation retrieves a distribution point by its name.
+<!-- - [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`
+  - `GetDistributionPointByName` operation retrieves a distribution point by its name. -->
 
-- [x] ✅ **POST** `/JSSResource/distributionpoints/id/0`
-  - `CreateDistributionPoint` operation creates a new distribution point with the provided details. The ID `0` in the endpoint indicates creation.
+- [x] ✅ **POST** `/v1/distribution-points`
+  - `CreateDistributionPoint` operation creates a new distribution point with the provided details.
 
-- [x] ✅ **PUT** `/JSSResource/distributionpoints/id/{id}`
+- [x] ✅ **PUT** `/v1/distribution-points/{id}`
   - `UpdateDistributionPointByID` operation updates an existing distribution point by its ID.
 
-- [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`
-  - `UpdateDistributionPointByName` operation updates an existing distribution point by its name.
+<!-- - [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`
+  - `UpdateDistributionPointByName` operation updates an existing distribution point by its name. -->
 
-- [x] ✅ **DELETE** `/JSSResource/distributionpoints/id/{id}`
+- [x] ✅ **DELETE** `/v1/distribution-points/{id}`
   - `DeleteDistributionPointByID` operation deletes a distribution point by its ID.
 
-- [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`
-  - `DeleteDistributionPointByName` operation deletes a distribution point by its name.
+<!-- - [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`
+  - `DeleteDistributionPointByName` operation deletes a distribution point by its name. -->
 
 ## Summary
 
 - Total Endpoints Covered: 3
-  - `/JSSResource/distributionpoints`
-  - `/JSSResource/distributionpoints/id/{id}`
-  - `/JSSResource/distributionpoints/name/{name}`
+  - `/v1/distribution-points
+  - `/v1/distribution-points/{id}`
 
-- Total Operations Covered: 8
+- Total Operations Covered: 5
 
 
 ### Jamf Pro Classic API - Directory Bindings
