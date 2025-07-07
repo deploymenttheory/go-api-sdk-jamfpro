@@ -19,58 +19,52 @@ func main() {
 
 	// Define variables for pointer fields
 
-	// // New distribution point to create
-	// newDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
-	// 	ID:                        "323",
-	// 	Name:                      "distribution-point-example",
-	// 	ServerName:                "servername",
-	// 	Principal:                 false,
-	// 	BackupDistributionPointID: "",
-	// 	FileSharingConnectionType: "",
-	// 	HTTPSEnabled:              true,
-	// 	HTTPSPort:                 443,
-	// 	HTTPSSecurityType:         "",
-	// 	HTTPSContext:              "mebo",
-	// 	HTTPSUsername:             "meep",
-	// 	EnableLoadBalancing:       false,
-	// 	ShareName:                 "sharename",
-	// 	Workgroup:                 "workgroup",
-	// 	Port:                      443,
-	// 	ReadWriteUsername:         "username",
-	// 	ReadWritePassword:         "password",
-	// 	ReadOnlyUsername:          "username",
-	// 	ReadOnlyPassword:          "password",
-	// 	SSHUsername:               "username",
-	// 	SSHPassword:               "password",
-	// 	LocalPathToShare:          "parf",
-	// }
-
-	// New distribution point to create
-	newDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
-		// ID:                        "323",
-		Name:       "distribution-point-examplesswwsssssw",
-		ServerName: "servername",
-		// Principal:                 false,
-		// BackupDistributionPointID: "",
-		FileSharingConnectionType: "NONE",
-		HTTPSEnabled:              true,
-		HTTPSPort:                 443,
-		HTTPSSecurityType:         "NONE",
-		// HTTPSContext:              "mebo",
-		// HTTPSUsername:             "meep",
-		// EnableLoadBalancing:       false,
-		// ShareName:                 "sharename",
-		// Workgroup:                 "workgroup",
-		// Port:                      443,
-		// ReadWriteUsername:         "username",
-		// ReadWritePassword:         "password",
-		// ReadOnlyUsername:          "username",
-		// ReadOnlyPassword:          "password",
-		// SSHUsername:               "username",
-		// SSHPassword:               "password",
-		// LocalPathToShare:          "parf",
+	// List of distribution points to create
+	distributionPoints := []jamfpro.ResourceFileShareDistributionPoint{
+		{
+			Name:       "example-distribution-point-min",
+			ServerName: "servername",
+			FileSharingConnectionType: "NONE",
+			HTTPSEnabled:              true,
+			HTTPSPort:                 443,
+			HTTPSSecurityType:         "NONE",
+		},
+		{
+			Name:       "example-distribution-point-max-smb",
+			ServerName: "servername",
+			Principal:  false,
+			// If EnableLoadBalancing is true, BackupDistributionPointID needs to have the
+			// valid ID if another distribution point
+			EnableLoadBalancing:       true,
+			BackupDistributionPointID: "108",
+			FileSharingConnectionType: "SMB",
+			HTTPSEnabled:              true,
+			HTTPSPort:                 443,
+			HTTPSSecurityType:         "USERNAME_PASSWORD",
+			HTTPSContext:              "mebo",
+			HTTPSUsername:             "meep",
+			HTTPSPassword:             "mebo",
+			ShareName:                 "sharename",
+			Workgroup:                 "workgroup",
+			Port:                      443,
+			ReadWriteUsername:         "username",
+			ReadWritePassword:         "password",
+			ReadOnlyUsername:          "username",
+			ReadOnlyPassword:          "password",
+			SSHUsername:               "username",
+			SSHPassword:               "password",
+			LocalPathToShare:          "parf",
+		},
 	}
 
+	// Loop through the list and create each distribution point
+	for _, distributionPoint := range distributionPoints {
+		createDistributionPointandLog(client, distributionPoint)
+	}
+
+}
+
+func createDistributionPointandLog(client *jamfpro.Client, newDistributionPoint jamfpro.ResourceFileShareDistributionPoint) {
 	// Call CreateDistributionPoint function
 	createdDistributionPoint, err := client.CreateDistributionPoint(&newDistributionPoint)
 	if err != nil {
@@ -78,9 +72,9 @@ func main() {
 	}
 
 	// Pretty print the newly created distribution point in XML
-	createdDistributionPointXML, err := json.MarshalIndent(createdDistributionPoint, "", "    ")
+	createdDistributionPointJSON, err := json.MarshalIndent(createdDistributionPoint, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
-	fmt.Println("Created Distribution Point:\n", string(createdDistributionPointXML))
+	fmt.Println("Created Distribution Point:\n", string(createdDistributionPointJSON))
 }

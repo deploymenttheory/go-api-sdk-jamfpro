@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/lloyds/Documents/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -18,7 +18,7 @@ func main() {
 	}
 
 	// ID of the distribution point to delete
-	distributionPointID := "1" // Replace with the actual ID
+	distributionPointID := "136" // Replace with the actual ID
 
 	// Call DeleteDistributionPointByID function
 	err = client.DeleteDistributionPointByID(distributionPointID)
