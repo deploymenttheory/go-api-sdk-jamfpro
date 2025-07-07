@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,54 +10,65 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-
+	configFilePath := "/Users/lloyds/Documents/clientconfig.json"
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// New distribution point to create
-	updateDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
-		Name:                     "Tokyo Share",
-		IPAddress:                "tokyo.company.com",
-		IsMaster:                 true,
-		EnableLoadBalancing:      false,
-		SSHUsername:              "casperadmin",
-		Password:                 "password",
-		ConnectionType:           "SMB",
-		ShareName:                "Caspershare",
-		WorkgroupOrDomain:        "COMPANY",
-		SharePort:                139,
-		ReadOnlyUsername:         "casperinstall",
-		ReadOnlyPassword:         "password",
-		ReadWriteUsername:        "casperwrite",
-		ReadWritePassword:        "password",
-		HTTPDownloadsEnabled:     true,
-		HTTPURL:                  "http://ny.company.com/CasperShare",
-		Context:                  "CasperShare",
-		Protocol:                 "http",
-		Port:                     80,
-		NoAuthenticationRequired: false,
-		UsernamePasswordRequired: true,
-		HTTPUsername:             "casperinstall",
-		HTTPPassword:             "password",
+	// Define variables for pointer fields
+
+	// List of distribution points to create
+	updatedDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
+
+		
+		Name:       "example-updated-distribution-pointss",
+		ServerName: "servername",
+		Principal:  false,
+		// If EnableLoadBalancing is true, BackupDistributionPointID needs to have the
+		// valid ID if another distribution point
+		EnableLoadBalancing:       true,
+		BackupDistributionPointID: "108",
+		FileSharingConnectionType: "SMB",
+		HTTPSEnabled:              true,
+		HTTPSPort:                 443,
+		HTTPSSecurityType:         "USERNAME_PASSWORD",
+		HTTPSContext:              "context",
+		HTTPSUsername:             "username",
+		HTTPSPassword:             "password",
+		ShareName:                 "sharename",
+		Workgroup:                 "workgroup",
+		Port:                      443,
+		ReadWriteUsername:         "username",
+		ReadWritePassword:         "password",
+		ReadOnlyUsername:          "username",
+		ReadOnlyPassword:          "password",
+		SSHUsername:               "username",
+		SSHPassword:               "password",
+		LocalPathToShare:          "parf",
+		
 	}
 
-	// ID of the distribution point to update
-	distributionPointID := "1" // Replace with the actual ID
+	targetDistributionPoint := "135"
 
-	// Call UpdateDistributionPointByID function
-	updatedDistributionPoint, err := client.UpdateDistributionPointByID(distributionPointID, &updateDistributionPoint)
+	// Loop through the list and create each distribution point
+	updateDistributionPointandLog(client, updatedDistributionPoint, targetDistributionPoint)
+
+
+}
+
+func updateDistributionPointandLog(client *jamfpro.Client, distributionPointUpdateData jamfpro.ResourceFileShareDistributionPoint, id string) {
+	// Call CreateDistributionPoint function
+	updatedDistributionPoint, err := client.UpdateDistributionPointByID(id, &distributionPointUpdateData)
 	if err != nil {
-		log.Fatalf("Error updating distribution point: %v", err)
+		log.Fatalf("Error creating distribution point: %v, %v", err, distributionPointUpdateData)
 	}
 
-	// Pretty print the updated distribution point in XML
-	updatedDistributionPointXML, err := xml.MarshalIndent(updatedDistributionPoint, "", "    ")
+	// Pretty print the newly created distribution point in XML
+	updatedDistributionPointJSON, err := json.MarshalIndent(updatedDistributionPoint, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling updated distribution point data: %v", err)
+		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
-	fmt.Println("Updated Distribution Point:\n", string(updatedDistributionPointXML))
+	fmt.Println("Updated Distribution Point:\n", string(updatedDistributionPointJSON))
 }

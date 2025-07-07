@@ -41,9 +41,9 @@ func main() {
 			HTTPSEnabled:              true,
 			HTTPSPort:                 443,
 			HTTPSSecurityType:         "USERNAME_PASSWORD",
-			HTTPSContext:              "mebo",
-			HTTPSUsername:             "meep",
-			HTTPSPassword:             "mebo",
+			HTTPSContext:              "context",
+			HTTPSUsername:             "username",
+			HTTPSPassword:             "password",
 			ShareName:                 "sharename",
 			Workgroup:                 "workgroup",
 			Port:                      443,
@@ -71,7 +71,6 @@ func createDistributionPointandLog(client *jamfpro.Client, newDistributionPoint 
 		log.Fatalf("Error creating distribution point: %v, %v", err, newDistributionPoint)
 	}
 
-	// Pretty print the newly created distribution point in XML
 	createdDistributionPointJSON, err := json.MarshalIndent(createdDistributionPoint, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling created distribution point data: %v", err)
