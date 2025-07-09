@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.34.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.34.0...v1.34.1) (2025-06-26)
+
+
+### Features
+
+* add jamfproapi_reenrollment.go ([#822](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/822)) ([ae7b8da](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ae7b8da7e23597c98bd166994e2cd877a1755b8e))
+
 ## [1.34.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.33.2...v1.34.0) (2025-06-25)
 
 

@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.4.2
+	github.com/deploymenttheory/go-api-http-client v0.4.3
 	github.com/deploymenttheory/go-api-http-client-integrations v0.0.14
 )
 
@@ -14,8 +14,8 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.36.5
 	github.com/aws/aws-sdk-go-v2/config v1.29.17
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.70
-	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.81
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.81.0
+	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.83
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.83.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/mmcdole/gofeed v1.3.0
 	golang.org/x/crypto v0.39.0
@@ -54,5 +54,5 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0
-	golang.org/x/net v0.38.0 // indirect
+	golang.org/x/net v0.41.0 // indirect
 )
