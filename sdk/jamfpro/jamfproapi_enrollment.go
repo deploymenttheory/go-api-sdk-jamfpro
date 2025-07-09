@@ -72,12 +72,18 @@ type ResourceEnrollment struct {
 	SigningMdmProfileEnabled                     bool                           `json:"signingMdmProfileEnabled"`
 	MdmSigningCertificate                        *ResourceEnrollmentCertificate `json:"mdmSigningCertificate"`
 	RestrictReenrollment                         bool                           `json:"restrictReenrollment"`
-	FlushLocationInformation                     bool                           `json:"flushLocationInformation"`
-	FlushLocationHistoryInformation              bool                           `json:"flushLocationHistoryInformation"`
-	FlushPolicyHistory                           bool                           `json:"flushPolicyHistory"`
-	FlushExtensionAttributes                     bool                           `json:"flushExtensionAttributes"`
-	FlushSoftwareUpdatePlans                     bool                           `json:"flushSoftwareUpdatePlans"`
-	FlushMdmCommandsOnReenroll                   string                         `json:"flushMdmCommandsOnReenroll"`
+
+	//
+	// Sunsetting Re-enrollment options from this resource
+	// Use jamfpro_reenrollment resource instead
+	//
+	// FlushLocationInformation                     bool                           `json:"flushLocationInformation"`
+	// FlushLocationHistoryInformation              bool                           `json:"flushLocationHistoryInformation"`
+	// FlushPolicyHistory                           bool                           `json:"flushPolicyHistory"`
+	// FlushExtensionAttributes                     bool                           `json:"flushExtensionAttributes"`
+	// FlushSoftwareUpdatePlans                     bool                           `json:"flushSoftwareUpdatePlans"`
+	// FlushMdmCommandsOnReenroll                   string                         `json:"flushMdmCommandsOnReenroll"`
+
 	MacOsEnterpriseEnrollmentEnabled             bool                           `json:"macOsEnterpriseEnrollmentEnabled"`
 	ManagementUsername                           string                         `json:"managementUsername"`
 	CreateManagementAccount                      bool                           `json:"createManagementAccount"`
