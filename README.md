@@ -105,7 +105,7 @@ For those who prefer using configuration files for setting up the client, the SD
       "log_export_path": "/your/log/path/", // optional, ensure permissions to file path
       "export_logs": true, // or false
       "hide_sensitive_data": false, // redact sensitive data from logs
-      "instance_domain": "https://lbgsandbox.jamfcloud.com",
+      "instance_domain": "https://yourinstance.jamfcloud.com",
       "auth_method": "oauth2", // or "basic"
       "client_id": "your_client_id", // Required if using oauth2
       "client_secret": "your_client_secret", // Required if using oauth2
@@ -1129,44 +1129,57 @@ This documentation provides details on the API endpoints available for managing 
 
 - Total Operations Covered: 8
 
-### Jamf Pro Classic API - Distribution Points
+### Jamf Pro API - Distribution Points
 
 This documentation outlines the operations available for managing Distribution Points within Jamf Pro using the Classic API, which supports XML data structures.
 
+<!-- TODO: Add by name functionality -->
+
 ## Operations
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints`
+- [x] ✅ **GET** `/v1/distribution-points`
   - `GetDistributionPoints` operation retrieves a serialized list of all distribution points.
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints/id/{id}`
+- [x] ✅ **GET** `/v1/distribution-points/{id}`
   - `GetDistributionPointByID` operation fetches a single distribution point by its ID.
 
-- [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`
-  - `GetDistributionPointByName` operation retrieves a distribution point by its name.
+<!-- - [x] ✅ **GET** `/JSSResource/distributionpoints/name/{name}`
+  - `GetDistributionPointByName` operation retrieves a distribution point by its name. -->
 
-- [x] ✅ **POST** `/JSSResource/distributionpoints/id/0`
-  - `CreateDistributionPoint` operation creates a new distribution point with the provided details. The ID `0` in the endpoint indicates creation.
+- [x] ✅ **POST** `/v1/distribution-points`
+  - `CreateDistributionPoint` operation creates a new distribution point with the provided details.
 
-- [x] ✅ **PUT** `/JSSResource/distributionpoints/id/{id}`
+- [x] ✅ **PUT** `/v1/distribution-points/{id}`
   - `UpdateDistributionPointByID` operation updates an existing distribution point by its ID.
 
-- [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`
-  - `UpdateDistributionPointByName` operation updates an existing distribution point by its name.
+<!-- - [x] ✅ **PUT** `/JSSResource/distributionpoints/name/{name}`
+  - `UpdateDistributionPointByName` operation updates an existing distribution point by its name. -->
 
-- [x] ✅ **DELETE** `/JSSResource/distributionpoints/id/{id}`
+- [x] ✅ **DELETE** `/v1/distribution-points/{id}`
   - `DeleteDistributionPointByID` operation deletes a distribution point by its ID.
 
-- [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`
-  - `DeleteDistributionPointByName` operation deletes a distribution point by its name.
+<!-- - [x] ✅ **DELETE** `/JSSResource/distributionpoints/name/{name}`
+  - `DeleteDistributionPointByName` operation deletes a distribution point by its name. -->
+
+- [] ❌ **POST** `/v1/distribution-points/delete-multiple`
+  - Currently not implemented
+
+- [] ❌ **PATCH** `/v1/distribution-points/{id}`
+  - Currently not implemented
+
+- [] ❌ **GET** `/v1/distribution-points/{id}/history`
+  - Currently not implemented
+
+- [] ❌ **POST** `/v1/distribution-points/{id}/history`
+  - Currently not implemented
 
 ## Summary
 
 - Total Endpoints Covered: 3
-  - `/JSSResource/distributionpoints`
-  - `/JSSResource/distributionpoints/id/{id}`
-  - `/JSSResource/distributionpoints/name/{name}`
+  - `/v1/distribution-points`
+  - `/v1/distribution-points/{id}`
 
-- Total Operations Covered: 8
+- Total Operations Covered: 5
 
 
 ### Jamf Pro Classic API - Directory Bindings
