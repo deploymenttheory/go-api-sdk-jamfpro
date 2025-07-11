@@ -19,18 +19,18 @@ func main() {
 	}
 
 	// Define the group name you want to retrieve
-	groupName := "All Managed" // Replace with the actual group name
+	groupName := "All Managed Clients" // Replace with the actual group name
 
-	// Call GetGroupByName function
-	group, err := client.GetGroupByName(groupName)
+	// Call GetComputerGroupByJamfProName function
+	computerGroup, err := client.GetComputerGroupByJamfProName(groupName)
 	if err != nil {
-		log.Fatalf("Error fetching group by name '%s': %v", groupName, err)
+		log.Fatalf("Error fetching computer group by name '%s': %v", groupName, err)
 	}
 
-	// Pretty print the group in JSON
-	groupJSON, err := json.MarshalIndent(group, "", "    ") // Indent with 4 spaces
+	// Pretty print the computer group in JSON
+	groupJSON, err := json.MarshalIndent(computerGroup, "", "    ") // Indent with 4 spaces
 	if err != nil {
-		log.Fatalf("Error marshaling group data: %v", err)
+		log.Fatalf("Error marshaling computer group data: %v", err)
 	}
-	fmt.Printf("Fetched Group (Name: %s):\n%s\n", groupName, string(groupJSON))
+	fmt.Printf("Fetched Computer Group (Name: %s):\n%s\n", groupName, string(groupJSON))
 }
