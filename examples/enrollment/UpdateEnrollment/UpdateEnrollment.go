@@ -34,17 +34,6 @@ func main() {
 		// Enrollment Restrictions and Cleanup
 		RestrictReenrollment:            false,
 
-		//
-		// Sunsetting Re-enrollment options from this resource
-		// Use jamfpro_reenrollment resource instead
-		//
-		// FlushLocationInformation:        false,
-		// FlushLocationHistoryInformation: false,
-		// FlushPolicyHistory:              false,
-		// FlushExtensionAttributes:        false,
-		// FlushSoftwareUpdatePlans:        false,
-		// FlushMdmCommandsOnReenroll:      "DELETE_EVERYTHING_EXCEPT_ACKNOWLEDGED", // Options: DELETE_NOTHING/DELETE_ERRORS/DELETE_EVERYTHING_EXCEPT_ACKNOWLEDGED/DELETE_EVERYTHING
-
 		// macOS Management Configuration
 		MacOsEnterpriseEnrollmentEnabled: false,
 		ManagementUsername:               "radmin",
