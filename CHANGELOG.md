@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.36.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.35.0...v1.36.0) (2025-07-11)
+
+
+### Features
+
+* add functions to retrieve computer and mobile groups by name and Jamf Pro ID ([#836](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/836)) ([ca9607c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ca9607cec65dfe98981ddf2a75d7908555ee8804))
+* add support for v1/groups ([#834](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/834)) ([56a341e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/56a341e2b663332d40216d48d0009de64d94cf1a))
+* sunsetting re-enrollment options from jamfproapi_enrollment.go and jamfproapi_enrollment_settings.go ([dc348b6](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/dc348b6b01b59e89e4636c7d1ae2171fbf9018d9))
+
 ## [1.34.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.34.0...v1.34.1) (2025-06-26)
 
 
