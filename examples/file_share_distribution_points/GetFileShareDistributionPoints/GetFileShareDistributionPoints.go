@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/work/Documents/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -18,16 +18,18 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetDistributionPoints function
-	distributionPoints, err := client.GetDistributionPoints()
+	// Call GetDistributionPointByID function
+	distributionPoint, err := client.GetDistributionPoints()
 	if err != nil {
-		log.Fatalf("Error fetching distribution points: %v", err)
+		log.Fatalf("Error fetching distribution point: %v", err)
 	}
 
-	// Pretty print the distribution points in XML
-	distributionPointsXML, err := xml.MarshalIndent(distributionPoints, "", "    ") // Indent with 4 spaces
+	// Pretty print the newly created distribution point in XML
+	distributionPointJSON, err := json.MarshalIndent(distributionPoint, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling distribution points data: %v", err)
+		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
-	fmt.Println("Fetched Distribution Points:\n", string(distributionPointsXML))
+	fmt.Println("Retrieved Distribution Point:\n", string(distributionPointJSON))
+
+	fmt.Println("Distribution Point retrieved successfully")
 }

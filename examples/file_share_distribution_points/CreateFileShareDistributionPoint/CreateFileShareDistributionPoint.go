@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/xml"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -10,51 +10,70 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
-
+	configFilePath := "/Users/work/Documents/clientconfig.json"
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
 	if err != nil {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// New distribution point to create
-	newDistributionPoint := jamfpro.ResourceFileShareDistributionPoint{
-		Name:                     "New York Share",
-		IPAddress:                "ny.company.com",
-		IsMaster:                 true,
-		EnableLoadBalancing:      false,
-		SSHUsername:              "casperadmin",
-		Password:                 "password",
-		ConnectionType:           "SMB",
-		ShareName:                "Caspershare",
-		WorkgroupOrDomain:        "COMPANY",
-		SharePort:                139,
-		ReadOnlyUsername:         "casperinstall",
-		ReadOnlyPassword:         "password",
-		ReadWriteUsername:        "casperwrite",
-		ReadWritePassword:        "password",
-		HTTPDownloadsEnabled:     true,
-		HTTPURL:                  "http://ny.company.com/CasperShare",
-		Context:                  "CasperShare",
-		Protocol:                 "http",
-		Port:                     80,
-		NoAuthenticationRequired: false,
-		UsernamePasswordRequired: true,
-		HTTPUsername:             "casperinstall",
-		HTTPPassword:             "password",
+	// Define variables for pointer fields
+
+	// List of distribution points to create
+	distributionPoints := []jamfpro.ResourceFileShareDistributionPoint{
+		{
+			Name:                      "example-distribution-point-min",
+			ServerName:                "servername",
+			FileSharingConnectionType: "NONE",
+			HTTPSEnabled:              true,
+			HTTPSPort:                 443,
+			HTTPSSecurityType:         "NONE",
+		},
+		{
+			Name:       "example-distribution-point-max-smb",
+			ServerName: "servername",
+			Principal:  false,
+			// If EnableLoadBalancing is true, BackupDistributionPointID needs to have the
+			// valid ID if another distribution point
+			EnableLoadBalancing:       true,
+			BackupDistributionPointID: "108",
+			FileSharingConnectionType: "SMB",
+			HTTPSEnabled:              true,
+			HTTPSPort:                 443,
+			HTTPSSecurityType:         "USERNAME_PASSWORD",
+			HTTPSContext:              "context",
+			HTTPSUsername:             "username",
+			HTTPSPassword:             "password",
+			ShareName:                 "sharename",
+			Workgroup:                 "workgroup",
+			Port:                      443,
+			ReadWriteUsername:         "username",
+			ReadWritePassword:         "password",
+			ReadOnlyUsername:          "username",
+			ReadOnlyPassword:          "password",
+			SSHUsername:               "username",
+			SSHPassword:               "password",
+			LocalPathToShare:          "parf",
+		},
 	}
 
+	// Loop through the list and create each distribution point
+	for _, distributionPoint := range distributionPoints {
+		createDistributionPointandLog(client, distributionPoint)
+	}
+
+}
+
+func createDistributionPointandLog(client *jamfpro.Client, newDistributionPoint jamfpro.ResourceFileShareDistributionPoint) {
 	// Call CreateDistributionPoint function
 	createdDistributionPoint, err := client.CreateDistributionPoint(&newDistributionPoint)
 	if err != nil {
-		log.Fatalf("Error creating distribution point: %v", err)
+		log.Fatalf("Error creating distribution point: %v, %v", err, newDistributionPoint)
 	}
 
-	// Pretty print the newly created distribution point in XML
-	createdDistributionPointXML, err := xml.MarshalIndent(createdDistributionPoint, "", "    ")
+	createdDistributionPointJSON, err := json.MarshalIndent(createdDistributionPoint, "", "    ")
 	if err != nil {
 		log.Fatalf("Error marshaling created distribution point data: %v", err)
 	}
-	fmt.Println("Created Distribution Point:\n", string(createdDistributionPointXML))
+	fmt.Println("Created Distribution Point:\n", string(createdDistributionPointJSON))
 }
