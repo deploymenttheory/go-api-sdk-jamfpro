@@ -72,6 +72,12 @@ type ResourceEnrollment struct {
 	SigningMdmProfileEnabled                     bool                           `json:"signingMdmProfileEnabled"`
 	MdmSigningCertificate                        *ResourceEnrollmentCertificate `json:"mdmSigningCertificate"`
 	RestrictReenrollment                         bool                           `json:"restrictReenrollment"`
+	FlushLocationInformation                     bool                           `json:"flushLocationInformation"`
+	FlushLocationHistoryInformation              bool                           `json:"flushLocationHistoryInformation"`
+	FlushPolicyHistory                           bool                           `json:"flushPolicyHistory"`
+	FlushExtensionAttributes                     bool                           `json:"flushExtensionAttributes"`
+	FlushSoftwareUpdatePlans                     bool                           `json:"flushSoftwareUpdatePlans"`
+	FlushMdmCommandsOnReenroll                   string                         `json:"flushMdmCommandsOnReenroll"`
 	MacOsEnterpriseEnrollmentEnabled             bool                           `json:"macOsEnterpriseEnrollmentEnabled"`
 	ManagementUsername                           string                         `json:"managementUsername"`
 	CreateManagementAccount                      bool                           `json:"createManagementAccount"`
@@ -91,6 +97,7 @@ type ResourceEnrollment struct {
 	AccountDrivenDeviceMacosEnrollmentEnabled    bool                           `json:"accountDrivenDeviceMacosEnrollmentEnabled"`
 	AccountDrivenUserVisionosEnrollmentEnabled   bool                           `json:"accountDrivenUserVisionosEnrollmentEnabled"`
 	AccountDrivenDeviceVisionosEnrollmentEnabled bool                           `json:"accountDrivenDeviceVisionosEnrollmentEnabled"`
+	MaidUsernameMergeEnabled                     bool                           `json:"maidUsernameMergeEnabled"`
 }
 
 // Resource struct for enrollment language messaging
