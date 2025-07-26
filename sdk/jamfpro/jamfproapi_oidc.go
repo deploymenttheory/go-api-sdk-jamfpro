@@ -9,7 +9,12 @@ import "fmt"
 
 const uriOIDC = "/api/v1/oidc"
 
-// ResponseOIDCPublicKeyrepresents the response structure for the OIDC public key.
+// ResponseOIDCDirectIdPLoginURL represents the response structure for the OIDC Direct IdP Login URL.
+type ResponseOIDCDirectIdPLoginURL struct {
+	URL string `json:"url"`
+}
+
+// ResponseOIDCPublicKey represents the response structure for the OIDC public key.
 type ResponseOIDCPublicKey struct {
 	Keys []ResourceOIDCKey `json:"keys"`
 }
@@ -34,6 +39,23 @@ type ResourceOIDCRedirectURL struct {
 // ResponseOIDCRedirectURL represents the response structure for the OIDC redirect URL.
 type ResponseOIDCRedirectURL struct {
 	RedirectURL string `json:"redirectUrl"`
+}
+
+// GetDirectURLForOIDCLogin retrieves the direct IdP login URL for OIDC.
+func (c *Client) GetDirectURLForOIDCLogin() (*ResponseOIDCDirectIdPLoginURL, error) {
+	endpoint := fmt.Sprintf("%s/direct-idp-login-url", uriOIDC)
+
+	var response ResponseOIDCDirectIdPLoginURL
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get OIDC direct IdP login URL: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
 }
 
 // GetPublicKeyOfOIDCKeystore retrieves the public key of the keystore used for signing OIDC messages as a JWT.
