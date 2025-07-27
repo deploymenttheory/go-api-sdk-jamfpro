@@ -77,7 +77,7 @@ type ResourceEnrollment struct {
 	FlushPolicyHistory                           bool                           `json:"flushPolicyHistory"`
 	FlushExtensionAttributes                     bool                           `json:"flushExtensionAttributes"`
 	FlushSoftwareUpdatePlans                     bool                           `json:"flushSoftwareUpdatePlans"`
-	FlushMdmCommandsOnReenroll                   string                         `json:"flushMdmCommandsOnReenroll"`
+	FlushMdmCommandsOnReenroll                   string                         `json:"flushMdmCommandsOnReenroll,omitempty"`
 	MacOsEnterpriseEnrollmentEnabled             bool                           `json:"macOsEnterpriseEnrollmentEnabled"`
 	ManagementUsername                           string                         `json:"managementUsername"`
 	CreateManagementAccount                      bool                           `json:"createManagementAccount"`
