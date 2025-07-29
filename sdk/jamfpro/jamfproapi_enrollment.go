@@ -91,7 +91,7 @@ type ResourceEnrollment struct {
 	MdmSigningCertificateDetails                 ResourceCertificateDetails     `json:"mdmSigningCertificateDetails"`
 	IosEnterpriseEnrollmentEnabled               bool                           `json:"iosEnterpriseEnrollmentEnabled"`
 	IosPersonalEnrollmentEnabled                 bool                           `json:"iosPersonalEnrollmentEnabled"`
-	PersonalDeviceEnrollmentType                 string                         `json:"personalDeviceEnrollmentType"`
+	PersonalDeviceEnrollmentType                 string                         `json:"personalDeviceEnrollmentType,omitempty"`
 	AccountDrivenUserEnrollmentEnabled           bool                           `json:"accountDrivenUserEnrollmentEnabled"`
 	AccountDrivenDeviceIosEnrollmentEnabled      bool                           `json:"accountDrivenDeviceIosEnrollmentEnabled"`
 	AccountDrivenDeviceMacosEnrollmentEnabled    bool                           `json:"accountDrivenDeviceMacosEnrollmentEnabled"`
