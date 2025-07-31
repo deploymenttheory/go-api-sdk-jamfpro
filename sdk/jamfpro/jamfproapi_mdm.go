@@ -1,6 +1,7 @@
 // jamfproapi_mdm.go
 // Jamf Pro Api - MDM Commands
-// api reference: https://developer.jamf.com/jamf-pro/reference/post_preview-mdm-commands
+// api reference: https://developer.jamf.com/jamf-pro/reference/post_v2-mdm-commands
+// https://developer.jamf.com/jamf-pro/reference/post_v2-mdm-blank-push
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
