@@ -1,6 +1,7 @@
 // jamfproapi_oidc.go
 // Jamf Pro Api - OIDC
 // api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-oidc-public-key
+// https://developer.jamf.com/jamf-pro/reference/get_v1-oidc-direct-idp-login-url
 // Jamf Pro Api requires the structs to support an JSON data structure.
 
 package jamfpro
