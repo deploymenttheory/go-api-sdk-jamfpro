@@ -48,12 +48,6 @@ type ResponseJCDS2File struct {
 	URI string `json:"uri"`
 }
 
-type JCDS2Properties struct {
-	JCDS2Enabled              bool `json:"jcds2Enabled"`
-	FileStreamEndpointEnabled bool `json:"fileStreamEndpointEnabled"`
-	MaxChunkSize              int  `json:"maxChunkSize"`
-}
-
 // CRUD
 
 // GetJCDS2Packages fetches a file list from Jamf Cloud Distribution Service
@@ -70,22 +64,6 @@ func (c *Client) GetJCDS2Packages() ([]ResponseJCDS2List, error) {
 	}
 
 	return out, nil
-}
-
-// GetJCDS2Properties fetches properties from Jamf Cloud Distribution Service
-func (c *Client) GetJCDS2Properties() (*JCDS2Properties, error) {
-	endpoint := uriJCDS2 + "/properties"
-	var out JCDS2Properties
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "JCDS 2.0", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &out, nil
 }
 
 // GetJCDS2PackageURIByName fetches a file URI from Jamf Cloud Distribution Service
