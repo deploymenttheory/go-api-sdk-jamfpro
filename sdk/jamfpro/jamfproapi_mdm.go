@@ -1,15 +1,28 @@
 // jamfproapi_mdm.go
 // Jamf Pro Api - MDM Commands
-// api reference: https://developer.jamf.com/jamf-pro/reference/post_preview-mdm-commands
+// api reference: https://developer.jamf.com/jamf-pro/reference/post_v2-mdm-commands
+// https://developer.jamf.com/jamf-pro/reference/post_v2-mdm-blank-push
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
 
 import "fmt"
 
+const uriMDMBlankPush = "/api/v2/mdm/blank-push"
 const uriMDMCommands = "/api/v2/mdm/commands"
 const uriMDMDeployPackage = "/api/v1/deploy-package"
 const uriMDMProfileRenewal = "/api/v1/mdm/renew-profile"
+
+// Blank Push
+// ResourceBlankPush represents the request structure for the blank push MDM command
+type ResourceBlankPush struct {
+	ClientManagementIDs []string `json:"clientManagementIds"`
+}
+
+// ResponseBlankPush represents the response structure for the blank push MDM command
+type ResponseBlankPush struct {
+	ErrorUUIDs []string `json:"errorUuids"`
+}
 
 // MDM Commands
 
@@ -153,6 +166,23 @@ type ResponseMDMProfileRenewal struct {
 	UDIDsNotProcessed struct {
 		UDIDs []string `json:"udids"`
 	} `json:"udidsNotProcessed"`
+}
+
+// SendMDMCommandForBlankPush sends an MDM command for a blank push
+func (c *Client) SendMDMCommandForBlankPush(blankPush *ResourceBlankPush) (*ResponseBlankPush, error) {
+	endpoint := uriMDMBlankPush
+	var responseBlankPush ResponseBlankPush
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, blankPush, &responseBlankPush)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "send MDM Command", err)
+	}
+
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+
+	return &responseBlankPush, nil
 }
 
 // SendMDMCommandForCreationAndQueuing sends an MDM command for creation and queuing
