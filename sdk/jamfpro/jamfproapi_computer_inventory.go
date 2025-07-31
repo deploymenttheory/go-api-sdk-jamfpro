@@ -65,32 +65,38 @@ type ResourceComputerInventory struct {
 // General
 
 type ComputerInventorySubsetGeneral struct {
-	Name                                 string                                         `json:"name"`
-	LastIpAddress                        string                                         `json:"lastIpAddress"`
-	LastReportedIp                       string                                         `json:"lastReportedIp"`
-	JamfBinaryVersion                    string                                         `json:"jamfBinaryVersion"`
-	Platform                             string                                         `json:"platform"`
-	Barcode1                             string                                         `json:"barcode1"`
-	Barcode2                             string                                         `json:"barcode2"`
-	AssetTag                             string                                         `json:"assetTag"`
-	RemoteManagement                     ComputerInventorySubsetGeneralRemoteManagement `json:"remoteManagement"`
-	Supervised                           bool                                           `json:"supervised"`
-	MdmCapable                           ComputerInventorySubsetGeneralMdmCapable       `json:"mdmCapable"`
-	ReportDate                           string                                         `json:"reportDate"`
-	LastContactTime                      string                                         `json:"lastContactTime"`
-	LastCloudBackupDate                  string                                         `json:"lastCloudBackupDate"`
-	LastEnrolledDate                     string                                         `json:"lastEnrolledDate"`
-	MdmProfileExpiration                 string                                         `json:"mdmProfileExpiration"`
-	InitialEntryDate                     string                                         `json:"initialEntryDate"`
-	DistributionPoint                    string                                         `json:"distributionPoint"`
-	EnrollmentMethod                     ComputerInventorySubsetGeneralEnrollmentMethod `json:"enrollmentMethod"`
-	Site                                 SharedResourceSiteProAPI                       `json:"site"`
-	ItunesStoreAccountActive             bool                                           `json:"itunesStoreAccountActive"`
-	EnrolledViaAutomatedDeviceEnrollment bool                                           `json:"enrolledViaAutomatedDeviceEnrollment"`
-	UserApprovedMdm                      bool                                           `json:"userApprovedMdm"`
-	DeclarativeDeviceManagementEnabled   bool                                           `json:"declarativeDeviceManagementEnabled"`
-	ExtensionAttributes                  []ComputerInventorySubsetExtensionAttribute    `json:"extensionAttributes"`
-	ManagementId                         string                                         `json:"managementId"`
+	Name                                     string                                         `json:"name"`
+	LastIpAddress                            string                                         `json:"lastIpAddress"`
+	LastReportedIp                           string                                         `json:"lastReportedIp"`
+	LastReportedIpV4                         string                                         `json:"lastReportedIpV4"`
+	LastReportedIpV6                         string                                         `json:"lastReportedIpV6"`
+	JamfBinaryVersion                        string                                         `json:"jamfBinaryVersion"`
+	Platform                                 string                                         `json:"platform"`
+	Barcode1                                 string                                         `json:"barcode1"`
+	Barcode2                                 string                                         `json:"barcode2"`
+	AssetTag                                 string                                         `json:"assetTag"`
+	RemoteManagement                         ComputerInventorySubsetGeneralRemoteManagement `json:"remoteManagement"`
+	Supervised                               bool                                           `json:"supervised"`
+	MdmCapable                               ComputerInventorySubsetGeneralMdmCapable       `json:"mdmCapable"`
+	ReportDate                               string                                         `json:"reportDate"`
+	LastContactTime                          string                                         `json:"lastContactTime"`
+	LastCloudBackupDate                      string                                         `json:"lastCloudBackupDate"`
+	LastEnrolledDate                         string                                         `json:"lastEnrolledDate"`
+	MdmProfileExpiration                     string                                         `json:"mdmProfileExpiration"`
+	InitialEntryDate                         string                                         `json:"initialEntryDate"`
+	DistributionPoint                        string                                         `json:"distributionPoint"`
+	EnrollmentMethod                         ComputerInventorySubsetGeneralEnrollmentMethod `json:"enrollmentMethod"`
+	Site                                     SharedResourceSiteProAPI                       `json:"site"`
+	ItunesStoreAccountActive                 bool                                           `json:"itunesStoreAccountActive"`
+	EnrolledViaAutomatedDeviceEnrollment     bool                                           `json:"enrolledViaAutomatedDeviceEnrollment"`
+	UserApprovedMdm                          bool                                           `json:"userApprovedMdm"`
+	DeclarativeDeviceManagementEnabled       bool                                           `json:"declarativeDeviceManagementEnabled"`
+	ExtensionAttributes                      []ComputerInventorySubsetExtensionAttribute    `json:"extensionAttributes"`
+	ManagementId                             string                                         `json:"managementId"`
+	LastLoggedInUsernameSelfService          string                                         `json:"lastLoggedInUsernameSelfService"`
+	LastLoggedInUsernameSelfServiceTimestamp string                                         `json:"lastLoggedInUsernameSelfServiceTimestamp"`
+	LastLoggedInUsernameBinary               string                                         `json:"lastLoggedInUsernameBinary"`
+	LastLoggedInUsernameBinaryTimestamp      string                                         `json:"lastLoggedInUsernameBinaryTimestamp"`
 }
 
 type ComputerInventorySubsetGeneralRemoteManagement struct {
@@ -99,8 +105,12 @@ type ComputerInventorySubsetGeneralRemoteManagement struct {
 }
 
 type ComputerInventorySubsetGeneralMdmCapable struct {
-	Capable      bool     `json:"capable"`
-	CapableUsers []string `json:"capableUsers"`
+	Capable            bool     `json:"capable"`
+	CapableUsers       []string `json:"capableUsers"`
+	UserManagementInfo [][]struct {
+		CapableUser  string `json:"capableUser"`
+		ManagementId string `json:"managementId"`
+	} `json:"userManagementInfo"`
 }
 
 type ComputerInventorySubsetGeneralEnrollmentMethod struct {
@@ -116,6 +126,7 @@ type ComputerInventorySubsetDiskEncryption struct {
 	IndividualRecoveryKeyValidityStatus string                                                `json:"individualRecoveryKeyValidityStatus"`
 	InstitutionalRecoveryKeyPresent     bool                                                  `json:"institutionalRecoveryKeyPresent"`
 	DiskEncryptionConfigurationName     string                                                `json:"diskEncryptionConfigurationName"`
+	FileVault2Enabled                   bool                                                  `json:"fileVault2Enabled"`
 	FileVault2EnabledUserNames          []string                                              `json:"fileVault2EnabledUserNames"`
 	FileVault2EligibilityMessage        string                                                `json:"fileVault2EligibilityMessage"`
 }
@@ -242,6 +253,7 @@ type ComputerInventorySubsetHardware struct {
 	TotalRamMegabytes      int                                         `json:"totalRamMegabytes"`
 	OpenRamSlots           int                                         `json:"openRamSlots"`
 	BatteryCapacityPercent int                                         `json:"batteryCapacityPercent"`
+	BatteryHealth          string                                      `json:"batteryHealth"`
 	SmcVersion             string                                      `json:"smcVersion"`
 	NicSpeed               string                                      `json:"nicSpeed"`
 	OpticalDrive           string                                      `json:"opticalDrive"`
@@ -249,6 +261,7 @@ type ComputerInventorySubsetHardware struct {
 	BleCapable             bool                                        `json:"bleCapable"`
 	SupportsIosAppInstalls bool                                        `json:"supportsIosAppInstalls"`
 	AppleSilicon           bool                                        `json:"appleSilicon"`
+	ProvisioningUdid       string                                      `json:"provisioningUdid"`
 	ExtensionAttributes    []ComputerInventorySubsetExtensionAttribute `json:"extensionAttributes"`
 }
 
@@ -325,17 +338,21 @@ type ComputerInventorySubsetFont struct {
 // Security
 
 type ComputerInventorySubsetSecurity struct {
-	SipStatus             string `json:"sipStatus"`
-	GatekeeperStatus      string `json:"gatekeeperStatus"`
-	XprotectVersion       string `json:"xprotectVersion"`
-	AutoLoginDisabled     bool   `json:"autoLoginDisabled"`
-	RemoteDesktopEnabled  bool   `json:"remoteDesktopEnabled"`
-	ActivationLockEnabled bool   `json:"activationLockEnabled"`
-	RecoveryLockEnabled   bool   `json:"recoveryLockEnabled"`
-	FirewallEnabled       bool   `json:"firewallEnabled"`
-	SecureBootLevel       string `json:"secureBootLevel"`
-	ExternalBootLevel     string `json:"externalBootLevel"`
-	BootstrapTokenAllowed bool   `json:"bootstrapTokenAllowed"`
+	SipStatus                    string `json:"sipStatus"`
+	GatekeeperStatus             string `json:"gatekeeperStatus"`
+	XprotectVersion              string `json:"xprotectVersion"`
+	AutoLoginDisabled            bool   `json:"autoLoginDisabled"`
+	RemoteDesktopEnabled         bool   `json:"remoteDesktopEnabled"`
+	ActivationLockEnabled        bool   `json:"activationLockEnabled"`
+	RecoveryLockEnabled          bool   `json:"recoveryLockEnabled"`
+	FirewallEnabled              bool   `json:"firewallEnabled"`
+	SecureBootLevel              string `json:"secureBootLevel"`
+	ExternalBootLevel            string `json:"externalBootLevel"`
+	BootstrapTokenAllowed        bool   `json:"bootstrapTokenAllowed"`
+	BootstrapTokenEscrowedStatus string `json:"bootstrapTokenEscrowedStatus"`
+	LastAttestationAttempt       string `json:"lastAttestationAttempt"`
+	LastSuccessfulAttestation    string `json:"lastSuccessfulAttestation"`
+	AttestationStatus            string `json:"attestationStatus"`
 }
 
 // Operating System
@@ -471,9 +488,10 @@ type ComputerInventorySubsetContentCachingDataMigrationErrorUserInfo struct {
 // Group Memberships
 
 type ComputerInventorySubsetGroupMembership struct {
-	GroupId    string `json:"groupId"`
-	GroupName  string `json:"groupName"`
-	SmartGroup bool   `json:"smartGroup"`
+	GroupId          string `json:"groupId"`
+	GroupName        string `json:"groupName"`
+	GroupDescription string `json:"groupDescription"`
+	SmartGroup       bool   `json:"smartGroup"`
 }
 
 // Shared
@@ -504,6 +522,10 @@ type ComputerInventorySubsetContentCachingAlert struct {
 	Addresses                   []string `json:"addresses"`
 	ClassName                   string   `json:"className"`
 	PostDate                    string   `json:"postDate"`
+	CacheBytesLimit             int      `json:"cacheBytesLimit"`
+	PathPreventingAccess        string   `json:"pathPreventingAccess"`
+	ReservedVolumeBytes         int      `json:"reservedVolumeBytes"`
+	Resource                    string   `json:"resource"`
 }
 
 // FileVaultInventoryList represents the paginated FileVault inventory response.
