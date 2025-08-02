@@ -15,10 +15,11 @@ and verifies the uploaded package’s SHA3_512 hash.
 
 Steps:
 1. Calculate the SHA3_512 of the local file before uploading (initialHash).
-2. Create package metadata in Jamf Pro (Package name, etc.).
-3. Upload the actual file to Jamf Pro.
-4. Poll Jamf Pro until the uploaded package’s SHA3_512 hash is present or until max retries are reached.
-5. Compare Jamf Pro’s hash with the initially calculated hash to ensure data integrity.
+2. Calculate the MD5 hash of the file for metadata.
+3. Create package metadata in Jamf Pro (Package name, etc.).
+4. Upload the actual file to Jamf Pro.
+5. Poll Jamf Pro until the uploaded package’s SHA3_512 hash is present or until max retries are reached.
+6. Compare Jamf Pro’s hash with the initially calculated hash to ensure data integrity.
 
 Arguments:
 - filePath: The path to the local package file to be uploaded.
@@ -34,13 +35,20 @@ Usage:
 - Call DoPackageUpload with the path of your package and that resource data.
 */
 func (c *Client) DoPackageUpload(filePath string, packageData *ResourcePackage) (*ResponsePackageCreatedAndUpdated, error) {
+	pkgName := filepath.Base(filePath)
+
 	initialHash, err := CalculateSHA3_512(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to calculate initial SHA3_512: %v", err)
 	}
 
-	pkgName := filepath.Base(filePath)
+	md5Hash, err := CalculateMD5(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to calculate MD5: %v", err)
+	}
+
 	packageData.FileName = pkgName
+	packageData.MD5 = md5Hash
 	metadataResponse, err := c.CreatePackage(*packageData)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create package metadata in Jamf Pro: %v", err)

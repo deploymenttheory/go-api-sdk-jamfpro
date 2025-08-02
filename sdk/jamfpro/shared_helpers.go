@@ -4,6 +4,7 @@
 package jamfpro
 
 import (
+	"crypto/md5"
 	"encoding/hex"
 	"fmt"
 	"io"
@@ -59,6 +60,22 @@ func CalculateSHA3_512(filePath string) (string, error) {
 	hash := sha3.New512()
 	if _, err := io.Copy(hash, file); err != nil {
 		return "", fmt.Errorf("failed to calculate SHA3-512: %v", err)
+	}
+
+	return hex.EncodeToString(hash.Sum(nil)), nil
+}
+
+// CalculateMD5 calculates the MD5 hash of the supplied file in the path.
+func CalculateMD5(filePath string) (string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", fmt.Errorf("failed to open file for MD5 calculation: %v", err)
+	}
+	defer file.Close()
+
+	hash := md5.New()
+	if _, err := io.Copy(hash, file); err != nil {
+		return "", fmt.Errorf("failed to calculate MD5: %v", err)
 	}
 
 	return hex.EncodeToString(hash.Sum(nil)), nil
