@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.37.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.36.0...v1.37.0) (2025-08-04)
+
+
+### Features
+
+* Add GroupDescription field to /v1/groups resource struct (11.19) ([#861](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/861)) ([ddf82d8](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ddf82d883986647f9dbcb2abb18a21e06ff51629))
+* Add new and missing fields for /v4/enrollment ([#864](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/864)) ([ecefd79](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ecefd79b6660e0a9daf120cb388655113709d81a))
+* Add new fields to support /v1/computers-inventory-detail and /v1/computers-inventory (11.19) ([#862](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/862)) ([091e91f](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/091e91f381647fa7640caf1768719c28cf4fa59c))
+* Add UsernameAttributeClaimMapping field to OIDC Settings struct in /v3/sso (11.19) ([#863](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/863)) ([6e76235](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/6e76235961c622c845a80c97fcb6f221958837be))
+
 ## [1.36.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.35.0...v1.36.0) (2025-07-11)
 
 
