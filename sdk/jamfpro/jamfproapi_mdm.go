@@ -14,10 +14,6 @@ const uriMDMDeployPackage = "/api/v1/deploy-package"
 const uriMDMProfileRenewal = "/api/v1/mdm/renew-profile"
 
 // Blank Push
-// ResourceBlankPush represents the request structure for the blank push MDM command
-type ResourceBlankPush struct {
-	ClientManagementIDs []string `json:"clientManagementIds"`
-}
 
 // ResponseBlankPush represents the response structure for the blank push MDM command
 type ResponseBlankPush struct {
@@ -169,19 +165,19 @@ type ResponseMDMProfileRenewal struct {
 }
 
 // SendMDMCommandForBlankPush sends an MDM command for a blank push
-func (c *Client) SendMDMCommandForBlankPush(blankPush *ResourceBlankPush) (*ResponseBlankPush, error) {
+// SendMDMCommandForBlankPush sends an MDM command for a blank push, taking clientManagementIds directly
+func (c *Client) SendMDMCommandForBlankPush(clientManagementIDs []string) (*ResponseBlankPush, error) {
 	endpoint := uriMDMBlankPush
 	var responseBlankPush ResponseBlankPush
-
-	resp, err := c.HTTP.DoRequest("POST", endpoint, blankPush, &responseBlankPush)
+	// The API expects a JSON object with key "clientManagementIds"
+	reqBody := map[string][]string{"clientManagementIds": clientManagementIDs}
+	resp, err := c.HTTP.DoRequest("POST", endpoint, reqBody, &responseBlankPush)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "send MDM Command", err)
 	}
-
 	if resp != nil {
 		defer resp.Body.Close()
 	}
-
 	return &responseBlankPush, nil
 }
 
