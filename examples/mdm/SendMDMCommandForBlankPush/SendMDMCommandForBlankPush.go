@@ -18,16 +18,14 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Define the MDM blank push request
-	blankPushRequest := &jamfpro.ResourceBlankPush{
-		ClientManagementIDs: []string{
-			"fd68c371-5921-436e-b16b-8a3c1bf90ee5",
-			"a1b2c3d4-5678-90ab-cdef-1234567890ab",
-		},
+	// Define the client management IDs directly
+	clientManagementIDs := []string{
+		"fd68c371-5921-436e-b16b-8a3c1bf90ee5",
+		"a1b2c3d4-5678-90ab-cdef-1234567890ab",
 	}
 
-	// Call SendMDMCommandForBlankPush function
-	response, err := client.SendMDMCommandForBlankPush(blankPushRequest)
+	// Call SendMDMCommandForBlankPush function with the slice directly
+	response, err := client.SendMDMCommandForBlankPush(clientManagementIDs)
 	if err != nil {
 		log.Fatalf("Error sending MDM blank push command: %v", err)
 	}
