@@ -26,9 +26,10 @@ const (
 
 // ResourceSmartComputerGroup represents the request structure for creating a Smart Computer Group
 type ResourceSmartComputerGroup struct {
-	Name     string                           `json:"name"`
-	Criteria []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
-	SiteId   *string                          `json:"siteId,omitempty"`
+	Name        string                           `json:"name"`
+	Description string                           `json:"description,omitempty"`
+	Criteria    []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
+	SiteId      *string                          `json:"siteId,omitempty"`
 }
 
 // Response
@@ -38,9 +39,10 @@ type ResponseSmartComputerGroupsList []ResponseSmartComputerGroupListItem
 
 // ResponseSmartComputerGroupListItem represents individual Smart Computer Group items
 type ResponseSmartComputerGroupListItem struct {
-	ID         string `json:"id"`
-	Name       string `json:"name"`
-	SmartGroup bool   `json:"smartGroup"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	SmartGroup  bool   `json:"smartGroup"`
 }
 
 // ResponseSmartComputerGroupMembership represents the membership response for a Smart Computer Group
@@ -59,6 +61,7 @@ type ResourceSmartComputerGroupV2 struct {
 	ID              string `json:"id"`
 	SiteId          string `json:"siteId"`
 	Name            string `json:"name"`
+	Description     string `json:"description"`
 	MembershipCount int    `json:"membershipCount"`
 }
 
