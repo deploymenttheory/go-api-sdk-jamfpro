@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.37.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.36.0...v1.37.0) (2025-08-12)
+
+
+### Features
+
+* Add GroupDescription field to /v1/groups resource struct (11.19) ([#861](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/861)) ([ddf82d8](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ddf82d883986647f9dbcb2abb18a21e06ff51629))
+* add md5 calculation for package uploads ([#865](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/865)) ([7c280e1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/7c280e1f929e531969855f943adc29805d16cd13))
+* Add new and missing fields for /v4/enrollment ([#864](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/864)) ([ecefd79](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ecefd79b6660e0a9daf120cb388655113709d81a))
+* Add new fields to support /v1/computers-inventory-detail and /v1/computers-inventory (11.19) ([#862](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/862)) ([091e91f](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/091e91f381647fa7640caf1768719c28cf4fa59c))
+* add OIDC Direct IdP Login URL retrieval functionality /v1/oidc/direct-idp-login-url (11.19) ([#859](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/859)) ([f3a6277](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/f3a62774d4fc5da59943c25c347e5ad07fcf5ec8))
+* Add UsernameAttributeClaimMapping field to OIDC Settings struct in /v3/sso (11.19) ([#863](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/863)) ([6e76235](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/6e76235961c622c845a80c97fcb6f221958837be))
+* implement MDM blank push command functionality /v2/mdm/blank-push (11.19) ([#860](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/860)) ([05e15f6](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/05e15f6ea8e8be8dd71a8eb8cfb0cafd755793ee))
+* Move Mobile Device Extension Attribute handling to Jamf Pro API /v1/mobile-device-extension-attributes (11.19) ([#857](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/857)) ([377ae53](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/377ae5386966774f1b0309ab966904fcc38a8a8c))
+
 ## [1.36.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.35.0...v1.36.0) (2025-07-11)
 
 
