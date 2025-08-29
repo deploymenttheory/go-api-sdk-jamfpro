@@ -1,6 +1,6 @@
 // jamfproapi_computer_prestages.go
 // Jamf Pro Api - Computer Prestages
-// api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-computer-prestages-scope
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v3-computer-prestages
 // Jamf Pro API requires the structs to support a JSON data structure.
 // Endpoint uses optimistic locking, https://developer.jamf.com/jamf-pro/docs/optimistic-locking
 package jamfpro
@@ -110,28 +110,30 @@ type ResourceComputerPrestage struct {
 // Subsets & Containers
 
 type ComputerPrestageSubsetSkipSetupItems struct {
-	Biometric          *bool `json:"Biometric"`
-	TermsOfAddress     *bool `json:"TermsOfAddress"`
-	FileVault          *bool `json:"FileVault"`
-	ICloudDiagnostics  *bool `json:"iCloudDiagnostics"`
-	Diagnostics        *bool `json:"Diagnostics"`
-	Accessibility      *bool `json:"Accessibility"`
-	AppleID            *bool `json:"AppleID"`
-	ScreenTime         *bool `json:"ScreenTime"`
-	Siri               *bool `json:"Siri"`
-	DisplayTone        *bool `json:"DisplayTone"`
-	Restore            *bool `json:"Restore"`
-	Appearance         *bool `json:"Appearance"`
-	Privacy            *bool `json:"Privacy"`
-	Payment            *bool `json:"Payment"`
-	Registration       *bool `json:"Registration"`
-	TOS                *bool `json:"TOS"`
-	ICloudStorage      *bool `json:"iCloudStorage"`
-	Location           *bool `json:"Location"`
-	Intelligence       *bool `json:"Intelligence"`
-	EnableLockdownMode *bool `json:"EnableLockdownMode"`
-	Welcome            *bool `json:"Welcome"`
-	Wallpaper          *bool `json:"Wallpaper"`
+	Biometric                 *bool `json:"Biometric"`
+	TermsOfAddress            *bool `json:"TermsOfAddress"`
+	FileVault                 *bool `json:"FileVault"`
+	ICloudDiagnostics         *bool `json:"iCloudDiagnostics"`
+	Diagnostics               *bool `json:"Diagnostics"`
+	Accessibility             *bool `json:"Accessibility"`
+	AppleID                   *bool `json:"AppleID"`
+	ScreenTime                *bool `json:"ScreenTime"`
+	Siri                      *bool `json:"Siri"`
+	DisplayTone               *bool `json:"DisplayTone"`
+	Restore                   *bool `json:"Restore"`
+	Appearance                *bool `json:"Appearance"`
+	Privacy                   *bool `json:"Privacy"`
+	Payment                   *bool `json:"Payment"`
+	Registration              *bool `json:"Registration"`
+	TOS                       *bool `json:"TOS"`
+	ICloudStorage             *bool `json:"iCloudStorage"`
+	Location                  *bool `json:"Location"`
+	Intelligence              *bool `json:"Intelligence"`
+	EnableLockdownMode        *bool `json:"EnableLockdownMode"`
+	Welcome                   *bool `json:"Welcome"`
+	Wallpaper                 *bool `json:"Wallpaper"`
+	SoftwareUpdate            *bool `json:"SoftwareUpdate"`
+	AdditionalPrivacySettings *bool `json:"AdditionalPrivacySettings"`
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
