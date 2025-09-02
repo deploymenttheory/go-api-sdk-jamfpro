@@ -105,6 +105,8 @@ type ResourceComputerPrestage struct {
 	SessionTimeout                                 int                                         `json:"sessionTimeout,omitempty"`
 	DeviceType                                     string                                      `json:"deviceType,omitempty"`
 	OnboardingItems                                []OnboardingItem                            `json:"onboardingItems,omitempty"`
+	PssoEnabled                                    *bool                                       `json:"pssoEnabled,omitempty"`
+	PlatformSsoAppBundleId                         string                                      `json:"platformSsoAppBundleId,omitempty"`
 }
 
 // Subsets & Containers
