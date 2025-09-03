@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.38.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.37.0...v1.38.0) (2025-09-03)
+
+
+### Features
+
+* add support for new Mobile Device Prestages endpoint and fields in Jamf Pro 11.20 ([f0f841d](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/f0f841d3f2d095ed317ae75aab96be3e5a1c4ee7))
+* update API references and endpoints for mobile device prestages to v3 ([ca3f544](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ca3f5448069a0e2ac8041d5e8774d3e2dbae230d))
+
 ## [1.37.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.36.0...v1.37.0) (2025-08-12)
 
 
