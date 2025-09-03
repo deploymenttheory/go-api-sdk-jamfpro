@@ -1,6 +1,6 @@
 // jamfproapi_mobile_device_prestages.go
 // Jamf Pro Api - Mobile Device Prestages
-// api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-mobile-device-prestages
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v3-mobile-device-prestages
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
@@ -12,7 +12,10 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-const uriMobileDevicePrestages = "/api/v2/mobile-device-prestages"
+const (
+	uriMobileDevicePrestagesV2 = "/api/v2/mobile-device-prestages"
+	uriMobileDevicePrestagesV3 = "/api/v3/mobile-device-prestages"
+)
 
 // List
 
@@ -94,6 +97,7 @@ type ResourceMobileDevicePrestage struct {
 	MinimumOsSpecificVersionIpad           string                                          `json:"minimumOsSpecificVersionIpad,omitempty"`
 	RTSEnabled                             *bool                                           `json:"rtsEnabled,omitempty"`
 	RTSConfigProfileId                     string                                          `json:"rtsConfigProfileId,omitempty"`
+	PreserveManagedApps                    *bool                                           `json:"preserveManagedApps,omitempty"`
 }
 
 // Subsets & Containers
@@ -140,6 +144,10 @@ type MobileDevicePrestageSubsetSkipSetupItems struct {
 	Welcome               *bool `json:"Welcome"`
 	SafetyAndHandling     *bool `json:"SafetyAndHandling"`
 	TapToSetup            *bool `json:"TapToSetup"`
+	SpokenLanguage        *bool `json:"SpokenLanguage,omitempty"`
+	Keyboard              *bool `json:"Keyboard,omitempty"`
+	Multitasking          *bool `json:"Multitasking,omitempty"`
+	OSShowcase            *bool `json:"OSShowcase,omitempty"`
 }
 
 type MobileDevicePrestageSubsetLocationInformation struct {
@@ -192,7 +200,7 @@ type MobileDevicePrestageSubsetNamesName struct {
 
 // GetMobileDevicePrestages retrieves a list of all mobile prestages
 func (c *Client) GetMobileDevicePrestages(params url.Values) (*ResponseMobileDevicePrestagesList, error) {
-	endpoint := uriMobileDevicePrestages
+	endpoint := uriMobileDevicePrestagesV3
 	resp, err := c.DoPaginatedGet(endpoint, params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "mobile device prestages", err)
@@ -215,7 +223,7 @@ func (c *Client) GetMobileDevicePrestages(params url.Values) (*ResponseMobileDev
 
 // GetMobileDevicePrestageByID retrieves a single mobile prestage from the supplied ID
 func (c *Client) GetMobileDevicePrestageByID(id string) (*ResourceMobileDevicePrestage, error) {
-	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
+	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestagesV3, id)
 	var out ResourceMobileDevicePrestage
 
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
@@ -248,7 +256,7 @@ func (c *Client) GetMobileDevicePrestageByName(name string) (*ResourceMobileDevi
 
 // CreateMobileDevicePrestage creates a new mobile prestage and returns the id
 func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePrestage) (*ResponseMobileDevicePrestageCreate, error) {
-	endpoint := uriMobileDevicePrestages
+	endpoint := uriMobileDevicePrestagesV3
 	var out ResponseMobileDevicePrestageCreate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, newPrestage, &out)
 	if err != nil {
@@ -264,7 +272,7 @@ func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePres
 
 // UpdateMobileDevicePrestageByID updates a mobile device prestage by its ID.
 func (c *Client) UpdateMobileDevicePrestageByID(id string, prestageUpdate *ResourceMobileDevicePrestage) (*ResourceMobileDevicePrestage, error) {
-	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
+	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestagesV3, id)
 
 	var updatedPrestage ResourceMobileDevicePrestage
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, prestageUpdate, &updatedPrestage)
@@ -298,7 +306,7 @@ func (c *Client) UpdateMobileDevicePrestageByName(name string, prestageUpdate *R
 
 // DeleteMobileDevicePrestageByID a mobile prestage at the given id
 func (c *Client) DeleteMobileDevicePrestageByID(id string) error {
-	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestages, id)
+	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestagesV3, id)
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device prestage", id, err)
@@ -330,7 +338,7 @@ func (c *Client) DeleteMobileDevicePrestageByName(name string) error {
 
 // GetDeviceScopeForMobileDevicePrestage retrieves the device scope for a specific mobile device prestage by its ID.
 func (c *Client) GetDeviceScopeForMobileDevicePrestageByID(id string) (*ResponseMobileDeviceScope, error) {
-	endpoint := fmt.Sprintf("%s/%s/scope", uriMobileDevicePrestages, id)
+	endpoint := fmt.Sprintf("%s/%s/scope", uriMobileDevicePrestagesV2, id)
 
 	var deviceScope ResponseMobileDeviceScope
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &deviceScope)
