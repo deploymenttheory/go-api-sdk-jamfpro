@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.38.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.38.0...v1.38.1) (2025-09-10)
+
+
+### Bug Fixes
+
+* deps bump and repo tidy up ([3a18ace](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3a18ace1ff4cbca0256a76961430c6ff21acd5da))
+* deps bump and repo tidy up ([d642c7b](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/d642c7b6179459da8a9f34b56ec4d1d26f89c3d0))
+
 ## [1.38.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.37.0...v1.38.0) (2025-09-03)
 
 
