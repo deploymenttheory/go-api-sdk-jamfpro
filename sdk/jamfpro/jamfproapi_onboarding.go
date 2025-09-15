@@ -31,18 +31,8 @@ type ResourceEligiblilityForOnboardingList struct {
 
 // Response
 
-// ResponseOnboardingSettings represents the structure of the onboarding settings response
+// ResponseOnboardingSettings represents the structure of the onboarding configuration response
 type ResponseOnboardingSettings struct {
-	AccountDrivenUserEnrollmentEnabled bool   `json:"accountDrivenUserEnrollmentEnabled"`
-	IdpEnabled                         bool   `json:"idpEnabled"`
-	ApnsCertificateExpirationDate      string `json:"apnsCertificateExpirationDate"`
-	CloudServicesEnabled               bool   `json:"cloudServicesEnabled"`
-	EnrollCustomizationEnabled         bool   `json:"enrollCustomizationEnabled"`
-	PrestageEnrollmentEnabled          bool   `json:"prestageEnrollmentEnabled"`
-}
-
-// ResponseUpdateOnboardingSettings represents the response body after updating onboarding settings
-type ResponseUpdateOnboardingSettings struct {
 	ID              string                   `json:"id"`
 	Enabled         bool                     `json:"enabled"`
 	OnboardingItems []OnboardingItemResponse `json:"onboardingItems"`
@@ -50,47 +40,28 @@ type ResponseUpdateOnboardingSettings struct {
 
 // OnboardingItemResponse represents an item in the onboarding configuration response
 type OnboardingItemResponse struct {
-	ID                    string `json:"id"`
+	ID                    string `json:"id,omitempty"`
 	EntityID              string `json:"entityId"`
-	EntityName            string `json:"entityName"`
-	ScopeDescription      string `json:"scopeDescription"`
-	SiteDescription       string `json:"siteDescription"`
+	EntityName            string `json:"entityName,omitempty"`
+	ScopeDescription      string `json:"scopeDescription,omitempty"`
+	SiteDescription       string `json:"siteDescription,omitempty"`
 	SelfServiceEntityType string `json:"selfServiceEntityType"`
 	Priority              int    `json:"priority"`
 }
 
 // Resource
 
-// ResourceUpdateOnboardingSettings represents the request body for updating onboarding settings
+// ResourceUpdateOnboardingSettings represents the request body for updating onboarding configuration
 type ResourceUpdateOnboardingSettings struct {
-	Enabled                                        bool                          `json:"enabled"`
-	DisplayName                                    string                        `json:"displayName"`
-	SsoForEnrollmentEnabled                        bool                          `json:"ssoForEnrollmentEnabled"`
-	SsoBypassAllowed                               bool                          `json:"ssoBypassAllowed"`
-	SsoEnabled                                     bool                          `json:"ssoEnabled"`
-	SsoForMacOsSelfServiceEnabled                  bool                          `json:"ssoForMacOsSelfServiceEnabled"`
-	TokenExpirationDisabled                        bool                          `json:"tokenExpirationDisabled"`
-	UserAttributeEnabled                           bool                          `json:"userAttributeEnabled"`
-	UserAttributeName                              string                        `json:"userAttributeName"`
-	UserMapping                                    string                        `json:"userMapping"`
-	EnrollmentSsoForAccountDrivenEnrollmentEnabled bool                          `json:"enrollmentSsoForAccountDrivenEnrollmentEnabled"`
-	GroupEnrollmentAccessEnabled                   bool                          `json:"groupEnrollmentAccessEnabled"`
-	GroupAttributeName                             string                        `json:"groupAttributeName"`
-	GroupRdnKey                                    string                        `json:"groupRdnKey"`
-	GroupEnrollmentAccessName                      string                        `json:"groupEnrollmentAccessName"`
-	IdpProviderType                                string                        `json:"idpProviderType"`
-	OtherProviderTypeName                          string                        `json:"otherProviderTypeName"`
-	MetadataSource                                 string                        `json:"metadataSource"`
-	SessionTimeout                                 int                           `json:"sessionTimeout"`
-	DeviceType                                     string                        `json:"deviceType"`
-	OnboardingItems                                []SubsetOnboardingItemRequest `json:"onboardingItems"`
+	Enabled         bool                          `json:"enabled"`
+	OnboardingItems []SubsetOnboardingItemRequest `json:"onboardingItems"`
 }
 
 // SubsetOnboardingItemRequest represents an item in the onboarding configuration request
 type SubsetOnboardingItemRequest struct {
-	SelfServiceEntityType string `json:"selfServiceEntityType"`
 	ID                    string `json:"id,omitempty"`
 	EntityID              string `json:"entityId"`
+	SelfServiceEntityType string `json:"selfServiceEntityType"`
 	Priority              int    `json:"priority"`
 }
 
@@ -111,10 +82,10 @@ func (c *Client) GetOnboardingSettings() (*ResponseOnboardingSettings, error) {
 }
 
 // UpdateOnboardingSettings updates the onboarding configuration
-func (c *Client) UpdateOnboardingSettings(request ResourceUpdateOnboardingSettings) (*ResponseUpdateOnboardingSettings, error) {
+func (c *Client) UpdateOnboardingSettings(request ResourceUpdateOnboardingSettings) (*ResponseOnboardingSettings, error) {
 	endpoint := uriOnboardingSettings
 
-	var response ResponseUpdateOnboardingSettings
+	var response ResponseOnboardingSettings
 
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, request, &response)
 	if err != nil {
