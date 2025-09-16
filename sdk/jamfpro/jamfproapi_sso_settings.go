@@ -8,7 +8,6 @@ package jamfpro
 import "fmt"
 
 const uriSsoSettings = "/api/v3/sso"
-const uriSsoEnrollmentCustomizationDependencies = "/api/v3/sso/dependencies"
 
 // Structs
 
@@ -107,7 +106,7 @@ func (c *Client) UpdateSsoSettings(updatedSettings ResourceSsoSettings) (*Resour
 
 // GetSsoEnrollmentCustomizationDependencies retrieves current SSO Enrollment Customization dependencies
 func (c *Client) GetSsoEnrollmentCustomizationDependencies() (*ResponseSsoEnrollmentCustomizationDependencies, error) {
-	endpoint := uriSsoEnrollmentCustomizationDependencies
+	endpoint := uriSsoSettings + "/dependencies"
 	var out ResponseSsoEnrollmentCustomizationDependencies
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
 	if err != nil {
@@ -119,4 +118,28 @@ func (c *Client) GetSsoEnrollmentCustomizationDependencies() (*ResponseSsoEnroll
 	}
 
 	return &out, nil
+}
+
+// DisableSso disables SSO by sending an empty POST request to the disable endpoint
+func (c *Client) DisableSso() error {
+	endpoint := uriSsoSettings + "/disable"
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+
+	if resp == nil {
+		if err != nil {
+			return fmt.Errorf("failed to disable SSO: %v", err)
+		}
+		return fmt.Errorf("failed to disable SSO: received nil response")
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	if resp.StatusCode != 202 {
+		return fmt.Errorf("failed to disable SSO: unexpected status code %d", resp.StatusCode)
+	}
+
+	return nil
 }
