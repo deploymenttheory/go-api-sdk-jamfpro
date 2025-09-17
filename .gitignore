@@ -25,3 +25,5 @@ go.work
 
 # macOS File System
 .DS_Store
+
+clientconfig.json

@@ -14,7 +14,7 @@
 				<key>PayloadIdentifier</key>
 				<string>6756212F-E97A-4EEF-91C1-F8C5CD3A11F9</string>
 				<key>PayloadOrganization</key>
-				<string>Lloyds Bank</string>
+				<string>DeploymentTheory</string>
 				<key>PayloadType</key>
 				<string>com.apple.dock</string>
 				<key>PayloadUUID</key>
@@ -76,7 +76,7 @@
 		<key>PayloadIdentifier</key>
 		<string>2359960C-3E2F-4159-B3D2-90D7804AEFF2</string>
 		<key>PayloadOrganization</key>
-		<string>Lloyds Bank</string>
+		<string>DeploymentTheory</string>
 		<key>PayloadRemovalDisallowed</key>
 		<true/>
 		<key>PayloadScope</key>
