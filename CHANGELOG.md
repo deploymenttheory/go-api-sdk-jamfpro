@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.39.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.38.1...v1.39.0) (2025-09-19)
+
+
+### Features
+
+* add DisableSso method and example usage ([154ed45](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/154ed45329ba1dd74747bfa78a09bec6fc1b5091))
+* add DisableSso method and example usage ([e9baae1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/e9baae166cfba89b404866238e2ceab58d68f246))
+
+
+### Bug Fixes
+
+* correct types for OnboardingItemResponse and SubsetOnboardingItemRequest and add working examples ([66c94db](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/66c94dbbcb4ac51257548ba51dedbcb4d2a75c0f))
+* correct types for OnboardingItemResponse and SubsetOnboardingItemRequest and add working examples ([4f26f58](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4f26f583e508985ddb3d1defa950bd6b87351eba))
+
 ## [1.38.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.38.0...v1.38.1) (2025-09-10)
 
 
