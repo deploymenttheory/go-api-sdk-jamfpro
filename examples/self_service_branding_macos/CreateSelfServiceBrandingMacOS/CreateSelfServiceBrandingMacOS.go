@@ -18,14 +18,16 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
+	iconId := 5
+	brandingHeaderImageId := 6
 	newBranding := jamfpro.ResourceSelfServiceBrandingDetail{
 		ApplicationName:       "Self Service", // Name to display for the application in Finder, Dock, and the menu bar (e.g., "My Company's Self Service")
 		BrandingName:          "test",
 		BrandingNameSecondary: "Self Service",
 		HomeHeading:           "Self Service",
 		HomeSubheading:        "Self Service",
-		IconId:                5, // IconId should match the icon image ID uploaded seperately
-		BrandingHeaderImageId: 6, // BrandingHeaderImageId should match the icon image ID uploaded seperately
+		IconId:                &iconId,                // IconId should match the icon image ID uploaded seperately
+		BrandingHeaderImageId: &brandingHeaderImageId, // BrandingHeaderImageId should match the icon image ID uploaded seperately
 	}
 
 	createdBranding, err := client.CreateSelfServiceBrandingMacOS(&newBranding)

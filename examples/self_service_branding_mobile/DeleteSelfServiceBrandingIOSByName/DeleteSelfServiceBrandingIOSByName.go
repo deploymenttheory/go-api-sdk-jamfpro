@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
+)
+
+func main() {
+	// Define the path to the JSON configuration file
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
+
+	// Initialize the Jamf Pro client with the HTTP client configuration
+	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
+	if err != nil {
+		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
+	}
+
+	// Assume we have a name for the branding we want to delete
+	brandingName := "Example iOS Branding" // Replace with the actual name of the branding
+
+	// Call the delete by name function
+	if err := client.DeleteSelfServiceBrandingIOSByName(brandingName); err != nil {
+		fmt.Fprintf(os.Stderr, "Error deleting self-service branding: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Self Service Branding deleted successfully")
+}

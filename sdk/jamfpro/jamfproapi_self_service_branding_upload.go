@@ -13,23 +13,15 @@ import (
 // Constants for API endpoints
 const uriSelfService = "/api/self-service/branding/images"
 
-// Resource
-type ResourceSelfServiceBranding struct {
-	ID   int    `json:"id"`
-	URL  string `json:"url"`
-	Name string `json:"name"`
-}
-
 // Response
 
-// ResponseSelfServiceBranding represents the response from the branding upload endpoint
-type ResponseSelfServiceBranding struct {
-	ID  int    `json:"id"`
+// ResponseSelfServiceBrandingImage represents the response from the branding upload endpoint
+type ResponseSelfServiceBrandingImage struct {
 	URL string `json:"url"`
 }
 
 // UploadSelfServiceBrandingImage uploads an branding image file using the custom multipart format
-func (c *Client) UploadSelfServiceBrandingImage(filePath string) (*ResponseSelfServiceBranding, error) {
+func (c *Client) UploadSelfServiceBrandingImage(filePath string) (*ResponseSelfServiceBrandingImage, error) {
 	files := map[string][]string{
 		"file": {filePath},
 	}
@@ -40,11 +32,11 @@ func (c *Client) UploadSelfServiceBrandingImage(filePath string) (*ResponseSelfS
 	}
 	headersMap := map[string]http.Header{}
 
-	var response ResponseSelfServiceBranding
+	var response ResponseSelfServiceBrandingImage
 	resp, err := c.HTTP.DoMultiPartRequest(http.MethodPost, uriSelfService, files, formFields, contentTypes, headersMap, "byte", &response)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to upload icon: %v", err)
+		return nil, fmt.Errorf("failed to upload branding image: %v", err)
 	}
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
