@@ -30,8 +30,8 @@ type ResourceSelfServiceBrandingDetail struct {
 	ApplicationName       string `json:"applicationName"`
 	BrandingName          string `json:"brandingName"`
 	BrandingNameSecondary string `json:"brandingNameSecondary"`
-	IconId                int    `json:"iconId"`
-	BrandingHeaderImageId int    `json:"brandingHeaderImageId"`
+	IconId                *int   `json:"iconId,omitempty"`
+	BrandingHeaderImageId *int   `json:"brandingHeaderImageId,omitempty"`
 	HomeHeading           string `json:"homeHeading"`
 	HomeSubheading        string `json:"homeSubheading"`
 }
