@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.40.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.39.0...v1.40.0) (2025-09-22)
+
+
+### Features
+
+* add complete support for Self Service Branding - image, iOS and macOS ([99e35c8](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/99e35c8b5c423cefefdcd3ea5acebe060c2bb17d))
+* add complete support for Self Service Branding - image, iOS and macOS ([3a9a7b2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3a9a7b21412abbe5eb50160e052b12886efc8f0a))
+
 ## [1.39.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.38.1...v1.39.0) (2025-09-19)
 
 
