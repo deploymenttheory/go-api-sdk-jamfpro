@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.41.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.40.0...v1.41.0) (2025-09-30)
+
+
+### Features
+
+* add Impact Alert Notification settings retrieval and update examples ([daaf457](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/daaf457b43d2f53e199822c065e429451f2eb916))
+* add Impact Alert Notification settings support (11.21) ([b15c7a3](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b15c7a3709fe1625cd9127fc623674b7252091df))
+
 ## [1.40.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.39.0...v1.40.0) (2025-09-22)
 
 
