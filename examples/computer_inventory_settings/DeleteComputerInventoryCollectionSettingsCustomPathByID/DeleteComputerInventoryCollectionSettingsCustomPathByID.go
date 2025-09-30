@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -19,7 +19,7 @@ func main() {
 
 	// ID of the custom path to delete.
 	// Replace "123" with the actual ID of the custom path you want to delete.
-	id := "3"
+	id := "5"
 
 	// Call the delete function.
 	err = client.DeleteComputerInventoryCollectionSettingsCustomPathByID(id)

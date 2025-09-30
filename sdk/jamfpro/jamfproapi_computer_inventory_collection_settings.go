@@ -1,6 +1,6 @@
 // jamfproapi_computer_inventory_collection_settings.go
 // Jamf Pro Api - Computer Inventory Collection Settings
-// api reference: https://developer.jamf.com/jamf-pro/reference/get_v1-computer-inventory-collection-settings
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-computer-inventory-collection-settings
 // Jamf Pro API requires the structs to support a JSON data structure.
 
 package jamfpro
@@ -9,23 +9,17 @@ import (
 	"fmt"
 )
 
-const uriComputerInventoryCollectionSettings = "/api/v1/computer-inventory-collection-settings"
+const uriComputerInventoryCollectionSettings = "/api/v2/computer-inventory-collection-settings"
 
 // Resource
-
 type ResourceComputerInventoryCollectionSettings struct {
-	ComputerInventoryCollectionPreferences ComputerInventoryCollectionSettingsSubsetPreferences `json:"computerInventoryCollectionPreferences"`
-	ApplicationPaths                       []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"applicationPaths"`
-	FontPaths                              []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"fontPaths"`
-	PluginPaths                            []ComputerInventoryCollectionSettingsSubsetPathItem  `json:"pluginPaths"`
+	ComputerInventoryCollectionPreferences ComputerInventoryCollectionSettingsSubsetPreferences    `json:"computerInventoryCollectionPreferences"`
+	ApplicationPaths                       []ComputerInventoryCollectionSettingsSubsetPathResponse `json:"applicationPaths"`
 }
 
-// Subsets
-
+// Preferences
 type ComputerInventoryCollectionSettingsSubsetPreferences struct {
 	MonitorApplicationUsage                      bool `json:"monitorApplicationUsage"`
-	IncludeFonts                                 bool `json:"includeFonts"`
-	IncludePlugins                               bool `json:"includePlugins"`
 	IncludePackages                              bool `json:"includePackages"`
 	IncludeSoftwareUpdates                       bool `json:"includeSoftwareUpdates"`
 	IncludeSoftwareId                            bool `json:"includeSoftwareId"`
@@ -42,9 +36,15 @@ type ComputerInventoryCollectionSettingsSubsetPreferences struct {
 	CollectUnmanagedCertificates                 bool `json:"collectUnmanagedCertificates"`
 }
 
-type ComputerInventoryCollectionSettingsSubsetPathItem struct {
+// ComputerInventoryCollectionSettingsSubsetPathItem for applicationPaths
+type ComputerInventoryCollectionSettingsSubsetPathResponse struct {
 	ID   string `json:"id"`
 	Path string `json:"path"`
+}
+
+type ComputerInventoryCollectionSettingsSubsetPathItem struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
 }
 
 // ComputerInventoryCollectionSettingsCustomPath defines the request body for creating a custom path.
@@ -53,47 +53,11 @@ type ResourceComputerInventoryCollectionSettingsCustomPath struct {
 	Path  string `json:"path"`
 }
 
-// CRUD
-
-// GetComputerInventoryCollectionSettingss retrives a computer inventory collection list.
-func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInventoryCollectionSettings, error) {
-	endpoint := uriComputerInventoryCollectionSettings
-
-	var settings ResourceComputerInventoryCollectionSettings
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &settings)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "computer inventory collection settings", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &settings, nil
-}
-
-// UpdateComputerInventoryCollectionSettings updates the computer inventory collection settings.
-func (c *Client) UpdateComputerInventoryCollectionSettings(settingsUpdate *ResourceComputerInventoryCollectionSettings) (*ResourceComputerInventoryCollectionSettings, error) {
-	endpoint := uriComputerInventoryCollectionSettings
-
-	var updatedSettings ResourceComputerInventoryCollectionSettings
-	resp, err := c.HTTP.DoRequest("PATCH", endpoint, settingsUpdate, &updatedSettings)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedUpdate, "computer inventory collection settings", err)
-	}
-
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &updatedSettings, nil
-}
-
 // CreateComputerInventoryCollectionSettingsCustomPath creates a custom path for computer inventory collection settings.
-func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath *ResourceComputerInventoryCollectionSettingsCustomPath) (*ResourceComputerInventoryCollectionSettingsCustomPath, error) {
+func (c *Client) CreateComputerInventoryCollectionSettingsCustomPath(customPath *ResourceComputerInventoryCollectionSettingsCustomPath) (*ComputerInventoryCollectionSettingsSubsetPathItem, error) {
 	endpoint := fmt.Sprintf("%s/custom-path", uriComputerInventoryCollectionSettings)
 
-	var response ResourceComputerInventoryCollectionSettingsCustomPath
+	var response ComputerInventoryCollectionSettingsSubsetPathItem
 	resp, err := c.HTTP.DoRequest("POST", endpoint, customPath, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "computer inventory collection settings custom path", err)
@@ -118,6 +82,40 @@ func (c *Client) DeleteComputerInventoryCollectionSettingsCustomPathByID(id stri
 	if resp != nil && resp.Body != nil {
 		defer resp.Body.Close()
 	}
-
 	return nil
+}
+
+// GetComputerInventoryCollectionSettings retrieves a computer inventory collection settings.
+func (c *Client) GetComputerInventoryCollectionSettings() (*ResourceComputerInventoryCollectionSettings, error) {
+	endpoint := uriComputerInventoryCollectionSettings
+	var settings ResourceComputerInventoryCollectionSettings
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &settings)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "computer inventory collection settings", err)
+	}
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+	return &settings, nil
+}
+
+// UpdateComputerInventoryCollectionSettings updates the computer inventory collection settings.
+func (c *Client) UpdateComputerInventoryCollectionSettings(settingsUpdate *ResourceComputerInventoryCollectionSettings) (*ResourceComputerInventoryCollectionSettings, error) {
+	endpoint := uriComputerInventoryCollectionSettings
+
+	resp, _ := c.HTTP.DoRequest("PATCH", endpoint, settingsUpdate, nil)
+
+	if resp == nil {
+		return nil, fmt.Errorf("failed to update computer inventory collection settings: received nil response")
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	if resp.StatusCode != 204 {
+		return nil, fmt.Errorf("failed to update computer inventory collection settings: unexpected status code %d", resp.StatusCode)
+	}
+
+	return nil, nil
 }
