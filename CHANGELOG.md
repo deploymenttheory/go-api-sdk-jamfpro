@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.41.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.41.0...v1.41.1) (2025-09-30)
+
+
+### Bug Fixes
+
+* update computer inventory settings to use v2 endpoint ([b305e86](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b305e8622c54d173b4504d5d16c2e8fa17e03ad8))
+* update computer inventory settings to use v2 endpoint ([d5fef4d](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/d5fef4d3b75e27d72a94877c2ef42525781a5ad0))
+
 ## [1.41.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.40.0...v1.41.0) (2025-09-30)
 
 
