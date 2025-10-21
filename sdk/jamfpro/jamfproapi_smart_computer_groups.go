@@ -1,6 +1,6 @@
 // jamfproapi_smart_computer_groups.go
 // Jamf Pro Api - Smart Computer Groups
-// api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-computer-groups-smart-groups
 // Jamf Pro API requires the structs to support an JSON data structure.
 
 /*
