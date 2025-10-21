@@ -19,14 +19,13 @@ func main() {
 	}
 
 	// Define group ID to update
-	groupID := "10"
-	siteID := "-1"
+	groupID := "1202"
 
 	// Create update data
 	updateGroup := jamfpro.ResourceStaticComputerGroupV2{
 		Name:        "Updated Static Group",
-		Assignments: &[]string{"27"},
-		SiteId:      &siteID}
+		Description: "Updated description",
+	}
 
 	// Call function
 	updated, err := client.UpdateStaticComputerGroupByIDV2(groupID, updateGroup)

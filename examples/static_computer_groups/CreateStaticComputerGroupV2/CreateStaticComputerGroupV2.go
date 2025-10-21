@@ -21,7 +21,7 @@ func main() {
 	// Create new static computer group
 	newGroup := jamfpro.ResourceStaticComputerGroupV2{
 		Name:        "Static Test Group",
-		Assignments: &[]string{"27"},
+		Description: "Some kind of description",
 	}
 
 	// Call function

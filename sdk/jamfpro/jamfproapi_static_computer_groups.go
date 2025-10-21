@@ -21,10 +21,10 @@ import (
 
 // ResourceStaticComputerGroupV2 represents the request structure for creating a Static Computer Group
 type ResourceStaticComputerGroupV2 struct {
-	Name        string    `json:"name"`
-	Description string    `json:"description,omitempty"`
-	Assignments *[]string `json:"assignments,omitempty"`
-	SiteId      *string   `json:"siteId,omitempty"`
+	Name        string   `json:"name"`
+	Description string   `json:"description,omitempty"`
+	Assignments []string `json:"assignments"`
+	SiteId      *string  `json:"siteId,omitempty"`
 }
 
 // Response
@@ -121,6 +121,10 @@ func (c *Client) CreateStaticComputerGroupV2(request ResourceStaticComputerGroup
 	endpoint := fmt.Sprintf("%s/static-groups", uriAPIV2ComputerGroups)
 
 	var response ResponseStaticComputerGroupCreateV2
+	if request.Assignments == nil {
+		request.Assignments = []string{}
+	}
+
 	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "static computer group", err)
@@ -138,6 +142,10 @@ func (c *Client) UpdateStaticComputerGroupByIDV2(id string, request ResourceStat
 	endpoint := fmt.Sprintf("%s/static-groups/%s", uriAPIV2ComputerGroups, id)
 
 	var response ResourceStaticComputerGroupV2
+	if request.Assignments == nil {
+		request.Assignments = []string{}
+	}
+
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, request, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "static computer group", id, err)
