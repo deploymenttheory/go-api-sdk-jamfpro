@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.42.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.41.1...v1.42.0) (2025-10-23)
+
+
+### Features
+
+* add example for fetching Smart Computer Group by ID ([3fb8b11](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3fb8b110c1a148c03c2bcb1721ed409e5af89215))
+* add full support for api/v2/computer-groups ([177ed34](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/177ed3421738371bb9af50f46e7e5145121f9ef5))
+* add full support for api/v2/computer-groups/smart-groups ([464957f](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/464957f7fe301ca72a932e3217beb6ee691a4426))
+* add support for api/v1/mobile-device-groups/static-groups ([b63d359](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b63d359738e30ae6e615bbd85eb3290632019dc1))
+* add support for api/v1/mobile-device-groups/static-groups ([23bd4df](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/23bd4dfd3d8ba3e22cecc06fe3de6bd551a753bb))
+* add support for static-groups too ([e04d511](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/e04d5110747be73132510c7e61197967e45b955d))
+
+
+### Bug Fixes
+
+* improve handling of assignments to send empty slice if nil - creates empty groups successfully ([cd8d563](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/cd8d563a144c68166cb1cdeb3280b399d7cd21a0))
+* update API reference URL for Smart Computer Groups ([e959aeb](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/e959aeb6fdbb278d7a679c2d41dee6539aecb2de))
+
 ## [1.41.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.41.0...v1.41.1) (2025-09-30)
 
 
