@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -20,8 +20,9 @@ func main() {
 
 	// Create new smart computer group
 	siteID := "-1"
-	newGroup := jamfpro.ResourceSmartComputerGroup{
-		Name: "Operating System Version like 15",
+	newGroup := jamfpro.ResourceSmartComputerGroupV2{
+		Name:        "Operating System Version like 15",
+		Description: "This is a description",
 		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
 				Name:         "Operating System Version",
@@ -46,7 +47,7 @@ func main() {
 	}
 
 	// Call function
-	created, err := client.CreateSmartComputerGroup(newGroup)
+	created, err := client.CreateSmartComputerGroupV2(newGroup)
 	if err != nil {
 		log.Fatalf("Error creating smart computer group: %v", err)
 	}

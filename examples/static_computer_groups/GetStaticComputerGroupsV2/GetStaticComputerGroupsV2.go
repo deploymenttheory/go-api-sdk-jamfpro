@@ -26,9 +26,9 @@ func main() {
 	params.Add("sort", "name:asc")
 
 	// Call function
-	groups, err := client.GetSmartComputerGroupsV2(params)
+	groups, err := client.GetStaticComputerGroupsV2(params)
 	if err != nil {
-		log.Fatalf("Error fetching smart computer groups v2: %v", err)
+		log.Fatalf("Error fetching static computer groups v2: %v", err)
 	}
 
 	// Pretty print the JSON
@@ -36,5 +36,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error marshaling groups data: %v", err)
 	}
-	fmt.Println("Fetched Smart Computer Groups V2:\n", string(response))
+	fmt.Println("Fetched Static Computer Groups V2:\n", string(response))
 }

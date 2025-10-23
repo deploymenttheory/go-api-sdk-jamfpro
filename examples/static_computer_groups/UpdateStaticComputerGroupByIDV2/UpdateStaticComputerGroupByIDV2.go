@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"net/url"
 
 	"github.com/deploymenttheory/go-api-sdk-jamfpro/sdk/jamfpro"
 )
@@ -19,22 +18,25 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Set sorting filter (optional)
-	// For more information on how to add parameters to this request, see docs/url_queries.md
+	// Define group ID to update
+	groupID := "1202"
 
-	params := url.Values{}
-	params.Add("sort", "name:asc")
+	// Create update data
+	updateGroup := jamfpro.ResourceStaticComputerGroupV2{
+		Name:        "Updated Static Group",
+		Description: "Updated description",
+	}
 
 	// Call function
-	groups, err := client.GetSmartComputerGroupsV2(params)
+	updated, err := client.UpdateStaticComputerGroupByIDV2(groupID, updateGroup)
 	if err != nil {
-		log.Fatalf("Error fetching smart computer groups v2: %v", err)
+		log.Fatalf("Error updating static computer group: %v", err)
 	}
 
 	// Pretty print the JSON
-	response, err := json.MarshalIndent(groups, "", "    ")
+	response, err := json.MarshalIndent(updated, "", "    ")
 	if err != nil {
-		log.Fatalf("Error marshaling groups data: %v", err)
+		log.Fatalf("Error marshaling updated group data: %v", err)
 	}
-	fmt.Println("Fetched Smart Computer Groups V2:\n", string(response))
+	fmt.Println("Updated Static Computer Group:\n", string(response))
 }

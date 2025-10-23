@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -19,10 +19,10 @@ func main() {
 	}
 
 	// Define the group ID
-	groupID := "5"
+	groupID := "1197"
 
 	// Call function
-	membership, err := client.GetSmartComputerGroupMembershipByID(groupID)
+	membership, err := client.GetSmartComputerGroupMembershipByIDV2(groupID)
 	if err != nil {
 		log.Fatalf("Error fetching smart computer group membership: %v", err)
 	}

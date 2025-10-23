@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -19,15 +19,15 @@ func main() {
 	}
 
 	// Define group ID to update
-	groupID := "1"
+	groupID := "1197"
 	siteID := "-1"
 
 	// Create update data
-	updateGroup := jamfpro.ResourceSmartComputerGroup{
+	updateGroup := jamfpro.ResourceSmartComputerGroupV2{
 		Name: "Updated Smart Group",
 		Criteria: []jamfpro.SharedSubsetCriteriaJamfProAPI{
 			{
-				Name:         "Account",
+				Name:         "Username",
 				Priority:     0,
 				AndOr:        "and",
 				SearchType:   "is",
@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Call function
-	updated, err := client.UpdateSmartComputerGroupByID(groupID, updateGroup)
+	updated, err := client.UpdateSmartComputerGroupByIDV2(groupID, updateGroup)
 	if err != nil {
 		log.Fatalf("Error updating smart computer group: %v", err)
 	}

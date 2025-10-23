@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -18,10 +18,10 @@ func main() {
 	}
 
 	// Define group ID to delete
-	groupID := "1"
+	groupID := "1196"
 
 	// Call function
-	err = client.DeleteSmartComputerGroupByID(groupID)
+	err = client.DeleteSmartComputerGroupByIDV2(groupID)
 	if err != nil {
 		log.Fatalf("Error deleting smart computer group: %v", err)
 	}

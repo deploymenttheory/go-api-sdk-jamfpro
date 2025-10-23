@@ -1,6 +1,6 @@
 // jamfproapi_smart_computer_groups.go
 // Jamf Pro Api - Smart Computer Groups
-// api reference: https://developer.jamf.com/jamf-pro/reference/computergroups
+// api reference: https://developer.jamf.com/jamf-pro/reference/get_v2-computer-groups-smart-groups
 // Jamf Pro API requires the structs to support an JSON data structure.
 
 /*
@@ -18,14 +18,13 @@ import (
 )
 
 const (
-	uriAPISmartComputerGroups   = "/api/v1/computer-groups"
-	uriAPIV2SmartComputerGroups = "/api/v2/computer-groups"
+	uriAPIV2ComputerGroups = "/api/v2/computer-groups"
 )
 
 // Request
 
-// ResourceSmartComputerGroup represents the request structure for creating a Smart Computer Group
-type ResourceSmartComputerGroup struct {
+// ResourceSmartComputerGroupV2 represents the request structure for creating a Smart Computer Group
+type ResourceSmartComputerGroupV2 struct {
 	Name        string                           `json:"name"`
 	Description string                           `json:"description,omitempty"`
 	Criteria    []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
@@ -34,30 +33,28 @@ type ResourceSmartComputerGroup struct {
 
 // Response
 
-// ResponseSmartComputerGroupsList represents the response for list of Smart Computer Groups
-type ResponseSmartComputerGroupsList []ResponseSmartComputerGroupListItem
-
-// ResponseSmartComputerGroupListItem represents individual Smart Computer Group items
-type ResponseSmartComputerGroupListItem struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	SmartGroup  bool   `json:"smartGroup"`
+// ResponseSmartComputerGroupListItemV2 represents individual Smart Computer Group items
+type ResponseSmartComputerGroupListItemV2 struct {
+	ID              string `json:"id"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	SiteID          string `json:"siteId"`
+	MembershipCount int    `json:"membershipCount"`
 }
 
-// ResponseSmartComputerGroupMembership represents the membership response for a Smart Computer Group
-type ResponseSmartComputerGroupMembership struct {
+// ResponseSmartComputerGroupMembershipV2 represents the membership response for a Smart Computer Group
+type ResponseSmartComputerGroupMembershipV2 struct {
 	Members []int `json:"members"`
 }
 
 // ResponseSmartComputerGroupsListV2 represents the paginated response for Smart Computer Groups v2
 type ResponseSmartComputerGroupsListV2 struct {
-	TotalCount int                            `json:"totalCount"`
-	Results    []ResourceSmartComputerGroupV2 `json:"results"`
+	TotalCount int                                    `json:"totalCount"`
+	Results    []ResponseSmartComputerGroupListItemV2 `json:"results"`
 }
 
 // ResourceSmartComputerGroupV2 represents a Smart Computer Group in v2 API
-type ResourceSmartComputerGroupV2 struct {
+type ResponseSmartComputerGroupV2 struct {
 	ID              string `json:"id"`
 	SiteId          string `json:"siteId"`
 	Name            string `json:"name"`
@@ -65,36 +62,41 @@ type ResourceSmartComputerGroupV2 struct {
 	MembershipCount int    `json:"membershipCount"`
 }
 
-// ResponseSmartComputerGroupCreate represents the response structure for creating a Smart Computer Group
-type ResponseSmartComputerGroupCreate struct {
+// ResponseSmartComputerGroupCreateV2 represents the response structure for creating a Smart Computer Group
+type ResponseSmartComputerGroupCreateV2 struct {
 	ID   string `json:"id"`
 	Href string `json:"href"`
 }
 
 // CRUD
 
-// GetSmartComputerGroups retrieves a list of all Smart Computer Groups
-func (c *Client) GetSmartComputerGroups() (*ResponseSmartComputerGroupsList, error) {
-	endpoint := uriAPISmartComputerGroups
-
-	var response ResponseSmartComputerGroupsList
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
+// GetSmartComputerGroupsV2 retrieves a paginated list of all Smart Computer Groups using V2 API
+func (c *Client) GetSmartComputerGroupsV2(params url.Values) (*ResponseSmartComputerGroupsListV2, error) {
+	resp, err := c.DoPaginatedGet(fmt.Sprintf("%s/smart-groups", uriAPIV2ComputerGroups), params)
 	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedGet, "smart computer groups", err)
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "smart computer groups", err)
 	}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
+	var out ResponseSmartComputerGroupsListV2
+	out.TotalCount = resp.Size
+
+	for _, value := range resp.Results {
+		var newObj ResponseSmartComputerGroupListItemV2
+		err := mapstructure.Decode(value, &newObj)
+		if err != nil {
+			return nil, fmt.Errorf(errMsgFailedMapstruct, "smart computer group", err)
+		}
+		out.Results = append(out.Results, newObj)
 	}
 
-	return &response, nil
+	return &out, nil
 }
 
-// GetSmartComputerGroupMembershipByID retrieves the membership of a Smart Computer Group by ID
-func (c *Client) GetSmartComputerGroupMembershipByID(id string) (*ResponseSmartComputerGroupMembership, error) {
-	endpoint := fmt.Sprintf("%s/smart-group-membership/%s", uriAPIV2SmartComputerGroups, id)
+// GetSmartComputerGroupMembershipByIDV2 retrieves the membership of a Smart Computer Group by ID
+func (c *Client) GetSmartComputerGroupMembershipByIDV2(id string) (*ResponseSmartComputerGroupMembershipV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-group-membership/%s", uriAPIV2ComputerGroups, id)
 
-	var response ResponseSmartComputerGroupMembership
+	var response ResponseSmartComputerGroupMembershipV2
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "smart computer group membership", id, err)
@@ -107,33 +109,11 @@ func (c *Client) GetSmartComputerGroupMembershipByID(id string) (*ResponseSmartC
 	return &response, nil
 }
 
-// GetSmartComputerGroupsV2 retrieves a paginated list of all Smart Computer Groups using V2 API
-func (c *Client) GetSmartComputerGroupsV2(params url.Values) (*ResponseSmartComputerGroupsListV2, error) {
-	resp, err := c.DoPaginatedGet(fmt.Sprintf("%s/smart-groups", uriAPIV2SmartComputerGroups), params)
-	if err != nil {
-		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "smart computer groups", err)
-	}
+// GetSmartComputerGroupByIDV2 retrieves a specific Smart Computer Group by ID
+func (c *Client) GetSmartComputerGroupByIDV2(id string) (*ResourceSmartComputerGroupV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV2ComputerGroups, id)
 
-	var out ResponseSmartComputerGroupsListV2
-	out.TotalCount = resp.Size
-
-	for _, value := range resp.Results {
-		var newObj ResourceSmartComputerGroupV2
-		err := mapstructure.Decode(value, &newObj)
-		if err != nil {
-			return nil, fmt.Errorf(errMsgFailedMapstruct, "smart computer group", err)
-		}
-		out.Results = append(out.Results, newObj)
-	}
-
-	return &out, nil
-}
-
-// GetSmartComputerGroupByID retrieves a specific Smart Computer Group by ID
-func (c *Client) GetSmartComputerGroupByID(id string) (*ResourceSmartComputerGroup, error) {
-	endpoint := fmt.Sprintf("%s/%s", uriAPISmartComputerGroups, id)
-
-	var response ResourceSmartComputerGroup
+	var response ResourceSmartComputerGroupV2
 	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "smart computer group", id, err)
@@ -146,33 +126,28 @@ func (c *Client) GetSmartComputerGroupByID(id string) (*ResourceSmartComputerGro
 	return &response, nil
 }
 
-// GetSmartComputerGroupByName retrieves a Smart Computer Group by name
-func (c *Client) GetSmartComputerGroupByName(name string) (*ResourceComputerGroup, error) {
-	groups, err := c.GetSmartComputerGroups()
+// GetSmartComputerGroupByNameV2 retrieves a Smart Computer Group by name
+func (c *Client) GetSmartComputerGroupByNameV2(name string) (*ResponseSmartComputerGroupListItemV2, error) {
+	params := url.Values{}
+	params.Set("filter", fmt.Sprintf("name==\"%s\"", name))
+
+	groups, err := c.GetSmartComputerGroupsV2(params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGet, "smart computer groups", err)
 	}
 
-	var groupID string
-	for _, group := range *groups {
-		if group.Name == name {
-			groupID = group.ID
-			break
-		}
-	}
-
-	if groupID == "" {
+	if len(groups.Results) == 0 {
 		return nil, fmt.Errorf(errMsgFailedGetByName, "smart computer group", name, errMsgNoName)
 	}
-	// mixing the pro and classic api endpoint as GetSmartComputerGroupByID is not available in pro api yet. 20/12/2024
-	return c.GetComputerGroupByID(groupID)
+
+	return &groups.Results[0], nil
 }
 
-// CreateSmartComputerGroup creates a new Smart Computer Group
-func (c *Client) CreateSmartComputerGroup(request ResourceSmartComputerGroup) (*ResponseSmartComputerGroupCreate, error) {
-	endpoint := fmt.Sprintf("%s/smart-groups", uriAPIV2SmartComputerGroups)
+// CreateSmartComputerGroupV2 creates a new Smart Computer Group
+func (c *Client) CreateSmartComputerGroupV2(request ResourceSmartComputerGroupV2) (*ResponseSmartComputerGroupCreateV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups", uriAPIV2ComputerGroups)
 
-	var response ResponseSmartComputerGroupCreate
+	var response ResponseSmartComputerGroupCreateV2
 	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedCreate, "smart computer group", err)
@@ -185,11 +160,11 @@ func (c *Client) CreateSmartComputerGroup(request ResourceSmartComputerGroup) (*
 	return &response, nil
 }
 
-// UpdateSmartComputerGroupByID updates an existing Smart Computer Group by ID
-func (c *Client) UpdateSmartComputerGroupByID(id string, request ResourceSmartComputerGroup) (*ResourceSmartComputerGroup, error) {
-	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV2SmartComputerGroups, id)
+// UpdateSmartComputerGroupByIDV2 updates an existing Smart Computer Group by ID
+func (c *Client) UpdateSmartComputerGroupByIDV2(id string, request ResourceSmartComputerGroupV2) (*ResourceSmartComputerGroupV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV2ComputerGroups, id)
 
-	var response ResourceSmartComputerGroup
+	var response ResourceSmartComputerGroupV2
 	resp, err := c.HTTP.DoRequest("PUT", endpoint, request, &response)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedUpdateByID, "smart computer group", id, err)
@@ -202,9 +177,9 @@ func (c *Client) UpdateSmartComputerGroupByID(id string, request ResourceSmartCo
 	return &response, nil
 }
 
-// DeleteSmartComputerGroupByID deletes a Smart Computer Group by ID
-func (c *Client) DeleteSmartComputerGroupByID(id string) error {
-	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV2SmartComputerGroups, id)
+// DeleteSmartComputerGroupByIDV2 deletes a Smart Computer Group by ID
+func (c *Client) DeleteSmartComputerGroupByIDV2(id string) error {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV2ComputerGroups, id)
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
