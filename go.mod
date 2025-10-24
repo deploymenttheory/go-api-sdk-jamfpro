@@ -2,8 +2,6 @@ module github.com/deploymenttheory/go-api-sdk-jamfpro
 
 go 1.25.3
 
-toolchain go1.24.1
-
 // Deploymenttheory
 require (
 	github.com/deploymenttheory/go-api-http-client v0.4.4
@@ -11,7 +9,7 @@ require (
 )
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.39.3
+	github.com/aws/aws-sdk-go-v2 v1.39.4
 	github.com/aws/aws-sdk-go-v2/config v1.31.14
 	github.com/aws/aws-sdk-go-v2/credentials v1.18.18
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.19.12
