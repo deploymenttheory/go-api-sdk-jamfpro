@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -22,7 +22,6 @@ func main() {
 	// Define sorting parameters
 	// For more information on how to add parameters to this request, see docs/url_queries.md
 	params := url.Values{}
-	params.Add("sort", "name")
 
 	// Fetch computer prestages using the V3 API
 	prestages, err := client.GetComputerPrestages(params)
