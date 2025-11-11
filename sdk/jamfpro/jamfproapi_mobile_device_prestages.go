@@ -50,19 +50,19 @@ type ResponseMobileDevicePrestageCreate struct {
 
 type ResourceMobileDevicePrestage struct {
 	DisplayName                            string                                          `json:"displayName"`
-	Mandatory                              *bool                                           `json:"mandatory"`
-	MdmRemovable                           *bool                                           `json:"mdmRemovable"`
+	Mandatory                              bool                                            `json:"mandatory"`
+	MdmRemovable                           bool                                            `json:"mdmRemovable"`
 	SupportPhoneNumber                     string                                          `json:"supportPhoneNumber"`
 	SupportEmailAddress                    string                                          `json:"supportEmailAddress"`
 	Department                             string                                          `json:"department"`
-	DefaultPrestage                        *bool                                           `json:"defaultPrestage"`
+	DefaultPrestage                        bool                                            `json:"defaultPrestage"`
 	EnrollmentSiteID                       string                                          `json:"enrollmentSiteId"`
-	KeepExistingSiteMembership             *bool                                           `json:"keepExistingSiteMembership"`
-	KeepExistingLocationInformation        *bool                                           `json:"keepExistingLocationInformation"`
-	RequireAuthentication                  *bool                                           `json:"requireAuthentication"`
+	KeepExistingSiteMembership             bool                                            `json:"keepExistingSiteMembership"`
+	KeepExistingLocationInformation        bool                                            `json:"keepExistingLocationInformation"`
+	RequireAuthentication                  bool                                            `json:"requireAuthentication"`
 	AuthenticationPrompt                   string                                          `json:"authenticationPrompt"`
-	PreventActivationLock                  *bool                                           `json:"preventActivationLock"`
-	EnableDeviceBasedActivationLock        *bool                                           `json:"enableDeviceBasedActivationLock"`
+	PreventActivationLock                  bool                                            `json:"preventActivationLock"`
+	EnableDeviceBasedActivationLock        bool                                            `json:"enableDeviceBasedActivationLock"`
 	DeviceEnrollmentProgramInstanceID      string                                          `json:"deviceEnrollmentProgramInstanceId"`
 	SkipSetupItems                         MobileDevicePrestageSubsetSkipSetupItems        `json:"skipSetupItems,omitempty"`
 	LocationInformation                    MobileDevicePrestageSubsetLocationInformation   `json:"locationInformation"`
@@ -71,21 +71,21 @@ type ResourceMobileDevicePrestage struct {
 	EnrollmentCustomizationID              string                                          `json:"enrollmentCustomizationId,omitempty"`
 	Language                               string                                          `json:"language,omitempty"`
 	Region                                 string                                          `json:"region,omitempty"`
-	AutoAdvanceSetup                       *bool                                           `json:"autoAdvanceSetup"`
-	AllowPairing                           *bool                                           `json:"allowPairing"`
-	MultiUser                              *bool                                           `json:"multiUser"`
-	Supervised                             *bool                                           `json:"supervised"`
+	AutoAdvanceSetup                       bool                                            `json:"autoAdvanceSetup"`
+	AllowPairing                           bool                                            `json:"allowPairing"`
+	MultiUser                              bool                                            `json:"multiUser"`
+	Supervised                             bool                                            `json:"supervised"`
 	MaximumSharedAccounts                  int                                             `json:"maximumSharedAccounts"`
-	ConfigureDeviceBeforeSetupAssistant    *bool                                           `json:"configureDeviceBeforeSetupAssistant"`
+	ConfigureDeviceBeforeSetupAssistant    bool                                            `json:"configureDeviceBeforeSetupAssistant"`
 	Names                                  MobileDevicePrestageSubsetNames                 `json:"names"`
-	SendTimezone                           *bool                                           `json:"sendTimezone"`
+	SendTimezone                           bool                                            `json:"sendTimezone"`
 	Timezone                               string                                          `json:"timezone"`
 	StorageQuotaSizeMegabytes              int                                             `json:"storageQuotaSizeMegabytes"`
-	UseStorageQuotaSize                    *bool                                           `json:"useStorageQuotaSize"`
-	TemporarySessionOnly                   *bool                                           `json:"temporarySessionOnly"`
-	EnforceTemporarySessionTimeout         *bool                                           `json:"enforceTemporarySessionTimeout"`
+	UseStorageQuotaSize                    bool                                            `json:"useStorageQuotaSize"`
+	TemporarySessionOnly                   bool                                            `json:"temporarySessionOnly,omitempty"`
+	EnforceTemporarySessionTimeout         bool                                            `json:"enforceTemporarySessionTimeout,omitempty"`
 	TemporarySessionTimeout                *int                                            `json:"temporarySessionTimeout,omitempty"`
-	EnforceUserSessionTimeout              *bool                                           `json:"enforceUserSessionTimeout"`
+	EnforceUserSessionTimeout              bool                                            `json:"enforceUserSessionTimeout,omitempty"`
 	UserSessionTimeout                     *int                                            `json:"userSessionTimeout,omitempty"`
 	ID                                     string                                          `json:"id"`
 	ProfileUuid                            string                                          `json:"profileUuid,omitempty"`
@@ -95,59 +95,60 @@ type ResourceMobileDevicePrestage struct {
 	MinimumOsSpecificVersionIos            string                                          `json:"minimumOsSpecificVersionIos,omitempty"`
 	PrestageMinimumOsTargetVersionTypeIpad string                                          `json:"prestageMinimumOsTargetVersionTypeIpad,omitempty"`
 	MinimumOsSpecificVersionIpad           string                                          `json:"minimumOsSpecificVersionIpad,omitempty"`
-	RTSEnabled                             *bool                                           `json:"rtsEnabled,omitempty"`
+	RTSEnabled                             bool                                            `json:"rtsEnabled,omitempty"`
 	RTSConfigProfileId                     string                                          `json:"rtsConfigProfileId,omitempty"`
-	PreserveManagedApps                    *bool                                           `json:"preserveManagedApps,omitempty"`
+	PreserveManagedApps                    bool                                            `json:"preserveManagedApps,omitempty"`
+	InstallAppsDuringEnrollment            bool                                            `json:"installAppsDuringEnrollment,omitempty"`
 }
 
 // Subsets & Containers
 
 type MobileDevicePrestageSubsetSkipSetupItems struct {
-	Location              *bool `json:"Location"`
-	Privacy               *bool `json:"Privacy"`
-	Biometric             *bool `json:"Biometric"`
-	SoftwareUpdate        *bool `json:"SoftwareUpdate"`
-	Diagnostics           *bool `json:"Diagnostics"`
-	IMessageAndFaceTime   *bool `json:"iMessageAndFaceTime"`
-	Intelligence          *bool `json:"Intelligence"`
-	TVRoom                *bool `json:"TVRoom"`
-	Passcode              *bool `json:"Passcode"`
-	SIMSetup              *bool `json:"SIMSetup"`
-	ScreenTime            *bool `json:"ScreenTime"`
-	RestoreCompleted      *bool `json:"RestoreCompleted"`
-	TVProviderSignIn      *bool `json:"TVProviderSignIn"`
-	Siri                  *bool `json:"Siri"`
-	Restore               *bool `json:"Restore"`
-	ScreenSaver           *bool `json:"ScreenSaver"`
-	HomeButtonSensitivity *bool `json:"HomeButtonSensitivity"`
-	CloudStorage          *bool `json:"CloudStorage"`
-	ActionButton          *bool `json:"ActionButton"`
-	TransferData          *bool `json:"TransferData"`
-	EnableLockdownMode    *bool `json:"EnableLockdownMode"`
-	Zoom                  *bool `json:"Zoom"`
-	PreferredLanguage     *bool `json:"PreferredLanguage"`
-	VoiceSelection        *bool `json:"VoiceSelection"`
-	TVHomeScreenSync      *bool `json:"TVHomeScreenSync"`
-	Safety                *bool `json:"Safety"`
-	TermsOfAddress        *bool `json:"TermsOfAddress"`
-	ExpressLanguage       *bool `json:"ExpressLanguage"`
-	CameraButton          *bool `json:"CameraButton"`
-	AppleID               *bool `json:"AppleID"`
-	DisplayTone           *bool `json:"DisplayTone"`
-	WatchMigration        *bool `json:"WatchMigration"`
-	UpdateCompleted       *bool `json:"UpdateCompleted"`
-	Appearance            *bool `json:"Appearance"`
-	Android               *bool `json:"Android"`
-	Payment               *bool `json:"Payment"`
-	OnBoarding            *bool `json:"OnBoarding"`
-	TOS                   *bool `json:"TOS"`
-	Welcome               *bool `json:"Welcome"`
-	SafetyAndHandling     *bool `json:"SafetyAndHandling"`
-	TapToSetup            *bool `json:"TapToSetup"`
-	SpokenLanguage        *bool `json:"SpokenLanguage,omitempty"`
-	Keyboard              *bool `json:"Keyboard,omitempty"`
-	Multitasking          *bool `json:"Multitasking,omitempty"`
-	OSShowcase            *bool `json:"OSShowcase,omitempty"`
+	Location              bool `json:"Location,omitempty"`
+	Privacy               bool `json:"Privacy,omitempty"`
+	Biometric             bool `json:"Biometric,omitempty"`
+	SoftwareUpdate        bool `json:"SoftwareUpdate,omitempty"`
+	Diagnostics           bool `json:"Diagnostics,omitempty"`
+	IMessageAndFaceTime   bool `json:"iMessageAndFaceTime,omitempty"`
+	Intelligence          bool `json:"Intelligence,omitempty"`
+	TVRoom                bool `json:"TVRoom,omitempty"`
+	Passcode              bool `json:"Passcode,omitempty"`
+	SIMSetup              bool `json:"SIMSetup,omitempty"`
+	ScreenTime            bool `json:"ScreenTime,omitempty"`
+	RestoreCompleted      bool `json:"RestoreCompleted,omitempty"`
+	TVProviderSignIn      bool `json:"TVProviderSignIn,omitempty"`
+	Siri                  bool `json:"Siri,omitempty"`
+	Restore               bool `json:"Restore,omitempty"`
+	ScreenSaver           bool `json:"ScreenSaver,omitempty"`
+	HomeButtonSensitivity bool `json:"HomeButtonSensitivity,omitempty"`
+	CloudStorage          bool `json:"CloudStorage,omitempty"`
+	ActionButton          bool `json:"ActionButton,omitempty"`
+	TransferData          bool `json:"TransferData,omitempty"`
+	EnableLockdownMode    bool `json:"EnableLockdownMode,omitempty"`
+	Zoom                  bool `json:"Zoom,omitempty"`
+	PreferredLanguage     bool `json:"PreferredLanguage,omitempty"`
+	VoiceSelection        bool `json:"VoiceSelection,omitempty"`
+	TVHomeScreenSync      bool `json:"TVHomeScreenSync,omitempty"`
+	Safety                bool `json:"Safety,omitempty"`
+	TermsOfAddress        bool `json:"TermsOfAddress,omitempty"`
+	ExpressLanguage       bool `json:"ExpressLanguage,omitempty"`
+	CameraButton          bool `json:"CameraButton,omitempty"`
+	AppleID               bool `json:"AppleID,omitempty"`
+	DisplayTone           bool `json:"DisplayTone,omitempty"`
+	WatchMigration        bool `json:"WatchMigration,omitempty"`
+	UpdateCompleted       bool `json:"UpdateCompleted,omitempty"`
+	Appearance            bool `json:"Appearance,omitempty"`
+	Android               bool `json:"Android,omitempty"`
+	Payment               bool `json:"Payment,omitempty"`
+	OnBoarding            bool `json:"OnBoarding,omitempty"`
+	TOS                   bool `json:"TOS,omitempty"`
+	Welcome               bool `json:"Welcome,omitempty"`
+	SafetyAndHandling     bool `json:"SafetyAndHandling,omitempty"`
+	TapToSetup            bool `json:"TapToSetup,omitempty"`
+	SpokenLanguage        bool `json:"SpokenLanguage,omitempty"`
+	Keyboard              bool `json:"Keyboard,omitempty"`
+	Multitasking          bool `json:"Multitasking,omitempty"`
+	OSShowcase            bool `json:"OSShowcase,omitempty"`
 }
 
 type MobileDevicePrestageSubsetLocationInformation struct {
@@ -165,8 +166,8 @@ type MobileDevicePrestageSubsetLocationInformation struct {
 
 type MobileDevicePrestageSubsetPurchasingInformation struct {
 	ID                string `json:"id"`
-	Leased            *bool  `json:"leased"`
-	Purchased         *bool  `json:"purchased"`
+	Leased            bool   `json:"leased"`
+	Purchased         bool   `json:"purchased"`
 	AppleCareId       string `json:"appleCareId"`
 	PoNumber          string `json:"poNumber"`
 	Vendor            string `json:"vendor"`
@@ -182,18 +183,18 @@ type MobileDevicePrestageSubsetPurchasingInformation struct {
 
 type MobileDevicePrestageSubsetNames struct {
 	AssignNamesUsing       string                                `json:"assignNamesUsing"`
-	PrestageDeviceNames    []MobileDevicePrestageSubsetNamesName `json:"prestageDeviceNames"`
-	DeviceNamePrefix       string                                `json:"deviceNamePrefix"`
-	DeviceNameSuffix       string                                `json:"deviceNameSuffix"`
-	SingleDeviceName       string                                `json:"singleDeviceName"`
-	ManageNames            *bool                                 `json:"manageNames"`
-	DeviceNamingConfigured *bool                                 `json:"deviceNamingConfigured"`
+	PrestageDeviceNames    []MobileDevicePrestageSubsetNamesName `json:"prestageDeviceNames,omitempty"`
+	DeviceNamePrefix       string                                `json:"deviceNamePrefix,omitempty"`
+	DeviceNameSuffix       string                                `json:"deviceNameSuffix,omitempty"`
+	SingleDeviceName       string                                `json:"singleDeviceName,omitempty"`
+	ManageNames            bool                                  `json:"manageNames,omitempty"`
+	DeviceNamingConfigured bool                                  `json:"deviceNamingConfigured,omitempty"`
 }
 
 type MobileDevicePrestageSubsetNamesName struct {
-	ID         string `json:"id"`
-	DeviceName string `json:"deviceName"`
-	Used       *bool  `json:"used"`
+	ID         string `json:"id,omitempty"`
+	DeviceName string `json:"deviceName,omitempty"`
+	Used       bool   `json:"used,omitempty"`
 }
 
 // CRUD
