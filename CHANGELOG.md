@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.43.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.42.0...v1.43.0) (2025-11-17)
+
+
+### Features
+
+* add support for api/v1/mobile-device-groups/smart-groups ([ca6e650](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ca6e650c2b3825f27c4d4742a4a5a1cc351ba6d5))
+* add support for api/v1/mobile-device-groups/smart-groups (11.22) ([3266dcd](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3266dcde8163fa96186f7408d1f5be993e32c04e))
+
 ## [1.42.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.41.1...v1.42.0) (2025-10-23)
 
 
