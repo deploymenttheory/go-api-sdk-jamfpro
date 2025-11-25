@@ -136,6 +136,7 @@ type ComputerPrestageSubsetSkipSetupItems struct {
 	Wallpaper                 *bool `json:"Wallpaper"`
 	SoftwareUpdate            *bool `json:"SoftwareUpdate"`
 	AdditionalPrivacySettings *bool `json:"AdditionalPrivacySettings"`
+	OSShowcase                *bool `json:"OSShowcase"`
 }
 
 type ComputerPrestageSubsetLocationInformation struct {
