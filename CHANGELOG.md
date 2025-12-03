@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.43.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.42.0...v1.43.0) (2025-12-03)
+
+
+### Features
+
+* add OSShowcase field to ComputerPrestageSubsetSkipSetupItems ([e6becaa](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/e6becaa35ea45fc223b23ffe1d40dcdd9ef5851e))
+* add OSShowcase field to ComputerPrestageSubsetSkipSetupItems (Jamf Pro 11.21) ([8d68825](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/8d68825c58beb01a89bae1c637bade474b95a16e))
+* add support for api/v1/mobile-device-groups/smart-groups ([ca6e650](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ca6e650c2b3825f27c4d4742a4a5a1cc351ba6d5))
+* add support for api/v1/mobile-device-groups/smart-groups (11.22) ([3266dcd](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3266dcde8163fa96186f7408d1f5be993e32c04e))
+
 ## [1.42.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.41.1...v1.42.0) (2025-10-23)
 
 
