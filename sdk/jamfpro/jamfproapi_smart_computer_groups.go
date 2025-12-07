@@ -27,7 +27,7 @@ const (
 type ResourceSmartComputerGroupV2 struct {
 	Name        string                           `json:"name"`
 	Description string                           `json:"description,omitempty"`
-	Criteria    []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
+	Criteria    []SharedSubsetCriteriaJamfProAPI `json:"criteria,omitempty"`
 	SiteId      *string                          `json:"siteId,omitempty"`
 }
 
