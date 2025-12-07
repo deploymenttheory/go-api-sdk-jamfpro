@@ -23,7 +23,7 @@ import (
 type ResourceSmartMobileDeviceGroupV1 struct {
 	GroupName        string                           `json:"groupName"`
 	GroupDescription string                           `json:"groupDescription,omitempty"`
-	Criteria         []SharedSubsetCriteriaJamfProAPI `json:"criteria"`
+	Criteria         []SharedSubsetCriteriaJamfProAPI `json:"criteria,omitempty"`
 	SiteId           *string                          `json:"siteId,omitempty"`
 }
 
