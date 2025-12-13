@@ -628,6 +628,23 @@ func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInven
 	return nil, fmt.Errorf(errMsgFailedGetByName, "computer inventory", name, err)
 }
 
+// GetComputerInventoryBySerialNumber retrieves a specific computer's inventory information by its serial number.
+func (c *Client) GetComputerInventoryBySerialNumber(serialNumber string) (*ResourceComputerInventory, error) {
+	params := url.Values{}
+	params.Set("filter", fmt.Sprintf("hardware.serialNumber==\"%s\"", serialNumber))
+
+	inventories, err := c.GetComputersInventory(params)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer inventory", err)
+	}
+
+	if len(inventories.Results) == 0 {
+		return nil, fmt.Errorf("failed to find computer inventory by serial number '%s'", serialNumber)
+	}
+
+	return &inventories.Results[0], nil
+}
+
 // UpdateComputerInventoryByID updates a specific computer's inventory information by its ID.
 func (c *Client) UpdateComputerInventoryByID(id string, inventoryUpdate *ResourceComputerInventory) (*ResourceComputerInventory, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
