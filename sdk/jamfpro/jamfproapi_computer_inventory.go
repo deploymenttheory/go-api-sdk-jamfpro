@@ -107,7 +107,7 @@ type ComputerInventorySubsetGeneralRemoteManagement struct {
 type ComputerInventorySubsetGeneralMdmCapable struct {
 	Capable            bool     `json:"capable"`
 	CapableUsers       []string `json:"capableUsers"`
-	UserManagementInfo [][]struct {
+	UserManagementInfo []struct {
 		CapableUser  string `json:"capableUser"`
 		ManagementId string `json:"managementId"`
 	} `json:"userManagementInfo"`
