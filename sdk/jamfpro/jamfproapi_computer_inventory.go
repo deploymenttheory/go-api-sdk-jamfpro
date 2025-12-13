@@ -20,6 +20,16 @@ import (
 
 const uriComputersInventory = "/api/v1/computers-inventory"
 
+// computerInventorySections contains all available sections for computer inventory API requests
+var computerInventorySections = []string{
+	"GENERAL", "DISK_ENCRYPTION", "PURCHASING", "APPLICATIONS", "STORAGE",
+	"USER_AND_LOCATION", "CONFIGURATION_PROFILES", "PRINTERS", "SERVICES",
+	"HARDWARE", "LOCAL_USER_ACCOUNTS", "CERTIFICATES", "ATTACHMENTS",
+	"PLUGINS", "PACKAGE_RECEIPTS", "FONTS", "SECURITY", "OPERATING_SYSTEM",
+	"LICENSED_SOFTWARE", "IBEACONS", "SOFTWARE_UPDATES", "EXTENSION_ATTRIBUTES",
+	"CONTENT_CACHING", "GROUP_MEMBERSHIPS",
+}
+
 // List
 
 // ResponseComputerInventoryList represents the top-level JSON response structure.
@@ -599,17 +609,8 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory
 	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
 
 	// Add all section parameters to get complete inventory data
-	sections := []string{
-		"GENERAL", "DISK_ENCRYPTION", "PURCHASING", "APPLICATIONS", "STORAGE",
-		"USER_AND_LOCATION", "CONFIGURATION_PROFILES", "PRINTERS", "SERVICES",
-		"HARDWARE", "LOCAL_USER_ACCOUNTS", "CERTIFICATES", "ATTACHMENTS",
-		"PLUGINS", "PACKAGE_RECEIPTS", "FONTS", "SECURITY", "OPERATING_SYSTEM",
-		"LICENSED_SOFTWARE", "IBEACONS", "SOFTWARE_UPDATES", "EXTENSION_ATTRIBUTES",
-		"CONTENT_CACHING", "GROUP_MEMBERSHIPS",
-	}
-
 	params := url.Values{}
-	for _, section := range sections {
+	for _, section := range computerInventorySections {
 		params.Add("section", section)
 	}
 
@@ -632,17 +633,8 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory
 // GetComputerInventoryByName retrieves a specific computer's inventory information by its name.
 func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInventory, error) {
 	// Add all section parameters to get complete inventory data
-	sections := []string{
-		"GENERAL", "DISK_ENCRYPTION", "PURCHASING", "APPLICATIONS", "STORAGE",
-		"USER_AND_LOCATION", "CONFIGURATION_PROFILES", "PRINTERS", "SERVICES",
-		"HARDWARE", "LOCAL_USER_ACCOUNTS", "CERTIFICATES", "ATTACHMENTS",
-		"PLUGINS", "PACKAGE_RECEIPTS", "FONTS", "SECURITY", "OPERATING_SYSTEM",
-		"LICENSED_SOFTWARE", "IBEACONS", "SOFTWARE_UPDATES", "EXTENSION_ATTRIBUTES",
-		"CONTENT_CACHING", "GROUP_MEMBERSHIPS",
-	}
-
 	params := url.Values{}
-	for _, section := range sections {
+	for _, section := range computerInventorySections {
 		params.Add("section", section)
 	}
 
@@ -663,18 +655,9 @@ func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInven
 // GetComputerInventoryBySerialNumber retrieves a specific computer's inventory information by its serial number.
 func (c *Client) GetComputerInventoryBySerialNumber(serialNumber string) (*ResourceComputerInventory, error) {
 	// Add filter and all section parameters to get complete inventory data
-	sections := []string{
-		"GENERAL", "DISK_ENCRYPTION", "PURCHASING", "APPLICATIONS", "STORAGE",
-		"USER_AND_LOCATION", "CONFIGURATION_PROFILES", "PRINTERS", "SERVICES",
-		"HARDWARE", "LOCAL_USER_ACCOUNTS", "CERTIFICATES", "ATTACHMENTS",
-		"PLUGINS", "PACKAGE_RECEIPTS", "FONTS", "SECURITY", "OPERATING_SYSTEM",
-		"LICENSED_SOFTWARE", "IBEACONS", "SOFTWARE_UPDATES", "EXTENSION_ATTRIBUTES",
-		"CONTENT_CACHING", "GROUP_MEMBERSHIPS",
-	}
-
 	params := url.Values{}
 	params.Set("filter", fmt.Sprintf("hardware.serialNumber==\"%s\"", serialNumber))
-	for _, section := range sections {
+	for _, section := range computerInventorySections {
 		params.Add("section", section)
 	}
 
