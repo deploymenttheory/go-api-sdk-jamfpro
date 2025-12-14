@@ -21,7 +21,7 @@ func main() {
 	newGroup := &jamfpro.ResourceMobileDeviceGroup{
 		Name:    "Sample Smart Group",
 		IsSmart: true,
-		Criteria: jamfpro.SharedContainerCriteria{
+		Criteria: &jamfpro.SharedContainerCriteria{
 			Size: 3, // The number of criteria
 			Criterion: []jamfpro.SharedSubsetCriteria{
 				{
@@ -51,7 +51,7 @@ func main() {
 				},
 			},
 		},
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},

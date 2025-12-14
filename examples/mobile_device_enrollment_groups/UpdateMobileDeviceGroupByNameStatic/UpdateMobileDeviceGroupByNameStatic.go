@@ -25,11 +25,11 @@ func main() {
 	updatedStaticGroup := &jamfpro.ResourceMobileDeviceGroup{
 		Name:    "Static Group",
 		IsSmart: false,
-		Site: jamfpro.SharedResourceSite{
+		Site: &jamfpro.SharedResourceSite{
 			ID:   -1,
 			Name: "None",
 		},
-		MobileDevices: []jamfpro.MobileDeviceGroupSubsetDeviceItem{
+		MobileDevices: &[]jamfpro.MobileDeviceGroupSubsetDeviceItem{
 			{
 				ID:             38,
 				Name:           "Test Device",

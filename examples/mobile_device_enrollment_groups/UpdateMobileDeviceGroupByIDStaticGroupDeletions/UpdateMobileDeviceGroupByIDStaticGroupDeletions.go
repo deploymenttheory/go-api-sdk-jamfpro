@@ -23,7 +23,7 @@ func main() {
 
 	// Define the updated group data with mobile device deletions
 	updatedGroup := &jamfpro.ResourceMobileDeviceGroup{
-		MobileDeviceDeletions: []jamfpro.MobileDeviceGroupSubsetDeviceItem{
+		MobileDeviceDeletions: &[]jamfpro.MobileDeviceGroupSubsetDeviceItem{
 			{
 				ID:             38,
 				Name:           "Test Device",
