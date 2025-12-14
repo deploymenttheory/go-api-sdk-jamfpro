@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.44.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.44.0...v1.44.1) (2025-12-14)
+
+
+### Bug Fixes
+
+* update ResourceMobileDeviceGroup fields to use pointers for better handling of optional values ([180c1e1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/180c1e19de78d990c3186eaec1547ccd5cd8b7f5))
+* update ResourceMobileDeviceGroup fields to use pointers for better handling of optional values ([baec582](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/baec582d38e71488c1ff7b46f77cd4db2c2e538c))
+
 ## [1.44.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.43.0...v1.44.0) (2025-12-14)
 
 
