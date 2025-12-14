@@ -20,6 +20,16 @@ import (
 
 const uriComputersInventory = "/api/v1/computers-inventory"
 
+// computerInventorySections contains all available sections for computer inventory API requests
+var computerInventorySections = []string{
+	"GENERAL", "DISK_ENCRYPTION", "PURCHASING", "APPLICATIONS", "STORAGE",
+	"USER_AND_LOCATION", "CONFIGURATION_PROFILES", "PRINTERS", "SERVICES",
+	"HARDWARE", "LOCAL_USER_ACCOUNTS", "CERTIFICATES", "ATTACHMENTS",
+	"PLUGINS", "PACKAGE_RECEIPTS", "FONTS", "SECURITY", "OPERATING_SYSTEM",
+	"LICENSED_SOFTWARE", "IBEACONS", "SOFTWARE_UPDATES", "EXTENSION_ATTRIBUTES",
+	"CONTENT_CACHING", "GROUP_MEMBERSHIPS",
+}
+
 // List
 
 // ResponseComputerInventoryList represents the top-level JSON response structure.
@@ -107,7 +117,7 @@ type ComputerInventorySubsetGeneralRemoteManagement struct {
 type ComputerInventorySubsetGeneralMdmCapable struct {
 	Capable            bool     `json:"capable"`
 	CapableUsers       []string `json:"capableUsers"`
-	UserManagementInfo [][]struct {
+	UserManagementInfo []struct {
 		CapableUser  string `json:"capableUser"`
 		ManagementId string `json:"managementId"`
 	} `json:"userManagementInfo"`
@@ -598,9 +608,17 @@ func (c *Client) GetComputersInventory(params url.Values) (*ResponseComputerInve
 func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriComputersInventory, id)
 
+	// Add all section parameters to get complete inventory data
+	params := url.Values{}
+	for _, section := range computerInventorySections {
+		params.Add("section", section)
+	}
+
+	endpointWithParams := fmt.Sprintf("%s?%s", endpoint, params.Encode())
+
 	// Fetch the computer inventory by ID
 	var responseInventory ResourceComputerInventory
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &responseInventory)
+	resp, err := c.HTTP.DoRequest("GET", endpointWithParams, nil, &responseInventory)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByID, "computer inventory", id, err)
 	}
@@ -614,7 +632,13 @@ func (c *Client) GetComputerInventoryByID(id string) (*ResourceComputerInventory
 
 // GetComputerInventoryByName retrieves a specific computer's inventory information by its name.
 func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInventory, error) {
-	inventories, err := c.GetComputersInventory(nil)
+	// Add all section parameters to get complete inventory data
+	params := url.Values{}
+	for _, section := range computerInventorySections {
+		params.Add("section", section)
+	}
+
+	inventories, err := c.GetComputersInventory(params)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer inventory", err)
 	}
@@ -626,6 +650,27 @@ func (c *Client) GetComputerInventoryByName(name string) (*ResourceComputerInven
 	}
 
 	return nil, fmt.Errorf(errMsgFailedGetByName, "computer inventory", name, err)
+}
+
+// GetComputerInventoryBySerialNumber retrieves a specific computer's inventory information by its serial number.
+func (c *Client) GetComputerInventoryBySerialNumber(serialNumber string) (*ResourceComputerInventory, error) {
+	// Add filter and all section parameters to get complete inventory data
+	params := url.Values{}
+	params.Set("filter", fmt.Sprintf("hardware.serialNumber==\"%s\"", serialNumber))
+	for _, section := range computerInventorySections {
+		params.Add("section", section)
+	}
+
+	inventories, err := c.GetComputersInventory(params)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedPaginatedGet, "computer inventory", err)
+	}
+
+	if len(inventories.Results) == 0 {
+		return nil, fmt.Errorf("failed to find computer inventory by serial number '%s'", serialNumber)
+	}
+
+	return &inventories.Results[0], nil
 }
 
 // UpdateComputerInventoryByID updates a specific computer's inventory information by its ID.
