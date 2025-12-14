@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.44.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.43.0...v1.44.0) (2025-12-14)
+
+
+### Features
+
+* Add Get Computer Inventory by Serial Number function and return additional inventory data ([42e447e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/42e447ed793747bad66ca62f1d150b7dcb80a76c))
+
+
+### Bug Fixes
+
+* make criteria field optional in ResourceSmartComputerGroupV2 ([8ce280d](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/8ce280d753c5ea121f6ed1cdc43cb14ed93bb6de))
+* make criteria field optional in ResourceSmartMobileDeviceGroupV1 ([6f97883](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/6f978837167adc066c8d551e331ea3db9dc902fe))
+* make criteria field optional in ResourceSmartMobileDeviceGroupV1 ([2d9c82c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/2d9c82c364927db640152718694c07da09f7d15c))
+* make criteria field optional in smart groups ([d19b9aa](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/d19b9aa94320300639443f3c9097876a35b84899))
+
 ## [1.43.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.42.0...v1.43.0) (2025-12-03)
 
 
