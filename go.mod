@@ -12,8 +12,8 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.41.1
 	github.com/aws/aws-sdk-go-v2/config v1.32.7
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.7
-	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.20.19
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.95.1
+	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.21.1
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.96.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/mmcdole/gofeed v1.3.0
 	golang.org/x/crypto v0.46.0
