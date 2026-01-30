@@ -111,9 +111,9 @@ func main() {
 					{Name: "Jane Smith"},
 					{Name: "John Doe"},
 				},
-				UserGroups: []jamfpro.MacOSConfigurationProfileSubsetScopeEntity{
-					{ID: 3},
-					{ID: 4},
+				UserGroups: []jamfpro.MacOSConfigurationProfileSubsetScopeUserGroup{
+					{Name: "Finance"},
+					{Name: "Engineering"},
 				},
 				IBeacons: []jamfpro.MacOSConfigurationProfileSubsetScopeEntity{
 					{ID: 3},

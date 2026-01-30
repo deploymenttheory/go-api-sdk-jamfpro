@@ -64,7 +64,7 @@ type MacApplicationsSubsetScope struct {
 	Computers      []MacAppSubsetScopeComputer      `xml:"computers>computer"`
 	ComputerGroups []MacAppSubsetScopeComputerGroup `xml:"computer_groups>computer_group"`
 	JSSUsers       []MacAppSubsetScopeUser          `xml:"jss_users>user"`
-	JSSUserGroups  []MacAppSubsetScopeUserGroup     `xml:"jss_user_groups>user_group"`
+	JSSUserGroups  []MacAppSubsetScopeJSSUserGroup  `xml:"jss_user_groups>user_group"`
 	Limitations    MacAppScopeLimitations           `xml:"limitations"`
 	Exclusions     MacAppScopeExclusions            `xml:"exclusions"`
 }
@@ -84,7 +84,7 @@ type MacAppScopeExclusions struct {
 	Computers       []MacAppSubsetScopeComputer       `xml:"computers>computer"`
 	ComputerGroups  []MacAppSubsetScopeComputerGroup  `xml:"computer_groups>computer_group"`
 	JSSUsers        []MacAppSubsetScopeUser           `xml:"jss_users>user"`
-	JSSUserGroups   []MacAppSubsetScopeUserGroup      `xml:"jss_user_groups>user_group"`
+	JSSUserGroups   []MacAppSubsetScopeJSSUserGroup   `xml:"jss_user_groups>user_group"`
 }
 
 // Self Service
@@ -142,6 +142,11 @@ type MacAppSubsetScopeUser struct {
 }
 
 type MacAppSubsetScopeUserGroup struct {
+	ID   string `xml:"id"`
+	Name string `xml:"name"`
+}
+
+type MacAppSubsetScopeJSSUserGroup struct {
 	ID   int    `xml:"id"`
 	Name string `xml:"name"`
 }

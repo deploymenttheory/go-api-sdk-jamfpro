@@ -377,7 +377,7 @@ type PolicySubsetUser struct {
 }
 
 type PolicySubsetUserGroup struct {
-	ID   int    `xml:"id"`
+	ID   string `xml:"id"`
 	Name string `xml:"name"`
 }
 

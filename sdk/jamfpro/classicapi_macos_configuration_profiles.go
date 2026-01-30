@@ -104,7 +104,7 @@ type MacOSConfigurationProfileSubsetSelfServiceCategory struct {
 // MacOSConfigurationProfileSubsetLimitations represents the limitations subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetLimitations struct {
 	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeUserGroup `xml:"user_groups>user_group,omitempty"`
 	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
 	IBeacons        []MacOSConfigurationProfileSubsetScopeEntity    `xml:"ibeacons>ibeacon,omitempty"`
 }
@@ -114,7 +114,7 @@ type MacOSConfigurationProfileSubsetExclusions struct {
 	Computers       []MacOSConfigurationProfileSubsetComputer       `xml:"computers>computer,omitempty"`
 	ComputerGroups  []MacOSConfigurationProfileSubsetScopeEntity    `xml:"computer_groups>computer_group,omitempty"`
 	Users           []MacOSConfigurationProfileSubsetScopeEntity    `xml:"users>user,omitempty"`
-	UserGroups      []MacOSConfigurationProfileSubsetScopeEntity    `xml:"user_groups>user_group,omitempty"`
+	UserGroups      []MacOSConfigurationProfileSubsetScopeUserGroup `xml:"user_groups>user_group,omitempty"`
 	Buildings       []MacOSConfigurationProfileSubsetScopeEntity    `xml:"buildings>building,omitempty"`
 	Departments     []MacOSConfigurationProfileSubsetScopeEntity    `xml:"departments>department,omitempty"`
 	NetworkSegments []MacOSConfigurationProfileSubsetNetworkSegment `xml:"network_segments>network_segment,omitempty"`
@@ -138,6 +138,12 @@ type MacOSConfigurationProfileSubsetNetworkSegment struct {
 // MacOSConfigurationProfileSubsetScopeEntity represents the scope entity subset of a macOS configuration profile.
 type MacOSConfigurationProfileSubsetScopeEntity struct {
 	ID   int    `xml:"id,omitempty"`
+	Name string `xml:"name,omitempty"`
+}
+
+// MacOSConfigurationProfileSubsetScopeUserGroup represents the scope entity subset of a macOS configuration profile.
+type MacOSConfigurationProfileSubsetScopeUserGroup struct {
+	ID   string `xml:"id,omitempty"`
 	Name string `xml:"name,omitempty"`
 }
 
