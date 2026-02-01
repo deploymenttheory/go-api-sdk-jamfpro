@@ -18,8 +18,8 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetCloudDistributionPoint function
-	groups, err := client.GetCloudDistributionPoint()
+	// Call GetCloudDistributionPointV1 function
+	groups, err := client.GetCloudDistributionPointV1()
 	if err != nil {
 		log.Fatalf("Error fetching Cloud Distribution Point Details: %v", err)
 	}

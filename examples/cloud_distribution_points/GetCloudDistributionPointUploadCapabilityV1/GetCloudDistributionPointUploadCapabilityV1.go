@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Define the path to the JSON configuration file
-	configFilePath := "/Users/dafyddwatkins/localtesting/jamfpro/clientconfig.json"
+	configFilePath := "/Users/Shared/GitHub/go-api-sdk-jamfpro/localtesting/clientconfig.json"
 
 	// Initialize the Jamf Pro client with the HTTP client configuration
 	client, err := jamfpro.BuildClientWithConfigFile(configFilePath)
@@ -18,8 +18,8 @@ func main() {
 		log.Fatalf("Failed to initialize Jamf Pro client: %v", err)
 	}
 
-	// Call GetCloudDistributionPoints function
-	groups, err := client.GetCloudDistributionPointUploadCapability()
+	// Call GetCloudDistributionPointUploadCapabilityV1 function
+	groups, err := client.GetCloudDistributionPointUploadCapabilityV1()
 	if err != nil {
 		log.Fatalf("Error fetching Cloud Distribution Point Upload Capability: %v", err)
 	}
