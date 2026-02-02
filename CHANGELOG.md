@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.45.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.44.0...v1.45.0) (2026-02-02)
+
+
+### Features
+
+* add AD CS settings support and examples ([d90d2e4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/d90d2e45a7a3d3ba0cb3d7a07954985347c94212))
+* add AD CS settings support and examples ([fde5e54](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/fde5e546dba03b1667f15dd8afef589112dc0ad3))
+* add CRUD support to Cloud Distribution Point with V1 naming ([1e58276](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1e58276dacb7b53ea54fc70192cf4430a8f70a63))
+* add CRUD support to Cloud Distribution Point with V1 naming ([eebf1b1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/eebf1b1672228b550bf5b0bd2b8ad63b8b0e0beb))
+* add support for /api/v1/ldap ([ed380c5](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ed380c508cf8f7274d091f0832ee2bb67d5b6c26))
+* add support for /api/v1/ldap (restored) ([1334481](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/1334481ed745f1bdf27cb7ffe8c3bcbc52b7e3c6))
+* add support for /api/v1/ldap (restored) ([aeec5bc](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/aeec5bcf6a5c50b2fb596410fd35fa4668b754a3))
+
+
+### Bug Fixes
+
+* address type inconsistencies in scope user group models for computer objects ([ac51b2c](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ac51b2c0fa0e48f363e76a447b35b32a489a0c61))
+* change PolicySubsetUserGroup ID type from int to string for consistency ([adfe3de](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/adfe3debecf6ed215768601ec179feb99ffe192f))
+* update JSSUserGroups type to MacAppSubsetScopeJSSUserGroup for consistency ([f1c41c7](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/f1c41c77d456f4c782e81a2f644def6333148bd2))
+* update ResourceMobileDeviceGroup fields to use pointers for better handling of optional values ([180c1e1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/180c1e19de78d990c3186eaec1547ccd5cd8b7f5))
+* update ResourceMobileDeviceGroup fields to use pointers for better handling of optional values ([baec582](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/baec582d38e71488c1ff7b46f77cd4db2c2e538c))
+* update UserGroups type to MacOSConfigurationProfileSubsetScopeUserGroup for consistency ([359ea57](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/359ea57f19963e9c09b3ff8dc573cbc6d88cf719))
+
 ## [1.44.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.43.0...v1.44.0) (2025-12-14)
 
 
