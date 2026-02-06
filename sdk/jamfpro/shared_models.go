@@ -47,8 +47,8 @@ type SharedAdvancedSearchSubsetDisplayField struct {
 // Criteria
 
 type SharedContainerCriteria struct {
-	Size      int                    `json:"size,omitempty" xml:"size,omitempty"`
-	Criterion []SharedSubsetCriteria `json:"criterion,omitempty" xml:"criterion,omitempty"`
+	Size      int                     `json:"size,omitempty" xml:"size,omitempty"`
+	Criterion *[]SharedSubsetCriteria `json:"criterion,omitempty" xml:"criterion,omitempty"`
 }
 
 type SharedSubsetCriteria struct {

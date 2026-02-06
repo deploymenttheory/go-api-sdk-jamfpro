@@ -24,7 +24,7 @@ func main() {
 		ViewAs: "Standard Web Page",
 		Criteria: jamfpro.SharedContainerCriteria{
 			Size: 4,
-			Criterion: []jamfpro.SharedSubsetCriteria{
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:         "Building",
 					Priority:     0,

@@ -22,7 +22,7 @@ func main() {
 	updatedAdvancedUserSearch := &jamfpro.ResourceAdvancedUserSearch{
 		Name: "Advanced User Search Name by jamf pro sdk",
 		Criteria: jamfpro.SharedContainerCriteria{
-			Criterion: []jamfpro.SharedSubsetCriteria{
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:         "Email Address",
 					Priority:     0,

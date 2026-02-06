@@ -24,7 +24,7 @@ func main() {
 		ViewAs: "Standard Web Page",
 		Criteria: jamfpro.SharedContainerCriteria{
 			Size: 1,
-			Criterion: []jamfpro.SharedSubsetCriteria{
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:         "Last Inventory Update",
 					Priority:     0,
