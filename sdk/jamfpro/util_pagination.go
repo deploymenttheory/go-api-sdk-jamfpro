@@ -9,8 +9,8 @@ import (
 )
 
 type ResponsePaginated struct {
-	Size    int           `json:"totalCount"`
-	Results []interface{} `json:"results"`
+	Size    int   `json:"totalCount"`
+	Results []any `json:"results"`
 }
 
 // DoPaginatedGet retrieves paginated results from a Jamf Pro API endpoint.
@@ -41,7 +41,7 @@ func (c *Client) DoPaginatedGet(endpoint_root string, params url.Values) (*Respo
 
 	var outStruct ResponsePaginated
 	var targetObjectAccumulator ResponsePaginated
-	var outData []interface{}
+	var outData []any
 	var page, err = strconv.Atoi(params.Get("page"))
 
 	if err != nil {

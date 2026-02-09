@@ -67,7 +67,7 @@ func readInput(reader *bufio.Reader) (string, error) {
 }
 
 // DecodePlistFile handles reading and unmarshaling a plist file
-func decodePlistFile(filePath string) (interface{}, error) {
+func decodePlistFile(filePath string) (any, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("error opening file '%s': %v", filePath, err)
@@ -87,7 +87,7 @@ func decodePlistFile(filePath string) (interface{}, error) {
 	}
 
 	decoder := plist.NewDecoder(bytes.NewReader(content))
-	var data interface{}
+	var data any
 	if err := decoder.Decode(&data); err != nil {
 		return nil, fmt.Errorf("error decoding plist: %v", err)
 	}

@@ -335,7 +335,7 @@ func (c *Client) UpdateJamfAppCatalogAppInstallerDeploymentByID(id string, paylo
 // DeleteJamfAppCatalogDeploymentByID deletes deployment by provided ID & returns ResponseJamfAppCatalogDeploymentCreateAndUpdate
 func (c *Client) DeleteJamfAppCatalogAppInstallerDeploymentByID(id string) error {
 	endpoint := fmt.Sprintf("%s/deployments/%s", uriJamfAppCatalogAppInstaller, id)
-	var response interface{}
+	var response any
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "script", id, err)

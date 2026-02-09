@@ -118,14 +118,14 @@ func removeEscapedCharacters(plistContent string) (string, error) {
 }
 
 // decodePlist decodes the plist content and returns the data
-func decodePlist(content []byte) (interface{}, error) {
+func decodePlist(content []byte) (any, error) {
 	// Check if content needs unescaping
 	if bytes.Contains(content, []byte("&lt;")) {
 		content = []byte(html.UnescapeString(string(content)))
 	}
 
 	decoder := plist.NewDecoder(bytes.NewReader(content))
-	var data interface{}
+	var data any
 	if err := decoder.Decode(&data); err != nil {
 		return nil, fmt.Errorf("error decoding plist: %v", err)
 	}

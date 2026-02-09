@@ -78,7 +78,7 @@ func (c *Client) CreateFileAttachment(resource string, idType ResourceIDType, id
 	headersMap := map[string]http.Header{}
 
 	// Perform the upload
-	var response interface{} // Classic API typically doesn't return a response for file uploads
+	var response any // Classic API typically doesn't return a response for file uploads
 	resp, err := c.HTTP.DoMultiPartRequest(
 		http.MethodPost,
 		endpoint,

@@ -167,7 +167,7 @@ func (c *Client) UpdateScriptByName(name string, scriptUpdate *ResourceScript) (
 // Deletes script with provided ID
 func (c *Client) DeleteScriptByID(id string) error {
 	endpoint := fmt.Sprintf("%s/%s", uriScripts, id)
-	var response interface{}
+	var response any
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, &response)
 	if err != nil {
 		return fmt.Errorf(errMsgFailedDeleteByID, "script", id, err)

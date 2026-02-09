@@ -37,23 +37,23 @@ type ResourceCloudDistributionPointV1 struct {
 // ResponseCloudDistributionPointV1 models the read-only fields returned when
 // fetching the cloud distribution point configuration.
 type ResponseCloudDistributionPointV1 struct {
-	HasConnectionSucceeded  bool        `json:"hasConnectionSucceeded"`
-	Message                 string      `json:"message"`
-	InventoryId             string      `json:"inventoryId"`
-	CdnType                 string      `json:"cdnType"`
-	Master                  bool        `json:"master"`
-	Username                string      `json:"username"`
-	Directory               string      `json:"directory"`
-	CdnUrl                  string      `json:"cdnUrl"`
-	UploadUrl               string      `json:"uploadUrl"`
-	DownloadUrl             string      `json:"downloadUrl"`
-	SecondaryAuthRequired   bool        `json:"secondaryAuthRequired"`
-	SecondaryAuthStatusCode int         `json:"secondaryAuthStatusCode"`
-	SecondaryAuthTimeToLive int         `json:"secondaryAuthTimeToLive"`
-	RequireSignedUrls       bool        `json:"requireSignedUrls"`
-	KeyPairId               string      `json:"keyPairId"`
-	ExpirationSeconds       int         `json:"expirationSeconds"`
-	PrivateKey              interface{} `json:"privateKey"`
+	HasConnectionSucceeded  bool   `json:"hasConnectionSucceeded"`
+	Message                 string `json:"message"`
+	InventoryId             string `json:"inventoryId"`
+	CdnType                 string `json:"cdnType"`
+	Master                  bool   `json:"master"`
+	Username                string `json:"username"`
+	Directory               string `json:"directory"`
+	CdnUrl                  string `json:"cdnUrl"`
+	UploadUrl               string `json:"uploadUrl"`
+	DownloadUrl             string `json:"downloadUrl"`
+	SecondaryAuthRequired   bool   `json:"secondaryAuthRequired"`
+	SecondaryAuthStatusCode int    `json:"secondaryAuthStatusCode"`
+	SecondaryAuthTimeToLive int    `json:"secondaryAuthTimeToLive"`
+	RequireSignedUrls       bool   `json:"requireSignedUrls"`
+	KeyPairId               string `json:"keyPairId"`
+	ExpirationSeconds       int    `json:"expirationSeconds"`
+	PrivateKey              any    `json:"privateKey"`
 }
 
 type ResourceCloudDistributionPointUploadCapabilityV1 struct {

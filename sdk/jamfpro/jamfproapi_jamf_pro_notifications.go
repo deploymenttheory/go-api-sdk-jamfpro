@@ -18,9 +18,9 @@ type ResponseNotifications []ResourceNotification
 
 // ResourceNotification represents a single notification in the Jamf Pro API
 type ResourceNotification struct {
-	Type   string                 `json:"type"`
-	ID     string                 `json:"id"`
-	Params map[string]interface{} `json:"params"`
+	Type   string         `json:"type"`
+	ID     string         `json:"id"`
+	Params map[string]any `json:"params"`
 }
 
 // CRUD

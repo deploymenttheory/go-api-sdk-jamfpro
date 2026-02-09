@@ -104,7 +104,7 @@ func main() {
 	}
 
 	// Perform a check to see if the patch software title configuration exists
-	var response interface{}
+	var response any
 	if softwareTitle.ID != "" {
 		fmt.Println("Updating existing patch software title configuration...")
 		response, err = client.UpdatePatchSoftwareTitleConfigurationById(softwareTitle.ID, *patchSoftwareTitleConfiguration)

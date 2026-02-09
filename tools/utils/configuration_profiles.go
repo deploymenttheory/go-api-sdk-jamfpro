@@ -17,7 +17,7 @@ type ConfigurationProfile struct {
 	PayloadType        string
 	PayloadUuid        string
 	PayloadVersion     int
-	UnexpectedValues   map[string]interface{} `mapstructure:",remain"`
+	UnexpectedValues   map[string]any `mapstructure:",remain"`
 }
 
 // Struct to mirror xml payload item with key for all dynamic values
@@ -27,7 +27,7 @@ type PayloadContentListItem struct {
 	PayloadType           string
 	PayloadUuid           string
 	PayloadVersion        int
-	PayloadSpecificValues map[string]interface{} `mapstructure:",remain"`
+	PayloadSpecificValues map[string]any `mapstructure:",remain"`
 }
 
 // ConfigurationFilePlistToStructFromFile takes filepath of MacOS Configuration Profile .plist file and returns &ConfigurationProfile
@@ -53,7 +53,7 @@ func ConfigurationProfilePlistToStructFromString(plistData string) (*Configurati
 
 // plistDataToStruct takes xml .plist bytes data and returns ConfigurationProfile
 func plistDataToStruct(plistBytes []byte) (*ConfigurationProfile, error) {
-	var unmarshalledPlist map[string]interface{}
+	var unmarshalledPlist map[string]any
 	_, err := plist.Unmarshal(plistBytes, &unmarshalledPlist)
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal plist/xml: %v", err)
@@ -69,10 +69,10 @@ func plistDataToStruct(plistBytes []byte) (*ConfigurationProfile, error) {
 }
 
 // FilterPayloadSpecificFields extracts and returns only the payload-specific fields from the profile
-func FilterPayloadSpecificFields(profile *ConfigurationProfile) []map[string]interface{} {
-	var filteredPayloads []map[string]interface{}
+func FilterPayloadSpecificFields(profile *ConfigurationProfile) []map[string]any {
+	var filteredPayloads []map[string]any
 	for _, payload := range profile.PayloadContent {
-		filteredPayload := map[string]interface{}{}
+		filteredPayload := map[string]any{}
 		for key, value := range payload.PayloadSpecificValues {
 			// Add only the relevant payload-specific fields, ignoring MDM-specific fields
 			if key != "PayloadUUID" && key != "PayloadIdentifier" && key != "PayloadType" && key != "PayloadVersion" {
@@ -85,7 +85,7 @@ func FilterPayloadSpecificFields(profile *ConfigurationProfile) []map[string]int
 }
 
 // ComparePayloads compares two sets of payload-specific fields and returns true if they are equal
-func ComparePayloads(payloads1, payloads2 []map[string]interface{}) bool {
+func ComparePayloads(payloads1, payloads2 []map[string]any) bool {
 	if len(payloads1) != len(payloads2) {
 		return false
 	}
@@ -100,7 +100,7 @@ func ComparePayloads(payloads1, payloads2 []map[string]interface{}) bool {
 }
 
 // compareMaps compares two maps and returns true if they are equal
-func compareMaps(map1, map2 map[string]interface{}) bool {
+func compareMaps(map1, map2 map[string]any) bool {
 	if len(map1) != len(map2) {
 		return false
 	}

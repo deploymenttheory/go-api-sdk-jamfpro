@@ -9,7 +9,7 @@ import (
 )
 
 // prettyPrintJSON converts a struct to a pretty-printed JSON string
-func prettyPrintJSON(prefix string, data interface{}) {
+func prettyPrintJSON(prefix string, data any) {
 	jsonData, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		log.Printf("Error marshaling JSON: %v", err)
