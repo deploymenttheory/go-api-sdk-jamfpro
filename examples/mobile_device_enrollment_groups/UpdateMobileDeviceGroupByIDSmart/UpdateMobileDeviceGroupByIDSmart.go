@@ -27,7 +27,7 @@ func main() {
 		IsSmart: true,
 		Criteria: &jamfpro.SharedContainerCriteria{
 			Size: 3, // The number of criteria
-			Criterion: []jamfpro.SharedSubsetCriteria{
+			Criterion: &[]jamfpro.SharedSubsetCriteria{
 				{
 					Name:         "Last Inventory Update",
 					Priority:     0,
