@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.45.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.45.0...v1.45.1) (2026-02-11)
+
+
+### Bug Fixes
+
+* change Criterion field to a pointer in SharedContainerCriteria for advanced searches ([#1039](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/1039)) ([b87443b](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b87443b9e9b4253bb139da2613eb918ced184606))
+
 ## [1.45.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.44.0...v1.45.0) (2026-02-02)
 
 
