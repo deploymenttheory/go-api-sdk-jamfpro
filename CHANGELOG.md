@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.46.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.45.1...v1.46.0) (2026-02-17)
+
+
+### Features
+
+* add service discovery enrollment well-known settings API methods and examples ([0fe2eb4](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/0fe2eb4fd6d8721c50e230b819524c43970561ca))
+* add service discovery enrollment well-known settings API methods and examples ([262761d](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/262761d548af6576e69ecd34f47fe51eb166db9b))
+
 ## [1.45.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.45.0...v1.45.1) (2026-02-11)
 
 
