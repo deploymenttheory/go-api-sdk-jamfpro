@@ -183,7 +183,7 @@ func (c *Client) GetClassByName(name string) (*ResourceClass, error) {
 
 // CreateClassesByID creates a new class with the given details.
 func (c *Client) CreateClass(class *ResourceClass) (*ResourceClass, error) {
-	endpoint := uriClasses
+	endpoint := fmt.Sprintf("%s/id/0", uriClasses)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"class"`

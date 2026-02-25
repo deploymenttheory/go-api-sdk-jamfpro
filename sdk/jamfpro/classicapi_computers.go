@@ -438,7 +438,7 @@ func (c *Client) GetComputerByName(name string) (*ResponseComputer, error) {
 
 // CreateComputer creates a new computer.
 func (c *Client) CreateComputer(computer ResponseComputer) (*ResponseComputer, error) {
-	endpoint := uriComputers
+	endpoint := fmt.Sprintf("%s/id/0", uriComputers)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer"`

@@ -194,7 +194,7 @@ Example:
 Errors: Returns an error if the request fails or if the resource cannot be created.
 */
 func (c *Client) CreateAdvancedUserSearch(search *ResourceAdvancedUserSearch) (*ResponseAdvancedUserSearchCreatedAndUpdated, error) {
-	endpoint := uriAPIAdvancedUserSearches
+	endpoint := fmt.Sprintf("%s/id/0", uriAPIAdvancedUserSearches)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"advanced_user_search"`

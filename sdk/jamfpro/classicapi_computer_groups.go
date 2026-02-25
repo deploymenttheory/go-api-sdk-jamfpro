@@ -121,7 +121,7 @@ func (c *Client) GetComputerGroupByName(name string) (*ResourceComputerGroup, er
 
 // CreateComputerGroup creates a new computer group.
 func (c *Client) CreateComputerGroup(group *ResourceComputerGroup) (*ResponseComputerGroupreatedAndUpdated, error) {
-	endpoint := uriComputerGroups
+	endpoint := fmt.Sprintf("%s/id/0", uriComputerGroups)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"computer_group"`
