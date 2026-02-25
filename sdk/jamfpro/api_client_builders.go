@@ -31,6 +31,7 @@ type ConfigContainer struct {
 	ClientSecret         string `json:"client_secret"`
 	Username             string `json:"basic_auth_username"`
 	Password             string `json:"basic_auth_password"`
+	TenantID             string `json:"tenant_id"`
 	JamfLoadBalancerLock bool   `json:"jamf_load_balancer_lock"`
 
 	CustomCookies               []CustomCookie `json:"custom_cookies"`
@@ -157,6 +158,17 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			config.HideSensitiveData,
 			http.Client{},
 		)
+	case "platform":
+		integration, err = jamfprointegration.BuildWithPlatformGatewayOAuth(
+			config.InstanceDomain,
+			Sugar,
+			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
+			config.ClientID,
+			config.ClientSecret,
+			config.TenantID,
+			config.HideSensitiveData,
+			http.Client{},
+		)
 	default:
 		return nil, fmt.Errorf("invalid auth method supplied")
 	}
@@ -202,6 +214,7 @@ func loadConfigFromEnv() (*ConfigContainer, error) {
 		ClientSecret:                getEnv("CLIENT_SECRET", ""),
 		Username:                    getEnv("BASIC_AUTH_USERNAME", ""),
 		Password:                    getEnv("BASIC_AUTH_PASSWORD", ""),
+		TenantID:                    getEnv("TENANT_ID", ""),
 		JamfLoadBalancerLock:        getEnvAsBool("JAMF_LOAD_BALANCER_LOCK", false),
 		MaxRetryAttempts:            getEnvAsInt("MAX_RETRY_ATTEMPTS", 3),
 		EnableDynamicRateLimiting:   getEnvAsBool("ENABLE_DYNAMIC_RATE_LIMITING", false),
