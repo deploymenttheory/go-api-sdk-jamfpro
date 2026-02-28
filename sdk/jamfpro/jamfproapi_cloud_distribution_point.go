@@ -150,6 +150,31 @@ func (c *Client) GetCloudDistributionPointUploadCapabilityV1() (*ResourceCloudDi
 	return &cloudDistributionPointUploadCapability, nil
 }
 
+// RefreshCloudDistributionPointInventoryV1 triggers a refresh of the cloud distribution point inventory
+// for the specified file name. Expects a 204 response with no body.
+func (c *Client) RefreshCloudDistributionPointInventoryV1(fileName string) error {
+	endpoint := fmt.Sprintf("%s/refresh-inventory?file-name=%s", uriCloudDistributionPointV1, fileName)
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+	if err != nil && resp == nil {
+		return fmt.Errorf(errMsgFailedCreate, "cloud distribution point inventory refresh", err)
+	}
+
+	if resp == nil {
+		return fmt.Errorf("failed to refresh cloud distribution point inventory: nil response")
+	}
+
+	if resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	if resp.StatusCode != 204 {
+		return fmt.Errorf("failed to refresh cloud distribution point inventory for '%s': unexpected status code %d", fileName, resp.StatusCode)
+	}
+
+	return nil
+}
+
 // GetCloudDistributionPointTestConnectionV1 retrieves the test connection status for the Cloud Distribution Point.
 func (c *Client) GetCloudDistributionPointTestConnectionV1() (*ResourceCloudDistributionPointTestConnectionV1, error) {
 	endpoint := uriCloudDistributionPointV1 + "/test-connection"
