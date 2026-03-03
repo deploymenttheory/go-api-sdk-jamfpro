@@ -31,7 +31,8 @@ type ConfigContainer struct {
 	ClientSecret         string `json:"client_secret"`
 	Username             string `json:"basic_auth_username"`
 	Password             string `json:"basic_auth_password"`
-	TenantID             string `json:"tenant_id"`
+	Scope                string `json:"scope"`
+	ScopeID              string `json:"scope_id"`
 	JamfLoadBalancerLock bool   `json:"jamf_load_balancer_lock"`
 
 	CustomCookies               []CustomCookie `json:"custom_cookies"`
@@ -165,7 +166,8 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
 			config.ClientID,
 			config.ClientSecret,
-			config.TenantID,
+			config.Scope,
+			config.ScopeID,
 			config.HideSensitiveData,
 			http.Client{},
 		)
@@ -214,7 +216,8 @@ func loadConfigFromEnv() (*ConfigContainer, error) {
 		ClientSecret:                getEnv("CLIENT_SECRET", ""),
 		Username:                    getEnv("BASIC_AUTH_USERNAME", ""),
 		Password:                    getEnv("BASIC_AUTH_PASSWORD", ""),
-		TenantID:                    getEnv("TENANT_ID", ""),
+		Scope:                       getEnv("SCOPE", ""),
+		ScopeID:                     getEnv("SCOPE_ID", ""),
 		JamfLoadBalancerLock:        getEnvAsBool("JAMF_LOAD_BALANCER_LOCK", false),
 		MaxRetryAttempts:            getEnvAsInt("MAX_RETRY_ATTEMPTS", 3),
 		EnableDynamicRateLimiting:   getEnvAsBool("ENABLE_DYNAMIC_RATE_LIMITING", false),
