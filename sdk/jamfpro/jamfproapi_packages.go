@@ -51,6 +51,7 @@ type ResourcePackage struct {
 	InstallLanguage      string `json:"installLanguage,omitempty"`
 	MD5                  string `json:"md5,omitempty"`
 	SHA256               string `json:"sha256,omitempty"`
+	SHA3512              string `json:"sha3512,omitempty"`
 	HashType             string `json:"hashType,omitempty"`
 	HashValue            string `json:"hashValue,omitempty"`
 	Size                 string `json:"size,omitempty"`
