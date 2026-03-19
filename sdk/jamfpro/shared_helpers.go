@@ -5,6 +5,7 @@ package jamfpro
 
 import (
 	"crypto/md5"
+	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
 	"io"
@@ -60,6 +61,22 @@ func CalculateSHA3_512(filePath string) (string, error) {
 	hash := sha3.New512()
 	if _, err := io.Copy(hash, file); err != nil {
 		return "", fmt.Errorf("failed to calculate SHA3-512: %v", err)
+	}
+
+	return hex.EncodeToString(hash.Sum(nil)), nil
+}
+
+// CalculateSHA256 calculates the SHA-256 hash of the supplied file in the path.
+func CalculateSHA256(filePath string) (string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", fmt.Errorf("failed to open file for SHA-256 calculation: %v", err)
+	}
+	defer file.Close()
+
+	hash := sha256.New()
+	if _, err := io.Copy(hash, file); err != nil {
+		return "", fmt.Errorf("failed to calculate SHA-256: %v", err)
 	}
 
 	return hex.EncodeToString(hash.Sum(nil)), nil
