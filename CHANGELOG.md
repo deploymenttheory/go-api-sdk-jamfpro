@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.47.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.46.0...v1.47.0) (2026-03-29)
+
+
+### Features
+
+* add package SHA3512 field and SHA-256 hash calculation function ([41bd2a2](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/41bd2a2b7e0800271e86d2c5002c2b3a631c253b))
+* add RefreshCloudDistributionPointInventoryV1 function and example ([ffd777e](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ffd777e9af261e3ab52eec74f2cb3462d5331e3b))
+* add SHA-512 and SHA-256 hash calculation functions ([d06119f](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/d06119f824526513955f1a5a53c4defaee69899e))
+
 ## [1.46.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.45.1...v1.46.0) (2026-02-17)
 
 
