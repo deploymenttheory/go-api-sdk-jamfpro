@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.48.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.47.0...v1.48.0) (2026-04-22)
+
+
+### Features
+
+* add support for Platform Gateway authentication ([6d17d1d](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/6d17d1d1d80972357952e6b4bb15ecf543be16fc))
+
 ## [1.47.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.46.0...v1.47.0) (2026-03-29)
 
 
