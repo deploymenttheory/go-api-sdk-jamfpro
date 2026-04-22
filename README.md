@@ -53,14 +53,13 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
 1. **Set Environment Variables**: Define the necessary environment variables in your environment. This includes credentials (for OAuth or classic auth), instance details, and client options.
 
     ```shell
-    export CLIENT_ID="your_client_id"
-    export CLIENT_SECRET="your_client_secret"
-    export INSTANCE_DOMAIN="https://your_instance.jamfcloud.com" # use the fqdn
-    export AUTH_METHOD="oauth2" # or "basic"
+    export AUTH_METHOD="oauth2" # "oauth2", "basic", or "platform"
+    export INSTANCE_DOMAIN="https://your_instance.jamfcloud.com" # Jamf Pro FQDN for oauth2/basic, or platform gateway URL for platform auth
+    export CLIENT_ID="your_client_id" # Required for oauth2 and platform auth
+    export CLIENT_SECRET="your_client_secret" # Required for oauth2 and platform auth
     export BASIC_AUTH_USERNAME="your_basic_auth_username" # Required if using basic auth
     export BASIC_AUTH_PASSWORD="your_basic_auth_password" # Required if using basic auth
-    export CLIENT_ID="your_client_id" # Required if using oauth2
-    export CLIENT_SECRET="your_client_secret" # Required if using oauth2
+    export TENANT_ID="your_tenant_uuid" # Required if using platform auth - the Jamf Pro tenant UUID
     export LOG_LEVEL="info" # or "debug" / "info" / "warn" / "dpanic" / "error"
     export LOG_OUTPUT_FORMAT="pretty" # or "json" 
     export LOG_CONSOLE_SEPARATOR=" " # or any other separator
@@ -105,12 +104,13 @@ For those who prefer using configuration files for setting up the client, the SD
       "log_export_path": "/your/log/path/", // optional, ensure permissions to file path
       "export_logs": true, // or false
       "hide_sensitive_data": false, // redact sensitive data from logs
-      "instance_domain": "https://lbgsandbox.jamfcloud.com",
-      "auth_method": "oauth2", // or "basic"
-      "client_id": "your_client_id", // Required if using oauth2
-      "client_secret": "your_client_secret", // Required if using oauth2
+      "instance_domain": "https://lbgsandbox.jamfcloud.com", // Jamf Pro FQDN for oauth2/basic, or platform gateway URL for platform auth
+      "auth_method": "oauth2", // "oauth2", "basic", or "platform"
+      "client_id": "your_client_id", // Required for oauth2 and platform auth
+      "client_secret": "your_client_secret", // Required for oauth2 and platform auth
       "basic_auth_username": "your_basic_auth_username", // Required if using basic auth
       "basic_auth_password": "your_basic_auth_password", // Required if using basic auth
+      "tenant_id": "your_tenant_uuid", // Required if using platform auth - the Jamf Pro tenant UUID
       "jamf_load_balancer_lock": false, // or true
       "max_retry_attempts": 3,
       "enable_dynamic_rate_limiting": true,

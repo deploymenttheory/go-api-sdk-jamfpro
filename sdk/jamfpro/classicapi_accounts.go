@@ -128,7 +128,7 @@ func (c *Client) GetAccountByName(name string) (*ResourceAccount, error) {
 
 // CreateAccountByID creates an Account using its ID
 func (c *Client) CreateAccount(account *ResourceAccount) (*ResponseAccountCreatedAndUpdated, error) {
-	endpoint := uriAPIAccounts
+	endpoint := fmt.Sprintf("%s/userid/0", uriAPIAccounts)
 
 	requestBody := struct {
 		XMLName xml.Name `xml:"account"`
