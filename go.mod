@@ -4,8 +4,8 @@ go 1.25.3
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.4.4
-	github.com/deploymenttheory/go-api-http-client-integrations v0.1.0
+	github.com/deploymenttheory/go-api-http-client v0.4.5
+	github.com/deploymenttheory/go-api-http-client-integrations v0.1.1
 )
 
 require (
@@ -46,11 +46,11 @@ require (
 )
 
 require (
-	github.com/antchfx/xmlquery v1.5.0 // indirect
-	github.com/antchfx/xpath v1.3.5 // indirect
+	github.com/antchfx/xmlquery v1.5.1 // indirect
+	github.com/antchfx/xpath v1.3.6 // indirect
 	github.com/golang/groupcache v0.0.0-20241129210726-2c02b8208cf8 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.28.0
-	golang.org/x/net v0.54.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 )
