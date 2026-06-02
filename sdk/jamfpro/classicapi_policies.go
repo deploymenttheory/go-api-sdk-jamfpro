@@ -242,6 +242,7 @@ type PolicySubsetAccountMaintenanceAccount struct {
 	Picture                string `xml:"picture"`
 	Admin                  bool   `xml:"admin"`
 	FilevaultEnabled       bool   `xml:"filevault_enabled"`
+	SecureTokenAllowed     bool   `xml:"secure_token_allowed"`
 	PasswordSha256         string `xml:"password_sha256"`
 }
 
