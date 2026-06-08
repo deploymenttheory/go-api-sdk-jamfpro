@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.49.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.48.1...v1.49.0) (2026-06-08)
+
+
+### Features
+
+* add SecureTokenAllowed field to PolicySubsetAccountMaintenanceAccount ([#1099](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/1099)) ([3ad88f5](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3ad88f5baf7bbb0694c22bbedda80e869a6948ee))
+
 ## [1.48.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.47.0...v1.48.0) (2026-05-26)
 
 
