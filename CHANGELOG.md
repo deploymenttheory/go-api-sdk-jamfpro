@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.49.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.49.0...v1.49.1) (2026-06-23)
+
+
+### Bug Fixes
+
+* UserLookupByEmail is a List ([802ed70](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/802ed7090c7615f61b9674770ea0da2cf26ec8dd))
+
 ## [1.49.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.48.1...v1.49.0) (2026-06-08)
 
 
