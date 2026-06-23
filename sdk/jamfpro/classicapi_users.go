@@ -29,6 +29,12 @@ type UsersListItem struct {
 	Name string `xml:"name"`
 }
 
+// Response structure for email lookup (returns full user details in a list wrapper)
+type ResponseUsersListByEmail struct {
+	Size  int            `xml:"size"`
+	Users []ResourceUser `xml:"user"`
+}
+
 // Resource
 
 type ResourceUser struct {
@@ -141,8 +147,8 @@ func (c *Client) GetUserByName(name string) (*ResourceUser, error) {
 func (c *Client) GetUserByEmail(email string) (*ResourceUser, error) {
 	endpoint := fmt.Sprintf("%s/email/%s", uriUsers, email)
 
-	var userDetail ResourceUser
-	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &userDetail)
+	var usersList ResponseUsersListByEmail
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &usersList)
 	if err != nil {
 		return nil, fmt.Errorf(errMsgFailedGetByEmail, "user", email, err)
 	}
@@ -151,7 +157,11 @@ func (c *Client) GetUserByEmail(email string) (*ResourceUser, error) {
 		defer resp.Body.Close()
 	}
 
-	return &userDetail, nil
+	if usersList.Size == 0 || len(usersList.Users) == 0 {
+		return nil, fmt.Errorf("user with email '%s' not found", email)
+	}
+
+	return &usersList.Users[0], nil
 }
 
 // CreateUser creates a new user.
