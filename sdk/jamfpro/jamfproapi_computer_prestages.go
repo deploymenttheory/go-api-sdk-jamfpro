@@ -107,6 +107,9 @@ type ResourceComputerPrestage struct {
 	OnboardingItems                                []OnboardingItem                            `json:"onboardingItems,omitempty"`
 	PssoEnabled                                    *bool                                       `json:"pssoEnabled,omitempty"`
 	PlatformSsoAppBundleId                         string                                      `json:"platformSsoAppBundleId,omitempty"`
+	PssoConfigProfileId                            string                                      `json:"pssoConfigProfileId,omitempty"`
+	ManifestUrl                                    string                                      `json:"manifestUrl,omitempty"`
+	ProfileUrl                                     string                                      `json:"profileUrl,omitempty"`
 }
 
 // Subsets & Containers
