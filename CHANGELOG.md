@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.50.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.49.1...v1.50.0) (2026-06-25)
+
+
+### Features
+
+* **computer_prestages:** add Platform SSO config fields ([b1ff59d](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/b1ff59d804f3d66ead8cc5a8740f39176f14ee51))
+* **computer_prestages:** add Platform SSO config fields ([05e40b9](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/05e40b95fcffafd6801e3d609a944797929c6886))
+
 ## [1.49.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.49.0...v1.49.1) (2026-06-23)
 
 
