@@ -9,6 +9,7 @@ package jamfpro
 import "fmt"
 
 const uriOIDC = "/api/v1/oidc"
+const uriOIDCV2 = "/api/v2/oidc"
 
 // ResponseOIDCDirectIdPLoginURL represents the response structure for the OIDC Direct IdP Login URL.
 type ResponseOIDCDirectIdPLoginURL struct {
@@ -40,6 +41,19 @@ type ResourceOIDCRedirectURL struct {
 // ResponseOIDCRedirectURL represents the response structure for the OIDC redirect URL.
 type ResponseOIDCRedirectURL struct {
 	RedirectURL string `json:"redirectUrl"`
+}
+
+// ResponseOIDCLoginDispatchV2 represents the v2 response structure for the OIDC login dispatch,
+// which can return multiple IdP redirect options.
+type ResponseOIDCLoginDispatchV2 struct {
+	IdpRedirects []SubsetOIDCIdpRedirectV2 `json:"idpRedirects,omitempty"`
+}
+
+// SubsetOIDCIdpRedirectV2 represents a single IdP redirect option in the v2 OIDC login dispatch response.
+type SubsetOIDCIdpRedirectV2 struct {
+	RedirectURL string `json:"redirectUrl,omitempty"`
+	IdpName     string `json:"idpName,omitempty"`
+	IdpType     string `json:"idpType,omitempty"`
 }
 
 // GetDirectURLForOIDCLogin retrieves the direct IdP login URL for OIDC.
@@ -100,6 +114,24 @@ func (c *Client) SetRedirectURLForOIDCLogon(request *ResourceOIDCRedirectURL) (*
 	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get OIDC redirect URL: %v", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &response, nil
+}
+
+// SetRedirectURLForOIDCLogonV2 provides the v2 URL(s) to redirect for OIDC login based on the original
+// URL and email address. Unlike the v1 endpoint, the v2 response can return multiple IdP redirect options.
+func (c *Client) SetRedirectURLForOIDCLogonV2(request *ResourceOIDCRedirectURL) (*ResponseOIDCLoginDispatchV2, error) {
+	endpoint := fmt.Sprintf("%s/dispatch", uriOIDCV2)
+
+	var response ResponseOIDCLoginDispatchV2
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &response)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get OIDC v2 redirect URL: %v", err)
 	}
 
 	if resp != nil && resp.Body != nil {

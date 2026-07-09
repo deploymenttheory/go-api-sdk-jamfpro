@@ -168,3 +168,138 @@ func (c *Client) DeleteStaticMobileDeviceGroupByIDV1(id string) error {
 
 	return nil
 }
+
+// ---------------------------------------------------------------------------
+// Static Mobile Device Groups v2 (/api/v2/mobile-device-groups/static-groups)
+// ---------------------------------------------------------------------------
+
+// List (v2)
+
+// ResponseMobileDeviceStaticGroupsListV2 represents the search results for static mobile device groups (v2).
+type ResponseMobileDeviceStaticGroupsListV2 struct {
+	TotalCount int                                 `json:"totalCount"`
+	Results    []ResourceMobileDeviceStaticGroupV2 `json:"results"`
+}
+
+// Resource / Response (v2)
+
+// ResourceMobileDeviceStaticGroupV2 represents a static mobile device group (v2).
+type ResourceMobileDeviceStaticGroupV2 struct {
+	GroupID          string `json:"groupId"`
+	GroupName        string `json:"groupName"`
+	GroupDescription string `json:"groupDescription"`
+	SiteID           string `json:"siteId"`
+	Count            int    `json:"count"`
+}
+
+// Request (v2)
+
+// ResourceStaticGroupAssignmentV2 represents the request/response body for creating or updating a static mobile device group (v2).
+type ResourceStaticGroupAssignmentV2 struct {
+	GroupID          string                                `json:"groupId,omitempty"`
+	GroupName        string                                `json:"groupName"`
+	GroupDescription string                                `json:"groupDescription,omitempty"`
+	SiteID           string                                `json:"siteId,omitempty"`
+	Assignments      []SubsetMobileDeviceGroupAssignmentV2 `json:"assignments,omitempty"`
+}
+
+// SubsetMobileDeviceGroupAssignmentV2 represents a single mobile device assignment for a static group (v2).
+type SubsetMobileDeviceGroupAssignmentV2 struct {
+	MobileDeviceID string `json:"mobileDeviceId"`
+	Selected       bool   `json:"selected"`
+}
+
+// ResponseMobileDeviceStaticGroupCreateV2 represents the response for creating a static mobile device group (v2).
+type ResponseMobileDeviceStaticGroupCreateV2 struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// CRUD (v2)
+
+// GetMobileDeviceStaticGroupsV2 retrieves the list of static mobile device groups using the v2 API.
+func (c *Client) GetMobileDeviceStaticGroupsV2(params url.Values) (*ResponseMobileDeviceStaticGroupsListV2, error) {
+	endpoint := fmt.Sprintf("%s/static-groups", uriMobileDeviceGroupsV2)
+	if params != nil {
+		endpoint = fmt.Sprintf("%s?%s", endpoint, params.Encode())
+	}
+
+	var out ResponseMobileDeviceStaticGroupsListV2
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device static groups", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// GetMobileDeviceStaticGroupByIDV2 retrieves a specific static mobile device group by ID using the v2 API.
+func (c *Client) GetMobileDeviceStaticGroupByIDV2(id string) (*ResourceMobileDeviceStaticGroupV2, error) {
+	endpoint := fmt.Sprintf("%s/static-groups/%s", uriMobileDeviceGroupsV2, id)
+
+	var out ResourceMobileDeviceStaticGroupV2
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device static group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// CreateMobileDeviceStaticGroupV2 creates a new static mobile device group using the v2 API.
+func (c *Client) CreateMobileDeviceStaticGroupV2(request ResourceStaticGroupAssignmentV2) (*ResponseMobileDeviceStaticGroupCreateV2, error) {
+	endpoint := fmt.Sprintf("%s/static-groups", uriMobileDeviceGroupsV2)
+
+	var out ResponseMobileDeviceStaticGroupCreateV2
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device static group", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// UpdateMobileDeviceStaticGroupByIDV2 updates an existing static mobile device group by ID using the v2 API.
+func (c *Client) UpdateMobileDeviceStaticGroupByIDV2(id string, request ResourceStaticGroupAssignmentV2) (*ResourceStaticGroupAssignmentV2, error) {
+	endpoint := fmt.Sprintf("%s/static-groups/%s", uriMobileDeviceGroupsV2, id)
+
+	var out ResourceStaticGroupAssignmentV2
+	resp, err := c.HTTP.DoRequest("PATCH", endpoint, request, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device static group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// DeleteMobileDeviceStaticGroupByIDV2 deletes a static mobile device group by ID using the v2 API.
+func (c *Client) DeleteMobileDeviceStaticGroupByIDV2(id string) error {
+	endpoint := fmt.Sprintf("%s/static-groups/%s", uriMobileDeviceGroupsV2, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil || resp.StatusCode != 204 {
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device static group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}

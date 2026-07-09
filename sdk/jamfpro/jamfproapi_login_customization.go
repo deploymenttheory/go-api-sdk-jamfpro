@@ -16,6 +16,8 @@ const uriLoginCustomization = "/api/v1/login-customization"
 // ResourceLoginCustomization represents the structure of the response for login customization.
 type ResourceLoginCustomization struct {
 	RampInstance            bool   `json:"rampInstance"`
+	FedRampInstance         bool   `json:"fedRampInstance,omitempty"`
+	HighComplianceInstance  bool   `json:"highComplianceInstance,omitempty"`
 	IncludeCustomDisclaimer bool   `json:"includeCustomDisclaimer"`
 	DisclaimerHeading       string `json:"disclaimerHeading"`
 	DisclaimerMainText      string `json:"disclaimerMainText"`

@@ -188,3 +188,153 @@ func (c *Client) DeleteSmartMobileDeviceGroupByIDV1(id string) error {
 
 	return nil
 }
+
+// ---------------------------------------------------------------------------
+// Smart Mobile Device Groups v2 (/api/v2/mobile-device-groups/smart-groups)
+// ---------------------------------------------------------------------------
+
+// List (v2)
+
+// ResponseMobileDeviceSmartGroupsListV2 represents the search results for smart mobile device groups (v2).
+type ResponseMobileDeviceSmartGroupsListV2 struct {
+	TotalCount int                                `json:"totalCount"`
+	Results    []ResourceMobileDeviceSmartGroupV2 `json:"results"`
+}
+
+// Resource / Response (v2)
+
+// ResourceMobileDeviceSmartGroupV2 represents a smart mobile device group summary (v2).
+type ResourceMobileDeviceSmartGroupV2 struct {
+	GroupID          string `json:"groupId"`
+	GroupName        string `json:"groupName"`
+	GroupDescription string `json:"groupDescription"`
+	SiteID           string `json:"siteId"`
+	Count            int    `json:"count"`
+}
+
+// ResponseSmartGroupDetailV2 represents a smart mobile device group with criteria (v2).
+type ResponseSmartGroupDetailV2 struct {
+	GroupID          string                                   `json:"groupId"`
+	GroupName        string                                   `json:"groupName"`
+	GroupDescription string                                   `json:"groupDescription"`
+	SiteID           string                                   `json:"siteId"`
+	Count            int                                      `json:"count"`
+	Criteria         []SubsetMobileDeviceSmartGroupCriteriaV2 `json:"criteria"`
+}
+
+// Request (v2)
+
+// ResourceSmartGroupAssignmentV2 represents the request/response body for creating or updating a smart mobile device group (v2).
+type ResourceSmartGroupAssignmentV2 struct {
+	GroupID          string                                   `json:"groupId,omitempty"`
+	GroupName        string                                   `json:"groupName"`
+	GroupDescription string                                   `json:"groupDescription,omitempty"`
+	SiteID           string                                   `json:"siteId,omitempty"`
+	Criteria         []SubsetMobileDeviceSmartGroupCriteriaV2 `json:"criteria,omitempty"`
+}
+
+// SubsetMobileDeviceSmartGroupCriteriaV2 represents a single smart mobile device group criterion (v2).
+type SubsetMobileDeviceSmartGroupCriteriaV2 struct {
+	Name         string `json:"name"`
+	Priority     int    `json:"priority"`
+	AndOr        string `json:"andOr"`
+	SearchType   string `json:"searchType"`
+	Value        string `json:"value"`
+	OpeningParen bool   `json:"openingParen,omitempty"`
+	ClosingParen bool   `json:"closingParen,omitempty"`
+}
+
+// ResponseMobileDeviceSmartGroupCreateV2 represents the response for creating a smart mobile device group (v2).
+type ResponseMobileDeviceSmartGroupCreateV2 struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// CRUD (v2)
+
+// GetMobileDeviceSmartGroupsV2 retrieves the list of smart mobile device groups using the v2 API.
+func (c *Client) GetMobileDeviceSmartGroupsV2(params url.Values) (*ResponseMobileDeviceSmartGroupsListV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups", uriMobileDeviceGroupsV2)
+	if params != nil {
+		endpoint = fmt.Sprintf("%s?%s", endpoint, params.Encode())
+	}
+
+	var out ResponseMobileDeviceSmartGroupsListV2
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "mobile device smart groups", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// GetMobileDeviceSmartGroupByIDV2 retrieves a specific smart mobile device group by ID using the v2 API.
+func (c *Client) GetMobileDeviceSmartGroupByIDV2(id string) (*ResponseSmartGroupDetailV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriMobileDeviceGroupsV2, id)
+
+	var out ResponseSmartGroupDetailV2
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "mobile device smart group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// CreateMobileDeviceSmartGroupV2 creates a new smart mobile device group using the v2 API.
+func (c *Client) CreateMobileDeviceSmartGroupV2(request ResourceSmartGroupAssignmentV2) (*ResponseMobileDeviceSmartGroupCreateV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups", uriMobileDeviceGroupsV2)
+
+	var out ResponseMobileDeviceSmartGroupCreateV2
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "mobile device smart group", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// UpdateMobileDeviceSmartGroupByIDV2 updates an existing smart mobile device group by ID using the v2 API.
+func (c *Client) UpdateMobileDeviceSmartGroupByIDV2(id string, request ResourceSmartGroupAssignmentV2) (*ResourceSmartGroupAssignmentV2, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriMobileDeviceGroupsV2, id)
+
+	var out ResourceSmartGroupAssignmentV2
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, request, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "mobile device smart group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// DeleteMobileDeviceSmartGroupByIDV2 deletes a smart mobile device group by ID using the v2 API.
+func (c *Client) DeleteMobileDeviceSmartGroupByIDV2(id string) error {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriMobileDeviceGroupsV2, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil || resp.StatusCode != 204 {
+		return fmt.Errorf(errMsgFailedDeleteByID, "mobile device smart group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}

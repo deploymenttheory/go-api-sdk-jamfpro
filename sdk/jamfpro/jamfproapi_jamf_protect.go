@@ -25,8 +25,9 @@ type ResponseJamfProtectSettings struct {
 	APIClientID    string `json:"apiClientId"`
 	AutoInstall    bool   `json:"autoInstall"`
 	LastSyncTime   string `json:"lastSyncTime"`
-	APIClientName  string `json:"apiClientName"`
-	RegistrationID string `json:"registrationId"`
+	APIClientName    string `json:"apiClientName"`
+	RegistrationID   string `json:"registrationId"`
+	PlatformPlanSync bool   `json:"platformPlanSync,omitempty"`
 }
 
 type ResponseJamfProtectDeploymentTasksList struct {
@@ -69,6 +70,8 @@ type ResourceJamfProtectPlan struct {
 	Description      string `json:"description"`
 	ProfileID        int    `json:"profileId"`
 	ProfileName      string `json:"profileName"`
+	ProfileVersion   int    `json:"profileVersion,omitempty"`
+	SiteID           string `json:"siteId,omitempty"`
 	ScopeDescription string `json:"scopeDescription"`
 }
 

@@ -2553,6 +2553,166 @@ This documentation outlines the operations available for managing VPP Assignment
   - Updating an existing VPP assignment by ID.
   - Deleting a VPP assignment by ID.
 
+## Jamf Pro API Additions (11.25.2 → 11.29.1)
+
+The following endpoints were added to bring the SDK to feature parity with Jamf Pro 11.29.1 (baseline 11.23.2). All additions are on the modern Jamf Pro API (`/api/...`); the Classic API surface was unchanged across this range.
+
+### APNS Client Push Status - /api/v1/apns-client-push-status
+
+- [x] ✅ **GET** `/api/v1/apns-client-push-status`
+  - `GetApnsClientPushStatus` retrieves the list of clients with push notifications disabled.
+- [x] ✅ **GET** `/api/v1/apns-client-push-status/enable-all-clients/status`
+  - `GetApnsClientPushEnableAllClientsStatus` retrieves the status of the most recent enable-all-clients request.
+- [x] ✅ **POST** `/api/v1/apns-client-push-status/enable-all-clients`
+  - `EnableApnsPushForAllClients` queues re-enabling push for all disabled clients.
+- [x] ✅ **POST** `/api/v1/apns-client-push-status/enable-client`
+  - `EnableApnsPushForClient` re-enables push for a single client by management id.
+
+### MDM Renewal - /api/v1/mdm-renewal
+
+- [x] ✅ **GET** `/api/v1/mdm-renewal/renewal-strategies/{clientManagementId}`
+  - `GetMdmRenewalStrategiesByClientManagementID` retrieves the renewal strategies for a device.
+- [x] ✅ **DELETE** `/api/v1/mdm-renewal/renewal-strategies/{clientManagementId}`
+  - `DeleteMdmRenewalStrategiesByClientManagementID` deletes the renewal strategies for a device.
+- [x] ✅ **GET** `/api/v1/mdm-renewal/device-common-details/{clientManagementId}`
+  - `GetMdmRenewalDeviceCommonDetailsByClientManagementID` retrieves the device common details.
+- [x] ✅ **PATCH** `/api/v1/mdm-renewal/device-common-details`
+  - `UpdateMdmRenewalDeviceCommonDetails` updates the device common details.
+
+### Cloud Distribution Point (addition) - /api/v1/cloud-distribution-point
+
+- [x] ✅ **POST** `/api/v1/cloud-distribution-point/fail-upload/{id}`
+  - `FailCloudDistributionPointUploadV1` marks the upload of the package with the given id as failed.
+
+### System - /api/v1/system
+
+- [x] ✅ **POST** `/api/v1/system/platform-initialize`
+  - `InitializeSystemPlatform` performs the initial platform setup of a Jamf Pro server.
+
+### OIDC (v2 addition) - /api/v2/oidc
+
+- [x] ✅ **POST** `/api/v2/oidc/dispatch`
+  - `SetRedirectURLForOIDCLogonV2` returns the v2 OIDC login dispatch (supports multiple IdP redirects).
+
+### Users (Jamf Pro API) - /api/v1/users
+
+- [x] ✅ **GET** `/api/v1/users`
+  - `GetUsersV1` retrieves a page of users.
+- [x] ✅ **GET** `/api/v1/users/{id}`
+  - `GetUserByIDV1` retrieves a single user by ID.
+- [x] ✅ **POST** `/api/v1/users`
+  - `CreateUserV1` creates a new user.
+- [x] ✅ **PUT** `/api/v1/users/{id}`
+  - `UpdateUserByIDV1` updates an existing user by ID.
+- [x] ✅ **DELETE** `/api/v1/users/{id}`
+  - `DeleteUserByIDV1` deletes a user by ID.
+- [x] ✅ **POST** `/api/v1/users/{id}/recalculate-smart-groups`
+  - `RecalculateUserSmartGroupsByIDV1` triggers a smart group membership recalculation for a user.
+
+### Account Groups (Jamf Pro API) - /api/v1/account-groups
+
+- [x] ✅ **GET** `/api/v1/account-groups`
+  - `GetAccountGroupsV1` retrieves the list of account groups.
+- [x] ✅ **GET** `/api/v1/account-groups/{id}`
+  - `GetAccountGroupByIDV1` retrieves a single account group by ID.
+
+### User Sessions - /api/v1/user-sessions
+
+- [x] ✅ **GET** `/api/v1/user-sessions/active`
+  - `GetActiveUserSessions` retrieves the currently active user sessions.
+- [x] ✅ **GET** `/api/v1/user-sessions/count`
+  - `GetActiveUsersCount` retrieves the count of currently logged in users.
+
+### Last Login - /api/v1/last-login
+
+- [x] ✅ **GET** `/api/v1/last-login`
+  - `GetLastLogin` retrieves the timestamp of the current user's last login.
+
+### Accounts (Jamf Pro API) - /api/v1/accounts
+
+- [x] ✅ **GET** `/api/v1/accounts`
+  - `GetAccountsV1` retrieves the list of user accounts.
+- [x] ✅ **GET** `/api/v1/accounts/{id}`
+  - `GetAccountByIDV1` retrieves a single user account by ID.
+- [x] ✅ **POST** `/api/v1/accounts`
+  - `CreateAccountV1` creates a new user account.
+- [x] ✅ **PUT** `/api/v1/accounts/{id}`
+  - `UpdateAccountByIDV1` updates an existing user account by ID.
+- [x] ✅ **DELETE** `/api/v1/accounts/{id}`
+  - `DeleteAccountByIDV1` deletes a user account by ID.
+
+### Groups v2 (unified) - /api/v2/groups
+
+- [x] ✅ **GET** `/api/v2/groups`
+  - `GetGroupsV2` retrieves the unified list of computer and mobile device groups.
+- [x] ✅ **GET** `/api/v2/groups/{id}`
+  - `GetGroupByIDV2` retrieves a unified group with criteria by ID.
+- [x] ✅ **PATCH** `/api/v2/groups/{id}`
+  - `UpdateGroupByIDV2` updates a unified group by ID.
+- [x] ✅ **DELETE** `/api/v2/groups/{id}`
+  - `DeleteGroupByIDV2` deletes a unified group by ID.
+
+### Mobile Device Groups v2 - /api/v2/mobile-device-groups
+
+- [x] ✅ **GET** `/api/v2/mobile-device-groups`
+  - `GetMobileDeviceGroupsV2` retrieves all mobile device groups.
+- [x] ✅ **GET** `/api/v2/mobile-device-groups/smart-group-membership/{id}`
+  - `GetMobileDeviceSmartGroupMembershipByIDV2` retrieves smart group membership.
+- [x] ✅ **GET** `/api/v2/mobile-device-groups/smart-groups`
+  - `GetMobileDeviceSmartGroupsV2` retrieves smart mobile device groups.
+- [x] ✅ **POST** `/api/v2/mobile-device-groups/smart-groups`
+  - `CreateMobileDeviceSmartGroupV2` creates a smart mobile device group.
+- [x] ✅ **GET** `/api/v2/mobile-device-groups/smart-groups/{id}`
+  - `GetMobileDeviceSmartGroupByIDV2` retrieves a smart mobile device group by ID.
+- [x] ✅ **PUT** `/api/v2/mobile-device-groups/smart-groups/{id}`
+  - `UpdateMobileDeviceSmartGroupByIDV2` updates a smart mobile device group by ID.
+- [x] ✅ **DELETE** `/api/v2/mobile-device-groups/smart-groups/{id}`
+  - `DeleteMobileDeviceSmartGroupByIDV2` deletes a smart mobile device group by ID.
+- [x] ✅ **GET** `/api/v2/mobile-device-groups/static-group-membership/{id}`
+  - `GetMobileDeviceStaticGroupMembershipByIDV2` retrieves static group membership.
+- [x] ✅ **GET** `/api/v2/mobile-device-groups/static-groups`
+  - `GetMobileDeviceStaticGroupsV2` retrieves static mobile device groups.
+- [x] ✅ **POST** `/api/v2/mobile-device-groups/static-groups`
+  - `CreateMobileDeviceStaticGroupV2` creates a static mobile device group.
+- [x] ✅ **GET** `/api/v2/mobile-device-groups/static-groups/{id}`
+  - `GetMobileDeviceStaticGroupByIDV2` retrieves a static mobile device group by ID.
+- [x] ✅ **PATCH** `/api/v2/mobile-device-groups/static-groups/{id}`
+  - `UpdateMobileDeviceStaticGroupByIDV2` updates a static mobile device group by ID.
+- [x] ✅ **DELETE** `/api/v2/mobile-device-groups/static-groups/{id}`
+  - `DeleteMobileDeviceStaticGroupByIDV2` deletes a static mobile device group by ID.
+- [x] ✅ **POST** `/api/v2/mobile-device-groups/{id}/erase`
+  - `EraseMobileDeviceGroupByIDV2` erases all devices in a mobile device group.
+
+### Computer Groups v3 - /api/v3/computer-groups
+
+- [x] ✅ **GET** `/api/v3/computer-groups/smart-group-membership/{id}`
+  - `GetSmartComputerGroupMembershipByIDV3` retrieves smart group membership.
+- [x] ✅ **GET** `/api/v3/computer-groups/smart-groups`
+  - `GetSmartComputerGroupsV3` retrieves smart computer groups.
+- [x] ✅ **POST** `/api/v3/computer-groups/smart-groups`
+  - `CreateSmartComputerGroupV3` creates a smart computer group.
+- [x] ✅ **GET** `/api/v3/computer-groups/smart-groups/{id}`
+  - `GetSmartComputerGroupByIDV3` retrieves a smart computer group by ID.
+- [x] ✅ **PUT** `/api/v3/computer-groups/smart-groups/{id}`
+  - `UpdateSmartComputerGroupByIDV3` updates a smart computer group by ID.
+- [x] ✅ **DELETE** `/api/v3/computer-groups/smart-groups/{id}`
+  - `DeleteSmartComputerGroupByIDV3` deletes a smart computer group by ID.
+- [x] ✅ **GET** `/api/v3/computer-groups/static-groups`
+  - `GetStaticComputerGroupsV3` retrieves static computer groups.
+- [x] ✅ **POST** `/api/v3/computer-groups/static-groups`
+  - `CreateStaticComputerGroupV3` creates a static computer group.
+- [x] ✅ **GET** `/api/v3/computer-groups/static-groups/{id}`
+  - `GetStaticComputerGroupByIDV3` retrieves a static computer group by ID.
+- [x] ✅ **PUT** `/api/v3/computer-groups/static-groups/{id}`
+  - `UpdateStaticComputerGroupByIDV3` updates a static computer group by ID.
+- [x] ✅ **DELETE** `/api/v3/computer-groups/static-groups/{id}`
+  - `DeleteStaticComputerGroupByIDV3` deletes a static computer group by ID.
+
+### M2M - /api/v1/m2m
+
+- [x] ✅ **GET** `/api/v1/m2m/tenant-id`
+  - `GetM2mTenantID` retrieves the M2M-sourced tenant ID.
+
 ## Progress Summary
 
 - Total Operations: 470

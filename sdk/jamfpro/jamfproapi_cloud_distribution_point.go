@@ -175,6 +175,23 @@ func (c *Client) RefreshCloudDistributionPointInventoryV1(fileName string) error
 	return nil
 }
 
+// FailCloudDistributionPointUploadV1 marks the upload of the package with the given id as failed.
+// Expects a 204 response with no body.
+func (c *Client) FailCloudDistributionPointUploadV1(id string) error {
+	endpoint := fmt.Sprintf("%s/fail-upload/%s", uriCloudDistributionPointV1, id)
+
+	resp, err := c.HTTP.DoRequest("POST", endpoint, nil, nil)
+	if err != nil || resp.StatusCode != 204 {
+		return fmt.Errorf(errMsgFailedActionByID, "cloud distribution point upload fail", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
 // GetCloudDistributionPointTestConnectionV1 retrieves the test connection status for the Cloud Distribution Point.
 func (c *Client) GetCloudDistributionPointTestConnectionV1() (*ResourceCloudDistributionPointTestConnectionV1, error) {
 	endpoint := uriCloudDistributionPointV1 + "/test-connection"

@@ -107,6 +107,8 @@ type ComputerInventorySubsetGeneral struct {
 	LastLoggedInUsernameSelfServiceTimestamp string                                         `json:"lastLoggedInUsernameSelfServiceTimestamp"`
 	LastLoggedInUsernameBinary               string                                         `json:"lastLoggedInUsernameBinary"`
 	LastLoggedInUsernameBinaryTimestamp      string                                         `json:"lastLoggedInUsernameBinaryTimestamp"`
+	LastLoggedInUsernameMdm                  string                                         `json:"lastLoggedInUsernameMdm,omitempty"`
+	LastLoggedInUsernameMdmTimestamp         string                                         `json:"lastLoggedInUsernameMdmTimestamp,omitempty"`
 }
 
 type ComputerInventorySubsetGeneralRemoteManagement struct {
@@ -225,6 +227,7 @@ type ComputerInventorySubsetConfigurationProfile struct {
 	Removable         bool   `json:"removable"`
 	DisplayName       string `json:"displayName"`
 	ProfileIdentifier string `json:"profileIdentifier"`
+	UUID              string `json:"uuid,omitempty"`
 }
 
 // Printers

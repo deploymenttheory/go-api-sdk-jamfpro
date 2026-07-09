@@ -173,6 +173,8 @@ type SharedResourceInventoryListMobileDevice struct {
 	Room                                        string                                  `json:"room,omitempty"`
 	UserPhoneNumber                             string                                  `json:"userPhoneNumber,omitempty"`
 	Username                                    string                                  `json:"username,omitempty"`
+	LastLoggedInUsernameMdm                     string                                  `json:"lastLoggedInUsernameMdm,omitempty"`
+	LastLoggedInUsernameMdmTimestamp            string                                  `json:"lastLoggedInUsernameMdmTimestamp,omitempty"`
 	AppleCareId                                 string                                  `json:"appleCareId,omitempty"`
 	LeaseExpirationDate                         string                                  `json:"leaseExpirationDate,omitempty"`
 	LifeExpectancyYears                         int                                     `json:"lifeExpectancyYears,omitempty"`

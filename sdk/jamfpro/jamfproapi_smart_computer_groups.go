@@ -19,6 +19,7 @@ import (
 
 const (
 	uriAPIV2ComputerGroups = "/api/v2/computer-groups"
+	uriAPIV3ComputerGroups = "/api/v3/computer-groups"
 )
 
 // Request
@@ -183,6 +184,167 @@ func (c *Client) DeleteSmartComputerGroupByIDV2(id string) error {
 
 	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
 	if err != nil {
+		return fmt.Errorf(errMsgFailedDeleteByID, "smart computer group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return nil
+}
+
+// ---------------------------------------------------------------------------
+// Smart Computer Groups v3 (/api/v3/computer-groups/smart-groups)
+// ---------------------------------------------------------------------------
+
+// List (v3)
+
+// ResponseSmartComputerGroupsListV3 represents the search results for smart computer groups (v3).
+type ResponseSmartComputerGroupsListV3 struct {
+	TotalCount int                                    `json:"totalCount"`
+	Results    []ResponseSmartComputerGroupListItemV3 `json:"results"`
+}
+
+// ResponseSmartComputerGroupListItemV3 represents a smart computer group summary (v3).
+type ResponseSmartComputerGroupListItemV3 struct {
+	ID              string `json:"id"`
+	SiteID          string `json:"siteId"`
+	Name            string `json:"name"`
+	Description     string `json:"description"`
+	MembershipCount int    `json:"membershipCount"`
+}
+
+// Membership (v3)
+
+// ResponseSmartComputerGroupMembershipV3 represents the membership of a smart computer group (v3).
+type ResponseSmartComputerGroupMembershipV3 struct {
+	Members []int `json:"members"`
+}
+
+// Request / Response (v3)
+
+// ResourceSmartComputerGroupV3 represents the request/response body for creating or updating a smart computer group (v3).
+type ResourceSmartComputerGroupV3 struct {
+	Name        string                               `json:"name"`
+	Description string                               `json:"description,omitempty"`
+	Criteria    []SubsetComputerSmartGroupCriteriaV3 `json:"criteria,omitempty"`
+	SiteID      *string                              `json:"siteId,omitempty"`
+}
+
+// SubsetComputerSmartGroupCriteriaV3 represents a single smart computer group criterion (v3).
+type SubsetComputerSmartGroupCriteriaV3 struct {
+	Name         string `json:"name"`
+	Priority     int    `json:"priority"`
+	AndOr        string `json:"andOr"`
+	SearchType   string `json:"searchType"`
+	Value        string `json:"value"`
+	OpeningParen bool   `json:"openingParen,omitempty"`
+	ClosingParen bool   `json:"closingParen,omitempty"`
+}
+
+// ResponseSmartComputerGroupCreateV3 represents the response for creating a smart computer group (v3).
+type ResponseSmartComputerGroupCreateV3 struct {
+	ID   string `json:"id"`
+	Href string `json:"href"`
+}
+
+// CRUD (v3)
+
+// GetSmartComputerGroupsV3 retrieves the list of smart computer groups using the v3 API.
+func (c *Client) GetSmartComputerGroupsV3(params url.Values) (*ResponseSmartComputerGroupsListV3, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups", uriAPIV3ComputerGroups)
+	if params != nil {
+		endpoint = fmt.Sprintf("%s?%s", endpoint, params.Encode())
+	}
+
+	var out ResponseSmartComputerGroupsListV3
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGet, "smart computer groups", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// GetSmartComputerGroupMembershipByIDV3 retrieves the membership of a smart computer group by ID using the v3 API.
+func (c *Client) GetSmartComputerGroupMembershipByIDV3(id string) (*ResponseSmartComputerGroupMembershipV3, error) {
+	endpoint := fmt.Sprintf("%s/smart-group-membership/%s", uriAPIV3ComputerGroups, id)
+
+	var out ResponseSmartComputerGroupMembershipV3
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "smart computer group membership", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// GetSmartComputerGroupByIDV3 retrieves a specific smart computer group by ID using the v3 API.
+func (c *Client) GetSmartComputerGroupByIDV3(id string) (*ResourceSmartComputerGroupV3, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV3ComputerGroups, id)
+
+	var out ResourceSmartComputerGroupV3
+	resp, err := c.HTTP.DoRequest("GET", endpoint, nil, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedGetByID, "smart computer group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// CreateSmartComputerGroupV3 creates a new smart computer group using the v3 API.
+func (c *Client) CreateSmartComputerGroupV3(request ResourceSmartComputerGroupV3) (*ResponseSmartComputerGroupCreateV3, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups", uriAPIV3ComputerGroups)
+
+	var out ResponseSmartComputerGroupCreateV3
+	resp, err := c.HTTP.DoRequest("POST", endpoint, request, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedCreate, "smart computer group", err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// UpdateSmartComputerGroupByIDV3 updates an existing smart computer group by ID using the v3 API.
+func (c *Client) UpdateSmartComputerGroupByIDV3(id string, request ResourceSmartComputerGroupV3) (*ResourceSmartComputerGroupV3, error) {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV3ComputerGroups, id)
+
+	var out ResourceSmartComputerGroupV3
+	resp, err := c.HTTP.DoRequest("PUT", endpoint, request, &out)
+	if err != nil {
+		return nil, fmt.Errorf(errMsgFailedUpdateByID, "smart computer group", id, err)
+	}
+
+	if resp != nil && resp.Body != nil {
+		defer resp.Body.Close()
+	}
+
+	return &out, nil
+}
+
+// DeleteSmartComputerGroupByIDV3 deletes a smart computer group by ID using the v3 API.
+func (c *Client) DeleteSmartComputerGroupByIDV3(id string) error {
+	endpoint := fmt.Sprintf("%s/smart-groups/%s", uriAPIV3ComputerGroups, id)
+
+	resp, err := c.HTTP.DoRequest("DELETE", endpoint, nil, nil)
+	if err != nil || resp.StatusCode != 204 {
 		return fmt.Errorf(errMsgFailedDeleteByID, "smart computer group", id, err)
 	}
 
