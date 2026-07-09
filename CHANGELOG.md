@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.51.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.50.0...v1.51.0) (2026-07-09)
+
+
+### Features
+
+* **jamfproapi:** add API parity for Jamf Pro 11.25.2 through 11.29.1 ([4d8ffbc](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/4d8ffbcf1fd1ed2ce4fa2b70b7ec02ad9783c828))
+
 ## [1.50.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.49.1...v1.50.0) (2026-06-25)
 
 
