@@ -98,6 +98,8 @@ type ResourceMobileDevicePrestage struct {
 	RTSEnabled                             *bool                                           `json:"rtsEnabled,omitempty"`
 	RTSConfigProfileId                     string                                          `json:"rtsConfigProfileId,omitempty"`
 	PreserveManagedApps                    *bool                                           `json:"preserveManagedApps,omitempty"`
+	InstallAppsDuringEnrollment            *bool                                           `json:"installAppsDuringEnrollment,omitempty"`
+	DoNotUseProfileFromBackup              *bool                                           `json:"doNotUseProfileFromBackup,omitempty"`
 }
 
 // Subsets & Containers
