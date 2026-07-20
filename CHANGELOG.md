@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.52.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.52.0...v1.52.1) (2026-07-20)
+
+
+### Bug Fixes
+
+* **prestages:** handle optimistic locking in the SDK ([23fd1f5](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/23fd1f577cb185b96792e7e693bf6df4f0443924))
+
 ## [1.51.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.50.0...v1.51.0) (2026-07-09)
 
 
