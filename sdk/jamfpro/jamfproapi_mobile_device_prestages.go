@@ -256,9 +256,13 @@ func (c *Client) GetMobileDevicePrestageByName(name string) (*ResourceMobileDevi
 	return nil, fmt.Errorf(errMsgFailedGetByName, "mobile device prestage", name, errMsgNoName)
 }
 
-// CreateMobileDevicePrestage creates a new mobile prestage and returns the id
+// CreateMobileDevicePrestage creates a new mobile prestage and returns the id.
+// Every versionLock in the payload is zeroed first, as Jamf requires on create.
 func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePrestage) (*ResponseMobileDevicePrestageCreate, error) {
 	endpoint := uriMobileDevicePrestagesV3
+
+	zeroAllVersionLocks(&newPrestage)
+
 	var out ResponseMobileDevicePrestageCreate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, newPrestage, &out)
 	if err != nil {
@@ -273,20 +277,23 @@ func (c *Client) CreateMobileDevicePrestage(newPrestage ResourceMobileDevicePres
 }
 
 // UpdateMobileDevicePrestageByID updates a mobile device prestage by its ID.
+//
+// This endpoint uses optimistic locking. The current resource is read first and
+// every versionLock it carries — the resource's own and those of its nested
+// subsets — is copied onto the request, so callers never set versionLock
+// themselves; any value they do set is overwritten. See shared_version_lock.go.
 func (c *Client) UpdateMobileDevicePrestageByID(id string, prestageUpdate *ResourceMobileDevicePrestage) (*ResourceMobileDevicePrestage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriMobileDevicePrestagesV3, id)
 
-	var updatedPrestage ResourceMobileDevicePrestage
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, prestageUpdate, &updatedPrestage)
+	updated, err := updateWithVersionLock(c, endpoint, prestageUpdate,
+		func() (*ResourceMobileDevicePrestage, error) {
+			return c.GetMobileDevicePrestageByID(id)
+		})
 	if err != nil {
 		return nil, fmt.Errorf("failed to update mobile device prestage with ID %s: %v", id, err)
 	}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &updatedPrestage, nil
+	return updated, nil
 }
 
 // UpdateMobileDevicePrestageByNameByID updates a mobile prestage based on its display name.

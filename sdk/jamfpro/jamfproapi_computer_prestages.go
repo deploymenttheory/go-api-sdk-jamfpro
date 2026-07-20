@@ -254,8 +254,11 @@ func (c *Client) GetComputerPrestageByName(name string) (*ResourceComputerPresta
 }
 
 // CreateComputerPrestage creates a new computer prestage with the given details.
+// Every versionLock in the payload is zeroed first, as Jamf requires on create.
 func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*ResponseComputerPrestageCreate, error) {
 	endpoint := uriComputerPrestagesV3
+
+	zeroAllVersionLocks(prestage)
 
 	var creationResponse ResponseComputerPrestageCreate
 	resp, err := c.HTTP.DoRequest("POST", endpoint, prestage, &creationResponse)
@@ -271,20 +274,23 @@ func (c *Client) CreateComputerPrestage(prestage *ResourceComputerPrestage) (*Re
 }
 
 // UpdateComputerPrestageByID updates a computer prestage by its ID.
+//
+// This endpoint uses optimistic locking. The current resource is read first and
+// every versionLock it carries — the resource's own and those of its nested
+// subsets — is copied onto the request, so callers never set versionLock
+// themselves; any value they do set is overwritten. See shared_version_lock.go.
 func (c *Client) UpdateComputerPrestageByID(id string, prestageUpdate *ResourceComputerPrestage) (*ResourceComputerPrestage, error) {
 	endpoint := fmt.Sprintf("%s/%s", uriComputerPrestagesV3, id)
 
-	var updatedPrestage ResourceComputerPrestage
-	resp, err := c.HTTP.DoRequest("PUT", endpoint, prestageUpdate, &updatedPrestage)
+	updated, err := updateWithVersionLock(c, endpoint, prestageUpdate,
+		func() (*ResourceComputerPrestage, error) {
+			return c.GetComputerPrestageByID(id)
+		})
 	if err != nil {
 		return nil, fmt.Errorf("failed to update computer prestage with ID %s: %v", id, err)
 	}
 
-	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
-	}
-
-	return &updatedPrestage, nil
+	return updated, nil
 }
 
 // UpdateComputerPrestageByNameByID updates a computer prestage based on its display name.

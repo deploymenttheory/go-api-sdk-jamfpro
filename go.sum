@@ -44,6 +44,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/deploymenttheory/go-api-http-client v0.4.5 h1:u6TWP+l1rCzqE4wOabD+XpLanmCxqRR4Cu2W3HQ/NNo=
 github.com/deploymenttheory/go-api-http-client v0.4.5/go.mod h1:Uvu2QslNE7Y6uBrNdEijq9Itatgkxr4BUyiUyjll1i4=
+github.com/deploymenttheory/go-api-http-client v0.4.6 h1:xT/HwxcXKH/CEsxf3W2X9Djjkn4f8YZQxmV9UFZnIxY=
+github.com/deploymenttheory/go-api-http-client v0.4.6/go.mod h1:ESrGdzXyFwty+nQq8qfVhHEkbUq/N5V0KA1i5Apy8fs=
 github.com/deploymenttheory/go-api-http-client-integrations v0.1.1 h1:zyUAeD0rEXO5QDFMjyOecZb7FQh3TsKUMX/3AtMxZq0=
 github.com/deploymenttheory/go-api-http-client-integrations v0.1.1/go.mod h1:uzwptZvVRKbnjbsxLVLymB8Kk85GkY7QukNKQvNjVNw=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
@@ -96,6 +98,8 @@ golang.org/x/net v0.25.0/go.mod h1:JkAGAh7GEvH74S6FOH42FLoXpXbE/aqXSrIQjXgsiwM=
 golang.org/x/net v0.33.0/go.mod h1:HXLR5J+9DxmrqMwG9qjGCxZ+zKXxBru04zlTvWlWuN4=
 golang.org/x/net v0.56.0 h1:Rw8j/hFzGvJUZwNBXnAtf5sVDVt+65SK2C7IxCxZt5o=
 golang.org/x/net v0.56.0/go.mod h1:D3Ku6r+V6JROoZK144D2XfMHFcMq/0zSfLelVTCFKec=
+golang.org/x/net v0.57.0 h1:K5+3DljvIuDG9/Jv9rvyMywYNFCQ9RSUY6OOTTkT+tE=
+golang.org/x/net v0.57.0/go.mod h1:KpXc8iv+r3XplLAG/f7Jsf9RPszJzdR0f58q9vGOuEU=
 golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.1.0/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
