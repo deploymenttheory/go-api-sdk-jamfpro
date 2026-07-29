@@ -2271,6 +2271,31 @@ This documentation details the operations available for managing Computer Invent
 - Total Operations Covered: 9
 - Total Operations Covered: 2
 
+### Jamf Pro API - Mobile Device Inventory
+
+This documentation details the operations available for managing Mobile Device Inventory within Jamf Pro using the API, which supports JSON data structures.
+
+## Operations
+
+- [x] ✅ **GET** `/api/v2/mobile-devices/detail`
+  - `GetMobileDevicesInventory` retrieves a paginated list of all mobile device inventory information. It supports filtering and section filters.
+
+- [x] ✅ **GET** `/api/v2/mobile-devices/detail` (with filter)
+  - `GetMobileDeviceInventoryByID` fetches a specific mobile device's inventory information by its ID.
+
+- [x] ✅ **GET** `/api/v2/mobile-devices/detail` (with filter)
+  - `GetMobileDeviceInventoryBySerialNumber` retrieves a mobile device's inventory information by its serial number.
+
+- [x] ✅ **GET** `/api/v2/mobile-devices/detail` (with filter)
+  - `GetMobileDeviceInventoryByName` fetches a mobile device's inventory information by its display name.
+
+## Summary
+
+- Total Endpoints Covered: 1
+  - `/api/v2/mobile-devices/detail`
+
+- Total Operations Covered: 4
+
 ### Jamf Pro Classic API - Removable Mac Addresses
 
 This documentation outlines the operations available for managing Removable Mac Addresses within Jamf Pro using the Classic API, which supports XML data structures.
