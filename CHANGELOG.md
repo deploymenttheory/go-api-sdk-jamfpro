@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.52.1...v1.53.0) (2026-08-11)
+
+
+### Features
+
+* Add mobile device inventory endpoints ([f2b0dce](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/f2b0dcebe03307450538ace849dbed09212a4dbc))
+
 ## [1.52.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.52.0...v1.52.1) (2026-07-20)
 
 
