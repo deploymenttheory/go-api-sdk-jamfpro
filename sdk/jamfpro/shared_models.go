@@ -222,6 +222,6 @@ type SharedResourceInventoryListMobileDevice struct {
 
 // SharedResourceExtensionAttributeValue represents a single extension attribute value returned in the inventory
 type SharedResourceExtensionAttributeValue struct {
-	DisplayName string `json:"displayName"`
-	Value       string `json:"value,omitempty"`
+	DisplayName string   `json:"displayName"`
+	Value       []string `json:"value,omitempty"`
 }
