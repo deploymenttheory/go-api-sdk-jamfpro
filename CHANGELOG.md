@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.53.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.53.0...v1.53.1) (2026-10-12)
+
+
+### Bug Fixes
+
+* Mobile Device Extension Attribute Value Type to Array ([ac30084](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/ac3008416d1d1c10a8d90adb441c2bd720e0eeb5))
+
 ## [1.53.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.52.1...v1.53.0) (2026-08-11)
 
 
