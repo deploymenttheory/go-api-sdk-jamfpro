@@ -40,8 +40,8 @@ github.com/aws/aws-sdk-go-v2/service/sts v1.51.6 h1:BVjKrtRUtSYKztBCCfE1oAB+d3Vi
 github.com/aws/aws-sdk-go-v2/service/sts v1.51.6/go.mod h1:eSukFLeLkPMm+1OxDR+F0joauZdyBkF47Ow7MqjZiJw=
 github.com/aws/smithy-go v1.28.7 h1:h/n1SHrwVtaDYLz8mR1/Kq4Xh4RaFbFW7bOYckg9mfE=
 github.com/aws/smithy-go v1.28.7/go.mod h1:YE2RhdIuDbA5E5bTdciG9KrW3+TiEONeUWCqxX9i1Fc=
-github.com/deploymenttheory/go-api-http-client v0.4.8 h1:C3ZxvrBjp1Wv9KNiLB1nK8ukuKAivZUPaz/ZS2j1i/Y=
-github.com/deploymenttheory/go-api-http-client v0.4.8/go.mod h1:YXbhq5HE1AnxxoEKYlnSqSUnNsrG6iomxY3NYAaYQO4=
+github.com/deploymenttheory/go-api-http-client v0.4.9 h1:V7VLf0kfayK4tvF0opBITIPuVa25bTpj1yg48bhSQJE=
+github.com/deploymenttheory/go-api-http-client v0.4.9/go.mod h1:YXbhq5HE1AnxxoEKYlnSqSUnNsrG6iomxY3NYAaYQO4=
 github.com/deploymenttheory/go-api-http-client-integrations v0.1.1 h1:zyUAeD0rEXO5QDFMjyOecZb7FQh3TsKUMX/3AtMxZq0=
 github.com/deploymenttheory/go-api-http-client-integrations v0.1.1/go.mod h1:uzwptZvVRKbnjbsxLVLymB8Kk85GkY7QukNKQvNjVNw=
 github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da/go.mod h1:cIg4eruTrX1D+g88fzRXU5OdNfaM+9IcxsU14FzY7Hc=
