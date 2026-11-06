@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.54.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.54.0...v1.54.1) (2026-11-06)
+
+
+### Bug Fixes
+
+* omit absent policy remediation key types from XML ([#1175](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/1175)) ([3b5b6b6](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/3b5b6b66d0d30fe5705897dc8e5f903d0f7d07f7))
+* preserve context and API errors for legacy smart groups ([#1174](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/1174)) ([21b84d1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/21b84d1a019cadb300cda604c038096d87dad7bd))
+
 ## [1.54.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.53.1...v1.54.0) (2026-11-06)
 
 
