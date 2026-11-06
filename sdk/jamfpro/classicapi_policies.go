@@ -311,7 +311,7 @@ type PolicySubsetDiskEncryption struct {
 	Action                                 string `xml:"action"`
 	DiskEncryptionConfigurationID          int    `xml:"disk_encryption_configuration_id"`
 	AuthRestart                            bool   `xml:"auth_restart"`
-	RemediateKeyType                       string `xml:"remediate_key_type"`
+	RemediateKeyType                       string `xml:"remediate_key_type,omitempty"`
 	RemediateDiskEncryptionConfigurationID int    `xml:"remediate_disk_encryption_configuration_id"`
 }
 
