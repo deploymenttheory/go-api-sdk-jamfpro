@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.54.0](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.53.1...v1.54.0) (2026-11-06)
+
+
+### Features
+
+* support smart group v3 operations with HTTP client v0.4.8 ([#1172](https://github.com/deploymenttheory/go-api-sdk-jamfpro/issues/1172)) ([a8a4c02](https://github.com/deploymenttheory/go-api-sdk-jamfpro/commit/a8a4c0282e0d183dde11db32744688397b7e685f))
+
 ## [1.53.1](https://github.com/deploymenttheory/go-api-sdk-jamfpro/compare/v1.53.0...v1.53.1) (2026-10-12)
 
 
