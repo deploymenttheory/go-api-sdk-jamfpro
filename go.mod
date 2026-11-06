@@ -4,7 +4,7 @@ go 1.26.0
 
 // Deploymenttheory
 require (
-	github.com/deploymenttheory/go-api-http-client v0.4.7
+	github.com/deploymenttheory/go-api-http-client v0.4.8
 	github.com/deploymenttheory/go-api-http-client-integrations v0.1.1
 )
 
@@ -47,5 +47,5 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.28.0
-	golang.org/x/net v0.60.0 // indirect
+	golang.org/x/net v0.62.0 // indirect
 )
