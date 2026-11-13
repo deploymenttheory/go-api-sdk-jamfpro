@@ -59,7 +59,8 @@ For scenarios where you prefer not to use configuration files (e.g., in containe
     export CLIENT_SECRET="your_client_secret" # Required for oauth2 and platform auth
     export BASIC_AUTH_USERNAME="your_basic_auth_username" # Required if using basic auth
     export BASIC_AUTH_PASSWORD="your_basic_auth_password" # Required if using basic auth
-    export TENANT_ID="your_tenant_uuid" # Required if using platform auth - the Jamf Pro tenant UUID
+    export ENVIRONMENT_ID="your_environment_uuid" # Preferred for platform environment scope; mutually exclusive with TENANT_ID
+    export TENANT_ID="your_tenant_uuid" # Use instead for tenant-scoped platform auth; mutually exclusive with ENVIRONMENT_ID
     export LOG_LEVEL="info" # or "debug" / "info" / "warn" / "dpanic" / "error"
     export LOG_OUTPUT_FORMAT="pretty" # or "json" 
     export LOG_CONSOLE_SEPARATOR=" " # or any other separator
@@ -110,7 +111,8 @@ For those who prefer using configuration files for setting up the client, the SD
       "client_secret": "your_client_secret", // Required for oauth2 and platform auth
       "basic_auth_username": "your_basic_auth_username", // Required if using basic auth
       "basic_auth_password": "your_basic_auth_password", // Required if using basic auth
-      "tenant_id": "your_tenant_uuid", // Required if using platform auth - the Jamf Pro tenant UUID
+      "environment_id": "your_environment_uuid", // Preferred for platform environment scope; mutually exclusive with tenant_id
+      "tenant_id": "your_tenant_uuid", // Use instead for tenant-scoped platform auth; mutually exclusive with environment_id
       "jamf_load_balancer_lock": false, // or true
       "max_retry_attempts": 3,
       "enable_dynamic_rate_limiting": true,
