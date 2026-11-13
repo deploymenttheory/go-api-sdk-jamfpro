@@ -32,6 +32,7 @@ type ConfigContainer struct {
 	Username             string `json:"basic_auth_username"`
 	Password             string `json:"basic_auth_password"`
 	TenantID             string `json:"tenant_id"`
+	EnvironmentID        string `json:"environment_id"`
 	JamfLoadBalancerLock bool   `json:"jamf_load_balancer_lock"`
 
 	CustomCookies               []CustomCookie `json:"custom_cookies"`
@@ -159,13 +160,17 @@ func initializeAPIIntegration(config *ConfigContainer, Sugar *zap.SugaredLogger)
 			http.Client{},
 		)
 	case "platform":
-		integration, err = jamfprointegration.BuildWithPlatformGatewayOAuth(
+		if (config.TenantID == "") == (config.EnvironmentID == "") {
+			return nil, fmt.Errorf("platform authentication requires exactly one of tenant_id or environment_id")
+		}
+		integration, err = jamfprointegration.BuildWithPlatformGatewayOAuthWithScope(
 			config.InstanceDomain,
 			Sugar,
 			time.Duration(config.TokenRefreshBufferPeriod)*time.Second,
 			config.ClientID,
 			config.ClientSecret,
 			config.TenantID,
+			config.EnvironmentID,
 			config.HideSensitiveData,
 			http.Client{},
 		)
@@ -215,6 +220,7 @@ func loadConfigFromEnv() (*ConfigContainer, error) {
 		Username:                    getEnv("BASIC_AUTH_USERNAME", ""),
 		Password:                    getEnv("BASIC_AUTH_PASSWORD", ""),
 		TenantID:                    getEnv("TENANT_ID", ""),
+		EnvironmentID:               getEnv("ENVIRONMENT_ID", ""),
 		JamfLoadBalancerLock:        getEnvAsBool("JAMF_LOAD_BALANCER_LOCK", false),
 		MaxRetryAttempts:            getEnvAsInt("MAX_RETRY_ATTEMPTS", 3),
 		EnableDynamicRateLimiting:   getEnvAsBool("ENABLE_DYNAMIC_RATE_LIMITING", false),
